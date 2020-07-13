@@ -1,0 +1,15 @@
+<div *ngIf="isLoggedIn() else loginSignupMessage">
+	<prfl-profil></prfl-profil>
+</div>
+
+<div *ngIf="!showLoadingIndicator else loadingIdicator"></div>
+
+<ng-template #loginSignupMessage>
+	<p>Bitte loggen Sie sich ein.</p>
+</ng-template>
+
+<ng-template #loadingIdicator>
+	<div class="img">
+		<h3><i class="fa fa-spinner fa-spin"></i> Bitte warten...</h3>
+	</div>
+</ng-template>

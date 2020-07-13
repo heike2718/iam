@@ -1,0 +1,101 @@
+<div class="page">
+
+	<div *ngIf="user$ | async as user else loadingIdicator">
+
+		<form *ngIf="!showChangePasswordResult" novalidate [formGroup]="changeDataForm">
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="vornameInput">Vorname*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="vorname.touched && !vorname.valid">
+					<div class="col-md-12">
+						<input class="form-control" type="text" id="vornameInput" placeholder="Vorname"
+							formControlName="vorname" autocomplete="true">
+					</div>
+				</div>
+				<prfl-form-error path="vorname" text="Vorname"></prfl-form-error>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="nachnameInput">Nachname*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="nachname.touched && !nachname.valid">
+					<div class="col-md-12">
+						<input class="form-control" type="text" id="nachnameInput" placeholder="Nachname"
+							formControlName="nachname" autocomplete="true">
+					</div>
+				</div>
+				<prfl-form-error path="nachname" text="Nachname"></prfl-form-error>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="loginNameInput">Loginname*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="loginName.touched && !loginName.valid">
+					<div class="col-md-12">
+						<input class="form-control" type="text" id="loginNameInput" placeholder="Loginname"
+							formControlName="loginName" autocomplete="true">
+					</div>
+				</div>
+				<prfl-form-error path="loginName" text="Loginname"></prfl-form-error>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="emailInput">Email*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="email.touched && !email.valid">
+					<div class="col-md-12">
+						<input class="form-control" type="text" id="emailInput" placeholder="Mailadresse"
+							formControlName="email" autocomplete="true">
+					</div>
+				</div>
+				<prfl-form-error path="email" text="Email"></prfl-form-error>
+			</div>
+
+
+			<!-- Hier kann man nicht über die ShowErrorComponent gehen, da es keinen formControlName gibt. Daher Fehlermeldung direkt einhängen -->
+			<div *ngIf="changeDataForm.hasError('passwortNeuPasswortNeuWdh')" class="alert alert-danger">Die
+				Passw&ouml;rter
+				stimmen
+				nicht &uuml;berein.</div>
+
+			<div class="row">
+				<div class="col-sm-12 col-md-4 btn-wrapper">
+					<button class="col-md-12 btn btn-primary" (click)="submit()"
+						[disabled]="!changeDataForm.valid || showBlockingIndicator">
+						Daten ändern
+					</button>
+				</div>
+				<div class="col-md-4 btn-wrapper">
+					<button class="col-md-12 btn btn-primary" (click)="cancel()" [disabled]="showBlockingIndicator">
+						abbrechen
+					</button>
+				</div>
+			</div>
+
+			<div class="row">
+				<div *ngIf="showBlockingIndicator" class="col-md-4">
+					<div class=" img">
+						<i class="fa fa-spinner fa-spin"></i> Bitte warten...</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+<ng-template #loadingIdicator>
+	<div class="img">
+		<h3><i class="fa fa-spinner fa-spin"></i> Bitte warten...</h3>
+	</div>
+</ng-template>

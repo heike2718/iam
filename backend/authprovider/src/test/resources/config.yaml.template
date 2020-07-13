@@ -1,0 +1,36 @@
+kumuluzee:
+  name: authentication-provider
+  version: 1.0.0
+  env:
+    name: dev
+  server:
+    http:
+      port: 9000
+    https:
+      port: 9443
+  datasources:
+    - jndi-name: jdbc/AuthProviderDS
+      connection-url: jdbc:mysql://localhost:3306/mkverwaltung
+      username: mkv
+      password: hwinkel
+      max-pool-size: 20
+  health:
+    servlet:
+      mapping: /health
+      enabled: true
+    logs:
+      enabled: true
+      level: INFO
+      period-s: 300
+    checks:
+      disk-space-health-check:
+        threshold: 100000000
+  logs:
+    config-file-location: /hallo/auth-provider-lo4j2.xml
+application-config:
+  config-root: /hallo/configAll # camelCase muss zu lower + dash umgewandelt werden
+password-config:
+  pepper: pepper
+  crypto-algorithm: SHA-256
+  iterations: 13
+  random-algorithm: SHA1PRNG

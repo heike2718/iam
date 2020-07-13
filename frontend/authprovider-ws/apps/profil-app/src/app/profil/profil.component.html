@@ -1,0 +1,33 @@
+<div *ngIf="user$ | async as user else loadingIdicator">
+	<div class="container" style="margin-top:30px">
+		<div class="row">
+			<div class="col-sm-3">
+				<div id="left-nav">
+					<div id="left-nav-header" class="left-nav-item col-12">Einstellungen</div>
+					<div [ngClass]="getClassnameProfil()" (click)="toggleProfilAktiv()">
+						Profil</div>
+					<div [ngClass]="getClassnamePassword()" (click)="togglePasswordAktiv()">
+						Passwort</div>
+					<div id="left-nav-link-last" [ngClass]="getClassnameDeleteAccount()" (click)="toggleDeleteAccountActive()">
+						Konto löschen</div>
+				</div>
+			</div>
+			<div id="nav-detail" class="col-sm-9">
+				<div *ngIf="changeDataActive()">
+					<prfl-base-data></prfl-base-data>
+				</div>
+				<div *ngIf="changePasswordActive()">
+					<prfl-password></prfl-password>
+				</div>
+				<div *ngIf="deleteAccountActive()">
+					<prfl-delete-account></prfl-delete-account>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ng-template #loadingIdicator>
+	<div class="img">
+		<i class="fa fa-spinner fa-spin"></i> Bitte warten...</div>
+</ng-template>

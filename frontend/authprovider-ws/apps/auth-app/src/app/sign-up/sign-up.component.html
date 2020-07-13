@@ -1,0 +1,141 @@
+<div class="page">
+
+	<div *ngIf="clientInformation$ | async as clientInfo else loadingIdicator">
+
+		<p>Minikänguru-Konto anlegen und {{clientInfo.zurueckText}}</p>
+
+		<form [formGroup]="signUpForm" (ngSubmit)="submitUser()">
+
+			<div class="form-check">
+				<div class="row">
+					<div class="col-md-12">
+						<input type="checkbox" class="form-check-input" id="agbCheck" formControlName="agbGelesen">
+						<label [class.error]="agbGelesen.touched && !agbGelesen.valid">*Ich habe die Datenschutzerkl&auml;rung
+							gelesen und willige ein.
+						</label>
+					</div>
+					<div class="col-md-12">
+						<a href="{{clientInfo.agbUrl}}" target="_blank" class="btn btn-link">Datenschutzerkl&auml;rung</a>
+					</div>
+				</div>
+			</div>
+
+			<div *ngIf="clientInfo.namenRequired" class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="nachnameInput">Vorname*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="vorname.touched && !vorname.valid">
+					<div class="col-md-12">
+						<input class="form-control" type="text" id="vornameInput" placeholder="Vorname" formControlName="vorname"
+							autocomplete="true">
+					</div>
+				</div>
+				<auth-form-error path="vorname" text="Vorname"></auth-form-error>
+			</div>
+			<div *ngIf="clientInfo.namenRequired" class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="nachnameInput">Nachname*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="nachname.touched && !nachname.valid">
+					<div class="col-md-12">
+						<input class="form-control" type="text" id="nachnameInput" placeholder="Nachname" formControlName="nachname"
+							autocomplete="true">
+					</div>
+				</div>
+				<auth-form-error path="nachname" text="Nachname"></auth-form-error>
+			</div>
+			<div *ngIf="clientInfo.loginnameSupported" class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="loginNameInput">Loginname*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="loginName.touched && !loginName.valid">
+					<div class="col-md-12">
+						<input class="form-control" type="text" id="loginNameInput" placeholder="Loginname"
+							formControlName="loginName" autocomplete="true">
+					</div>
+				</div>
+				<auth-form-error path="loginName" text="Loginname"></auth-form-error>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="emailInput">Email*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="email.touched && !email.valid">
+					<div class="col-md-12">
+						<input class="form-control" type="text" id="emailInput" placeholder="Mailadresse" formControlName="email"
+							autocomplete="true">
+					</div>
+				</div>
+				<auth-form-error path="email" text="Email"></auth-form-error>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="passwortInput">Passwort*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="passwort.touched && !passwort.valid">
+					<div class="col-xs-12 col-sm-10 btn-wrapper">
+						<input class="form-control" type="password" id="passwortInput" placeholder="Passwort"
+							formControlName="passwort" autocomplete="false">
+					</div>
+					<div class="col-xs-12 col-sm-2 btn-wrapper">
+						<button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+							title="{{tooltipPasswort}}">
+							<i class="fa fa-info" aria-hidden="true"></i> Info
+						</button>
+					</div>
+				</div>
+				<auth-form-error path="passwort" text="Passwort"></auth-form-error>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="passwortWdhInput">Passwort wiederholt*</label>
+					</div>
+				</div>
+				<div class="row" [class.error]="passwortWdh.touched && !passwortWdh.valid">
+					<div class="col-md-12">
+						<input class="form-control" type="password" id="passwortWdhInput" placeholder="Passwort wiederholt"
+							formControlName="passwortWdh" autocomplete="false">
+					</div>
+				</div>
+				<auth-form-error path="passwortWdh" text="Passwort wiederholt"></auth-form-error>
+			</div>
+
+			<!-- Hier kann man nicht über die ShowErrorComponent gehen, da es keinen formControlName gibt. Daher Fehlermeldung direkt einhängen -->
+			<div *ngIf="signUpForm.hasError('passwortNeuPasswortNeuWdh')" class="alert alert-danger">Die Passw&ouml;rter
+				stimmen
+				nicht &uuml;berein.</div>
+
+			<div class="form-group kleber">
+				<label for="kleberInput">Kleber:</label>
+				<input class="form-control" type="text" id="kleberInput" placeholder="leer lassen!!!!" formControlName="kleber">
+			</div>
+
+			<div class="row">
+				<div class="col-md-2 btn-wrapper">
+					<button class="col-md-12 btn btn-primary"
+						[disabled]="!signUpForm.valid || submitDisabled">
+						registrieren
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<ng-template #loadingIdicator>
+	<h3>Bitte warten...</h3>
+</ng-template>

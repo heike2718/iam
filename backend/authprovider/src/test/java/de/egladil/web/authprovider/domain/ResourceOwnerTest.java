@@ -1,0 +1,38 @@
+// =====================================================
+// Project: authprovider
+// (c) Heike Winkelvoß
+// =====================================================
+package de.egladil.web.authprovider.domain;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.junit.jupiter.api.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * ResourceOwnerTest
+ */
+public class ResourceOwnerTest {
+
+	@Test
+	void deserialize() throws IOException {
+
+		try (InputStream in = getClass().getResourceAsStream("/domain/data.json")) {
+
+			ResourceOwner resourceOwner = new ObjectMapper().readValue(in, ResourceOwner.class);
+
+			assertEquals("4992cb3a-361d-4d83-86c3-d448ffe0a10e", resourceOwner.getUuid());
+			LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
+			assertNotNull(loginSecrets);
+			assertNotNull(loginSecrets.getSalt());
+
+		}
+
+	}
+
+}

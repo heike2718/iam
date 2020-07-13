@@ -1,0 +1,73 @@
+<!-- Falls die authModalOpenOnClick-Direktive verwendet wird, Dialog zum Anzeigen des SignUp-Erfolgs inside *ngIf, weil sie sonst keine Elemente bekommt -->
+<div>
+    <!-- Dialog mit Hinweis auf Mailpostfach -->
+    <ng-template #successDialogBody>
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Benutzerkonto gelöscht</h4>
+                </div>
+                <div class="card-body">
+                    <p>Ihr Minikänguru-Benutzerkonto wurde gelöscht.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="row btn-container">
+                        <div class="col-md-12 btn-wrapper">
+                            <div class="col-md-12 btn btn-outline-dark" (click)="closeModal()">
+                                OK
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<hewi-modal *ngIf="showDialog" #modal [hideOnEscape]="false" [hideOnClickOutside]="false" [body]="successDialogBody">
+    <!-- === kein close-icon, da unbedingt redirect ausgelöst werden muss -->
+    <!--<i class="fa fa-times" (click)="modal.close()"></i>-->
+</hewi-modal>
+
+<div class="page">
+
+	<div *ngIf="user$ | async as user else loadingIdicator">
+
+
+		<h3>Benutzerkonto Löschen</h3>
+
+		<p>Ihre Minikänguru-Benutzerdaten werden vollständig gelöscht und sind anschließend nicht wiederherstellbar.</p>
+
+		<p>Nach dem Löschen des Benutzerkontos können Sie keine der Anwendungen mehr nutzen, für die Sie
+			sich registriert hatten.</p>
+
+		<form novalidate [formGroup]="deleteAccountForm">
+
+			<div class="form-check">
+				<div class="row">
+					<div class="col-md-12">
+						<input type="checkbox" class="form-check-input" id="checkAccept" formControlName="checkAccept">
+						<label [class.error]="checkAccept.touched && !checkAccept">* Ja, ich möchte mein
+							Benutzerkonto vollständig löschen.
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12 col-md-4 btn-wrapper">
+					<button class="col-md-12 btn btn-danger" (click)="submit()"
+						[disabled]="!deleteAccountForm.valid || showBlockingIndicator">
+						Konto löschen
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<ng-template #loadingIdicator>
+	<div class="img">
+		<h3><i class="fa fa-spinner fa-spin"></i> Bitte warten...</h3>
+	</div>
+</ng-template>
