@@ -1,0 +1,24 @@
+<div class="container-fluid">
+	<prfl-navbar></prfl-navbar>
+	<h1><img src="{{logo}}" alt="Logo">{{title}}</h1>
+	<hewi-messages></hewi-messages>
+
+	<div class="row">
+		<div class="col-sm-12 col-md-9">Sie können hier Ihre Daten oder Ihr Passwort ändern.
+		</div>
+	</div>
+
+	<p><strong>Achtung: es gab eine neue Version: falls Sie noch 5.0.1 sehen, bitte einmal komplett neu laden. Aktuelle
+			Version ist 5.1.0.</strong></p>
+
+	<main>
+		<router-outlet></router-outlet>
+	</main>
+	<footer class="border-top">
+		<div class="row">
+			<div class="col-md-4 text-md-left">&copy; Heike Winkelvo&szlig;</div>
+			<div *ngIf="showEnv" class="col-md-4 text-xs-center">{{envName}}, API: {{api}}</div>
+			<div class="col-md-4 text-md-right">Version {{version}}</div>
+		</div>
+	</footer>
+</div>

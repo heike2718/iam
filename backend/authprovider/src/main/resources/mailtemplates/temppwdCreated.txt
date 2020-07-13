@@ -1,0 +1,22 @@
+Guten Tag,
+
+ein Einmalpasswort mit dieser Mailadresse wurde für Sie generiert. Es ist bis #0# gültig.
+
+Bitte rufen Sie im Browser den folgenden Link auf und füllen das Formular aus, um sich ein neues Passwort zu geben:
+
+#1#
+
+In das Feld "Email" tragen Sie bitte diese Mailadresse ein.
+
+In das Feld "Einmalpasswort" tragen Sie bitte #2# ein.
+
+Nach dem Absenden des Formulars wird das Einmalpasswort gelöscht und Sie können sich mit Ihrem neuen Passwort einloggen.
+
+
+Mit freundlichen Grüßen,
+Heike Winkelvoß.
+
+Dies ist eine automatisch generierte Mail.
+Bitte antworten Sie nicht auf diese Mail. Für Fragen, Anregungen, Lob und Kritik verwenden Sie bitte die Mailadresse minikaenguru@egladil.de.
+Noch eine Bitte zum Umgang mit Mails von noreply@egladil.de oder minikaenguru@egladil.de: Bitte markieren Sie Mails von diesen Mail-Adressen nicht als Spam, denn es gibt einige Provider, die meine Mails blockieren, wenn sie von mehreren Empfängern als Spam markiert werden. Meine Mails erreichen dann nicht mehr alle interessierten Personen.
+

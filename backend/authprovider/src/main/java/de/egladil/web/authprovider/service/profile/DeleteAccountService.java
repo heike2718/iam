@@ -1,0 +1,88 @@
+// =====================================================
+// Project: authprovider
+// (c) Heike Winkelvoß
+// =====================================================
+package de.egladil.web.authprovider.service.profile;
+
+import java.util.Optional;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
+
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.payload.profile.SelectProfilePayload;
+import de.egladil.web.authprovider.service.AuthMailService;
+import de.egladil.web.authprovider.service.ClientService;
+import de.egladil.web.authprovider.service.ResourceOwnerService;
+import de.egladil.web.authprovider.service.mail.BenutzerkontoGeloeschtMailStrategie;
+import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
+import de.egladil.web.commons_validation.payload.MessagePayload;
+import de.egladil.web.commons_validation.payload.ResponsePayload;
+
+/**
+ * DeleteAccountService
+ */
+@RequestScoped
+public class DeleteAccountService {
+
+	private static final Logger LOG = LoggerFactory.getLogger(DeleteAccountService.class);
+
+	@ConfigProperty(name = "account.deleted.subject")
+	String mailSubject;
+
+	@ConfigProperty(name = "account.deleted.to")
+	String mailTo;
+
+	@Inject
+	ClientService clientService;
+
+	@Inject
+	ResourceOwnerService resourceOwnerService;
+
+	@Inject
+	AuthMailService mailService;
+
+	public Response deleteAccount(final SelectProfilePayload selectProfilePayload) {
+
+		Optional<ResourceOwner> optRO = this.resourceOwnerService.findByUUID(selectProfilePayload.getUuid());
+
+		if (optRO.isPresent()) {
+
+			ResourceOwner resourceOwner = optRO.get();
+			resourceOwnerService.deleteResourceOwner(resourceOwner);
+
+			sendInfoMailQuietly(resourceOwner);
+
+			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.info("Benutzerkonto gelöscht"),
+				selectProfilePayload.getClientCredentials().getNonce());
+
+			return Response.ok(responsePayload).build();
+		}
+
+		throw new NotFoundException();
+
+	}
+
+	private void sendInfoMailQuietly(final ResourceOwner resourceOwner) {
+
+		try {
+
+			CreateDefaultMailDatenStrategy mailStrategy = new BenutzerkontoGeloeschtMailStrategie(mailSubject, mailTo,
+				resourceOwner);
+
+			mailService.sendMail(mailStrategy.createEmailDaten());
+
+		} catch (Exception e) {
+
+			LOG.error("Infomail über Löschung des Benutzerkontos " + StringUtils.abbreviate(resourceOwner.getUuid(), 11)
+				+ " konnte nicht versendet werden: " + e.getMessage());
+		}
+	}
+}

@@ -1,0 +1,45 @@
+#left-nav {
+	margin: 17pt 0 10pt 0;
+}
+
+#nav-detail {
+	margin: 10pt 0 10pt 0;
+}
+
+.left-nav-item {
+	padding: 7pt 5pt 7pt 5pt;
+}
+
+.left-nav-link,
+.left-nav-link-active {
+	border-top: 1pt solid gray;
+	border-right: 1pt solid gray;
+}
+
+.left-nav-link {
+	cursor: pointer;
+	border-left: 1pt solid gray;
+}
+
+.left-nav-link-active {
+	cursor: default;
+	border-left: 3pt solid #E68A00;
+}
+
+#left-nav-link-last {
+	border-bottom: 1pt solid gray;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+
+#left-nav-header {
+	font-size: 0.9rem;
+	font-weight: bold;
+	border-top: 1pt solid gray;
+	border-left: 1pt solid gray;
+	border-right: 1pt solid gray;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	background-color: #F1F1F1;
+}

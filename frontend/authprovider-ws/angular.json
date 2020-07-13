@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "projects": {
+    "auth-app": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/auth-app",
+      "sourceRoot": "apps/auth-app/src",
+      "prefix": "auth",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/auth-app",
+            "index": "apps/auth-app/src/index.html",
+            "main": "apps/auth-app/src/main.ts",
+            "polyfills": "apps/auth-app/src/polyfills.ts",
+            "tsConfig": "apps/auth-app/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/auth-app/src/favicon.ico",
+              "apps/auth-app/src/assets"
+            ],
+            "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
+              "apps/auth-app/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/auth-app/src/environments/environment.ts",
+                  "with": "apps/auth-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "qs": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qs.ts"
+                }
+              ]
+            },
+            "dev": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "auth-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "auth-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "auth-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/auth-app/tsconfig.app.json",
+              "apps/auth-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/auth-app/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/auth-app/jest.config.js",
+            "tsConfig": "apps/auth-app/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/auth-app/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "auth-app-e2e": {
+      "root": "apps/auth-app-e2e",
+      "sourceRoot": "apps/auth-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/auth-app-e2e/cypress.json",
+            "tsConfig": "apps/auth-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "auth-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "auth-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/auth-app-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/auth-app-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "profil-app": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/profil-app",
+      "sourceRoot": "apps/profil-app/src",
+      "prefix": "prfl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/profil-app",
+            "index": "apps/profil-app/src/index.html",
+            "main": "apps/profil-app/src/main.ts",
+            "polyfills": "apps/profil-app/src/polyfills.ts",
+            "tsConfig": "apps/profil-app/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/profil-app/src/favicon.ico",
+              "apps/profil-app/src/assets"
+            ],
+            "styles": ["apps/profil-app/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/profil-app/src/environments/environment.ts",
+                  "with": "apps/profil-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "profil-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "profil-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "profil-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/profil-app/tsconfig.app.json",
+              "apps/profil-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/profil-app/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/profil-app/jest.config.js",
+            "tsConfig": "apps/profil-app/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/profil-app/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "profil-app-e2e": {
+      "root": "apps/profil-app-e2e",
+      "sourceRoot": "apps/profil-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/profil-app-e2e/cypress.json",
+            "tsConfig": "apps/profil-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "profil-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "profil-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/profil-app-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/profil-app-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "auth-app"
+}
