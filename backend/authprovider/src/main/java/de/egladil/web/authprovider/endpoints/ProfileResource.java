@@ -46,7 +46,7 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
  * ProfileResource ist der Endpoint, der vom profileservice verwendet wird, um die Daten eines Users zu ändern.
  */
 @RequestScoped
-@Path("profiles")
+@Path("/profiles")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ProfileResource {

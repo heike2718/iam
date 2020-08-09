@@ -32,7 +32,7 @@ import de.egladil.web.commons_validation.exception.InvalidInputException;
  * UserActivationResource stellt REST- Endpoints Aktivieren eines neu angelegten ResourceOwner-Kontos zur Verfügung.
  */
 @RequestScoped
-@Path("registration")
+@Path("/registration")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.TEXT_HTML)
 public class UserActivationResource {
