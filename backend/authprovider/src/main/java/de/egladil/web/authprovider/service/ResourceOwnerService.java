@@ -29,7 +29,6 @@ import de.egladil.web.authprovider.domain.Salt;
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
-import de.egladil.web.authprovider.error.SecurityException;
 import de.egladil.web.authprovider.payload.BenutzerSuchmodus;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItemBuilder;

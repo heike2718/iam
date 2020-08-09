@@ -43,7 +43,7 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
  * abholen können, die über sie in der DB stehen. Zur Authentisierung dient die clientId und eine redirect-URL.
  */
 @RequestScoped
-@Path("clients")
+@Path("/clients")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ClientResource {

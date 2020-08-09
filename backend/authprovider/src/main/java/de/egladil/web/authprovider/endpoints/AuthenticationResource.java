@@ -30,7 +30,7 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
  * AuthenticationResource stellt REST-Endpoints zur Authentisierung von ResourceOwnern zur Verfügung.
  */
 @RequestScoped
-@Path("auth")
+@Path("/auth")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationResource {

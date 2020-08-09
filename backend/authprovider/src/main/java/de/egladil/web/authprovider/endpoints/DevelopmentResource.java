@@ -24,7 +24,7 @@ import de.egladil.web.commons_net.time.CommonTimeUtils;
  * umziehen.
  */
 @RequestScoped
-@Path("dev")
+@Path("/dev")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DevelopmentResource {

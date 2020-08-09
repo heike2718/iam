@@ -28,7 +28,7 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
  * HeartbeatResource
  */
 @RequestScoped
-@Path("heartbeats")
+@Path("/heartbeats")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class HeartbeatResource {

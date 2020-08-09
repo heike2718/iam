@@ -41,7 +41,7 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
  * TempPasswordResource
  */
 @RequestScoped
-@Path("temppwd")
+@Path("/temppwd")
 @Consumes(MediaType.APPLICATION_JSON)
 public class TempPasswordResource {
 

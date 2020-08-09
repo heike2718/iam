@@ -38,7 +38,6 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
-import de.egladil.web.authprovider.error.SecurityException;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponse;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
@@ -48,7 +47,6 @@ import de.egladil.web.authprovider.payload.UserQueryParametersPayload;
 import de.egladil.web.authprovider.payload.UuidPayloadList;
 import de.egladil.web.authprovider.service.AuthorizationService;
 import de.egladil.web.authprovider.service.ClientService;
-import de.egladil.web.authprovider.service.ImportRunner;
 import de.egladil.web.authprovider.service.RegistrationService;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
 import de.egladil.web.commons_mailer.exception.InvalidMailAddressException;
@@ -91,9 +89,6 @@ public class UserResource {
 
 	@Context
 	SecurityContext securityContext;
-
-	@Inject
-	ImportRunner importRunner;
 
 	/**
 	 * Gibt den User zurück. Die UUID ist im securityContext.
@@ -168,15 +163,6 @@ public class UserResource {
 
 			signUpCredentials.clean();
 		}
-	}
-
-	@GET
-	@Path("import")
-	public Response importUsers() {
-
-		importRunner.startImport();
-
-		return Response.ok().build();
 	}
 
 	@POST
