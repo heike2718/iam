@@ -1,6 +1,6 @@
 # authprovider Release Notes
 
-__Release 7.0.1__:
+__Release 7.1.0__:
 
 [Umstellung von implicite grant auf Authorization Code Grant](https://github.com/heike2718/authprovider/issues/32)
 
