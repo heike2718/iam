@@ -67,9 +67,9 @@ public class TokenExchangeService {
 
 			String message = "Konnte das oneTimeToken nicht gegen das JWT tauschen: " + messagePayload.getMessage();
 
-			LOG.error(message);
+			LOG.error(message + e.getMessage(), e);
 
-			throw new ProfilserverRuntimeException(message);
+			throw new ProfilserverRuntimeException(message + e.getMessage(), e);
 
 		} catch (ProcessingException processingException) {
 

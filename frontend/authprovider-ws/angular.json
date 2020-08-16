@@ -18,7 +18,7 @@
             "tsConfig": "apps/auth-app/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "apps/auth-app/src/favicon.ico",
+              "apps/auth-app/src/assets/favicon.ico",
               "apps/auth-app/src/assets"
             ],
             "styles": [
@@ -108,7 +108,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "auth-app:build"
+			"browserTarget": "auth-app:build",
+			"port": 4300
           },
           "configurations": {
             "production": {
@@ -187,11 +188,15 @@
             "tsConfig": "apps/profil-app/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "apps/profil-app/src/favicon.ico",
+              "apps/profil-app/src/assets/favicon.ico",
               "apps/profil-app/src/assets"
             ],
-            "styles": ["apps/profil-app/src/styles.css"],
-            "scripts": []
+             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
+              "apps/auth-app/src/styles.css"
+            ],
+           "scripts": []
           },
           "configurations": {
             "production": {

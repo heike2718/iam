@@ -19,7 +19,7 @@ import de.egladil.web.commons_validation.payload.OAuthClientCredentials;
  * InitAccessTokenRestClient: die Base-URI ist [auth-url]/clients
  */
 @RegisterRestClient
-@Path("clients")
+@Path("/clients")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface InitAccessTokenRestClient {
