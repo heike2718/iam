@@ -1,5 +1,9 @@
 # auth-app Release Notes
 
+__Release 5.1.1:__
+
+security - updated several dependencies
+
 __Release 5.1.0:__
 
 jwt mit authorization token grant flow, damit das JWT niemals im Browser landet.
