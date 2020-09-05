@@ -50,7 +50,7 @@ public class AuthenticationResource {
 	 * zurück, mit dem der Server des anfragenden Clients das JWT abholen kann.
 	 *
 	 * @param  credentials
-	 * @return             Respnse mit SignUpLogInResponseData
+	 * @return             Resonse mit SignUpLogInResponseData
 	 */
 	@POST
 	@Path("/sessions/auth-token-grant")

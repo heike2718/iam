@@ -39,30 +39,14 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 
 	showBlockingIndicator: boolean;
 
+	showLoginName: boolean;
+
 	constructor(private userService: UserService
 		, private validationService: RemoteValidatorService
 		, private messagesService: MessagesService
 		, private logger: LogService) {
 
-		this.changeDataForm = new FormGroup({
-			loginName: new FormControl('', {
-				validators: [Validators.required, Validators.maxLength(255)],
-				asyncValidators: [this.forbiddenLoginName.bind(this)],
-				updateOn: 'blur'
-			}),
-			email: new FormControl('', {
-				validators: [Validators.required, Validators.email],
-				asyncValidators: [this.forbiddenEmail.bind(this)],
-				updateOn: 'blur'
-			}),
-			vorname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
-			nachname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
-		});
 
-		this.loginName = this.changeDataForm.controls.loginName;
-		this.vorname = this.changeDataForm.controls.vorname;
-		this.nachname = this.changeDataForm.controls.nachname;
-		this.email = this.changeDataForm.controls.email;
 	}
 
 	ngOnInit() {
@@ -72,6 +56,46 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 		this.userSubscription = this.user$.subscribe(
 			user => {
 				this.cachedUser = user;
+
+				this.showLoginName = user.email !== user.loginName;
+
+				if (this.showLoginName) {
+
+					this.changeDataForm = new FormGroup({
+						loginName: new FormControl('', {
+							validators: [Validators.required, Validators.maxLength(255)],
+							asyncValidators: [this.forbiddenLoginName.bind(this)],
+							updateOn: 'blur'
+						}),
+						email: new FormControl('', {
+							validators: [Validators.required, Validators.email],
+							asyncValidators: [this.forbiddenEmail.bind(this)],
+							updateOn: 'blur'
+						}),
+						vorname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
+						nachname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
+					});
+
+					this.loginName = this.changeDataForm.controls.loginName;
+					this.vorname = this.changeDataForm.controls.vorname;
+					this.nachname = this.changeDataForm.controls.nachname;
+					this.email = this.changeDataForm.controls.email;
+				} else {
+					this.changeDataForm = new FormGroup({
+						email: new FormControl('', {
+							validators: [Validators.required, Validators.email],
+							asyncValidators: [this.forbiddenEmail.bind(this)],
+							updateOn: 'blur'
+						}),
+						vorname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
+						nachname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
+					});
+
+					this.vorname = this.changeDataForm.controls.vorname;
+					this.nachname = this.changeDataForm.controls.nachname;
+					this.email = this.changeDataForm.controls.email;
+				}
+
 				this.changeDataForm.patchValue(user);
 			}
 
@@ -99,15 +123,27 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 	}
 
 	submit(): void {
-		const _data: ProfileDataPayload = {
-			loginName: this.loginName.value.trim(),
-			email: this.email.value.trim(),
-			nachname: this.nachname.value.trim(),
-			vorname: this.vorname.value.trim()
-		};
+
+		let data = {};
+
+		if (this.showLoginName) {
+			data = {
+				loginName: this.loginName.value.trim(),
+				email: this.email.value.trim(),
+				nachname: this.nachname.value.trim(),
+				vorname: this.vorname.value.trim()
+			};
+		} else {
+			data = {
+				loginName: this.email.value.trim(),
+				email: this.email.value.trim(),
+				nachname: this.nachname.value.trim(),
+				vorname: this.vorname.value.trim()
+			};
+		}
 
 		this.messagesService.clear();
-		this.userService.changeProfileData(_data, this.cachedUser, this.csrfToken);
+		this.userService.changeProfileData(data as ProfileDataPayload, this.cachedUser, this.csrfToken);
 
 	}
 
