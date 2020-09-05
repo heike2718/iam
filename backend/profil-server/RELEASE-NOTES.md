@@ -1,5 +1,13 @@
 # authprovider Release Notes
 
+__Release 5.1.2__:
+
+* log into files
+* new common release because of shiro CVE
+* bumped quarkus to 1.7.2-Final
+
+__Versionssprung wegen Umzugs in Monorepo__
+
 __Release 2.1.0__:
 
 * Umstellung jwt auf authorization token grant flow, damit ein JWT niemals im Browser

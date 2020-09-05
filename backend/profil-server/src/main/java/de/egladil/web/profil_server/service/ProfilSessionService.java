@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
@@ -40,6 +41,8 @@ import de.egladil.web.profil_server.domain.UserSession;
 import de.egladil.web.profil_server.error.AuthException;
 import de.egladil.web.profil_server.error.LogmessagePrefixes;
 import de.egladil.web.profil_server.error.ProfilserverRuntimeException;
+import de.egladil.web.profil_server.event.UserLoggedIn;
+import de.egladil.web.profil_server.event.UserLoggedOut;
 
 /**
  * ProfilSessionService
@@ -61,6 +64,12 @@ public class ProfilSessionService {
 
 	@Inject
 	ResourceOwnerDao resourceOwnerDao;
+
+	@Inject
+	Event<UserLoggedIn> loginEvent;
+
+	@Inject
+	Event<UserLoggedOut> logoutEvent;
 
 	public UserSession createUserSession(final String jwt) {
 
@@ -98,6 +107,11 @@ public class ProfilSessionService {
 				userSession.setCsrfToken(csrfToken);
 
 				sessions.put(sesionId, userSession);
+
+				if (loginEvent != null) {
+
+					loginEvent.fire(new UserLoggedIn(uuid));
+				}
 
 				return userSession;
 
@@ -174,6 +188,11 @@ public class ProfilSessionService {
 		if (userSession != null) {
 
 			LOG.info("Session invalidated: {} - {}", sessionId, userSession.getFullName());
+
+			if (logoutEvent != null) {
+
+				logoutEvent.fire(new UserLoggedOut(userSession.getUuid()));
+			}
 		}
 
 	}

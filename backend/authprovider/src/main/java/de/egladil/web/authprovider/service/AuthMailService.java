@@ -63,7 +63,8 @@ public class AuthMailService {
 			String str = emailServiceCredentials.toString();
 
 			System.out
-				.println("=== AuthMailService: " + str + ", passwd=" + new String(emailServiceCredentials.getPassword()) + " ===");
+				.println("=== (kommt nur auf DEV auf die Konsole): AuthMailService: " + str + ", passwd="
+					+ new String(emailServiceCredentials.getPassword()) + " ===");
 		}
 
 		this.commonMailService.sendMail(emailDaten, emailServiceCredentials);
