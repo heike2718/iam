@@ -76,7 +76,7 @@ public class ChangeablePropertiesSource {
 
 	private boolean externalPropertiesChanged() {
 
-		if (this.changeableProperties == null) {
+		if (this.changeableProperties == null || this.changeableProperties.isEmpty()) {
 
 			return true;
 		}

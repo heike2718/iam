@@ -67,8 +67,16 @@ public class ChangeDataService {
 		}
 
 		ResourceOwner resourceOwner = optRO.get();
+
+		if (resourceOwner.getLoginName().equals(resourceOwner.getEmail())) {
+
+			resourceOwner.setLoginName(payload.getEmail());
+		} else {
+
+			resourceOwner.setLoginName(payload.getLoginName());
+		}
+
 		resourceOwner.setEmail(payload.getEmail());
-		resourceOwner.setLoginName(payload.getLoginName());
 		resourceOwner.setNachname(payload.getNachname() != null ? payload.getNachname().trim() : null);
 		resourceOwner.setVorname(payload.getVorname() != null ? payload.getVorname().trim() : null);
 

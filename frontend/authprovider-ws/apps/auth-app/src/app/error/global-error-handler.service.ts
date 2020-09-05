@@ -3,7 +3,7 @@ import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LogService, MessagesService } from 'hewi-ng-lib';
 import { LogPublishersService } from '../logger/log-publishers.service';
-import { environment } from '../../environments/environment.qs';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {

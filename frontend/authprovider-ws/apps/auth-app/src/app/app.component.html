@@ -1,26 +1,29 @@
 <div class="container-fluid main">
-  <h2><img src="{{logo}}" alt="Logo" width="50px">Minikänguru-Konten</h2>
-  <hewi-messages></hewi-messages>
+	<h2><img src="{{logo}}" alt="Logo" width="50px">Minikänguru-Konten</h2>
+	<hewi-messages></hewi-messages>
 
-  <div class="row">
-    <div class="col-sm-12 col-md-9 h4">Das Minikänguru-Konto - ein DSGVO- konformes Benutzerkonto für viele Zwecke</div>
-  </div>
+	<div class="row">
+		<div class="col-sm-12 col-md-9 h4">Das Minikänguru-Konto - ein DSGVO- konformes Benutzerkonto für viele Zwecke
+		</div>
+	</div>
 
-  <div *ngIf="innerWidth >= 768" class="row">
-    <div class="col-sm-12 col-md-9">Mit einem Minikänguru-Konto können Sie am Minikänguru-Wettbewerb teilnehmen und viele
-      weitere Anwendungen aus dem egladil-Universum nutzen.</div>
-  </div>
+	<div *ngIf="innerWidth >= 768" class="row">
+		<div class="col-sm-12 col-md-9">Mit einem Minikänguru-Konto können Sie am Minikänguru-Wettbewerb teilnehmen und
+			viele
+			weitere Anwendungen aus dem egladil-Universum nutzen.</div>
+	</div>
 
-  <p><strong>Achtung: es gab eine neue Version: falls Sie noch 5.1.0 sehen, bitte einmal komplett neu laden. Aktuelle Version ist 5.1.1.</strong></p>
+	<p><strong>Aktuelle Version ist 5.1.2. Bitte einmal die Seite komplett neu laden (Strg+F5), falls Sie in der
+			Fußleiste eine andere Version angezeugt bekommen.</strong></p>
 
-  <main>
-    <router-outlet></router-outlet>
-  </main>
-  <footer>
-    <div class="row">
-      <div class="col-md-4 text-md-left">&copy; Heike Winkelvo&szlig;</div>
-      <div *ngIf="showEnv" class="col-md-4 text-xs-center">{{envName}}, API: {{api}}</div>
-      <div class="col-md-4 text-md-right">Version {{version}}</div>
-    </div>
-  </footer>
+	<main>
+		<router-outlet></router-outlet>
+	</main>
+	<footer>
+		<div class="row">
+			<div class="col-md-4 text-md-left">&copy; Heike Winkelvo&szlig;</div>
+			<div *ngIf="showEnv" class="col-md-4 text-xs-center">{{envName}}, API: {{api}}</div>
+			<div class="col-md-4 text-md-right">Version {{version}}</div>
+		</div>
+	</footer>
 </div>

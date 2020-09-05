@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -41,6 +42,7 @@ import de.egladil.web.profil_server.domain.UserSession;
 import de.egladil.web.profil_server.error.AuthException;
 import de.egladil.web.profil_server.error.LogmessagePrefixes;
 import de.egladil.web.profil_server.error.ProfilserverRuntimeException;
+import de.egladil.web.profil_server.event.UserChanged;
 import de.egladil.web.profil_server.payload.ChangeProfileDataPayload;
 import de.egladil.web.profil_server.payload.ChangeProfilePasswordPayload;
 import de.egladil.web.profil_server.payload.ProfileDataPayload;
@@ -86,6 +88,9 @@ public class ProfileResource {
 
 	@Context
 	SecurityContext securityContext;
+
+	@Inject
+	Event<UserChanged> userChangedEvent;
 
 	private ValidationDelegate validationDelegate = new ValidationDelegate();
 
@@ -210,10 +215,10 @@ public class ProfileResource {
 
 			validationDelegate.check(payload, ProfileDataPayload.class);
 
-			ChangeProfileDataPayload changePasswordPayload = ChangeProfileDataPayload.create(clientCredentials, payload,
+			ChangeProfileDataPayload changeDataPayload = ChangeProfileDataPayload.create(clientCredentials, payload,
 				userSession.getUuid());
 
-			Response authProviderResponse = profileRestClient.changeData(changePasswordPayload);
+			Response authProviderResponse = profileRestClient.changeData(changeDataPayload);
 
 			LOG.debug("Response-Status={}", authProviderResponse.getStatus());
 
@@ -245,6 +250,13 @@ public class ProfileResource {
 
 				LOG.info("idRef={} - UUID={}: Daten geändert", getStringAbbreviated(userSession.getIdReference()),
 					getStringAbbreviated(userSession.getUuid()));
+
+				if (userChangedEvent != null) {
+
+					UserChanged event = new UserChanged(securityContext.getUserPrincipal().getName(), user);
+					userChangedEvent.fire(event);
+
+				}
 
 				return Response.ok(mappedResponsePayload).cookie(sessionCookie).build();
 

@@ -1,5 +1,13 @@
 # authprovider Release Notes
 
+__Release 5.1.2__:
+
+* log into files
+* new common release because of shiro CVE
+* bumped quarkus to 1.7.2-Final
+
+__ Versonszählung geändert wegen Umzugs in Monorepo__
+
 __Release 7.1.0__:
 
 [Umstellung von implicite grant auf Authorization Code Grant](https://github.com/heike2718/authprovider/issues/32)
