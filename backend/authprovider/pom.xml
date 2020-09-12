@@ -5,7 +5,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>authprovider</artifactId>
-	<version>5.1.2</version>
+	<version>7.1.1</version>
 	<packaging>jar</packaging>
 
 	<name>authprovider</name>
