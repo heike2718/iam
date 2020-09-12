@@ -1,12 +1,13 @@
 # authprovider Release Notes
 
-__Release 5.1.2__:
+__Release 7.1.1__:
 
+* bumped quarkus to 1.7.3-Final
+* propagate delete user to minikaenguru
+* handshake beim Propagieren von user change/delete evente
 * log into files
 * new common release because of shiro CVE
 * bumped quarkus to 1.7.2-Final
-
-__ Versonszählung geändert wegen Umzugs in Monorepo__
 
 __Release 7.1.0__:
 
