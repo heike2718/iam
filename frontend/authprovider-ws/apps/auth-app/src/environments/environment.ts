@@ -4,10 +4,11 @@
 
 export const environment = {
 	production: false,
-	version: '5.1.2',
+	version: '7.1.1',
 	envName: 'Test',
 	apiUrl: 'http://192.168.10.176:9000/authprovider',
-	profilUrl: 'http://localhost:4200',
+//	profilUrl: 'http://localhost:4200',
+    profilUrl: 'http://192.168.10.176/profil-app',
 	assetsUrl: 'auth-app/assets',
 	consoleLogActive: true,
 	serverLogActive: true,

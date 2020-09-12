@@ -43,6 +43,7 @@ import de.egladil.web.profil_server.error.AuthException;
 import de.egladil.web.profil_server.error.LogmessagePrefixes;
 import de.egladil.web.profil_server.error.ProfilserverRuntimeException;
 import de.egladil.web.profil_server.event.UserChanged;
+import de.egladil.web.profil_server.event.UserDeleted;
 import de.egladil.web.profil_server.payload.ChangeProfileDataPayload;
 import de.egladil.web.profil_server.payload.ChangeProfilePasswordPayload;
 import de.egladil.web.profil_server.payload.ProfileDataPayload;
@@ -91,6 +92,9 @@ public class ProfileResource {
 
 	@Inject
 	Event<UserChanged> userChangedEvent;
+
+	@Inject
+	Event<UserDeleted> userDeletedEvent;
 
 	private ValidationDelegate validationDelegate = new ValidationDelegate();
 
@@ -305,8 +309,6 @@ public class ProfileResource {
 
 			Response authProviderResponse = profileRestClient.deleteProfile(selectProfilePayload);
 
-			LOG.debug("Response-Status={}", authProviderResponse.getStatus());
-
 			ResponsePayload responsePayload = authProviderResponse.readEntity(ResponsePayload.class);
 			String nonce = (String) responsePayload.getData();
 
@@ -315,13 +317,23 @@ public class ProfileResource {
 				LOG.warn(LogmessagePrefixes.BOT + "angefragter Entdpoint hat das nonce geändert: expected={}, actual={}",
 					expectedNonce, nonce);
 
-				throw new ProfilserverRuntimeException("Der authprovider konnte nicht erreich werden");
+				throw new ProfilserverRuntimeException("angefragter Entdpoint hat das nonce geändert");
 
 			}
 
 			if (authProviderResponse.getStatus() == 200) {
 
+				LOG.info("User mit UUID={} gelöscht", userSession.getUuid());
+
 				profilSessionService.invalidate(userSession.getSessionId());
+
+				if (userDeletedEvent != null) {
+
+					UserDeleted event = new UserDeleted(securityContext.getUserPrincipal().getName());
+					userDeletedEvent.fire(event);
+
+				}
+
 				return Response
 					.ok(ResponsePayload.messageOnly(MessagePayload.info("Ihr Benutzerkonto wurde erfolgreich gelöscht.")))
 					.cookie(CommonHttpUtils.createSessionInvalidatedCookie(ProfilServerApp.CLIENT_COOKIE_PREFIX)).build();
