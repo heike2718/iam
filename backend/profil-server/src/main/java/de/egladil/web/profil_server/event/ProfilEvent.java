@@ -15,7 +15,9 @@ public interface ProfilEvent {
 
 	String TYPE_USER_LOGGED_OUT = "UserLoggedOut";
 
-	String TYPE_USER_CHANGED = "LehrerChanged";
+	String TYPE_USER_CHANGED = "VeranstalterChanged";
+
+	String TYPE_USER_DELETED = "UserDeleted";
 
 	/**
 	 * @return LocalDateTime

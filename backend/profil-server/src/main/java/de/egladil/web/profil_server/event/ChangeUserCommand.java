@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ChangeUserCommand {
 
 	@JsonProperty
-	private String sendingClientId;
+	private String syncToken;
 
 	@JsonProperty
 	private String uuid;
@@ -30,9 +30,9 @@ public class ChangeUserCommand {
 
 	}
 
-	public ChangeUserCommand(final String clientId, final UserChanged event) {
+	public ChangeUserCommand(final String syncToken, final UserChanged event) {
 
-		this.sendingClientId = clientId;
+		this.syncToken = syncToken;
 		this.uuid = event.uuid();
 		this.email = event.email();
 		this.vorname = event.vorname();
