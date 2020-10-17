@@ -57,6 +57,29 @@
                 }
               ]
             },
+            "a300": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/auth-app/src/environments/environment.ts",
+                  "with": "build-env/auth-app/environment-a300.ts"
+                }
+              ]
+            },
             "qs": {
               "budgets": [
                 {
@@ -75,8 +98,8 @@
               "buildOptimizer": true,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.qs.ts"
+                  "replace": "apps/auth-app/src/environments/environment.ts",
+                  "with": "build-env/auth-app/environment-qs.ts"
                 }
               ]
             },
@@ -224,6 +247,29 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
+                }
+              ]
+            },
+            "a300": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/profil-app/src/environments/environment.ts",
+                  "with": "build-env/profil-app/environment-a300.ts"
                 }
               ]
             }
