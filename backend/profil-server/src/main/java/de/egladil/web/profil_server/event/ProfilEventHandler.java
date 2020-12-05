@@ -87,13 +87,15 @@ public class ProfilEventHandler {
 
 		if (ProfilEvent.TYPE_USER_CHANGED.equals(event.typeName())) {
 
+			Response mkGatewayResponse = null;
+
 			try {
 
 				UserChanged userChanged = (UserChanged) event;
 
 				ChangeUserCommand command = new ChangeUserCommand(syncToken, userChanged);
 
-				Response mkGatewayResponse = mkGateway.propagateUserChanged(command);
+				mkGatewayResponse = mkGateway.propagateUserChanged(command);
 
 				if (mkGatewayResponse.getStatus() != 200) {
 
@@ -103,6 +105,12 @@ public class ProfilEventHandler {
 			} catch (Exception e) {
 
 				LOG.error("Konnte change-event nicht propagieren: {} - {}", event, e.getMessage(), e);
+			} finally {
+
+				if (mkGatewayResponse != null) {
+
+					mkGatewayResponse.close();
+				}
 			}
 
 		}
@@ -111,13 +119,15 @@ public class ProfilEventHandler {
 
 			LOG.info("Senden Löschevent an mk-gateway");
 
+			Response mkGatewayResponse = null;
+
 			try {
 
 				UserDeleted userDeleted = (UserDeleted) event;
 
 				DeleteUserCommand command = DeleteUserCommand.fromEvent(userDeleted).withSyncToken(syncToken);
 
-				Response mkGatewayResponse = mkGateway.propagateUserDeleted(command);
+				mkGatewayResponse = mkGateway.propagateUserDeleted(command);
 
 				LOG.info("Antwort: " + mkGatewayResponse.getStatus());
 
@@ -129,6 +139,12 @@ public class ProfilEventHandler {
 			} catch (Exception e) {
 
 				LOG.error("Konnte delete-event nicht propagieren: {} - {}", event, e.getMessage(), e);
+			} finally {
+
+				if (mkGatewayResponse != null) {
+
+					mkGatewayResponse.close();
+				}
 			}
 		}
 	}
@@ -142,9 +158,11 @@ public class ProfilEventHandler {
 
 		SyncHandshake handshake = new SyncHandshake(clientId, nonce);
 
+		Response mkGatewayResponse = null;
+
 		try {
 
-			Response mkGatewayResponse = mkGateway.getSyncToken(handshake);
+			mkGatewayResponse = mkGateway.getSyncToken(handshake);
 
 			ResponsePayload responsePayload = mkGatewayResponse.readEntity(ResponsePayload.class);
 
@@ -180,6 +198,12 @@ public class ProfilEventHandler {
 
 			LOG.error("Keine Freigabe fürs Senden des Events {} - {}", event, e.getMessage(), e);
 			return null;
+		} finally {
+
+			if (mkGatewayResponse != null) {
+
+				mkGatewayResponse.close();
+			}
 		}
 	}
 

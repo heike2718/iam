@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.ws.rs.core.UriInfo;
 
@@ -28,6 +29,8 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
+import de.egladil.web.authprovider.event.AuthproviderEvent;
+import de.egladil.web.authprovider.event.UserCreated;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
 import de.egladil.web.authprovider.service.mail.RegistrationMailStrategy;
 import de.egladil.web.authprovider.utils.AuthUtils;
@@ -61,6 +64,9 @@ public class RegistrationService {
 
 	@Inject
 	AuthMailService mailService;
+
+	@Inject
+	Event<AuthproviderEvent> authproviderEvent;
 
 	/**
 	 * Erzeugt einen neuen ResourceOwner und ein Aktivierungstoken.
@@ -106,6 +112,11 @@ public class RegistrationService {
 
 			LOG.debug("Mail mit Aktivierungscode versendet");
 			LOG.info("{} angelegt", resourceOwner.toString());
+
+			if (this.authproviderEvent != null) {
+
+				this.authproviderEvent.fire(new UserCreated(resourceOwner));
+			}
 
 			return resourceOwner;
 

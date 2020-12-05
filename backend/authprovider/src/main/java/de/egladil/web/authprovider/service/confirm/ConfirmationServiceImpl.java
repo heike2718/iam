@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -20,6 +21,8 @@ import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ActivationCode;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
+import de.egladil.web.authprovider.event.AuthproviderEvent;
+import de.egladil.web.authprovider.event.RegistrationConfirmationExpired;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
 import de.egladil.web.commons_crypto.CryptoService;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
@@ -43,6 +46,9 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 
 	@Inject
 	CryptoService cryptoService;
+
+	@Inject
+	Event<AuthproviderEvent> authproviderEvent;
 
 	/**
 	 * Erzeugt eine Instanz von ConfirmationServiceImpl
@@ -91,10 +97,17 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 			if (CommonTimeUtils.now().isAfter(expiresAt)) {
 
 				resourceOwnerService.deleteResourceOwner(resourceOwner);
+
+				if (this.authproviderEvent != null) {
+
+					authproviderEvent.fire(RegistrationConfirmationExpired.create(resourceOwner));
+				}
+
 				LOG.warn(LogmessagePrefixes.DATENMUELL + "ActivationCode '{}' zu ResourceOwner UUID='{}' expired", confirmationCode,
 					resourceOwner.getUuid());
 				return ConfirmationStatus.expiredActivation;
 			}
+
 			aktivieren(resourceOwner);
 			ResourceOwner persisted = resourceOwnerDao.save(resourceOwner);
 			activationCode.setExpirationTime(new Date(System.currentTimeMillis()));
