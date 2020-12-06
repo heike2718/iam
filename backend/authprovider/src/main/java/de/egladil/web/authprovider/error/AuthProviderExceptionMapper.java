@@ -106,7 +106,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 		if (exception instanceof AuthException) {
 
 			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exception.getMessage()));
-			LOG.warn(exception.getMessage());
+			LOG.warn(exception.getMessage(), exception);
 			return Response.status(401)
 				.entity(payload)
 				.build();
