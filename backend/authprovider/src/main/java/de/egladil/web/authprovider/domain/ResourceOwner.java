@@ -30,6 +30,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.egladil.web.commons_validation.annotations.StringLatin;
 import de.egladil.web.commons_validation.annotations.UuidString;
@@ -55,16 +56,22 @@ public class ResourceOwner implements AuthProviderEntity {
 	/* serialVersionUID */
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	public static final String FIND_BY_EMAIL = "FIND_BY_EMAIL";
 
+	@JsonIgnore
 	public static final String FIND_BY_EMAIL_LIKE = "FIND_BY_EMAIL_LIKE";
 
+	@JsonIgnore
 	public static final String FIND_BY_LOGINNAME = "FIND_BY_LOGINNAME";
 
+	@JsonIgnore
 	public static final String FIND_BY_UUID = "FIND_BY_UUID";
 
+	@JsonIgnore
 	public static final String FIND_BY_LOGINNAME_LIKE = "FIND_BY_LOGINNAME_LIKE";
 
+	@JsonIgnore
 	public static final String FIND_BY_UUID_LIKE = "FIND_BY_UUID_LIKE";
 
 	public static ResourceOwner createAktiviert(final String uuid, final String loginName, final String email) {
@@ -97,28 +104,33 @@ public class ResourceOwner implements AuthProviderEntity {
 	@NotBlank
 	@Size(min = 1, max = 40)
 	@Column(name = "UUID")
+	@JsonProperty
 	private String uuid;
 
 	@NotBlank
 	@StringLatin
 	@Size(min = 1, max = 255)
 	@Column(name = "LOGINNAME")
+	@JsonIgnore
 	private String loginName;
 
 	@StringLatin
 	@Size(min = 1, max = 100)
 	@Column(name = "VORNAME")
+	@JsonIgnore
 	private String vorname;
 
 	@StringLatin
 	@Size(min = 1, max = 100)
 	@Column(name = "NACHNAME")
+	@JsonIgnore
 	private String nachname;
 
 	@NotBlank
 	@Email
 	@Size(min = 1, max = 255)
 	@Column(name = "EMAIL")
+	@JsonIgnore
 	private String email;
 
 	@Column(name = "AKTIVIERT")
@@ -128,9 +140,11 @@ public class ResourceOwner implements AuthProviderEntity {
 	private boolean anonym;
 
 	@Column(name = "ANZAHL_LOGINS")
+	@JsonIgnore
 	private int anzahlLogins;
 
 	@Column(name = "ROLLEN")
+	@JsonProperty
 	private String roles;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -192,10 +206,6 @@ public class ResourceOwner implements AuthProviderEntity {
 
 		this.anonym = anonym;
 	}
-
-	// public List<ActivationCode> getActivationCodes() {
-	// return activationCodes;
-	// }
 
 	public void setId(final Long id) {
 
@@ -299,6 +309,7 @@ public class ResourceOwner implements AuthProviderEntity {
 		return StringUtils.isNotBlank(vorname) || StringUtils.isNotBlank(nachname);
 	}
 
+	@JsonProperty
 	public String getFullName() {
 
 		if (!hasName()) {

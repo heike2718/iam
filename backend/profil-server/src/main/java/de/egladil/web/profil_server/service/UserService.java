@@ -49,16 +49,18 @@ public class UserService {
 	 * @param  uuid
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "resource" })
 	public User getUser(final String uuid) {
 
 		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
 			clientSecret, null);
 
+		Response response = null;
+
 		try {
 
 			SelectProfilePayload selectPayload = SelectProfilePayload.create(credentials, uuid);
-			Response response = profileRestClient.getUserProfile(selectPayload);
+			response = profileRestClient.getUserProfile(selectPayload);
 
 			LOG.debug("UserService === (3) ===");
 
@@ -81,7 +83,8 @@ public class UserService {
 			return null;
 		} catch (WebApplicationException e) {
 
-			Response response = e.getResponse();
+			response = e.getResponse();
+
 			int status = response.getStatus();
 
 			if (status == 401) {
@@ -103,6 +106,11 @@ public class UserService {
 		} finally {
 
 			credentials.clean();
+
+			if (response != null) {
+
+				response.close();
+			}
 		}
 	}
 }

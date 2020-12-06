@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
+import de.egladil.web.authprovider.event.AuthproviderEvent;
+import de.egladil.web.authprovider.event.LoginversuchInaktiverUser;
 import de.egladil.web.authprovider.payload.AuthorizationCredentials;
 
 /**
@@ -35,6 +38,9 @@ public class AuthenticationService {
 
 	@Inject
 	AuthCryptoService authCryptoService;
+
+	@Inject
+	Event<AuthproviderEvent> authproviderEvent;
 
 	public static AuthenticationService createForTest(final ResourceOwnerService resourceOwnerService, final AuthCryptoService authCryptoService) {
 
@@ -73,6 +79,12 @@ public class AuthenticationService {
 
 		if (!resourceOwner.isAktiviert()) {
 
+			if (authproviderEvent != null) {
+
+				LoginversuchInaktiverUser eventPayload = new LoginversuchInaktiverUser(resourceOwner);
+				authproviderEvent.fire(eventPayload);
+			}
+
 			throw new AuthException(applicationMessages.getString("Benutzerkonto.deaktiviert"));
 		}
 		authCryptoService.verifyPassword(authorizationCredentials.getPasswort().toCharArray(), resourceOwner);
@@ -81,4 +93,5 @@ public class AuthenticationService {
 
 		return persisted;
 	}
+
 }
