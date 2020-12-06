@@ -110,6 +110,8 @@ public class ProfileResource {
 		String expectedNonce = UUID.randomUUID().toString();
 		OAuthClientCredentials clientCredentials = OAuthClientCredentials.create(clientId, clientSecret, expectedNonce);
 
+		Response authProviderResponse = null;
+
 		try {
 
 			validationDelegate.check(payload, ProfilePasswordPayload.class);
@@ -117,7 +119,7 @@ public class ProfileResource {
 			ChangeProfilePasswordPayload changePasswordPayload = ChangeProfilePasswordPayload.create(clientCredentials, payload,
 				userSession.getUuid());
 
-			Response authProviderResponse = profileRestClient.changePassword(changePasswordPayload);
+			authProviderResponse = profileRestClient.changePassword(changePasswordPayload);
 
 			ResponsePayload responsePayload = authProviderResponse.readEntity(ResponsePayload.class);
 			@SuppressWarnings("unchecked")
@@ -168,6 +170,11 @@ public class ProfileResource {
 
 			clientCredentials.clean();
 			payload.clean();
+
+			if (authProviderResponse != null) {
+
+				authProviderResponse.close();
+			}
 		}
 	}
 
@@ -215,6 +222,8 @@ public class ProfileResource {
 		String expectedNonce = UUID.randomUUID().toString();
 		OAuthClientCredentials clientCredentials = OAuthClientCredentials.create(clientId, clientSecret, expectedNonce);
 
+		Response authProviderResponse = null;
+
 		try {
 
 			validationDelegate.check(payload, ProfileDataPayload.class);
@@ -222,7 +231,7 @@ public class ProfileResource {
 			ChangeProfileDataPayload changeDataPayload = ChangeProfileDataPayload.create(clientCredentials, payload,
 				userSession.getUuid());
 
-			Response authProviderResponse = profileRestClient.changeData(changeDataPayload);
+			authProviderResponse = profileRestClient.changeData(changeDataPayload);
 
 			LOG.debug("Response-Status={}", authProviderResponse.getStatus());
 
@@ -290,6 +299,11 @@ public class ProfileResource {
 		} finally {
 
 			clientCredentials.clean();
+
+			if (authProviderResponse != null) {
+
+				authProviderResponse.close();
+			}
 		}
 	}
 
@@ -303,11 +317,13 @@ public class ProfileResource {
 		String expectedNonce = UUID.randomUUID().toString();
 		OAuthClientCredentials clientCredentials = OAuthClientCredentials.create(clientId, clientSecret, expectedNonce);
 
+		Response authProviderResponse = null;
+
 		try {
 
 			SelectProfilePayload selectProfilePayload = SelectProfilePayload.create(clientCredentials, userSession.getUuid());
 
-			Response authProviderResponse = profileRestClient.deleteProfile(selectProfilePayload);
+			authProviderResponse = profileRestClient.deleteProfile(selectProfilePayload);
 
 			ResponsePayload responsePayload = authProviderResponse.readEntity(ResponsePayload.class);
 			String nonce = (String) responsePayload.getData();
@@ -368,6 +384,11 @@ public class ProfileResource {
 		} finally {
 
 			clientCredentials.clean();
+
+			if (authProviderResponse != null) {
+
+				authProviderResponse.close();
+			}
 		}
 	}
 

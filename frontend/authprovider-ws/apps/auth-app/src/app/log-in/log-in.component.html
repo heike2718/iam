@@ -38,21 +38,19 @@
 
 			<div class="form-group kleber">
 				<label for="kleberInput">Kleber:</label>
-				<input class="form-control" type="text" id="kleberInput" placeholder="leer lassen!!!!" formControlName="kleber">
+				<input class="form-control" type="text" id="kleberInput" placeholder="leer lassen!!!!"
+					formControlName="kleber">
 			</div>
 
-			<div class="row btn-container">
-				<div class="col-sm-12 col-md-6 btn-wrapper">
-					<button class="col-md-12 btn btn-primary" (click)="submit()" [disabled]="!loginForm.valid">
-						einloggen
-					</button>
-				</div>
-				<div class="col-sm-12 col-md-6 btn-wrapper">
-					<button class="col-md-12 btn btn-primary" (click)="gotoOrderTempPwd()">
+			<div class="btn-group d-flex" role="group">
+				<button class="btn btn-primary w-100 ml-1" (click)="submit()"
+					[disabled]="!loginForm.valid">einloggen</button>
+
+				<button *ngIf="schule" class="btn btn-primary w-100 ml-1" (click)="gotoOrderTempPwd()">
 						Passwort vergessen
 					</button>
-				</div>
 			</div>
+
 		</form>
 	</div>
 </div>

@@ -14,9 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.payload.LoginCredentials;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
@@ -34,8 +31,6 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationResource {
-
-	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationResource.class);
 
 	private ValidationDelegate validationDelegate = new ValidationDelegate();
 
@@ -55,8 +50,6 @@ public class AuthenticationResource {
 	@POST
 	@Path("/sessions/auth-token-grant")
 	public Response authenticateUserWithTokenExchangeTypeAuthTokenGrant(final LoginCredentials credentials) {
-
-		LOG.info("Use AUTHORIZATION_TOKEN_GRANT");
 
 		try {
 

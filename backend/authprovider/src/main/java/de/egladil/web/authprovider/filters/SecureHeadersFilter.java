@@ -70,7 +70,7 @@ public class SecureHeadersFilter implements ContainerResponseFilter {
 			responseContext.getHeaders().add(CONTENT_SECURITY_POLICY, "default-src 'self'; ");
 		}
 
-		if (!AuthProviderApp.STAGE_DEV.equals(configService.getStage()) && headers.get("Strict-Transport-Security") == null) {
+		if (!AuthProviderApp.DEV_STAGES.contains(configService.getStage()) && headers.get("Strict-Transport-Security") == null) {
 
 			headers.add("Strict-Transport-Security", "max-age=63072000; includeSubdomains");
 

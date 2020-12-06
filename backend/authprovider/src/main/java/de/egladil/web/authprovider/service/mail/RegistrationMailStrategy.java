@@ -14,8 +14,6 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.domain.ActivationCode;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
@@ -26,8 +24,6 @@ import de.egladil.web.commons_net.time.CommonTimeUtils;
  * RegistrationMailStrategy
  */
 public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy {
-
-	private static final Logger LOG = LoggerFactory.getLogger(RegistrationMailStrategy.class);
 
 	private static final String LINK_PREFIX = "registration/confirmation?code=";
 
