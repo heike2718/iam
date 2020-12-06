@@ -4,9 +4,7 @@
 // =====================================================
 package de.egladil.web.authprovider.event;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -19,7 +17,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.restclient.MkGatewayRestClient;
 import de.egladil.web.authprovider.service.AuthMailService;
@@ -39,6 +36,9 @@ public class AuthproviderEventHandler {
 
 	@ConfigProperty(name = "mkv-app.client-id")
 	private String mkvAppClientId;
+
+	@ConfigProperty(name = "stage")
+	String stage;
 
 	@Inject
 	EventRepository eventRepository;
@@ -85,6 +85,10 @@ public class AuthproviderEventHandler {
 			this.propagateUserDeleted(event.payload());
 			break;
 
+		case USER_CREATED:
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.USER_CREATED, event.payload());
+			break;
+
 		default:
 			break;
 		}
@@ -95,9 +99,9 @@ public class AuthproviderEventHandler {
 
 		try {
 
-			ResourceOwner resourceOwner = (ResourceOwner) payload;
+			ResourceOwnerEventPayload resourceOwner = (ResourceOwnerEventPayload) payload;
 
-			DefaultEmailDaten maildaten = new MinikaengurukontenInfoStrategie(resourceOwner, kontext).createEmailDaten();
+			DefaultEmailDaten maildaten = new MinikaengurukontenInfoStrategie(resourceOwner, kontext, stage).createEmailDaten();
 
 			if (maildaten != null) {
 
@@ -119,17 +123,9 @@ public class AuthproviderEventHandler {
 
 		try {
 
-			ResourceOwner resourceOwner = (ResourceOwner) payload;
+			ResourceOwnerEventPayload resourceOwner = (ResourceOwnerEventPayload) payload;
 
-			Optional<String> optRolleMinikaenguru = Arrays.stream(resourceOwner.getRoles().split(","))
-				.filter(r -> "LEHRER".equals(r) || "PRIVAT".equals(r)).findAny();
-
-			if (optRolleMinikaenguru.isEmpty()) {
-
-				return;
-			}
-
-			LOG.info("Senden Löschevent an mk-gateway");
+			LOG.info("sende Löschevent für {} an mk-gateway", resourceOwner);
 
 			String syncToken = getSyncToken(resourceOwner.getUuid());
 
@@ -138,6 +134,8 @@ public class AuthproviderEventHandler {
 				LOG.error("Datensynchronisation hat keine Freigabe: syncToken ist null");
 				return;
 			}
+
+			LOG.info("sync ack erhalten");
 
 			Response mkGatewayResponse = null;
 

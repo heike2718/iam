@@ -62,7 +62,7 @@ public class AuthproviderSessionService {
 
 		if (authSession != null) {
 
-			LOG.info("Session {} invalidated", StringUtils.abbreviate(sessionId, 11));
+			LOG.debug("Session {} invalidated", StringUtils.abbreviate(sessionId, 11));
 		}
 	}
 

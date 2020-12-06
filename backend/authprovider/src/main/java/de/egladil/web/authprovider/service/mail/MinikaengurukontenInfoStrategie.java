@@ -7,7 +7,9 @@ package de.egladil.web.authprovider.service.mail;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import org.apache.commons.lang3.StringUtils;
+
+import de.egladil.web.authprovider.event.ResourceOwnerEventPayload;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
 
@@ -16,17 +18,20 @@ import de.egladil.web.commons_net.time.CommonTimeUtils;
  */
 public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenStrategy {
 
-	private final ResourceOwner resourceOwner;
+	private final ResourceOwnerEventPayload resourceOwner;
 
 	private final MinikaengurukontenMailKontext kontext;
+
+	private final String stage;
 
 	/**
 	 * @param resourceOwner
 	 */
-	public MinikaengurukontenInfoStrategie(final ResourceOwner resourceOwner, final MinikaengurukontenMailKontext kontext) {
+	public MinikaengurukontenInfoStrategie(final ResourceOwnerEventPayload resourceOwner, final MinikaengurukontenMailKontext kontext, final String stage) {
 
 		this.resourceOwner = resourceOwner;
 		this.kontext = kontext;
+		this.stage = stage;
 	}
 
 	@Override
@@ -39,7 +44,7 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 			return null;
 		}
 
-		String betreff = "Infomail vom Authprovider";
+		String betreff = stage + " - Infomail vom Authprovider";
 
 		switch (kontext) {
 
@@ -73,8 +78,8 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 
 		String textTemplate = "";
 		String zeitpunkt = CommonTimeUtils.format(LocalDateTime.now());
-		String resourceOwnerDetails = resourceOwner.getUuid() + " - " + resourceOwner.getFullName() + " ("
-			+ resourceOwner.getRoles() + ")";
+		String resourceOwnerDetails = StringUtils.abbreviate(resourceOwner.getUuid(), 11) + " - " + resourceOwner.getVorname() + " "
+			+ resourceOwner.getNachname();
 
 		switch (kontext) {
 
@@ -83,7 +88,7 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 			break;
 
 		case USER_CREATED:
-			textTemplate = "Neuer Minikänguruveranstalter {0} am {1} erstellt";
+			textTemplate = "Neues Benutzerkonto {0} am {1} erstellt";
 			break;
 
 		case CONFIRMATION_EXPIRED:

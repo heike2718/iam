@@ -12,17 +12,15 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
-
 /**
- * ResourceOwnerSerializer
+ * ResourceOwnerEventPayloadSerializer
  */
-public class ResourceOwnerSerializer implements Function<ResourceOwner, String> {
+public class ResourceOwnerEventPayloadSerializer implements Function<ResourceOwnerEventPayload, String> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ResourceOwnerSerializer.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ResourceOwnerEventPayloadSerializer.class);
 
 	@Override
-	public String apply(final ResourceOwner resourceOwner) {
+	public String apply(final ResourceOwnerEventPayload resourceOwner) {
 
 		try {
 

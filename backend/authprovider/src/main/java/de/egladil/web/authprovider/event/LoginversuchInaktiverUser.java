@@ -16,7 +16,7 @@ public class LoginversuchInaktiverUser implements AuthproviderEvent {
 
 	private final LocalDateTime occuredOn;
 
-	private ResourceOwner resourceOwner;
+	private ResourceOwnerEventPayload resourceOwner;
 
 	LoginversuchInaktiverUser() {
 
@@ -26,7 +26,7 @@ public class LoginversuchInaktiverUser implements AuthproviderEvent {
 	public LoginversuchInaktiverUser(final ResourceOwner resourceOwner) {
 
 		this();
-		this.resourceOwner = resourceOwner;
+		this.resourceOwner = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner);
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class LoginversuchInaktiverUser implements AuthproviderEvent {
 	@Override
 	public String serializePayload() {
 
-		return new ResourceOwnerSerializer().apply(resourceOwner);
+		return new ResourceOwnerEventPayloadSerializer().apply(resourceOwner);
 	}
 
 	@Override

@@ -16,17 +16,17 @@ public class RegistrationConfirmationExpired implements AuthproviderEvent {
 
 	private final LocalDateTime occuredOn;
 
-	private ResourceOwner resourceOwner;
+	private ResourceOwnerEventPayload resourceOwner;
 
 	RegistrationConfirmationExpired() {
 
 		this.occuredOn = CommonTimeUtils.now();
 	}
 
-	public static RegistrationConfirmationExpired create(final ResourceOwner uuid) {
+	public static RegistrationConfirmationExpired create(final ResourceOwner resourceOwner) {
 
 		RegistrationConfirmationExpired result = new RegistrationConfirmationExpired();
-		result.resourceOwner = uuid;
+		result.resourceOwner = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner);
 		return result;
 	}
 
@@ -57,7 +57,7 @@ public class RegistrationConfirmationExpired implements AuthproviderEvent {
 	@Override
 	public String serializePayload() {
 
-		return new ResourceOwnerSerializer().apply(resourceOwner);
+		return new ResourceOwnerEventPayloadSerializer().apply(resourceOwner);
 	}
 
 	@Override

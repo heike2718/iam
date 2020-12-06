@@ -35,7 +35,7 @@ public class AuthMailService {
 	public static AuthMailService createForTest(final CommonEmailService commonMailService, final EmailServiceCredentials emailServiceCredentials) {
 
 		AuthMailService result = new AuthMailService();
-		result.stage = AuthProviderApp.STAGE_DEV;
+		result.stage = AuthProviderApp.DEV_STAGES.get(0);
 		result.emailServiceCredentials = emailServiceCredentials;
 		result.commonMailService = commonMailService;
 
@@ -58,7 +58,7 @@ public class AuthMailService {
 	 */
 	public void sendMail(final DefaultEmailDaten emailDaten) throws EmailException, InvalidMailAddressException {
 
-		if (AuthProviderApp.STAGE_DEV.equals(stage)) {
+		if (AuthProviderApp.DEV_STAGES.contains(stage)) {
 
 			String str = emailServiceCredentials.toString();
 

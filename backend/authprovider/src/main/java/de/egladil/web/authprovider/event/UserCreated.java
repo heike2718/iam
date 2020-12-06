@@ -5,8 +5,6 @@
 package de.egladil.web.authprovider.event;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Optional;
 
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
@@ -34,10 +32,7 @@ public class UserCreated implements AuthproviderEvent {
 	@Override
 	public boolean propagateToListeners() {
 
-		Optional<String> optRolleMinikaenguru = Arrays.stream(resourceOwner.getRoles().split(","))
-			.filter(r -> "LEHRER".equals(r) || "PRIVAT".equals(r)).findAny();
-
-		return optRolleMinikaenguru.isPresent();
+		return true;
 	}
 
 	@Override

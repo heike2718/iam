@@ -5,7 +5,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>profil-server</artifactId>
-	<version>7.1.1</version>
+	<version>7.2.0</version>
 	<packaging>jar</packaging>
 
 
@@ -107,10 +107,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-jdbc-mariadb</artifactId>
 		</dependency>
-
 
 		<!-- Test START -->
 		<dependency>
@@ -168,7 +167,7 @@
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>5.0.0-M3</version>
+				<version>6.0.3</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
