@@ -49,7 +49,7 @@ public class AnonymousSessionResource {
 
 		NewCookie sessionCookie = sessionService.createSessionCookie(session.getSessionId());
 
-		if (!AuthProviderApp.DEV_STAGES.contains(stage)) {
+		if (!AuthProviderApp.STAGE_DEV.equals(stage)) {
 
 			session.clearSessionId();
 		}
@@ -77,7 +77,7 @@ public class AnonymousSessionResource {
 	@Path("/dev/invalidate/{sessionid}")
 	public Response clearSessionDev(@PathParam(value = "sessionid") final String sessionId) {
 
-		if (!AuthProviderApp.DEV_STAGES.contains(stage)) {
+		if (!AuthProviderApp.STAGE_DEV.equals(stage)) {
 
 			throw new AuthException("Diese URL darf nur im DEV-Mode aufgerufen werden");
 		}

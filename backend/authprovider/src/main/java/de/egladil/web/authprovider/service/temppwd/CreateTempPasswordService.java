@@ -13,10 +13,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.authprovider.config.ChangeablePropertiesSource;
 import de.egladil.web.authprovider.config.PasswordConfig;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.dao.TempPasswordDao;
@@ -39,11 +39,11 @@ public class CreateTempPasswordService {
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
-	@Inject
-	TempPasswordDao tempPasswordDao;
+	@ConfigProperty(name = "tempPasswordExpireMinutes", defaultValue = "30")
+	int tempPasswordExpireMinutes;
 
 	@Inject
-	ChangeablePropertiesSource changeablePropertiesSource;
+	TempPasswordDao tempPasswordDao;
 
 	@Inject
 	ResourceOwnerDao ressourceOwnerDao;
@@ -94,7 +94,7 @@ public class CreateTempPasswordService {
 
 		String tokenId = AuthUtils.newTokenId();
 
-		int expirationMinutes = Integer.valueOf(changeablePropertiesSource.getProperty("tempPasswordExpireMinutes"));
+		int expirationMinutes = Integer.valueOf(tempPasswordExpireMinutes);
 		TimeInterval timeInterval = CommonTimeUtils.getInterval(CommonTimeUtils.now(), expirationMinutes,
 			ChronoUnit.MINUTES);
 
