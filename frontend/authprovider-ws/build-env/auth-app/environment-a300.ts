@@ -4,9 +4,9 @@
 
 export const environment = {
 	production: false,
-	version: '7.1.1',
+	version: '7.2.0',
 	envName: 'a300',
-	apiUrl: 'http://a300/authprovider',
+	apiUrl: 'http://a300:9000/authprovider',
 	profilUrl: 'http://a300/profil-app',
 	assetsUrl: 'http://a300/auth-app/assets',
 	consoleLogActive: true,

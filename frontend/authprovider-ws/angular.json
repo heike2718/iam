@@ -80,6 +80,29 @@
                 }
               ]
             },
+            "qs": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/auth-app/src/environments/environment.ts",
+                  "with": "build-env/auth-app/environment-qs.ts"
+                }
+              ]
+            },
             "dev": {
               "budgets": [
                 {
@@ -249,7 +272,31 @@
                   "with": "build-env/profil-app/environment-a300.ts"
                 }
               ]
+			},
+            "qs": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/profil-app/src/environments/environment.ts",
+                  "with": "build-env/profil-app/environment-qs.ts"
+                }
+              ]
             }
+
           }
         },
         "serve": {

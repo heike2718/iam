@@ -1,5 +1,10 @@
 # authprovider Release Notes
 
+__Release 7.2.0__:
+
+* bumped quarkus to 1.10.2.Final
+* [Info an mkv beim Löschen von Benutzerkonten während des Registrierungsprozesses](https://github.com/heike2718/authenticationprovider/issues/20)
+
 __Release 7.1.1__:
 
 * bumped quarkus to 1.7.3-Final

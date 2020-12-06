@@ -18,10 +18,10 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.ws.rs.core.UriInfo;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.authprovider.config.ChangeablePropertiesSource;
 import de.egladil.web.authprovider.dao.ActivationCodeDao;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ActivationCode;
@@ -44,14 +44,12 @@ import de.egladil.web.commons_net.time.CommonTimeUtils;
 @RequestScoped
 public class RegistrationService {
 
-	private static final String KEY_ACTIVATIONCODE_EXPIRES = "registrationKeyExpireHours";
-
 	private static final Logger LOG = LoggerFactory.getLogger(ResourceOwnerService.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
-	@Inject
-	ChangeablePropertiesSource changeablePropertiesSource;
+	@ConfigProperty(name = "registrationKeyExpireHours", defaultValue = "24")
+	int registrationKeyExpireHours;
 
 	@Inject
 	ResourceOwnerService resourceOwnerService;
@@ -137,7 +135,7 @@ public class RegistrationService {
 		String code = AuthUtils.newTokenId();
 		result.setConfirmationCode(code);
 
-		int hours = Integer.valueOf(changeablePropertiesSource.getProperty(KEY_ACTIVATIONCODE_EXPIRES));
+		int hours = Integer.valueOf(registrationKeyExpireHours);
 		LocalDateTime now = CommonTimeUtils.now();
 		Date expiresAt = Date.from(now.plus(hours, ChronoUnit.HOURS).atZone(ZoneId.systemDefault()).toInstant());
 
