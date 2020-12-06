@@ -74,7 +74,9 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				if (csrfToken == null) {
 
 					LOG.warn(LogmessagePrefixes.BOT + "Aufruf ohne CSRF-Token: path=", path);
-					throw new AuthException("Keine Berechtigung");
+
+					// FIXME: CSRF-Protection ist clientseitig noch nicht eingebaut, daher ersteinmal keine AuthException
+					// throw new AuthException("Keine Berechtigung");
 				}
 
 				String sessionId = CommonHttpUtils.getSessionId(requestContext, configService.getStage(),
@@ -92,11 +94,14 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 					if (!csrfToken.equals(userSession.getCsrfToken())) {
 
-						LOG.warn(LogmessagePrefixes.BOT + "Aufruf mit falshem CSRF-Token: path=", path);
-						throw new AuthException("Keine Berechtigung");
+						// FIXME: CSRF-Protection ist clientseitig noch nicht eingebaut, daher ersteinmal keine AuthException
+						LOG.warn(LogmessagePrefixes.BOT + "Aufruf mit falschem CSRF-Token: path=", path);
+						// throw new AuthException("Keine Berechtigung");
 					}
 
 				} else {
+
+					LOG.warn("sessionId null: path={}", path);
 
 					throw new AuthException("Keine Berechtigung");
 				}
@@ -112,6 +117,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 		Optional<String> optPath = AUTHORIZED_PATHS.stream().filter(p -> path.toLowerCase().startsWith(p)).findFirst();
 
+		LOG.info("path={} - present:{}", path, optPath.isPresent());
 		return optPath.isPresent();
 	}
 

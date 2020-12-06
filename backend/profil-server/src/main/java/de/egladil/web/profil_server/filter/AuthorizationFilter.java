@@ -109,16 +109,17 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			return;
 		}
 
+		// FIXME: CSRF-Tokens sind in den angular-apps noch nicht korrekt eingebaut
 		if (csrfToken == null) {
 
 			LOG.warn(LogmessagePrefixes.BOT + "Aufruf ohne CSRF-Token: path=", path);
-			throw new AuthException("Keine Berechtigung");
+			// throw new AuthException("Keine Berechtigung");
 		}
 
 		if (!csrfToken.equals(userSession.getCsrfToken())) {
 
 			LOG.warn(LogmessagePrefixes.BOT + "Aufruf mit falshem CSRF-Token: path=", path);
-			throw new AuthException("Keine Berechtigung");
+			// throw new AuthException("Keine Berechtigung");
 		}
 
 	}
