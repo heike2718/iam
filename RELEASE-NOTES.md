@@ -1,5 +1,9 @@
 # authprovider Release Notes
 
+__Release 7.2.1__:
+
+[weniger INFO ins authlog](https://github.com/heike2718/authenticationprovider/issues/24)
+
 __Release 7.2.0__:
 
 * bumped quarkus to 1.10.2.Final

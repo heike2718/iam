@@ -74,7 +74,7 @@ public class ClientResource {
 
 			ClientInformation data = clientService.getClientInformation(clientCredentials);
 
-			LOG.info("Client {} hat Daten geholt", data.getName());
+			LOG.debug("Client {} hat Daten geholt", data.getName());
 
 			ResponsePayload payload = new ResponsePayload(MessagePayload.info("client OK"), data);
 			return Response.ok().entity(payload).build();

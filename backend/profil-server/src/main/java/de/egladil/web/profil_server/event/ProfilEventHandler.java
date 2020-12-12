@@ -117,7 +117,7 @@ public class ProfilEventHandler {
 
 		if (ProfilEvent.TYPE_USER_DELETED.equals(event.typeName())) {
 
-			LOG.info("Senden Löschevent an mk-gateway");
+			LOG.info("Sende Löschevent an mk-gateway");
 
 			Response mkGatewayResponse = null;
 
@@ -129,7 +129,7 @@ public class ProfilEventHandler {
 
 				mkGatewayResponse = mkGateway.propagateUserDeleted(command);
 
-				LOG.info("Antwort: " + mkGatewayResponse.getStatus());
+				LOG.debug("Antwort: " + mkGatewayResponse.getStatus());
 
 				if (mkGatewayResponse.getStatus() != 200) {
 

@@ -84,7 +84,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 			if (ex.getClientCredentials() != null && ex.getClientCredentials().getRedirectUrl() != null) {
 
-				LOG.info("Das client access token {} ist unterwegs verlorengegangen. redirectUrl={}",
+				LOG.warn("Das client access token {} ist unterwegs verlorengegangen. redirectUrl={}",
 					ex.getClientCredentials().getAccessToken(), ex.getClientCredentials().getRedirectUrl());
 
 				ResponsePayload payload = new ResponsePayload(MessagePayload.error("Ups, da ist etwas schiefgegangen"),
@@ -106,7 +106,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 		if (exception instanceof AuthException) {
 
 			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exception.getMessage()));
-			LOG.warn(exception.getMessage(), exception);
+			LOG.warn(exception.getMessage());
 			return Response.status(401)
 				.entity(payload)
 				.build();
