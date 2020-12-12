@@ -67,7 +67,7 @@ public class ProfilServerExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof ForbiddenException) {
 
-			LOG.info(exception.getMessage(), exception);
+			LOG.warn(exception.getMessage(), exception);
 
 			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error("Zugang für alle User gesperrt"));
 			return Response.status(Response.Status.FORBIDDEN).entity(payload).build();

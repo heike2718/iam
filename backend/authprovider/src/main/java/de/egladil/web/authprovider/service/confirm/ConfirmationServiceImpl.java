@@ -102,7 +102,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 				if (this.authproviderEvent != null) {
 
 					authproviderEvent.fire(RegistrationConfirmationExpired.create(resourceOwner));
-					LOG.info("{}: delete user command triggerd", ConfirmationStatus.expiredActivation);
+					LOG.debug("{}: delete user command triggerd", ConfirmationStatus.expiredActivation);
 				}
 
 				LOG.warn(LogmessagePrefixes.DATENMUELL + "ActivationCode '{}' zu ResourceOwner UUID='{}' expired", confirmationCode,

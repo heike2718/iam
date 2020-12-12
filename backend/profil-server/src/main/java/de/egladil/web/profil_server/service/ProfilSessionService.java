@@ -187,7 +187,7 @@ public class ProfilSessionService {
 
 		if (userSession != null) {
 
-			LOG.info("Session invalidated: {} - {}", sessionId, userSession.getFullName());
+			LOG.debug("Session invalidated: {} - {}", sessionId, userSession.getFullName());
 
 			if (logoutEvent != null) {
 

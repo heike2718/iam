@@ -108,7 +108,7 @@ public class CreateTempPasswordService {
 		TempPassword persisted = tempPasswordDao.save(tempPassword);
 		mailService.versendeTempPasswordMail(email, persisted);
 
-		LOG.info("temp password ordered for {}", optUser.get());
+		LOG.debug("temp password ordered for {}", optUser.get());
 	}
 
 }

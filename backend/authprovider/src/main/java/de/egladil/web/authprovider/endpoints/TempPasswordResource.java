@@ -79,7 +79,7 @@ public class TempPasswordResource {
 			}
 		} catch (ClientAccessTokenNotFoundException e) {
 
-			LOG.info(e.getMessage());
+			LOG.warn(e.getMessage());
 
 			if (payload.getClientCredentials() != null) {
 

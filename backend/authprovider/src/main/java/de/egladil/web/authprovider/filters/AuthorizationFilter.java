@@ -117,7 +117,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 		Optional<String> optPath = AUTHORIZED_PATHS.stream().filter(p -> path.toLowerCase().startsWith(p)).findFirst();
 
-		LOG.info("path={} - present:{}", path, optPath.isPresent());
+		LOG.debug("path={} - present:{}", path, optPath.isPresent());
 		return optPath.isPresent();
 	}
 
