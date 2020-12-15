@@ -97,7 +97,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		this.passwortWdh = this.signUpForm.controls['passwortWdh'];
 		this.kleber = this.signUpForm['kleber'];
 		this.tooltipPasswort = AppConstants.tooltips.PASSWORTREGELN;
-		this.showClientId = !environment.production;
+		this.showClientId = environment.envName === 'DEV';
 
 
 		this.clientInformation$ = this.appData.clientInformation$;
