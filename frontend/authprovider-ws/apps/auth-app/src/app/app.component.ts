@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
 	version = environment.version;
 	envName = environment.envName;
-	showEnv = !environment.production;
+	showEnv = this.envName === 'DEV';
 	api = environment.apiUrl;
 	logo = environment.assetsUrl + '/mja_logo.png';
 	innerWidth: number;

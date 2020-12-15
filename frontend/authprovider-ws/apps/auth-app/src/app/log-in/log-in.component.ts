@@ -69,7 +69,7 @@ export class LogInComponent implements OnInit, OnDestroy {
 		this.passwort = this.loginForm.controls['passwort'];
 		this.kleber = this.loginForm['kleber'];
 
-		this.showClientId = !environment.production;
+		this.showClientId = environment.envName === 'DEV';
 	}
 
 	ngOnInit() {

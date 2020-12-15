@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 	title = 'Minikänguru-Benutzerdaten';
 	version = environment.version;
 	envName = environment.envName;
-	showEnv = !environment.production;
+	showEnv = environment.envName === 'DEV';
 	api = environment.apiUrl;
 	logo = environment.assetsUrl + '/mja_logo.png';
 
