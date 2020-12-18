@@ -41,7 +41,7 @@ public class RefreshAccessTokenPayload {
 	@Override
 	public String toString() {
 
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		clientAccessToken.forEach(at -> sb.append(StringUtils.abbreviate(at, 11) + " "));
 
 		return "RefreshAccessTokenPayload [clientAccessToken=" + sb.toString() + ", userRefreshToken="
