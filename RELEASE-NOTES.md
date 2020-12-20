@@ -2,6 +2,11 @@
 
 __Release 7.2.1__:
 
+* bump quarkus to 1.10.5-Final
+* sec patches crypto
+
+__Release 7.2.1__:
+
 [weniger INFO ins authlog](https://github.com/heike2718/authenticationprovider/issues/24)
 
 __Release 7.2.0__:
