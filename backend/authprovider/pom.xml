@@ -5,7 +5,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>authprovider</artifactId>
-	<version>7.2.2</version>
+	<version>7.2.3</version>
 	<packaging>jar</packaging>
 
 	<name>authprovider</name>
@@ -53,6 +53,19 @@
 		<dependency>
 			<groupId>de.egladil.web</groupId>
 			<artifactId>commons-crypto</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bcprov-jdk15on</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- quarkus hat noch nicht die gepatchte Version -->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.67</version>
 		</dependency>
 
 		<dependency>

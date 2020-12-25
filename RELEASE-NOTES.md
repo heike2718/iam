@@ -1,6 +1,10 @@
 # authprovider Release Notes
 
-__Release 7.2.1__:
+__Release 7.2.3__:
+
+bcrypt CVE fixed
+
+__Release 7.2.2__:
 
 * bump quarkus to 1.10.5-Final
 * sec patches crypto
