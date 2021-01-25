@@ -5,7 +5,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>profil-server</artifactId>
-	<version>7.2.3</version>
+	<version>7.2.4</version>
 	<packaging>jar</packaging>
 
 
