@@ -50,23 +50,38 @@ public class AuthproviderEventHandler {
 	@RestClient
 	MkGatewayRestClient mkGateway;
 
+	public static AuthproviderEventHandler createForTest(final EventRepository eventRepository, final AuthMailService mailService, final MkGatewayRestClient mkGateway) {
+
+		AuthproviderEventHandler result = new AuthproviderEventHandler();
+		result.mkvAppClientId = "bajlsdl";
+		result.stage = "DEV";
+		result.eventRepository = eventRepository;
+		result.mailService = mailService;
+		result.mkGateway = mkGateway;
+		return result;
+	}
+
 	public void handleEvent(@Observes final AuthproviderEvent event) {
 
-		if (event.writeToEventStore()) {
+		if (event != null) {
 
-			String body = event.serializePayload();
+			if (event.writeToEventStore()) {
 
-			LOG.debug("Event body = " + body);
+				String body = event.serializePayload();
 
-			StoredEvent storedEvent = StoredEvent.createEvent(event.occuredOn(), event.eventType().getLabel(), body);
+				LOG.debug("Event body = " + body);
 
-			this.eventRepository.appendEvent(storedEvent);
+				StoredEvent storedEvent = StoredEvent.createEvent(event.occuredOn(), event.eventType().getLabel(), body);
+
+				this.eventRepository.appendEvent(storedEvent);
+			}
 		}
 
 		if (event.propagateToListeners()) {
 
 			sendEventToListeners(event);
 		}
+
 	}
 
 	/**
@@ -217,7 +232,7 @@ public class AuthproviderEventHandler {
 			return null;
 		} catch (Exception e) {
 
-			LOG.error("Keine Freigabe fürs Senden des DeletUserCommands {} - {}", uuid, e.getMessage(), e);
+			LOG.error("Keine Freigabe fürs Senden des DeleteUserCommands {} - {}", uuid, e.getMessage(), e);
 			return null;
 		} finally {
 

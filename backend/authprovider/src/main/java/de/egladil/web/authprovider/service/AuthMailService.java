@@ -56,7 +56,7 @@ public class AuthMailService {
 	 * @throws EmailException
 	 * @throws InvalidMailAddressException
 	 */
-	public void sendMail(final DefaultEmailDaten emailDaten) throws EmailException, InvalidMailAddressException {
+	public boolean sendMail(final DefaultEmailDaten emailDaten) throws EmailException, InvalidMailAddressException {
 
 		if (AuthProviderApp.STAGE_DEV.equals(stage)) {
 
@@ -68,5 +68,7 @@ public class AuthMailService {
 		}
 
 		this.commonMailService.sendMail(emailDaten, emailServiceCredentials);
+
+		return true;
 	}
 }

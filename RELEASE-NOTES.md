@@ -2,6 +2,11 @@
 
 __Release 7.2.3__:
 
+* [Einmalpasswort ändern- Seite: Link auf Passwort-vergessen-Dokumentation](https://github.com/heike2718/authenticationprovider/issues/29)
+* [ClassCastException AuthproviderEventhandler](https://github.com/heike2718/authenticationprovider/issues/30)
+
+__Release 7.2.3__:
+
 bcrypt CVE fixed
 
 __Release 7.2.2__:

@@ -4,29 +4,21 @@
 // =====================================================
 package de.egladil.web.authprovider.event;
 
-import java.time.LocalDateTime;
-
 import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
 
 /**
  * UserCreated
  */
-public class UserCreated implements AuthproviderEvent {
-
-	private final LocalDateTime occuredOn;
-
-	private ResourceOwner resourceOwner;
+public class UserCreated extends AbstractAuthproviderEvent {
 
 	UserCreated() {
 
-		this.occuredOn = CommonTimeUtils.now();
+		super();
 	}
 
 	public UserCreated(final ResourceOwner resourceOwner) {
 
-		this();
-		this.resourceOwner = resourceOwner;
+		super(resourceOwner);
 	}
 
 	@Override
@@ -46,23 +38,4 @@ public class UserCreated implements AuthproviderEvent {
 
 		return AuthproviderEventType.USER_CREATED;
 	}
-
-	@Override
-	public Object payload() {
-
-		return resourceOwner;
-	}
-
-	@Override
-	public String serializePayload() {
-
-		return resourceOwner.getUuid();
-	}
-
-	@Override
-	public LocalDateTime occuredOn() {
-
-		return occuredOn;
-	}
-
 }

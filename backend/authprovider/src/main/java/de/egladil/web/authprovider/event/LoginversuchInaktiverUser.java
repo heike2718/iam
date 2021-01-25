@@ -4,29 +4,21 @@
 // =====================================================
 package de.egladil.web.authprovider.event;
 
-import java.time.LocalDateTime;
-
 import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
 
 /**
  * LoginversuchInaktiverUser
  */
-public class LoginversuchInaktiverUser implements AuthproviderEvent {
-
-	private final LocalDateTime occuredOn;
-
-	private ResourceOwnerEventPayload resourceOwner;
+public class LoginversuchInaktiverUser extends AbstractAuthproviderEvent {
 
 	LoginversuchInaktiverUser() {
 
-		this.occuredOn = CommonTimeUtils.now();
+		super();
 	}
 
 	public LoginversuchInaktiverUser(final ResourceOwner resourceOwner) {
 
-		this();
-		this.resourceOwner = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner);
+		super(resourceOwner);
 	}
 
 	@Override
@@ -46,23 +38,4 @@ public class LoginversuchInaktiverUser implements AuthproviderEvent {
 
 		return AuthproviderEventType.LOGINVERSUCH_INAKTIVER_USER;
 	}
-
-	@Override
-	public Object payload() {
-
-		return resourceOwner;
-	}
-
-	@Override
-	public String serializePayload() {
-
-		return new ResourceOwnerEventPayloadSerializer().apply(resourceOwner);
-	}
-
-	@Override
-	public LocalDateTime occuredOn() {
-
-		return this.occuredOn;
-	}
-
 }

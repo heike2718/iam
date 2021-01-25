@@ -4,30 +4,19 @@
 // =====================================================
 package de.egladil.web.authprovider.event;
 
-import java.time.LocalDateTime;
-
 import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
 
 /**
  * RegistrationConfirmationExpired
  */
-public class RegistrationConfirmationExpired implements AuthproviderEvent {
+public class RegistrationConfirmationExpired extends AbstractAuthproviderEvent {
 
-	private final LocalDateTime occuredOn;
+	/**
+	 * @param resourceOwner
+	 */
+	public RegistrationConfirmationExpired(final ResourceOwner resourceOwner) {
 
-	private ResourceOwnerEventPayload resourceOwner;
-
-	RegistrationConfirmationExpired() {
-
-		this.occuredOn = CommonTimeUtils.now();
-	}
-
-	public static RegistrationConfirmationExpired create(final ResourceOwner resourceOwner) {
-
-		RegistrationConfirmationExpired result = new RegistrationConfirmationExpired();
-		result.resourceOwner = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner);
-		return result;
+		super(resourceOwner);
 	}
 
 	@Override
@@ -47,23 +36,4 @@ public class RegistrationConfirmationExpired implements AuthproviderEvent {
 
 		return AuthproviderEventType.REGISTRATION_CONFIRMATION_EXPIRED;
 	}
-
-	@Override
-	public Object payload() {
-
-		return this.resourceOwner;
-	}
-
-	@Override
-	public String serializePayload() {
-
-		return new ResourceOwnerEventPayloadSerializer().apply(resourceOwner);
-	}
-
-	@Override
-	public LocalDateTime occuredOn() {
-
-		return occuredOn;
-	}
-
 }
