@@ -30,6 +30,7 @@ import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
 import de.egladil.web.authprovider.event.AuthproviderEvent;
+import de.egladil.web.authprovider.event.LoggableEventDelegate;
 import de.egladil.web.authprovider.event.UserCreated;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
 import de.egladil.web.authprovider.service.mail.RegistrationMailStrategy;
@@ -111,10 +112,8 @@ public class RegistrationService {
 			LOG.debug("Mail mit Aktivierungscode versendet");
 			LOG.info("{} angelegt", resourceOwner.toString());
 
-			if (this.authproviderEvent != null) {
-
-				this.authproviderEvent.fire(new UserCreated(resourceOwner));
-			}
+			UserCreated eventPayload = new UserCreated(resourceOwner);
+			new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
 
 			return resourceOwner;
 

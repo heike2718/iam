@@ -22,4 +22,6 @@ public interface AuthproviderEvent {
 	String serializePayload();
 
 	LocalDateTime occuredOn();
+
+	void writeToConsoleQuietly();
 }
