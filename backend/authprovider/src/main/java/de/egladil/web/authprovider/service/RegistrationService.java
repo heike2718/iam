@@ -25,11 +25,16 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.authprovider.dao.ActivationCodeDao;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ActivationCode;
+import de.egladil.web.authprovider.domain.Client;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
+import de.egladil.web.authprovider.error.PropagationFailedException;
 import de.egladil.web.authprovider.event.AuthproviderEvent;
+import de.egladil.web.authprovider.event.AuthproviderEventHandler;
+import de.egladil.web.authprovider.event.LoggableEventDelegate;
+import de.egladil.web.authprovider.event.ResourceOwnerEventPayload;
 import de.egladil.web.authprovider.event.UserCreated;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
 import de.egladil.web.authprovider.service.mail.RegistrationMailStrategy;
@@ -52,6 +57,9 @@ public class RegistrationService {
 	int registrationKeyExpireHours;
 
 	@Inject
+	AuthproviderEventHandler eventHandler;
+
+	@Inject
 	ResourceOwnerService resourceOwnerService;
 
 	@Inject
@@ -72,7 +80,7 @@ public class RegistrationService {
 	 * @param  credentials
 	 * @return             SignUpLogInResponseData
 	 */
-	public ResourceOwner createNewResourceOwner(final SignUpCredentials signUpCredentials, final UriInfo uriInfo) throws InvalidMailAddressException {
+	public ResourceOwner createNewResourceOwner(final Client client, final SignUpCredentials signUpCredentials, final UriInfo uriInfo) throws InvalidMailAddressException {
 
 		if (uriInfo == null) {
 
@@ -104,21 +112,33 @@ public class RegistrationService {
 			DefaultEmailDaten maildaten = new RegistrationMailStrategy(signUpCredentials.getEmail(),
 				signUpCredentials.getLoginName(),
 				persistierter, uriInfo)
-					.createEmailDaten();
+					.createEmailDaten("RegistrationService");
 
 			mailService.sendMail(maildaten);
 
 			LOG.debug("Mail mit Aktivierungscode versendet");
 			LOG.info("{} angelegt", resourceOwner.toString());
 
-			if (this.authproviderEvent != null) {
+			ResourceOwnerEventPayload roPayload = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner)
+				.withNonce(signUpCredentials.getNonce()).withClientId(client.getClientId());
+			UserCreated eventPayload = new UserCreated(roPayload);
 
-				this.authproviderEvent.fire(new UserCreated(resourceOwner));
+			// Machen wir synchron wegen des ExceptionHandlings
+			if (this.eventHandler != null) {
+
+				this.eventHandler.handleEvent(eventPayload);
+			} else {
+
+				new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
 			}
 
 			return resourceOwner;
 
 		} catch (InvalidMailAddressException e) {
+
+			throw e;
+
+		} catch (PropagationFailedException e) {
 
 			throw e;
 

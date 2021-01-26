@@ -22,6 +22,7 @@ import de.egladil.web.authprovider.domain.ActivationCode;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
 import de.egladil.web.authprovider.event.AuthproviderEvent;
+import de.egladil.web.authprovider.event.LoggableEventDelegate;
 import de.egladil.web.authprovider.event.RegistrationConfirmationExpired;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
 import de.egladil.web.commons_crypto.CryptoService;
@@ -49,6 +50,18 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 
 	@Inject
 	Event<AuthproviderEvent> authproviderEvent;
+
+	private AuthproviderEvent eventPayload;
+
+	public static ConfirmationServiceImpl createForTest(final ActivationCodeDao activationCodeDao, final ResourceOwnerDao resourceOwnerDao, final ResourceOwnerService resourceOwnerService, final CryptoService cryptoService) {
+
+		ConfirmationServiceImpl result = new ConfirmationServiceImpl();
+		result.activationCodeDao = activationCodeDao;
+		result.resourceOwnerDao = resourceOwnerDao;
+		result.resourceOwnerService = resourceOwnerService;
+		result.cryptoService = cryptoService;
+		return result;
+	}
 
 	/**
 	 * Erzeugt eine Instanz von ConfirmationServiceImpl
@@ -99,13 +112,10 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 
 				resourceOwnerService.deleteResourceOwner(resourceOwner);
 
-				if (this.authproviderEvent != null) {
+				eventPayload = new RegistrationConfirmationExpired(resourceOwner);
+				new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
 
-					authproviderEvent.fire(RegistrationConfirmationExpired.create(resourceOwner));
-					LOG.debug("{}: delete user command triggerd", ConfirmationStatus.expiredActivation);
-				}
-
-				LOG.warn(LogmessagePrefixes.DATENMUELL + "ActivationCode '{}' zu ResourceOwner UUID='{}' expired", confirmationCode,
+				LOG.warn("ActivationCode '{}' zu ResourceOwner UUID='{}' expired - Event propagiert", confirmationCode,
 					resourceOwner.getUuid());
 				return ConfirmationStatus.expiredActivation;
 			}
@@ -127,5 +137,10 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 
 		resourceOwner.setAktiviert(true);
 		resourceOwner.setDatumGeaendert(new Date(System.currentTimeMillis()));
+	}
+
+	AuthproviderEvent eventPayload() {
+
+		return eventPayload;
 	}
 }

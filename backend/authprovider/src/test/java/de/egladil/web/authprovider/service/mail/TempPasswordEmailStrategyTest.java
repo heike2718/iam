@@ -34,7 +34,7 @@ public class TempPasswordEmailStrategyTest {
 		// Act
 		DefaultEmailDaten emailDaten = new TempPasswordCreatedMailStrategy("heike@egladil.de", tempPassword,
 			"http://localhost:4300/password/temp/change?tokenId=")
-				.createEmailDaten();
+				.createEmailDaten("TempPassword");
 		String mailtext = emailDaten.getText();
 
 		System.out.println(mailtext);
@@ -66,7 +66,7 @@ public class TempPasswordEmailStrategyTest {
 		// Act
 		DefaultEmailDaten emailDaten = new TempPasswordCreatedMailStrategy("heike@egladil.de", tempPassword,
 			"http://localhost:4300/password/temp/change?tokenId=")
-				.createEmailDaten();
+				.createEmailDaten("TempPassword");
 		String mailtext = emailDaten.getText();
 
 		System.out.println(mailtext);

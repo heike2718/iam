@@ -45,12 +45,13 @@ public class BenutzerkontoGeloeschtMailStrategie implements CreateDefaultMailDat
 	}
 
 	@Override
-	public DefaultEmailDaten createEmailDaten() {
+	public DefaultEmailDaten createEmailDaten(final String messageId) {
 
 		DefaultEmailDaten maildaten = new DefaultEmailDaten();
 		maildaten.setEmpfaenger(mailTo);
 		maildaten.setBetreff(subject);
 		maildaten.setText(getText());
+		maildaten.setMessageId(messageId);
 		return maildaten;
 	}
 

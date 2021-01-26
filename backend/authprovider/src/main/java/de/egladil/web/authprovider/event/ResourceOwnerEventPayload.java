@@ -28,6 +28,11 @@ public class ResourceOwnerEventPayload {
 	@JsonProperty
 	private String email;
 
+	@JsonProperty
+	private String nonce;
+
+	private String clientId;
+
 	ResourceOwnerEventPayload() {
 
 	}
@@ -73,6 +78,28 @@ public class ResourceOwnerEventPayload {
 	public String toString() {
 
 		return "ResourceOwnerEventPayload [uuid=" + uuid + ", vorname=" + vorname + ", nachname=" + nachname + "]";
+	}
+
+	public String getNonce() {
+
+		return nonce;
+	}
+
+	public ResourceOwnerEventPayload withNonce(final String nonce) {
+
+		this.nonce = nonce;
+		return this;
+	}
+
+	public String getClientId() {
+
+		return clientId;
+	}
+
+	public ResourceOwnerEventPayload withClientId(final String clientId) {
+
+		this.clientId = clientId;
+		return this;
 	}
 
 }

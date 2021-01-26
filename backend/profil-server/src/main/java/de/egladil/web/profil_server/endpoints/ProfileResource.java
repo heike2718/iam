@@ -42,6 +42,8 @@ import de.egladil.web.profil_server.domain.UserSession;
 import de.egladil.web.profil_server.error.AuthException;
 import de.egladil.web.profil_server.error.LogmessagePrefixes;
 import de.egladil.web.profil_server.error.ProfilserverRuntimeException;
+import de.egladil.web.profil_server.error.PropagationFailedException;
+import de.egladil.web.profil_server.event.ProfilEventHandler;
 import de.egladil.web.profil_server.event.UserChanged;
 import de.egladil.web.profil_server.event.UserDeleted;
 import de.egladil.web.profil_server.payload.ChangeProfileDataPayload;
@@ -95,6 +97,9 @@ public class ProfileResource {
 
 	@Inject
 	Event<UserDeleted> userDeletedEvent;
+
+	@Inject
+	ProfilEventHandler eventHandler;
 
 	private ValidationDelegate validationDelegate = new ValidationDelegate();
 
@@ -205,6 +210,18 @@ public class ProfileResource {
 			.cookie(sessionCookie).build();
 	}
 
+	private Response createPropagationFailedErrorResponse(final UserSession userSession, final NewCookie sessionCookie, final PropagationFailedException e) {
+
+		if (!ProfilServerApp.STAGE_DEV.equals(stage)) {
+
+			userSession.clearSessionId();
+		}
+		AuthenticatedUser authenticatedUser = authentiatedUserService.createAuthenticatedUser(userSession, null);
+
+		return Response.serverError().entity(new ResponsePayload(MessagePayload.error(e.getMessage()), authenticatedUser))
+			.cookie(sessionCookie).build();
+	}
+
 	/**
 	 * @param  idRef
 	 * @param  payload
@@ -267,7 +284,17 @@ public class ProfileResource {
 				if (userChangedEvent != null) {
 
 					UserChanged event = new UserChanged(securityContext.getUserPrincipal().getName(), user);
-					userChangedEvent.fire(event);
+
+					if (eventHandler != null) {
+
+						// synchron wegen der Fehlermeldung (ich weiß selbst, dass das total grottig ist. Muss mal vollständig
+						// refactored werden
+						eventHandler.handleSynchron(event);
+
+					} else {
+
+						userChangedEvent.fire(event);
+					}
 
 				}
 
@@ -281,6 +308,10 @@ public class ProfileResource {
 				throw new ProfilserverRuntimeException("Die Daten konnten wegen eines Serverfehlers nicht geändert werden.");
 
 			}
+
+		} catch (PropagationFailedException e) {
+
+			return createPropagationFailedErrorResponse(userSession, sessionCookie, e);
 
 		} catch (ProfilserverRuntimeException e) {
 
@@ -346,7 +377,17 @@ public class ProfileResource {
 				if (userDeletedEvent != null) {
 
 					UserDeleted event = new UserDeleted(securityContext.getUserPrincipal().getName());
-					userDeletedEvent.fire(event);
+
+					if (eventHandler != null) {
+
+						// synchron wegen der Fehlermeldung (ich weiß selbst, dass das total grottig ist. Muss mal vollständig
+						// refactored werden
+						eventHandler.handleSynchron(event);
+
+					} else {
+
+						userDeletedEvent.fire(event);
+					}
 
 				}
 
@@ -362,6 +403,11 @@ public class ProfileResource {
 				throw new ProfilserverRuntimeException("Die Daten konnten wegen eines Serverfehlers nicht geändert werden.");
 
 			}
+
+		} catch (PropagationFailedException e) {
+
+			NewCookie sessionCookie = authentiatedUserService.createSessionCookie(userSession.getSessionId());
+			return createPropagationFailedErrorResponse(userSession, sessionCookie, e);
 
 		} catch (ProfilserverRuntimeException e) {
 

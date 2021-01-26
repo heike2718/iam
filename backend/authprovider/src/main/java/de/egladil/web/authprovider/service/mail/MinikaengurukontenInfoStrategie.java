@@ -35,7 +35,7 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 	}
 
 	@Override
-	public DefaultEmailDaten createEmailDaten() {
+	public DefaultEmailDaten createEmailDaten(final String messageId) {
 
 		String text = getText();
 
@@ -60,6 +60,10 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 			betreff += ": Aktivierungstoken abgelaufen";
 			break;
 
+		case SYNC_FAILED:
+			betreff += ": Fehler beim Synchronisieren von Benutzerkonten";
+			break;
+
 		default:
 			break;
 		}
@@ -68,6 +72,7 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 		maildaten.setEmpfaenger("info@egladil.de");
 		maildaten.setBetreff(betreff);
 		maildaten.setText(getText());
+		maildaten.setMessageId(messageId);
 		return maildaten;
 	}
 
@@ -95,6 +100,10 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 			textTemplate = "Benutzerkonto {0} am {1} gelöscht, weil Aktivierungscode angelaufen war.";
 			break;
 
+		case SYNC_FAILED:
+			textTemplate = "Anlegen oder Löschen des Benutzerkontos {0} konnte am {1} nicht an Client-Application propagiert werden. VServer1 nicht erreichbar?";
+			break;
+
 		default:
 			break;
 		}
@@ -110,7 +119,8 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 	public enum MinikaengurukontenMailKontext {
 		CONFIRMATION_EXPIRED,
 		LOGIN_INAKTIV,
-		USER_CREATED
+		USER_CREATED,
+		SYNC_FAILED
 	};
 
 }

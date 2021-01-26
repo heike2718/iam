@@ -41,7 +41,7 @@ public class RegistrationEmailStrategyTest {
 
 		// Act
 		DefaultEmailDaten emailDaten = new RegistrationMailStrategy("heike@egladil.de", "günni", activationCode, uriInfo)
-			.createEmailDaten();
+			.createEmailDaten("RegistrationService");
 		String mailtext = emailDaten.getText();
 
 		// Assert

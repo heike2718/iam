@@ -20,6 +20,7 @@ import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.event.AuthproviderEvent;
+import de.egladil.web.authprovider.event.LoggableEventDelegate;
 import de.egladil.web.authprovider.event.LoginversuchInaktiverUser;
 import de.egladil.web.authprovider.payload.AuthorizationCredentials;
 
@@ -79,11 +80,8 @@ public class AuthenticationService {
 
 		if (!resourceOwner.isAktiviert()) {
 
-			if (authproviderEvent != null) {
-
-				LoginversuchInaktiverUser eventPayload = new LoginversuchInaktiverUser(resourceOwner);
-				authproviderEvent.fire(eventPayload);
-			}
+			LoginversuchInaktiverUser eventPayload = new LoginversuchInaktiverUser(resourceOwner);
+			new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
 
 			throw new AuthException(applicationMessages.getString("Benutzerkonto.deaktiviert"));
 		}
