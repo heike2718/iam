@@ -54,7 +54,7 @@ public class SendTempPasswordTask implements Callable<Boolean> {
 			CreateDefaultMailDatenStrategy mailStrategy = new TempPasswordCreatedMailStrategy(email, tempPassword,
 				urlPrefix);
 
-			mailService.sendMail(mailStrategy.createEmailDaten());
+			mailService.sendMail(mailStrategy.createEmailDaten("TempPassword"));
 
 			return Boolean.TRUE;
 		} catch (InvalidMailAddressException e) {

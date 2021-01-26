@@ -29,12 +29,13 @@ public class PasswordChangedMailStrategy implements CreateDefaultMailDatenStrate
 	}
 
 	@Override
-	public DefaultEmailDaten createEmailDaten() {
+	public DefaultEmailDaten createEmailDaten(final String messageId) {
 
 		DefaultEmailDaten result = new DefaultEmailDaten();
 		result.setBetreff("Minikänguru: Passwort geändert");
 		result.setEmpfaenger(email);
 		result.setText(getText());
+		result.setMessageId(messageId);
 
 		return result;
 

@@ -50,12 +50,13 @@ public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy 
 	}
 
 	@Override
-	public DefaultEmailDaten createEmailDaten() {
+	public DefaultEmailDaten createEmailDaten(final String messageId) {
 
 		DefaultEmailDaten maildaten = new DefaultEmailDaten();
 		maildaten.setEmpfaenger(emailTo);
 		maildaten.setBetreff("Minikänguru: Aktivierung Benutzerkonto");
 		maildaten.setText(getText());
+		maildaten.setMessageId(messageId);
 		return maildaten;
 	}
 

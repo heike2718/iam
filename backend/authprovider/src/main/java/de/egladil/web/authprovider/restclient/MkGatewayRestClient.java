@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import de.egladil.web.authprovider.event.CreateUserCommand;
 import de.egladil.web.authprovider.event.DeleteUserCommand;
 import de.egladil.web.authprovider.event.SyncHandshake;
 
@@ -29,6 +30,10 @@ public interface MkGatewayRestClient {
 	@Path("/veranstalter")
 	@DELETE
 	Response propagateUserDeleted(DeleteUserCommand command);
+
+	@Path("/veranstalter")
+	@POST
+	Response propagateUserCreated(CreateUserCommand command);
 
 	@Path("/ack")
 	@POST

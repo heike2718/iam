@@ -4,8 +4,6 @@
 // =====================================================
 package de.egladil.web.authprovider.event;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
-
 /**
  * UserCreated
  */
@@ -16,9 +14,10 @@ public class UserCreated extends AbstractAuthproviderEvent {
 		super();
 	}
 
-	public UserCreated(final ResourceOwner resourceOwner) {
+	public UserCreated(final ResourceOwnerEventPayload eventPayload) {
 
-		super(resourceOwner);
+		this.setResourceOwner(eventPayload);
+
 	}
 
 	@Override
@@ -30,7 +29,7 @@ public class UserCreated extends AbstractAuthproviderEvent {
 	@Override
 	public boolean writeToEventStore() {
 
-		return false;
+		return true;
 	}
 
 	@Override

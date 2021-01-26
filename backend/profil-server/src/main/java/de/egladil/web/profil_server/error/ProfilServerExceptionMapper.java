@@ -31,6 +31,11 @@ import de.egladil.web.profil_server.domain.UserSession;
 @Provider
 public class ProfilServerExceptionMapper implements ExceptionMapper<Exception> {
 
+	/**
+	 *
+	 */
+	private static final String GENERAL_SERVERERROR = "Es ist ein Fehler aufgetreten. Bitte senden Sie eine Mail an info@egladil.de";
+
 	private static final Logger LOG = LoggerFactory.getLogger(ProfilServerExceptionMapper.class);
 
 	@Context
@@ -44,10 +49,12 @@ public class ProfilServerExceptionMapper implements ExceptionMapper<Exception> {
 			return Response.status(204).build();
 		}
 
+		String exceptionMessage = exception.getMessage();
+
 		if (exception instanceof AuthException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exception.getMessage()));
-			LOG.warn(exception.getMessage());
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
+			LOG.warn(exceptionMessage);
 			return Response.status(401)
 				.cookie(CommonHttpUtils.createSessionInvalidatedCookie(ProfilServerApp.CLIENT_COOKIE_PREFIX))
 				.entity(payload)
@@ -56,8 +63,8 @@ public class ProfilServerExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof SessionExpiredException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exception.getMessage()));
-			LOG.warn(exception.getMessage());
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
+			LOG.warn(exceptionMessage);
 
 			return Response.status(908)
 				.entity(payload)
@@ -67,10 +74,20 @@ public class ProfilServerExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof ForbiddenException) {
 
-			LOG.warn(exception.getMessage(), exception);
+			LOG.warn(exceptionMessage, exception);
 
 			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error("Zugang für alle User gesperrt"));
 			return Response.status(Response.Status.FORBIDDEN).entity(payload).build();
+		}
+
+		if (exception instanceof PropagationFailedException) {
+
+			LOG.info("caught :)");
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
+			return Response.serverError()
+				.header("X-Auth-Error", exceptionMessage)
+				.entity(payload)
+				.build();
 		}
 
 		if (exception instanceof ProfilserverRuntimeException || exception instanceof ClientAuthException) {
@@ -82,15 +99,15 @@ public class ProfilServerExceptionMapper implements ExceptionMapper<Exception> {
 
 				UserSession userSession = (UserSession) securityContext.getUserPrincipal();
 				LOG.error("{} - {}: {}", StringUtils.abbreviate(userSession.getIdReference(), 11),
-					StringUtils.abbreviate(userSession.getUuid(), 11), exception.getMessage(), exception);
+					StringUtils.abbreviate(userSession.getUuid(), 11), exceptionMessage, exception);
 			} else {
 
-				LOG.error(exception.getMessage(), exception);
+				LOG.error(exceptionMessage, exception);
 			}
 		}
 
 		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(
-			"Es ist ein Fehler aufgetreten. Bitte senden Sie eine Mail an info@egladil.de"));
+			GENERAL_SERVERERROR));
 
 		return Response.status(Status.INTERNAL_SERVER_ERROR).header("X-Checklisten-Error", payload.getMessage().getMessage())
 			.entity(payload).build();

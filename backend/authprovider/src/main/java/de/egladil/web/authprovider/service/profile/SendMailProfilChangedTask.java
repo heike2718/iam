@@ -42,7 +42,7 @@ public class SendMailProfilChangedTask implements Callable<Boolean> {
 
 		try {
 
-			mailService.sendMail(mailStrategy.createEmailDaten());
+			mailService.sendMail(mailStrategy.createEmailDaten(""));
 
 			return Boolean.TRUE;
 		} catch (InvalidMailAddressException e) {

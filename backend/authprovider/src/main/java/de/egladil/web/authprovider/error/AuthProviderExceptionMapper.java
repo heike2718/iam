@@ -43,11 +43,13 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 			return Response.status(204).build();
 		}
 
+		String exceptionMessage = exception.getMessage();
+
 		if (exception instanceof SecurityException) {
 
-			if (exception.getMessage() != null) {
+			if (exceptionMessage != null) {
 
-				LOG.warn(LogmessagePrefixes.BOT + exception.getMessage(), exception);
+				LOG.warn(LogmessagePrefixes.BOT + exceptionMessage, exception);
 			}
 			return Response.status(Status.FORBIDDEN)
 				.entity(ResponsePayload.messageOnly(MessagePayload.error("Netter Versuch, klappt aber nicht."))).build();
@@ -55,7 +57,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof SessionExpiredException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.warn(exception.getMessage()));
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.warn(exceptionMessage));
 			return Response.status(908)
 				.header("X-Auth-Error", "SessionExpired")
 				.entity(payload)
@@ -72,7 +74,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof AccountDeactivatedException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exception.getMessage()));
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
 			return Response.status(401)
 				.entity(payload)
 				.build();
@@ -105,8 +107,8 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof AuthException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exception.getMessage()));
-			LOG.warn(exception.getMessage());
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
+			LOG.warn(exceptionMessage);
 			return Response.status(401)
 				.entity(payload)
 				.build();
@@ -154,7 +156,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 			return Response.serverError()
 				.header("X-Auth-Error", "Serverfehler")
 				.entity(ResponsePayload.messageOnly(MessagePayload
-					.error("Es ist ein Serverfehler aufgetreten. Bitte senden Sie eine Mail an info@egladil.de")))
+					.error(generalError)))
 				.build();
 		}
 
@@ -169,7 +171,18 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 				.build();
 		}
 
-		LOG.error(exception.getMessage(), exception);
+		if (exception instanceof PropagationFailedException) {
+
+			// wurde schon geloggt
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
+			return Response.serverError()
+				.header("X-Auth-Error", exceptionMessage)
+				.entity(payload)
+				.build();
+
+		}
+
+		LOG.error(exceptionMessage, exception);
 
 		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(generalError));
 		return Response.serverError()

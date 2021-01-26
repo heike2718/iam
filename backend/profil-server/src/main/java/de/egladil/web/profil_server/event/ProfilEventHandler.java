@@ -4,7 +4,9 @@
 // =====================================================
 package de.egladil.web.profil_server.event;
 
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,6 +26,7 @@ import de.egladil.web.commons_validation.payload.MessagePayload;
 import de.egladil.web.commons_validation.payload.ResponsePayload;
 import de.egladil.web.profil_server.domain.StoredEvent;
 import de.egladil.web.profil_server.error.ProfilserverRuntimeException;
+import de.egladil.web.profil_server.error.PropagationFailedException;
 import de.egladil.web.profil_server.restclient.MkGatewayRestClient;
 
 /**
@@ -34,8 +37,13 @@ public class ProfilEventHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ProfilEventHandler.class);
 
+	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+
 	@ConfigProperty(name = "mkv-app.client-id")
 	private String clientId;
+
+	@ConfigProperty(name = "syncInfrastructureAvailable", defaultValue = "true")
+	String syncInfrastructureAvailable;
 
 	@Inject
 	EventRepository eventRepository;
@@ -43,6 +51,11 @@ public class ProfilEventHandler {
 	@Inject
 	@RestClient
 	MkGatewayRestClient mkGateway;
+
+	public void handleSynchron(final ProfilEvent event) {
+
+		this.handleEvent(event);
+	}
 
 	public void handleEvent(@Observes final ProfilEvent event) {
 
@@ -78,73 +91,103 @@ public class ProfilEventHandler {
 			return;
 		}
 
-		String syncToken = getSyncToken(event);
+		if (!isSyncInfrastructureAvailable()) {
 
-		if (syncToken == null) {
+			LOG.info("Infrastruktur nicht verfuegbar: Ändern oder Löschen von {} wird nicht propagiert", event);
 
-			LOG.error("Datensynchronisation hat keine Freigabe: syncToken ist null");
+			return;
 		}
 
 		if (ProfilEvent.TYPE_USER_CHANGED.equals(event.typeName())) {
 
-			Response mkGatewayResponse = null;
-
-			try {
-
-				UserChanged userChanged = (UserChanged) event;
-
-				ChangeUserCommand command = new ChangeUserCommand(syncToken, userChanged);
-
-				mkGatewayResponse = mkGateway.propagateUserChanged(command);
-
-				if (mkGatewayResponse.getStatus() != 200) {
-
-					LOG.error("Status {} vom mk-gateway beim senden des Events {} ", mkGatewayResponse.getStatus(), userChanged);
-				}
-
-			} catch (Exception e) {
-
-				LOG.error("Konnte change-event nicht propagieren: {} - {}", event, e.getMessage(), e);
-			} finally {
-
-				if (mkGatewayResponse != null) {
-
-					mkGatewayResponse.close();
-				}
-			}
+			propagateUserChanged(event);
 
 		}
 
 		if (ProfilEvent.TYPE_USER_DELETED.equals(event.typeName())) {
 
-			LOG.info("Sende Löschevent an mk-gateway");
+			propagateUserDeleted(event);
+		}
+	}
 
-			Response mkGatewayResponse = null;
+	private void propagateUserDeleted(final ProfilEvent event) {
 
-			try {
+		LOG.info("Sende Löschevent an mk-gateway");
 
-				UserDeleted userDeleted = (UserDeleted) event;
+		Response mkGatewayResponse = null;
 
-				DeleteUserCommand command = DeleteUserCommand.fromEvent(userDeleted).withSyncToken(syncToken);
+		try {
 
-				mkGatewayResponse = mkGateway.propagateUserDeleted(command);
+			String syncToken = getSyncToken(event);
 
-				LOG.debug("Antwort: " + mkGatewayResponse.getStatus());
+			if (syncToken == null) {
 
-				if (mkGatewayResponse.getStatus() != 200) {
+				LOG.error("Datensynchronisation hat keine Freigabe: syncToken ist null");
+				throw new PropagationFailedException(applicationMessages.getString("deleteUser.propagation.failure"));
+			}
 
-					LOG.error("Status {} vom mk-gateway beim senden des Events {} ", mkGatewayResponse.getStatus(), userDeleted);
-				}
+			UserDeleted userDeleted = (UserDeleted) event;
 
-			} catch (Exception e) {
+			DeleteUserCommand command = DeleteUserCommand.fromEvent(userDeleted).withSyncToken(syncToken);
 
-				LOG.error("Konnte delete-event nicht propagieren: {} - {}", event, e.getMessage(), e);
-			} finally {
+			mkGatewayResponse = mkGateway.propagateUserDeleted(command);
 
-				if (mkGatewayResponse != null) {
+			LOG.debug("Antwort: " + mkGatewayResponse.getStatus());
 
-					mkGatewayResponse.close();
-				}
+			if (mkGatewayResponse.getStatus() != 200) {
+
+				LOG.error("Status {} vom mk-gateway beim senden des Events {} ", mkGatewayResponse.getStatus(), userDeleted);
+				throw new PropagationFailedException(applicationMessages.getString("deleteUser.propagation.failure"));
+			}
+
+		} catch (Exception e) {
+
+			LOG.error("Konnte delete-event nicht propagieren: {} - {}", event, e.getMessage(), e);
+			throw new PropagationFailedException(applicationMessages.getString("deleteUser.propagation.failure"));
+		} finally {
+
+			if (mkGatewayResponse != null) {
+
+				mkGatewayResponse.close();
+			}
+		}
+	}
+
+	private void propagateUserChanged(final ProfilEvent event) {
+
+		Response mkGatewayResponse = null;
+
+		try {
+
+			String syncToken = getSyncToken(event);
+
+			if (syncToken == null) {
+
+				LOG.error("Datensynchronisation hat keine Freigabe: syncToken ist null");
+				throw new PropagationFailedException(applicationMessages.getString("changeUser.propagation.failure"));
+			}
+
+			UserChanged userChanged = (UserChanged) event;
+
+			ChangeUserCommand command = new ChangeUserCommand(syncToken, userChanged);
+
+			mkGatewayResponse = mkGateway.propagateUserChanged(command);
+
+			if (mkGatewayResponse.getStatus() != 200) {
+
+				LOG.error("Status {} vom mk-gateway beim senden des Events {} ", mkGatewayResponse.getStatus(), userChanged);
+				throw new PropagationFailedException(applicationMessages.getString("changeUser.propagation.failure"));
+			}
+
+		} catch (Exception e) {
+
+			LOG.error("Konnte change-event nicht propagieren: {} - {}", event, e.getMessage(), e);
+			throw new PropagationFailedException(applicationMessages.getString("changeUser.propagation.failure"));
+		} finally {
+
+			if (mkGatewayResponse != null) {
+
+				mkGatewayResponse.close();
 			}
 		}
 	}
@@ -170,33 +213,19 @@ public class ProfilEventHandler {
 
 			if (messagePayload.isOk()) {
 
-				try {
+				@SuppressWarnings("unchecked")
+				Map<String, Object> data = (Map<String, Object>) responsePayload.getData();
 
-					@SuppressWarnings("unchecked")
-					Map<String, Object> data = (Map<String, Object>) responsePayload.getData();
+				HandshakeAck ack = HandshakeAck.fromResponse(data);
 
-					HandshakeAck ack = HandshakeAck.fromResponse(data);
+				if (!nonce.equals(ack.nonce())) {
 
-					if (!nonce.equals(ack.nonce())) {
-
-						LOG.error("Nonce wurde geändert");
-						return null;
-					}
-
-					return ack.syncToken();
-
-				} catch (ClassCastException e) {
-
-					LOG.error(e.getMessage());
-					throw new ProfilserverRuntimeException("Konnte ResponsePayload vom mk-gateway nicht verarbeiten");
+					LOG.error("Nonce wurde geändert");
+					return null;
 				}
 
+				return ack.syncToken();
 			}
-
-			return null;
-		} catch (Exception e) {
-
-			LOG.error("Keine Freigabe fürs Senden des Events {} - {}", event, e.getMessage(), e);
 			return null;
 		} finally {
 
@@ -205,6 +234,11 @@ public class ProfilEventHandler {
 				mkGatewayResponse.close();
 			}
 		}
+	}
+
+	private boolean isSyncInfrastructureAvailable() {
+
+		return Boolean.valueOf(syncInfrastructureAvailable);
 	}
 
 }

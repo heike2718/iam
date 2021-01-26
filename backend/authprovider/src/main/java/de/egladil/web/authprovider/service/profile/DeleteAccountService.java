@@ -77,7 +77,7 @@ public class DeleteAccountService {
 			CreateDefaultMailDatenStrategy mailStrategy = new BenutzerkontoGeloeschtMailStrategie(mailSubject, mailTo,
 				resourceOwner);
 
-			mailService.sendMail(mailStrategy.createEmailDaten());
+			mailService.sendMail(mailStrategy.createEmailDaten(mailSubject));
 
 		} catch (Exception e) {
 

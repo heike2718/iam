@@ -61,7 +61,8 @@ public class AuthproviderEventHandlerTest {
 
 		// Act
 		ResourceOwner resourceOwner = createTestData();
-		UserCreated eventPayload = new UserCreated(resourceOwner);
+		UserCreated eventPayload = new UserCreated(
+			ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner).withNonce("agsdqgi"));
 		DefaultEmailDaten emailDaten = createEmailDaten(MinikaengurukontenMailKontext.USER_CREATED, resourceOwner);
 
 		Mockito.when(mailService.sendMail(emailDaten)).thenReturn(Boolean.TRUE);
@@ -107,6 +108,6 @@ public class AuthproviderEventHandlerTest {
 	private DefaultEmailDaten createEmailDaten(final MinikaengurukontenMailKontext kontext, final ResourceOwner resourceOwner) {
 
 		return new MinikaengurukontenInfoStrategie(
-			ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner), kontext, "DEV").createEmailDaten();
+			ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner), kontext, "DEV").createEmailDaten(kontext.name());
 	}
 }

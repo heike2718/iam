@@ -35,8 +35,10 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.authprovider.domain.Client;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
+import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponse;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
@@ -139,7 +141,9 @@ public class UserResource {
 				throw new SecurityException();
 			}
 
-			ResourceOwner resourceOwner = registrationService.createNewResourceOwner(signUpCredentials, uriInfo);
+			Client client = clientService.findAndCheckClient(signUpCredentials.getClientCredentials());
+
+			ResourceOwner resourceOwner = registrationService.createNewResourceOwner(client, signUpCredentials, uriInfo);
 
 			SignUpLogInResponseData data = authorizationService.createAndStoreAuthorization(resourceOwner,
 				signUpCredentials.getClientCredentials(), signUpCredentials.getNonce());
@@ -155,7 +159,7 @@ public class UserResource {
 			this.resourceOwnerService.deleteResourceOwnerQuietly(signUpCredentials.getEmail());
 			throw new InvalidInputException(
 				ResponsePayload.messageOnly(MessagePayload.error(applicationMessages.getString("email.invalid"))));
-		} catch (URISyntaxException e) {
+		} catch (URISyntaxException | ClientAccessTokenNotFoundException e) {
 
 			LOG.error(e.getMessage());
 			return Response.serverError().build();

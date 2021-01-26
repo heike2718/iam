@@ -65,4 +65,8 @@ public abstract class AbstractAuthproviderEvent implements AuthproviderEvent {
 		}
 	}
 
+	protected void setResourceOwner(final ResourceOwnerEventPayload resourceOwner) {
+
+		this.resourceOwner = resourceOwner;
+	}
 }
