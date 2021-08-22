@@ -97,7 +97,7 @@ public class ClientService {
 	 */
 	public OAuthAccessTokenPayload createClientAccessToken(final OAuthClientCredentials clientCredentials) throws ClientAuthException, PersistenceException {
 
-		LOG.info("Client-ID=" + clientCredentials.getClientId());
+		LOG.debug("Client-ID=" + clientCredentials.getClientId());
 
 		Client client = this.authorizeClient(clientCredentials);
 
@@ -186,7 +186,7 @@ public class ClientService {
 	 */
 	public Client findAndCheckClient(final ClientCredentials clientCredentials) throws ClientAccessTokenNotFoundException, InvalidRedirectUrl {
 
-		LOG.info("{}", clientCredentials);
+		LOG.debug("{}", clientCredentials);
 
 		removeExpiredClientAccessTokens();
 
