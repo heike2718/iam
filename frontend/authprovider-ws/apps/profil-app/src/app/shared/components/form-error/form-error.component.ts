@@ -4,11 +4,11 @@ import { FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 @Component({
 	selector: 'prfl-form-error',
 	template: `
-		<div *ngIf="errorMessages" class="alert alert-danger" aria-describedby="error">
+		<small *ngIf="errorMessages" class="text-danger" aria-describedby="error">
 			<div *ngFor="let errorMessage of errorMessages">
 				{{errorMessage}}
 			</div>
-		</div>`
+		</small>`
 })
 export class FormErrorComponent implements OnInit {
 
@@ -56,7 +56,7 @@ export class FormErrorComponent implements OnInit {
 					case 'maxlength':
 						message = `${this.text} darf maximal ${error.requiredLength} Zeichen enthalten`;
 						break;
-					case 'invalidEMail':
+					case 'invalidEmail':
 						message = `Bitte geben Sie eine gültige E-Mail Adresse an.`;
 						break;
 					case 'emailKnown':

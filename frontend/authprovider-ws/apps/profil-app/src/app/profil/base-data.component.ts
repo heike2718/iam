@@ -7,6 +7,7 @@ import { UserService } from '../services/user.service';
 import { MessagesService, ResponsePayload, LogService } from 'hewi-ng-lib';
 import { RemoteValidatorService } from '../services/remote-validator.service';
 import { map } from 'rxjs/operators';
+import { emailValidator } from '../shared/validation/app.validators';
 
 @Component({
 	selector: 'prfl-base-data',
@@ -65,12 +66,12 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 						loginName: new FormControl('', {
 							validators: [Validators.required, Validators.maxLength(255)],
 							asyncValidators: [this.forbiddenLoginName.bind(this)],
-							updateOn: 'blur'
+							// updateOn: 'blur'
 						}),
 						email: new FormControl('', {
-							validators: [Validators.required, Validators.email],
-							asyncValidators: [this.forbiddenEmail.bind(this)],
-							updateOn: 'blur'
+							validators: [Validators.required, emailValidator],
+							// asyncValidators: [this.forbiddenEmail.bind(this)],
+							// updateOn: 'blur'
 						}),
 						vorname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
 						nachname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
@@ -83,9 +84,9 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 				} else {
 					this.changeDataForm = new FormGroup({
 						email: new FormControl('', {
-							validators: [Validators.required, Validators.email],
-							asyncValidators: [this.forbiddenEmail.bind(this)],
-							updateOn: 'blur'
+							validators: [Validators.required, emailValidator],
+							// asyncValidators: [this.forbiddenEmail.bind(this)],
+							// updateOn: 'blur'
 						}),
 						vorname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
 						nachname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
