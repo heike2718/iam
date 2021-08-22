@@ -55,9 +55,11 @@ public class ClientAccessTokenService {
 		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
 			clientSecret, nonce);
 
+		Response authResponse = null;
+
 		try {
 
-			Response authResponse = initAccessTokenClient.authenticateClient(credentials);
+			authResponse = initAccessTokenClient.authenticateClient(credentials);
 
 			ResponsePayload responsePayload = authResponse.readEntity(ResponsePayload.class);
 
@@ -87,6 +89,11 @@ public class ClientAccessTokenService {
 		} finally {
 
 			credentials.clean();
+
+			if (authResponse != null) {
+
+				authResponse.close();
+			}
 		}
 
 	}
