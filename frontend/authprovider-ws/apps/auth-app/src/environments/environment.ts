@@ -7,7 +7,7 @@ export const environment = {
 	version: '7.2.4',
 	envName: 'dev',
 	apiUrl: 'http://localhost:9000/authprovider',
-    profilUrl: 'http://localhost:4200/profil-app',
+    profilUrl: 'http://localhost:4400/profil-app',
 	assetsUrl: 'auth-app/assets',
 	consoleLogActive: true,
 	serverLogActive: true,
