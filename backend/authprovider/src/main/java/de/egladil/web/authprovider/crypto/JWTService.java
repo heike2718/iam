@@ -24,6 +24,8 @@ import javax.enterprise.context.RequestScoped;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.jwt.Claims;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
@@ -42,6 +44,8 @@ import de.egladil.web.commons_net.time.TimeInterval;
  */
 @RequestScoped
 public class JWTService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(JWTService.class);
 
 	private static final String ISSUER = "heike2718/authprovider";
 
@@ -161,7 +165,10 @@ public class JWTService {
 
 			IOUtils.copy(in, sw, "UTF-8");
 
-			return sw.toString();
+			String result = sw.toString();
+			LOGGER.info("public key = {}", result.substring(0, 30));
+
+			return result;
 		} catch (IOException e) {
 
 			throw new AuthConfigurationException("Lesen des public keys: " + e.getMessage(), e);
@@ -186,6 +193,9 @@ public class JWTService {
 			PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(content);
 
 			final PrivateKey privateKey = factory.generatePrivate(privKeySpec);
+
+			LOGGER.info("private key gelesen");
+
 			return privateKey;
 		} catch (IOException e) {
 
