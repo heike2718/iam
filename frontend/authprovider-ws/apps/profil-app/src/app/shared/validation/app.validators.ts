@@ -1,5 +1,20 @@
 import { AbstractControl, FormGroup, FormControl } from '@angular/forms';
 
+export function emailValidator(control: any): {
+	[key: string]: any
+} {
+	// tslint:disable-next-line:max-line-length
+	const re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/;
+
+	if (!control.value || control.value === '' || re.test(control.value)) {
+		return null;
+	} else {
+		return { invalidEmail: true };
+	}
+}
+
+
+
 export function passwortValidator(control: any): {
 	[key: string]: any
 } {

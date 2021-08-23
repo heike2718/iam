@@ -5,15 +5,17 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>profil-server</artifactId>
-	<version>7.2.4.1</version>
+	<version>7.3.0</version>
 	<packaging>jar</packaging>
 
 
 	<properties>
-		<quarkus.version>1.11.0.Final</quarkus.version>
-		<commons.version>1.6.0</commons.version>
+		<commons.version>1.7.0</commons.version>
+		<quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+		<quarkus.platform.version>2.1.2.Final</quarkus.platform.version>
 		<surefire-plugin.version>2.22.0</surefire-plugin.version>
-		<dependency-check.version>6.0.4</dependency-check.version>
+		<dependency-check.version>6.1.6</dependency-check.version>
 		<maven.compiler.source>1.11</maven.compiler.source>
 		<maven.compiler.target>1.11</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,9 +26,9 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>io.quarkus</groupId>
-				<artifactId>quarkus-bom</artifactId>
-				<version>${quarkus.version}</version>
+				<groupId>${quarkus.platform.group-id}</groupId>
+				<artifactId>${quarkus.platform.artifact-id}</artifactId>
+				<version>${quarkus.platform.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -74,30 +76,42 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-hibernate-orm</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-agroal</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-rest-client</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy-jackson</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-jwt</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-openapi</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-jdbc-mariadb</artifactId>
+		</dependency>
+
 		<!-- Quarkus END -->
 
 		<dependency>
@@ -116,12 +130,13 @@
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
-			<version>3.10.3</version>
+			<version>3.17.0</version>
 		</dependency>
 
 		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-jdbc-mariadb</artifactId>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
 		</dependency>
 
 		<!-- Test START -->
@@ -175,13 +190,18 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>io.quarkus</groupId>
+				<groupId>${quarkus.platform.group-id}</groupId>
 				<artifactId>quarkus-maven-plugin</artifactId>
-				<version>${quarkus.version}</version>
+				<version>${quarkus.platform.version}</version>
+				<extensions>true</extensions>
 				<executions>
 					<execution>
 						<goals>
 							<goal>build</goal>
+							<!--
+							<goal>generate-code</goal>
+							<goal>generate-code-tests</goal>
+							 -->
 						</goals>
 					</execution>
 				</executions>

@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  version: '7.2.4',
+  version: '7.3.0',
   envName: 'a300',
   apiUrl: 'http://a300:9600/profil-api',
   assetsUrl: 'http://a300/profil-app/assets',

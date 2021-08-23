@@ -115,9 +115,9 @@
 			</div>
 
 			<!-- Hier kann man nicht über die ShowErrorComponent gehen, da es keinen formControlName gibt. Daher Fehlermeldung direkt einhängen -->
-			<div *ngIf="signUpForm.hasError('passwortNeuPasswortNeuWdh')" class="alert alert-danger">Die Passw&ouml;rter
+			<small *ngIf="signUpForm.hasError('passwortNeuPasswortNeuWdh')" class="text-danger">Die Passw&ouml;rter
 				stimmen
-				nicht &uuml;berein.</div>
+				nicht &uuml;berein.</small>
 
 			<div class="form-group kleber">
 				<label for="kleberInput">Kleber:</label>

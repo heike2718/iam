@@ -22,20 +22,20 @@ import de.egladil.web.authprovider.event.SyncHandshake;
  * MkGatewayRestClient
  */
 @RegisterRestClient
-@Path("/sync")
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface MkGatewayRestClient {
 
-	@Path("/veranstalter")
+	@Path("sync/veranstalter")
 	@DELETE
 	Response propagateUserDeleted(DeleteUserCommand command);
 
-	@Path("/veranstalter")
+	@Path("sync/veranstalter")
 	@POST
 	Response propagateUserCreated(CreateUserCommand command);
 
-	@Path("/ack")
+	@Path("sync/ack")
 	@POST
 	Response getSyncToken(SyncHandshake handshake);
 }
