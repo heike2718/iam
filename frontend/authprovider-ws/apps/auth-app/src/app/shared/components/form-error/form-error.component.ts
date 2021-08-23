@@ -56,7 +56,7 @@ export class FormErrorComponent implements OnInit {
 					case 'maxlength':
 						message = `${this.text} darf maximal ${error.requiredLength} Zeichen enthalten`;
 						break;
-					case 'invalidEmail':
+					case 'email':
 						message = `Bitte geben Sie eine gültige E-Mail Adresse an.`;
 						break;
 					case 'emailKnown':

@@ -7,7 +7,6 @@ import { UserService } from '../services/user.service';
 import { MessagesService, ResponsePayload, LogService } from 'hewi-ng-lib';
 import { RemoteValidatorService } from '../services/remote-validator.service';
 import { map } from 'rxjs/operators';
-import { emailValidator } from '../shared/validation/app.validators';
 
 @Component({
 	selector: 'prfl-base-data',
@@ -69,7 +68,7 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 							// updateOn: 'blur'
 						}),
 						email: new FormControl('', {
-							validators: [Validators.required, emailValidator],
+							validators: [Validators.required, Validators.email],
 							// asyncValidators: [this.forbiddenEmail.bind(this)],
 							// updateOn: 'blur'
 						}),
@@ -84,7 +83,7 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 				} else {
 					this.changeDataForm = new FormGroup({
 						email: new FormControl('', {
-							validators: [Validators.required, emailValidator],
+							validators: [Validators.required, Validators.email],
 							// asyncValidators: [this.forbiddenEmail.bind(this)],
 							// updateOn: 'blur'
 						}),
