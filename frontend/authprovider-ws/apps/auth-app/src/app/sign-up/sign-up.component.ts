@@ -159,6 +159,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	toggleInfoPasswort() {
+		this.infoPasswortExpanded = !this.infoPasswortExpanded;
+	}
+
 	private loadClientInformation() {
 
 		this.redirectSubscription = this.route.queryParams.pipe(

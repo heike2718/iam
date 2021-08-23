@@ -97,7 +97,8 @@ public class ClientResource {
 	 */
 	@POST
 	@Path("/client/accesstoken")
-	public JsonObject authenticateClientWithJsonObkect(final OAuthClientCredentials clientCredentials) {
+	@Deprecated
+	public JsonObject authenticateClientWithJsonObject(final OAuthClientCredentials clientCredentials) {
 
 		try {
 
