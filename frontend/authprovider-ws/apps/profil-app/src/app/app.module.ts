@@ -35,7 +35,7 @@ import { AboutComponent } from './about/about.component';
 	],
 	imports: [
 		BrowserModule,
-		RouterModule.forRoot(routerConfig, { useHash: true }),
+		RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),
 		HttpClientModule,
 		FormsModule,
 		ReactiveFormsModule,

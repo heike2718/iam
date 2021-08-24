@@ -34,7 +34,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
-		RouterModule.forRoot(routerConfig, { useHash: true }),
+		RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),
 		FormsModule,
 		HttpClientModule,
 		NgbModule,
