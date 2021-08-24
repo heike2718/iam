@@ -1,5 +1,14 @@
 # authprovider Release Notes
 
+__Release 7.3.0__:
+
+* [Frontend Fehlermeldung Email leer](https://github.com/heike2718/authenticationprovider/issues/11)
+* [Profilserver Http-Client connextion leak](https://github.com/heike2718/authenticationprovider/issues/26)
+* [red border for delete account](https://github.com/heike2718/authenticationprovider/issues/4)
+* [Version server anzeigen](https://github.com/heike2718/authenticationprovider/issues/2)
+* [Info toggle Passwortregeln funktioniert nicht](https://github.com/heike2718/authenticationprovider/issues/35)
+* [Neue Quarkus- und Angular-Versionen](https://github.com/heike2718/authenticationprovider/issues/36)
+
 __Release 7.2.3__:
 
 * [Einmalpasswort ändern- Seite: Link auf Passwort-vergessen-Dokumentation](https://github.com/heike2718/authenticationprovider/issues/29)
