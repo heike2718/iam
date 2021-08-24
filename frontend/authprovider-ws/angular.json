@@ -130,8 +130,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-			         "browserTarget": "auth-app:build",
-			         "port": 4300
+            "browserTarget": "auth-app:build",
+            "port": 4300
           },
           "configurations": {
             "production": {
@@ -159,9 +159,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/auth-app/jest.config.js",
-            "tsConfig": "apps/auth-app/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/auth-app/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       }
@@ -212,12 +210,12 @@
               "apps/profil-app/src/assets/favicon.ico",
               "apps/profil-app/src/assets"
             ],
-             "styles": [
+            "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/font-awesome/css/font-awesome.min.css",
               "apps/auth-app/src/styles.css"
             ],
-           "scripts": [],
+            "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -295,7 +293,6 @@
                 }
               ]
             }
-
           },
           "defaultConfiguration": ""
         },
@@ -331,9 +328,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/profil-app/jest.config.js",
-            "tsConfig": "apps/profil-app/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/profil-app/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       }
