@@ -18,6 +18,8 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.AuthProviderApp;
 import de.egladil.web.authprovider.domain.AuthSession;
@@ -36,6 +38,8 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
 @Produces(MediaType.APPLICATION_JSON)
 public class AnonymousSessionResource {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(AnonymousSessionResource.class);
+
 	@ConfigProperty(name = "stage")
 	String stage;
 
@@ -46,6 +50,11 @@ public class AnonymousSessionResource {
 	public Response createSession() {
 
 		AuthSession session = sessionService.createAnonymousSession();
+
+		if (AuthProviderApp.STAGE_DEV.equals(stage)) {
+
+			LOGGER.info("sessionId={}", session.getSessionId());
+		}
 
 		NewCookie sessionCookie = sessionService.createSessionCookie(session.getSessionId());
 
