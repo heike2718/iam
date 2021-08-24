@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
@@ -156,7 +157,7 @@ public class AuthproviderEventHandler {
 
 			if (!isSyncInfrastructureAvailable()) {
 
-				LOG.info("Infrastruktur nicht verfuegbar: Löschen von {} wird nicht propagiert", resourceOwner);
+				LOG.warn("Infrastruktur nicht verfuegbar: Löschen von {} wird nicht propagiert", resourceOwner);
 
 				return;
 			}
@@ -219,12 +220,12 @@ public class AuthproviderEventHandler {
 
 			if (!isSyncInfrastructureAvailable()) {
 
-				LOG.info("Infrastruktur nicht verfuegbar: Anlegen von {} wird nicht propagiert", resourceOwner);
+				LOG.warn("Infrastruktur nicht verfuegbar: Anlegen von {} wird nicht propagiert", resourceOwner);
 
 				return;
 			}
 
-			LOG.debug("sende UserCreated für {} an mk-gateway", resourceOwner);
+			LOG.info("sende UserCreated für {} an mk-gateway", resourceOwner);
 
 			String syncToken = getSyncToken(resourceOwner.getUuid());
 
@@ -262,6 +263,19 @@ public class AuthproviderEventHandler {
 				throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
 			}
 
+		} catch (PropagationFailedException e) {
+
+			throw e;
+		} catch (WebApplicationException e) {
+
+			Response exceptionResponse = e.getResponse();
+			LOG.error("WebApplicationException beim Propagieren des CreateUserEvents: status={} - {}",
+				exceptionResponse.getStatus(), e.getMessage(), e);
+
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
+
+			throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
+
 		} catch (Exception e) {
 
 			LOG.error("Konnte create-event nicht propagieren: {} - {}", command, e.getMessage(), e);
@@ -287,15 +301,21 @@ public class AuthproviderEventHandler {
 
 		SyncHandshake handshake = new SyncHandshake(mkvAppClientId, nonce);
 
+		LOG.debug("mkvAppClientId={}", mkvAppClientId);
+
 		Response mkGatewayResponse = null;
 
 		try {
 
 			mkGatewayResponse = mkGateway.getSyncToken(handshake);
 
+			LOG.debug("mkGatewayResponse.status={}", mkGatewayResponse.getStatus());
+
 			ResponsePayload responsePayload = mkGatewayResponse.readEntity(ResponsePayload.class);
 
 			MessagePayload messagePayload = responsePayload.getMessage();
+
+			LOG.debug("Result={}", messagePayload.toString());
 
 			if (messagePayload.isOk()) {
 

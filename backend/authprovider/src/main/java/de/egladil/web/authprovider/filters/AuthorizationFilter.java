@@ -84,6 +84,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 				if (sessionId != null) {
 
+					if (AuthProviderApp.STAGE_DEV.equals(configService.getStage())) {
+
+						LOG.info("path={}, sessionId={}", path, sessionId);
+					}
+
 					AuthSession userSession = sessionService.getSession(sessionId);
 
 					if (userSession == null) {

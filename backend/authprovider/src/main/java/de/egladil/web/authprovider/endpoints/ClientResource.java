@@ -21,10 +21,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.api.ClientInformation;
+import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.error.ClientAccessTokenRuntimeException;
@@ -95,7 +97,8 @@ public class ClientResource {
 	 */
 	@POST
 	@Path("/client/accesstoken")
-	public JsonObject authenticateClient(final OAuthClientCredentials clientCredentials) {
+	@Deprecated
+	public JsonObject authenticateClientWithJsonObject(final OAuthClientCredentials clientCredentials) {
 
 		try {
 
@@ -141,6 +144,40 @@ public class ClientResource {
 				.add("message", applicationMessages.getString("general.internalServerError"))
 				.build();
 			return Json.createObjectBuilder().add("message", message).build();
+		}
+	}
+
+	/**
+	 * Authentisiert den Client und erzeugt ein OAuthAccessTokenPayload, welches ein Client-AccessToken enthält.
+	 *
+	 * @param  clientCredentials
+	 * @return                   Response mit OAuthAccessTokenPayload-Data
+	 */
+	@POST
+	@Path("/client/accesstoken/responsepayload")
+	public Response authenticateClient(final OAuthClientCredentials clientCredentials) {
+
+		try {
+
+			validationDelegate.check(clientCredentials, OAuthClientCredentials.class);
+
+			OAuthAccessTokenPayload payload = clientService.createClientAccessToken(clientCredentials);
+
+			if (clientCredentials.getNonce() != null) {
+
+				payload.setNonce(clientCredentials.getNonce());
+			}
+
+			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.ok(), payload);
+
+			return Response.ok(responsePayload).build();
+		} catch (InvalidInputException e) {
+
+			throw new InvalidInputException(ResponsePayload.messageOnly(MessagePayload.error("ungültige eingaben")));
+		} catch (ClientAccessTokenRuntimeException e) {
+
+			throw new AuthException(
+				"Der Client mit ID=" + StringUtils.abbreviate(clientCredentials.getClientId(), 15) + " hat keine Berechtigung");
 		}
 	}
 }

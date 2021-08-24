@@ -16,7 +16,6 @@
             "main": "apps/auth-app/src/main.ts",
             "polyfills": "apps/auth-app/src/polyfills.ts",
             "tsConfig": "apps/auth-app/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "apps/auth-app/src/assets/favicon.ico",
               "apps/auth-app/src/assets"
@@ -26,7 +25,13 @@
               "./node_modules/font-awesome/css/font-awesome.min.css",
               "apps/auth-app/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -39,7 +44,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -67,9 +71,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -90,9 +92,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -113,26 +113,25 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
+                  "with": "src/environments/environment.ts"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-			"browserTarget": "auth-app:build",
-			"port": 4300
+            "browserTarget": "auth-app:build",
+            "port": 4300
           },
           "configurations": {
             "production": {
@@ -160,9 +159,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/auth-app/jest.config.js",
-            "tsConfig": "apps/auth-app/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/auth-app/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       }
@@ -209,17 +206,22 @@
             "main": "apps/profil-app/src/main.ts",
             "polyfills": "apps/profil-app/src/polyfills.ts",
             "tsConfig": "apps/profil-app/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "apps/profil-app/src/assets/favicon.ico",
               "apps/profil-app/src/assets"
             ],
-             "styles": [
+            "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/font-awesome/css/font-awesome.min.css",
               "apps/auth-app/src/styles.css"
             ],
-           "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -232,7 +234,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -260,9 +261,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -272,7 +271,7 @@
                   "with": "build-env/profil-app/environment-a300.ts"
                 }
               ]
-			},
+            },
             "qs": {
               "budgets": [
                 {
@@ -283,9 +282,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -296,13 +293,14 @@
                 }
               ]
             }
-
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "profil-app:build"
+            "browserTarget": "profil-app:build",
+            "port": 4400
           },
           "configurations": {
             "production": {
@@ -330,9 +328,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/profil-app/jest.config.js",
-            "tsConfig": "apps/profil-app/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/profil-app/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       }

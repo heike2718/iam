@@ -17,4 +17,6 @@ public class AuthProviderApp extends Application {
 	public static final String CLIENT_COOKIE_PREFIX = "AUTH";
 
 	public static final String STAGE_DEV = "dev";
+
+	public static final String STAGE_PROD = "prod";
 }

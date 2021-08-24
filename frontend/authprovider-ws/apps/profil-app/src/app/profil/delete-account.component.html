@@ -31,7 +31,7 @@
 
 <div class="page">
 
-	<div *ngIf="user$ | async as user else loadingIdicator">
+	<div class="border border-danger p-4" *ngIf="user$ | async as user else loadingIdicator">
 
 
 		<h3>Benutzerkonto Löschen</h3>

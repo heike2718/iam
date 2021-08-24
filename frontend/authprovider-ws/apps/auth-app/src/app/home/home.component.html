@@ -1,6 +1,7 @@
 <div class="page">
 	<p>Zum Ändern Ihrer Kontodaten (Name, Vorname, Loginname, Email, Passwort) oder zum Löschen Ihres Minikänguru-Kontos
 		klicken Sie bitte auf "Kontodaten ändern".</p>
+	<p *ngIf="modusDev">Profil-App: {{profilAppUrl}}</p>
 	<div class="row">
 		<div class="col-sm-12 col-md-3 col-lg-2 btn-wrapper">
 			<button class="col-md-12 btn btn-primary" (click)="redirectToProfilApp()">

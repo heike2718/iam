@@ -4,7 +4,7 @@
 
 export const environment = {
 	production: false,
-	version: '7.2.4',
+	version: '7.3.0',
 	envName: 'Test',
 	apiUrl: 'http://192.168.10.176:9000/authprovider',
 	profilUrl: 'http://192.168.10.176/profil-app',
@@ -21,4 +21,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

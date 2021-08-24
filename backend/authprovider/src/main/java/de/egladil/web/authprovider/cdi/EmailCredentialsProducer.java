@@ -30,22 +30,22 @@ public class EmailCredentialsProducer {
 
 	private Map<String, String> mailCredentials = new HashMap<>();
 
-	@ConfigProperty(name = "common.email.credentials.source.file", defaultValue = "false")
+	@ConfigProperty(name = "email.credentials.source.file", defaultValue = "false")
 	boolean readCredentialsFromFile;
 
-	@ConfigProperty(name = "common.email.credentials.path", defaultValue = "null")
+	@ConfigProperty(name = "email.credentials.path")
 	String credentialsPath;
 
-	@ConfigProperty(name = "common.email.host")
+	@ConfigProperty(name = "email.host")
 	String host;
 
-	@ConfigProperty(name = "common.email.port")
+	@ConfigProperty(name = "email.port")
 	int port;
 
-	@ConfigProperty(name = "common.email.user")
+	@ConfigProperty(name = "email.user")
 	String user;
 
-	@ConfigProperty(name = "common.email.password")
+	@ConfigProperty(name = "email.password")
 	String password;
 
 	public static EmailCredentialsProducer createForTest(final String credentialsPath) {

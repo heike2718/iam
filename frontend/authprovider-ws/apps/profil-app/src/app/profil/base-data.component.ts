@@ -65,12 +65,12 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 						loginName: new FormControl('', {
 							validators: [Validators.required, Validators.maxLength(255)],
 							asyncValidators: [this.forbiddenLoginName.bind(this)],
-							updateOn: 'blur'
+							// updateOn: 'blur'
 						}),
 						email: new FormControl('', {
 							validators: [Validators.required, Validators.email],
-							asyncValidators: [this.forbiddenEmail.bind(this)],
-							updateOn: 'blur'
+							// asyncValidators: [this.forbiddenEmail.bind(this)],
+							// updateOn: 'blur'
 						}),
 						vorname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
 						nachname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
@@ -84,8 +84,8 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 					this.changeDataForm = new FormGroup({
 						email: new FormControl('', {
 							validators: [Validators.required, Validators.email],
-							asyncValidators: [this.forbiddenEmail.bind(this)],
-							updateOn: 'blur'
+							// asyncValidators: [this.forbiddenEmail.bind(this)],
+							// updateOn: 'blur'
 						}),
 						vorname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),
 						nachname: new FormControl('', { validators: [Validators.required, Validators.maxLength(100)] }),

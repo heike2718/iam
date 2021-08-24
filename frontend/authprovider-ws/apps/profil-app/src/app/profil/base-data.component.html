@@ -62,13 +62,6 @@
 				<prfl-form-error path="email" text="Email"></prfl-form-error>
 			</div>
 
-
-			<!-- Hier kann man nicht über die ShowErrorComponent gehen, da es keinen formControlName gibt. Daher Fehlermeldung direkt einhängen -->
-			<div *ngIf="changeDataForm.hasError('passwortNeuPasswortNeuWdh')" class="alert alert-danger">Die
-				Passw&ouml;rter
-				stimmen
-				nicht &uuml;berein.</div>
-
 			<div class="row">
 				<div class="col-sm-12 col-md-4 btn-wrapper">
 					<button class="col-md-12 btn btn-primary" (click)="submit()"
