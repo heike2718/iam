@@ -16,7 +16,6 @@
             "main": "apps/auth-app/src/main.ts",
             "polyfills": "apps/auth-app/src/polyfills.ts",
             "tsConfig": "apps/auth-app/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "apps/auth-app/src/assets/favicon.ico",
               "apps/auth-app/src/assets"
@@ -26,7 +25,13 @@
               "./node_modules/font-awesome/css/font-awesome.min.css",
               "apps/auth-app/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -67,7 +72,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -89,7 +93,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -111,7 +114,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -122,7 +124,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -205,7 +208,6 @@
             "main": "apps/profil-app/src/main.ts",
             "polyfills": "apps/profil-app/src/polyfills.ts",
             "tsConfig": "apps/profil-app/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "apps/profil-app/src/assets/favicon.ico",
               "apps/profil-app/src/assets"
@@ -215,7 +217,13 @@
               "./node_modules/font-awesome/css/font-awesome.min.css",
               "apps/auth-app/src/styles.css"
             ],
-           "scripts": []
+           "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -256,7 +264,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -278,7 +285,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -290,7 +296,8 @@
               ]
             }
 
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
