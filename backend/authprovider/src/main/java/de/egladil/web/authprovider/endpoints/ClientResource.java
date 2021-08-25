@@ -10,8 +10,6 @@ import java.util.ResourceBundle;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,7 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.api.ClientInformation;
 import de.egladil.web.authprovider.error.AuthException;
-import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.error.ClientAccessTokenRuntimeException;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
@@ -97,64 +94,6 @@ public class ClientResource {
 	 */
 	@POST
 	@Path("/client/accesstoken")
-	@Deprecated
-	public JsonObject authenticateClientWithJsonObject(final OAuthClientCredentials clientCredentials) {
-
-		try {
-
-			validationDelegate.check(clientCredentials, OAuthClientCredentials.class);
-
-			OAuthAccessTokenPayload payload = clientService.createClientAccessToken(clientCredentials);
-
-			// {"message":{"level":"INFO","message":"OK"},"data":{"accessToken":"1592c584643346a0a163607a5d8fc9ec","expiresAt":1563087362150,
-			// "nonce":"aiugdisg"}}
-			JsonObject data = null;
-
-			if (clientCredentials.getNonce() != null) {
-
-				data = Json.createObjectBuilder().add("accessToken", payload.getAccessToken())
-					.add("expiresAt", payload.getExpiresAt())
-					.add("nonce", clientCredentials.getNonce())
-					.build();
-			} else {
-
-				data = Json.createObjectBuilder().add("accessToken", payload.getAccessToken())
-					.add("expiresAt", payload.getExpiresAt())
-					.build();
-			}
-
-			JsonObject message = Json.createObjectBuilder().add("level", "INFO").add("message", "OK").build();
-
-			JsonObject result = Json.createObjectBuilder().add("message", message).add("data", data).build();
-
-			return result;
-		} catch (InvalidInputException e) {
-
-			JsonObject message = Json.createObjectBuilder().add("level", "ERROR").add("message", "ungültige Eingaben").build();
-			return Json.createObjectBuilder().add("message", message).build();
-		} catch (ClientAccessTokenRuntimeException e) {
-
-			JsonObject message = Json.createObjectBuilder().add("level", "ERROR").add("message", "Client hat keine Berechtigung")
-				.build();
-			return Json.createObjectBuilder().add("message", message).build();
-		} catch (AuthRuntimeException e) {
-
-			LOG.error(e.getMessage(), e);
-			JsonObject message = Json.createObjectBuilder().add("level", "ERROR")
-				.add("message", applicationMessages.getString("general.internalServerError"))
-				.build();
-			return Json.createObjectBuilder().add("message", message).build();
-		}
-	}
-
-	/**
-	 * Authentisiert den Client und erzeugt ein OAuthAccessTokenPayload, welches ein Client-AccessToken enthält.
-	 *
-	 * @param  clientCredentials
-	 * @return                   Response mit OAuthAccessTokenPayload-Data
-	 */
-	@POST
-	@Path("/client/accesstoken/responsepayload")
 	public Response authenticateClient(final OAuthClientCredentials clientCredentials) {
 
 		try {
