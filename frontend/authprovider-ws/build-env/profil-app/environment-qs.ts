@@ -7,9 +7,9 @@ export const environment = {
   production: false,
   version: '7.3.0',
   envName: 'Test',
-  apiUrl: 'http://192.168.10.176:9600/profil-api',
+  apiUrl: 'http://heikedeb:9600/profil-api',
   assetsUrl: 'profil-app/assets',
-  loginRedirectUrl: 'http://192.168.10.176/profil-app',
+  loginRedirectUrl: 'http://heikedeb/profil-app',
   consoleLogActive: true,
   serverLogActive: true,
   loglevel: 1
