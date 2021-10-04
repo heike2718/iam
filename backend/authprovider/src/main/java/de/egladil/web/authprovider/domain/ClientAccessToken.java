@@ -51,7 +51,7 @@ public class ClientAccessToken implements Serializable {
 	public String toString() {
 
 		return "ClientAccessToken [accessToken=" + StringUtils.abbreviate(accessToken, 11) + ", clientId="
-			+ StringUtils.abbreviate(clientId, 11) + "]";
+			+ StringUtils.abbreviate(clientId, 11) + ", expiresAt=" + accessTokenExpiresAt.getTime() + "]";
 	}
 
 	public String getClientId() {
