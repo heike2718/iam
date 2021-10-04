@@ -97,7 +97,7 @@ public class ClientService {
 	 */
 	public OAuthAccessTokenPayload createClientAccessToken(final OAuthClientCredentials clientCredentials) throws ClientAuthException, PersistenceException {
 
-		LOG.debug("Client-ID=" + clientCredentials.getClientId());
+		LOG.debug("OAuthClientCredentials.clientId=" + clientCredentials.getClientId());
 
 		Client client = this.authorizeClient(clientCredentials);
 
@@ -118,6 +118,8 @@ public class ClientService {
 		}
 
 		authCryptoService.verifyClientSecret(clientCredentials.getClientSecret().toCharArray(), client);
+
+		LOG.debug("Client {} erfolgreich authentifiziert", StringUtils.abbreviate(clientCredentials.getClientId(), 11));
 
 		return client;
 	}
@@ -196,7 +198,8 @@ public class ClientService {
 
 		if (clientAccessToken == null) {
 
-			String msg = "Kein ClientAccessToken mit ID='" + accessTokenId + "' vorhanden";
+			String msg = "Kein ClientAccessToken mit ID='" + accessTokenId
+				+ "' vorhanden. Sehr wahrscheinlich stimmt die Konfiguration des IniAccessTokenClients in der application.properties der aufrufenden Anwendung nicht. (className, url?)";
 			LOG.error(msg);
 			throw new SessionExpiredException("Das ClientAccessToken ist abgelaufen. Bitte aktualisieren Sie Ihren Browser.");
 		}

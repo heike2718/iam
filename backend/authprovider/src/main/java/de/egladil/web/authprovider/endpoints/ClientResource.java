@@ -5,9 +5,6 @@
 
 package de.egladil.web.authprovider.endpoints;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -53,8 +50,6 @@ public class ClientResource {
 	ClientService clientService;
 
 	private final ValidationDelegate validationDelegate = new ValidationDelegate();
-
-	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
 	@GET
 	// @formatter:off
