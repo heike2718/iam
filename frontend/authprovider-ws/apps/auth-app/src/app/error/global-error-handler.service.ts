@@ -1,9 +1,9 @@
 import { Injectable, ErrorHandler, Injector } from '@angular/core';
-// import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { LogService, MessagesService } from 'hewi-ng-lib';
 import { LogPublishersService } from '../logger/log-publishers.service';
 import { environment } from '../../environments/environment';
+import { LogService } from '@authprovider-ws/common-logging';
+import { MessageService } from '@authprovider-ws/common-messages';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -38,7 +38,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 			this.logService.error('Unerwarteter Fehler: ' + error.message);
 		}
 
-		this.injector.get(MessagesService).error(message);
+		this.injector.get(MessageService).error(message);
 
 		// const router = this.injector.get(Router);
 		// router.navigateByUrl('/error');

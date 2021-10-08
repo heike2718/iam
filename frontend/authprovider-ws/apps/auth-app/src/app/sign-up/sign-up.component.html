@@ -9,7 +9,8 @@
 			<div class="form-check">
 				<div class="row">
 					<div class="col-md-12">
-						<input type="checkbox" class="form-check-input" id="agbCheck" formControlName="agbGelesen">
+						<cmn-switch id="agbCheck" formControlName="agbGelesen"></cmn-switch>
+						<!--<input type="checkbox" class="form-check-input" id="agbCheck" formControlName="agbGelesen">-->
 						<label [class.error]="agbGelesen.touched && !agbGelesen.valid">*Ich habe die Datenschutzerkl&auml;rung
 							gelesen und willige ein.
 						</label>
@@ -32,7 +33,7 @@
 							autocomplete="true">
 					</div>
 				</div>
-				<auth-form-error path="vorname" text="Vorname"></auth-form-error>
+				<cmn-form-error path="vorname" text="Vorname"></cmn-form-error>
 			</div>
 			<div *ngIf="clientInfo.namenRequired" class="form-group">
 				<div class="row">
@@ -46,7 +47,7 @@
 							autocomplete="true">
 					</div>
 				</div>
-				<auth-form-error path="nachname" text="Nachname"></auth-form-error>
+				<cmn-form-error path="nachname" text="Nachname"></cmn-form-error>
 			</div>
 			<div *ngIf="clientInfo.loginnameSupported" class="form-group">
 				<div class="row">
@@ -60,7 +61,7 @@
 							formControlName="loginName" autocomplete="true">
 					</div>
 				</div>
-				<auth-form-error path="loginName" text="Loginname"></auth-form-error>
+				<cmn-form-error path="loginName" text="Loginname"></cmn-form-error>
 			</div>
 
 			<div class="form-group">
@@ -75,7 +76,7 @@
 							autocomplete="true">
 					</div>
 				</div>
-				<auth-form-error path="email" text="Email"></auth-form-error>
+				<cmn-form-error path="email" text="Email"></cmn-form-error>
 			</div>
 
 			<div class="form-group">
@@ -96,7 +97,7 @@
 						</button>
 					</div>
 				</div>
-				<auth-form-error path="passwort" text="Passwort"></auth-form-error>
+				<cmn-form-error path="passwort" text="Passwort"></cmn-form-error>
 				<div *ngIf="infoPasswortExpanded" class="row mt-3 ml-1 mr-1 mb-3">
 					<div class="col-10">
 						<small class="text-primary">{{tooltipPasswort}}</small>
@@ -122,7 +123,7 @@
 							formControlName="passwortWdh" autocomplete="false">
 					</div>
 				</div>
-				<auth-form-error path="passwortWdh" text="Passwort wiederholt"></auth-form-error>
+				<cmn-form-error path="passwortWdh" text="Passwort wiederholt"></cmn-form-error>
 			</div>
 
 			<!-- Hier kann man nicht über die ShowErrorComponent gehen, da es keinen formControlName gibt. Daher Fehlermeldung direkt einhängen -->

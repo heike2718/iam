@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
-import { passwortValidator, passwortPasswortWiederholtValidator } from '../shared/validation/app.validators';
+import { passwortValidator, passwortPasswortWiederholtValidator } from '@authprovider-ws/common-components';
 import { AppConstants } from '../shared/app.constants';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -10,11 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
 import { AppData } from '../shared/app-data.service';
-import { MessagesService, LogService, ResponsePayload } from 'hewi-ng-lib';
+import { MessageService,  ResponsePayload } from '@authprovider-ws/common-messages';
 import { SessionService } from '../services/session.service';
 import { AuthService } from '../services/auth.service';
 import { HttpErrorService } from '../error/http-error.service';
 import { SignupValidationService } from '../services/signup-valitadion.service';
+import { LogService } from '@authprovider-ws/common-logging';
 
 @Component({
 	selector: 'auth-sign-up',
@@ -75,7 +76,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		private validationService: SignupValidationService,
 		private appData: AppData,
 		private httpErrorService: HttpErrorService,
-		private messagesService: MessagesService,
+		private messageService: MessageService,
 		private logger: LogService,
 		private route: ActivatedRoute) { }
 
@@ -191,7 +192,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 	submitUser(): void {
 		this.logger.debug('about to submit ' + this.signUpForm.value);
 
-		this.messagesService.clear();
+		this.messageService.clear();
 
 		const twoPasswords: TwoPasswords = {
 			passwort: this.passwort.value,

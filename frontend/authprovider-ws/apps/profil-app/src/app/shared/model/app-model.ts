@@ -6,6 +6,12 @@ export const STORAGE_KEY_DEV_SESSION_ID = 'prf_dev_session_id';
 export type AccountAction = 'change data' | 'change password' | 'delete account';
 
 
+export interface AuthResult {
+	expiresAt?: number;
+	state?: string;
+	nonce?: string;
+	idToken?: string;
+}
 
 export interface UserSession {
 	sessionId?: string;

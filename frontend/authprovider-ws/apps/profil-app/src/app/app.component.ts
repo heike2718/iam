@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
-import { JWTService } from 'hewi-ng-lib';
 import { environment } from '../environments/environment';
 import { store } from './shared/store/app-data';
 
@@ -19,8 +18,7 @@ export class AppComponent implements OnInit {
 	api = environment.apiUrl;
 	logo = environment.assetsUrl + '/mja_logo.png';
 
-	constructor(private jwtService: JWTService
-		, private authService: AuthService
+	constructor(private authService: AuthService
 		) { }
 
 	ngOnInit() {
@@ -31,7 +29,7 @@ export class AppComponent implements OnInit {
 		// Daher hier redirect-URL parsen
 		const hash = window.location.hash;
 		if (hash && hash.indexOf('idToken') > 0) {
-			const authResult = this.jwtService.parseHash(hash);
+			const authResult = this.authService.parseHash(hash);
 			this.authService.createSession(authResult);
 		}
 	}

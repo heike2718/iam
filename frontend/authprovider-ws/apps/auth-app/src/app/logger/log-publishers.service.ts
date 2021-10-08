@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { LogPublisher, LogConsole, LogWebApi } from 'hewi-ng-lib';
+import { LogPublisher, LogConsole, LogWebApi } from '@authprovider-ws/common-logging';
 
 
 @Injectable({

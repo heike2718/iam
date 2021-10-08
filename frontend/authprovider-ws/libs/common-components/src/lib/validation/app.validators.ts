@@ -1,18 +1,23 @@
-import { AbstractControl, FormGroup, FormControl, AsyncValidatorFn } from '@angular/forms';
-import { Subject, Observable, Observer } from 'rxjs';
+import { AbstractControl, FormGroup, FormControl } from '@angular/forms';
 
-export function emailValidator(control: any): {
+export function emailValidator(control: AbstractControl): {
 	[key: string]: any
-} {
-	// tslint:disable-next-line:max-line-length
-	const re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/;
+} | null {
 
-	if (!control.value || control.value === '' || re.test(control.value)) {
+	const theValue: string = extractTheValueAsString(control);
+
+	if (theValue === '') {
+		return null;
+	}
+
+	const re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/;
+	if (re.test(theValue)) {
 		return null;
 	} else {
-		return { invalidEmail: true };
+		return { 'invalidEMail': true };
 	}
-}
+
+};
 
 export function passwortValidator(control: any): {
 	[key: string]: any
@@ -73,7 +78,27 @@ export function validateAllFormFields(formGroup: FormGroup): void {
 		if (control instanceof FormControl) {
 			control.markAsTouched({ onlySelf: true });
 		} else if (control instanceof FormGroup) {
-			this.validateAllFormFields(control);
+			validateAllFormFields(control);
 		}
 	});
+};
+
+
+
+// =============================  private functions =========================
+
+function extractTheValueAsString(control: AbstractControl): string {
+
+
+	if (control) {
+		if (control.value) {
+			if (control.value.value) {
+				return control.value.value;
+			} else {
+				return control.value;
+			}
+		}
+	}
+
+	return '';
 }

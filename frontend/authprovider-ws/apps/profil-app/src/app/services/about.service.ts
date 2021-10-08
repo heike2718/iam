@@ -2,8 +2,8 @@ import { store } from '../shared/store/app-data';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { ResponsePayload } from 'hewi-ng-lib';
 import { map } from 'rxjs/operators';
+import { ResponsePayload } from '@authprovider-ws/common-messages';
 
 @Injectable({
 	providedIn: 'root'

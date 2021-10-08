@@ -1,9 +1,10 @@
 import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { LogService, MessagesService } from 'hewi-ng-lib';
 import { LogPublishersService } from '../logger/log-publishers.service';
 import { environment } from '../../environments/environment';
 import { STORAGE_KEY_ID_REFERENCE } from '../shared/model/app-model';
+import { LogService } from '@authprovider-ws/common-logging';
+import { MessageService } from '@authprovider-ws/common-messages';
 
 @Injectable({
 	providedIn: 'root'
@@ -46,6 +47,6 @@ export class GlobalErrorHandlerService implements ErrorHandler {
 			this.logService.error('Unerwarteter Fehler: ' + error.message + ' (idRef=' + idReference + ')');
 		}
 
-		this.injector.get(MessagesService).error(message);
+		this.injector.get(MessageService).error(message);
 	}
 }

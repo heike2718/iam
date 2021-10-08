@@ -15,7 +15,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@authprovider-ws/common-messages": ["libs/common-messages/src/index.ts"],
+      "@authprovider-ws/common-logging": ["libs/common-logging/src/index.ts"],
+      "@authprovider-ws/common-components": ["libs/common-components/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

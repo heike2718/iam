@@ -5,7 +5,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>authprovider</artifactId>
-	<version>7.3.0.1</version>
+	<version>7.3.1</version>
 	<packaging>jar</packaging>
 
 	<name>authprovider</name>
@@ -13,12 +13,12 @@
 	<description>Authenticationprovider für Mathe-Jung-Alt, Unsichtbare Homepage und Opa Wetterwachs</description>
 
 	<properties>
-		<commons.version>1.7.0</commons.version>
+		<commons.version>1.7.1</commons.version>
 		<quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-		<quarkus.platform.version>2.1.2.Final</quarkus.platform.version>
+		<quarkus.platform.version>2.3.0.Final</quarkus.platform.version>
 		<surefire-plugin.version>2.22.0</surefire-plugin.version>
-		<dependency-check.version>6.1.6</dependency-check.version>
+		<dependency-check.version>6.3.2</dependency-check.version>
 		<maven.compiler.source>1.11</maven.compiler.source>
 		<maven.compiler.target>1.11</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -64,7 +64,6 @@
 			</exclusions>
 		</dependency>
 
-		<!-- quarkus hat noch nicht die gepatchte Version -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15on</artifactId>
@@ -140,9 +139,10 @@
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
-			<version>3.17.0</version>
+			<version>3.18.2</version>
 		</dependency>
 
+<!-- wegen Caused by: java.util.MissingResourceException: Can't find bundle for base name javax.servlet.LocalStrings, locale de_DE: -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

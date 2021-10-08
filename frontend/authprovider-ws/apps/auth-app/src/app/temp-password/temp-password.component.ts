@@ -3,15 +3,15 @@ import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/fo
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { passwortValidator, passwortPasswortWiederholtValidator } from '../shared/validation/app.validators';
+import { passwortValidator, passwortPasswortWiederholtValidator }  from '@authprovider-ws/common-components';
 import { AppConstants } from '../shared/app.constants';
 import { TempPasswordService } from '../services/temp-password.service';
 import { HttpErrorService } from '../error/http-error.service';
-import { MessagesService, LogService, ResponsePayload } from 'hewi-ng-lib';
+import { MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
 import { ChangeTempPasswordPayload, ClientInformation, TwoPasswords, AuthSession } from '../shared/model/auth-model';
 import { AuthService } from '../services/auth.service';
 import { SessionService } from '../services/session.service';
-import { AppData } from '../shared/app-data.service';
+import { LogService } from '@authprovider-ws/common-logging';
 
 @Component({
 	selector: 'auth-temp-password',
@@ -58,7 +58,7 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 		private authService: AuthService,
 		private sessionService: SessionService,
 		private httpErrorService: HttpErrorService,
-		private messagesService: MessagesService,
+		private messageService: MessageService,
 		private route: ActivatedRoute,
 		private router: Router) {
 
@@ -154,7 +154,7 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 
 				} else {
 					this.showChangePasswordResult = false;
-					this.messagesService.error(payload.message.message);
+					this.messageService.error(payload.message.message);
 					this.message = '';
 				}
 

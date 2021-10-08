@@ -1,18 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ClientInformation, ClientCredentials, LoginCredentials, AuthorizationCredentials, AuthSession } from '../shared/model/auth-model';
 import { ClientService } from '../services/client.service';
 import { UserService } from '../services/user.service';
 import { AppData } from '../shared/app-data.service';
-import { MessagesService, LogService, ResponsePayload } from 'hewi-ng-lib';
+import { MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { passwortValidator } from '../shared/validation/app.validators';
+import { passwortValidator }  from '@authprovider-ws/common-components';
 import { AuthService } from '../services/auth.service';
 import { SessionService } from '../services/session.service';
 import { HttpErrorService } from '../error/http-error.service';
+import { LogService } from '@authprovider-ws/common-logging';
 
 @Component({
 	selector: 'auth-log-in',
@@ -20,6 +21,8 @@ import { HttpErrorService } from '../error/http-error.service';
 	styleUrls: ['./log-in.component.css']
 })
 export class LogInComponent implements OnInit, OnDestroy {
+
+	isDev = environment.envName === 'dev';
 
 	clientInformation$: Observable<ClientInformation>;
 
@@ -31,9 +34,11 @@ export class LogInComponent implements OnInit, OnDestroy {
 
 	loginForm: FormGroup;
 
+	gelesenControl: AbstractControl;
+
 	loginName: AbstractControl;
 
-	passwort: AbstractControl;
+	passwortControl: AbstractControl;
 
 	kleber: AbstractControl;
 
@@ -53,20 +58,22 @@ export class LogInComponent implements OnInit, OnDestroy {
 		private sessionService: SessionService,
 		private appData: AppData,
 		private httpErrorService: HttpErrorService,
-		private messagesService: MessagesService,
+		private messageService: MessageService,
 		private logger: LogService,
 		private router: Router,
 		private route: ActivatedRoute) {
 
 
 		this.loginForm = this.fb.group({
+			'gelesen': [false],
 			'loginName': ['', [Validators.required]],
-			'passwort': ['', [Validators.required, passwortValidator]],
+			'passwort': [''],
 			'kleber': ['']
 		});
 
+		this.gelesenControl = this.loginForm.controls['gelesen'];
 		this.loginName = this.loginForm.controls['loginName'];
-		this.passwort = this.loginForm.controls['passwort'];
+		this.passwortControl = this.loginForm.controls['passwort'];
 		this.kleber = this.loginForm['kleber'];
 
 		this.showClientId = environment.envName === 'DEV';
@@ -95,7 +102,6 @@ export class LogInComponent implements OnInit, OnDestroy {
 			},
 			error => this.httpErrorService.handleError(error, 'createAnonymousSession', null)
 		);
-
 	}
 
 	ngOnDestroy() {
@@ -128,11 +134,11 @@ export class LogInComponent implements OnInit, OnDestroy {
 	submit(): void {
 		this.logger.debug('about to submit ' + this.loginForm.value);
 
-		this.messagesService.clear();
+		this.messageService.clear();
 
 		const authCredentials: AuthorizationCredentials = {
 			loginName: this.loginName ? this.loginName.value.trim() : null,
-			passwort: this.passwort.value,
+			passwort: this.getPasswortValue(),
 			kleber: this.kleber ? this.kleber.value : null
 		};
 
@@ -145,6 +151,15 @@ export class LogInComponent implements OnInit, OnDestroy {
 		this.logger.debug(JSON.stringify(loginCredentials));
 
 		this.userService.loginUser(loginCredentials, this.session);
+	}
+
+	getGelesen(): boolean {
+		return this.gelesenControl.value;
+	}
+
+	getPasswortValue(): string {
+		const val = this.passwortControl.value['passwort'] ? this.passwortControl.value['passwort'] : 'undefined';
+		return val;
 	}
 
 	gotoOrderTempPwd(): void {

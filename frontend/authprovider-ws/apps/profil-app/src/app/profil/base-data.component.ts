@@ -4,9 +4,10 @@ import { Observable, Subscription } from 'rxjs';
 import { User, ProfileDataPayload } from '../shared/model/app-model';
 import { store } from '../shared/store/app-data';
 import { UserService } from '../services/user.service';
-import { MessagesService, ResponsePayload, LogService } from 'hewi-ng-lib';
 import { RemoteValidatorService } from '../services/remote-validator.service';
 import { map } from 'rxjs/operators';
+import { MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
+import { LogService } from '@authprovider-ws/common-logging';
 
 @Component({
 	selector: 'prfl-base-data',
@@ -43,7 +44,7 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 
 	constructor(private userService: UserService
 		, private validationService: RemoteValidatorService
-		, private messagesService: MessagesService
+		, private messageService: MessageService
 		, private logger: LogService) {
 
 
@@ -142,14 +143,14 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 			};
 		}
 
-		this.messagesService.clear();
+		this.messageService.clear();
 		this.userService.changeProfileData(data as ProfileDataPayload, this.cachedUser, this.csrfToken);
 
 	}
 
 	cancel(): void {
 		this.userService.resetUser(this.cachedUser);
-		this.messagesService.clear();
+		this.messageService.clear();
 	}
 
 	forbiddenEmail(control: FormControl): Promise<any> | Observable<any> {

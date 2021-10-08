@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthSession } from '../shared/model/auth-model';
-import { LogService } from 'hewi-ng-lib';
+import { LogService } from '@authprovider-ws/common-logging';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 

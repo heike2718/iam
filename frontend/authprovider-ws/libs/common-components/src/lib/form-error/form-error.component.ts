@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Optional } from '@angular/core';
 import { FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 
 @Component({
-	selector: 'prfl-form-error',
+	selector: 'cmn-form-error',
 	template: `
 		<small *ngIf="errorMessages" class="text-danger" aria-describedby="error">
 			<div *ngFor="let errorMessage of errorMessages">
