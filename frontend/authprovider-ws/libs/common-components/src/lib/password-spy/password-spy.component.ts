@@ -39,6 +39,19 @@ export class PasswordSpyComponent implements ControlValueAccessor, OnInit {
     return this.ownId;
   }
 
+  @HostBinding('attr.textLabel')
+  _textLabel = '';
+
+  @Input()
+  set textLabel(value: string) {
+    this._textLabel = value;
+  }
+
+  get textLabel() {
+    return this._textLabel;
+  }
+
+
   public thePassword = '';
 
   public password!: AbstractControl;

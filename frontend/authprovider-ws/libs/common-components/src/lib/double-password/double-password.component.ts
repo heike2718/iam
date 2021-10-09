@@ -1,4 +1,4 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, HostBinding, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { inputsEqual, PASSWORTREGELN, passwordValidator } from '@authprovider-ws/common-components';
 import { calculateSpyTime } from '../commons-component.model';
@@ -38,6 +38,30 @@ export class DoublePasswordComponent implements ControlValueAccessor, OnInit {
   public firstPassword!: AbstractControl;
 
   public secondPassword!: AbstractControl;
+
+  @HostBinding('attr.labelFirstPassword')
+  _labelFirstPassword = '';
+
+  @Input()
+  set labelFirstPassword(value: string) {
+    this._labelFirstPassword = value;
+  }
+
+  get labelFirstPassword() {
+    return this._labelFirstPassword;
+  }
+
+  @HostBinding('attr.labelsecondPassword')
+  _labelSecondPassword = '';
+
+  @Input()
+  set labelSecondPassword(value: string) {
+    this._labelSecondPassword = value;
+  }
+
+  get labelSecondPassword() {
+    return this._labelSecondPassword;
+  }
 
   constructor() {}
 
