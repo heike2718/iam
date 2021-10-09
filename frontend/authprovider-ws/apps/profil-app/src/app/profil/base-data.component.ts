@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { User, ProfileDataPayload } from '../shared/model/app-model';
+import { User, ProfileDataPayload } from '../shared/model/profil.model';
 import { store } from '../shared/store/app-data';
 import { UserService } from '../services/user.service';
 import { RemoteValidatorService } from '../services/remote-validator.service';

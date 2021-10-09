@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/fo
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { passwortValidator, passwortPasswortWiederholtValidator }  from '@authprovider-ws/common-components';
-import { AppConstants } from '../shared/app.constants';
+import { passwordValidator, passwortPasswortWiederholtValidator }  from '@authprovider-ws/common-components';
 import { TempPasswordService } from '../services/temp-password.service';
 import { HttpErrorService } from '../error/http-error.service';
 import { MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
@@ -12,6 +11,7 @@ import { ChangeTempPasswordPayload, ClientInformation, TwoPasswords, AuthSession
 import { AuthService } from '../services/auth.service';
 import { SessionService } from '../services/session.service';
 import { LogService } from '@authprovider-ws/common-logging';
+import { PASSWORTREGELN } from 'libs/common-components/src/lib/commons-component.model';
 
 @Component({
 	selector: 'auth-temp-password',
@@ -63,7 +63,7 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 		private router: Router) {
 
 
-		this.tooltipPasswort = AppConstants.tooltips.PASSWORTREGELN;
+		this.tooltipPasswort = PASSWORTREGELN;
 		this.tokenId = 'undefined';
 		this.showChangePasswordResult = false;
 		this.message = '';
@@ -72,8 +72,8 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 		this.changePwdForm = this.fb.group({
 			'email': ['', [Validators.required, Validators.email]],
 			'tempPassword': ['', [Validators.required]],
-			'passwort': ['', [Validators.required, passwortValidator]],
-			'passwortWdh': ['', [Validators.required, passwortValidator]]
+			'passwort': ['', [Validators.required, passwordValidator]],
+			'passwortWdh': ['', [Validators.required, passwordValidator]]
 		}, { validator: passwortPasswortWiederholtValidator });
 
 		this.email = this.changePwdForm.controls['email'];

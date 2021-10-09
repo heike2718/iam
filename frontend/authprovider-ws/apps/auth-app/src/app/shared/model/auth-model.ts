@@ -1,3 +1,5 @@
+import { isEmpty, isValidPassword } from "@authprovider-ws/common-components";
+
 export const STORAGE_KEY_SESSION_EXPIRES_AT = 'auth_session_expires_at';
 export const STORAGE_KEY_DEV_SESSION_ID = 'auth_dev_session_id';
 export const HEADER_NAME_SESSION_ID = 'X-SESSIONID';
@@ -37,9 +39,6 @@ export interface LoginCredentials {
 	nonce: string;
 }
 
-
-
-
 export interface TwoPasswords {
 	passwort: string;
 	passwortWdh: string;
@@ -75,6 +74,32 @@ export interface ChangeTempPasswordPayload {
 export function createQueryParameters(clientCredentials: ClientCredentials) {
 	return '?accessToken=' + clientCredentials.accessToken + '&redirectUrl=' + clientCredentials.redirectUrl + '&state=' + '';
 }
+
+export function isLoginCredentialsValid(loginCredentials: LoginCredentials): boolean {
+
+	if (!loginCredentials || !loginCredentials.authorizationCredentials) {
+		return true;
+	}
+
+	const authCredentials: AuthorizationCredentials = loginCredentials.authorizationCredentials;
+
+	if (isEmpty(authCredentials.loginName.trim()) || isEmpty(authCredentials.passwort)) {
+		return false;
+	}
+
+	if (authCredentials.loginName.trim().length > 255) {
+		return false;
+	}
+
+	if (!isValidPassword(authCredentials.passwort)) {
+		return false;
+	}
+
+	return true;
+}
+
+
+
 
 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { store } from '../shared/store/app-data';
 import { Observable, Subscription } from 'rxjs';
-import { User, AccountAction, STORAGE_KEY_ID_REFERENCE } from '../shared/model/app-model';
+import { User, AccountAction, STORAGE_KEY_ID_REFERENCE } from '../shared/model/profil.model';
 import { UserService } from '../services/user.service';
 
 @Component({

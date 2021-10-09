@@ -2,7 +2,7 @@ import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LogPublishersService } from '../logger/log-publishers.service';
 import { environment } from '../../environments/environment';
-import { STORAGE_KEY_ID_REFERENCE } from '../shared/model/app-model';
+import { STORAGE_KEY_ID_REFERENCE } from '../shared/model/profil.model';
 import { LogService } from '@authprovider-ws/common-logging';
 import { MessageService } from '@authprovider-ws/common-messages';
 

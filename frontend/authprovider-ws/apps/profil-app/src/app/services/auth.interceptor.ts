@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { STORAGE_KEY_DEV_SESSION_ID } from '../shared/model/app-model';
+import { STORAGE_KEY_DEV_SESSION_ID } from '../shared/model/profil.model';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

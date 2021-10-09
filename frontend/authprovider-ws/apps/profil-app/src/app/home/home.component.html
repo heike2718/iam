@@ -1,12 +1,20 @@
-<div *ngIf="isLoggedIn() else loginSignupMessage">
-	<prfl-profil></prfl-profil>
+<div *ngIf="isLoggedIn()">	
+	<prfl-profil></prfl-profil>	
 </div>
 
 <div *ngIf="!showLoadingIndicator else loadingIdicator"></div>
 
-<ng-template #loginSignupMessage>
-	<p>Bitte loggen Sie sich ein.</p>
-</ng-template>
+<div *ngIf="isLoggedIn()" class="d-md-none d-lg-none d-xl-none">
+	<div class="btn-group d-inline" role="group">
+		<button class="btn btn-secondary w-100 m-1" (click)="logOut()"><i class="fa fa-sign-out"></i> logout </button>
+	</div>
+</div>
+
+<div *ngIf="!isLoggedIn()" class="d-md-none d-lg-none d-xl-none">
+	<div class="btn-group d-inline" role="group">
+		<button class="btn btn-secondary w-100 m-1" (click)="logIn()"><i class="fa fa-sign-in"></i> login </button>
+	</div>
+</div>
 
 <ng-template #loadingIdicator>
 	<div class="img">

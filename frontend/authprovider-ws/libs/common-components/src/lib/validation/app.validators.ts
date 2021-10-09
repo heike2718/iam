@@ -1,5 +1,34 @@
 import { AbstractControl, FormGroup, FormControl } from '@angular/forms';
 
+export interface DoublePasswordsPayload {
+	readonly firstPassword: string,
+	readonly secondPassword: string
+};
+
+export function isEmpty(value: string) {
+	if (!value) {
+		return true;
+	}
+
+	return  value.length === 0;
+};
+
+export function isValidPassword(value: string): boolean {
+
+	if (!value) {
+		return true;
+	}
+
+	if (isEmpty(value)) {
+		return false;
+	}
+
+	const re = /(?=[^A-ZÄÖÜa-zäöüß]*[A-ZÄÖÜa-zäöüß])(?=[^\d]*[\d])[A-Za-z0-9ÄÖÜäöüß !&quot;#\$%&amp;'\(\)\*\+,\-\.\/:&lt;=&gt;\?@\[\]\^\\ _`'{|}~ ]{8,100}/;
+
+	const matches: boolean = re.test(value);
+	return matches;
+};
+
 export function emailValidator(control: AbstractControl): {
 	[key: string]: any
 } | null {
@@ -19,7 +48,7 @@ export function emailValidator(control: AbstractControl): {
 
 };
 
-export function passwortValidator(control: any): {
+export function passwordValidator(control: any): {
 	[key: string]: any
 } {
 	// tslint:disable-next-line:max-line-length
@@ -37,6 +66,19 @@ function hasPasswortPasswortWdhError(passwort1: string, passwort2: string): bool
 		return true;
 	}
 	return false;
+}
+
+function areInputsEqual(val1: string, val2: string): boolean {
+
+	if (!val1 && !val2) {
+		return true;
+	}
+
+	if (!val1 && val2 || val1 && !val2) {
+		return false;
+	}
+
+	return val1 === val2;
 }
 
 export function passwortPasswortNeuValidator(formGroup: AbstractControl): {
@@ -59,7 +101,7 @@ export function passwortPasswortNeuValidator(formGroup: AbstractControl): {
 export function passwortPasswortWiederholtValidator(formGroup: AbstractControl): {
 	[key: string]: any
 } {
-	const passwort1Control = formGroup.get('passwort');
+	const passwort1Control = formGroup.get('password');
 	const passwort2Control = formGroup.get('passwortWdh');
 
 	if (!passwort1Control || !passwort2Control) {
@@ -72,6 +114,53 @@ export function passwortPasswortWiederholtValidator(formGroup: AbstractControl):
 	}
 }
 
+export function doublePasswordValidator(formGroup: AbstractControl): {
+	[key: string]: any
+} {
+	const passwort1Control = formGroup.get('firstPassword');
+	const passwort2Control = formGroup.get('secondPassword');
+
+	if (!passwort1Control || !passwort2Control) {
+		return null;
+	}
+	const passwort = passwort1Control.value;
+	const passwortWdh = passwort2Control.value;
+	if (hasPasswortPasswortWdhError(passwort, passwortWdh)) {
+		return { 'passwortNeuPasswortNeuWdh': true };
+	}
+}
+
+export function inputsEqual(formGroup: FormGroup): {
+	[key: string]: any
+} {
+
+	const controls: FormControl[] = [];
+	Object.keys(formGroup.controls).forEach(field => {
+		const control = formGroup.get(field);
+		if (control instanceof FormControl) {
+			controls.push(control);
+		}
+	});
+
+	if (controls.length !== 2) {
+		return null;
+	}
+
+	const control1 = controls[0];
+	const control2 = controls[1];
+
+	if (!control1 || !control2) {
+		return null;
+	}
+
+	const val1 = extractTheValueAsString(control1);
+	const val2 = extractTheValueAsString(control2);
+
+	if (!areInputsEqual(val1, val2)) {
+		return {'inputsDiffer': true}
+	}	
+}
+
 export function validateAllFormFields(formGroup: FormGroup): void {
 	Object.keys(formGroup.controls).forEach(field => {
 		const control = formGroup.get(field);
@@ -82,8 +171,6 @@ export function validateAllFormFields(formGroup: FormGroup): void {
 		}
 	});
 };
-
-
 
 // =============================  private functions =========================
 

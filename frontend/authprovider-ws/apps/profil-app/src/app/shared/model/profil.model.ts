@@ -1,3 +1,5 @@
+import { inputsEqual, isValidPassword } from "@authprovider-ws/common-components";
+
 export const STORAGE_KEY_ID_REFERENCE = 'prf_id_reference';
 export const STORAGE_KEY_FULL_NAME = 'prf_full_name';
 export const STORAGE_KEY_SESSION_EXPIRES_AT = 'prf_session_expires_at';
@@ -65,5 +67,36 @@ export interface AuthenticatedUser {
 
 export function isKnownUser(user: User): boolean {
 	return user && user.email !== undefined;
+}
+
+export function isTwoPasswordsValid(payload: TwoPasswords): boolean {
+
+	if (!payload || !payload.passwort || !payload.passwortWdh) {
+		return true;
+	}
+
+	if (!isValidPassword(payload.passwort) || !isValidPassword(payload.passwortWdh)) {
+		return false;
+	}
+
+	return payload.passwort === payload.passwortWdh;
+}
+
+export function isChangePasswordPayloadValid(payload: ChangePasswordPayload): boolean {
+
+	if (!payload || !payload.passwort || !payload.twoPasswords ) {
+		return true;
+	}
+
+	if (!isValidPassword(payload.passwort)) {
+		return false;
+	}
+
+	if (!isTwoPasswordsValid(payload.twoPasswords)) {
+		return false;
+	}
+	
+	return true;
+
 }
 

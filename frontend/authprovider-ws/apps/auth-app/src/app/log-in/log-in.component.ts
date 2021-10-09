@@ -2,14 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ClientInformation, ClientCredentials, LoginCredentials, AuthorizationCredentials, AuthSession } from '../shared/model/auth-model';
+import { ClientInformation, ClientCredentials, LoginCredentials, AuthorizationCredentials, AuthSession, isLoginCredentialsValid } from '../shared/model/auth-model';
 import { ClientService } from '../services/client.service';
 import { UserService } from '../services/user.service';
 import { AppData } from '../shared/app-data.service';
 import { MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { passwortValidator }  from '@authprovider-ws/common-components';
 import { AuthService } from '../services/auth.service';
 import { SessionService } from '../services/session.service';
 import { HttpErrorService } from '../error/http-error.service';
@@ -38,7 +37,7 @@ export class LogInComponent implements OnInit, OnDestroy {
 
 	loginName: AbstractControl;
 
-	passwortControl: AbstractControl;
+	passwordControl: AbstractControl;
 
 	kleber: AbstractControl;
 
@@ -66,14 +65,14 @@ export class LogInComponent implements OnInit, OnDestroy {
 
 		this.loginForm = this.fb.group({
 			'gelesen': [false],
-			'loginName': ['', [Validators.required]],
-			'passwort': [''],
+			'loginName': ['', [Validators.required, Validators.maxLength(255)]],
+			'password': [''],
 			'kleber': ['']
 		});
 
 		this.gelesenControl = this.loginForm.controls['gelesen'];
 		this.loginName = this.loginForm.controls['loginName'];
-		this.passwortControl = this.loginForm.controls['passwort'];
+		this.passwordControl = this.loginForm.controls['password'];
 		this.kleber = this.loginForm['kleber'];
 
 		this.showClientId = environment.envName === 'DEV';
@@ -131,14 +130,27 @@ export class LogInComponent implements OnInit, OnDestroy {
 		);
 	}
 
+	submitDisabled(): boolean {
+
+		const loginCredentials = this.getSubmitPayload();		
+		return !isLoginCredentialsValid(loginCredentials);
+	}
+
 	submit(): void {
 		this.logger.debug('about to submit ' + this.loginForm.value);
 
 		this.messageService.clear();
 
+		const loginCredentials = this.getSubmitPayload();
+		this.logger.debug(JSON.stringify(loginCredentials));
+		this.userService.loginUser(loginCredentials, this.session);
+	}
+
+	private getSubmitPayload(): LoginCredentials {
+
 		const authCredentials: AuthorizationCredentials = {
 			loginName: this.loginName ? this.loginName.value.trim() : null,
-			passwort: this.getPasswortValue(),
+			passwort: this.getValueFormControl('password'),
 			kleber: this.kleber ? this.kleber.value : null
 		};
 
@@ -148,17 +160,11 @@ export class LogInComponent implements OnInit, OnDestroy {
 			nonce: this.nonce
 		};
 
-		this.logger.debug(JSON.stringify(loginCredentials));
+		return loginCredentials;
+	} 
 
-		this.userService.loginUser(loginCredentials, this.session);
-	}
-
-	getGelesen(): boolean {
-		return this.gelesenControl.value;
-	}
-
-	getPasswortValue(): string {
-		const val = this.passwortControl.value['passwort'] ? this.passwortControl.value['passwort'] : 'undefined';
+	private getValueFormControl(formControlName: string) {
+		const val = this.passwordControl.value[formControlName] ? this.passwordControl.value[formControlName] : undefined;
 		return val;
 	}
 

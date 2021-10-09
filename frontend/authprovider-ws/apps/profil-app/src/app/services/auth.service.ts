@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpErrorService } from '../error/http-error.service';
 import { map, publishLast, refCount } from 'rxjs/operators';
 // tslint:disable-next-line:max-line-length
-import { AuthenticatedUser, STORAGE_KEY_FULL_NAME, STORAGE_KEY_SESSION_EXPIRES_AT, STORAGE_KEY_DEV_SESSION_ID, STORAGE_KEY_ID_REFERENCE, AuthResult } from '../shared/model/app-model';
+import { AuthenticatedUser, STORAGE_KEY_FULL_NAME, STORAGE_KEY_SESSION_EXPIRES_AT, STORAGE_KEY_DEV_SESSION_ID, STORAGE_KEY_ID_REFERENCE, AuthResult } from '../shared/model/profil.model';
 import { Router } from '@angular/router';
 import { SessionService } from './session.service';
 import { LogService } from '@authprovider-ws/common-logging';
@@ -22,6 +22,10 @@ export class AuthService {
 		, private sessionService: SessionService
 		, private router: Router
 		, private logger: LogService) { }
+
+	isLoggedIn(): boolean {
+		return localStorage.getItem(STORAGE_KEY_FULL_NAME) !== null;
+	}
 
 
 	logIn() {

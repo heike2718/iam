@@ -1,30 +1,32 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
-import { AppConstants } from '../shared/app.constants';
-import { passwortValidator, passwortPasswortWiederholtValidator } from '../shared/validation/app.validators';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { User, TwoPasswords, ChangePasswordPayload } from '../shared/model/app-model';
+import { User, TwoPasswords, ChangePasswordPayload, isChangePasswordPayloadValid } from '../shared/model/profil.model';
 import { store } from '../shared/store/app-data';
 import { UserService } from '../services/user.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { modalOptions } from '@authprovider-ws/common-components';
+import { PASSWORTREGELN, sonderzeichen } from 'libs/common-components/src/lib/commons-component.model';
+import { LogService } from '@authprovider-ws/common-logging';
+import { DoublePasswordsPayload } from 'libs/common-components/src/lib/validation/app.validators';
 
 @Component({
 	selector: 'prfl-password',
 	templateUrl: './password.component.html',
 	styleUrls: ['./password.component.css']
 })
-export class PasswordComponent implements OnInit, OnDestroy {
+export class PasswordComponent implements OnInit, OnDestroy {	
+
+	@ViewChild('dialogPasswordRules')
+	dialogPasswordRules!: TemplateRef<HTMLElement>;
 
 	user$: Observable<User>;
 
 	changePwdForm: FormGroup;
 
-	oldPassword: AbstractControl;
+	tooltipPasswort: string  = PASSWORTREGELN;
 
-	passwort: AbstractControl;
-
-	passwortWdh: AbstractControl;
-
-	tooltipPasswort: string;
+	theSonderzeichen: string  = sonderzeichen;
 
 	private blockingIndicatorSubscription: Subscription;
 
@@ -39,20 +41,16 @@ export class PasswordComponent implements OnInit, OnDestroy {
 	showBlockingIndicator: boolean;
 
 	constructor(private fb: FormBuilder
-		, private userService: UserService) {
+		, private userService: UserService
+		, private logger: LogService
+		, private modalService: NgbModal) {
 
-		this.tooltipPasswort = AppConstants.tooltips.PASSWORTREGELN;
+		this.tooltipPasswort
 
 		this.changePwdForm = this.fb.group({
-			oldPassword: ['', [Validators.required, passwortValidator]],
-			passwort: ['', [Validators.required, passwortValidator]],
-			passwortWdh: ['', [Validators.required, passwortValidator]]
-		}, { validator: passwortPasswortWiederholtValidator });
-
-		this.oldPassword = this.changePwdForm.controls.oldPassword;
-		this.passwort = this.changePwdForm.controls.passwort;
-		this.passwortWdh = this.changePwdForm.controls.passwortWdh;
-
+			'password': new FormControl(''),
+			'doublePassword': new FormControl('')
+		});
 	}
 
 	ngOnInit() {
@@ -89,20 +87,76 @@ export class PasswordComponent implements OnInit, OnDestroy {
 		}
 	}
 
+
+	submitDisabled(): boolean {
+
+		const credentials: ChangePasswordPayload = this.getSubmitPayload();
+
+		if (!credentials) {		
+			return true;
+		}		
+
+		return !isChangePasswordPayloadValid(credentials);
+	}
+
 	submit(): void {
 
-		const _twoPasswords: TwoPasswords = {
-			passwort: this.passwort.value,
-			passwortWdh: this.passwortWdh.value
-		};
+		const credentials: ChangePasswordPayload = this.getSubmitPayload();
 
-		const credentials: ChangePasswordPayload = {
-			passwort: this.oldPassword.value,
-			twoPasswords: _twoPasswords
-		};
+		if (!credentials) {
+			this.logger.debug('payload was undefined');
+		}
 
 		this.changePwdForm.reset();
 		this.userService.changePassword(credentials, this.cachedUser, this.csrfToken);
 	}
-}
+
+	openDialogPasswordRules(): void {
+		this.modalService.open(this.dialogPasswordRules, modalOptions).result.then((_result) => {
+			
+			// do nothing
+	  });
+	}
+
+	private getSubmitPayload(): ChangePasswordPayload | undefined {
+
+		const _twoPasswords = this.getTwoPasswords();	
+		if (!_twoPasswords) {
+			return undefined;
+		}
+		
+
+		const result: ChangePasswordPayload = {
+			passwort: this.getThePassword(),
+			twoPasswords: _twoPasswords
+		};
+
+		return result;
+	}
+
+	private getThePassword(): string {
+		const val = this.changePwdForm.value['password'] ? this.changePwdForm.value['password'] : undefined;
+
+		if (val) {
+			return val['password'];
+		}
+
+		return '';
+	}
+
+	private getTwoPasswords(): TwoPasswords  | undefined{
+
+		const val: FormControl = this.changePwdForm.value['doublePassword'] ? this.changePwdForm.value['doublePassword'] : undefined;
+
+		if (val) {
+			const result: TwoPasswords = {
+				passwort: val['firstPassword'],
+				passwortWdh: val['secondPassword']
+			};
+			return result;
+		}
+
+		return undefined;
+	}
+ }
 

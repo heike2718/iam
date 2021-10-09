@@ -10,7 +10,7 @@ import { User
 	, AuthenticatedUser
 	, STORAGE_KEY_FULL_NAME
 	, STORAGE_KEY_SESSION_EXPIRES_AT
-	, STORAGE_KEY_DEV_SESSION_ID } from '../shared/model/app-model';
+	, STORAGE_KEY_DEV_SESSION_ID } from '../shared/model/profil.model';
 import { Observable } from 'rxjs';
 import { Message, MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
 import { LogService } from '@authprovider-ws/common-logging';

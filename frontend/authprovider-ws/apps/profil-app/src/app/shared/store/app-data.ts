@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { User } from '../model/app-model';
+import { User } from '../model/profil.model';
 import * as _ from 'lodash';
 
 

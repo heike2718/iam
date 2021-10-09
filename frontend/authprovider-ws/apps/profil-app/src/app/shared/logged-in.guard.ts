@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { STORAGE_KEY_SESSION_EXPIRES_AT } from './model/app-model';
+import { STORAGE_KEY_SESSION_EXPIRES_AT } from './model/profil.model';
 import { SessionService } from '../services/session.service';
 
 @Injectable({

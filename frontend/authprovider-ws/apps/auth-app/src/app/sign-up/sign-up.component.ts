@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
-import { passwortValidator, passwortPasswortWiederholtValidator } from '@authprovider-ws/common-components';
-import { AppConstants } from '../shared/app.constants';
+import { passwordValidator, passwortPasswortWiederholtValidator } from '@authprovider-ws/common-components';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ClientInformation, ClientCredentials, RegistrationCredentials, TwoPasswords, AuthSession } from '../shared/model/auth-model';
@@ -16,6 +15,7 @@ import { AuthService } from '../services/auth.service';
 import { HttpErrorService } from '../error/http-error.service';
 import { SignupValidationService } from '../services/signup-valitadion.service';
 import { LogService } from '@authprovider-ws/common-logging';
+import { PASSWORTREGELN } from 'libs/common-components/src/lib/commons-component.model';
 
 @Component({
 	selector: 'auth-sign-up',
@@ -23,6 +23,8 @@ import { LogService } from '@authprovider-ws/common-logging';
 	styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit, OnDestroy {
+
+	isDev = environment.envName === 'dev';
 
 	clientInformation$: Observable<ClientInformation>;
 
@@ -87,8 +89,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
 			'email': new FormControl('', {
 				'validators': [Validators.required, Validators.email]
 			}),
-			'passwort': new FormControl('', { 'validators': [Validators.required, passwortValidator] }),
-			'passwortWdh': new FormControl('', { 'validators': [Validators.required, passwortValidator] }),
+			'passwort': new FormControl('', { 'validators': [Validators.required, passwordValidator] }),
+			'passwortWdh': new FormControl('', { 'validators': [Validators.required, passwordValidator] }),
 			'kleber': new FormControl(''),
 		}, { 'validators': passwortPasswortWiederholtValidator });
 
@@ -97,7 +99,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		this.passwort = this.signUpForm.controls['passwort'];
 		this.passwortWdh = this.signUpForm.controls['passwortWdh'];
 		this.kleber = this.signUpForm['kleber'];
-		this.tooltipPasswort = AppConstants.tooltips.PASSWORTREGELN;
+		this.tooltipPasswort = PASSWORTREGELN;
 		this.showClientId = environment.envName === 'DEV';
 
 
@@ -216,6 +218,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		this.logger.debug(JSON.stringify(registrationCredentials));
 
 		this.userService.registerUser(registrationCredentials, this.session);
+	}
+
+	getValueAgbGelesen(): boolean {
+		return this.agbGelesen.value;
 	}
 
 	private sendRedirect() {

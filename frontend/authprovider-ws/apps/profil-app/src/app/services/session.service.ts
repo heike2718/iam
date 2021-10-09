@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { STORAGE_KEY_FULL_NAME
 	, STORAGE_KEY_SESSION_EXPIRES_AT
 	, STORAGE_KEY_DEV_SESSION_ID
-	, STORAGE_KEY_ID_REFERENCE } from '../shared/model/app-model';
+	, STORAGE_KEY_ID_REFERENCE } from '../shared/model/profil.model';
 import { LogService } from '@authprovider-ws/common-logging';
 
 const moment = moment_;
