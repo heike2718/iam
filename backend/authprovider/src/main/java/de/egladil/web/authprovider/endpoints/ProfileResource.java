@@ -103,7 +103,7 @@ public class ProfileResource {
 			}
 
 			responsePayload.setData(NoncePayload.create(payload.getClientCredentials().getNonce()));
-			return Response.status(412).entity(responsePayload).build();
+			return Response.ok().entity(responsePayload).build();
 		} finally {
 
 			payload.clean();

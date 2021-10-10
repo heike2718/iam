@@ -5,10 +5,11 @@ import { HttpErrorService } from '../error/http-error.service';
 import { environment } from '../../environments/environment';
 import { createHash } from '../shared/model/auth-response-data';
 import { map, publishLast, refCount, tap } from 'rxjs/operators';
-import { ResponsePayload, LogService } from 'hewi-ng-lib';
 import { AppData } from '../shared/app-data.service';
 import { LoginCredentials } from '../shared/model/auth-model';
 import { SessionService } from './session.service';
+import { LogService } from '@authprovider-ws/common-logging';
+import { ResponsePayload } from '@authprovider-ws/common-messages';
 
 @Injectable({
 	providedIn: 'root'

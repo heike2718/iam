@@ -82,7 +82,7 @@
                 }
               ]
             },
-            "qs": {
+            "heikedeb": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -99,28 +99,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/auth-app/src/environments/environment.ts",
-                  "with": "build-env/auth-app/environment-qs.ts"
-                }
-              ]
-            },
-            "dev": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.ts"
+                  "with": "build-env/auth-app/environment-heikedeb.ts"
                 }
               ]
             }
@@ -272,7 +251,7 @@
                 }
               ]
             },
-            "qs": {
+            "heikedeb": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -289,7 +268,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/profil-app/src/environments/environment.ts",
-                  "with": "build-env/profil-app/environment-qs.ts"
+                  "with": "build-env/profil-app/environment-heikedeb.ts"
                 }
               ]
             }

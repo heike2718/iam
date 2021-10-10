@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ResponsePayload } from 'hewi-ng-lib';
+import { ResponsePayload } from '@authprovider-ws/common-messages';
 import { environment } from '../../environments/environment';
 import { map, publishLast, refCount } from 'rxjs/operators';
 import { Observable } from 'rxjs';

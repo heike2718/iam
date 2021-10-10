@@ -1,10 +1,12 @@
 import * as moment_ from 'moment';
 import { Injectable } from '@angular/core';
-import { LogService } from 'hewi-ng-lib';
 import { store } from '../shared/store/app-data';
 import { Router } from '@angular/router';
-// tslint:disable-next-line:max-line-length
-import { STORAGE_KEY_FULL_NAME, STORAGE_KEY_SESSION_EXPIRES_AT, STORAGE_KEY_DEV_SESSION_ID, STORAGE_KEY_ID_REFERENCE } from '../shared/model/app-model';
+import { STORAGE_KEY_FULL_NAME
+	, STORAGE_KEY_SESSION_EXPIRES_AT
+	, STORAGE_KEY_DEV_SESSION_ID
+	, STORAGE_KEY_ID_REFERENCE } from '../shared/model/profil.model';
+import { LogService } from '@authprovider-ws/common-logging';
 
 const moment = moment_;
 

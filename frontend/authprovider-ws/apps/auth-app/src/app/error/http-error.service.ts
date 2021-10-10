@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MessagesService, Message, WARN, ERROR, LogService } from 'hewi-ng-lib';
 import { ClientCredentials } from '../shared/model/auth-model';
+import { MessageService, Message } from '@authprovider-ws/common-messages';
+import { LogService } from '@authprovider-ws/common-logging';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class HttpErrorService {
 
-	constructor(private messagesService: MessagesService, private logger: LogService) { }
+	constructor(private messageService: MessageService, private logger: LogService) { }
 
 	handleError(error: HttpErrorResponse, context: string, clientCredentials: ClientCredentials) {
 
@@ -18,7 +19,7 @@ export class HttpErrorService {
 		} else {
 			switch (error.status) {
 				case 0:
-					this.messagesService.error('Der Server ist nicht erreichbar.');
+					this.messageService.error('Der Server ist nicht erreichbar.');
 					break;
 				case 904:
 					if (context === 'getClient' && clientCredentials) {
@@ -41,7 +42,7 @@ export class HttpErrorService {
 		if (msg !== null) {
 			this.showServerResponseMessage(msg);
 		} else {
-			this.messagesService.error('Es ist ein unerwarteter Fehler aufgetreten. Bitte senden Sie eine Mail an mathe@egladil.de');
+			this.messageService.error('Es ist ein unerwarteter Fehler aufgetreten. Bitte senden Sie eine Mail an mathe@egladil.de');
 		}
 	}
 
@@ -65,14 +66,14 @@ export class HttpErrorService {
 
 	private showServerResponseMessage(msg: Message) {
 		switch (msg.level) {
-			case WARN:
-				this.messagesService.error(msg.message);
+			case 'WARN':
+				this.messageService.error(msg.message);
 				break;
-			case ERROR:
-				this.messagesService.error(msg.message);
+			case 'ERROR':
+				this.messageService.error(msg.message);
 				break;
 			default:
-				this.messagesService.error('Unbekanntes message.level ' + msg.level + ' vom Server bekommen.');
+				this.messageService.error('Unbekanntes message.level ' + msg.level + ' vom Server bekommen.');
 		}
 	}
 }

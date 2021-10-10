@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { User, ProfileDataPayload } from '../shared/model/app-model';
+import { User, ProfileDataPayload } from '../shared/model/profil.model';
 import { store } from '../shared/store/app-data';
 import { UserService } from '../services/user.service';
-import { MessagesService, ResponsePayload, LogService } from 'hewi-ng-lib';
 import { RemoteValidatorService } from '../services/remote-validator.service';
 import { map } from 'rxjs/operators';
+import { MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
+import { LogService } from '@authprovider-ws/common-logging';
+import { trimString } from '@authprovider-ws/common-components';
 
 @Component({
 	selector: 'prfl-base-data',
@@ -43,7 +45,7 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 
 	constructor(private userService: UserService
 		, private validationService: RemoteValidatorService
-		, private messagesService: MessagesService
+		, private messageService: MessageService
 		, private logger: LogService) {
 
 
@@ -126,30 +128,32 @@ export class BaseDataComponent implements OnInit, OnDestroy {
 
 		let data = {};
 
+		const emailValue = trimString(this.email.value);
+
 		if (this.showLoginName) {
 			data = {
-				loginName: this.loginName.value.trim(),
-				email: this.email.value.trim(),
-				nachname: this.nachname.value.trim(),
-				vorname: this.vorname.value.trim()
+				loginName: trimString(this.loginName.value),
+				email: emailValue,
+				nachname: trimString(this.nachname.value),
+				vorname: trimString(this.vorname.value)
 			};
 		} else {
 			data = {
-				loginName: this.email.value.trim(),
-				email: this.email.value.trim(),
-				nachname: this.nachname.value.trim(),
-				vorname: this.vorname.value.trim()
+				loginName: emailValue,
+				email: emailValue,
+				nachname: trimString(this.nachname.value),
+				vorname: trimString(this.vorname.value)
 			};
 		}
 
-		this.messagesService.clear();
+		this.messageService.clear();
 		this.userService.changeProfileData(data as ProfileDataPayload, this.cachedUser, this.csrfToken);
 
 	}
 
 	cancel(): void {
 		this.userService.resetUser(this.cachedUser);
-		this.messagesService.clear();
+		this.messageService.clear();
 	}
 
 	forbiddenEmail(control: FormControl): Promise<any> | Observable<any> {

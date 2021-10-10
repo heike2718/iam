@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MessagesService, Message, WARN, ERROR, LogService } from 'hewi-ng-lib';
 import { SessionService } from '../services/session.service';
+import { Message, MessageService } from '@authprovider-ws/common-messages';
+import { LogService } from '@authprovider-ws/common-logging';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { SessionService } from '../services/session.service';
 })
 export class HttpErrorService {
 
-	constructor(private messagesService: MessagesService
+	constructor(private messageService: MessageService
 		, private logger: LogService
 		, private sessionService: SessionService) { }
 
@@ -21,7 +22,7 @@ export class HttpErrorService {
 			throw (error);
 		} else {
 			if (error.status === 0) {
-				this.messagesService.error('Der Server ist nicht erreichbar.');
+				this.messageService.error('Der Server ist nicht erreichbar.');
 			} else {
 				const msg = this.extractMessageObject(error);
 				switch (error.status) {
@@ -34,7 +35,7 @@ export class HttpErrorService {
 						if (msg) {
 							this.showServerResponseMessage(msg);
 						} else {
-							this.messagesService.error('Es ist ein unerwarteter Fehler aufgetreten. Bitte senden Sie eine Mail an info@egladil.de');
+							this.messageService.error('Es ist ein unerwarteter Fehler aufgetreten. Bitte senden Sie eine Mail an info@egladil.de');
 						}
 					}
 				}
@@ -54,16 +55,7 @@ export class HttpErrorService {
 	}
 
 	private showServerResponseMessage(msg: Message) {
-		switch (msg.level) {
-			case WARN:
-				this.messagesService.error(msg.message);
-				break;
-			case ERROR:
-				this.messagesService.error(msg.message);
-				break;
-			default:
-				this.messagesService.error('Unbekanntes message.level ' + msg.level + ' vom Server bekommen.');
-		}
+		this.messageService.showMessage(msg);
 	}
 }
 

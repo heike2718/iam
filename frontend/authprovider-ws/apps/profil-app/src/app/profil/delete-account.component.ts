@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { User } from '../shared/model/app-model';
+import { User } from '../shared/model/profil.model';
 import { store } from '../shared/store/app-data';
 import { UserService } from '../services/user.service';
-import { MessagesService } from 'hewi-ng-lib';
 import { HttpErrorService } from '../error/http-error.service';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { SessionService } from '../services/session.service';
@@ -38,7 +37,6 @@ export class DeleteAccountComponent implements OnInit, OnDestroy {
 
 	constructor(private fb: FormBuilder
 		, private userService: UserService
-		, private messagesService: MessagesService
 		, private sessionService: SessionService
 		, private httpErrorService: HttpErrorService) {
 
