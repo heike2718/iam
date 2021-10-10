@@ -1,5 +1,11 @@
 # authprovider Release Notes
 
+__Release 7.3.1__:
+
+* [Passwort einblendbar machen](https://github.com/heike2718/authenticationprovider/issues/40)
+* bump hewi-java-commons
+* bump quarkus
+
 __Release 7.3.0__:
 
 * [Frontend Fehlermeldung Email leer](https://github.com/heike2718/authenticationprovider/issues/11)
