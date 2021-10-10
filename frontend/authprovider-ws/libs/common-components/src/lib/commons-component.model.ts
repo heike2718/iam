@@ -17,6 +17,11 @@ export const MAILADRESSE_REGISTRIERUNG = 'Mit dieser Mailadresse werden Sie sich
 
 export const TEMPPWD = 'Tragen Sie hier bitte das Einmalpasswort ein, das Ihnen per Mail gesendet wurde.';
 
+export interface TwoPasswords {
+	passwort: string;
+	passwortWdh: string;
+}
+
 export function calculateSpyTime(pwd: string): number {
     
     if (pwd.length <= 8) {
@@ -24,4 +29,14 @@ export function calculateSpyTime(pwd: string): number {
     }
 
     return pwd.length * 250 + 1;
+}
+
+export function trimString(value: string | undefined): string {
+
+  if (!value) {
+    return '';
   }
+
+  const result = value.replace(/^\s+|\s+$/g, '');
+  return result;
+}

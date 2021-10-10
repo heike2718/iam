@@ -1,14 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { User, TwoPasswords, ChangePasswordPayload, isChangePasswordPayloadValid } from '../shared/model/profil.model';
+import { User, ChangePasswordPayload, isChangePasswordPayloadValid } from '../shared/model/profil.model';
 import { store } from '../shared/store/app-data';
 import { UserService } from '../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { modalOptions } from '@authprovider-ws/common-components';
-import { PASSWORTREGELN, sonderzeichen } from 'libs/common-components/src/lib/commons-component.model';
+import { modalOptions, PASSWORTREGELN, sonderzeichen, TwoPasswords } from '@authprovider-ws/common-components';
 import { LogService } from '@authprovider-ws/common-logging';
-import { DoublePasswordsPayload } from 'libs/common-components/src/lib/validation/app.validators';
 
 @Component({
 	selector: 'prfl-password',
@@ -28,11 +26,13 @@ export class PasswordComponent implements OnInit, OnDestroy {
 
 	theSonderzeichen: string  = sonderzeichen;
 
-	private blockingIndicatorSubscription: Subscription;
+	private blockingIndicatorSubscription: Subscription = new Subscription();
 
-	private userSubscription: Subscription;
+	private userSubscription: Subscription = new Subscription();
 
-	private csrfTokenSubscription: Subscription;
+	private csrfTokenSubscription: Subscription = new Subscription();
+
+	private errorResponseSubscription: Subscription = new Subscription();
 
 	private csrfToken = '';
 
@@ -73,20 +73,22 @@ export class PasswordComponent implements OnInit, OnDestroy {
 		this.blockingIndicatorSubscription = store.blockingIndicator$.subscribe(
 			value => this.showBlockingIndicator = value
 		);
+
+		this.errorResponseSubscription = store.responseError$.subscribe(
+			value => {
+				if (value) {
+					this.resetPasswort();
+				}
+			}
+		)
 	}
 
 	ngOnDestroy() {
-		if (this.blockingIndicatorSubscription) {
-			this.blockingIndicatorSubscription.unsubscribe();
-		}
-		if (this.userSubscription) {
-			this.userSubscription.unsubscribe();
-		}
-		if (this.csrfTokenSubscription) {
-			this.csrfTokenSubscription.unsubscribe();
-		}
+		this.blockingIndicatorSubscription.unsubscribe();
+		this.userSubscription.unsubscribe();
+		this.csrfTokenSubscription.unsubscribe();
+		this.errorResponseSubscription.unsubscribe();
 	}
-
 
 	submitDisabled(): boolean {
 
@@ -118,6 +120,11 @@ export class PasswordComponent implements OnInit, OnDestroy {
 	  });
 	}
 
+	private resetPasswort(): void {		
+		this.changePwdForm.reset();		
+		store.updateErrorStatus(false);
+	}
+
 	private getSubmitPayload(): ChangePasswordPayload | undefined {
 
 		const _twoPasswords = this.getTwoPasswords();	
@@ -136,7 +143,6 @@ export class PasswordComponent implements OnInit, OnDestroy {
 
 	private getThePassword(): string {
 		const val = this.changePwdForm.value['password'] ? this.changePwdForm.value['password'] : undefined;
-
 		if (val) {
 			return val['password'];
 		}

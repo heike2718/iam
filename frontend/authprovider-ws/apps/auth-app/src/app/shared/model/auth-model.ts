@@ -1,4 +1,4 @@
-import { isEmpty, isValidPassword } from "@authprovider-ws/common-components";
+import { isEmpty, isTwoPasswordsValid, isValidEmail, isValidPassword } from "@authprovider-ws/common-components";
 
 export const STORAGE_KEY_SESSION_EXPIRES_AT = 'auth_session_expires_at';
 export const STORAGE_KEY_DEV_SESSION_ID = 'auth_dev_session_id';
@@ -55,7 +55,6 @@ export interface RegistrationCredentials {
 	twoPasswords: TwoPasswords;
 	kleber: string;
 	clientCredentials: ClientCredentials;
-
 }
 
 export interface TempPasswordCredentials {
@@ -78,16 +77,16 @@ export function createQueryParameters(clientCredentials: ClientCredentials) {
 export function isLoginCredentialsValid(loginCredentials: LoginCredentials): boolean {
 
 	if (!loginCredentials || !loginCredentials.authorizationCredentials) {
-		return true;
+		return false;
 	}
 
 	const authCredentials: AuthorizationCredentials = loginCredentials.authorizationCredentials;
 
-	if (isEmpty(authCredentials.loginName.trim()) || isEmpty(authCredentials.passwort)) {
+	if (isEmpty(authCredentials.loginName) || isEmpty(authCredentials.passwort)) {
 		return false;
 	}
 
-	if (authCredentials.loginName.trim().length > 255) {
+	if (authCredentials.loginName.length > 255) {
 		return false;
 	}
 
@@ -96,6 +95,40 @@ export function isLoginCredentialsValid(loginCredentials: LoginCredentials): boo
 	}
 
 	return true;
+}
+
+export function isRegistrationPayloadValid(payload: RegistrationCredentials | undefined): boolean {
+
+	if (!payload) {
+		return false;
+	}
+
+	if (!isValidEmail(payload.email)) {
+		return false;
+	}
+
+	if (payload.agbGelesen === false) {
+		return false;
+	}
+
+	if (!isTwoPasswordsValid(payload.twoPasswords)) {
+		return false;
+	}
+
+	if (!payload.vorname || payload.vorname === '') {
+		return false;
+	}
+
+	if (!payload.nachname || payload.nachname === '') {
+		return false;
+	}
+
+	if (!payload.loginName || payload.loginName === '') {
+		return false;
+	}
+
+	return true;
+
 }
 
 

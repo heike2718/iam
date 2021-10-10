@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { passwordValidator, passwortPasswortWiederholtValidator }  from '@authprovider-ws/common-components';
 import { TempPasswordService } from '../services/temp-password.service';
 import { HttpErrorService } from '../error/http-error.service';
 import { MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
@@ -11,7 +10,8 @@ import { ChangeTempPasswordPayload, ClientInformation, TwoPasswords, AuthSession
 import { AuthService } from '../services/auth.service';
 import { SessionService } from '../services/session.service';
 import { LogService } from '@authprovider-ws/common-logging';
-import { PASSWORTREGELN } from 'libs/common-components/src/lib/commons-component.model';
+import { PASSWORTREGELN, modalOptions, trimString } from '@authprovider-ws/common-components';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
 	selector: 'auth-temp-password',
@@ -19,6 +19,12 @@ import { PASSWORTREGELN } from 'libs/common-components/src/lib/commons-component
 	styleUrls: ['./temp-password.component.css']
 })
 export class TempPasswordComponent implements OnInit, OnDestroy {
+
+	@ViewChild('dialogPasswordRules')
+	dialogPasswordRules!: TemplateRef<HTMLElement>;
+
+	@ViewChild('successDialog')
+	successDialog!: TemplateRef<HTMLElement>;
 
 	queryParams$: Observable<Params>;
 
@@ -36,15 +42,9 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 
 	tempPassword: AbstractControl;
 
-	passwort: AbstractControl;
-
-	passwortWdh: AbstractControl;
-
 	tooltipPasswort: string;
 
 	submitDisabled: true;
-
-	showChangePasswordResult: boolean;
 
 	message: string;
 
@@ -58,6 +58,7 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 		private authService: AuthService,
 		private sessionService: SessionService,
 		private httpErrorService: HttpErrorService,
+		private modalService: NgbModal,
 		private messageService: MessageService,
 		private route: ActivatedRoute,
 		private router: Router) {
@@ -65,21 +66,17 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 
 		this.tooltipPasswort = PASSWORTREGELN;
 		this.tokenId = 'undefined';
-		this.showChangePasswordResult = false;
 		this.message = '';
 		this.zurueckText = 'zurück';
 
 		this.changePwdForm = this.fb.group({
 			'email': ['', [Validators.required, Validators.email]],
 			'tempPassword': ['', [Validators.required]],
-			'passwort': ['', [Validators.required, passwordValidator]],
-			'passwortWdh': ['', [Validators.required, passwordValidator]]
-		}, { validator: passwortPasswortWiederholtValidator });
+			'doublePassword': new FormControl('')
+		});
 
 		this.email = this.changePwdForm.controls['email'];
 		this.tempPassword = this.changePwdForm.controls['tempPassword'];
-		this.passwort = this.changePwdForm.controls['passwort'];
-		this.passwortWdh = this.changePwdForm.controls['passwortWdh'];
 	}
 
 	ngOnInit() {
@@ -102,9 +99,8 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 				this.tokenId = params.tokenId;
 
 				if (!this.tokenId || this.tokenId === 'undefined') {
-					this.showChangePasswordResult = true;
 					// tslint:disable-next-line:max-line-length
-					this.message = 'Der aufgerufene Link ist ungültig. Bitte kopieren Sie den Link vollständig oder klicken Sie ihn nochmals an. Falls das nicht hilft, senden Sie bitte eine Mail an mathe@egladil.de.';
+					this.message = 'Der aufgerufene Link ist ungültig. Bitte kopieren Sie den Link vollständig oder klicken Sie ihn nochmals an. Falls das nicht hilft, senden Sie bitte eine Mail an minikaenguru@egladil.de.';
 				}
 			}
 		);
@@ -122,13 +118,10 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 
 	submit() {
 
-		const _email = this.email.value ? this.email.value.trim() : null;
-		const _tempPassword = this.tempPassword.value ? this.tempPassword.value.trim() : null;
+		const _email = this.email.value ? trimString(this.email.value) : null;
+		const _tempPassword = this.tempPassword.value ? trimString(this.tempPassword.value) : null;
 
-		const _twoPasswords: TwoPasswords = {
-			'passwort': this.passwort.value,
-			'passwortWdh': this.passwortWdh.value
-		};
+		const _twoPasswords: TwoPasswords = this.getTwoPasswords();
 
 		const credentials: ChangeTempPasswordPayload = {
 			tokenId: this.tokenId,
@@ -145,31 +138,51 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 				const level = payload.message.level;
 
 				if (level === 'INFO') {
-					this.sessionService.clearSession();
-					this.showChangePasswordResult = true;
+					this.sessionService.clearSession();					
 					if (payload.data) {
 						this.clientInformation = payload.data;
 						this.zurueckText = this.clientInformation.zurueckText;
 					}
+					this.openDialogPasswordChanged();
 
 				} else {
-					this.showChangePasswordResult = false;
 					this.messageService.error(payload.message.message);
 					this.message = '';
 				}
 
 			},
-			error => this.httpErrorService.handleError(error, 'orderTempPassword', undefined),
+			error => {
+				this.resetForm();
+				this.httpErrorService.handleError(error, 'orderTempPassword', undefined);
+			},
 			() => this.logger.debug('post call completed')
 		);
+	}
+
+	private resetForm(): void {
+		this.changePwdForm.reset();
 	}
 
 	canRedirect(): boolean {
 		return this.clientInformation !== undefined;
 	}
 
+	openDialogPasswordRules(): void {
+		this.modalService.open(this.dialogPasswordRules, modalOptions).result.then((_result) => {
+			
+			// do nothing
+	  });
+	}
+
+	openDialogPasswordChanged(): void {
+		this.modalService.open(this.successDialog, modalOptions).result.then((_result) => {
+			
+			this.closeModal();
+	  });
+	}	
+
+
 	closeModal(): void {
-		this.showChangePasswordResult = false;
 		if (this.canRedirect()) {
 			this.sendRedirect();
 		} else {
@@ -180,6 +193,21 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 
 	private sendRedirect(): void {
 		window.location.href = this.clientInformation.baseUrl;
+	}
+
+	private getTwoPasswords(): TwoPasswords  | undefined{
+
+		const val: FormControl = this.changePwdForm.value['doublePassword'] ? this.changePwdForm.value['doublePassword'] : undefined;
+
+		if (val) {
+			const result: TwoPasswords = {
+				passwort: val['firstPassword'],
+				passwortWdh: val['secondPassword']
+			};
+			return result;
+		}
+
+		return undefined;
 	}
 }
 

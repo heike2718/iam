@@ -28,6 +28,8 @@ export class DataStore {
 
 	private apiVersionSubject = new BehaviorSubject<string>('');
 
+	private errorResponseSubject = new BehaviorSubject<boolean>(false);
+
 	user$: Observable<User> = this.userSubject.asObservable();
 
 	authSignUpOutcome$: Observable<boolean> = this.authSignUpOutcomeSubject.asObservable();
@@ -39,6 +41,8 @@ export class DataStore {
 	csrfToken$: Observable<string> = this.csrfTokenSubject.asObservable();
 
 	apiVersion$: Observable<string> = this.apiVersionSubject.asObservable();
+
+	responseError$: Observable<boolean> = this.errorResponseSubject.asObservable();
 
 
 	updateAuthSignUpOutcome(success: boolean) {
@@ -64,8 +68,13 @@ export class DataStore {
 	initCsrfToken(token: string) {
 		this.csrfTokenSubject.next(token);
 	}
+
 	updateApiVersion(version: string) {
 		this.apiVersionSubject.next(version);
+	}
+
+	updateErrorStatus(error: boolean) {
+		this.errorResponseSubject.next(error);
 	}
 }
 

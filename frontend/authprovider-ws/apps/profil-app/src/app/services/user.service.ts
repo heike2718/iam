@@ -73,6 +73,7 @@ export class UserService {
 		).subscribe(
 			payload => {
 				if (payload !== null) {
+					const message: Message = payload.message;
 					if (payload.data) {
 						const authUser = payload.data as AuthenticatedUser;
 						localStorage.setItem(STORAGE_KEY_SESSION_EXPIRES_AT, JSON.stringify(authUser.session.expiresAt));
@@ -82,13 +83,15 @@ export class UserService {
 						}
 					}
 					if (payload.message) {
-						const _message: Message = payload.message;
-						this.messageService.info(_message.message);
+						
+						this.messageService.showMessage(message);
 					}
 					store.updateBlockingIndicator(false);
+					store.updateErrorStatus(message.level !== 'INFO');
 					// this.sessionService.clearSession();
 
 				} else {
+					store.updateErrorStatus(true);
 					store.updateBlockingIndicator(false);
 					this.messageService.error('Es ist ein unerwarteter Fehler aufgetreten. Bitte schreiben Sie eine Mail an info@egladil.de.');
 					this.logService.error('changeProfileData: response payload war null');
@@ -98,6 +101,7 @@ export class UserService {
 			},
 			(error => {
 				store.updateBlockingIndicator(false);
+				store.updateErrorStatus(true);
 				this.httpErrorService.handleError(error, 'changePassword');
 			})
 		);

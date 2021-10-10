@@ -13,6 +13,7 @@ import { AuthService } from '../services/auth.service';
 import { SessionService } from '../services/session.service';
 import { HttpErrorService } from '../error/http-error.service';
 import { LogService } from '@authprovider-ws/common-logging';
+import { trimString } from '@authprovider-ws/common-components';
 
 @Component({
 	selector: 'auth-log-in',
@@ -149,7 +150,7 @@ export class LogInComponent implements OnInit, OnDestroy {
 	private getSubmitPayload(): LoginCredentials {
 
 		const authCredentials: AuthorizationCredentials = {
-			loginName: this.loginName ? this.loginName.value.trim() : null,
+			loginName: this.loginName ? trimString(this.loginName.value) : null,
 			passwort: this.getValueFormControl('password'),
 			kleber: this.kleber ? this.kleber.value : null
 		};

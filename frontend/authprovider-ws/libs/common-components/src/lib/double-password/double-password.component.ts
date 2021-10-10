@@ -78,8 +78,10 @@ export class DoublePasswordComponent implements ControlValueAccessor, OnInit {
   public onTouched: () => void = () => { };
 
   // Override
-  writeValue(val: any): void {
-    val && this.doublePasswordForm.setValue(val, { emitEvent: false });    
+  writeValue(val: any): void {    
+    if (val === null) {
+      this.doublePasswordForm.reset();
+    }  
   }
 
   // Override

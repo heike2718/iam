@@ -10,6 +10,7 @@ import { SessionService } from '../services/session.service';
 import { Subscription } from 'rxjs';
 import { ResponsePayload, MessageService } from '@authprovider-ws/common-messages';
 import { LogService } from '@authprovider-ws/common-logging';
+import { trimString } from '@authprovider-ws/common-components';
 
 @Component({
 	selector: 'auth-forgot-password',
@@ -78,7 +79,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
 	submit(): void {
 
-		const _email = this.email.value ? this.email.value.trim() : null;
+		const _email = this.email.value ? trimString(this.email.value) : null;
 		const _kleber = this.kleber.value ? this.kleber.value : null;
 
 		let _clientCreds = this.clientCredentials;

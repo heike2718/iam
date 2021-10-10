@@ -4,8 +4,9 @@
 
 export const environment = {
 	production: false,
-	version: '7.3.0',
+	version: '7.3.1',
 	envName: 'Test',
+	datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
 	apiUrl: 'http://heidedeb:9000/authprovider',
 	profilUrl: 'http://heikedeb/profil-app',
 	assetsUrl: 'auth-app/assets',

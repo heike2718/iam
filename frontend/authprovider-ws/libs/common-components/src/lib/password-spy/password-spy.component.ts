@@ -72,7 +72,12 @@ export class PasswordSpyComponent implements ControlValueAccessor, OnInit {
 
   // Override
   writeValue(val: any): void {
-    val && this.passwordForm.setValue(val, { emitEvent: false });    
+    if (val === null) {
+      this.passwordForm.reset();
+
+    } else {
+      this.password.setValue(val, { emitEvent: false });
+    }
   }
 
   // Override
