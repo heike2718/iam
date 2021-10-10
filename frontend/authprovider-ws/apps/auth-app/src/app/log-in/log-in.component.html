@@ -9,7 +9,7 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-12">
-						<label for="loginNameInput">Loginname oder Email*</label>
+						<label for="loginNameInput" class="label-bold">Loginname oder Email*</label>
 					</div>
 				</div>
 				<div class="row" [class.error]="loginName.touched && !loginName.valid">
@@ -18,23 +18,12 @@
 							formControlName="loginName" autocomplete="true">
 					</div>
 				</div>
-				<auth-form-error path="loginName" text="Loginname oder Email"></auth-form-error>
+				<cmn-form-error path="loginName" text="Loginname oder Email"></cmn-form-error>
 			</div>
 
-			<div class="form-group">
-				<div class="row">
-					<div class="col-md-12">
-						<label for="passwortInput">Passwort*</label>
-					</div>
-				</div>
-				<div class="row" [class.error]="passwort.touched && !passwort.valid">
-					<div class="col-xs-12 col-sm-12 btn-wrapper">
-						<input class="form-control" type="password" id="passwortInput" placeholder="Passwort"
-							formControlName="passwort" autocomplete="false">
-					</div>
-				</div>
-				<auth-form-error path="passwort" text="Passwort"></auth-form-error>
-			</div>
+			<!-- formControlName muss dieser Komponente mit einem AbstractControl verknüpft sein... -->
+			<!-- ...und in der password-spy.component mit einem AbstractControl gleichen Namens verknüpft sein... -->
+			<cmn-password id="passwortInput" formControlName="password" textLabel="Passwort"></cmn-password>
 
 			<div class="form-group kleber">
 				<label for="kleberInput">Kleber:</label>
@@ -44,7 +33,7 @@
 
 			<div class="btn-group d-flex" role="group">
 				<button class="btn btn-primary w-100 ml-1" (click)="submit()"
-					[disabled]="!loginForm.valid">einloggen</button>
+					[disabled]="submitDisabled()">einloggen</button>
 
 				<button class="btn btn-primary w-100 ml-1" (click)="gotoOrderTempPwd()">
 					Passwort vergessen

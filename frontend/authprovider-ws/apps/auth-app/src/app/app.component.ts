@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LogService } from '@authprovider-ws/common-logging';
 import { environment } from '../environments/environment';
-import { LogService } from 'hewi-ng-lib';
 
 @Component({
 	// tslint:disable-next-line:component-selector

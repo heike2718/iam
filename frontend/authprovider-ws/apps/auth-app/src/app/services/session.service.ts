@@ -3,7 +3,7 @@ import { STORAGE_KEY_DEV_SESSION_ID, STORAGE_KEY_SESSION_EXPIRES_AT, AuthSession
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map, publishLast, refCount } from 'rxjs/operators';
-import { ResponsePayload } from 'hewi-ng-lib';
+import { ResponsePayload } from '@authprovider-ws/common-messages';
 
 @Injectable({
 	providedIn: 'root'

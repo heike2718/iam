@@ -5,7 +5,7 @@ import { HttpErrorService } from '../error/http-error.service';
 import { environment } from '../../environments/environment';
 import { AppData } from '../shared/app-data.service';
 import { ClientCredentials, createQueryParameters } from '../shared/model/auth-model';
-import { ResponsePayload } from 'hewi-ng-lib';
+import { ResponsePayload } from '@authprovider-ws/common-messages';
 
 /** ClientService holt die Daten zum Client */
 @Injectable({

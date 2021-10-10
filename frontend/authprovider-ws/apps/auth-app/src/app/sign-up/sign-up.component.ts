@@ -1,20 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
-import { passwortValidator, passwortPasswortWiederholtValidator } from '../shared/validation/app.validators';
-import { AppConstants } from '../shared/app.constants';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ClientInformation, ClientCredentials, RegistrationCredentials, TwoPasswords, AuthSession } from '../shared/model/auth-model';
+import { ClientInformation, ClientCredentials, RegistrationCredentials, TwoPasswords, AuthSession, isRegistrationPayloadValid } from '../shared/model/auth-model';
 import { ClientService } from '../services/client.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
 import { AppData } from '../shared/app-data.service';
-import { MessagesService, LogService, ResponsePayload } from 'hewi-ng-lib';
+import { MessageService,  ResponsePayload } from '@authprovider-ws/common-messages';
 import { SessionService } from '../services/session.service';
 import { AuthService } from '../services/auth.service';
 import { HttpErrorService } from '../error/http-error.service';
 import { SignupValidationService } from '../services/signup-valitadion.service';
+import { LogService } from '@authprovider-ws/common-logging';
+import { PASSWORTREGELN, modalOptions, trimString } from '@authprovider-ws/common-components';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
 	selector: 'auth-sign-up',
@@ -22,6 +23,11 @@ import { SignupValidationService } from '../services/signup-valitadion.service';
 	styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit, OnDestroy {
+
+	@ViewChild('dialogPasswordRules')
+	dialogPasswordRules!: TemplateRef<HTMLElement>;
+
+	isDev = environment.envName === 'dev';
 
 	clientInformation$: Observable<ClientInformation>;
 
@@ -47,19 +53,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
 	email: AbstractControl;
 
-	passwort: AbstractControl;
-
-	passwortWdh: AbstractControl;
-
 	kleber: AbstractControl;
-
-	infoPasswortExpanded = false;
 
 	tooltipPasswort: string;
 
-	submitDisabled: true;
-
 	showClientId: boolean;
+
+	datenschutzUrl: string = environment.datenschutzUrl;
 
 	private redirectUrl = '';
 
@@ -75,7 +75,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		private validationService: SignupValidationService,
 		private appData: AppData,
 		private httpErrorService: HttpErrorService,
-		private messagesService: MessagesService,
+		private modalService: NgbModal,
+		private messageService: MessageService,
 		private logger: LogService,
 		private route: ActivatedRoute) { }
 
@@ -86,17 +87,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
 			'email': new FormControl('', {
 				'validators': [Validators.required, Validators.email]
 			}),
-			'passwort': new FormControl('', { 'validators': [Validators.required, passwortValidator] }),
-			'passwortWdh': new FormControl('', { 'validators': [Validators.required, passwortValidator] }),
+			'doublePassword': new FormControl(''),
 			'kleber': new FormControl(''),
-		}, { 'validators': passwortPasswortWiederholtValidator });
+		});
 
 		this.agbGelesen = this.signUpForm.controls['agbGelesen'];
 		this.email = this.signUpForm.controls['email'];
-		this.passwort = this.signUpForm.controls['passwort'];
-		this.passwortWdh = this.signUpForm.controls['passwortWdh'];
 		this.kleber = this.signUpForm['kleber'];
-		this.tooltipPasswort = AppConstants.tooltips.PASSWORTREGELN;
+		this.tooltipPasswort = PASSWORTREGELN;
 		this.showClientId = environment.envName === 'DEV';
 
 
@@ -159,8 +157,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	toggleInfoPasswort() {
-		this.infoPasswortExpanded = !this.infoPasswortExpanded;
+	openDialogPasswordRules(): void {
+		this.modalService.open(this.dialogPasswordRules, modalOptions).result.then((_result) => {
+			
+			// do nothing
+	  });
 	}
 
 	private loadClientInformation() {
@@ -188,33 +189,24 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		);
 	}
 
+	submitDisabled(): boolean {
+
+		const registrationCredentials: RegistrationCredentials = this.getRegistrationCredentials();
+		return !isRegistrationPayloadValid(registrationCredentials);
+		// return false;
+	}
+
 	submitUser(): void {
 		this.logger.debug('about to submit ' + this.signUpForm.value);
 
-		this.messagesService.clear();
-
-		const twoPasswords: TwoPasswords = {
-			passwort: this.passwort.value,
-			passwortWdh: this.passwortWdh.value
-		};
-
-		const registrationCredentials: RegistrationCredentials = {
-			agbGelesen: this.agbGelesen.value,
-			clientCredentials: this.clientCredentials,
-			email: this.email.value.trim(),
-			kleber: this.kleber ? this.kleber.value : null,
-			vorname: this.vorname ? this.vorname.value.trim() : null,
-			nachname: this.nachname ? this.nachname.value.trim() : null,
-			groups: this.groups,
-			nonce: this.nonce,
-			// wenn man den loginnamen nicht setzen kann, wird die Mailadresse verwendet.
-			loginName: this.loginName ? this.loginName.value.trim() : this.email.value.trim(),
-			twoPasswords: twoPasswords
-		};
-
+		this.messageService.clear();
+		const registrationCredentials: RegistrationCredentials = this.getRegistrationCredentials();
 		this.logger.debug(JSON.stringify(registrationCredentials));
-
 		this.userService.registerUser(registrationCredentials, this.session);
+	}
+
+	getValueAgbGelesen(): boolean {
+		return this.agbGelesen.value;
 	}
 
 	private sendRedirect() {
@@ -252,5 +244,43 @@ export class SignUpComponent implements OnInit, OnDestroy {
 			}
 		});
 		return promise;
+	}
+
+	private getRegistrationCredentials(): RegistrationCredentials | undefined {
+
+		const emailVal = this.email ? trimString(this.email.value) : null;
+
+		const twoPasswords: TwoPasswords = this.getTwoPasswords();
+
+		const registrationCredentials: RegistrationCredentials = {
+			agbGelesen: this.getValueAgbGelesen(),
+			clientCredentials: this.clientCredentials,
+			email: emailVal,
+			kleber: this.kleber ? this.kleber.value : null,
+			vorname: this.vorname ? trimString(this.vorname.value) : null,
+			nachname: this.nachname ? trimString(this.nachname.value) : null,
+			groups: this.groups,
+			nonce: this.nonce,
+			// wenn man den loginnamen nicht setzen kann, wird die Mailadresse verwendet.
+			loginName: this.loginName ? trimString(this.loginName.value) : emailVal,
+			twoPasswords: twoPasswords
+		};
+
+		return registrationCredentials;
+	}
+
+	private getTwoPasswords(): TwoPasswords  | undefined{
+
+		const val: FormControl = this.signUpForm.value['doublePassword'] ? this.signUpForm.value['doublePassword'] : undefined;
+
+		if (val) {
+			const result: TwoPasswords = {
+				passwort: val['firstPassword'],
+				passwortWdh: val['secondPassword']
+			};
+			return result;
+		}
+
+		return undefined;
 	}
 }

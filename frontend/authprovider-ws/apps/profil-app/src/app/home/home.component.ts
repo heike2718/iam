@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { STORAGE_KEY_FULL_NAME } from '../shared/model/app-model';
+import { STORAGE_KEY_FULL_NAME } from '../shared/model/profil.model';
 import { Subscription } from 'rxjs';
 import { store } from '../shared/store/app-data';
+import { AuthService } from '../services/auth.service';
 
 @Component({
 	selector: 'prfl-home',
@@ -13,7 +14,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	showLoadingIndicator: boolean;
 	private blockingIndicatorSubscription: Subscription;
 
-	constructor() { }
+	constructor(private authService: AuthService) { }
 
 	ngOnInit() {
 
@@ -30,14 +31,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 	}
 
 	isLoggedIn(): boolean {
+		return this.authService.isLoggedIn();
+	}
 
-		const user = localStorage.getItem(STORAGE_KEY_FULL_NAME);
+	logIn(): void {
+		this.authService.logIn();
+	}
 
-		if (user !== null) {
-			return true;
-		}
-
-		return false;
+	logOut(): void {
+		this.authService.logOut();
 	}
 
 

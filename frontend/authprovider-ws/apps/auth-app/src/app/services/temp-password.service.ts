@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TempPasswordCredentials, ChangeTempPasswordPayload, AuthSession } from '../shared/model/auth-model';
 import { map, publishLast, refCount, tap } from 'rxjs/operators';
-import { ResponsePayload, LogService } from 'hewi-ng-lib';
+import { ResponsePayload } from '@authprovider-ws/common-messages';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
+import { LogService } from '@authprovider-ws/common-logging';
 
 @Injectable({
 	providedIn: 'root'

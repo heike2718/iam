@@ -3,7 +3,10 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { HewiNgLibModule } from 'hewi-ng-lib';
+
+import { CommonMessagesModule } from '@authprovider-ws/common-messages';
+import { CommonLoggingModule } from '@authprovider-ws/common-logging';
+import { CommonComponentsModule } from '@authprovider-ws/common-components';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -16,10 +19,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfilComponent } from './profil/profil.component';
 import { BaseDataComponent } from './profil/base-data.component';
 import { PasswordComponent } from './profil/password.component';
-import { FormErrorComponent } from './shared/components/form-error/form-error.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { DeleteAccountComponent } from './profil/delete-account.component';
 import { AboutComponent } from './about/about.component';
+import { environment } from '../environments/environment';
 
 @NgModule({
 	declarations: [
@@ -29,7 +32,6 @@ import { AboutComponent } from './about/about.component';
 		ProfilComponent,
 		BaseDataComponent,
 		PasswordComponent,
-		FormErrorComponent,
 		DeleteAccountComponent,
 		AboutComponent,
 	],
@@ -41,7 +43,14 @@ import { AboutComponent } from './about/about.component';
 		ReactiveFormsModule,
 		NgbModule,
 		NgbCollapseModule,
-		HewiNgLibModule
+		CommonMessagesModule,
+		CommonComponentsModule,
+		CommonLoggingModule.forRoot({
+			consoleLogActive: environment.consoleLogActive,
+			serverLogActive: environment.serverLogActive,
+			loglevel: environment.loglevel
+		}),
+
 	],
 	providers: [
 		GlobalErrorHandlerService,

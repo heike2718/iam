@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../services/auth.service';
-import { STORAGE_KEY_ID_REFERENCE } from '../shared/model/app-model';
+import { STORAGE_KEY_ID_REFERENCE } from '../shared/model/profil.model';
 
 @Component({
 	selector: 'prfl-navbar',

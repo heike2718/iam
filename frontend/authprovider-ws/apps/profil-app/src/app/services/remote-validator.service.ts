@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LogService } from 'hewi-ng-lib';
 import { environment } from '../../environments/environment';
+import { LogService } from '@authprovider-ws/common-logging';
 
 @Injectable({
 	providedIn: 'root'

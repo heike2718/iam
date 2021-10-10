@@ -1,7 +1,8 @@
 export const environment = {
 	production: true,
-	version: '7.3.0',
+	version: '7.3.1',
 	envName: 'Production',
+	datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
 	apiUrl: 'https://opa-wetterwachs.de/authprovider',
 	profilUrl: 'https://opa-wetterwachs.de/profil-app',
 	assetsUrl: 'auth-app/assets',

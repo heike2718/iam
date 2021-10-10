@@ -1,18 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ClientInformation, ClientCredentials, LoginCredentials, AuthorizationCredentials, AuthSession } from '../shared/model/auth-model';
+import { ClientInformation, ClientCredentials, LoginCredentials, AuthorizationCredentials, AuthSession, isLoginCredentialsValid } from '../shared/model/auth-model';
 import { ClientService } from '../services/client.service';
 import { UserService } from '../services/user.service';
 import { AppData } from '../shared/app-data.service';
-import { MessagesService, LogService, ResponsePayload } from 'hewi-ng-lib';
+import { MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { passwortValidator } from '../shared/validation/app.validators';
 import { AuthService } from '../services/auth.service';
 import { SessionService } from '../services/session.service';
 import { HttpErrorService } from '../error/http-error.service';
+import { LogService } from '@authprovider-ws/common-logging';
+import { trimString } from '@authprovider-ws/common-components';
 
 @Component({
 	selector: 'auth-log-in',
@@ -20,6 +21,8 @@ import { HttpErrorService } from '../error/http-error.service';
 	styleUrls: ['./log-in.component.css']
 })
 export class LogInComponent implements OnInit, OnDestroy {
+
+	isDev = environment.envName === 'dev';
 
 	clientInformation$: Observable<ClientInformation>;
 
@@ -31,9 +34,11 @@ export class LogInComponent implements OnInit, OnDestroy {
 
 	loginForm: FormGroup;
 
+	gelesenControl: AbstractControl;
+
 	loginName: AbstractControl;
 
-	passwort: AbstractControl;
+	passwordControl: AbstractControl;
 
 	kleber: AbstractControl;
 
@@ -53,20 +58,22 @@ export class LogInComponent implements OnInit, OnDestroy {
 		private sessionService: SessionService,
 		private appData: AppData,
 		private httpErrorService: HttpErrorService,
-		private messagesService: MessagesService,
+		private messageService: MessageService,
 		private logger: LogService,
 		private router: Router,
 		private route: ActivatedRoute) {
 
 
 		this.loginForm = this.fb.group({
-			'loginName': ['', [Validators.required]],
-			'passwort': ['', [Validators.required, passwortValidator]],
+			'gelesen': [false],
+			'loginName': ['', [Validators.required, Validators.maxLength(255)]],
+			'password': [''],
 			'kleber': ['']
 		});
 
+		this.gelesenControl = this.loginForm.controls['gelesen'];
 		this.loginName = this.loginForm.controls['loginName'];
-		this.passwort = this.loginForm.controls['passwort'];
+		this.passwordControl = this.loginForm.controls['password'];
 		this.kleber = this.loginForm['kleber'];
 
 		this.showClientId = environment.envName === 'DEV';
@@ -95,7 +102,6 @@ export class LogInComponent implements OnInit, OnDestroy {
 			},
 			error => this.httpErrorService.handleError(error, 'createAnonymousSession', null)
 		);
-
 	}
 
 	ngOnDestroy() {
@@ -125,14 +131,27 @@ export class LogInComponent implements OnInit, OnDestroy {
 		);
 	}
 
+	submitDisabled(): boolean {
+
+		const loginCredentials = this.getSubmitPayload();		
+		return !isLoginCredentialsValid(loginCredentials);
+	}
+
 	submit(): void {
 		this.logger.debug('about to submit ' + this.loginForm.value);
 
-		this.messagesService.clear();
+		this.messageService.clear();
+
+		const loginCredentials = this.getSubmitPayload();
+		this.logger.debug(JSON.stringify(loginCredentials));
+		this.userService.loginUser(loginCredentials, this.session);
+	}
+
+	private getSubmitPayload(): LoginCredentials {
 
 		const authCredentials: AuthorizationCredentials = {
-			loginName: this.loginName ? this.loginName.value.trim() : null,
-			passwort: this.passwort.value,
+			loginName: this.loginName ? trimString(this.loginName.value) : null,
+			passwort: this.getValueFormControl('password'),
 			kleber: this.kleber ? this.kleber.value : null
 		};
 
@@ -142,9 +161,12 @@ export class LogInComponent implements OnInit, OnDestroy {
 			nonce: this.nonce
 		};
 
-		this.logger.debug(JSON.stringify(loginCredentials));
+		return loginCredentials;
+	} 
 
-		this.userService.loginUser(loginCredentials, this.session);
+	private getValueFormControl(formControlName: string) {
+		const val = this.passwordControl.value[formControlName] ? this.passwordControl.value[formControlName] : undefined;
+		return val;
 	}
 
 	gotoOrderTempPwd(): void {

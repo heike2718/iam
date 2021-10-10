@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line:max-line-length
-import { AuthResult, ResponsePayload, LogService } from 'hewi-ng-lib';
 import { store } from '../shared/store/app-data';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorService } from '../error/http-error.service';
 import { map, publishLast, refCount } from 'rxjs/operators';
 // tslint:disable-next-line:max-line-length
-import { AuthenticatedUser, STORAGE_KEY_FULL_NAME, STORAGE_KEY_SESSION_EXPIRES_AT, STORAGE_KEY_DEV_SESSION_ID, STORAGE_KEY_ID_REFERENCE } from '../shared/model/app-model';
+import { AuthenticatedUser, STORAGE_KEY_FULL_NAME, STORAGE_KEY_SESSION_EXPIRES_AT, STORAGE_KEY_DEV_SESSION_ID, STORAGE_KEY_ID_REFERENCE, AuthResult } from '../shared/model/profil.model';
 import { Router } from '@angular/router';
 import { SessionService } from './session.service';
+import { LogService } from '@authprovider-ws/common-logging';
+import { ResponsePayload } from '@authprovider-ws/common-messages';
 
 @Injectable({
 	providedIn: 'root'
@@ -21,6 +22,10 @@ export class AuthService {
 		, private sessionService: SessionService
 		, private router: Router
 		, private logger: LogService) { }
+
+	isLoggedIn(): boolean {
+		return localStorage.getItem(STORAGE_KEY_FULL_NAME) !== null;
+	}
 
 
 	logIn() {
@@ -120,5 +125,34 @@ export class AuthService {
 			console.log('authResult.state = ' + authResult.state);
 		}
 
+	}
+
+	public parseHash(hashStr: string): AuthResult {
+
+		hashStr = hashStr.replace(/^#?\/?/, '');
+
+		const result: AuthResult = {
+			expiresAt: 0,
+			nonce: undefined,
+			state: undefined,
+			idToken: undefined
+		};
+
+		if (hashStr.length > 0) {
+
+			const tokens = hashStr.split('&');
+			tokens.forEach(
+				(token) => {
+					const keyVal = token.split('=');
+					switch (keyVal[0]) {
+						case 'expiresAt': result.expiresAt = JSON.parse(keyVal[1]); break;
+						case 'nonce': result.nonce = keyVal[1]; break;
+						case 'state': result.state = keyVal[1]; break;
+						case 'idToken': result.idToken = keyVal[1]; break;
+					}
+				}
+			);
+		}
+		return result;
 	}
 }

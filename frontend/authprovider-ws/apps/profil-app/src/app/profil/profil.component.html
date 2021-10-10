@@ -9,7 +9,7 @@
 					<div [ngClass]="getClassnamePassword()" (click)="togglePasswordAktiv()">
 						Passwort</div>
 					<div id="left-nav-link-last" [ngClass]="getClassnameDeleteAccount()" (click)="toggleDeleteAccountActive()">
-						Konto löschen</div>
+						Konto löschen</div>					
 				</div>
 			</div>
 			<div id="nav-detail" class="col-sm-9">
@@ -21,7 +21,7 @@
 				</div>
 				<div *ngIf="deleteAccountActive()">
 					<prfl-delete-account></prfl-delete-account>
-				</div>
+				</div>				
 			</div>
 		</div>
 	</div>
