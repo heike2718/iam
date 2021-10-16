@@ -5,6 +5,9 @@
 
 package de.egladil.web.authprovider.endpoints;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -34,6 +37,8 @@ public class AuthenticationResource {
 
 	private ValidationDelegate validationDelegate = new ValidationDelegate();
 
+	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+
 	@Inject
 	AuthenticationService authenticationService;
 
@@ -53,6 +58,14 @@ public class AuthenticationResource {
 
 		try {
 
+			if (honeypot(credentials.getAuthorizationCredentials().getKleber())) {
+
+				ResponsePayload responsePayload = ResponsePayload.messageOnly(
+					MessagePayload
+						.error(applicationMessages.getString("general.notAuthenticated")));
+				return Response.status(401).entity(responsePayload).build();
+			}
+
 			validationDelegate.check(credentials, LoginCredentials.class);
 
 			ResourceOwner resourceOwner = authenticationService
@@ -64,10 +77,25 @@ public class AuthenticationResource {
 			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.info("erfolgreich authentisiert"), data);
 
 			return Response.ok(responsePayload).build();
+
 		} finally {
 
 			credentials.getAuthorizationCredentials().clean();
 		}
+	}
+
+	private boolean honeypot(final String value) {
+
+		if (value == null) {
+
+			return false;
+		}
+
+		if (value.isEmpty()) {
+
+			return false;
+		}
+		return true;
 	}
 
 }
