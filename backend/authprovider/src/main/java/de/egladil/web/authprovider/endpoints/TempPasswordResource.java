@@ -5,7 +5,9 @@
 
 package de.egladil.web.authprovider.endpoints;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.enterprise.context.RequestScoped;
@@ -33,7 +35,9 @@ import de.egladil.web.authprovider.payload.OrderTempPasswordPayload;
 import de.egladil.web.authprovider.service.ClientService;
 import de.egladil.web.authprovider.service.temppwd.ChangeTempPasswordService;
 import de.egladil.web.authprovider.service.temppwd.CreateTempPasswordService;
+import de.egladil.web.commons_validation.InvalidProperty;
 import de.egladil.web.commons_validation.ValidationDelegate;
+import de.egladil.web.commons_validation.exception.InvalidInputException;
 import de.egladil.web.commons_validation.payload.MessagePayload;
 import de.egladil.web.commons_validation.payload.ResponsePayload;
 
@@ -67,7 +71,28 @@ public class TempPasswordResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response orderTempPassword(final OrderTempPasswordPayload payload) {
 
-		validationDelegate.check(payload, OrderTempPasswordPayload.class);
+		try {
+
+			validationDelegate.check(payload, OrderTempPasswordPayload.class);
+
+		} catch (InvalidInputException ex) {
+
+			ResponsePayload rp = ex.getResponsePayload();
+			@SuppressWarnings("unchecked")
+			List<InvalidProperty> invalidProperties = (List<InvalidProperty>) rp.getData();
+
+			Optional<InvalidProperty> optKleber = invalidProperties.stream().filter(p -> "kleber".equals(p.getName())).findFirst();
+
+			if (optKleber.isEmpty()) {
+
+				throw ex;
+			}
+
+			ResponsePayload responsePayload = ResponsePayload.messageOnly(
+				MessagePayload
+					.error(applicationMessages.getString("CreateTempPwd.unknownOrDeactivated")));
+			return Response.status(404).entity(responsePayload).build();
+		}
 
 		Client client = null;
 
