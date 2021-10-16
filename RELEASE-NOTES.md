@@ -1,5 +1,9 @@
 # authprovider Release Notes
 
+__Release 7.3.1.1__:
+
+[401 when incorrect XSRF-TOKEN](https://github.com/heike2718/authenticationprovider/issues/22)
+
 __Release 7.3.1__:
 
 * [Passwort einblendbar machen](https://github.com/heike2718/authenticationprovider/issues/40)
