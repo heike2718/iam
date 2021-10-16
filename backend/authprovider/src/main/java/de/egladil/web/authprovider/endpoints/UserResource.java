@@ -154,6 +154,24 @@ public class UserResource {
 
 			return Response.created(uri).entity(responsePayload).build();
 
+		} catch (InvalidInputException ex) {
+
+			ResponsePayload rp = ex.getResponsePayload();
+			@SuppressWarnings("unchecked")
+			List<InvalidProperty> invalidProperties = (List<InvalidProperty>) rp.getData();
+
+			Optional<InvalidProperty> optKleber = invalidProperties.stream().filter(p -> "kleber".equals(p.getName())).findFirst();
+
+			if (optKleber.isEmpty()) {
+
+				throw ex;
+			}
+
+			ResponsePayload responsePayload = ResponsePayload.messageOnly(
+				MessagePayload
+					.error(applicationMessages.getString("general.forbidden")));
+			return Response.status(403).entity(responsePayload).build();
+
 		} catch (InvalidMailAddressException e) {
 
 			this.resourceOwnerService.deleteResourceOwnerQuietly(signUpCredentials.getEmail());
