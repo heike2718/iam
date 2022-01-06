@@ -4,7 +4,7 @@
 
 export const environment = {
 	production: false,
-	version: '7.3.1',
+	version: '7.3.2',
 	envName: 'a300',
 	datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
 	apiUrl: 'http://a300:9000/authprovider',

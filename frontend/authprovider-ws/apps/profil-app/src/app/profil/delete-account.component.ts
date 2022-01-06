@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { User } from '../shared/model/profil.model';
 import { store } from '../shared/store/app-data';
@@ -6,6 +6,7 @@ import { UserService } from '../services/user.service';
 import { HttpErrorService } from '../error/http-error.service';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { SessionService } from '../services/session.service';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
 	selector: 'prfl-delete-account',
@@ -14,6 +15,11 @@ import { SessionService } from '../services/session.service';
 })
 export class DeleteAccountComponent implements OnInit, OnDestroy {
 
+	
+
+	@ViewChild('dialogAccountDeleted')
+	dialogAccountDeleted!: TemplateRef<HTMLElement>;
+
 
 	user$: Observable<User>;
 
@@ -21,7 +27,11 @@ export class DeleteAccountComponent implements OnInit, OnDestroy {
 
 	checkAccept: AbstractControl;
 
-	private cachedUser: User;
+	private modalOptions: NgbModalOptions = {
+		backdrop:'static',
+		centered:true,
+		ariaLabelledBy: 'modal-basic-title'
+	};
 
 	private userSubscription: Subscription;
 
@@ -33,11 +43,12 @@ export class DeleteAccountComponent implements OnInit, OnDestroy {
 
 	showBlockingIndicator: boolean;
 
-	showDialog = false;
+	
 
 	constructor(private fb: FormBuilder
 		, private userService: UserService
 		, private sessionService: SessionService
+		, private modalService: NgbModal
 		, private httpErrorService: HttpErrorService) {
 
 		this.deleteAccountForm = this.fb.group({
@@ -50,12 +61,6 @@ export class DeleteAccountComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 
 		this.user$ = store.user$;
-
-		this.userSubscription = this.user$.subscribe(
-			user => {
-				this.cachedUser = user;
-			}
-		);
 
 		this.blockingIndicatorSubscription = store.blockingIndicator$.subscribe(
 			value => this.showBlockingIndicator = value
@@ -84,13 +89,20 @@ export class DeleteAccountComponent implements OnInit, OnDestroy {
 		this.userService.deleteAccount(this.csrfToken).subscribe(
 			_payload => {
 				store.updateBlockingIndicator(false);
-				this.showDialog = true;
+				this.showDialogSuccess();
 			},
 			(error => {
 				store.updateBlockingIndicator(false);
 				this.httpErrorService.handleError(error, 'deleteAccount');
 			})
 		);
+	}
+
+	showDialogSuccess() {
+		this.modalService.open(this.dialogAccountDeleted, this.modalOptions).result.then((_result) => {
+			
+			this.sessionService.clearSession();
+	  });
 	}
 
 	closeModal(): void {
