@@ -23,6 +23,8 @@ import de.egladil.web.commons_mailer.exception.InvalidMailAddressException;
 @ApplicationScoped
 public class AuthMailService {
 
+	private static final String UNKNOWN_MAILHOST = "will-be-replaced";
+
 	@ConfigProperty(name = "stage")
 	String stage;
 
@@ -31,6 +33,9 @@ public class AuthMailService {
 
 	@Inject
 	EmailServiceCredentials emailServiceCredentials;
+
+	@ConfigProperty(name = "email.host")
+	String emailHost;
 
 	public static AuthMailService createForTest(final CommonEmailService commonMailService, final EmailServiceCredentials emailServiceCredentials) {
 
@@ -67,7 +72,14 @@ public class AuthMailService {
 					+ new String(emailServiceCredentials.getPassword()) + " ===");
 		}
 
-		this.commonMailService.sendMail(emailDaten, emailServiceCredentials);
+		if (UNKNOWN_MAILHOST.equals(emailHost)) {
+
+			System.out.println(emailDaten.getBetreff());
+			System.out.println(emailDaten.getText());
+		} else {
+
+			this.commonMailService.sendMail(emailDaten, emailServiceCredentials);
+		}
 
 		return true;
 	}

@@ -1,34 +1,3 @@
-<!-- Falls die authModalOpenOnClick-Direktive verwendet wird, Dialog zum Anzeigen des SignUp-Erfolgs inside *ngIf, weil sie sonst keine Elemente bekommt -->
-<div>
-    <!-- Dialog mit Hinweis auf Mailpostfach -->
-    <ng-template #successDialogBody>
-        <div class="container-fluid">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Benutzerkonto gelöscht</h4>
-                </div>
-                <div class="card-body">
-                    <p>Ihr Minikänguru-Benutzerkonto wurde gelöscht.</p>
-                </div>
-                <div class="card-footer">
-                    <div class="row btn-container">
-                        <div class="col-md-12 btn-wrapper">
-                            <div class="col-md-12 btn btn-outline-dark" (click)="closeModal()">
-                                OK
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ng-template>
-</div>
-
-<hewi-modal *ngIf="showDialog" #modal [hideOnEscape]="false" [hideOnClickOutside]="false" [body]="successDialogBody">
-    <!-- === kein close-icon, da unbedingt redirect ausgelöst werden muss -->
-    <!--<i class="fa fa-times" (click)="modal.close()"></i>-->
-</hewi-modal>
-
 <div class="page">
 
 	<div class="border border-danger p-4" *ngIf="user$ | async as user else loadingIdicator">
@@ -70,4 +39,16 @@
 	<div class="img">
 		<h3><i class="fa fa-spinner fa-spin"></i> Bitte warten...</h3>
 	</div>
+</ng-template>
+
+<ng-template #dialogAccountDeleted let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Benutzerkonto gelöscht</h4>
+    </div>
+    <div class="modal-body">
+        <p>Ihr Minikänguru-Benutzerkonto wurde erfolgreich gelöscht.</p>
+	</div>
+    <div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close('OK')">OK</button>
+    </div>
 </ng-template>

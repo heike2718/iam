@@ -4,7 +4,7 @@
 // =====================================================
 package de.egladil.web.authprovider.service.confirm;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

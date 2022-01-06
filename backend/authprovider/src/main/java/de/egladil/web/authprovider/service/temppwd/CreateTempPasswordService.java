@@ -77,7 +77,10 @@ public class CreateTempPasswordService {
 		if (optUser.isEmpty()) {
 
 			LOG.warn("Anforderung temporäres Passwort ungekannte Mailadresse '{}'", email);
-			throw new AccountDeactivatedException(applicationMessages.getString("CreateTempPwd.unknownOrDeactivated"));
+
+			mailService.versendePasswortUnbekanntMail(email);
+
+			return;
 		}
 
 		ResourceOwner resourceOwner = optUser.get();
@@ -110,5 +113,4 @@ public class CreateTempPasswordService {
 
 		LOG.debug("temp password ordered for {}", optUser.get());
 	}
-
 }

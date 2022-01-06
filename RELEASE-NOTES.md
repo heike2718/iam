@@ -1,5 +1,9 @@
 # authprovider Release Notes
 
+__Release 7.3.2__:
+
+[Kein Logout und keine Erfolgsmeldung nach dem Löschen des Benutzerkontos](https://github.com/heike2718/authenticationprovider/issues/44)
+
 __Release 7.3.1.1__:
 
 [401 when incorrect XSRF-TOKEN](https://github.com/heike2718/authenticationprovider/issues/22)
