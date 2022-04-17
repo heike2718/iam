@@ -1,4 +1,3 @@
-import * as moment_ from 'moment';
 import { Injectable } from '@angular/core';
 import { store } from '../shared/store/app-data';
 import { Router } from '@angular/router';
@@ -7,8 +6,6 @@ import { STORAGE_KEY_FULL_NAME
 	, STORAGE_KEY_DEV_SESSION_ID
 	, STORAGE_KEY_ID_REFERENCE } from '../shared/model/profil.model';
 import { LogService } from '@authprovider-ws/common-logging';
-
-const moment = moment_;
 
 @Injectable({
 	providedIn: 'root'
@@ -34,24 +31,13 @@ export class SessionService {
 		this.logger.debug('check session');
 
 		// session expires at ist in Millisekunden seit 01.01.1970
-		const expiration = this.getExpirationAsMoment();
+		const expiration = localStorage.getItem(STORAGE_KEY_SESSION_EXPIRES_AT);
 		if (expiration === null) {
 			return true;
 		}
-		const expired = moment().isAfter(expiration);
+		const expiredAt: number = JSON.parse(expiration);
+		const now = new Date().getMilliseconds();
 
-		return expired;
-	}
-
-	private getExpirationAsMoment() {
-
-		const expiration = localStorage.getItem(STORAGE_KEY_SESSION_EXPIRES_AT);
-		if (!expiration) {
-			this.logger.debug('session present');
-			return null;
-		}
-
-		const expiresAt = JSON.parse(expiration);
-		return moment(expiresAt);
+		return now > expiredAt;
 	}
 }
