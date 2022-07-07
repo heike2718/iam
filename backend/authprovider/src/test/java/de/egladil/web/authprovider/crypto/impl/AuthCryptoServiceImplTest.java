@@ -42,7 +42,7 @@ public class AuthCryptoServiceImplTest {
 		passwordConfig = new PasswordConfig();
 		passwordConfig.setCryptoAlgorithm("SHA-256");
 		passwordConfig.setIterations(4098);
-		passwordConfig.setPepper("trjxkIBH42okWYBPOuw7HUlXly5t+AkBFtvRm1lhfWU=");
+		passwordConfig.setPepper("z0eiPZVJxq/xhYD1RkXACJMKqtmzMQQ9blaR+ozXMk8=");
 		passwordConfig.setRandomAlgorithm("SHA1PRNG");
 		passwordConfig.setTempPwdCharPool("abcdefghijklmnopqrstuvwxyz0123456789");
 		passwordConfig.setTempPwdLength(8);
