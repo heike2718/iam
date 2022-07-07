@@ -63,10 +63,9 @@ Daten des Benutzerkontos (außer Rollen) können nur in der [profil-app](https:/
 
 ### Validierung
 
-* Das JWT und expiresAt wird am bestem im localstorage gespeichert
+* Das JWT darf nur Server zu Server übertragen werden und wird möglichst verwendet, um eine Session auf dem Server zu halten. Daher muss es nur ganz kurz gültig sein. Die Session-ID und ein expire-Zeitpunkt werden im localstorage gehalten.
 * expiresAt (= Anzahl Sekunden seit 1.1.1970) kann dann synchron für loggedInGuards verwendet werden, um Navigationsrouten zu enablen/disablen
-* Einen HttpRequestInterceptor implementieren, der bei jedem Request das JWT als Authorization Bearer-Header setzt
-* im Backend einen AuthorizationFilter implementieren, der bei jedem Request das JWT aus dem Header liest und validiert (mittels JWT-Wrapper)
+* im Backend einen AuthorizationFilter implementieren, der bei jedem Request das SessionCookie liest und validiert
 
 ## AuthProvider-Client anlegen
 
