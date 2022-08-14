@@ -4,8 +4,8 @@ import { map, publishLast, refCount, tap } from 'rxjs/operators';
 import { ResponsePayload } from '@authprovider-ws/common-messages';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
 import { LogService } from '@authprovider-ws/common-logging';
+import { Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -13,7 +13,6 @@ import { LogService } from '@authprovider-ws/common-logging';
 export class TempPasswordService {
 
 	private url = environment.apiUrl + '/temppwd';
-
 
 	constructor(private http: HttpClient
 		, private logger: LogService) { }

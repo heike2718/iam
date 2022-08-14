@@ -7,7 +7,7 @@ import { AppData } from '../shared/app-data.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { SessionService } from '../services/session.service';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { ResponsePayload, MessageService } from '@authprovider-ws/common-messages';
 import { LogService } from '@authprovider-ws/common-logging';
 import { trimString } from '@authprovider-ws/common-components';
@@ -49,7 +49,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 		, private sessionService: SessionService
 		, private httpErrorService: HttpErrorService
 		, private messageService: MessageService
-		, private appData: AppData
+		, public appData: AppData
 		, private logger: LogService
 		, private modalService: NgbModal) {
 
@@ -100,10 +100,14 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 		};
 
 		this.logger.debug(JSON.stringify(tempPasswordCredentials));
+
+		this.appData.updateLoading(true);
+
 		const response$ = this.tempPwdService.orderTempPassword(tempPasswordCredentials, this.session);
 
 		response$.subscribe(
 			payload => {
+				this.appData.updateLoading(false);
 				const level = payload.message.level;
 
 				if (level === 'INFO') {
@@ -116,7 +120,10 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
 			},
 			error => this.httpErrorService.handleError(error, 'orderTempPassword', undefined),
-			() => this.logger.debug('post call completed')
+			() => {
+				this.appData.updateLoading(false);
+				this.logger.debug('post call completed');
+			}
 		);
 	}
 

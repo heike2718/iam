@@ -2,7 +2,7 @@
 	<prfl-profil></prfl-profil>	
 </div>
 
-<div *ngIf="!showLoadingIndicator else loadingIdicator"></div>
+<div *ngIf="!showLoadingIndicator else loadingIndicator"></div>
 
 <div *ngIf="isLoggedIn()" class="d-md-none d-lg-none d-xl-none">
 	<div class="btn-group d-inline" role="group">
@@ -16,8 +16,8 @@
 	</div>
 </div>
 
-<ng-template #loadingIdicator>
+<ng-template #loadingIndicator>
 	<div class="img">
-		<h3><i class="fa fa-spinner fa-spin"></i> Bitte warten...</h3>
+		<p><i class="fa fa-spinner fa-spin"></i> Bitte warten...</p>
 	</div>
 </ng-template>

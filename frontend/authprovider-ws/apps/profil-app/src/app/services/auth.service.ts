@@ -32,15 +32,19 @@ export class AuthService {
 
 		const url = environment.apiUrl + '/auth/login';
 
+		store.updateBlockingIndicator(true);
+
 		this.httpClient.get(url).pipe(
 			map(res => res as ResponsePayload),
 			publishLast(),
 			refCount()
 		).subscribe(
 			payload => {
+				store.updateBlockingIndicator(false);
 				window.location.href = payload.message.message;
 			},
 			(error => {
+				store.updateBlockingIndicator(false);
 				this.httpErrorService.handleError(error, 'logIn');
 			}));
 

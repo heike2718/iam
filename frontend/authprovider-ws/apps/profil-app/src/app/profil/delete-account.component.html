@@ -1,6 +1,6 @@
 <div class="page">
 
-	<div class="border border-danger p-4" *ngIf="user$ | async as user else loadingIdicator">
+	<div class="border border-danger p-4" *ngIf="user$ | async as user else loadingIndicator">
 
 
 		<h3>Benutzerkonto Löschen</h3>
@@ -35,7 +35,7 @@
 	</div>
 </div>
 
-<ng-template #loadingIdicator>
+<ng-template #loadingIndicator>
 	<div class="img">
 		<h3><i class="fa fa-spinner fa-spin"></i> Bitte warten...</h3>
 	</div>

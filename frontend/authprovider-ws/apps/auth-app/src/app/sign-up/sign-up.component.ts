@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
+import { FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ClientInformation, ClientCredentials, RegistrationCredentials, TwoPasswords, AuthSession, isRegistrationPayloadValid } from '../shared/model/auth-model';
@@ -67,13 +67,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
 	private clientInfoSubscription: Subscription;
 
-	constructor(private fb: FormBuilder,
-		private clientService: ClientService,
+	constructor(private clientService: ClientService,
 		private userService: UserService,
 		private authService: AuthService,
 		private sessionService: SessionService,
 		private validationService: SignupValidationService,
-		private appData: AppData,
+		public appData: AppData,
 		private httpErrorService: HttpErrorService,
 		private modalService: NgbModal,
 		private messageService: MessageService,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LogService } from '@authprovider-ws/common-logging';
 import { environment } from '../environments/environment';
+import { VersionService } from './services/version.service';
 
 @Component({
 	// tslint:disable-next-line:component-selector
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
 	logo = environment.assetsUrl + '/mja_logo.png';
 	innerWidth: number;
 
-	constructor(private logger: LogService) { }
+	constructor(private logger: LogService, public versionService: VersionService) { }
 
 	ngOnInit() {
 		const location = window.location;
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
 		this.innerWidth = window.innerWidth;
 
 		this.logger.debug('innerWidth=' + this.innerWidth);
+		this.versionService.ladeExpectedGuiVersion();
 	}
 }
 
