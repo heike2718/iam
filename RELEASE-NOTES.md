@@ -3,7 +3,9 @@
 __Release 7.3.5__:
 
 [Loading-Indicator bei diversen http-Requests](https://github.com/heike2718/authenticationprovider/issues/51)
+
 [Security upgrades](https://github.com/heike2718/authenticationprovider/issues/52)
+
 [Erwartete UI-Version vom Server holen](https://github.com/heike2718/authenticationprovider/issues/45)
 
 __Release 7.3.2__:
