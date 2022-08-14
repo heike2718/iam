@@ -1,6 +1,6 @@
 <div class="page">
 
-	<div *ngIf="clientInformation$ | async as clientInfo else loadingIdicator">
+	<div *ngIf="clientInformation$ | async as clientInfo else loadingIndicator">
 
 		<p>Minikänguru-Konto anlegen und {{clientInfo.zurueckText}}</p>
 
@@ -9,7 +9,8 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-sm-12 col-md-6">
-						<label for="switch-agb" class="label-bold">Ich habe die Datenschutzerklärung gelesen und willige ein*</label>
+						<label for="switch-agb" class="label-bold">Ich habe die Datenschutzerklärung gelesen und willige
+							ein*</label>
 					</div>
 					<div class="col-sm-12 col-md-6">
 						<a href="{{datenschutzUrl}}" target="_blank" class="btn btn-link">Datenschutzerkl&auml;rung</a>
@@ -17,9 +18,9 @@
 				</div>
 				<cmn-switch id="switch-agb" formControlName="agbGelesen"></cmn-switch>
 				<cmn-form-error path="switch-agb" text="Bitte bestätigen Sie."></cmn-form-error>
-			</div>			
+			</div>
 			<p *ngIf="isDev">Gelesen hat den Wert {{getValueAgbGelesen()}}</p>
-			
+
 			<div *ngIf="clientInfo.namenRequired" class="form-group">
 				<div class="row">
 					<div class="col-md-12">
@@ -28,8 +29,8 @@
 				</div>
 				<div class="row" [class.error]="vorname.touched && !vorname.valid">
 					<div class="col-md-12">
-						<input class="form-control" type="text" id="vornameInput" placeholder="Vorname" formControlName="vorname"
-							autocomplete="true">
+						<input class="form-control" type="text" id="vornameInput" placeholder="Vorname"
+							formControlName="vorname" autocomplete="true">
 					</div>
 				</div>
 				<cmn-form-error path="vorname" text="Vorname"></cmn-form-error>
@@ -41,10 +42,10 @@
 					</div>
 				</div>
 				<div class="row" [class.error]="nachname.touched && !nachname.valid">
-				<div class="col-md-12">
-					<input class="form-control" type="text" id="nachnameInput" placeholder="Nachname" formControlName="nachname"
-							autocomplete="true">
-				</div>
+					<div class="col-md-12">
+						<input class="form-control" type="text" id="nachnameInput" placeholder="Nachname"
+							formControlName="nachname" autocomplete="true">
+					</div>
 				</div>
 				<cmn-form-error path="nachname" text="Nachname"></cmn-form-error>
 			</div>
@@ -71,8 +72,8 @@
 				</div>
 				<div class="row" [class.error]="email.touched && !email.valid">
 					<div class="col-md-12">
-						<input class="form-control" type="text" id="emailInput" placeholder="Mailadresse" formControlName="email"
-							autocomplete="true">
+						<input class="form-control" type="text" id="emailInput" placeholder="Mailadresse"
+							formControlName="email" autocomplete="true">
 					</div>
 				</div>
 				<cmn-form-error path="email" text="Email"></cmn-form-error>
@@ -80,18 +81,26 @@
 
 			<!-- formControlName muss in dieser Komponente der key eines FormControls sein... -->
 			<!-- Auf die Werte in der FormGroup wird über die Namen der einzelnen Controls zugegriffen -->
-			<cmn-double-password id="doublePassword" formControlName="doublePassword" labelFirstPassword="Passwort" labelSecondPassword="Passwort wiederholt" ></cmn-double-password>
+			<cmn-double-password id="doublePassword" formControlName="doublePassword" labelFirstPassword="Passwort"
+				labelSecondPassword="Passwort wiederholt"></cmn-double-password>
+
+
+			<div *ngIf="appData.loading$ | async as isLoading" class="mt-4 mb-4">
+				<div *ngIf="!isLoading else loadingIndicator"></div>
+			</div>
 
 			<div class="form-group kleber">
 				<label for="kleberInput">Kleber:</label>
-				<input class="form-control" type="text" id="kleberInput" placeholder="leer lassen!!!!" formControlName="kleber">
+				<input class="form-control" type="text" id="kleberInput" placeholder="leer lassen!!!!"
+					formControlName="kleber">
 			</div>
 
 			<div class="btn-group d-flex" role="group">
 				<button class="btn btn-primary w-100 ml-1" (click)="submitUser()" [disabled]="submitDisabled()">
 					registrieren
 				</button>
-				<button class="btn btn-primary w-100 ml-1" (click)="openDialogPasswordRules()" title="{{tooltipPasswort}}">
+				<button class="btn btn-primary w-100 ml-1" (click)="openDialogPasswordRules()"
+					title="{{tooltipPasswort}}">
 					Passwortregeln
 				</button>
 			</div>
@@ -100,20 +109,22 @@
 </div>
 
 <ng-template #dialogPasswordRules let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Passwortregeln</h4>
-    </div>
-    <div class="modal-body">
-        <p>mindestens 8 und höchstens 100 Zeichen</p>
-		<p>mindestens ein Buchstabe und mindestens eine Ziffer</p>    
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Passwortregeln</h4>
+	</div>
+	<div class="modal-body">
+		<p>mindestens 8 und höchstens 100 Zeichen</p>
+		<p>mindestens ein Buchstabe und mindestens eine Ziffer</p>
 		<p>keine Leerzeichen am Anfang und am Ende</p>
 		<p>erlaubte Sonderzeichen: {{theSonderzeichen}}</p>
-    </div>
-    <div class="modal-footer">
+	</div>
+	<div class="modal-footer">
 		<button type="button" class="btn btn-outline-dark" (click)="modal.close('OK')">OK</button>
-    </div>
+	</div>
 </ng-template>
 
-<ng-template #loadingIdicator>
-	<h3>Bitte warten...</h3>
+<ng-template #loadingIndicator>
+	<div class="img">
+		<i class="fa fa-spinner fa-spin"></i> Bitte warten...
+	</div>
 </ng-template>

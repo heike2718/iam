@@ -33,8 +33,6 @@ public class SecureHeadersFilter implements ContainerResponseFilter {
 
 		final MultivaluedMap<String, Object> headers = responseContext.getHeaders();
 
-		addCORSHeaders(headers);
-
 		if (headers.get("Cache-Control") == null) {
 
 			headers.add("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
@@ -84,42 +82,6 @@ public class SecureHeadersFilter implements ContainerResponseFilter {
 		if (headers.get("X-Frame-Options") == null) {
 
 			headers.add("X-Frame-Options", "deny");
-		}
-	}
-
-	/**
-	 * @param headers
-	 */
-	private void addCORSHeaders(final MultivaluedMap<String, Object> headers) {
-
-		if (headers.get("Access-Control-Allow-Origin") == null) {
-
-			// authprovider muss von allen domains erreichbar sein, da wir mehr als eine domain haben
-			headers.add("Access-Control-Allow-Origin", "*");
-		}
-
-		if (headers.get("Access-Control-Allow-Credentials") == null) {
-
-			headers.add("Access-Control-Allow-Credentials", "true");
-		}
-
-		if (headers.get("Access-Control-Allow-Methods") == null) {
-
-			// Achtung: mod-security verbietet standardmäßig PUT und DELETE.
-			// Daher parallel in /etc/apache2/sites-available/opa-wetterwachs.conf die rule 911100 für authprovider entfernen,
-			// sonst bekommt man 403
-			headers.add("Access-Control-Allow-Methods", "POST, PUT, GET, HEAD, OPTIONS, DELETE");
-		}
-
-		if (headers.get("Access-Control-Allow-Headers") == null) {
-
-			headers.add("Access-Control-Allow-Headers",
-				"Content-Type, Accept, X-Requested-With, Content-Disposition, X-XSRF-TOKEN, X-SESSIONID");
-		}
-
-		if (headers.get("Access-Control-Max-Age") == null) {
-
-			headers.add("Access-Control-Max-Age", "3600");
 		}
 	}
 }

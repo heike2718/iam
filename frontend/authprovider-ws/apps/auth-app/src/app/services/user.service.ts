@@ -10,6 +10,7 @@ import { LoginCredentials } from '../shared/model/auth-model';
 import { SessionService } from './session.service';
 import { LogService } from '@authprovider-ws/common-logging';
 import { ResponsePayload } from '@authprovider-ws/common-messages';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -32,6 +33,8 @@ export class UserService {
 		// Bei Erfolg: ReponsePayload mit INFO-Message
 		const redirectUrl = registrationCredentials.clientCredentials.redirectUrl;
 
+		this.appData.updateLoading(true);
+
 		this.http.post(url, registrationCredentials, { headers: { 'X-XSRF-TOKEN': session.csrfToken } }).pipe(
 			map(res => <ResponsePayload>res),
 			publishLast(),
@@ -42,10 +45,14 @@ export class UserService {
 		).subscribe(
 			payload => {
 				this.sessionService.clearSession();
+				this.appData.updateLoading(false);
 				this.appData.updateRedirectUrl(redirectUrl + createHash(payload.data));
 			},
 			error => this.httpErrorService.handleError(error, 'registerUser', undefined),
-			() => this.logger.debug('post call completed')
+			() => { 
+				this.appData.updateLoading(false);
+				this.logger.debug('post call completed'); 
+			}
 		);
 	}
 
@@ -59,6 +66,8 @@ export class UserService {
 		// Bei Erfolg: ReponsePayload mit INFO-Message
 		const redirectUrl = loginCredentials.clientCredentials.redirectUrl;
 
+		this.appData.updateLoading(true);
+
 		this.http.post(url, loginCredentials, { headers: { 'X-XSRF-TOKEN': session.csrfToken } }).pipe(
 			map(res => <ResponsePayload>res),
 			publishLast(),
@@ -69,10 +78,14 @@ export class UserService {
 		).subscribe(
 			payload => {
 				this.sessionService.clearSession();
+				this.appData.updateLoading(false);
 				this.appData.updateRedirectUrl(redirectUrl + createHash(payload.data));
 			},
 			error => this.httpErrorService.handleError(error, 'registerUser', undefined),
-			() => this.logger.debug('post call completed')
+			() => {
+				this.logger.debug('post call completed');
+				this.appData.updateLoading(false);
+			}
 		);
 	}
 }

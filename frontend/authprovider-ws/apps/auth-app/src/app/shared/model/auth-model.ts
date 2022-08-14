@@ -10,7 +10,6 @@ export interface AuthSession {
 	expiresAt: number; // expiration in milliseconds after 01.01.1970
 }
 
-
 export interface ClientCredentials {
 	accessToken: string;
 	redirectUrl: string;

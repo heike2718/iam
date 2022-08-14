@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { TempPasswordService } from '../services/temp-password.service';
 import { HttpErrorService } from '../error/http-error.service';
@@ -12,6 +12,7 @@ import { SessionService } from '../services/session.service';
 import { LogService } from '@authprovider-ws/common-logging';
 import { PASSWORTREGELN, modalOptions, trimString } from '@authprovider-ws/common-components';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AppData } from '../shared/app-data.service';
 
 @Component({
 	selector: 'auth-temp-password',
@@ -56,6 +57,7 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 		private logger: LogService,
 		private tempPwdService: TempPasswordService,
 		private authService: AuthService,
+		public appData: AppData,
 		private sessionService: SessionService,
 		private httpErrorService: HttpErrorService,
 		private modalService: NgbModal,
@@ -131,11 +133,15 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 
 		};
 
+		this.appData.updateLoading(true);
+
 		const response$ = this.tempPwdService.changeTempPassword(credentials, this.session);
 
 		response$.subscribe(
 			payload => {
 				const level = payload.message.level;
+
+				this.appData.updateLoading(false);
 
 				if (level === 'INFO') {
 					this.sessionService.clearSession();					
@@ -152,8 +158,9 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 
 			},
 			error => {
+				this.appData.updateLoading(false);
 				this.resetForm();
-				this.httpErrorService.handleError(error, 'orderTempPassword', undefined);
+				this.httpErrorService.handleError(error, 'changeTempPassword', undefined);
 			},
 			() => this.logger.debug('post call completed')
 		);

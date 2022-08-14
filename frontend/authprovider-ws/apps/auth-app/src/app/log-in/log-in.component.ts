@@ -50,13 +50,12 @@ export class LogInComponent implements OnInit, OnDestroy {
 
 	private nonce = '';
 
-
 	constructor(private fb: FormBuilder,
 		private clientService: ClientService,
 		private userService: UserService,
 		private authService: AuthService,
 		private sessionService: SessionService,
-		private appData: AppData,
+		public appData: AppData,
 		private httpErrorService: HttpErrorService,
 		private messageService: MessageService,
 		private logger: LogService,

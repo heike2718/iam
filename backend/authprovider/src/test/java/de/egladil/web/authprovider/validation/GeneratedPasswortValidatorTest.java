@@ -5,9 +5,9 @@
 
 package de.egladil.web.authprovider.validation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 
@@ -127,7 +127,7 @@ public class GeneratedPasswortValidatorTest {
 			final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
 
 			// Assert
-			assertTrue("Fehler bei [" + c + "]", errors.isEmpty());
+			assertTrue(errors.isEmpty(), "Fehler bei [" + c + "]");
 		}
 
 	}
@@ -148,7 +148,7 @@ public class GeneratedPasswortValidatorTest {
 			final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
 
 			// Assert
-			assertFalse("Fehler bei [" + c + "]", errors.isEmpty());
+			assertFalse(errors.isEmpty(), "Fehler bei [" + c + "]");
 			assertEquals(1, errors.size());
 
 			final ConstraintViolation<TestObject> cv = errors.iterator().next();

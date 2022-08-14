@@ -23,12 +23,6 @@ public class ConfigService {
 	@ConfigProperty(name = "stage")
 	String stage;
 
-	@ConfigProperty(name = "cors.allow-origin", defaultValue = "https://opa-wetterwachs.de")
-	String allowedOrigin;
-
-	@ConfigProperty(name = "cors.access-control-max-age")
-	int accessControlMaxAge;
-
 	public boolean isBlockOnMissingOriginReferer() {
 
 		return blockOnMissingOriginReferer;
@@ -43,15 +37,4 @@ public class ConfigService {
 
 		return stage;
 	}
-
-	public String getAllowedOrigin() {
-
-		return allowedOrigin;
-	}
-
-	public int getAccessControlMaxAge() {
-
-		return accessControlMaxAge;
-	}
-
 }

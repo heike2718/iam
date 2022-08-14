@@ -5,11 +5,11 @@
 
 export const environment = {
   production: false,
-  version: '7.3.1',
+  version: '7.3.5',
   envName: 'Test',
   apiUrl: 'http://localhost:9600/profil-api',
   assetsUrl: 'assets',
-  loginRedirectUrl: 'http://localhost:4200/profil-app',
+  loginRedirectUrl: 'http://localhost:4400/profil-app',
   consoleLogActive: true,
   serverLogActive: true,
   loglevel: 1

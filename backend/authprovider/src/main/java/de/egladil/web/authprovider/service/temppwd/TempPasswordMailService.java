@@ -19,6 +19,8 @@ import de.egladil.web.authprovider.dao.TempPasswordDao;
 import de.egladil.web.authprovider.domain.TempPassword;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.service.AuthMailService;
+import de.egladil.web.authprovider.service.mail.TempPasswordUnknownMailaddressMailStrategy;
+import de.egladil.web.commons_mailer.DefaultEmailDaten;
 
 /**
  * TempPasswordMailService
@@ -60,6 +62,13 @@ public class TempPasswordMailService {
 
 			throw new AuthRuntimeException("Senden der TempPassword-Mail konnte nicht beendet werden: " + e.getMessage(), e);
 		}
+	}
+
+	public void versendePasswortUnbekanntMail(final String email) {
+
+		TempPasswordUnknownMailaddressMailStrategy mailStrategy = new TempPasswordUnknownMailaddressMailStrategy(email);
+		DefaultEmailDaten emailDaten = mailStrategy.createEmailDaten("TempPassword");
+		mailService.sendMail(emailDaten);
 	}
 
 	private void persistSentStatusQuietly(final TempPassword tempPassword) {

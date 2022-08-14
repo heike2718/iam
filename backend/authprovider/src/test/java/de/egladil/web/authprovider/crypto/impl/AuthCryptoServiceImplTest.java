@@ -5,8 +5,8 @@
 
 package de.egladil.web.authprovider.crypto.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.apache.shiro.crypto.hash.Hash;
 import org.apache.shiro.util.SimpleByteSource;
@@ -42,7 +42,7 @@ public class AuthCryptoServiceImplTest {
 		passwordConfig = new PasswordConfig();
 		passwordConfig.setCryptoAlgorithm("SHA-256");
 		passwordConfig.setIterations(4098);
-		passwordConfig.setPepper("trjxkIBH42okWYBPOuw7HUlXly5t+AkBFtvRm1lhfWU=");
+		passwordConfig.setPepper("z0eiPZVJxq/xhYD1RkXACJMKqtmzMQQ9blaR+ozXMk8=");
 		passwordConfig.setRandomAlgorithm("SHA1PRNG");
 		passwordConfig.setTempPwdCharPool("abcdefghijklmnopqrstuvwxyz0123456789");
 		passwordConfig.setTempPwdLength(8);

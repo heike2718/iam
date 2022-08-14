@@ -6,15 +6,18 @@
 		<div class="col-sm-12 col-md-9 h4">Das Minikänguru-Konto - ein DSGVO- konformes Benutzerkonto für viele Zwecke
 		</div>
 	</div>
-
+	
 	<div *ngIf="innerWidth >= 768" class="row">
 		<div class="col-sm-12 col-md-9">Mit einem Minikänguru-Konto können Sie am Minikänguru-Wettbewerb teilnehmen und
 			viele
 			weitere Anwendungen aus dem egladil-Universum nutzen.</div>
 	</div>
 
-	<p><strong>Aktuelle Version ist 7.3.1. Bitte einmal die Seite komplett neu laden (Strg+F5), falls Sie in der
-			Fußleiste eine andere Version angezeigt bekommen.</strong></p>
+
+	<div *ngIf="versionService.expectedVersion$| async as version">
+		<p><strong>Aktuelle Version ist {{version}}. Bitte einmal die Seite komplett neu laden (Strg+F5), falls Sie in der
+				Fußleiste eine andere Version angezeigt bekommen.</strong></p>
+	</div>
 
 	<main>
 		<router-outlet></router-outlet>

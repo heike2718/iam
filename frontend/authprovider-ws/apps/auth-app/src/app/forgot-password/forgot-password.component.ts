@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { TempPasswordCredentials, ClientCredentials, AuthSession } from '../shared/model/auth-model';
 import { TempPasswordService } from '../services/temp-password.service';
@@ -7,10 +7,11 @@ import { AppData } from '../shared/app-data.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { SessionService } from '../services/session.service';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { ResponsePayload, MessageService } from '@authprovider-ws/common-messages';
 import { LogService } from '@authprovider-ws/common-logging';
 import { trimString } from '@authprovider-ws/common-components';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
 	selector: 'auth-forgot-password',
@@ -19,6 +20,8 @@ import { trimString } from '@authprovider-ws/common-components';
 })
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
+	@ViewChild('dialogPasswordVersendet')
+	dialogPasswordVersendet!: TemplateRef<HTMLElement>;
 
 	orderPwdForm: FormGroup;
 
@@ -26,9 +29,13 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
 	kleber: AbstractControl;
 
-	showMessage: boolean;
-
 	message: string;
+
+	private modalOptions: NgbModalOptions = {
+		backdrop:'static',
+		centered:true,
+		ariaLabelledBy: 'modal-basic-title'
+	};
 
 	private authSessionSubscription: Subscription;
 
@@ -42,9 +49,9 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 		, private sessionService: SessionService
 		, private httpErrorService: HttpErrorService
 		, private messageService: MessageService
-		, private appData: AppData
+		, public appData: AppData
 		, private logger: LogService
-		, private router: Router) {
+		, private modalService: NgbModal) {
 
 		this.orderPwdForm = this.fb.group({
 			'email': ['', [Validators.required]],
@@ -54,7 +61,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 		this.email = this.orderPwdForm.controls['email'];
 		this.kleber = this.orderPwdForm.controls['kleber'];
 
-		this.showMessage = false;
 		this.message = '';
 	}
 
@@ -94,31 +100,36 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 		};
 
 		this.logger.debug(JSON.stringify(tempPasswordCredentials));
+
+		this.appData.updateLoading(true);
+
 		const response$ = this.tempPwdService.orderTempPassword(tempPasswordCredentials, this.session);
 
 		response$.subscribe(
 			payload => {
+				this.appData.updateLoading(false);
 				const level = payload.message.level;
 
 				if (level === 'INFO') {
-					this.showMessage = true;
 					this.message = payload.message.message;
-					this.sessionService.clearSession();
+					this.showDialogSuccess();
 				} else {
-					this.showMessage = false;
 					this.messageService.error(payload.message.message);
 					this.message = '';
 				}
 
 			},
 			error => this.httpErrorService.handleError(error, 'orderTempPassword', undefined),
-			() => this.logger.debug('post call completed')
+			() => {
+				this.appData.updateLoading(false);
+				this.logger.debug('post call completed');
+			}
 		);
 	}
 
-	closeModal(): void {
-		this.showMessage = false;
-		this.router.navigateByUrl('/home');
+	showDialogSuccess() {
+		this.modalService.open(this.dialogPasswordVersendet, this.modalOptions).result.then((_result) => {			
+			this.sessionService.clearSession();
+	  });
 	}
-
 }

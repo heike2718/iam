@@ -33,6 +33,10 @@ export class AppData {
 
 	redirectUrl$: Observable<string> = this.redirectUrlSubject.asObservable();
 
+	#loadingSubject = new BehaviorSubject<boolean>(false);
+
+	loading$: Observable<boolean> = this.#loadingSubject.asObservable();
+
 	constructor() { }
 
 	updateClientInformation(clientInformation: ClientInformation) {
@@ -47,5 +51,9 @@ export class AppData {
 	updateRedirectUrl(redirectUrl: string) {
 		console.log(redirectUrl);
 		this.redirectUrlSubject.next(redirectUrl);
+	}
+
+	updateLoading(loading: boolean) {
+		this.#loadingSubject.next(loading);
 	}
 }
