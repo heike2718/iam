@@ -24,6 +24,14 @@ public class PasswordConfig {
 	@ConfigProperty(name = "crypto.iterations")
 	int iterations;
 
+	@Override
+	public String toString() {
+
+		return "PasswordConfig [pepper=" + pepper + ", cryptoAlgorithm=" + cryptoAlgorithm + ", iterations=" + iterations
+			+ ", randomAlgorithm=" + randomAlgorithm + ", tempPwdLength=" + tempPwdLength + ", tempPwdCharPool=" + tempPwdCharPool
+			+ ", tempPwdUrl=" + tempPwdUrl + "]";
+	}
+
 	@ConfigProperty(name = "crypto.random-algorithm")
 	String randomAlgorithm;
 

@@ -98,6 +98,8 @@ public class ProfilSessionResource {
 	@PermitAll
 	public Response getTheJwtAndCreateSession(final String oneTimeToken) {
 
+		LOG.info("onieTimeToken=,{}", oneTimeToken);
+
 		String jwt = tokenExchangeService.exchangeTheOneTimeToken(oneTimeToken);
 
 		return this.createTheSessionWithJWT(jwt);

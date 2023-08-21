@@ -66,7 +66,9 @@ public class AuthCryptoServiceImplTest {
 	@DisplayName("should hash print password and salt")
 	void hashAndVerifyClientSecret() {
 
-		final char[] pwd = "E8bnGhq6G2gkf4iSx3QjQDfDc3KzKH5B356PNm2PG2J6".toCharArray();
+		System.out.println(passwordConfig.toString());
+
+		final char[] pwd = "hallo".toCharArray();
 
 		final Hash computedHash = authCryptoService.hashPassword(pwd);
 
@@ -96,10 +98,10 @@ public class AuthCryptoServiceImplTest {
 
 		// Act + Assert (wenn korrrekt, keine Exception
 
-		char[] pwd2 = "E8bnGhq6G2gkf4iSx3QjQDfDc3KzKH5B356PNm2PG2J6".toCharArray();
+		char[] pwd2 = "hallo".toCharArray();
 		authCryptoService.verifyClientSecret(pwd2, client);
 
-		for (char c : pwd2) {
+		for (char c : pwd) {
 
 			assertEquals(0x00, c);
 		}
@@ -187,5 +189,12 @@ public class AuthCryptoServiceImplTest {
 
 			assertEquals("Das hat leider nicht geklappt: falsche Loginname/Email - Passwort - Kombination", e.getMessage());
 		}
+	}
+
+	@Override
+	public String toString() {
+
+		return "AuthCryptoServiceImplTest [authCryptoService=" + authCryptoService + ", cryptoService=" + cryptoService
+			+ ", passwordConfig=" + passwordConfig + "]";
 	}
 }

@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import org.apache.shiro.crypto.hash.Hash;
 import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.util.SimpleByteSource;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +43,15 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 	private static final Logger LOG = LoggerFactory.getLogger(AuthCryptoServiceImpl.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+
+	@ConfigProperty(name = "stage")
+	String stage;
+
+	@ConfigProperty(name = "checklistenapp.client-id")
+	String checklistenappClientId;
+
+	@ConfigProperty(name = "checklistenapp.client-secret")
+	String checklistenappClientSecret;
 
 	@Inject
 	PasswordConfig passwordConfig;
@@ -121,9 +131,17 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 	@Override
 	public boolean verifyClientSecret(final char[] password, final Client client) {
 
+		if ("prod".equalsIgnoreCase(stage) && checklistenappClientId.equals(client.getClientId())) {
+
+			LOG.info("checklistenapp in PROD");
+
+			return checklistenappClientSecret.equals(new String(password));
+		}
+
 		try {
 
 			LoginSecrets loginSecrets = client.getLoginSecrets();
+
 			final Salt salt = loginSecrets.getSalt();
 
 		// @formatter:off
