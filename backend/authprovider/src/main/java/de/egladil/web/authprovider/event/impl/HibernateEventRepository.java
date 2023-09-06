@@ -4,10 +4,10 @@
 // =====================================================
 package de.egladil.web.authprovider.event.impl;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 import de.egladil.web.authprovider.event.EventRepository;
 import de.egladil.web.authprovider.event.StoredEvent;

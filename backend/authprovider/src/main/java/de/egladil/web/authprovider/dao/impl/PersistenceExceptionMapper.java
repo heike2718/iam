@@ -4,14 +4,14 @@
 // =====================================================
 package de.egladil.web.authprovider.dao.impl;
 
-import javax.persistence.OptimisticLockException;
-import javax.persistence.PersistenceException;
-
 import org.hibernate.exception.ConstraintViolationException;
 
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.RollbackException;
 
 /**
  * PersistenceExceptionMapper
@@ -30,7 +30,7 @@ public class PersistenceExceptionMapper {
 		String exceptionClassName = exception.getClass().getName();
 		Throwable cause = exception.getCause();
 
-		if (javax.transaction.RollbackException.class.getName().equals(exceptionClassName)) {
+		if (RollbackException.class.getName().equals(exceptionClassName)) {
 
 			if (cause instanceof OptimisticLockException) {
 

@@ -1,6 +1,6 @@
 # ProfilApp
 
-[ProfilApp](https://opa-wetterwachs.de/profil-app) ist ein Client zum Pflegen des Benutzerprofils in [Minikänguru-Benutzerkonten](https://opa-wetterwachs.de/auth-app#/)
+[ProfilApp](https://mathe-jung-alt.de/profil-app) ist ein Client zum Pflegen des Benutzerprofils in [der Benutzerverwaltung Mathe für jung und alt](https://mathe-jung-alt.de/auth-app#/)
 
 ### ReleaseNotes
 

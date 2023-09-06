@@ -18,10 +18,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.egladil.web.commons_validation.payload.TwoPasswords;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
  * SignUpCredentialsTest
  */
+@QuarkusTest
 public class SignUpCredentialsTest {
 
 	@Test

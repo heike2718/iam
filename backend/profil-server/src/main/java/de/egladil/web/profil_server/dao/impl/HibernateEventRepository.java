@@ -4,10 +4,10 @@
 // =====================================================
 package de.egladil.web.profil_server.dao.impl;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 import de.egladil.web.profil_server.domain.StoredEvent;
 import de.egladil.web.profil_server.event.EventRepository;

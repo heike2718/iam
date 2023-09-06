@@ -22,10 +22,12 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.payload.ClientCredentials;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
  * AuthorizationServiceTest
  */
+@QuarkusTest
 public class AuthorizationServiceTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AuthorizationServiceTest.class);

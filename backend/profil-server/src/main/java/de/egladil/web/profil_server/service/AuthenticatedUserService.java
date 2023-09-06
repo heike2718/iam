@@ -4,8 +4,8 @@
 // =====================================================
 package de.egladil.web.profil_server.service;
 
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.core.NewCookie;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.core.NewCookie;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;

@@ -29,7 +29,8 @@
 }
 
 .bordered {
-	border: 1px solid red;
+	border: 2px solid red;
+	padding: 5pt 10pt 0 10pt;
 }
 
 /* Extra small devices (phones, 600px and down) */

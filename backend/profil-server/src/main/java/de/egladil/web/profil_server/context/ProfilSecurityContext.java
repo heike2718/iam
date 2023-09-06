@@ -6,7 +6,7 @@ package de.egladil.web.profil_server.context;
 
 import java.security.Principal;
 
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.SecurityContext;
 
 import de.egladil.web.profil_server.domain.UserSession;
 

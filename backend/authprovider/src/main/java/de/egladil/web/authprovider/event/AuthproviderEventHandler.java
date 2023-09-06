@@ -9,26 +9,24 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.error.PropagationFailedException;
-import de.egladil.web.authprovider.restclient.MkGatewayRestClient;
+import de.egladil.web.authprovider.restclient.MkGatewayRestClientDelegate;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie.MinikaengurukontenMailKontext;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
 import de.egladil.web.commons_validation.payload.MessagePayload;
 import de.egladil.web.commons_validation.payload.ResponsePayload;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 
 /**
  * AuthproviderEventHandler
@@ -56,19 +54,7 @@ public class AuthproviderEventHandler {
 	AuthMailService mailService;
 
 	@Inject
-	@RestClient
-	MkGatewayRestClient mkGateway;
-
-	public static AuthproviderEventHandler createForTest(final EventRepository eventRepository, final AuthMailService mailService, final MkGatewayRestClient mkGateway) {
-
-		AuthproviderEventHandler result = new AuthproviderEventHandler();
-		result.mkvAppClientId = "bajlsdl";
-		result.stage = "DEV";
-		result.eventRepository = eventRepository;
-		result.mailService = mailService;
-		result.mkGateway = mkGateway;
-		return result;
-	}
+	MkGatewayRestClientDelegate mkGatewayDelegate;
 
 	public void handleEvent(@Observes final AuthproviderEvent event) {
 
@@ -164,7 +150,7 @@ public class AuthproviderEventHandler {
 
 			LOG.debug("sende UserDeleted für {} an mk-gateway", resourceOwner);
 
-			String syncToken = getSyncToken(resourceOwner.getUuid());
+			String syncToken = getSyncToken();
 
 			if (syncToken == null) {
 
@@ -177,7 +163,7 @@ public class AuthproviderEventHandler {
 
 			command = DeleteUserCommand.create(resourceOwner.getUuid()).withSyncToken(syncToken);
 
-			mkGatewayResponse = mkGateway.propagateUserDeleted(command);
+			mkGatewayResponse = mkGatewayDelegate.propagateUserDeleted(command);
 
 			LOG.debug("Antwort: " + mkGatewayResponse.getStatus());
 
@@ -227,7 +213,7 @@ public class AuthproviderEventHandler {
 
 			LOG.info("sende UserCreated für {} an mk-gateway", resourceOwner);
 
-			String syncToken = getSyncToken(resourceOwner.getUuid());
+			String syncToken = getSyncToken();
 
 			if (syncToken == null) {
 
@@ -251,7 +237,7 @@ public class AuthproviderEventHandler {
 				.withUuid(resourceOwner.getUuid())
 				.withClientId(resourceOwner.getClientId());
 
-			mkGatewayResponse = mkGateway.propagateUserCreated(command);
+			mkGatewayResponse = mkGatewayDelegate.propagateUserCreated(command);
 
 			LOG.debug("CreateUserCommand=" + command + ", httpStatusCode=" + mkGatewayResponse.getStatus());
 
@@ -295,7 +281,7 @@ public class AuthproviderEventHandler {
 	/**
 	 * @param event
 	 */
-	private String getSyncToken(final String uuid) {
+	private String getSyncToken() {
 
 		String nonce = UUID.randomUUID().toString();
 
@@ -307,7 +293,7 @@ public class AuthproviderEventHandler {
 
 		try {
 
-			mkGatewayResponse = mkGateway.getSyncToken(handshake);
+			mkGatewayResponse = mkGatewayDelegate.getSyncToken(handshake);
 
 			LOG.debug("mkGatewayResponse.status={}", mkGatewayResponse.getStatus());
 
@@ -324,7 +310,7 @@ public class AuthproviderEventHandler {
 
 				HandshakeAck ack = HandshakeAck.fromResponse(data);
 
-				if (!nonce.equals(ack.nonce())) {
+				if (!"dev".equals(stage) && !nonce.equals(ack.nonce())) {
 
 					LOG.error("Nonce wurde geändert");
 					return null;
@@ -332,6 +318,8 @@ public class AuthproviderEventHandler {
 
 				return ack.syncToken();
 			}
+
+			LOG.error("MessagePayload={}", messagePayload.toString());
 			return null;
 		} finally {
 

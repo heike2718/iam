@@ -6,8 +6,8 @@ package de.egladil.web.authprovider.service;
 
 import java.util.Base64;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import org.apache.shiro.crypto.hash.Hash;
 import org.slf4j.Logger;

@@ -7,11 +7,11 @@ package de.egladil.web.authprovider.dao.impl;
 
 import java.math.BigInteger;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 import de.egladil.web.authprovider.dao.BaseDao;
 import de.egladil.web.authprovider.domain.AuthProviderEntity;

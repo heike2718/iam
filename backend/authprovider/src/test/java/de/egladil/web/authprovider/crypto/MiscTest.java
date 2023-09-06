@@ -32,9 +32,12 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import io.quarkus.test.junit.QuarkusTest;
+
 /**
  * MiscTest
  */
+@QuarkusTest
 public class MiscTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MiscTest.class);

@@ -4,8 +4,8 @@
 //=====================================================
 package de.egladil.web.authprovider.dao.impl;
 
-import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
 
 import de.egladil.web.authprovider.dao.LoginSecretsDao;
 

@@ -6,7 +6,7 @@ package de.egladil.web.authprovider.payload;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import de.egladil.web.commons_validation.annotations.UuidString;
 import de.egladil.web.commons_validation.payload.OAuthClientCredentials;

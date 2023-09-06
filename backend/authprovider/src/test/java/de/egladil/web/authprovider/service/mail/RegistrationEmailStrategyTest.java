@@ -12,18 +12,19 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.temporal.ChronoUnit;
 
-import javax.ws.rs.core.UriInfo;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import de.egladil.web.authprovider.domain.ActivationCode;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
+import io.quarkus.test.junit.QuarkusTest;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * RegistrationEmailStrategyTest
  */
+@QuarkusTest
 public class RegistrationEmailStrategyTest {
 
 	@Test
@@ -48,6 +49,6 @@ public class RegistrationEmailStrategyTest {
 		assertTrue(mailtext.startsWith("Guten Tag,"));
 		assertTrue(mailtext.contains("http://localhost:9000/authprovider/registration/confirmation?code=skahxa-ashqhoh"));
 		assertEquals("heike@egladil.de", emailDaten.getEmpfaenger());
-		assertEquals("Minikänguru: Aktivierung Benutzerkonto", emailDaten.getBetreff());
+		assertEquals("Mathe für jung und alt: Aktivierung Benutzerkonto", emailDaten.getBetreff());
 	}
 }

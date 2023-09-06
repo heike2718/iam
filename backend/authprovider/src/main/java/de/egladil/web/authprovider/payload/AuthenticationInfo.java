@@ -5,7 +5,7 @@
 
 package de.egladil.web.authprovider.payload;
 
-import javax.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbProperty;
 
 /**
  * AuthenticationInfo enthält die AuthenticationInfo des authproviders. Neben Verwaltungsinfos enthält sie das JWT als

@@ -7,8 +7,8 @@ package de.egladil.web.authprovider.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,10 +23,12 @@ import de.egladil.web.commons_validation.ValidationDelegate;
 import de.egladil.web.commons_validation.exception.InvalidInputException;
 import de.egladil.web.commons_validation.payload.ResponsePayload;
 import de.egladil.web.commons_validation.payload.TwoPasswords;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
  * RegistrationCredentialsValidationTest
  */
+@QuarkusTest
 public class RegistrationCredentialsValidationTest {
 
 	private ValidationDelegate validationDelegate;

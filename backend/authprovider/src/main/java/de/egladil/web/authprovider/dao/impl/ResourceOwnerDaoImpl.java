@@ -8,9 +8,9 @@ package de.egladil.web.authprovider.dao.impl;
 import java.util.List;
 import java.util.Optional;
 
-import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ResourceOwner;

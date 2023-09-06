@@ -25,10 +25,12 @@ import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.ChangeLoginSecretsDelegate;
 import de.egladil.web.commons_validation.payload.ResponsePayload;
 import de.egladil.web.commons_validation.payload.TwoPasswords;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
  * ChangeTempPasswordServiceTest
  */
+@QuarkusTest
 public class ChangeTempPasswordServiceTest {
 
 	private static final String VALID_TOKENID = "bsdhv-sbjkc";

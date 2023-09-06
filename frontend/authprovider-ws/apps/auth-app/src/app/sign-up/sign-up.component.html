@@ -2,7 +2,14 @@
 
 	<div *ngIf="clientInformation$ | async as clientInfo else loadingIndicator">
 
-		<p>Minikänguru-Konto anlegen und {{clientInfo.zurueckText}}</p>
+		<p>Benutzerkonto anlegen und {{clientInfo.zurueckText}}</p>
+
+		<div *ngIf="showTheWarning()" class="bordered">
+			<p><strong>ACHTUNG! </strong> Da Sie von einer anderen Anwendung hierher gelangt sind, werden Sie mit diesem Benutzerkonto 
+				nicht am Minikänguru-Wettbewerb teilnehmen können.</p>
+			<p>Wenn Sie am Minikänguru-Wettbewerb teilnehmen möchten, registrieren Sie sich bitte über die <a
+					href="https://mathe-jung-alt.de/mkv-app#/registrierung" target="_blank">Minikänguru-Anwendung</a>.</p>
+		</div>	
 
 		<form [formGroup]="signUpForm">
 

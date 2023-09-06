@@ -1,22 +1,20 @@
 <div class="container-fluid main">
-	<h2><img src="{{logo}}" alt="Logo" width="50px">Minikänguru-Konten</h2>
+	<h2><img src="{{logo}}" alt="Logo" width="50px">Benutzerkonten - Mathe für jung und alt</h2>
 	<cmn-msg></cmn-msg>
 
 	<div class="row">
-		<div class="col-sm-12 col-md-9 h4">Das Minikänguru-Konto - ein DSGVO- konformes Benutzerkonto für viele Zwecke
-		</div>
+		<div class="col-sm-12 col-md-9 h4">Dies ist ein DSGVO- konformes Benutzerkonto für Angebote von &quot;Mathe für
+			jung und alt&quot;.</div>
 	</div>
-	
+
 	<div *ngIf="innerWidth >= 768" class="row">
-		<div class="col-sm-12 col-md-9">Mit einem Minikänguru-Konto können Sie am Minikänguru-Wettbewerb teilnehmen und
-			viele
-			weitere Anwendungen aus dem egladil-Universum nutzen.</div>
+		<div class="col-sm-12 col-md-9"><strong>Bitte beachten Sie: </strong></div>
 	</div>
 
 
-	<div *ngIf="versionService.expectedVersion$| async as version">
-		<p><strong>Aktuelle Version ist {{version}}. Bitte einmal die Seite komplett neu laden (Strg+F5), falls Sie in der
-				Fußleiste eine andere Version angezeigt bekommen.</strong></p>
+	<div *ngIf="versionService.expectedVersion$ | async as version">
+		<p>Aktuelle Version ist {{version}}. Bitte einmal die Seite komplett neu laden (Strg+F5), falls Sie in der
+			Fußleiste eine andere Version angezeigt bekommen.</p>
 	</div>
 
 	<main>
@@ -30,3 +28,9 @@
 		</div>
 	</footer>
 </div>
+
+<ng-template #loadingIndicator>
+	<div class="img">
+		<i class="fa fa-spinner fa-spin"></i> Bitte warten...
+	</div>
+</ng-template>

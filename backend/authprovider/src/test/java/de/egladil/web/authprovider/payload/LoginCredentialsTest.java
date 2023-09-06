@@ -8,9 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.quarkus.test.junit.QuarkusTest;
+
 /**
  * LoginCredentialsTest
  */
+@QuarkusTest
 public class LoginCredentialsTest {
 
 	@Test

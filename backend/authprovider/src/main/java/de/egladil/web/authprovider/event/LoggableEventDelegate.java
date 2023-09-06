@@ -4,7 +4,7 @@
 // =====================================================
 package de.egladil.web.authprovider.event;
 
-import javax.enterprise.event.Event;
+import jakarta.enterprise.event.Event;
 
 /**
  * LoggableEventDelegate

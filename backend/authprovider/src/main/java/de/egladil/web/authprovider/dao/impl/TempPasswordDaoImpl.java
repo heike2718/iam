@@ -7,9 +7,9 @@ package de.egladil.web.authprovider.dao.impl;
 
 import java.util.Optional;
 
-import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 
 import de.egladil.web.authprovider.dao.TempPasswordDao;
 import de.egladil.web.authprovider.domain.TempPassword;

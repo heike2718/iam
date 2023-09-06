@@ -7,9 +7,9 @@ package de.egladil.web.profil_server.dao.impl;
 import java.util.List;
 import java.util.Optional;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 
 import de.egladil.web.profil_server.dao.ResourceOwnerDao;
 import de.egladil.web.profil_server.domain.ResourceOwner;

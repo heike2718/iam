@@ -5,14 +5,14 @@
 
 package de.egladil.web.authprovider.error;
 
-import javax.persistence.PersistenceException;
-import javax.transaction.RollbackException;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.core.NoContentException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.persistence.PersistenceException;
+import jakarta.transaction.RollbackException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.NoContentException;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

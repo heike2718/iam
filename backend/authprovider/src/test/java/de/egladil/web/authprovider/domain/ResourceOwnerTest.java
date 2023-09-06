@@ -14,9 +14,12 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.quarkus.test.junit.QuarkusTest;
+
 /**
  * ResourceOwnerTest
  */
+@QuarkusTest
 public class ResourceOwnerTest {
 
 	@Test

@@ -15,10 +15,12 @@ import org.mockito.Mockito;
 import de.egladil.web.authprovider.dao.PacemakerDao;
 import de.egladil.web.authprovider.domain.Pacemaker;
 import de.egladil.web.commons_validation.payload.ResponsePayload;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
  * HeartbeatServiceTest
  */
+@QuarkusTest
 public class HeartbeatServiceTest {
 
 	private PacemakerDao dao;

@@ -10,8 +10,6 @@ import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.ws.rs.core.UriInfo;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,6 +17,7 @@ import de.egladil.web.authprovider.domain.ActivationCode;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * RegistrationMailStrategy
@@ -54,7 +53,7 @@ public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy 
 
 		DefaultEmailDaten maildaten = new DefaultEmailDaten();
 		maildaten.setEmpfaenger(emailTo);
-		maildaten.setBetreff("Minikänguru: Aktivierung Benutzerkonto");
+		maildaten.setBetreff("Mathe für jung und alt: Aktivierung Benutzerkonto");
 		maildaten.setText(getText());
 		maildaten.setMessageId(messageId);
 		return maildaten;

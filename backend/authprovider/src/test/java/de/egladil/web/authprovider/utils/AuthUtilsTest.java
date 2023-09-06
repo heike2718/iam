@@ -1,7 +1,7 @@
-//=====================================================
+// =====================================================
 // Project: authprovider
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 package de.egladil.web.authprovider.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,9 +10,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import io.quarkus.test.junit.QuarkusTest;
+
 /**
  * AuthUtilsTest
  */
+@QuarkusTest
 public class AuthUtilsTest {
 
 	@Nested

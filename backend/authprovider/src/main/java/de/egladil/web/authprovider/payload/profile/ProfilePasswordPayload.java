@@ -4,7 +4,7 @@
 // =====================================================
 package de.egladil.web.authprovider.payload.profile;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import de.egladil.web.commons_validation.SecUtils;
 import de.egladil.web.commons_validation.annotations.Passwort;

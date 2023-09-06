@@ -7,7 +7,7 @@ package de.egladil.web.authprovider.auth_code_store.impl;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import de.egladil.web.authprovider.auth_code_store.OneTimeTokenJwtData;
 import de.egladil.web.authprovider.auth_code_store.OneTimeTokenJwtRepository;

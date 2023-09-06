@@ -12,7 +12,7 @@ import { VersionService } from './services/version.service';
 })
 export class AppComponent implements OnInit {
 
-	title = 'Minikänguru-Benutzerdaten';
+	title = 'Benutzerkonten Mathe für jung und alt'
 	version = environment.version;
 	envName = environment.envName;
 	showEnv = environment.envName === 'DEV';

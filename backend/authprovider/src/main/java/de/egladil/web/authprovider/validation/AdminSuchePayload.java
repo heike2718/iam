@@ -7,7 +7,7 @@ package de.egladil.web.authprovider.validation;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 import de.egladil.web.commons_validation.annotations.LoginName;
 

@@ -4,8 +4,8 @@
 // =====================================================
 package de.egladil.web.profil_server.payload;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 /**
  * StringPayload

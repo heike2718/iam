@@ -37,6 +37,23 @@ Sarten des Servers mit Maven:
 Ein Showcase für eine Clientanwendung, die diesen AuthProvider nutzt, ist [checklistenapp](https://github.com/heike2718/checklistenapp) mit
 [checklistenserver](https://github.com/heike2718/checklistenserver)
 
+# Lokale Installation für Entwicklung anderer Anwendungen
+
+Die gesamte Anwendung wird mittels Docker bereitgestellt. Alle sourcen müssen nach
+
+/media/veracrypt1/ansible/docker/authprovider
+
+kopiert werden. 4 Docker-Images sind beteiligt. docker-compose.yml erzeut die zusammengehörenden Container.
+
+```
+cd /media/veracrypt1/ansible/docker/authprovider
+
+docker image build -t heik2718/auth-mariadb ./database
+docker image build -t heik2718/authprovider ./server
+docker image build -t heik2718/profil-server ./profil-server
+docker image build -t heike2718/authprovider-nginx ./nginx
+```
+
 
 # Allgemeines (Abgrenzung zu Identity-Providern)
 

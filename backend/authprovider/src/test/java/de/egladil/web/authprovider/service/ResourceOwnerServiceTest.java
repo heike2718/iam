@@ -23,10 +23,12 @@ import de.egladil.web.authprovider.crypto.impl.AuthCryptoServiceImpl;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
  * ResourceOwnerServiceTest
  */
+@QuarkusTest
 public class ResourceOwnerServiceTest {
 
 	private ResourceOwnerDao resourceOwnerDao;

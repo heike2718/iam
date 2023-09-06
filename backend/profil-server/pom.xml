@@ -5,21 +5,21 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>profil-server</artifactId>
-	<version>7.3.5</version>
+	<version>8.0.0</version>
 	<packaging>jar</packaging>
 
 
 	<properties>
-		<commons.version>1.7.7</commons.version>
+		<commons.version>2.0.0</commons.version>
 		<quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-		<quarkus.platform.version>2.11.1.Final</quarkus.platform.version>
-		<surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
-		<dependency-check.version>7.1.1</dependency-check.version>
-		<maven.compiler.source>1.11</maven.compiler.source>
-		<maven.compiler.target>1.11</maven.compiler.target>
+		<quarkus.platform.version>3.3.1</quarkus.platform.version>
+		<surefire-plugin.version>3.1.2</surefire-plugin.version>
+		<dependency-check.version>8.4.0</dependency-check.version>
+		<maven.compiler.release>17</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<compiler-plugin.version>3.10.1</compiler-plugin.version>
 	</properties>
 
 
@@ -52,18 +52,6 @@
 		<dependency>
 			<groupId>de.egladil.web</groupId>
 			<artifactId>commons-crypto</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcprov-jdk15on</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- quarkus hat noch nicht die gepatchte Version -->
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15on</artifactId>
 		</dependency>
 
 		<dependency>
@@ -84,12 +72,12 @@
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-rest-client</artifactId>
+			<artifactId>quarkus-rest-client-reactive</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-rest-client-jackson</artifactId>
+			<artifactId>quarkus-rest-client-reactive-jackson</artifactId>
 		</dependency>
 
 		<dependency>
@@ -100,6 +88,16 @@
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-hibernate-validator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-context-propagation</artifactId>
 		</dependency>
 
 		<dependency>
@@ -120,10 +118,6 @@
 		<!-- Quarkus END -->
 
 		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
@@ -138,11 +132,6 @@
 			<version>3.17.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
-		</dependency>
 
 		<!-- Test START -->
 		<dependency>
@@ -150,6 +139,7 @@
 			<artifactId>quarkus-junit5</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
@@ -157,28 +147,17 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-junit5-mockito</artifactId>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-jacoco</artifactId>
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-runner</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<scope>test</scope>
-		</dependency>
 		<!-- Test ENDE -->
 
 	</dependencies>
@@ -187,11 +166,13 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>${compiler-plugin.version}</version>
 				<configuration>
-					<release>11</release>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
+					<source>${maven.compiler.release}</source>
+					<target>${maven.compiler.relese}</target>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -203,55 +184,86 @@
 					<execution>
 						<goals>
 							<goal>build</goal>
-							<!--
 							<goal>generate-code</goal>
 							<goal>generate-code-tests</goal>
-							 -->
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire-plugin.version}</version>
+				<configuration>
+					<systemPropertyVariables>
+						<java.util.logging.manager>
+							org.jboss.logmanager.LogManager</java.util.logging.manager>
+						<maven.home>${maven.home}</maven.home>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
+				<version>0.8.10</version>
+				<configuration>
+					<excludes>
+						<exclude>**/session/*</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<destFile>
+								${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
 					</execution>
 					<execution>
 						<id>report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>post-unit-test</id>
 						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
 						<configuration>
-							<!-- Sets the path to the file which contains the execution data. -->
-							<dataFile>target/jacoco.exec</dataFile>
-							<!-- Sets the output directory for the code coverage report. -->
-							<outputDirectory>target/jacoco-out</outputDirectory>
+							<dataFile>
+								${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+							<outputDirectory>
+								${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>jacoco-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<phase>post-integration-test</phase>
+						<configuration>
+							<dataFile>
+								${project.build.directory}/jacoco-quarkus.exec</dataFile>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.26</minimum>
+										</limit>
+										<limit>
+											<counter>BRANCH</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.16</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
 						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<systemPropertyVariables>
-						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
-					</systemPropertyVariables>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.owasp</groupId>

@@ -13,10 +13,10 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.ws.rs.core.UriInfo;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;

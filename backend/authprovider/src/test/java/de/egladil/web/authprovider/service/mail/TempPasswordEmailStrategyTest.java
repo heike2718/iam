@@ -16,10 +16,12 @@ import de.egladil.web.authprovider.domain.Client;
 import de.egladil.web.authprovider.domain.TempPassword;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
  * TempPasswordEmailStrategyTest
  */
+@QuarkusTest
 public class TempPasswordEmailStrategyTest {
 
 	@Test

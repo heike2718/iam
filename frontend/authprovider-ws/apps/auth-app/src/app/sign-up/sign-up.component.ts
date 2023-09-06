@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
 import { AppData } from '../shared/app-data.service';
-import { MessageService,  ResponsePayload } from '@authprovider-ws/common-messages';
+import { MessageService, ResponsePayload } from '@authprovider-ws/common-messages';
 import { SessionService } from '../services/session.service';
 import { AuthService } from '../services/auth.service';
 import { HttpErrorService } from '../error/http-error.service';
@@ -61,11 +61,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
 	datenschutzUrl: string = environment.datenschutzUrl;
 
+
 	private redirectUrl = '';
 
-	private redirectSubscription: Subscription;
+	#clientInfo: ClientInformation | undefined;
 
-	private clientInfoSubscription: Subscription;
+	#redirectSubscription: Subscription = new Subscription();
+
+	#clientInfoSubscription: Subscription = new Subscription();
 
 	constructor(private clientService: ClientService,
 		private userService: UserService,
@@ -102,7 +105,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
 		this.loadClientInformation();
 
-		this.redirectSubscription = this.redirectUrl$.pipe(
+		this.#redirectSubscription = this.redirectUrl$.pipe(
 			filter(str => str.length > 0)
 		).subscribe(
 			str => {
@@ -120,8 +123,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
 			error => this.httpErrorService.handleError(error, 'createAnonymousSession', null)
 		);
 
-		this.clientInfoSubscription = this.clientInformation$.subscribe(
+		this.#clientInfoSubscription = this.clientInformation$.subscribe(
 			info => {
+				this.#clientInfo = info;
 				if (info.loginnameSupported) {
 					this.signUpForm.addControl(
 						'loginName', new FormControl('', {
@@ -148,24 +152,20 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
 
 	ngOnDestroy() {
-		if (this.redirectSubscription) {
-			this.redirectSubscription.unsubscribe();
-		}
-		if (this.clientInfoSubscription) {
-			this.clientInfoSubscription.unsubscribe();
-		}
+		this.#redirectSubscription.unsubscribe();
+		this.#clientInfoSubscription.unsubscribe();
 	}
 
 	openDialogPasswordRules(): void {
 		this.modalService.open(this.dialogPasswordRules, modalOptions).result.then((_result) => {
-			
+
 			// do nothing
-	  });
+		});
 	}
 
 	private loadClientInformation() {
 
-		this.redirectSubscription = this.route.queryParams.pipe(
+		this.#redirectSubscription = this.route.queryParams.pipe(
 			filter(params => params.clientId || params.redirectUrl || params.nonce || params.groups)
 		).subscribe(
 			params => {
@@ -245,6 +245,19 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		return promise;
 	}
 
+	showTheWarning(): boolean {
+		if (this.#clientInfo) {
+
+			// console.log(this.#clientInfo.name);
+
+			if (this.#clientInfo.name.toLocaleLowerCase().indexOf('mini') < 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private getRegistrationCredentials(): RegistrationCredentials | undefined {
 
 		const emailVal = this.email ? trimString(this.email.value) : null;
@@ -268,7 +281,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 		return registrationCredentials;
 	}
 
-	private getTwoPasswords(): TwoPasswords  | undefined{
+	private getTwoPasswords(): TwoPasswords | undefined {
 
 		const val: FormControl = this.signUpForm.value['doublePassword'] ? this.signUpForm.value['doublePassword'] : undefined;
 

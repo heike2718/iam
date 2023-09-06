@@ -4,7 +4,7 @@
 // =====================================================
 package de.egladil.web.profil_server.service;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 

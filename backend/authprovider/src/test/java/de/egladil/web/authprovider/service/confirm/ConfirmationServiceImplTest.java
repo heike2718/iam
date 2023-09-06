@@ -22,10 +22,12 @@ import de.egladil.web.authprovider.event.AuthproviderEventType;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
 import de.egladil.web.commons_crypto.CryptoService;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
  * ConfirmationServiceImplTest
  */
+@QuarkusTest
 public class ConfirmationServiceImplTest {
 
 	private ActivationCodeDao activationCodeDao;

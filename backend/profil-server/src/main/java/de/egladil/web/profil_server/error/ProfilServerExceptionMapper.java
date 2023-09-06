@@ -4,14 +4,14 @@
 // =====================================================
 package de.egladil.web.profil_server.error;
 
-import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.NoContentException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.ForbiddenException;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.NoContentException;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

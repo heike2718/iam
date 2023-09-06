@@ -8,9 +8,6 @@ package de.egladil.web.authprovider.crypto.impl;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import org.apache.shiro.crypto.hash.Hash;
 import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.util.SimpleByteSource;
@@ -31,6 +28,8 @@ import de.egladil.web.commons_crypto.CryptoService;
 import de.egladil.web.commons_crypto.PasswordAlgorithm;
 import de.egladil.web.commons_crypto.PasswordAlgorithmBuilder;
 import de.egladil.web.commons_validation.SecUtils;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * AuthCryptoServiceImpl wrapper für CryptoService

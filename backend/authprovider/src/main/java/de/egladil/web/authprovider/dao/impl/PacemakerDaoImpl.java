@@ -5,9 +5,9 @@
 
 package de.egladil.web.authprovider.dao.impl;
 
-import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

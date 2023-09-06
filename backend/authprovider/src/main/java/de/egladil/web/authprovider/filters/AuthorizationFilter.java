@@ -9,17 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Priority;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.Priorities;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.PreMatching;
-import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.ext.Provider;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +20,14 @@ import de.egladil.web.authprovider.error.LogmessagePrefixes;
 import de.egladil.web.authprovider.service.AuthproviderSessionService;
 import de.egladil.web.commons_net.exception.SessionExpiredException;
 import de.egladil.web.commons_net.utils.CommonHttpUtils;
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Priorities;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.container.PreMatching;
+import jakarta.ws.rs.ext.Provider;
 
 /**
  * AuthorizationFilter
@@ -50,9 +47,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	@Inject
 	ConfigService configService;
-
-	@Context
-	ResourceInfo resourceInfo;
 
 	@Inject
 	AuthproviderSessionService sessionService;

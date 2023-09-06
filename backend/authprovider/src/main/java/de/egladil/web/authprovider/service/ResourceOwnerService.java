@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Hash;

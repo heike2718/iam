@@ -1,7 +1,7 @@
-//=====================================================
+// =====================================================
 // Projekt: authprovider
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 
 package de.egladil.web.authprovider.service;
 
@@ -11,14 +11,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 import de.egladil.web.authprovider.error.InvalidRedirectUrl;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
-* ClientServiceTest
-*/
+ * ClientServiceTest
+ */
+@QuarkusTest
 public class ClientServiceTest {
 
 	@Test
 	void checkRedirectUrlsSuccessMitProtokollHttp() {
+
 		// Arrange
 		String allowedRedirectUrls = "localhost:4200/listen,localhost:4200";
 		String redirectUrl = "http://localhost:4200";
@@ -30,6 +33,7 @@ public class ClientServiceTest {
 
 	@Test
 	void checkRedirectUrlsSuccessMitProtokollHttps() {
+
 		// Arrange
 		String allowedRedirectUrls = "localhost:4200/listen,localhost:4200";
 		String redirectUrl = "https://localhost:4200";
@@ -41,6 +45,7 @@ public class ClientServiceTest {
 
 	@Test
 	void checkRedirectUrlsSuccessOhneProtokoll() {
+
 		// Arrange
 		String allowedRedirectUrls = "localhost:4200/listen,localhost:4200";
 		String redirectUrl = "localhost:4200";
@@ -52,6 +57,7 @@ public class ClientServiceTest {
 
 	@Test
 	void checkRedirectUrlsSuccessOhneProtokollWithTailingSlash() {
+
 		// Arrange
 		String allowedRedirectUrls = "localhost:4200/listen,localhost:4200";
 		String redirectUrl = "localhost:4200/";
@@ -63,6 +69,7 @@ public class ClientServiceTest {
 
 	@Test
 	void checkRedirectUrlsFailure() {
+
 		// Arrange
 		String allowedRedirectUrls = "localhost:4200/listen,localhost:4200";
 		String redirectUrl = "http://localhost:4200/guenther";
@@ -70,9 +77,11 @@ public class ClientServiceTest {
 
 		// Act + Assert
 		try {
+
 			clientService.checkRedirectUrl(allowedRedirectUrls, redirectUrl);
 			fail("keine InvalidRedirectUrl");
 		} catch (InvalidRedirectUrl e) {
+
 			assertNull(e.getMessage());
 		}
 	}

@@ -7,7 +7,7 @@ package de.egladil.web.authprovider.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 
