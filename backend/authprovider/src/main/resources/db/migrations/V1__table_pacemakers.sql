@@ -1,0 +1,13 @@
+CREATE TABLE authbv.PACEMAKERS (
+	`ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`MONITOR_ID` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+	`WERT` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+	`VERSION` int(10) DEFAULT 0,
+	`DATE_MODIFIED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`ID`),
+  	UNIQUE KEY `uk_clients_1` (`MONITOR_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='registrierte herzschrittmacher für authprovider';
+
+INSERT INTO authbv.PACEMAKERS (MONITOR_ID, WERT) VALUES ('authprovider-database','erster');
+
+

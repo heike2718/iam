@@ -1,0 +1,15 @@
+CREATE TABLE `TEMPPWDS` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `TOKEN_ID` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `EXPIRES_AT` datetime NOT NULL,
+  `USER_ID` int(10) unsigned NOT NULL,
+  `PWD` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `NUMBER_USES` int(5) NOT NULL,
+  `SENT` tinyint(1) NOT NULL,
+  `VERSION` int(10) DEFAULT NULL,
+  `DATE_MODIFIED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `uk_temppwds_1` (`TOKEN_ID`),
+  KEY `fk_temppwds_users` (`USER_ID`),
+  CONSTRAINT `fk_temppwds_users` FOREIGN KEY (`USER_ID`) REFERENCES `USERS` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
