@@ -269,6 +269,11 @@
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>${dependency-check.version}</version>
+				<configuration>
+					<suppressionFiles>
+						<suppressionFile>./suppressions.xml</suppressionFile>
+					</suppressionFiles>
+				</configuration>
 				<executions>
 					<execution>
 						<phase>package</phase>
