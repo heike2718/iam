@@ -10,7 +10,7 @@
 
 
 	<properties>
-		<commons.version>2.0.1</commons.version>
+		<commons.version>2.0.2</commons.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
 		<quarkus.platform.version>3.8.0</quarkus.platform.version>
@@ -125,13 +125,6 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>com.auth0</groupId>
-			<artifactId>java-jwt</artifactId>
-			<version>3.17.0</version>
-		</dependency>
-
 
 		<!-- Test START -->
 		<dependency>

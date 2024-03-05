@@ -164,7 +164,7 @@ public class MiscTest {
 			fail("keine TokenExpiredException");
 		} catch (TokenExpiredException e) {
 
-			assertEquals("The Token has expired on Tue Jun 30 06:46:57 CEST 2020.", e.getMessage());
+			assertEquals("The Token has expired on 2020-06-30T04:46:57Z.", e.getMessage());
 		}
 	}
 

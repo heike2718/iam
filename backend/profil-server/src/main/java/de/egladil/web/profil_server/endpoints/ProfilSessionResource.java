@@ -4,21 +4,6 @@
 // =====================================================
 package de.egladil.web.profil_server.endpoints;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.CookieParam;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.NewCookie;
-import jakarta.ws.rs.core.Response;
-
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
@@ -37,6 +22,20 @@ import de.egladil.web.profil_server.service.ClientAccessTokenService;
 import de.egladil.web.profil_server.service.ProfilSessionService;
 import de.egladil.web.profil_server.service.TokenExchangeService;
 import de.egladil.web.profil_server.service.UserService;
+import jakarta.annotation.security.PermitAll;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.CookieParam;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.Response;
 
 /**
  * ProfilSessionResource
@@ -98,7 +97,7 @@ public class ProfilSessionResource {
 	@PermitAll
 	public Response getTheJwtAndCreateSession(final String oneTimeToken) {
 
-		LOG.info("onieTimeToken=,{}", oneTimeToken);
+		LOG.info("oneTimeToken=,{}", oneTimeToken);
 
 		String jwt = tokenExchangeService.exchangeTheOneTimeToken(oneTimeToken);
 
