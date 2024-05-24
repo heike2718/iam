@@ -1,0 +1,176 @@
+[NX Daemon Server] - 2024-05-24T18:13:20.758Z - Started listening on: /tmp/0e20bec0357b90e6426e/d.sock
+[NX Daemon Server] - 2024-05-24T18:13:20.762Z - [WATCHER]: Subscribed to changes within: /home/heike/git/authenticationprovider/frontend/authprovider-ws (native)
+[NX Daemon Server] - 2024-05-24T18:13:20.767Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-05-24T18:13:20.769Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-05-24T18:13:20.771Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-05-24T18:13:20.773Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-05-24T18:13:20.783Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:13:20.783Z - [REQUEST]: 
+[NX Daemon Server] - 2024-05-24T18:13:20.783Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:13:20.980Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-05-24T18:13:20.983Z - Time taken for 'total for creating and serializing project graph' 207.497584ms
+[NX Daemon Server] - 2024-05-24T18:13:20.984Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-05-24T18:13:20.984Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 208. Response time: 4.
+[NX Daemon Server] - 2024-05-24T18:13:20.993Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-05-24T18:14:41.586Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:14:41.587Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:14:41.694Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:14:41.694Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:14:41.694Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:14:41.732Z - Error detected when creating a project graph: CommaExpected in /home/heike/git/authenticationprovider/frontend/authprovider-ws/package.json at 10:5
+   8 |     "start": "ng serve",
+   9 |     "start": "nx serve"
+> 10 |     "build:auth-app:local": "npx nx build auth-app -c heikedeb --base-href /auth-app --deploy-url auth-app/ --skip-nx-cache",
+     |     ^^^^^^^^^^^^^^^^^^^^^^
+  11 |     "build:profil-app:local": "npx nx build profil-app -c heikedeb --base-href /profil-app --deploy-url profil-app/ --skip-nx-cache",
+  12 |     "build:auth-app:heikeqs": "npx nx build auth-app -c heikeqs --output-hashing=all --base-href /auth-app --deploy-url auth-app/ --skip-nx-cache",
+  13 |     "build:profil-app:heikeqs": "npx nx build profil-app -c heikeqs --output-hashing=all --base-href /profil-app --deploy-url profil-app/ --skip-nx-cache",
+
+[NX Daemon Server] - 2024-05-24T18:14:41.733Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 2.654578000001493ms
+[NX Daemon Server] - 2024-05-24T18:14:43.394Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:14:43.394Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:14:43.599Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:14:43.599Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:14:43.599Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:14:43.692Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 1.7575200000137556ms
+[NX Daemon Server] - 2024-05-24T18:14:48.719Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:14:48.720Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:14:49.124Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:14:49.125Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:14:49.125Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:14:49.205Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 1.935005999999703ms
+[NX Daemon Server] - 2024-05-24T18:14:54.329Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:14:54.331Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:14:55.137Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:14:55.137Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:14:55.137Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:14:55.213Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 1.8540559999964898ms
+[NX Daemon Server] - 2024-05-24T18:14:56.046Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:14:56.049Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:14:57.653Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:14:57.653Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:14:57.653Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:14:57.718Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 0.8526229999988573ms
+[NX Daemon Server] - 2024-05-24T18:15:06.796Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:06.796Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:15:06.928Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:06.928Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:15:10.004Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:15:10.004Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:15:10.004Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:15:10.074Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 1.7668010000052163ms
+[NX Daemon Server] - 2024-05-24T18:15:29.404Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:29.404Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:15:30.673Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:30.673Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:15:35.812Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:15:35.812Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:15:35.852Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:15:35.926Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 2.395271000015782ms
+[NX Daemon Server] - 2024-05-24T18:15:39.147Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:39.147Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:15:44.051Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:44.052Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:15:45.555Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:15:45.555Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:15:45.555Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:15:45.642Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 2.358933999988949ms
+[NX Daemon Server] - 2024-05-24T18:15:47.120Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:15:47.121Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:50.700Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:50.700Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:15:53.528Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:15:53.528Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:15:53.528Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:15:53.603Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 1.7373139999981504ms
+[NX Daemon Server] - 2024-05-24T18:15:56.666Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:56.666Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:15:56.906Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2024-05-24T18:15:56.907Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:16:03.075Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-24T18:16:03.075Z - [REQUEST]: package.json
+[NX Daemon Server] - 2024-05-24T18:16:03.075Z - [REQUEST]: 
+
+ NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-05-24T18:16:03.129Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 1.6729600000253413ms
+[NX Daemon Server] - 2024-05-24T18:16:19.479Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-05-24T18:16:19.481Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-05-24T18:16:19.481Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-05-24T18:16:19.484Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-05-24T18:16:19.486Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-05-24T18:16:19.487Z - Time taken for 'total for creating and serializing project graph' 1.414184999972349ms
+[NX Daemon Server] - 2024-05-24T18:16:19.489Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-05-24T18:16:19.489Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 2. Response time: 3.
+[NX Daemon Server] - 2024-05-24T18:16:19.536Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2024-05-24T18:16:19.536Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2024-05-24T18:16:19.536Z - Handled HASH_TASKS. Handling time: 23. Response time: 0.
+[NX Daemon Server] - 2024-05-24T18:16:19.536Z - Time taken for 'Load Nx Plugin: /home/heike/git/authenticationprovider/frontend/authprovider-ws/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 0.7230529999942519ms
+[NX Daemon Server] - 2024-05-24T18:16:19.538Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-05-24T18:18:06.680Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-05-24T18:18:06.680Z - [WATCHER]: Stopping the watcher for /home/heike/git/authenticationprovider/frontend/authprovider-ws (sources)
+[NX Daemon Server] - 2024-05-24T18:18:06.680Z - [WATCHER]: Stopping the watcher for /home/heike/git/authenticationprovider/frontend/authprovider-ws (outputs)
+[NX Daemon Server] - 2024-05-24T18:18:06.680Z - Server stopped because: "Lock file changed"

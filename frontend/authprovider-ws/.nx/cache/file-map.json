@@ -1,0 +1,1288 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.1.0",
+  "deps": {
+    "@angular-devkit/architect": "0.1800.1",
+    "@angular/animations": "18.0.0",
+    "@angular/common": "18.0.0",
+    "@angular/compiler": "18.0.0",
+    "@angular/core": "18.0.0",
+    "@angular/forms": "18.0.0",
+    "@angular/localize": "18.0.0",
+    "@angular/platform-browser": "18.0.0",
+    "@angular/platform-browser-dynamic": "18.0.0",
+    "@angular/router": "18.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^11.0.0",
+    "@nrwl/angular": "19.1.0",
+    "bootstrap": "^4.5.0",
+    "font-awesome": "^4.7.0",
+    "ngx-cookie-service": "^12.0.3",
+    "rxjs": "7.8.1",
+    "zone.js": "0.14.6",
+    "@angular-devkit/build-angular": "18.0.1",
+    "@angular-eslint/eslint-plugin": "17.3.0",
+    "@angular-eslint/eslint-plugin-template": "17.3.0",
+    "@angular-eslint/template-parser": "17.3.0",
+    "@angular/cli": "13.3.3",
+    "@angular/compiler-cli": "18.0.0",
+    "@angular/language-service": "18.0.0",
+    "@nrwl/cli": "13.9.6",
+    "@nrwl/cypress": "19.1.0",
+    "@nrwl/eslint-plugin-nx": "19.1.0",
+    "@nrwl/jest": "19.1.0",
+    "@nrwl/linter": "19.1.0",
+    "@nrwl/tao": "19.1.0",
+    "@nrwl/workspace": "19.1.0",
+    "@types/jest": "27.0.2",
+    "@types/node": "18.16.9",
+    "@typescript-eslint/eslint-plugin": "7.9.0",
+    "@typescript-eslint/parser": "7.9.0",
+    "cypress": "^8.3.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-cypress": "2.15.2",
+    "jest": "27.2.3",
+    "jest-preset-angular": "11.1.2",
+    "ng-packagr": "18.0.0",
+    "nx": "19.1.0",
+    "postcss": "^8.4.5",
+    "postcss-import": "14.1.0",
+    "postcss-preset-env": "7.5.0",
+    "postcss-url": "10.1.3",
+    "prettier": "2.6.2",
+    "ts-jest": "29.1.3",
+    "typescript": "4.6.3"
+  },
+  "pathMappings": {
+    "@authprovider-ws/common-messages": [
+      "libs/common-messages/src/index.ts"
+    ],
+    "@authprovider-ws/common-logging": [
+      "libs/common-logging/src/index.ts"
+    ],
+    "@authprovider-ws/common-components": [
+      "libs/common-components/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": "auth-app/fontawesome-webfont.cf011583fb81df9f.woff",
+        "hash": "8138171527562931075"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9550829867505470164"
+      },
+      {
+        "file": "libs/common-logging/tsconfig.lib.json",
+        "hash": "14359941949721268591"
+      },
+      {
+        "file": "libs/common-components/src/lib/double-password/double-password.component.ts",
+        "hash": "11120350257054517320"
+      },
+      {
+        "file": "nx.json",
+        "hash": "14007241628657742664"
+      },
+      {
+        "file": "libs/common-messages/src/lib/common-messages.module.ts",
+        "hash": "23442363259168600"
+      },
+      {
+        "file": "libs/common-components/src/lib/double-password/double-password.component.html",
+        "hash": "5475922783022645373"
+      },
+      {
+        "file": "apps/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "build-env/auth-app/environment-heikeqs.ts",
+        "hash": "12372064622847773633"
+      },
+      {
+        "file": "libs/common-messages/README.md",
+        "hash": "5931036090892419523"
+      },
+      {
+        "file": "libs/common-components/src/lib/form-error/form-error.component.ts",
+        "hash": "10428334315464116771"
+      },
+      {
+        "file": "libs/common-logging/src/lib/common-logging.module.ts",
+        "hash": "9961527411081806899"
+      },
+      {
+        "file": "libs/common-components/src/lib/double-password/double-password.component.css",
+        "hash": "7071631836818050074"
+      },
+      {
+        "file": "libs/common-messages/tslint.json",
+        "hash": "11888997719856306617"
+      },
+      {
+        "file": "libs/common-messages/tsconfig.spec.json",
+        "hash": "2368708604775059221"
+      },
+      {
+        "file": "libs/common-components/src/index.ts",
+        "hash": "9339005919400416744"
+      },
+      {
+        "file": "auth-app/assets/favicon.ico",
+        "hash": "14508245508739146316"
+      },
+      {
+        "file": "libs/common-cookies/tsconfig.lib.json",
+        "hash": "14359941949721268591"
+      },
+      {
+        "file": ".vscode/tasks.json",
+        "hash": "10199436647884579495"
+      },
+      {
+        "file": "decorate-angular-cli.js",
+        "hash": "3984527543916719219"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "17733650430415207254"
+      },
+      {
+        "file": "libs/common-components/jest.config.js",
+        "hash": "3344203035773488291"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": "build-env/profil-app/environment-heikeqs.ts",
+        "hash": "8796715738517748880"
+      },
+      {
+        "file": "auth-app/runtime.2dad5daa3ed2c1d2.js",
+        "hash": "11438106759221724344"
+      },
+      {
+        "file": "tslint.json",
+        "hash": "12698952610395052691"
+      },
+      {
+        "file": "libs/common-logging/tslint.json",
+        "hash": "15858538421443417066"
+      },
+      {
+        "file": "libs/common-cookies/tsconfig.spec.json",
+        "hash": "2368708604775059221"
+      },
+      {
+        "file": "libs/common-messages/src/lib/messages/message.component.css",
+        "hash": "11555548366716465224"
+      },
+      {
+        "file": "libs/common-components/src/lib/switch/switch.component.html",
+        "hash": "8330107143046433383"
+      },
+      {
+        "file": "libs/common-logging/src/lib/domain/log-publishers.ts",
+        "hash": "8567662677712071547"
+      },
+      {
+        "file": "libs/common-cookies/README.md",
+        "hash": "16981719369745955416"
+      },
+      {
+        "file": "libs/common-messages/jest.config.js",
+        "hash": "12853648704846724970"
+      },
+      {
+        "file": "libs/common-components/src/test-setup.ts",
+        "hash": "16110123792168980195"
+      },
+      {
+        "file": "libs/common-components/src/lib/password-spy/password-spy.component.css",
+        "hash": "7071631836818050074"
+      },
+      {
+        "file": "libs/common-components/tslint.json",
+        "hash": "9005761870895503469"
+      },
+      {
+        "file": "libs/common-logging/jest.config.js",
+        "hash": "6673688292519600338"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "7043137966262519649"
+      },
+      {
+        "file": "auth-app/fontawesome-webfont.e9955780856cf8aa.woff2",
+        "hash": "13033773006513016446"
+      },
+      {
+        "file": "libs/common-logging/README.md",
+        "hash": "16981719369745955416"
+      },
+      {
+        "file": "angular.json",
+        "hash": "8297588205755406048"
+      },
+      {
+        "file": "jest.config.js",
+        "hash": "16976991572961599947"
+      },
+      {
+        "file": "libs/common-logging/src/lib/log.service.ts",
+        "hash": "867146767492206869"
+      },
+      {
+        "file": "auth-app/styles.a7df79f5cf7a513f.css",
+        "hash": "15517692781184940802"
+      },
+      {
+        "file": "libs/common-components/src/lib/commons-component.model.ts",
+        "hash": "3772721364124072239"
+      },
+      {
+        "file": "libs/common-messages/src/index.ts",
+        "hash": "14452497393170230321"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": "package.json",
+        "hash": "4605144457788012384"
+      },
+      {
+        "file": "libs/common-components/src/lib/switch/switch.component.ts",
+        "hash": "10162557882730210680"
+      },
+      {
+        "file": "libs/common-logging/tsconfig.spec.json",
+        "hash": "2368708604775059221"
+      },
+      {
+        "file": "build-env/profil-app/environment-heikedeb.ts",
+        "hash": "474347084638168677"
+      },
+      {
+        "file": "libs/common-logging/src/lib/domain/entities.ts",
+        "hash": "16825256192062199009"
+      },
+      {
+        "file": "libs/common-cookies/tsconfig.json",
+        "hash": "2284007330662510281"
+      },
+      {
+        "file": "libs/common-messages/src/lib/messages/message.service.ts",
+        "hash": "3471083380788234016"
+      },
+      {
+        "file": "README.md",
+        "hash": "6644058236839686880"
+      },
+      {
+        "file": "libs/common-components/tsconfig.json",
+        "hash": "2284007330662510281"
+      },
+      {
+        "file": "libs/common-cookies/tslint.json",
+        "hash": "13559870944456320889"
+      },
+      {
+        "file": "libs/common-logging/src/index.ts",
+        "hash": "11240739314297546647"
+      },
+      {
+        "file": "auth-app/fontawesome-webfont.da909aa098b0ee2d.svg",
+        "hash": "8108736501744721653"
+      },
+      {
+        "file": "libs/common-messages/src/lib/messages/message.component.html",
+        "hash": "9128842702219864085"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "7277290173675781550"
+      },
+      {
+        "file": "libs/common-logging/src/lib/configuration/logging-config.ts",
+        "hash": "9800514070505947381"
+      },
+      {
+        "file": "auth-app/assets/mja_logo.png",
+        "hash": "3221942376420564438"
+      },
+      {
+        "file": "libs/common-components/src/lib/validation/app.validators.ts",
+        "hash": "9890719816493788410"
+      },
+      {
+        "file": "migrations.json",
+        "hash": "18423124901062775652"
+      },
+      {
+        "file": "build-env/auth-app/environment-heikedeb.ts",
+        "hash": "16175114215636953860"
+      },
+      {
+        "file": "libs/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "libs/common-components/src/lib/common-components.module.ts",
+        "hash": "4259511242750496122"
+      },
+      {
+        "file": "libs/common-cookies/src/index.ts",
+        "hash": "5639048897618658698"
+      },
+      {
+        "file": "auth-app/fontawesome-webfont.8a7cb27d142e3e19.ttf",
+        "hash": "6533727258474908816"
+      },
+      {
+        "file": "libs/common-components/src/lib/password-spy/password-spy.component.html",
+        "hash": "2861507448447783010"
+      },
+      {
+        "file": "libs/common-components/tsconfig.lib.prod.json",
+        "hash": "1180608166815715425"
+      },
+      {
+        "file": "libs/common-logging/tsconfig.json",
+        "hash": "2284007330662510281"
+      },
+      {
+        "file": "libs/common-messages/src/lib/messages/error-mapping.service.ts",
+        "hash": "1914315633994139323"
+      },
+      {
+        "file": "auth-app/3rdpartylicenses.txt",
+        "hash": "880260447745664432"
+      },
+      {
+        "file": "libs/common-logging/src/test-setup.ts",
+        "hash": "16110123792168980195"
+      },
+      {
+        "file": "libs/common-components/tsconfig.spec.json",
+        "hash": "2368708604775059221"
+      },
+      {
+        "file": "libs/common-components/README.md",
+        "hash": "2356792339920626085"
+      },
+      {
+        "file": "libs/common-messages/src/lib/messages/message.component.ts",
+        "hash": "8369417880761653020"
+      },
+      {
+        "file": "libs/common-components/tsconfig.lib.json",
+        "hash": "4473263204950434409"
+      },
+      {
+        "file": "auth-app/main.15cc987e799a1193.js",
+        "hash": "6649930429916277965"
+      },
+      {
+        "file": "libs/common-components/src/lib/password-spy/password-spy.component.ts",
+        "hash": "3111586425634223019"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "5019243178409016528"
+      },
+      {
+        "file": "tools/schematics/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "tools/tsconfig.tools.json",
+        "hash": "6430980725990310117"
+      },
+      {
+        "file": "auth-app/polyfills.38ad518389e3df0e.js",
+        "hash": "6372322106740275223"
+      },
+      {
+        "file": "libs/common-messages/src/test-setup.ts",
+        "hash": "16110123792168980195"
+      },
+      {
+        "file": "libs/common-cookies/src/lib/common-cookies.module.ts",
+        "hash": "10829429328001802130"
+      },
+      {
+        "file": "auth-app/fontawesome-webfont.2b13baa7dd4f54c9.eot",
+        "hash": "3947604408082228486"
+      },
+      {
+        "file": "libs/common-messages/tsconfig.json",
+        "hash": "2284007330662510281"
+      },
+      {
+        "file": "libs/common-cookies/jest.config.js",
+        "hash": "6673688292519600338"
+      },
+      {
+        "file": "libs/common-components/src/lib/switch/switch.component.css",
+        "hash": "3817291453152913616"
+      },
+      {
+        "file": "libs/common-cookies/src/lib/common-cookies.service.ts",
+        "hash": "17527659183847473878"
+      },
+      {
+        "file": "libs/common-messages/src/lib/domain/entities.ts",
+        "hash": "5432940692007151643"
+      },
+      {
+        "file": "libs/common-messages/tsconfig.lib.json",
+        "hash": "14359941949721268591"
+      },
+      {
+        "file": "auth-app/index.html",
+        "hash": "4140125899464054536"
+      }
+    ],
+    "projectFileMap": {
+      "auth-app": [
+        {
+          "file": "apps/auth-app/README.md",
+          "hash": "17173947655202457444"
+        },
+        {
+          "file": "apps/auth-app/RELEASE-NOTES.md",
+          "hash": "9768724871528209336"
+        },
+        {
+          "file": "apps/auth-app/browserslist",
+          "hash": "15525697355818847451"
+        },
+        {
+          "file": "apps/auth-app/jest.config.js",
+          "hash": "13179939275005227782"
+        },
+        {
+          "file": "apps/auth-app/src/app/app-routing.module.ts",
+          "hash": "4349403840437144124",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/app.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/auth-app/src/app/app.component.html",
+          "hash": "17861666001030353842"
+        },
+        {
+          "file": "apps/auth-app/src/app/app.component.ts",
+          "hash": "10327410141414652873",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/app.module.ts",
+          "hash": "4627193339104407101",
+          "deps": [
+            "npm:@angular/platform-browser",
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-components"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/error/error.component.css",
+          "hash": "1570277328222022682"
+        },
+        {
+          "file": "apps/auth-app/src/app/error/error.component.html",
+          "hash": "7108239999374645331"
+        },
+        {
+          "file": "apps/auth-app/src/app/error/error.component.ts",
+          "hash": "15550483685042301621",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/error/global-error-handler.service.ts",
+          "hash": "167875603295547255",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-messages"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/error/http-error.service.ts",
+          "hash": "10031526207368208848",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/forgot-password/forgot-password.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/auth-app/src/app/forgot-password/forgot-password.component.html",
+          "hash": "12429905916220583698"
+        },
+        {
+          "file": "apps/auth-app/src/app/forgot-password/forgot-password.component.ts",
+          "hash": "8506786369575639500",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-components",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/home/home.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/auth-app/src/app/home/home.component.html",
+          "hash": "3333901190706068323"
+        },
+        {
+          "file": "apps/auth-app/src/app/home/home.component.ts",
+          "hash": "16561469495849876121",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/log-in/log-in.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/auth-app/src/app/log-in/log-in.component.html",
+          "hash": "291849200867391358"
+        },
+        {
+          "file": "apps/auth-app/src/app/log-in/log-in.component.ts",
+          "hash": "17033651184324786736",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@angular/router",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-components"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/logger/log-publishers.service.ts",
+          "hash": "8844670895950268058",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/router.config.ts",
+          "hash": "4019157223227719174",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/services/auth.interceptor.ts",
+          "hash": "756529784946991068",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/services/auth.service.ts",
+          "hash": "1689594969656799940",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@authprovider-ws/common-messages",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/services/client.service.ts",
+          "hash": "499476432934705590",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-messages"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/services/session.service.ts",
+          "hash": "743277802588870869",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-messages"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/services/signup-valitadion.service.ts",
+          "hash": "13924094132317089646",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/services/temp-password.service.ts",
+          "hash": "17642957626252993200",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@angular/common",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/services/user.service.ts",
+          "hash": "13126488508255447455",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-messages"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/services/version.service.ts",
+          "hash": "10110198647386804750",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@authprovider-ws/common-messages",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/shared/app-data.service.ts",
+          "hash": "12690163527605375896",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs",
+            "npm:lodash"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/shared/model/auth-model.ts",
+          "hash": "16755859429703223888",
+          "deps": [
+            "npm:@authprovider-ws/common-components"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/shared/model/auth-response-data.ts",
+          "hash": "15609330490972283050"
+        },
+        {
+          "file": "apps/auth-app/src/app/sign-up/sign-up.component.css",
+          "hash": "14615799345390559362"
+        },
+        {
+          "file": "apps/auth-app/src/app/sign-up/sign-up.component.html",
+          "hash": "9169970344659029728"
+        },
+        {
+          "file": "apps/auth-app/src/app/sign-up/sign-up.component.ts",
+          "hash": "6232841116691153570",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:rxjs",
+            "npm:@angular/router",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-components",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/app/temp-password/temp-password.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/auth-app/src/app/temp-password/temp-password.component.html",
+          "hash": "15273704775569259923"
+        },
+        {
+          "file": "apps/auth-app/src/app/temp-password/temp-password.component.ts",
+          "hash": "1377237312837799684",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-components",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/auth-app/src/assets/favicon.ico",
+          "hash": "14508245508739146316"
+        },
+        {
+          "file": "apps/auth-app/src/assets/mja_logo.png",
+          "hash": "3221942376420564438"
+        },
+        {
+          "file": "apps/auth-app/src/environments/environment.prod.ts",
+          "hash": "13704793157167210626"
+        },
+        {
+          "file": "apps/auth-app/src/environments/environment.ts",
+          "hash": "3605463110151138249",
+          "deps": [
+            "npm:zone.js"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/favicon.ico",
+          "hash": "14508245508739146316"
+        },
+        {
+          "file": "apps/auth-app/src/index.html",
+          "hash": "382405587661801017"
+        },
+        {
+          "file": "apps/auth-app/src/main.ts",
+          "hash": "14896519517424602606",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser-dynamic"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/polyfills.ts",
+          "hash": "9002350428012697228",
+          "deps": [
+            "npm:zone.js",
+            "npm:@angular/localize"
+          ]
+        },
+        {
+          "file": "apps/auth-app/src/styles.css",
+          "hash": "3190058509608782849"
+        },
+        {
+          "file": "apps/auth-app/src/test-setup.ts",
+          "hash": "16110123792168980195",
+          "deps": [
+            "npm:jest-preset-angular"
+          ]
+        },
+        {
+          "file": "apps/auth-app/tsconfig.app.json",
+          "hash": "8598867945277923944"
+        },
+        {
+          "file": "apps/auth-app/tsconfig.json",
+          "hash": "16017250899805726496"
+        },
+        {
+          "file": "apps/auth-app/tslint.json",
+          "hash": "5317416978031951205"
+        }
+      ],
+      "profil-app-e2e": [
+        {
+          "file": "apps/profil-app-e2e/cypress.json",
+          "hash": "11442752375269039498"
+        },
+        {
+          "file": "apps/profil-app-e2e/src/fixtures/example.json",
+          "hash": "11614668686582597233"
+        },
+        {
+          "file": "apps/profil-app-e2e/src/integration/app.spec.ts",
+          "hash": "14267975480832535272"
+        },
+        {
+          "file": "apps/profil-app-e2e/src/plugins/index.js",
+          "hash": "14365991391510196057",
+          "deps": [
+            "npm:@nrwl/cypress"
+          ]
+        },
+        {
+          "file": "apps/profil-app-e2e/src/support/app.po.ts",
+          "hash": "11157016311132186162"
+        },
+        {
+          "file": "apps/profil-app-e2e/src/support/commands.ts",
+          "hash": "4426953270353600921"
+        },
+        {
+          "file": "apps/profil-app-e2e/src/support/index.ts",
+          "hash": "3666078656922506009"
+        },
+        {
+          "file": "apps/profil-app-e2e/tsconfig.e2e.json",
+          "hash": "7332123686648241453"
+        },
+        {
+          "file": "apps/profil-app-e2e/tsconfig.json",
+          "hash": "10555772106717723874"
+        },
+        {
+          "file": "apps/profil-app-e2e/tslint.json",
+          "hash": "2671968302415463311"
+        }
+      ],
+      "auth-app-e2e": [
+        {
+          "file": "apps/auth-app-e2e/cypress.json",
+          "hash": "16444349195627824727"
+        },
+        {
+          "file": "apps/auth-app-e2e/src/fixtures/example.json",
+          "hash": "11614668686582597233"
+        },
+        {
+          "file": "apps/auth-app-e2e/src/integration/app.spec.ts",
+          "hash": "6466304330630743191"
+        },
+        {
+          "file": "apps/auth-app-e2e/src/plugins/index.js",
+          "hash": "14365991391510196057",
+          "deps": [
+            "npm:@nrwl/cypress"
+          ]
+        },
+        {
+          "file": "apps/auth-app-e2e/src/support/app.po.ts",
+          "hash": "11157016311132186162"
+        },
+        {
+          "file": "apps/auth-app-e2e/src/support/commands.ts",
+          "hash": "4426953270353600921"
+        },
+        {
+          "file": "apps/auth-app-e2e/src/support/index.ts",
+          "hash": "3666078656922506009"
+        },
+        {
+          "file": "apps/auth-app-e2e/tsconfig.e2e.json",
+          "hash": "7332123686648241453"
+        },
+        {
+          "file": "apps/auth-app-e2e/tsconfig.json",
+          "hash": "10555772106717723874"
+        },
+        {
+          "file": "apps/auth-app-e2e/tslint.json",
+          "hash": "2671968302415463311"
+        }
+      ],
+      "profil-app": [
+        {
+          "file": "apps/profil-app/README.md",
+          "hash": "10490415840216233832"
+        },
+        {
+          "file": "apps/profil-app/browserslist",
+          "hash": "15525697355818847451"
+        },
+        {
+          "file": "apps/profil-app/jest.config.js",
+          "hash": "8522415412190424141"
+        },
+        {
+          "file": "apps/profil-app/src/app/about/about.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/profil-app/src/app/about/about.component.html",
+          "hash": "14897555927690280022"
+        },
+        {
+          "file": "apps/profil-app/src/app/about/about.component.ts",
+          "hash": "8687362440084160525",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/app.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/profil-app/src/app/app.component.html",
+          "hash": "8413055518078520959"
+        },
+        {
+          "file": "apps/profil-app/src/app/app.component.ts",
+          "hash": "1379985191853876870",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/app.module.ts",
+          "hash": "10004139259854752028",
+          "deps": [
+            "npm:@angular/platform-browser",
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-components",
+            "npm:@angular/common",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/error/global-error-handler.service.ts",
+          "hash": "9006523478453888449",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-messages"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/error/http-error.service.ts",
+          "hash": "2319215693470364583",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/home/home.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/profil-app/src/app/home/home.component.html",
+          "hash": "1910171932502146770"
+        },
+        {
+          "file": "apps/profil-app/src/app/home/home.component.ts",
+          "hash": "10570922924413626887",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/logger/log-publishers.service.ts",
+          "hash": "11695670273842238319",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/navbar/navbar.component.css",
+          "hash": "13783009777520068206"
+        },
+        {
+          "file": "apps/profil-app/src/app/navbar/navbar.component.html",
+          "hash": "9618103223749665998"
+        },
+        {
+          "file": "apps/profil-app/src/app/navbar/navbar.component.ts",
+          "hash": "10898819549162618257",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/base-data.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/base-data.component.html",
+          "hash": "11353106164348040604"
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/base-data.component.ts",
+          "hash": "14215729040465876641",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-components"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/delete-account.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/delete-account.component.html",
+          "hash": "4560330565433528610"
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/delete-account.component.ts",
+          "hash": "9798772232922331479",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs",
+            "npm:@angular/forms",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/password.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/password.component.html",
+          "hash": "5055216660476549494"
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/password.component.ts",
+          "hash": "12233785466459731722",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:@authprovider-ws/common-components",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/profil.component.css",
+          "hash": "18184832711653404781"
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/profil.component.html",
+          "hash": "1124088067814794061"
+        },
+        {
+          "file": "apps/profil-app/src/app/profil/profil.component.ts",
+          "hash": "6115870513888401587",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/router.config.ts",
+          "hash": "6784305864367132320",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/services/about.service.ts",
+          "hash": "10839963939271823437",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-messages"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/services/auth.interceptor.ts",
+          "hash": "9545928772942662731",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/services/auth.service.ts",
+          "hash": "1586465264381514480",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@angular/router",
+            "npm:@authprovider-ws/common-logging",
+            "npm:@authprovider-ws/common-messages"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/services/remote-validator.service.ts",
+          "hash": "18172520867369653235",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/services/session.service.ts",
+          "hash": "10709109613660844873",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/services/user.service.ts",
+          "hash": "3244435237843895541",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@authprovider-ws/common-messages",
+            "npm:@authprovider-ws/common-logging"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/services/version.service.ts",
+          "hash": "10110198647386804750",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@authprovider-ws/common-messages",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/shared/logged-in.guard.ts",
+          "hash": "1136698694409951215",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/shared/model/profil.model.ts",
+          "hash": "9845563647372160074",
+          "deps": [
+            "npm:@authprovider-ws/common-components"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/app/shared/store/app-data.ts",
+          "hash": "4198298361675575149",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs",
+            "npm:lodash"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/profil-app/src/assets/favicon.ico",
+          "hash": "14508245508739146316"
+        },
+        {
+          "file": "apps/profil-app/src/assets/mja_logo.png",
+          "hash": "3221942376420564438"
+        },
+        {
+          "file": "apps/profil-app/src/environments/environment.prod.ts",
+          "hash": "392187234823536482"
+        },
+        {
+          "file": "apps/profil-app/src/environments/environment.ts",
+          "hash": "16692566659597124287"
+        },
+        {
+          "file": "apps/profil-app/src/index.html",
+          "hash": "12884381226110028457"
+        },
+        {
+          "file": "apps/profil-app/src/main.ts",
+          "hash": "14896519517424602606",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser-dynamic"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/polyfills.ts",
+          "hash": "9002350428012697228",
+          "deps": [
+            "npm:zone.js",
+            "npm:@angular/localize"
+          ]
+        },
+        {
+          "file": "apps/profil-app/src/styles.css",
+          "hash": "2998104970880035774"
+        },
+        {
+          "file": "apps/profil-app/src/test-setup.ts",
+          "hash": "16110123792168980195",
+          "deps": [
+            "npm:jest-preset-angular"
+          ]
+        },
+        {
+          "file": "apps/profil-app/tsconfig.app.json",
+          "hash": "8598867945277923944"
+        },
+        {
+          "file": "apps/profil-app/tsconfig.json",
+          "hash": "16017250899805726496"
+        },
+        {
+          "file": "apps/profil-app/tslint.json",
+          "hash": "9274249996669323922"
+        }
+      ]
+    }
+  }
+}
