@@ -4,6 +4,17 @@
 // =====================================================
 package de.egladil.web.authprovider.endpoints;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.egladil.web.authprovider.domain.Client;
+import de.egladil.web.authprovider.service.AuthorizationService;
+import de.egladil.web.authprovider.service.ClientService;
+import de.egladil.web.commons_validation.annotations.UuidString;
+import de.egladil.web.commons_validation.payload.ExchangeTokenResponse;
+import de.egladil.web.commons_validation.payload.MessagePayload;
+import de.egladil.web.commons_validation.payload.OAuthClientCredentials;
+import de.egladil.web.commons_validation.payload.ResponsePayload;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -14,15 +25,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import de.egladil.web.authprovider.domain.Client;
-import de.egladil.web.authprovider.service.AuthorizationService;
-import de.egladil.web.authprovider.service.ClientService;
-import de.egladil.web.commons_validation.annotations.UuidString;
-import de.egladil.web.commons_validation.payload.ExchangeTokenResponse;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.OAuthClientCredentials;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
-
 /**
  * TokenExchangeResource
  */
@@ -31,6 +33,8 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TokenExchangeResource {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(TokenExchangeResource.class);
 
 	@Inject
 	AuthorizationService authorizationService;
@@ -61,6 +65,8 @@ public class TokenExchangeResource {
 
 			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.ok(),
 				ExchangeTokenResponse.create(jwt, clientCredentials.getNonce()));
+
+			LOGGER.info("OTT exchanged:{}", responsePayload.getMessage().getLevel());
 
 			return Response.ok(responsePayload).build();
 		} finally {

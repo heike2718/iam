@@ -6,10 +6,10 @@
 export const environment = {
   production: false,
   version: '8.0.0',
-  envName: 'a300',
-  apiUrl: 'http://a300:9600/profil-api',
-  assetsUrl: 'http://a300/profil-app/assets',
-  loginRedirectUrl: 'http://a300/profil-app',
+  envName: 'heikeqs',
+  apiUrl: 'http://heikeqs/profil-api',
+  assetsUrl: 'http://heikeqs/profil-app/assets',
+  loginRedirectUrl: 'http://heikeqs/profil-app',
   consoleLogActive: true,
   serverLogActive: true,
   loglevel: 1

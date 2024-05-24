@@ -4,15 +4,6 @@
 // =====================================================
 package de.egladil.web.profil_server.error;
 
-import jakarta.ws.rs.ForbiddenException;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.NoContentException;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
-import jakarta.ws.rs.core.SecurityContext;
-import jakarta.ws.rs.ext.ExceptionMapper;
-import jakarta.ws.rs.ext.Provider;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +14,14 @@ import de.egladil.web.commons_validation.payload.MessagePayload;
 import de.egladil.web.commons_validation.payload.ResponsePayload;
 import de.egladil.web.profil_server.ProfilServerApp;
 import de.egladil.web.profil_server.domain.UserSession;
+import jakarta.ws.rs.ForbiddenException;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.NoContentException;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
 /**
  * ProfilServerExceptionMapper
@@ -109,7 +108,7 @@ public class ProfilServerExceptionMapper implements ExceptionMapper<Exception> {
 		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(
 			GENERAL_SERVERERROR));
 
-		return Response.status(Status.INTERNAL_SERVER_ERROR).header("X-Checklisten-Error", payload.getMessage().getMessage())
+		return Response.status(Status.INTERNAL_SERVER_ERROR).header("X-Profilserver-Error", payload.getMessage().getMessage())
 			.entity(payload).build();
 	}
 

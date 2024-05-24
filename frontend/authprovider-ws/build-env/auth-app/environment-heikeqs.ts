@@ -5,11 +5,11 @@
 export const environment = {
 	production: false,
 	version: '8.0.0',
-	envName: 'a300',
+	envName: 'heikeqs',
 	datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
-	apiUrl: 'http://a300:9000/authprovider',
-	profilUrl: 'http://a300/profil-app',
-	assetsUrl: 'http://a300/auth-app/assets',
+	apiUrl: 'http://heikeqs/authprovider',
+	profilUrl: 'http://heikeqs/profil-app',
+	assetsUrl: 'http://heikeqs/auth-app/assets',
 	consoleLogActive: true,
 	serverLogActive: true,
 	loglevel: 2

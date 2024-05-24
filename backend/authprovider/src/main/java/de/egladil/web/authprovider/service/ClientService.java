@@ -13,10 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.persistence.PersistenceException;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -38,6 +35,9 @@ import de.egladil.web.authprovider.utils.AuthUtils;
 import de.egladil.web.commons_net.exception.SessionExpiredException;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
 import de.egladil.web.commons_validation.payload.OAuthClientCredentials;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.PersistenceException;
 
 /**
  * ClientService
@@ -234,13 +234,15 @@ public class ClientService {
 		String[] allowedRedirectUrls = StringUtils.split(redirectUrls, ',');
 		final String testString = this.stripProtokollAndTailingSlash(redirectUrl);
 
-		LOG.debug("suchen redirectUrls mit testString={}", testString);
+		String theRedirectUrls = Arrays.stream(allowedRedirectUrls).collect(Collectors.joining(","));
+
+		LOG.info("suchen redirectUrls mit testString={}, redirectUrls={}", testString, theRedirectUrls);
 
 		Optional<String> optUrl = Arrays.stream(allowedRedirectUrls).filter(url -> url.equals(testString)).findFirst();
 
 		if (!optUrl.isPresent()) {
 
-			LOG.warn("Possible BOT Attack: redirect url '{}' fehlt in clients.REDIRECT_URLS (führendes http:// wird ignoriert)",
+			LOG.warn("Possible BOT Attack: redirect url '{}' fehlt in DB CLIENTS.REDIRECT_URLS (führendes http:// wird ignoriert)",
 				redirectUrl);
 			throw new InvalidRedirectUrl();
 		} else {
