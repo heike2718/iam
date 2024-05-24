@@ -23,16 +23,16 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "quarkus.http.cors.origins", defaultValue = "")
 	String corsAllowedOrigins;
 
-	@ConfigProperty(name = "de.egladil.web.profil_server.restclient.MkGatewayRestClient/mp-rest/url")
+	@ConfigProperty(name = "quarkus.rest-client.mk-gateway.url")
 	String mkGatewayRoute;
 
-	@ConfigProperty(name = "de.egladil.web.profil_server.restclient.InitAccessTokenRestClient/mp-rest/url")
+	@ConfigProperty(name = "quarkus.rest-client.accesstoken.url")
 	String accessTokenRoute;
 
-	@ConfigProperty(name = "de.egladil.web.profil_server.restclient.TokenExchangeRestClient/mp-rest/url")
+	@ConfigProperty(name = "quarkus.rest-client.token-exchange.url")
 	String tokenExchangeRoute;
 
-	@ConfigProperty(name = "de.egladil.web.profil_server.restclient.ProfileRestClient/mp-rest/url")
+	@ConfigProperty(name = "quarkus.rest-client.profile.url")
 	String profileRoute;
 
 	void onStartup(@Observes final StartupEvent ev) {

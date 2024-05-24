@@ -1,6 +1,6 @@
 export const environment = {
 	production: true,
-	version: '8.0.0',
+	version: '8.0.1',
 	envName: 'Production',
 	apiUrl: 'https://mathe-jung-alt.de/profil-api',
 	authUrl: 'https://mathe-jung-alt.de/auth-app',

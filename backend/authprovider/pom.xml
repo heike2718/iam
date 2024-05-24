@@ -5,7 +5,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>authprovider</artifactId>
-	<version>8.0.0</version>
+	<version>8.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>authprovider</name>
@@ -16,9 +16,9 @@
 		<commons.version>2.0.2</commons.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-		<quarkus.platform.version>3.8.0</quarkus.platform.version>
+		<quarkus.platform.version>3.10.1</quarkus.platform.version>
 		<surefire-plugin.version>3.1.2</surefire-plugin.version>
-		<dependency-check.version>9.0.8</dependency-check.version>
+		<dependency-check.version>9.2.0</dependency-check.version>
 		<maven.compiler.release>17</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

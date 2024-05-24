@@ -23,6 +23,9 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "stage")
 	String stage;
 
+	@ConfigProperty(name = "quarkus.rest-client.mk-gateway.url")
+	String mkGatewayRoute;
+
 	@ConfigProperty(name = "quarkus.http.cors.origins", defaultValue = "")
 	String corsAllowedOrigins;
 
@@ -33,6 +36,7 @@ public class AppLifecycleBean {
 
 		LOGGER.info(" ===========>  stage={}", stage);
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
+		LOGGER.info(" ===========>  mkGatewayRoute={}", mkGatewayRoute);
 		LOGGER.info(" ===========>  port={}", port);
 
 	}

@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  version: '8.0.0',
+  version: '8.0.1',
   envName: 'Test',
   apiUrl: 'http://heikedeb:9600/profil-api',
   assetsUrl: 'profil-app/assets',

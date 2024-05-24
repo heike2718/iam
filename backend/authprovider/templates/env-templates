@@ -1,0 +1,17 @@
+ENV=dev
+STAGE=dev
+
+QUARKUS_HTTP_PORT=10000
+
+TARGET_ORIGIN=http://localhost:4200,http://localhost:4300,http://localhost:4400
+
+ACCOUNT_DELETED_SUBJECT=DEV: Authprovider Benutzerkonto gel\u00f6scht
+
+QUARKUS_REST_CLIENT_MK_GATEWAY_URL=http://localhost:9510/mk-gateway
+
+QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4200,http://localhost:4300,http://localhost:4400,http://localhost:10000
+
+PRIVATE_KEY_LOCATION=/home/heike/.keystore/private/authprov_private_key.pem
+PUBLIC_KEY_LOCATION=/home/heike/.keystore/public/authprov_public_key.pem
+
+EMAIL_CREDENTIALS_PATH=/home/heike/git/konfigurationen/commons-mailer/mailprovider.properties

@@ -4,6 +4,11 @@
 // =====================================================
 package de.egladil.web.profil_server.restclient;
 
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
+import de.egladil.web.profil_server.payload.ChangeProfileDataPayload;
+import de.egladil.web.profil_server.payload.ChangeProfilePasswordPayload;
+import de.egladil.web.profil_server.payload.SelectProfilePayload;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.POST;
@@ -13,16 +18,10 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
-
-import de.egladil.web.profil_server.payload.ChangeProfileDataPayload;
-import de.egladil.web.profil_server.payload.ChangeProfilePasswordPayload;
-import de.egladil.web.profil_server.payload.SelectProfilePayload;
-
 /**
  * ProfileRestClient die Base-URI ist [auth-url]/profiles
  */
-@RegisterRestClient
+@RegisterRestClient(configKey = "profile")
 @Path("profiles")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
