@@ -1,0 +1,466 @@
+[1m[33mOne or more browsers which are configured in the project's Browserslist configuration will be ignored as ES5 output is not supported by the Angular CLI.[39m[22m
+[1m[33mIgnored browsers: kaios 2.5, op_mini all[39m[22m
+[36m⠋[39m Generating browser application bundles (phase: setup)...[1m[33m    TypeScript compiler options "target" and "useDefineForClassFields" are set to "ES2022" and "false" respectively by the Angular CLI. To control ECMA version and features use the Browerslist configuration. For more information, see https://angular.io/guide/build#configuring-browser-compatibility[39m[22m
+[1m[33m    NOTE: You can set the "target" to "ES2022" in the project's tsconfig to remove this warning.[39m[22m
+[2K[1G[36m⠙[39m Generating browser application bundles (phase: setup)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠼[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠴[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠦[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠧[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠇[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠏[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠋[39m Generating browser application bundles (phase: sealing)...[2K[1G[36m⠙[39m Generating browser application bundles (phase: sealing)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m  [2m | [22m[1mNames[22m        [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mvendor.js[39m[37m            [2m | [22mvendor       [2m | [22m  [96m3.57 MB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mstyles.css, styles.js[39m[37m[2m | [22mstyles       [2m | [22m[96m385.22 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mpolyfills.js[39m[37m         [2m | [22mpolyfills    [2m | [22m[96m356.37 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mmain.js[39m[37m              [2m | [22mmain         [2m | [22m[96m241.10 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m           [2m | [22mruntime      [2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m[1m [22m                    [2m | [22m[1mInitial Total[22m[2m | [22m  [1m4.54 MB[22m[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:08:37.140Z[39m[37m[22m - Hash: [1m[37m685abd19d8383232[39m[37m[22m - Time: [1m[37m4058[39m[37m[22mms[0m[39m
+[1m[33m[39m[22m
+[1m[33m[0m[33mWarning: [39m[33m[0m/home/heike/git/authenticationprovider/frontend/authprovider-ws/apps/auth-app/src/app/shared/app-data.service.ts depends on 'lodash'. CommonJS or AMD dependencies can cause optimization bailouts.[39m[22m
+[1m[33mFor more info see: https://angular.io/guide/build#configuring-commonjs-dependencies[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app-routing.module.ts[0m:[93m7[0m:[93m44[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m7[0m   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],[39m[22m
+[1m[31m[7m [0m [91m                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m40[0m:[93m55[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ useHash: true; relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m40[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[37m[39m
+[37m** Angular Live Development Server is listening on localhost:4300, open your browser on http://localhost:4300/ **[39m
+[37m[39m
+[37m[39m
+[37m[91m✖[39m[37m Failed to compile.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠼[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠴[39m Generating browser application bundles (phase: sealing)...[2K[1G[36m⠦[39m Generating browser application bundles (phase: sealing)...[2K[1G[36m⠧[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠇[39m Generating browser application bundles (phase: sealing)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m233.75 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:10:42.264Z[39m[37m[22m - Hash: [1m[37mb04a33395d64c1e4[39m[37m[22m - Time: [1m[37m2452[39m[37m[22mms[0m[39m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app-routing.module.ts[0m:[93m7[0m:[93m44[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m7[0m   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],[39m[22m
+[1m[31m[7m [0m [91m                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.component.html[0m:[93m3[0m:[93m2[0m - [91merror[0m[90m NG8001: [0m'cmn-msg' is not a known element:[39m[22m
+[1m[31m1. If 'cmn-msg' is an Angular component, then verify that it is part of this module.[39m[22m
+[1m[31m2. If 'cmn-msg' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m3[0m  <cmn-msg></cmn-msg>[39m[22m
+[1m[31m[7m [0m [91m ~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m  [96mapps/auth-app/src/app/app.component.ts[0m:[93m10[0m:[93m15[0m[39m[22m
+[1m[31m    [7m10[0m  templateUrl: './app.component.html',[39m[22m
+[1m[31m    [7m  [0m [96m              ~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m    Error occurs in the template of component AppComponent.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.component.html[0m:[93m21[0m:[93m3[0m - [91merror[0m[90m NG8001: [0m'router-outlet' is not a known element:[39m[22m
+[1m[31m1. If 'router-outlet' is an Angular component, then verify that it is part of this module.[39m[22m
+[1m[31m2. If 'router-outlet' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m21[0m   <router-outlet></router-outlet>[39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m  [96mapps/auth-app/src/app/app.component.ts[0m:[93m10[0m:[93m15[0m[39m[22m
+[1m[31m    [7m10[0m  templateUrl: './app.component.html',[39m[22m
+[1m[31m    [7m  [0m [96m              ~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m    Error occurs in the template of component AppComponent.[39m[22m
+[1m[31m[39m[22m[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m37[0m:[93m11[0m - [91merror[0m[90m NG1010: [0mValue[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m40[0m:[93m3[0m - [91merror[0m[90m TS2304: [0mCannot find name 'imports'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m40[0m   imports: [RouterModule.forRoot([39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m40[0m:[93m10[0m - [91merror[0m[90m TS1005: [0m',' expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m40[0m   imports: [RouterModule.forRoot([39m[22m
+[1m[31m[7m  [0m [91m         ~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m41[0m:[93m4[0m - [91merror[0m[90m TS2304: [0mCannot find name 'routes'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m41[0m    routes,[39m[22m
+[1m[31m[7m  [0m [91m   ~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m55[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ useHash: true; relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/forgot-password/forgot-password.component.html[0m:[93m5[0m:[93m19[0m - [91merror[0m[90m NG8002: [0mCan't bind to 'formGroup' since it isn't a known property of 'form'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m5[0m  <form novalidate [formGroup]="orderPwdForm">[39m[22m
+[1m[31m[7m [0m [91m                  ~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m  [96mapps/auth-app/src/app/forgot-password/forgot-password.component.ts[0m:[93m18[0m:[93m15[0m[39m[22m
+[1m[31m    [7m18[0m  templateUrl: './forgot-password.component.html',[39m[22m
+[1m[31m    [7m  [0m [96m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m    Error occurs in the [39m[22m[1m[31mtemplate of component ForgotPasswordComponent.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/forgot-password/forgot-password.component.html[0m:[93m18[0m:[93m4[0m - [91merror[0m[90m NG8001: [0m'cmn-form-error' is not a known element:[39m[22m
+[1m[31m1. If 'cmn-form-error' is an Angular component, then verify that it is part of this module.[39m[22m
+[1m[31m2. If 'cmn-form-error' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m18[0m    <cmn-form-error path="loginName" text="Loginname oder Email"></cmn-form-error>[39m[22m
+[1m[31m[7m  [0m [91m   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m  [96mapps/auth-app/src/app/forgot-password/forgot-password.component.ts[0m:[93m18[0m:[93m15[0m[39m[22m
+[1m[31m    [7m18[0m  templateUrl: './forgot-password.component.html',[39m[22m
+[1m[31m    [7m  [0m [96m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m    Error occurs in the template of component ForgotPasswordComponent.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[37m[39m
+[37m[91m✖[39m[37m Failed to compile.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: sealing)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m233.75 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:10:44.789Z[39m[37m[22m - Hash: [1m[37mc51124ce77977666[39m[37m[22m - Time: [1m[37m483[39m[37m[22mms[0m[39m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app-routing.module.ts[0m:[93m7[0m:[93m44[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m7[0m   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],[39m[22m
+[1m[31m[7m [0m [91m                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.component.html[0m:[93m3[0m:[93m2[0m - [91merror[0m[90m NG8001: [0m'cmn-msg' is not a known element:[39m[22m
+[1m[31m1. If 'cmn-msg' is an Angular component, then verify that it is part of this module.[39m[22m
+[1m[31m2. If 'cmn-msg' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m3[0m  <cmn-msg></cmn-msg>[39m[22m
+[1m[31m[7m [0m [91m ~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m  [96mapps/auth-app/src/app/app.component.ts[0m:[93m10[0m:[93m15[0m[39m[22m
+[1m[31m    [7m10[0m  templateUrl: './app.component.html',[39m[22m
+[1m[31m    [7m  [0m [96m              ~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m    Error occurs in the template of component AppComponent.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.component.html[0m:[93m21[0m:[93m3[0m - [91merror[0m[90m NG8001: [0m'router-outlet' is not a known element:[39m[22m
+[1m[31m1. If 'router-outlet' is an Angular component, then verify that it is part of this module.[39m[22m
+[1m[31m2. If 'router-outlet' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m21[0m   <router-outlet></router-outlet>[39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m  [96mapps/auth-app/src/app/app.component.ts[0m:[93m10[0m:[93m15[0m[39m[22m
+[1m[31m    [7m10[0m  templateUrl: './app.component.html',[39m[22m
+[1m[31m    [7m  [0m [96m              ~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m    Error occurs in the template of component AppComponent.[39m[22m
+[1m[31m[39m[22m[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m37[0m:[93m11[0m - [91merror[0m[90m NG1010: [0mValue[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m40[0m:[93m3[0m - [91merror[0m[90m TS2304: [0mCannot find name 'imports'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m40[0m   imports: [RouterModule.forRoot([39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m40[0m:[93m10[0m - [91merror[0m[90m TS1005: [0m',' expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m40[0m   imports: [RouterModule.forRoot([39m[22m
+[1m[31m[7m  [0m [91m         ~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m41[0m:[93m3[0m - [91merror[0m[90m TS2304: [0mCannot find name 'routes'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m41[0m   routes,[39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m55[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ useHash: true; relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/forgot-password/forgot-password.component.html[0m:[93m5[0m:[93m19[0m - [91merror[0m[90m NG8002: [0mCan't bind to 'formGroup' since it isn't a known property of 'form'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m5[0m  <form novalidate [formGroup]="orderPwdForm">[39m[22m
+[1m[31m[7m [0m [91m                  ~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m  [96mapps/auth-app/src/app/forgot-password/forgot-password.component.ts[0m:[93m18[0m:[93m15[0m[39m[22m
+[1m[31m    [7m18[0m  templateUrl: './forgot-password.component.html',[39m[22m
+[1m[31m    [7m  [0m [96m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m    Error occurs in the te[39m[22m[1m[31mmplate of component ForgotPasswordComponent.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/forgot-password/forgot-password.component.html[0m:[93m18[0m:[93m4[0m - [91merror[0m[90m NG8001: [0m'cmn-form-error' is not a known element:[39m[22m
+[1m[31m1. If 'cmn-form-error' is an Angular component, then verify that it is part of this module.[39m[22m
+[1m[31m2. If 'cmn-form-error' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m18[0m    <cmn-form-error path="loginName" text="Loginname oder Email"></cmn-form-error>[39m[22m
+[1m[31m[7m  [0m [91m   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m  [96mapps/auth-app/src/app/forgot-password/forgot-password.component.ts[0m:[93m18[0m:[93m15[0m[39m[22m
+[1m[31m    [7m18[0m  templateUrl: './forgot-password.component.html',[39m[22m
+[1m[31m    [7m  [0m [96m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m    Error occurs in the template of component ForgotPasswordComponent.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[37m[39m
+[37m[91m✖[39m[37m Failed to compile.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: sealing)...[2K[1G[36m⠼[39m Generating browser application bundles (phase: sealing)...[2K[1G[36m⠴[39m Generating browser application bundles (phase: sealing)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.10 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:10:46.714Z[39m[37m[22m - Hash: [1m[37m84f21b6288763774[39m[37m[22m - Time: [1m[37m1220[39m[37m[22mms[0m[39m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app-routing.module.ts[0m:[93m7[0m:[93m44[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m7[0m   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],[39m[22m
+[1m[31m[7m [0m [91m                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m41[0m:[93m55[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ useHash: true; relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m41[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[37m[39m
+[37m[91m✖[39m[37m Failed to compile.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: sealing)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.29 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:10:58.401Z[39m[37m[22m - Hash: [1m[37m423c24d6450ab7a6[39m[37m[22m - Time: [1m[37m301[39m[37m[22mms[0m[39m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app-routing.module.ts[0m:[93m7[0m:[93m44[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m7[0m   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],[39m[22m
+[1m[31m[7m [0m [91m                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m41[0m:[93m4[0m - [91merror[0m[90m TS2304: [0mCannot find name 'routes'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m41[0m    routes,[39m[22m
+[1m[31m[7m  [0m [91m   ~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m3[0m - [91merror[0m[90m TS1005: [0m',' expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m55[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ useHash: true; relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[37m[39m
+[37m[91m✖[39m[37m Failed to compile.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.24 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:11:41.984Z[39m[37m[22m - Hash: [1m[37m99cca9ac050ad910[39m[37m[22m - Time: [1m[37m510[39m[37m[22mms[0m[39m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m41[0m:[93m4[0m - [91merror[0m[90m TS2304: [0mCannot find name 'routes'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m41[0m    routes,[39m[22m
+[1m[31m[7m  [0m [91m   ~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m3[0m - [91merror[0m[90m TS1005: [0m',' expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m55[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ useHash: true; relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[37m[39m
+[37m[91m✖[39m[37m Failed to compile.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.24 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:11:46.069Z[39m[37m[22m - Hash: [1m[37m5a4a610c86a37b42[39m[37m[22m - Time: [1m[37m361[39m[37m[22mms[0m[39m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m41[0m:[93m4[0m - [91merror[0m[90m TS2304: [0mCannot find name 'routes'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m41[0m    routes,[39m[22m
+[1m[31m[7m  [0m [91m   ~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m3[0m - [91merror[0m[90m TS1005: [0m',' expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m55[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ useHash: true; relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[37m[39m
+[37m[91m✖[39m[37m Failed to compile.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: building)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.29 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:12:09.202Z[39m[37m[22m - Hash: [1m[37m67891f18f9802116[39m[37m[22m - Time: [1m[37m678[39m[37m[22mms[0m[39m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m3[0m - [91merror[0m[90m TS1005: [0m',' expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m55[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ useHash: true; relativeLinkResolution: string; }' is not assignable to parameter of type 'ExtraOptions'.[39m[22m
+[1m[31m  Object literal may only specify known properties, and 'relativeLinkResolution' does not exist in type 'ExtraOptions'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),[39m[22m
+[1m[31m[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[37m[39m
+[37m[91m✖[39m[37m Failed to compile.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: sealing)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.05 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:12:12.221Z[39m[37m[22m - Hash: [1m[37m2473503a3dad351b[39m[37m[22m - Time: [1m[37m361[39m[37m[22mms[0m[39m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mapps/auth-app/src/app/app.module.ts[0m:[93m44[0m:[93m3[0m - [91merror[0m[90m TS1005: [0m',' expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m44[0m   FormsModule,[39m[22m
+[1m[31m[7m  [0m [91m  ~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[37m[39m
+[37m[91m✖[39m[37m Failed to compile.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: sealing)...[2K[1G[36m⠼[39m Generating browser application bundles (phase: emitting)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.05 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:12:17.684Z[39m[37m[22m - Hash: [1m[37m0b599141dcadd465[39m[37m[22m - Time: [1m[37m428[39m[37m[22mms[0m[39m
+[37m[39m
+[37m[92m✔[39m[37m Compiled successfully.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: emitting)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.05 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:12:19.364Z[39m[37m[22m - Hash: [1m[37mbe992b6837e777e7[39m[37m[22m - Time: [1m[37m466[39m[37m[22mms[0m[39m
+[37m[39m
+[37m[92m✔[39m[37m Compiled successfully.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: sealing)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: emitting)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.05 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:12:20.129Z[39m[37m[22m - Hash: [1m[37m0ffa1f0fc3587732[39m[37m[22m - Time: [1m[37m305[39m[37m[22mms[0m[39m
+[37m[39m
+[37m[92m✔[39m[37m Compiled successfully.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠼[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠴[39m Generating browser application bundles (phase: sealing)...[2K[1G[36m⠦[39m Generating browser application bundles (phase: emitting)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.05 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:18:22.401Z[39m[37m[22m - Hash: [1m[37m67125233de84711a[39m[37m[22m - Time: [1m[37m1205[39m[37m[22mms[0m[39m
+[37m[39m
+[37m[92m✔[39m[37m Compiled successfully.[39m
+[36m⠋[39m Generating browser application bundles...[2K[1G[36m⠙[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠹[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠸[39m Generating browser application bundles (phase: building)...[2K[1G[36m⠼[39m Generating browser application bundles (phase: emitting)...[2K[1G[32m✔[39m Browser application bundle generation complete.
+[37m[39m
+[37m[0m[1mInitial Chunk Files[22m[2m | [22m[1mNames[22m  [2m | [22m [1mRaw Size[22m[0m[39m
+[37m[0m[92mmain.js[39m[37m            [2m | [22mmain   [2m | [22m[96m241.05 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[92mruntime.js[39m[37m         [2m | [22mruntime[2m | [22m  [96m6.85 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m3 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2024-05-25T04:18:22.969Z[39m[37m[22m - Hash: [1m[37m81762dbf3727afaf[39m[37m[22m - Time: [1m[37m532[39m[37m[22mms[0m[39m
+[37m[39m
+[37m[92m✔[39m[37m Compiled successfully.[39m

@@ -7,7 +7,7 @@ export const environment = {
 	version: '8.0.1',
 	envName: 'dev',
 	datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
-	apiUrl: 'http://localhost:9000/authprovider',
+	apiUrl: 'http://localhost:10000/authprovider',
     profilUrl: 'http://localhost:4400/profil-app',
 	assetsUrl: 'auth-app/assets',
 	consoleLogActive: true,

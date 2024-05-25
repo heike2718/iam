@@ -37,7 +37,9 @@ import { environment } from '../environments/environment';
 	],
 	imports: [
 		BrowserModule,
-		RouterModule.forRoot(routerConfig, { useHash: true, relativeLinkResolution: 'legacy' }),
+		RouterModule.forRoot(
+			routerConfig,
+			{ enableTracing: false, useHash: true }),
 		HttpClientModule,
 		FormsModule,
 		ReactiveFormsModule,
