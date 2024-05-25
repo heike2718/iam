@@ -1840,15 +1840,6 @@
         "hash": "sha512-QBlUtyVk/5EeHbi7X0fw6liDZc7BBmEaSYn01fMU1OUYbf6GPsbTtd8WmnqbI20SeycoHSeiybkE/q1Q+qlThQ=="
       }
     },
-    "npm:semver@6.3.0": {
-      "type": "npm",
-      "name": "npm:semver@6.3.0",
-      "data": {
-        "version": "6.3.0",
-        "packageName": "semver",
-        "hash": "sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw=="
-      }
-    },
     "npm:semver@7.5.4": {
       "type": "npm",
       "name": "npm:semver@7.5.4",
@@ -1858,13 +1849,13 @@
         "hash": "sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA=="
       }
     },
-    "npm:semver@5.7.1": {
+    "npm:semver@5.7.2": {
       "type": "npm",
-      "name": "npm:semver@5.7.1",
+      "name": "npm:semver@5.7.2",
       "data": {
-        "version": "5.7.1",
+        "version": "5.7.2",
         "packageName": "semver",
-        "hash": "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="
+        "hash": "sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g=="
       }
     },
     "npm:semver": {
@@ -3707,9 +3698,9 @@
       "type": "npm",
       "name": "npm:@cypress/request",
       "data": {
-        "version": "2.88.10",
+        "version": "2.88.12",
         "packageName": "@cypress/request",
-        "hash": "sha512-Zp7F+R93N0yZyG34GutyTNr+okam7s/Fzc1+i3kcqOP8vk6OuajuE9qZJ6Rs+10/1JFtXFYMdyarnU1rZuJesg=="
+        "hash": "sha512-tOn+0mDZxASFM+cuAP9szGUGPI1HwWVSvdzm7V4cCsPdFTx6qMj29CwaQmRAMIEhORIUBFBsYROYJcveK4uOjA=="
       }
     },
     "npm:@cypress/xvfb": {
@@ -5276,15 +5267,6 @@
         "version": "2.0.4",
         "packageName": "loader-utils",
         "hash": "sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw=="
-      }
-    },
-    "npm:loader-utils@2.0.2": {
-      "type": "npm",
-      "name": "npm:loader-utils@2.0.2",
-      "data": {
-        "version": "2.0.2",
-        "packageName": "loader-utils",
-        "hash": "sha512-TM57VeHptv569d/GKh6TAYdzKblwDNiumOdkFnejjD0XwTH87K90w3O7AiJRqdQoXygvi1VQTJTLGhJl7WqA7A=="
       }
     },
     "npm:loader-utils": {
@@ -7019,9 +7001,9 @@
       "type": "npm",
       "name": "npm:qs",
       "data": {
-        "version": "6.5.3",
+        "version": "6.10.4",
         "packageName": "qs",
-        "hash": "sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA=="
+        "hash": "sha512-OQiU+C+Ds5qiH91qh/mg0w+8nwQuLjM4F4M/PbmhDOoYehPh+Fb0bDjtR1sOvy7YKxvj28Y/M0PhP5uVX0kB+g=="
       }
     },
     "npm:bonjour-service": {
@@ -8297,9 +8279,9 @@
       "type": "npm",
       "name": "npm:ejs",
       "data": {
-        "version": "3.1.8",
+        "version": "3.1.10",
         "packageName": "ejs",
-        "hash": "sha512-/sXZeMlhS0ArkfX2Aw780gJzXSMPnKjtspYZv+f3NiKLlubezAHDU5+9xz6gd3/NhG3txQCo6xlglmTS+oTGEQ=="
+        "hash": "sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA=="
       }
     },
     "npm:electron-to-chromium": {
@@ -10460,42 +10442,6 @@
         "version": "5.0.1",
         "packageName": "saxes",
         "hash": "sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw=="
-      }
-    },
-    "npm:tough-cookie@4.1.4": {
-      "type": "npm",
-      "name": "npm:tough-cookie@4.1.4",
-      "data": {
-        "version": "4.1.4",
-        "packageName": "tough-cookie",
-        "hash": "sha512-Loo5UUvLD9ScZ6jh8beX1T6sO1w2/MpCRpEP7V280GKMVUQ0Jzar2U3UJPsrdbziLEMMhu3Ujnq//rhiFuIeag=="
-      }
-    },
-    "npm:tough-cookie": {
-      "type": "npm",
-      "name": "npm:tough-cookie",
-      "data": {
-        "version": "2.5.0",
-        "packageName": "tough-cookie",
-        "hash": "sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g=="
-      }
-    },
-    "npm:universalify@0.2.0": {
-      "type": "npm",
-      "name": "npm:universalify@0.2.0",
-      "data": {
-        "version": "0.2.0",
-        "packageName": "universalify",
-        "hash": "sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg=="
-      }
-    },
-    "npm:universalify": {
-      "type": "npm",
-      "name": "npm:universalify",
-      "data": {
-        "version": "2.0.0",
-        "packageName": "universalify",
-        "hash": "sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ=="
       }
     },
     "npm:w3c-xmlserializer@4.0.0": {
@@ -13499,9 +13445,9 @@
       "type": "npm",
       "name": "npm:tar",
       "data": {
-        "version": "6.1.11",
+        "version": "6.2.1",
         "packageName": "tar",
-        "hash": "sha512-an/KZQzQUkZCkuoAA64hM92X0Urb6VpRhAFllDzz44U2mcD5scmT3zBc4VgVpkugF580+DQn8eAFSyoQt0tznA=="
+        "hash": "sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A=="
       }
     },
     "npm:tar-stream": {
@@ -13619,6 +13565,33 @@
         "version": "1.0.1",
         "packageName": "toidentifier",
         "hash": "sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA=="
+      }
+    },
+    "npm:tough-cookie": {
+      "type": "npm",
+      "name": "npm:tough-cookie",
+      "data": {
+        "version": "4.1.4",
+        "packageName": "tough-cookie",
+        "hash": "sha512-Loo5UUvLD9ScZ6jh8beX1T6sO1w2/MpCRpEP7V280GKMVUQ0Jzar2U3UJPsrdbziLEMMhu3Ujnq//rhiFuIeag=="
+      }
+    },
+    "npm:universalify@0.2.0": {
+      "type": "npm",
+      "name": "npm:universalify@0.2.0",
+      "data": {
+        "version": "0.2.0",
+        "packageName": "universalify",
+        "hash": "sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg=="
+      }
+    },
+    "npm:universalify": {
+      "type": "npm",
+      "name": "npm:universalify",
+      "data": {
+        "version": "2.0.0",
+        "packageName": "universalify",
+        "hash": "sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ=="
       }
     },
     "npm:tr46": {
@@ -14165,9 +14138,9 @@
       "type": "npm",
       "name": "npm:word-wrap",
       "data": {
-        "version": "1.2.3",
+        "version": "1.2.5",
         "packageName": "word-wrap",
-        "hash": "sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ=="
+        "hash": "sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA=="
       }
     },
     "npm:wrap-ansi-cjs": {
@@ -15814,7 +15787,7 @@
       },
       {
         "source": "npm:@babel/core",
-        "target": "npm:semver@6.3.0",
+        "target": "npm:semver@6.3.1",
         "type": "static"
       }
     ],
@@ -21916,29 +21889,12 @@
     "npm:adjust-sourcemap-loader": [
       {
         "source": "npm:adjust-sourcemap-loader",
-        "target": "npm:loader-utils@2.0.2",
+        "target": "npm:loader-utils@2.0.4",
         "type": "static"
       },
       {
         "source": "npm:adjust-sourcemap-loader",
         "target": "npm:regex-parser",
-        "type": "static"
-      }
-    ],
-    "npm:loader-utils@2.0.2": [
-      {
-        "source": "npm:loader-utils@2.0.2",
-        "target": "npm:big.js",
-        "type": "static"
-      },
-      {
-        "source": "npm:loader-utils@2.0.2",
-        "target": "npm:emojis-list",
-        "type": "static"
-      },
-      {
-        "source": "npm:loader-utils@2.0.2",
-        "target": "npm:json5",
         "type": "static"
       }
     ],
@@ -27084,7 +27040,7 @@
       },
       {
         "source": "npm:jsdom@20.0.3",
-        "target": "npm:tough-cookie@4.1.4",
+        "target": "npm:tough-cookie",
         "type": "static"
       },
       {
@@ -27134,28 +27090,6 @@
       {
         "source": "npm:saxes@6.0.0",
         "target": "npm:xmlchars",
-        "type": "static"
-      }
-    ],
-    "npm:tough-cookie@4.1.4": [
-      {
-        "source": "npm:tough-cookie@4.1.4",
-        "target": "npm:psl",
-        "type": "static"
-      },
-      {
-        "source": "npm:tough-cookie@4.1.4",
-        "target": "npm:punycode",
-        "type": "static"
-      },
-      {
-        "source": "npm:tough-cookie@4.1.4",
-        "target": "npm:universalify@0.2.0",
-        "type": "static"
-      },
-      {
-        "source": "npm:tough-cookie@4.1.4",
-        "target": "npm:url-parse",
         "type": "static"
       }
     ],
@@ -27791,7 +27725,7 @@
       },
       {
         "source": "npm:jsdom",
-        "target": "npm:tough-cookie@4.1.4",
+        "target": "npm:tough-cookie",
         "type": "static"
       },
       {
@@ -27953,7 +27887,7 @@
       },
       {
         "source": "npm:make-dir@2.1.0",
-        "target": "npm:semver@5.7.1",
+        "target": "npm:semver@5.7.2",
         "type": "static"
       }
     ],
@@ -28115,7 +28049,7 @@
     "npm:make-dir": [
       {
         "source": "npm:make-dir",
-        "target": "npm:semver@6.3.0",
+        "target": "npm:semver@6.3.1",
         "type": "static"
       }
     ],
@@ -30526,6 +30460,13 @@
         "type": "static"
       }
     ],
+    "npm:qs": [
+      {
+        "source": "npm:qs",
+        "target": "npm:side-channel",
+        "type": "static"
+      }
+    ],
     "npm:randombytes": [
       {
         "source": "npm:randombytes",
@@ -30739,7 +30680,7 @@
       },
       {
         "source": "npm:resolve-url-loader",
-        "target": "npm:loader-utils@2.0.2",
+        "target": "npm:loader-utils@2.0.4",
         "type": "static"
       },
       {
@@ -31641,7 +31582,7 @@
       },
       {
         "source": "npm:tar",
-        "target": "npm:minipass",
+        "target": "npm:minipass@5.0.0",
         "type": "static"
       },
       {
@@ -31803,6 +31744,16 @@
       {
         "source": "npm:tough-cookie",
         "target": "npm:punycode",
+        "type": "static"
+      },
+      {
+        "source": "npm:tough-cookie",
+        "target": "npm:universalify@0.2.0",
+        "type": "static"
+      },
+      {
+        "source": "npm:tough-cookie",
+        "target": "npm:url-parse",
         "type": "static"
       }
     ],
