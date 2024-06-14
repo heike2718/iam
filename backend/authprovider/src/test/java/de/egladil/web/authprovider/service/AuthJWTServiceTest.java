@@ -25,12 +25,12 @@ import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
 import io.quarkus.test.junit.QuarkusTest;
 
 /**
- * AuthorizationServiceTest
+ * AuthJWTServiceTest
  */
 @QuarkusTest
-public class AuthorizationServiceTest {
+public class AuthJWTServiceTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AuthorizationServiceTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AuthJWTServiceTest.class);
 
 	private static final String ACCESS_TOKEN = "ashdhqoHIDHIP";
 
@@ -42,7 +42,7 @@ public class AuthorizationServiceTest {
 
 	private ClientService clientService;
 
-	private AuthorizationService service;
+	private AuthJWTService authJWTService;
 
 	@BeforeEach
 	void setUp() throws ClientAccessTokenNotFoundException {
@@ -53,7 +53,7 @@ public class AuthorizationServiceTest {
 
 		clientService = Mockito.mock(ClientService.class);
 
-		service = new AuthorizationService(clientService, new JWTService(privateKeyLocation, publicKeyLocation));
+		authJWTService = new AuthJWTService(clientService, new JWTService(privateKeyLocation, publicKeyLocation));
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class AuthorizationServiceTest {
 		Mockito.when(clientService.findAndCheckClient(clientCredentials)).thenReturn(client);
 
 		// Act
-		SignUpLogInResponseData responseData = service.createAuthorization(resourceOwner, clientCredentials, "");
+		SignUpLogInResponseData responseData = authJWTService.createAuthorization(resourceOwner, clientCredentials, "");
 
 		// Assert
 		String jwt = responseData.getIdToken();
@@ -96,7 +96,7 @@ public class AuthorizationServiceTest {
 		Mockito.when(clientService.findAndCheckClient(clientCredentials)).thenReturn(client);
 
 		// Act
-		SignUpLogInResponseData responseData = service.createAuthorization(resourceOwner, clientCredentials, "");
+		SignUpLogInResponseData responseData = authJWTService.createAuthorization(resourceOwner, clientCredentials, "");
 
 		// Assert
 		String jwt = responseData.getIdToken();
@@ -120,7 +120,7 @@ public class AuthorizationServiceTest {
 		Mockito.when(clientService.findAndCheckClient(clientCredentials)).thenReturn(client);
 
 		// Act
-		SignUpLogInResponseData responseData = service.createAuthorization(resourceOwner, clientCredentials, "");
+		SignUpLogInResponseData responseData = authJWTService.createAuthorization(resourceOwner, clientCredentials, "");
 
 		// Assert
 		String jwt = responseData.getIdToken();

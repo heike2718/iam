@@ -47,7 +47,7 @@ import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
 import de.egladil.web.authprovider.payload.User;
 import de.egladil.web.authprovider.payload.UserQueryParametersPayload;
 import de.egladil.web.authprovider.payload.UuidPayloadList;
-import de.egladil.web.authprovider.service.AuthorizationService;
+import de.egladil.web.authprovider.service.AuthJWTService;
 import de.egladil.web.authprovider.service.ClientService;
 import de.egladil.web.authprovider.service.RegistrationService;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
@@ -87,7 +87,7 @@ public class UserResource {
 	ResourceOwnerService resourceOwnerService;
 
 	@Inject
-	AuthorizationService authorizationService;
+	AuthJWTService authJWTService;
 
 	@Context
 	SecurityContext securityContext;
@@ -145,7 +145,7 @@ public class UserResource {
 
 			ResourceOwner resourceOwner = registrationService.createNewResourceOwner(client, signUpCredentials, uriInfo);
 
-			SignUpLogInResponseData data = authorizationService.createAndStoreAuthorization(resourceOwner,
+			SignUpLogInResponseData data = authJWTService.createAndStoreAuthorization(resourceOwner,
 				signUpCredentials.getClientCredentials(), signUpCredentials.getNonce());
 
 			ResponsePayload responsePayload = new ResponsePayload(

@@ -8,9 +8,6 @@ package de.egladil.web.authprovider.service;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.auth_code_store.OAuthFlowType;
@@ -25,12 +22,14 @@ import de.egladil.web.authprovider.payload.ClientCredentials;
 import de.egladil.web.authprovider.payload.JWTPayload;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseDataBuilder;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
- * AuthproviderSessionService produziert ein JWT.
+ * AuthJWTService produziert ein JWT und hält es zum Abholen mit einem auth-token im Heap.
  */
 @ApplicationScoped
-public class AuthorizationService {
+public class AuthJWTService {
 
 	@Inject
 	ClientService clientService;
@@ -44,14 +43,14 @@ public class AuthorizationService {
 	/**
 	 * Erzeugt eine Instanz von AuthproviderSessionService
 	 */
-	public AuthorizationService() {
+	public AuthJWTService() {
 
 	}
 
 	/**
 	 * Erzeugt eine Instanz von AuthproviderSessionService zu Testzewecken ohne CDI.
 	 */
-	public AuthorizationService(final ClientService clientService, final JWTService jwtService) {
+	public AuthJWTService(final ClientService clientService, final JWTService jwtService) {
 
 		this.clientService = clientService;
 		this.jwtService = jwtService;

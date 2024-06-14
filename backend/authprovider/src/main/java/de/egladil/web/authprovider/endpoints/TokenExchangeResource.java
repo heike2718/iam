@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.domain.Client;
-import de.egladil.web.authprovider.service.AuthorizationService;
+import de.egladil.web.authprovider.service.AuthJWTService;
 import de.egladil.web.authprovider.service.ClientService;
 import de.egladil.web.commons_validation.annotations.UuidString;
 import de.egladil.web.commons_validation.payload.ExchangeTokenResponse;
@@ -37,7 +37,7 @@ public class TokenExchangeResource {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TokenExchangeResource.class);
 
 	@Inject
-	AuthorizationService authorizationService;
+	AuthJWTService authJWTService;
 
 	@Inject
 	ClientService clientService;
@@ -61,7 +61,7 @@ public class TokenExchangeResource {
 
 			Client client = this.clientService.authorizeClient(clientCredentials);
 
-			String jwt = this.authorizationService.exchangeTheOneTimeToken(oneTimeToken, client);
+			String jwt = this.authJWTService.exchangeTheOneTimeToken(oneTimeToken, client);
 
 			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.ok(),
 				ExchangeTokenResponse.create(jwt, clientCredentials.getNonce()));

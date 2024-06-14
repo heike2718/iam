@@ -21,7 +21,7 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.payload.LoginCredentials;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
 import de.egladil.web.authprovider.service.AuthenticationService;
-import de.egladil.web.authprovider.service.AuthorizationService;
+import de.egladil.web.authprovider.service.AuthJWTService;
 import de.egladil.web.commons_validation.ValidationDelegate;
 import de.egladil.web.commons_validation.payload.MessagePayload;
 import de.egladil.web.commons_validation.payload.ResponsePayload;
@@ -43,7 +43,7 @@ public class AuthenticationResource {
 	AuthenticationService authenticationService;
 
 	@Inject
-	AuthorizationService authorizationService;
+	AuthJWTService authJWTService;
 
 	/**
 	 * Authentisiert den Benutzer mit Loginname / Email und Paaswort. Gibt als SignUpLogInResponseData.idToken ein oneTimeToken
@@ -71,7 +71,7 @@ public class AuthenticationResource {
 			ResourceOwner resourceOwner = authenticationService
 				.authenticateResourceOwner(credentials.getAuthorizationCredentials());
 
-			SignUpLogInResponseData data = authorizationService
+			SignUpLogInResponseData data = authJWTService
 				.createAndStoreAuthorization(resourceOwner, credentials.getClientCredentials(), credentials.getNonce());
 
 			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.info("erfolgreich authentisiert"), data);

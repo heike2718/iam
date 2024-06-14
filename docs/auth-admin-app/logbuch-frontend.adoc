@@ -1,0 +1,70 @@
+== Aufsetzen der Angular-Anwendung
+
+Hier die Befehle zum Generieren von Dingen für das Frontend
+
+[source,cli]
+----
+npx create-nx-workspace@latest mkauth-admin-app
+----
+
+Habe mich für ein *standalone* project entschieden, weil es ein sehr überschaubares kleines Angular-Projekt ist, von dem ich keinerlei libs irgendwo verwenden werde.
+
+Report der gewählten Optionen:
+
+[source,cli]
+---
+Which stack do you want to use? · angular
+Integrated monorepo, or standalone project? · standalone
+Which bundler would you like to use? · esbuild
+Default stylesheet format · scss
+Do you want to enable Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering)? · No
+Test runner to use for end to end (E2E) tests · playwright
+Do you want Nx Cloud to make your CI fast? · skip
+---
+
+=== scripts hinzugefügt
+
+[source,json,source-file="package.json"]
+----
+  "scripts": {
+    "ng": "nx",
+    "postinstall": "node ./decorate-angular-cli.js",
+    "start": "nx serve auth-admin-app",
+    "build:local": "npx nx build auth-admin-app -c local --output-hashing=all --base-href /auth-admin-app/ --skip-nx-cache",
+    "build:heikeqs": "npx nx build auth-admin-app -c heikeqs --output-hashing=all --base-href /auth-admin-app/ --skip-nx-cache",
+    "build:prod": "npx nx run auth-admin-app:build:production --output-hashing=all --base-href /auth-admin-app/ --skip-nx-cache",
+    "test": "npx nx test",
+    "test:all": "npx nx run-many --target=test --all",
+    "lint:all": "npx nx run-many --target=lint --all",
+    "full-check": "npx nx run-s lint:all test:all build",
+    "graph": "npx nx graph"
+  },
+
+----
+
+=== buildprofile einrichten
+
+Im root-Verzeichnis des workspaces einen Verzeichnisbaum
+
+----
+mkbiza-ws
+|-- apps
+|-- build-env
+    |-- mkbiza-app
+        |-- environment.a300.ts
+        |-- environment.local.ts
+        |-- index.a300.html
+        |-- index.prod.html
+----
+
+Diese Files werden in project.json verwendet, um die dev-Files zu ersetzen.
+
+Die Profile werden im project.json der app konfiguriert: 
+
+----
+mkbiza-ws
+|-- apps
+    |-- mkbiza-app
+        |-- src
+        |-- project.json
+----
