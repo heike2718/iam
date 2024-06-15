@@ -4,7 +4,7 @@ Hier die Befehle zum Generieren von Dingen für das Frontend
 
 [source,cli]
 ----
-npx create-nx-workspace@latest authadmin-ws
+npx create-nx-workspace@18.3.5 authadmin-ws
 ----
 
 Habe mich für ein *integrated* project entschieden, weil ich es zuvor mit standalone nicht geschafft habe, die importe aufzulösen
@@ -27,12 +27,9 @@ Report der gewählten Optionen:
 
 [source,cli]
 ----
+npm i @angular/material material-icons @angular/cdk
 npm i @ngrx/store @ngrx/router-store @ngrx/store-devtools ngrx-store-localstorage @ngrx/effects
 npm i @ngrx/eslint-plugin -D
-npm i @angular/material material-icons
-npm i angular2-uuid
-npm i ng2-charts
-npm i @angular/cdk
 ----
 
 
@@ -62,16 +59,16 @@ Im root-Verzeichnis des workspaces einen Verzeichnisbaum
 
 ----
 authadmin-ws
-|-- apps
+  |-- build-env
+        |-- environment.heikeqs.ts
+        |-- environment.local.ts
+        |-- index.heikeqs.html
+        |-- index.prod.html
+  |-- apps
       |-- auth-admin-app
-            |-- build-env
-                  |-- environment.heikeqs.ts
-                  |-- environment.local.ts
-                  |-- index.heikeqs.html
-                  |-- index.prod.html
             |-- src
             |-- project.json
-|-- libs
+  |-- libs
 ----
 
 Diese Files werden in project.json verwendet, um die dev-Files zu ersetzen.
@@ -88,10 +85,10 @@ authadmin-ws
 
 === selector prefix configuriert
 
-Nach prefix suchen und dort app  durch das spezifischere prefix 'auth-admin' ergänzen.
+Nach prefix suchen und dort app  durch das spezifischere prefix 'auth-admin-app' ergänzen.
 
 
-=== Sheriff einbinden
+=== Sheriff einbinden (erstmal nicht)
 
 Kleines feines https://angular-camp.de/blog/strategic-design-mit-sheriff-und-standalone/[Tutorial]
 
