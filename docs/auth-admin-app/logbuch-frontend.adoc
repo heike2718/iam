@@ -4,7 +4,7 @@ Hier die Befehle zum Generieren von Dingen für das Frontend
 
 [source,cli]
 ----
-npx create-nx-workspace@latest mkauth-admin-app
+npx create-nx-workspace@latest authadmin-ws
 ----
 
 Habe mich für ein *integrated* project entschieden, weil ich es zuvor mit standalone nicht geschafft habe, die importe aufzulösen
@@ -193,7 +193,12 @@ Aus git/minikaenguru/statistics/frontend/.../layout/src/lib das Verzeichnis scss
 [src,json,source-file="project.json"]
 ----
 ...
-        "assets": ["./src/favicon.ico", "./src/assets"],
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/auth-admin-app/src/assets"
+          }
+        ],
         "styles": [
           "src/app/shared/layout/src/lib/scss/theme.scss",
           "src/styles.scss",
@@ -207,7 +212,7 @@ Aus git/minikaenguru/statistics/frontend/.../layout/src/lib das Verzeichnis scss
 
 [source,cli]
 ----
-npx nx generate @nx/angular:component --name=sidenav --directory=src/app/navigation/sidenav --nameAndDirectoryFormat=as-provided --style=scss --no-interactive --dry-run
+npx nx generate @nx/angular:component --name=sidenav --directory=apps/auth-admin-app/src/app/navigation/sidenav --nameAndDirectoryFormat=as-provided --style=scss --prefix=auth-admin --no-interactive --dry-run
 ----
 
 ==== header
