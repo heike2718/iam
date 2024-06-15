@@ -1,0 +1,388 @@
+---
+openapi: 3.0.3
+info:
+  title: mja-api
+  description: API f�r meine Benutzerverwaltung
+  contact:
+    name: Heike Winkelvo�
+    url: https://mathe-jung-alt.de
+    email: info@egladil.de
+  license:
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 3.0.0
+servers:
+- url: http://localhost:9020
+  description: Auto generated value
+- url: http://0.0.0.0:9020
+  description: Auto generated value
+tags:
+- name: Session
+- name: Users
+paths:
+  /auth-admin-api/session/authurls/login:
+    get:
+      tags:
+      - Session
+      summary: "Gibt die Login-URL zurück, mit der eine Anwendung zum authprovider\
+        \ redirecten kann"
+      operationId: getLoginUrl
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+  /auth-admin-api/session/authurls/signup:
+    get:
+      tags:
+      - Session
+      summary: "Gibt die Signup-URL zurück, mit der eine Anwendung zum authprovider\
+        \ redirecten kann"
+      operationId: getSignupUrl
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+  /auth-admin-api/session/dev/logout/{sessionId}:
+    delete:
+      tags:
+      - Session
+      summary: entfernt die Session (nur Dev)
+      operationId: logoutDev
+      parameters:
+      - name: sessionId
+        in: path
+        description: id der Session
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+  /auth-admin-api/session/login:
+    post:
+      tags:
+      - Session
+      summary: Erzeugt eine Session anhand des per S2S-Kommunikation für das 'one
+        time token' beim authprovider gekauften JWT und packt die SessionId in ein
+        Cookie
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthResult"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+  /auth-admin-api/session/logout:
+    delete:
+      tags:
+      - Session
+      summary: entfernt die Session
+      operationId: logout
+      parameters:
+      - name: JSESSIONID_MJA_ADMIN
+        in: cookie
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+  /auth-admin-api/users:
+    post:
+      tags:
+      - Users
+      summary: "Gibt alle User zurück, die auf die gegebene Suchanfrage passen."
+      operationId: findUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserSearchDto"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSearchResult"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
+components:
+  schemas:
+    AuthResult:
+      description: Ergebnis der Authentifizierung beim authprovider
+      required:
+      - nonce
+      - idToken
+      type: object
+      properties:
+        expiresAt:
+          format: int64
+          description: Gültigkeit des generierten Einmaltokens
+          type: integer
+        state:
+          description: "ein Kontext, also Login oder SignUp"
+          type: string
+        nonce:
+          description: "für die Autorisierung generierter String, der vom authprovider\
+            \ unverändert zurückgegeben wird"
+          pattern: \S
+          type: string
+        idToken:
+          description: "Einmaltoken, mit dem sich der authprovider-Client das JWT\
+            \ holen kann"
+          pattern: \S
+          type: string
+    MessagePayload:
+      description: eine kategorisierte Meldung
+      type: object
+      properties:
+        level:
+          description: "Level der Message: INFO | WARN | ERROR"
+          type: string
+        message:
+          description: die message
+          type: string
+    OAuthClientCredentials:
+      description: credentials des OAuth2-Clients beim authprovider
+      required:
+      - clientId
+      - clientSecret
+      type: object
+      properties:
+        clientId:
+          description: ID des authprovider-Clients
+          maxLength: 50
+          pattern: "[a-zA-Z0-9+=]*"
+          type: string
+        clientSecret:
+          description: secret des authprovider-Clients
+          maxLength: 50
+          pattern: "[a-zA-Z0-9+=]*"
+          type: string
+        nonce:
+          description: "zur Authentifizierung des Clients generierter String, der\
+            \ vom authprovider unverändert zurückgegeben wird"
+          maxLength: 36
+          pattern: "[a-zA-Z0-9\\-]*"
+          type: string
+    ResponsePayload:
+      description: "generisches Response-Objekt, das ein MessagePayload und ggf. Daten\
+        \ enthält"
+      type: object
+      properties:
+        message:
+          description: das MessagePayload
+          type: object
+          allOf:
+          - $ref: "#/components/schemas/MessagePayload"
+        data:
+          description: daten die als JSON mitgegeben werden. Kann null sein
+    SortDirection:
+      enum:
+      - asc
+      - desc
+      type: string
+    UserSearchDto:
+      description: Suchparameter. Gesucht wird mit und-Verknüpfung und like
+      type: object
+      properties:
+        uuid:
+          description: Teil der UUID eines Users
+          maxLength: 36
+          pattern: "^[abcdef\\d\\-]*$"
+          type: string
+          example: 732b2ed8
+        vorname:
+          description: Teil des Vornamens eines Users
+          maxLength: 100
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          type: string
+          example: Rainer
+        nachname:
+          description: Teil des Nachnamens eines Users
+          maxLength: 100
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          type: string
+          example: Honig
+        email:
+          description: Teil der email eines Users
+          maxLength: 255
+          pattern: "^[a-zA-Z0-9\\.!#$%&'*+/=\\?\\^_`{|}~\\-@]*$"
+          type: string
+          example: egladil
+        rollen:
+          description: Teil der Rolle eines Users.
+          maxLength: 150
+          pattern: "^[A-Z_,]*$"
+          type: string
+          example: STANDARD
+        aktiviert:
+          description: "Flag ,ob der user aktiviert ist"
+          type: boolean
+          example: false
+        dateModified:
+          description: "Teil des Datums, an dem die Daten das letzte Mal geändert\
+            \ wurden - meist letztes Login Format '2019-09-14 18:40:06'"
+          maxLength: 19
+          pattern: "^[\\d\\-.:]*$"
+          type: string
+          example: "2021"
+        sortByLabelname:
+          description: "Name des Feldes, nach dem sortiert werden soll. Der Name muss\
+            \ sich auf die enum UserSortColumn abbilden lassen"
+          maxLength: 100
+          pattern: "^[A-Za-zäöüßÄÖÜ\\-_ ]*$"
+          type: string
+          example: vorname
+        pageIndex:
+          format: int32
+          description: "Pagination: welche Seite wird abgefragt"
+          default: 1
+          type: integer
+          example: 2
+        pageSize:
+          format: int32
+          description: "Pagination: wievile Treffer werden abgefragt"
+          default: 25
+          type: integer
+          example: 25
+        sortDirection:
+          description: Sortierreihenfolge (asc oder desc)
+          type: string
+          allOf:
+          - $ref: "#/components/schemas/SortDirection"
+          example: asc
+    UserSearchResult:
+      type: object
+      properties:
+        anzahlGesamt:
+          format: int32
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserTrefferlisteItem"
+    UserTrefferlisteItem:
+      type: object
+      properties:
+        uuid:
+          description: UUID des Users
+          maxLength: 36
+          pattern: "^[abcdef\\d\\-]*$"
+          type: string
+          example: 732b2ed8-b9b7-4800-8685-38fd09d330cf
+        vorname:
+          description: Vorname eines Users
+          maxLength: 100
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          type: string
+          example: Rainer
+        nachname:
+          description: ' Nachname eines Users'
+          maxLength: 100
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          type: string
+          example: Honig
+        email:
+          description: email eines Users
+          maxLength: 255
+          pattern: "^[a-zA-Z0-9\\.!#$%&'*+/=\\?\\^_`{|}~\\-@]*$"
+          type: string
+          example: test@egladil.de
+        rollen:
+          description: Rollen eines Users.
+          maxLength: 150
+          pattern: "^[A-Z_,]*$"
+          type: string
+          example: STANDARD
+        aktiviert:
+          description: "Flag ,ob der user aktiviert ist"
+          type: boolean
+          example: false
+        dateModified:
+          description: "Datum, an dem die Daten das letzte Mal geändert wurden - meist\
+            \ letztes Login"
+          maxLength: 19
+          pattern: "^[\\d.\\-:]*$"
+          type: string
+          example: 2019-09-14 18:40:06
+    ValidationErrorResponseDto:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      description: Authentication
+      scheme: bearer
+      bearerFormat: JWT

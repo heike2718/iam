@@ -1,4 +1,4 @@
-//import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
@@ -9,11 +9,12 @@ export const environment = {
   baseUrl: 'http://localhost:9000',
   assetsPath: '/assets/',
   providers: [
-    // provideStoreDevtools({
-    //   maxAge: 25,
-    //   autoPause: true,
-    // connectInZone: true}),
+    provideStoreDevtools({
+      maxAge: 25,
+      autoPause: true,
+    connectInZone: true}),
   ],
+  
 };
 
 /*

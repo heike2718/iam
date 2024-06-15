@@ -68,7 +68,8 @@ public class AuthCryptoServiceImplTest {
 
 		System.out.println(passwordConfig.toString());
 
-		final char[] pwd = "hallo".toCharArray();
+		String str = "start123";
+		final char[] pwd = str.toCharArray();
 
 		final Hash computedHash = authCryptoService.hashPassword(pwd);
 
@@ -80,6 +81,7 @@ public class AuthCryptoServiceImplTest {
 		final String persistableSalt = computedHash.getSalt().toBase64();
 		final String persistablePwd = new SimpleByteSource(computedHash.getBytes()).toBase64();
 
+		System.out.println("str = " + str);
 		System.out.println("persistablePwd = " + persistablePwd);
 		System.out.println("persistableSalt = " + persistableSalt);
 
@@ -96,9 +98,9 @@ public class AuthCryptoServiceImplTest {
 		client.setClientId("GerMkzlT2moZq762D5zKAorpg8aUjumXzNQz2yOUd9zQ");
 		client.setLoginSecrets(loginSecrets);
 
-		// Act + Assert (wenn korrrekt, keine Exception
+		// Act + Assert (wenn korrekt, keine Exception)
 
-		char[] pwd2 = "hallo".toCharArray();
+		char[] pwd2 = "start123".toCharArray();
 		authCryptoService.verifyClientSecret(pwd2, client);
 
 		for (char c : pwd) {

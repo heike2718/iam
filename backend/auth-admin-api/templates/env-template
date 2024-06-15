@@ -1,0 +1,68 @@
+ENV=dev
+STAGE=dev
+
+PUBLIC-CLIENT-ID=xxxxxxx
+PUBLIC-CLIENT-SECRET=start123
+
+CSRF_ENABLED=false
+
+MOCK.BENUTZERID=20721575-8c45-4201-a025-7a9fece1f2aa
+MOCK.BENUTZER.FULLNAME=Moki Bulruk
+MOCK.ROLE=STANDARD
+
+MKGATEWAY_AUTH_HEADER=mk-gateway:changeme
+
+TARGET_ORIGIN = heikedeb,heikedeb:4200,localhost:4200,heikedeb:9020,https://mathe-jung-alt.de
+
+QUARKUS_HTTP_CORS_ORIGINS = http://localhost:9020,http://localhost:4200,http://heikedeb:9000,http://localhost:9510,https://fonts.googleapis.com
+QUARKUS_LOG_FILE_PATH = /home/heike/quarkus/log/auth-admin-api/server.log
+QUARKUS_HTTP_ACCESS_LOG_LOG_DIRECTORy = /home/heike/quarkus/log/auth-admin-api
+QUARKUS_SWAGGER_UI_ALWAYS_INCLUDE=true
+QUARKUS_SWAGGER_UI_PATH=/swagger-ui
+
+
+QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000/authprovider
+QUARKUS_REST_CLIENT_MKGATEWAY_URL=http://localhost:9510/mk-gateway
+
+QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://localhost:3306/authbv
+QUARKUS_DATASOURCE_PASSWORD=hwinkel
+QUARKUS_HIBERNATE_ORM_LOG_SQL=true
+
+# man muss auch das MIN-Level auf TRACE setzen, wenn man das SQL von namedQueries sehen will
+QUARKUS_LOG_MIN_LEVEL=TRACE
+QUARKUS_HIBERNATE_ORM_LOG_BIND_PARAMETERS=true
+QUARKUS_HIBERNATE_ORM_LOG_SQL=true
+
+
+AUTHPROVIDER_URL=http://heikedeb:9000/authprovider
+AUTH_APP_URL=http://heikedeb:80/auth-app
+
+#=================================================================#
+#        Redirect URL                                             #
+#=================================================================#
+
+PUBLIC_REDIRECT_URL=http://localhost:4200
+#PUBLIC_REDIRECT_URL=http://localhost:9020/auth-admin-app/
+
+#=============================================================================================#
+#        Logging                                                                              #
+#=============================================================================================#
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_INFRASTRUCTURE_FILTERS_SPAROUTEFILTER__LEVEL=DEBUG
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_DOMAIN_AUTH_SESSION_SESSIONUTILS__LEVEL=WARN
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_INFRASTRUCTURE_CDI_AUTHENTICATIONCONTEXTIMPL__LEVEL=WARN
+
+QUARKUS_LOG_CATEGORY__ORG_JBOSS_RESTEASY_REACTIVE_CLIENT_LOGGING_DEFAULTCLIENTLOGGER__LEVEL=WARN
+
+
+#=============================================================================================#
+#        _TEST_                                                                               #
+#=============================================================================================#
+
+QUARKUS_HTTP_TEST_TIMEOUT=1m
+
+_AUTH-ADMIN-TEST_CSRF_ENABLED=false
+
+_AUTH-ADMIN-TEST_MOCK.BENUTZERID=20721575-8c45-4201-a025-7a9fece1f2aa
+_AUTH-ADMIN-TEST_MOCK.BENUTZER.FULLNAME=Moki Bulruk
+_AUTH-ADMIN-TEST_MOCK.ROLE=AUTH_ADMIN
+
