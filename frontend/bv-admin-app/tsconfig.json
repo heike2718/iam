@@ -15,7 +15,8 @@
     "baseUrl": ".",
     "paths": {
       "@bv-admin-app/shared/config": ["src/app/shared/config/index.ts"],
-      "@bv-admin-app/shell/layout": ["src/app/shell/layout/index.ts"]
+      "@bv-admin-app/shared/messages/api": ["src/app/shared/messages/api/index.ts"],
+      "@bv-admin-app/shared/messages/ui": ["src/app/shared/messages/ui/index.ts"]
     },
     "useDefineForClassFields": false,
     "esModuleInterop": true,

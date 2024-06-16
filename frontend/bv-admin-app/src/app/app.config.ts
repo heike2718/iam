@@ -6,6 +6,8 @@ import { registerLocaleData } from '@angular/common';
 import { Configuration } from '@bv-admin-app/shared/config';
 import { environment } from 'src/environments/environment';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { LoadingInterceptor } from '@bv-admin-app/shared/messages/api';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 registerLocaleData(LOCALE_ID, 'de');
 
@@ -28,5 +30,6 @@ export const appConfig: ApplicationConfig = {
           environment.production
         ),
     },
+    { provide: HTTP_INTERCEPTORS, multi: true, useClass: LoadingInterceptor },
   ],
 };

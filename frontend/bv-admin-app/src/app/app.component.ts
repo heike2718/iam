@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { SidenavComponent, NavbarComponent } from '@bv-admin-app/shell/layout';
+
+import { LoadingIndicatorComponent, MessageComponent } from './shared/messages/ui';
+import { NavbarComponent } from './shell/layout/navbar/navbar.component';
+import { SidenavComponent } from './shell/layout/sidenav/sidenav.component';
 
 @Component({
   standalone: true,
@@ -12,13 +14,15 @@ import { SidenavComponent, NavbarComponent } from '@bv-admin-app/shell/layout';
     MatSidenavModule,
     NavbarComponent,
     SidenavComponent,
-    NxWelcomeComponent,
+    MessageComponent,
+    LoadingIndicatorComponent,
     RouterModule
   ],
-  selector: 'app-root',
+  selector: 'bv-admin-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'bv-admin-app';
+
+  
 }

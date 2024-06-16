@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,7 +25,7 @@ import { map, shareReplay } from 'rxjs';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent {
 
   version = "1.0.0";
 
@@ -49,13 +49,4 @@ export class NavbarComponent implements OnInit, OnDestroy {
   onMenuItemClick(id: number): void {
     this.#router.navigate(['/home', id]);
   }
-
-  ngOnInit(): void {
-
-    
-  }
-
-  ngOnDestroy(): void {
-  }
-
 }

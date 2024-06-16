@@ -35,22 +35,31 @@ npm i @ngrx/eslint-plugin -D
 
 === scripts hinzugefügt
 
+Beachte: NX_DAEMON=false war erforderlich, weil nach ein bisschen Herumkofigurieren im Workspace kein einziger nx- Befehl ohne die Fehlemeldung
+
+"NX   Cannot read properties of null (reading 'message')"
+
+mehr ausgeführt werden konnte. Gestört hatte das vor allem, beim verwenden on schematics. Aber später auch bei den anderen nx-Befehlen.
+
 [source,json,source-file="package.json"]
 ----
-  "scripts": {
+...
+
+  "scripts": {    
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js",
-    "start": "nx serve bv-admin-app",
-    "build:local": "npx nx build bv-admin-app -c local --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
-    "build:heikeqs": "npx nx build bv-admin-app -c heikeqs --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
-    "build:prod": "npx nx run bv-admin-app:build:production --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
-    "test": "npx nx test",
-    "test:all": "npx nx run-many --target=test --all",
-    "lint:all": "npx nx run-many --target=lint --all",
-    "full-check": "npx nx run-s lint:all test:all build",
-    "graph": "npx nx graph"
+    "start": "NX_DAEMON=false nx serve",
+    "build:local": "NX_DAEMON=false npx nx build bv-admin-app -c local --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
+    "build:heikeqs": "NX_DAEMON=false npx nx build bv-admin-app -c heikeqs --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
+    "build:prod": "NX_DAEMON=false npx nx run bv-admin-app:build:production --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
+    "test": "NX_DAEMON=false npx nx test",
+    "test:all": "NX_DAEMON=false npx nx run-many --target=test --all",
+    "lint:all": "NX_DAEMON=false npx nx run-many --target=lint --all",
+    "full-check": "NX_DAEMON=false npx nx run-s lint:all test:all build",
+    "graph": "NX_DAEMON=false npx nx graph"
   },
 
+...
 ----
 
 === buildprofile einrichten
@@ -76,10 +85,10 @@ Diese Files werden in project.json verwendet, um die dev-Files zu ersetzen.
 
 === selector prefix configuriert
 
-Nach prefix suchen und dort app  durch das spezifischere prefix 'auth-admin-app' ergänzen.
+Nach prefix suchen und dort app  durch das spezifischere prefix 'bv-admin' ergänzen.
 
 
-=== Sheriff einbinden (erstmal nicht)
+=== Sheriff einbinden
 
 Kleines feines https://angular-camp.de/blog/strategic-design-mit-sheriff-und-standalone/[Tutorial]
 
@@ -106,7 +115,7 @@ Anschließend in .eslint.rc einbinden:
 }
 ----
 
-Sheriff-Konfigurationsdatei sheriff.config.ts im root-Verzeichnis anlegen und mit der Kopie aus dem Tutorial füllen.
+Sheriff-Konfigurationsdatei sheriff.config.ts im root-Verzeichnis anlegen und mit der Kopie aus https://github.com/softarc-consulting/sheriff/tree/main[angular-iii] füllen.
 
 === Locale konfigurieren in app.config.ts
 
@@ -130,56 +139,19 @@ providers: [
 ----
 
 
-== Folders
+== Folders - Anwendungsstruktur
 
-Ich werde mit einem Konzep aus dem Beispiel https://github.com/softarc-consulting/sheriff/tree/main[angular-iii] entnommen habe. Ohne nx-workspace-Zeug.
+Ich werde mit einem Konzep aus dem Beispiel https://github.com/softarc-consulting/sheriff/tree/main[angular-iii] starten ohne nx-workspace-Zeug.
+(Nachdem ich einen Tag vergeblich mit den Änderungen im tooling von nx gekämpft hatte, gebe ich auf)
 
 Hier werden keine libs generiert, sondern alles nur durch Verzeichnisse strukturiert und über index.ts exportiert. Das scheint mir ein leichtgewichtiger Ansatz für ein neues Projekt zu sein.
 
-
-=== shared config
-
-Soll einen Provider kapseln, der über environmemt initialisiert wird um environment nirgends anders extra importieren zu müssen.
-
-[src,cli]
-----
-mkdir src/app/shared/config -p
-touch configuration.ts
-touch index.ts
-----
-
-Eintrag in tsconfig.json
-
-[src,json,source-file="tsconfig.json"]
-----
-    "paths": {
-      "@bv-admin-app/shared/config": ["src/app/shared/config/index.ts"]
-    },
-----
+Um relative Pfade in imports zu vermeiden, werden hierzu manuell Pfad-Mappings in tsconfig.json eingefügt.
 
 
-Dann Configuration in app.config.ts zum Provider machen:
+== shell
 
-[src,typescript,source-file="app.config.ts"]
-----
-import { Configuration } from '@bv-admin-app/shared/config';
-
-...
-  providers: [
-    ...,
-    {
-      provide: Configuration,
-      useFactory: () =>
-        new Configuration(
-          environment.baseUrl,
-          environment.assetsPath,
-          'bv-admin-app',
-          environment.production
-        ),
-    },
-  ]
-----
-
+In dem Beispiel von R.Hahnekamp ist shell sowas wie core - also Navigation und Services fürs error-handling
 
 === Material-Layout in die shell
 
@@ -187,7 +159,7 @@ import { Configuration } from '@bv-admin-app/shared/config';
 [src,cli]
 ----
 mkdir src/app/shell/layout -p
-touch index.ts
+touch src/app/shell/layout/index.ts
 ----
 
 Eintrag in tsconfig.json
@@ -237,7 +209,7 @@ Dann die styles in project.json eingebunden:
 ----
 
 
-==== sidenav
+==== sidenav in die shell
 
 [src,cli]
 ----
@@ -246,7 +218,7 @@ mkdir src/app/shell/layout/sidenav -p
 
 Dann die component aus mkbiza-app kopiert und angepasst.
 
-==== navbar
+==== navbar in die shell
 
 [src,cli]
 ----
@@ -256,11 +228,110 @@ mkdir src/app/shell/layout/navbar -p
 Dann die component aus mkbiza-app kopiert und angepasst.
 
 
-=== HomeComponent
+== shared
 
-[source,cli]
+Nach shared kommen Dinge, die von fachlichen "Modulen" verwendet werden. Also Zeug von übergreifendem Interesse.
+
+=== config
+
+Soll einen Provider kapseln, der über environmemt initialisiert wird um environment nirgends anders extra importieren zu müssen.
+
+[src,cli]
 ----
-npx nx generate @nx/angular:component --name=home --directory=src/app/home --nameAndDirectoryFormat=as-provided --style=scss --no-interactive 
+mkdir src/app/shared/config -p
+touch src/app/shared/config/configuration.ts
+touch src/app/shared/config/index.ts
 ----
 
+Eintrag in tsconfig.json
+
+[src,json,source-file="tsconfig.json"]
+----
+    "paths": {
+      "@bv-admin-app/shared/config": ["src/app/shared/config/index.ts"]
+    },
+----
+
+
+Dann Configuration in app.config.ts zum Provider machen:
+
+[src,typescript,source-file="app.config.ts"]
+----
+import { Configuration } from '@bv-admin-app/shared/config';
+
+...
+  providers: [
+    ...,
+    {
+      provide: Configuration,
+      useFactory: () =>
+        new Configuration(
+          environment.baseUrl,
+          environment.assetsPath,
+          'bv-admin-app',
+          environment.production
+        ),
+    },
+  ]
+----
+
+=== messages
+
+Hier leben der Loading-Indocator und die Message-Komponente
+
+[src,cli]
+----
+mkdir src/app/shared/messages/api -p
+touch src/app/shared/messages/api/message.model.ts
+touch src/app/shared/messages/api/message.service.ts
+touch src/app/shared/messages/api/loading.interceptor.ts
+touch src/app/shared/messages/api/loading.service.ts
+touch src/app/shared/messages/api/silent-load.context.ts
+touch src/app/shared/messages/api/index.ts
+
+mkdir src/app/shared/messages/ui/loading-indicator -p
+mkdir src/app/shared/messages/ui/message -p
+touch src/app/shared/messages/ui/index.ts
+touch src/app/shared/messages/ui/loading-indicator/loading-indicator.component.ts
+touch src/app/shared/messages/ui/message/message.component.ts
+----
+
+*Eintrag in tsconfig.json*
+
+[src,json,source-file="tsconfig.json"]
+----
+    "paths": {
+      "@bv-admin-app/shared/messages/api": ["src/app/shared/messages/api/index.ts"],
+      "@bv-admin-app/shared/messages/ui": ["src/app/shared/messages/ui/index.ts"]
+    },
+----
+
+*LoadingInterceptor registrieren:*
+
+[src,typescript,source-file="app.config.ts"]
+----
+import { LoadingInterceptor } from '@bv-admin-app/shared/messages/api';
+...
+
+providers: [
+  ...
+  { provide: HTTP_INTERCEPTORS, multi: true, useClass: LoadingInterceptor },
+  ...
+]
+
+...
+----
+
+=== http
+
+Hier hin kommen Interceptoren.
+
+[src,cli]
+----
+mkdir src/app/shared/http -p
+touch src/app/shared/http/auth-admin-api-http.interceptor.ts
+touch src/app/shared/http/http.utils.ts
+touch src/app/shared/http/error.interceptor.ts
+touch src/app/shared/http/index.ts
+----
 

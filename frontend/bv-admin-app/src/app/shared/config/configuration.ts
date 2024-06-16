@@ -6,4 +6,5 @@ export class Configuration {
       public clientId: string,
       public production: boolean
   ) { }
-};
+}
+
