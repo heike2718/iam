@@ -7,7 +7,7 @@ Hier die Befehle zum Generieren von Dingen für das Frontend
 npx create-nx-workspace@18.3.5 bv-admin-app
 ----
 
-Habe mich für ein *standalone* project entschieden
+Habe mich für ein *standalone* project entschieden, weil es mit integrated nicht geklappt hat.
 
 Report der gewählten Optionen:
 
@@ -130,21 +130,40 @@ providers: [
 ----
 
 
-== Libraries
+== Folders
 
-=== Config-Lib
+Ich werde mit einem Konzep aus dem Beispiel https://github.com/softarc-consulting/sheriff/tree/main[angular-iii] entnommen habe. Ohne nx-workspace-Zeug.
+
+Hier werden keine libs generiert, sondern alles nur durch Verzeichnisse strukturiert und über index.ts exportiert. Das scheint mir ein leichtgewichtiger Ansatz für ein neues Projekt zu sein.
+
+
+=== shared config
 
 Soll einen Provider kapseln, der über environmemt initialisiert wird um environment nirgends anders extra importieren zu müssen.
 
 [src,cli]
 ----
-npx nx generate @nx/angular:library --name=config --directory=libs/shared/config --projectNameAndRootFormat=as-provided --skipModule=true --tags=domain:shared --no-interactive --dry-run
+mkdir src/app/shared/config -p
+touch configuration.ts
+touch index.ts
 ----
+
+Eintrag in tsconfig.json
+
+[src,json,source-file="tsconfig.json"]
+----
+    "paths": {
+      "@bv-admin-app/shared/config": ["src/app/shared/config/index.ts"]
+    },
+----
+
 
 Dann Configuration in app.config.ts zum Provider machen:
 
 [src,typescript,source-file="app.config.ts"]
 ----
+import { Configuration } from '@bv-admin-app/shared/config';
+
 ...
   providers: [
     ...,
@@ -154,38 +173,50 @@ Dann Configuration in app.config.ts zum Provider machen:
         new Configuration(
           environment.baseUrl,
           environment.assetsPath,
-          'mkbiza-app',
+          'bv-admin-app',
           environment.production
         ),
     },
   ]
 ----
 
-=== http
 
-Soll einen Provider kapseln, der über environmemt initialisiert wird um environment nirgends anders extra importieren zu müssen.
+=== Material-Layout in die shell
+
 
 [src,cli]
 ----
-npx nx generate @nx/angular:library --name=httm --directory=libs/shared/http --projectNameAndRootFormat=as-provided --skipModule=true --tags=domain:shared --no-interactive --dry-run
+mkdir src/app/shell/layout -p
+touch index.ts
+----
+
+Eintrag in tsconfig.json
+
+[src,json,source-file="tsconfig.json"]
+----
+    "paths": {
+      "@bv-admin-app/shell/layout": ["src/app/shell/layout/index.ts"]
+    },
 ----
 
 
-=== Material-Layout in eine layout-Lib
+Statt
 
-[src,cli]
+[src,css,source-file="themes.scss"]
 ----
-npx nx generate @nx/angular:library --name=layout --directory=libs/shared/layout --projectNameAndRootFormat=as-provided --style=scss --tags=domain:shared --no-interactive --dry-run 
-----
-
-Musste selector anpassen - war auf lib gesetzt
-
-[src,html,source-file="layout.component.html"]
-----
-<ng-content></ng-content>
+$mja-primary: mat.define-palette($primary-palette, 700, 300, 900);
 ----
 
-Aus git/minikaenguru/statistics/frontend/.../layout/src/lib das Verzeichnis scss kopiert und die styles in project.json eingebunden:
+Muss es jetzt 
+
+[src,css,source-file="themes.scss"]
+----
+$mja-primary: mat.m2-define-palette($primary-palette, 700, 300, 900);
+----
+
+heißen
+
+Dann die styles in project.json eingebunden:
 
 
 [src,json,source-file="project.json"]
@@ -197,8 +228,8 @@ Aus git/minikaenguru/statistics/frontend/.../layout/src/lib das Verzeichnis scss
             "input": "apps/auth-admin-app/src/assets"
           }
         ],
-        "styles": [
-          "src/app/shared/layout/src/lib/scss/theme.scss",
+         "styles": [
+          "src/app/shell/layout/theme.scss",
           "src/styles.scss",
           "node_modules/material-icons/iconfont/material-icons.scss"
         ],
@@ -208,19 +239,22 @@ Aus git/minikaenguru/statistics/frontend/.../layout/src/lib das Verzeichnis scss
 
 ==== sidenav
 
-[source,cli]
+[src,cli]
 ----
-npx nx generate @nx/angular:component --name=sidenav --directory=apps/auth-admin-app/src/app/navigation/sidenav --nameAndDirectoryFormat=as-provided --style=scss --prefix=auth-admin --no-interactive --dry-run
-
-npx nx generate @nx/angular:component --name=sidenav --nameAndDirectoryFormat=as-provided --style=scss --prefix=auth-admin --no-interactive --dry-run
+mkdir src/app/shell/layout/sidenav -p
 ----
 
-==== header
+Dann die component aus mkbiza-app kopiert und angepasst.
 
-[source,cli]
+==== navbar
+
+[src,cli]
 ----
-npx nx generate @nx/angular:component --name=header --directory=src/app/navigation/header --nameAndDirectoryFormat=as-provided --style=scss --no-interactive --dry-run
+mkdir src/app/shell/layout/navbar -p
 ----
+
+Dann die component aus mkbiza-app kopiert und angepasst.
+
 
 === HomeComponent
 

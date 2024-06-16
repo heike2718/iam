@@ -1,0 +1,16 @@
+<mat-toolbar>
+
+    @if (isHandset$ | async) {
+    <div>
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+    } @else {
+    <span class="nav-caption" routerLink="/startseite"><mat-icon>home</mat-icon>Startseite</span>
+
+    <span class="toolbar-spacer"></span>
+
+    <span class="nav-caption">Version: {{version}}</span>
+    }
+</mat-toolbar>

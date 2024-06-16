@@ -24,7 +24,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "app",
+            "prefix": "bv-admin",
             "style": "camelCase"
           }
         ],
@@ -32,7 +32,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "app",
+            "prefix": "bv-admin",
             "style": "kebab-case"
           }
         ]
@@ -42,6 +42,10 @@
       "files": ["*.html"],
       "extends": ["plugin:@nx/angular-template"],
       "rules": {}
+    },
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:@softarc/sheriff/default"]
     }
   ]
 }

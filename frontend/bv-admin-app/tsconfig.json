@@ -13,7 +13,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {},
+    "paths": {
+      "@bv-admin-app/shared/config": ["src/app/shared/config/index.ts"],
+      "@bv-admin-app/shell/layout": ["src/app/shell/layout/index.ts"]
+    },
     "useDefineForClassFields": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

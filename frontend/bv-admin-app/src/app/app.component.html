@@ -1,1 +1,13 @@
-<app-nx-welcome></app-nx-welcome> <router-outlet></router-outlet>
+<main>
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav mode="push" opened="false" role="navigation">
+            <bv-admin-sidenav (sidenavClose)="sidenav.close()"></bv-admin-sidenav>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <main>
+                <bv-admin-header (sidenavToggle)="sidenav.toggle()"></bv-admin-header>
+                <router-outlet></router-outlet>
+            </main>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</main>

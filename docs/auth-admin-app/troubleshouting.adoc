@@ -1,0 +1,38 @@
+== Was schiefging und wie es evtl. gefixed wurde
+
+=== Fehlermeldung Cannot read properties of null (reading 'message')
+
+Beim Ausführen von npx nx- commands wie z.B. einem g library, kommt die Fehlermeldung (nach --verbose)
+
+[src,cli]
+----
+  NX   Cannot read properties of null (reading 'message')
+
+
+TypeError: Cannot read properties of null (reading 'message')
+    at handleWorkspaceChanges (/home/heike/git/authenticationprovider/frontend/bv-admin-app/node_modules/nx/src/daemon/server/server.js:203:90)
+    at /home/heike/git/authenticationprovider/frontend/bv-admin-app/node_modules/nx/src/daemon/server/watcher.js:36:9
+----
+
+
+*Das half:*  NX_DAEMON=false vor das command setzen
+
+
+=== Error: NG05105: Unexpected synthetic listener @transform.start found. Please make sure that: Either `BrowserAnimationsModule` or `NoopAnimationsModule` are imported in your application.
+
+Kam, nachdem mit sidenav erstmals was vom Material eingebunden wirde
+
+*Das half:* 
+
+[src,typescript,source-file=app.config.ts]
+----
+import { provideAnimations } from '@angular/platform-browser/animations';
+
+...
+
+  providers: [
+    provideAnimations(),
+    provideRouter(appRoutes),
+...
+  ]
+----
