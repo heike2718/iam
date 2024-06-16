@@ -15,8 +15,14 @@
     "baseUrl": ".",
     "paths": {
       "@bv-admin-app/shared/config": ["src/app/shared/config/index.ts"],
+      "@bv-admin-app/shared/http": ["src/app/shared/http/index.ts"],
       "@bv-admin-app/shared/messages/api": ["src/app/shared/messages/api/index.ts"],
-      "@bv-admin-app/shared/messages/ui": ["src/app/shared/messages/ui/index.ts"]
+      "@bv-admin-app/shared/messages/ui": ["src/app/shared/messages/ui/index.ts"],
+      "@bv-admin-app/shared/auth/api": ["src/app/shared/auth/api/index.ts"],
+      "@bv-admin-app/shared/auth/model": ["src/app/shared/auth/model/index.ts"],
+      "@bv-admin-app/shared/auth/data": ["src/app/shared/auth/data/index.ts"],
+      "@bv-admin-app/shared/util": ["src/app/shared/util/index.ts"],
+      "@bv-admin-app/shared/local-storage-data": ["src/app/shared/local-storage-data/index.ts"],
     },
     "useDefineForClassFields": false,
     "esModuleInterop": true,

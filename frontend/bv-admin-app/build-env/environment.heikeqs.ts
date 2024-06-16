@@ -4,7 +4,7 @@ export const environment = {
   production: false,
   baseUrl: '',
   withCredentials: true,
-  assetsPath: '/auth-admin-app/assets/',
+  assetsPath: '/bv-admin-app/assets/',
   providers: [
     provideStoreDevtools({ maxAge: 25 , connectInZone: true})
   ],

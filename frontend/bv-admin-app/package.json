@@ -1,6 +1,6 @@
 {
   "name": "@bv-admin-app/source",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {    
     "ng": "nx",
@@ -12,8 +12,7 @@
     "test": "NX_DAEMON=false npx nx test",
     "test:all": "NX_DAEMON=false npx nx run-many --target=test --all",
     "lint:all": "NX_DAEMON=false npx nx run-many --target=lint --all",
-    "full-check": "NX_DAEMON=false npx nx run-s lint:all test:all build",
-    "graph": "NX_DAEMON=false npx nx graph"
+    "full-check": "NX_DAEMON=false npx nx run-s lint:all test:all build"
   },
   "private": true,
   "dependencies": {

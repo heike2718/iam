@@ -78,6 +78,12 @@ public class SessionService {
 			AuthenticatedUser authenticatedUser = new AuthenticatedUser(uuid).withFullName(fullName)
 				.withIdReference(userIdReference).withRoles(groups);
 
+			if (!authenticatedUser.isAuthorized()) {
+
+				LOGGER.warn("USER ohne erforderliche Rolle hat ein Login probiert: UUID={}", authenticatedUser.getUuid());
+				return this.internalCreateAnonymousSession();
+			}
+
 			Session session = this.internalCreateAnonymousSession().withUser(authenticatedUser);
 
 			if (sessionIdleTimeoutMinutes == 0) {

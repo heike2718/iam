@@ -4,6 +4,9 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.domain.auth.login;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
@@ -33,6 +36,8 @@ public class LoginLogoutService {
 	private static final String STAGE_DEV = "dev";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginLogoutService.class);
+
+	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
 	@ConfigProperty(name = "stage")
 	String stage;
@@ -77,7 +82,7 @@ public class LoginLogoutService {
 
 			session.clearSessionIdInProd();
 			return Response.status(Status.FORBIDDEN)
-				.entity(MessagePayload.error("Sie haben leider keine Berechtigung, sich in die Administration einzuloggen."))
+				.entity(MessagePayload.error(applicationMessages.getString("not.authorized")))
 				.build();
 		}
 

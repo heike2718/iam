@@ -5,9 +5,11 @@
 package de.egladil.web.auth_admin_api.domain.auth.session;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.quarkus.security.runtime.QuarkusPrincipal;
@@ -16,6 +18,9 @@ import io.quarkus.security.runtime.QuarkusPrincipal;
  * AuthenticatedUser
  */
 public class AuthenticatedUser extends QuarkusPrincipal {
+
+	@JsonIgnore
+	private static final String ALLOWED_ROLE = "AUTH_ADMIN";
 
 	@JsonProperty
 	private String idReference;
@@ -98,5 +103,18 @@ public class AuthenticatedUser extends QuarkusPrincipal {
 
 		this.fullName = fullName;
 		return this;
+	}
+
+	/**
+	 * Nur user mit der Rolle AUTH_ADMIN sind autorisiert.
+	 *
+	 * @return
+	 */
+	public boolean isAuthorized() {
+
+		Optional<String> optAdminRole = Arrays.stream(roles).filter(r -> ALLOWED_ROLE.equals(r)).findFirst();
+
+		return optAdminRole.isPresent();
+
 	}
 }

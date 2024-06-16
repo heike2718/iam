@@ -6,7 +6,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:9000',
+  baseUrl: 'http://localhost:9020',
   assetsPath: '/assets/',
   providers: [
     provideStoreDevtools({

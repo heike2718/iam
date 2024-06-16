@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   baseUrl: '',
-  assetsPath: '/auth-admin-app/assets/',
+  assetsPath: '/bv-admin-app/assets/',
   providers: []
 };

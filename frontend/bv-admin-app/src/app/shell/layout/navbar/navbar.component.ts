@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,7 +7,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router, RouterLinkWithHref } from '@angular/router';
-import { map, shareReplay } from 'rxjs';
+import { Subscription, map, shareReplay } from 'rxjs';
+import { AuthFacade } from '@bv-admin-app/shared/auth/api';
+import { User } from '@bv-admin-app/shared/auth/model';
 
 @Component({
   selector: 'bv-admin-header',
@@ -25,21 +27,47 @@ import { map, shareReplay } from 'rxjs';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   version = "1.0.0";
 
   @Output()
   sidenavToggle = new EventEmitter();
 
+  authFacade = inject(AuthFacade);
+  user!: User;
+
   #breakpointObserver = inject(BreakpointObserver);
   #router = inject(Router);
 
+  #userSubscription = new Subscription();
+
+ 
   isHandset$ = this.#breakpointObserver.observe(Breakpoints.Handset)
-        .pipe(
-            map(result => result.matches),
-            shareReplay()
-        );
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
+
+  ngOnInit(): void {
+
+    this.#userSubscription = this.authFacade.user$.subscribe(
+      (user) => this.user = user
+    );
+
+  }
+
+  ngOnDestroy(): void {
+    this.#userSubscription.unsubscribe();
+  }
+
+  login(): void {
+    this.authFacade.login();
+  }
+
+  logout(): void {
+    this.authFacade.logout();
+  }
 
   onToggleSidenav(): void {
     // console.log('onToggleSidenav');

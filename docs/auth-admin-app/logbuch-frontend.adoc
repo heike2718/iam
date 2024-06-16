@@ -227,6 +227,27 @@ mkdir src/app/shell/layout/navbar -p
 
 Dann die component aus mkbiza-app kopiert und angepasst.
 
+=== services
+
+[src,cli]
+----
+mkdir src/app/shell/services -p
+touch src/app/shell/services/error-handler.service.ts
+----
+
+Implementierung des ErrorHandlerService aus anderem Projekt kopiert und angepasst. Registrieren in app.confif.ts:
+
+[src,typescript,source-file="app.config.ts"]
+----
+import { ErrorHandlerService } from '@bv-admin-app/shared/config';
+
+...
+  providers: [
+    ...,    
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
+  ]
+----
+
 
 == shared
 
@@ -334,4 +355,37 @@ touch src/app/shared/http/http.utils.ts
 touch src/app/shared/http/error.interceptor.ts
 touch src/app/shared/http/index.ts
 ----
+
+Implementierung aus anderen Projekten übernommen. Anschließend die Interceptoren registrieren:
+
+[src,typescript,source-file="app.config.ts"]
+----
+import { LoadingInterceptor } from '@bv-admin-app/shared/messages/api';
+...
+
+providers: [
+  ...
+  { provide: HTTP_INTERCEPTORS, multi: true, useClass: AuthAdminAPIHttpInterceptor },
+  { provide: HTTP_INTERCEPTORS, multi: true, useClass: ErrorInterceptor },
+  ...
+]
+
+...
+----
+
+=== auth
+
+Das wird jetzt nicht mehr im Detail dokumentiert. Nur ein paar Stichworte:
+
+Es gibt ein api, ein data und ein model, wobei von data einige Dinge exportiert werden, die nicht nur in api, sondern auch in local-storage-data verwendet werden.
+
+Damit nicht alle actions public sind, werden nur die exporiert, die von der AuthFacade und von LocalStorageEffects benötigt werden.
+
+=== local-storage-data
+
+Dient zum Syncronisieren des Stors mit dem LocalStorage, damit man nach F5 seine Session noch hat, sonst muss man sich ständig neu einloggen.
+Das alles wird in app.config.ts registriert
+
+
+
 

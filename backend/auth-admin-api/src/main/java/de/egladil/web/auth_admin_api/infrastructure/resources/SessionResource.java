@@ -19,6 +19,7 @@ import de.egladil.web.auth_admin_api.domain.auth.login.AuthproviderUrlService;
 import de.egladil.web.auth_admin_api.domain.auth.login.LoginLogoutService;
 import de.egladil.web.auth_admin_api.domain.auth.session.SessionUtils;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -85,7 +86,7 @@ public class SessionResource {
 
 	@POST
 	@Path("login")
-	@PermitAll
+	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
 		operationId = "login",
 		summary = "Erzeugt eine Session anhand des per S2S-Kommunikation für das 'one time token' beim authprovider gekauften JWT und packt die SessionId in ein Cookie")
