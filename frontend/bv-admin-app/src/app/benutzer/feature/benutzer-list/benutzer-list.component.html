@@ -2,7 +2,53 @@
 
     <h1>Benutzersuche</h1>
 
-    @if ((benutzerFacade.anzahlTreffer$ | async); as anzahlTreffer) {
-        <p>Anzahl Treffer: {{anzahlTreffer}}</p>
-    }
+    <p>Anzahl Treffer: {{anzahlBenutzer}}</p>
+
+    <!--
+    <mat-paginator [length]="anzahlBenutzer" [pageSizeOptions]="[25,30,50]" showFirstLastButtons></mat-paginator>
+    -->
+    
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mt-2" matSort matSortActive="name"
+        matSortDirection="asc" matSortDisableClear>
+
+
+        <!-- Nachname -->
+        <ng-container matColumnDef="nachname">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label mat-sort-header>
+                        Nachname
+                    </label>
+                    <mat-form-field class="filter input-wrapper__non-suffix" floatLabel="always" appearance="outline">
+                        <input matInput (keyup)="applyFilter($event, 'nachname')" placeholder="Nachname">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.nachname}}
+              </mat-cell>>
+        </ng-container>
+
+        <!-- Vorname -->
+        <ng-container matColumnDef="vorname">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label mat-sort-header>
+                        Vorname
+                    </label>
+                    <mat-form-field class="filter input-wrapper__non-suffix" floatLabel="always" appearance="outline">
+                        <input matInput (keyup)="applyFilter($event, 'vorname')" placeholder="Vorname">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.vorname}}
+              </mat-cell>>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
+    </mat-table>
+    <div>
+        <button (click)="findBenutzer()" class="btn mat-elevation-z8">suchen</button>
+    </div>
 </div>

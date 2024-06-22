@@ -258,7 +258,7 @@ components:
         pageIndex:
           format: int32
           description: "Pagination: welche Seite wird abgefragt"
-          default: 1
+          default: 0
           type: integer
           example: 2
         pageSize:

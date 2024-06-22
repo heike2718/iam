@@ -26,15 +26,17 @@ export const benutzerFeature = createFeature({
             return {
                 ...state,
                 anzahlTreffer: action.treffer.anzahlGesamt,
-                page: action.treffer.items};
+                page: action.treffer.items,
+                paginationState: {...state.paginationState, anzahlTreffer: action.treffer.anzahlGesamt}
+            };
         }),
 
         on(benutzerActions.bENUTZER_SELECT_PAGE, (state, _action) => {
             return {...state};
         }),
 
-        on(benutzerActions.bENUTZER_TABLE_FILTER_CHANGED, (state, _action) => {
-            return {...state};
+        on(benutzerActions.bENUTZER_TABLE_FILTER_CHANGED, (state, action) => {
+            return {...state, benutzerTableFilter: action.filterValues };
         }),
 
         on(loggedOutAction, (_state, action) => {

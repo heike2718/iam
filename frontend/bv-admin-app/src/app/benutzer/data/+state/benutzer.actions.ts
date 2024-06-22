@@ -8,7 +8,7 @@ export const benutzerActions = createActionGroup({
         'BENUTZER_FOUND': props<{treffer: BenutzerSearchResult}>(),
         'PAGINATION_STATE_CHANGED': props<{paginationState: PaginationState}>(),
         'BENUTZER_SELECT_PAGE': props<{pageDefinition: PageDefinition}>(),
-        'BENUTZER_TABLE_FILTER_CHANGED': props<{suchparameter: BenutzerTableFilter}>(),
+        'BENUTZER_TABLE_FILTER_CHANGED': props<{filterValues: BenutzerTableFilter}>(),
         'SELECT_BENUTZER': props<{ benutzerID: string }>(),
         'UNSELECT_BENUTZER': emptyProps()
     }

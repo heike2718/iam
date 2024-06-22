@@ -59,7 +59,7 @@ public class BenutzerDao {
 
 		String stmt = "SELECT u.ID, u.UUID, u.VORNAME, u.NACHNAME, u.EMAIL, u.AKTIVIERT, u.ROLLEN, u.DATE_MODIFIED_STRING from VW_USERS_SUCHE u ";
 
-		int offset = (benutzerSuchparameter.getPageIndex() - 1) * benutzerSuchparameter.getPageSize();
+		int offset = benutzerSuchparameter.getPageIndex() * benutzerSuchparameter.getPageSize();
 
 		Query query = createQueryAndReplaceSuchparameter(stmt, benutzerSuchparameter, PersistenterUserReadOnly.class, false)
 			.setFirstResult(offset).setMaxResults(benutzerSuchparameter.getPageSize());

@@ -74,9 +74,9 @@ public class BenutzerSuchparameter {
 	@JsonProperty
 	@Schema(
 		description = "Pagination: welche Seite wird abgefragt",
-		defaultValue = "1",
+		defaultValue = "0",
 		example = "2")
-	private int pageIndex = 1;
+	private int pageIndex = 0;
 
 	@JsonProperty
 	@Schema(
