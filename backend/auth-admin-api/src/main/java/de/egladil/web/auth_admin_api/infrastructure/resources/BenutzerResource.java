@@ -12,9 +12,9 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
-import de.egladil.web.auth_admin_api.domain.users.UserSearchDto;
-import de.egladil.web.auth_admin_api.domain.users.UserSearchResult;
-import de.egladil.web.auth_admin_api.domain.users.UserService;
+import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSearchResult;
+import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerService;
+import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
@@ -28,28 +28,28 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 /**
- * UsersResource
+ * BenutzerResource
  */
 @RequestScoped
-@Path("auth-admin-api/users")
+@Path("auth-admin-api/benutzer")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-@Tag(name = "Users")
-public class UsersResource {
+@Tag(name = "BenutzerResource")
+public class BenutzerResource {
 
 	@Inject
-	UserService userService;
+	BenutzerService benutzerService;
 
 	@POST
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
-		operationId = "findUsers", summary = "Gibt alle User zurück, die auf die gegebene Suchanfrage passen.")
+		operationId = "findUsers", summary = "Gibt alle Benutzer zurück, die auf die gegebene Suchanfrage passen.")
 	@APIResponse(
 		name = "OKResponse",
 		responseCode = "200",
 		content = @Content(
 			mediaType = "application/json",
-			schema = @Schema(implementation = UserSearchResult.class)))
+			schema = @Schema(implementation = BenutzerSearchResult.class)))
 	@APIResponse(
 		name = "BadRequest",
 		responseCode = "400",
@@ -73,9 +73,9 @@ public class UsersResource {
 		responseCode = "500", content = @Content(
 			mediaType = "application/json",
 			schema = @Schema(implementation = MessagePayload.class)))
-	public Response findUsers(@Valid final UserSearchDto userSerachDto) {
+	public Response findUsers(@Valid final BenutzerSuchparameter userSerachDto) {
 
-		UserSearchResult responsePayload = userService.findUsers(userSerachDto);
+		BenutzerSearchResult responsePayload = benutzerService.findUsers(userSerachDto);
 		// TODO output-validierung
 		return Response.ok(responsePayload).build();
 	}

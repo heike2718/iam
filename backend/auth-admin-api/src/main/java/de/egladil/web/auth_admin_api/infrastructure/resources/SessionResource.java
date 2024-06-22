@@ -40,7 +40,7 @@ import jakarta.ws.rs.core.Response;
 @Path("auth-admin-api/session")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-@Tag(name = "Session")
+@Tag(name = "SessionResource")
 public class SessionResource {
 
 	@Inject

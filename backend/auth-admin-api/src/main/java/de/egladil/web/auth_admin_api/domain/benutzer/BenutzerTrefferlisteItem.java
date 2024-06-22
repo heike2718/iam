@@ -2,7 +2,7 @@
 // Project: auth-admin-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.auth_admin_api.domain.users;
+package de.egladil.web.auth_admin_api.domain.benutzer;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
@@ -13,9 +13,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
- * UserTrefferlisteItem
+ * BenutzerTrefferlisteItem
  */
-public class UserTrefferlisteItem {
+@Schema(description = "Ein Elememt der Trefferliste. Es sind die Attribute, nach denen auch gesucht werden kann.")
+public class BenutzerTrefferlisteItem {
 
 	@JsonProperty
 	@Schema(description = "UUID des Users", example = "732b2ed8-b9b7-4800-8685-38fd09d330cf")

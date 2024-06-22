@@ -14,7 +14,7 @@ export const appRoutes: Routes = [
     {
         path: 'users',
         loadChildren: () =>
-          import('@bv-admin-app/users/feature').then((m) => m.usersRoutes),
+          import('src/app/benutzer/feature').then((m) => m.benutzerRoutes),
     },
     {
         path: '**',

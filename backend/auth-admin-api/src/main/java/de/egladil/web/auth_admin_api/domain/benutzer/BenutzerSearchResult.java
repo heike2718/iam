@@ -2,25 +2,28 @@
 // Project: auth-admin-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.auth_admin_api.domain.users;
+package de.egladil.web.auth_admin_api.domain.benutzer;
 
 import java.util.List;
+
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.Valid;
 
 /**
- * UserSearchResult
+ * BenutzerSearchResult
  */
-public class UserSearchResult {
+@Schema(description = "Ergebnis der Suche")
+public class BenutzerSearchResult {
 
 	@JsonProperty
 	private int anzahlGesamt;
 
 	@JsonProperty
 	@Valid
-	private List<UserTrefferlisteItem> items;
+	private List<BenutzerTrefferlisteItem> items;
 
 	public int getAnzahlGesamt() {
 
@@ -32,12 +35,12 @@ public class UserSearchResult {
 		this.anzahlGesamt = anzahlGsamt;
 	}
 
-	public List<UserTrefferlisteItem> getItems() {
+	public List<BenutzerTrefferlisteItem> getItems() {
 
 		return items;
 	}
 
-	public void setItems(final List<UserTrefferlisteItem> items) {
+	public void setItems(final List<BenutzerTrefferlisteItem> items) {
 
 		this.items = items;
 	}

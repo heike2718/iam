@@ -2,9 +2,9 @@
 openapi: 3.0.3
 info:
   title: mja-api
-  description: API f�r meine Benutzerverwaltung
+  description: API für meine Benutzerverwaltung
   contact:
-    name: Heike Winkelvo�
+    name: Heike Winkelvoß
     url: https://mathe-jung-alt.de
     email: info@egladil.de
   license:
@@ -16,13 +16,53 @@ servers:
 - url: http://0.0.0.0:9020
   description: Auto generated value
 tags:
-- name: Session
-- name: Users
+- name: BenutzerResource
+- name: SessionResource
 paths:
+  /auth-admin-api/benutzer:
+    post:
+      tags:
+      - BenutzerResource
+      summary: "Gibt alle Benutzer zurück, die auf die gegebene Suchanfrage passen."
+      operationId: findUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BenutzerSuchparameter"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BenutzerSearchResult"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
   /auth-admin-api/session/authurls/login:
     get:
       tags:
-      - Session
+      - SessionResource
       summary: "Gibt die Login-URL zurück, mit der eine Anwendung zum authprovider\
         \ redirecten kann"
       operationId: getLoginUrl
@@ -36,7 +76,7 @@ paths:
   /auth-admin-api/session/authurls/signup:
     get:
       tags:
-      - Session
+      - SessionResource
       summary: "Gibt die Signup-URL zurück, mit der eine Anwendung zum authprovider\
         \ redirecten kann"
       operationId: getSignupUrl
@@ -50,7 +90,7 @@ paths:
   /auth-admin-api/session/dev/logout/{sessionId}:
     delete:
       tags:
-      - Session
+      - SessionResource
       summary: entfernt die Session (nur Dev)
       operationId: logoutDev
       parameters:
@@ -70,7 +110,7 @@ paths:
   /auth-admin-api/session/login:
     post:
       tags:
-      - Session
+      - SessionResource
       summary: Erzeugt eine Session anhand des per S2S-Kommunikation für das 'one
         time token' beim authprovider gekauften JWT und packt die SessionId in ein
         Cookie
@@ -96,7 +136,7 @@ paths:
   /auth-admin-api/session/logout:
     delete:
       tags:
-      - Session
+      - SessionResource
       summary: entfernt die Session
       operationId: logout
       parameters:
@@ -111,46 +151,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessagePayload"
-  /auth-admin-api/users:
-    post:
-      tags:
-      - Users
-      summary: "Gibt alle User zurück, die auf die gegebene Suchanfrage passen."
-      operationId: findUsers
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UserSearchDto"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UserSearchResult"
-        "400":
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ValidationErrorResponseDto"
-        "401":
-          content:
-            application/json: {}
-        "403":
-          description: "kann auch vorkommen, wenn mod_security zuschlägt"
-          content:
-            application/json: {}
-        "500":
-          description: server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MessagePayload"
-      security:
-      - SecurityScheme: []
 components:
   schemas:
     AuthResult:
@@ -177,58 +177,19 @@ components:
             \ holen kann"
           pattern: \S
           type: string
-    MessagePayload:
-      description: eine kategorisierte Meldung
+    BenutzerSearchResult:
+      description: Ergebnis der Suche
       type: object
       properties:
-        level:
-          description: "Level der Message: INFO | WARN | ERROR"
-          type: string
-        message:
-          description: die message
-          type: string
-    OAuthClientCredentials:
-      description: credentials des OAuth2-Clients beim authprovider
-      required:
-      - clientId
-      - clientSecret
-      type: object
-      properties:
-        clientId:
-          description: ID des authprovider-Clients
-          maxLength: 50
-          pattern: "[a-zA-Z0-9+=]*"
-          type: string
-        clientSecret:
-          description: secret des authprovider-Clients
-          maxLength: 50
-          pattern: "[a-zA-Z0-9+=]*"
-          type: string
-        nonce:
-          description: "zur Authentifizierung des Clients generierter String, der\
-            \ vom authprovider unverändert zurückgegeben wird"
-          maxLength: 36
-          pattern: "[a-zA-Z0-9\\-]*"
-          type: string
-    ResponsePayload:
-      description: "generisches Response-Objekt, das ein MessagePayload und ggf. Daten\
-        \ enthält"
-      type: object
-      properties:
-        message:
-          description: das MessagePayload
-          type: object
-          allOf:
-          - $ref: "#/components/schemas/MessagePayload"
-        data:
-          description: daten die als JSON mitgegeben werden. Kann null sein
-    SortDirection:
-      enum:
-      - asc
-      - desc
-      type: string
-    UserSearchDto:
-      description: Suchparameter. Gesucht wird mit und-Verknüpfung und like
+        anzahlGesamt:
+          format: int32
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/BenutzerTrefferlisteItem"
+    BenutzerSuchparameter:
+      description: BenutzerSuchparameter. Gesucht wird mit und-Verknüpfung und like
       type: object
       properties:
         uuid:
@@ -269,14 +230,15 @@ components:
           pattern: "^[a-zA-Z0-9\\.!#$%&'*+/=\\?\\^_`{|}~\\-@]*$"
           type: string
           example: egladil
-        rollen:
+        rolle:
           description: Teil der Rolle eines Users.
           maxLength: 150
           pattern: "^[A-Z_,]*$"
           type: string
           example: STANDARD
         aktiviert:
-          description: "Flag ,ob der user aktiviert ist"
+          description: "Flag ,ob der user aktiviert ist. Wenn null dann werden alle\
+            \ unabhängig vom Status gesucht"
           type: boolean
           example: false
         dateModified:
@@ -288,7 +250,7 @@ components:
           example: "2021"
         sortByLabelname:
           description: "Name des Feldes, nach dem sortiert werden soll. Der Name muss\
-            \ sich auf die enum UserSortColumn abbilden lassen"
+            \ sich auf die enum BenutzerSortColumn abbilden lassen"
           maxLength: 100
           pattern: "^[A-Za-zäöüßÄÖÜ\\-_ ]*$"
           type: string
@@ -311,17 +273,9 @@ components:
           allOf:
           - $ref: "#/components/schemas/SortDirection"
           example: asc
-    UserSearchResult:
-      type: object
-      properties:
-        anzahlGesamt:
-          format: int32
-          type: integer
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/UserTrefferlisteItem"
-    UserTrefferlisteItem:
+    BenutzerTrefferlisteItem:
+      description: "Ein Elememt der Trefferliste. Es sind die Attribute, nach denen\
+        \ auch gesucht werden kann."
       type: object
       properties:
         uuid:
@@ -379,6 +333,56 @@ components:
           pattern: "^[\\d.\\-:]*$"
           type: string
           example: 2019-09-14 18:40:06
+    MessagePayload:
+      description: eine kategorisierte Meldung
+      type: object
+      properties:
+        level:
+          description: "Level der Message: INFO | WARN | ERROR"
+          type: string
+        message:
+          description: die message
+          type: string
+    OAuthClientCredentials:
+      description: credentials des OAuth2-Clients beim authprovider
+      required:
+      - clientId
+      - clientSecret
+      type: object
+      properties:
+        clientId:
+          description: ID des authprovider-Clients
+          maxLength: 50
+          pattern: "[a-zA-Z0-9+=]*"
+          type: string
+        clientSecret:
+          description: secret des authprovider-Clients
+          maxLength: 50
+          pattern: "[a-zA-Z0-9+=]*"
+          type: string
+        nonce:
+          description: "zur Authentifizierung des Clients generierter String, der\
+            \ vom authprovider unverändert zurückgegeben wird"
+          maxLength: 36
+          pattern: "[a-zA-Z0-9\\-]*"
+          type: string
+    ResponsePayload:
+      description: "generisches Response-Objekt, das ein MessagePayload und ggf. Daten\
+        \ enthält"
+      type: object
+      properties:
+        message:
+          description: das MessagePayload
+          type: object
+          allOf:
+          - $ref: "#/components/schemas/MessagePayload"
+        data:
+          description: daten die als JSON mitgegeben werden. Kann null sein
+    SortDirection:
+      enum:
+      - asc
+      - desc
+      type: string
     ValidationErrorResponseDto:
       type: object
       properties:

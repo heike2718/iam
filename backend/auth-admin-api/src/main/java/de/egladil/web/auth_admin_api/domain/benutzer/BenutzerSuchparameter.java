@@ -2,7 +2,7 @@
 // Project: auth-admin-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.auth_admin_api.domain.users;
+package de.egladil.web.auth_admin_api.domain.benutzer;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
@@ -14,10 +14,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
- * UserSearchDto
+ * BenutzerSuchparameter
  */
-@Schema(description = "Suchparameter. Gesucht wird mit und-Verknüpfung und like")
-public class UserSearchDto {
+@Schema(description = "BenutzerSuchparameter. Gesucht wird mit und-Verknüpfung und like")
+public class BenutzerSuchparameter {
 
 	@JsonProperty
 	@Schema(description = "Teil der UUID eines Users", example = "732b2ed8")
@@ -47,10 +47,12 @@ public class UserSearchDto {
 	@Schema(description = "Teil der Rolle eines Users.", example = "STANDARD")
 	@Pattern(regexp = "^[A-Z_,]*$")
 	@Size(max = 150)
-	private String rollen;
+	private String rolle;
 
 	@JsonProperty
-	@Schema(description = "Flag ,ob der user aktiviert ist", example = "false")
+	@Schema(
+		description = "Flag ,ob der user aktiviert ist. Wenn null dann werden alle unabhängig vom Status gesucht",
+		example = "false")
 	private Boolean aktiviert;
 
 	@JsonProperty
@@ -63,7 +65,7 @@ public class UserSearchDto {
 
 	@JsonProperty
 	@Schema(
-		description = "Name des Feldes, nach dem sortiert werden soll. Der Name muss sich auf die enum UserSortColumn abbilden lassen",
+		description = "Name des Feldes, nach dem sortiert werden soll. Der Name muss sich auf die enum BenutzerSortColumn abbilden lassen",
 		example = "vorname")
 	@Pattern(regexp = "^[A-Za-zäöüßÄÖÜ\\-_ ]*$")
 	@Size(max = 100)
@@ -127,14 +129,14 @@ public class UserSearchDto {
 		this.email = email;
 	}
 
-	public String getRollen() {
+	public String getRolle() {
 
-		return rollen;
+		return rolle;
 	}
 
-	public void setRollen(final String rollen) {
+	public void setRolle(final String rollen) {
 
-		this.rollen = rollen;
+		this.rolle = rollen;
 	}
 
 	public String getDateModified() {

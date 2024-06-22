@@ -1,0 +1,8 @@
+<div class="centered">
+
+    <h1>Benutzersuche</h1>
+
+    @if ((benutzerFacade.anzahlTreffer$ | async); as anzahlTreffer) {
+        <p>Anzahl Treffer: {{anzahlTreffer}}</p>
+    }
+</div>

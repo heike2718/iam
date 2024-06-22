@@ -15,6 +15,7 @@ import { provideRouterStore } from '@ngrx/router-store';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { authDataProvider } from '@bv-admin-app/shared/auth/api';
+import { benutzerDataProvider } from '@bv-admin-app/benutzer/api';
 
 
 const localStorageMetaReducer = localStorageReducer(
@@ -62,6 +63,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideEffects(LocalStorageEffects),
     environment.providers,
+    benutzerDataProvider,
     importProvidersFrom(
       HttpClientModule,
       HttpClientXsrfModule.withOptions({

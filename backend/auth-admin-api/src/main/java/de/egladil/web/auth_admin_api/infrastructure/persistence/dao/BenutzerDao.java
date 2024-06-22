@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.auth_admin_api.domain.users.UserSearchDto;
-import de.egladil.web.auth_admin_api.domain.users.UserSortColumn;
+import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSortColumn;
+import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUserReadOnly;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -20,12 +20,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 /**
- * UserDao
+ * BenutzerDao
  */
 @RequestScoped
-public class UserDao {
+public class BenutzerDao {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerDao.class);
 
 	@Inject
 	EntityManager entityManager;
@@ -36,7 +36,7 @@ public class UserDao {
 	 * @param  userSerachDto
 	 * @return
 	 */
-	public int countTreffer(final UserSearchDto userSerachDto) {
+	public int countTreffer(final BenutzerSuchparameter userSerachDto) {
 
 		String stmt = "SELECT count(*) from VW_USERS_SUCHE u ";
 
@@ -51,23 +51,25 @@ public class UserDao {
 	/**
 	 * Gibt den Teil der Treffer zurück, der mittels pagination-Parameter abgefragt wurde.
 	 *
-	 * @param  userSearchDto
-	 * @return               List von PersistenterUserReadOnly
+	 * @param  benutzerSuchparameter
+	 * @return                       List von PersistenterUserReadOnly
 	 */
 	@SuppressWarnings("unchecked")
-	public List<PersistenterUserReadOnly> findUsers(final UserSearchDto userSearchDto) {
+	public List<PersistenterUserReadOnly> findUsers(final BenutzerSuchparameter benutzerSuchparameter) {
 
 		String stmt = "SELECT u.ID, u.UUID, u.VORNAME, u.NACHNAME, u.EMAIL, u.AKTIVIERT, u.ROLLEN, u.DATE_MODIFIED_STRING from VW_USERS_SUCHE u ";
 
-		Query query = createQueryAndReplaceSuchparameter(stmt, userSearchDto, PersistenterUserReadOnly.class, false)
-			.setFirstResult(userSearchDto.getPageIndex()).setMaxResults(userSearchDto.getPageSize());
+		int offset = (benutzerSuchparameter.getPageIndex() - 1) * benutzerSuchparameter.getPageSize();
+
+		Query query = createQueryAndReplaceSuchparameter(stmt, benutzerSuchparameter, PersistenterUserReadOnly.class, false)
+			.setFirstResult(offset).setMaxResults(benutzerSuchparameter.getPageSize());
 
 		List<PersistenterUserReadOnly> resultList = query.getResultList();
 		return resultList;
 	}
 
 	@SuppressWarnings("rawtypes")
-	Query createQueryAndReplaceSuchparameter(final String stmt, final UserSearchDto userSearchDto, final Class clazz, final boolean forCount) {
+	Query createQueryAndReplaceSuchparameter(final String stmt, final BenutzerSuchparameter userSearchDto, final Class clazz, final boolean forCount) {
 
 		List<String> conditions = new ArrayList<>();
 
@@ -91,7 +93,7 @@ public class UserDao {
 			conditions.add("u.NACHNAME like :nachname");
 		}
 
-		if (StringUtils.isNotBlank(userSearchDto.getRollen())) {
+		if (StringUtils.isNotBlank(userSearchDto.getRolle())) {
 
 			conditions.add("u.ROLLEN like :rollen");
 		}
@@ -117,7 +119,7 @@ public class UserDao {
 
 			if (StringUtils.isNotBlank(userSearchDto.getSortByLabelname())) {
 
-				UserSortColumn userSortColumn = UserSortColumn.valueOfLabel(userSearchDto.getSortByLabelname());
+				BenutzerSortColumn userSortColumn = BenutzerSortColumn.valueOfLabel(userSearchDto.getSortByLabelname());
 				String dbFieldName = userSortColumn.toString();
 
 				String sortDirection = userSearchDto.getSortDirection() == null ? "asc"
@@ -155,9 +157,9 @@ public class UserDao {
 			query.setParameter("nachname", "%" + userSearchDto.getNachname() + "%");
 		}
 
-		if (StringUtils.isNotBlank(userSearchDto.getRollen())) {
+		if (StringUtils.isNotBlank(userSearchDto.getRolle())) {
 
-			query.setParameter("rollen", "%" + userSearchDto.getRollen() + "%");
+			query.setParameter("rollen", "%" + userSearchDto.getRolle() + "%");
 		}
 
 		if (StringUtils.isNotBlank(userSearchDto.getDateModified())) {

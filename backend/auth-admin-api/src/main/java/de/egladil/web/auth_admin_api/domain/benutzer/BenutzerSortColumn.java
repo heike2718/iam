@@ -2,15 +2,15 @@
 // Project: auth-admin-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.auth_admin_api.domain.users;
+package de.egladil.web.auth_admin_api.domain.benutzer;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * UserSortColumn
+ * BenutzerSortColumn
  */
-public enum UserSortColumn {
+public enum BenutzerSortColumn {
 
 	EMAIL("email"),
 	DATE_MODIFIED_STRING("datumGeaendert"),
@@ -19,14 +19,14 @@ public enum UserSortColumn {
 
 	private final String label;
 
-	private UserSortColumn(final String label) {
+	private BenutzerSortColumn(final String label) {
 
 		this.label = label;
 	}
 
-	public static UserSortColumn valueOfLabel(final String label) {
+	public static BenutzerSortColumn valueOfLabel(final String label) {
 
-		Optional<UserSortColumn> opt = Arrays.stream(values()).filter(v -> v.label.equalsIgnoreCase(label)).findFirst();
+		Optional<BenutzerSortColumn> opt = Arrays.stream(values()).filter(v -> v.label.equalsIgnoreCase(label)).findFirst();
 
 		if (opt.isPresent()) {
 
