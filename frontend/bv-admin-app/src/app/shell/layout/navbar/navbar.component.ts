@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar'
@@ -22,6 +22,7 @@ import { User } from '@bv-admin-app/shared/auth/model';
     MatToolbarModule,
     MatTooltipModule,
     NgIf,
+    AsyncPipe,
     RouterLinkWithHref
   ],
   templateUrl: './navbar.component.html',

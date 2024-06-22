@@ -7,6 +7,7 @@ import { LoadingIndicatorComponent, MessageComponent } from './shared/messages/u
 import { NavbarComponent } from './shell/layout/navbar/navbar.component';
 import { SidenavComponent } from './shell/layout/sidenav/sidenav.component';
 import { AuthFacade } from '@bv-admin-app/shared/auth/api';
+import { UsersListComponent } from './users/feature/users-list/users-list.component';
 
 @Component({
   standalone: true,
@@ -16,6 +17,7 @@ import { AuthFacade } from '@bv-admin-app/shared/auth/api';
     NavbarComponent,
     SidenavComponent,
     MessageComponent,
+    UsersListComponent,
     LoadingIndicatorComponent,
     RouterModule
   ],

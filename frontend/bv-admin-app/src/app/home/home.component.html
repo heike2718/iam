@@ -1,0 +1,5 @@
+@if (authFacade.userIsLoggedIn$ | async) {
+    <h1 class="centered">Benutzerverwaltung</h1>
+} @else {
+    <h1 class="centered">Hier gibt es nichts zu sehen. Gehen Sie bitte weiter.</h1>
+}

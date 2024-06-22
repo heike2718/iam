@@ -7,11 +7,22 @@
         </button>
     </div>
     } @else {
-    <span class="nav-caption" routerLink="/startseite"><mat-icon>home</mat-icon>Startseite</span>
+    
+        <a mat-button routerLink="/home">
+            <mat-icon class="nav-item">home</mat-icon>
+            <span class="nav-caption">Startseite</span>
+        </a>
+
+        @if (authFacade.userIsLoggedIn$ | async) {
+            <a mat-button routerLink="/users">
+                <mat-icon class="nav-item">account-multiple</mat-icon>
+                <span class="nav-caption">Benutzersuche</span>
+            </a>
+        }
 
     <span class="toolbar-spacer"></span>
 
-    @if (authFacade.user$| async) {
+    @if (authFacade.user$ | async) {
     <div class="mr-1">
         Moin, {{user.fullName}}
     </div>

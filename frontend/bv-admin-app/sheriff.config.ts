@@ -6,6 +6,7 @@ export const config: SheriffConfig = {
     'src/app': {
       'shared/<type>': 'shared:<type>',
       'shared/messages/<type>': 'type:<type>',
+      'users/api': ['type:api', 'domain:users:api'],
       '<domain>/<type>': ['domain:<domain>', 'type:<type>'],
     },
   },
