@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable, filter } from "rxjs";
-import { Benutzer, BenutzerSuchparameter, BenutzerTableFilter, PageDefinition, PaginationState, initialBenutzerTableFilter, initialPageDefinition } from "@bv-admin-app/benutzer/model";
+import { Benutzer, BenutzerSuchparameter, BenutzersucheGUIModel, initialBenutzersucheGUIModel } from "@bv-admin-app/benutzer/model";
 import { fromBenutzer, benutzerActions } from "@bv-admin-app/benutzer/data";
 
 
@@ -12,48 +12,37 @@ export class BenutzerFacade {
 
     #store = inject(Store);
 
-    #benutzerFilter: BenutzerTableFilter = initialBenutzerTableFilter;
-    #pageDefinition: PageDefinition = initialPageDefinition;
-
-    constructor() {
-        this.benutzerTableFilter$.subscribe((filter) => this.#benutzerFilter = filter);
-        this.paginationState$.subscribe((paginationState) => this.#pageDefinition = paginationState.pageDefinition);
-    }
-
-
     page$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.page);
     anzahlTreffer$: Observable<number> = this.#store.select(fromBenutzer.anzahlTreffer);
-    benutzerTableFilter$: Observable<BenutzerTableFilter> = this.#store.select(fromBenutzer.benutzerTableFilter);
-    paginationState$: Observable<PaginationState> = this.#store.select(fromBenutzer.paginationState);
+    guiModel$: Observable<BenutzersucheGUIModel> = this.#store.select(fromBenutzer.guiModel);
 
+    startSuche(guiModel: BenutzersucheGUIModel): void {
 
-    findBenutzer(): void {
+        this.guiModelChanged(guiModel);
 
         const suchparameter: BenutzerSuchparameter = {
-            aktiviert: this.#benutzerFilter.aktiviert,
-            dateModified: this.#benutzerFilter.dateModified,
-            email: this.#benutzerFilter.email,
-            nachname: this.#benutzerFilter.nachname,
-            pageIndex: this.#pageDefinition.pageIndex,
-            pageSize: this.#pageDefinition.pageSize,
-            rolle: this.#benutzerFilter.rolle,
-            sortByLabelname: this.#pageDefinition.sortByLabelname,
-            sortDirection: this.#pageDefinition.sortDirection,
-            uuid: this.#benutzerFilter.uuid,
-            vorname: this.#benutzerFilter.vorname
+            aktiviert: guiModel.aktiviert,
+            dateModified: guiModel.dateModified,
+            email: guiModel.email,
+            nachname: guiModel.nachname,
+            pageIndex: guiModel.pageIndex,
+            pageSize: guiModel.pageSize,
+            rolle: guiModel.rolle,
+            sortByLabelname: guiModel.sortByLabelname,
+            sortDirection: guiModel.sortDirection,
+            uuid: guiModel.uuid,
+            vorname: guiModel.vorname
         }
 
-        this.#store.dispatch(benutzerActions.fIND_BENUTZER({suchparameter}));
+        this.#store.dispatch(benutzerActions.fIND_BENUTZER({ suchparameter }));
     }
 
-    benutzerFilterChanged(column: string, filterValue: string): void {
+    guiModelChanged(guiModel: BenutzersucheGUIModel): void {
+        this.#store.dispatch(benutzerActions.gUI_MODEL_CHANGED({ guiModel }));
+    }
 
-        let filterValues: BenutzerTableFilter = initialBenutzerTableFilter;
+    resetFilterAndSort() {
+        this.#store.dispatch(benutzerActions.sUCHE_ZURUECKSETZEN());
 
-        switch(column) {
-            case 'vorname': filterValues = {...initialBenutzerTableFilter, vorname: filterValue}; break;
-            case 'nachname': filterValues = {...initialBenutzerTableFilter, nachname: filterValue}; break;
-        }
-        this.#store.dispatch(benutzerActions.bENUTZER_TABLE_FILTER_CHANGED({filterValues: filterValues}));
     }
 }

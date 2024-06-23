@@ -1,18 +1,24 @@
 import { AsyncPipe, CommonModule, NgIf } from "@angular/common";
-import { Component, OnDestroy, OnInit, ViewChild, inject } from "@angular/core";
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin-app/benutzer/api';
-import { BenutzerTableFilter, PageDefinition, PaginationState } from '@bv-admin-app/benutzer/model';
+import { Benutzer, BenutzersucheGUIModel } from '@bv-admin-app/benutzer/model';
 import { MatTableModule } from '@angular/material/table';
-import { MatSort, MatSortModule, SortDirection } from "@angular/material/sort";
+import { MatSort, MatSortModule, Sort, SortDirection } from "@angular/material/sort";
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MatPaginator, MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { MatButtonModule } from "@angular/material/button";
-import { Subscription } from "rxjs";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { Subscription, merge, tap } from "rxjs";
+import { SelectionModel } from "@angular/cdk/collections";
 
-
+const AUSWAHL_BENUTZER = 'auswahlBenutzer';
+const UUID = 'uuid';
+const EMAIL = 'email';
 const NACHNAME = 'nachname';
 const VORNAME = 'vorname';
+const DATE_MODIFIED = 'dateModified';
+const ROLLE = 'rolle';
 
 @Component({
   selector: 'bv-users',
@@ -22,7 +28,7 @@ const VORNAME = 'vorname';
     NgIf,
     AsyncPipe,
     FormsModule,
-    ReactiveFormsModule,
+    MatCheckboxModule,
     MatTableModule,
     MatSortModule,
     MatInputModule,
@@ -32,55 +38,189 @@ const VORNAME = 'vorname';
   templateUrl: './benutzer-list.component.html',
   styleUrls: ['./benutzer-list.component.scss'],
 })
-export class BenutzerListComponent implements OnInit, OnDestroy {
+export class BenutzerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   benutzerFacade = inject(BenutzerFacade);
 
   dataSource = inject(BenutzerDataSource);
 
+  // Benutzer sollen ausgewählt werden können
+  selection!: SelectionModel<Benutzer>;
+
   anzahlBenutzer = 0;
 
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  #paginationStateSubscription: Subscription = new Subscription();
+  uuidFilterValue = '';
+  emailFilterValue = '';
+  vornameFilterValue = '';
+  nachnameFilterValue = '';
+  dateModifiedFilterValue = '';
+  rolleFilterValue = '';
 
-  #paginationState!: PaginationState;
-  #pageIndex = 0;
-  #sortDirection: SortDirection = 'asc';
-  #sortLabelName!: string;
+  #guiModel!: BenutzersucheGUIModel;
+
+  #guiModelSubscription: Subscription = new Subscription();
+
+  #pageSubscription = new Subscription();
+  #matSortChangedSubscription: Subscription = new Subscription();
+  #matPaginatorSubscription: Subscription = new Subscription();
+
+  #resetFilterDisabled = true;
+
   #adjusting = false;
+  #triggerSearchImmediately = false;
 
 
   ngOnInit(): void {
 
-    this.#paginationStateSubscription = this.benutzerFacade.paginationState$.subscribe(
-      (paginationState) => {
-        this.#paginationState = paginationState;
-        this.#pageIndex = paginationState.pageDefinition.pageIndex;
-        this.#sortDirection = paginationState.pageDefinition.sortDirection === 'asc' ? 'asc' : 'desc';
-        this.#sortLabelName = paginationState.pageDefinition.sortByLabelname;
-        this.anzahlBenutzer = paginationState.anzahlTreffer;
+    this.#guiModelSubscription = this.benutzerFacade.guiModel$.subscribe(
+      (guiModel) => {
+        if (!this.#adjusting) {
+          this.#guiModel = guiModel;
+          this.selection = new SelectionModel<Benutzer>(true, guiModel.selectedBenutzer);
+        }
+        this.#adjusting = false;
       }
     );
+
+    this.#pageSubscription = this.benutzerFacade.page$.subscribe((page) => this.#resetFilterDisabled = page.length === 0);
+
+  }
+
+  ngAfterViewInit(): void {
+    // fixes NG0100: Expression has changed after it was checked 
+    // https://angular.io/errors/NG0100
+    setTimeout(() => {
+
+      // this.#initPaginator();
+      // hier den init-Kram oder
+    }, 0);
+
+    this.#initPaginator();
+
+   this.#matPaginatorSubscription = merge(this.sort.sortChange, this.paginator.page).pipe(
+      tap(() => {
+        this.sort.direction;
+        this.#guiModel = {...this.#guiModel, sortDirection: this.sort.direction, pageIndex: this.paginator.pageIndex, pageSize: this.paginator.pageSize};
+        this.#triggerSearchImmediately = true;
+        this.#guiModelChanged();
+      })
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
-    this.#paginationStateSubscription.unsubscribe();
+    this.#guiModelSubscription.unsubscribe();
+    this.#pageSubscription.unsubscribe();
+    this.#matPaginatorSubscription.unsubscribe();
+    this.#matSortChangedSubscription.unsubscribe();
   }
 
-  applyFilter(event: Event, column: string) {
-    const filterValue = (event.target as HTMLInputElement).value.trim();
-    this.benutzerFacade.benutzerFilterChanged(column, filterValue);
+  toggleRow(row: Benutzer) {
+    const el = this.selection.selected.find((e) => e.uuid === row.uuid);
+    el ? this.selection.deselect(el) : this.selection.select(row);
+
+    const ben = this.#guiModel.selectedBenutzer.find((b) => b.uuid === row.uuid);
+    let selectedNeu: Benutzer[] = [];
+    if (ben) {
+      selectedNeu = this.#guiModel.selectedBenutzer.filter(benutzer => benutzer.uuid === row.uuid);
+    } else {
+      selectedNeu = [...this.#guiModel.selectedBenutzer, row];
+    }
+    this.#guiModel = {...this.#guiModel, selectedBenutzer: selectedNeu};
+    this.#guiModelChanged();
   }
+
+  applyFilter(column: string) {
+
+    switch (column) {
+      case 'uuid': this.#guiModel = { ...this.#guiModel, uuid: this.uuidFilterValue.trim() }; break;
+      case 'email': this.#guiModel = { ...this.#guiModel, email: this.emailFilterValue.trim() }; break;
+      case 'vorname': this.#guiModel = { ...this.#guiModel, vorname: this.vornameFilterValue.trim() }; break;
+      case 'nachname': this.#guiModel = { ...this.#guiModel, nachname: this.nachnameFilterValue.trim() }; break;
+      case 'dateModified': this.#guiModel = { ...this.#guiModel, dateModified: this.dateModifiedFilterValue.trim() }; break;
+      case 'rolle': this.#guiModel = { ...this.#guiModel, rolle: this.rolleFilterValue.trim() }; break;
+    }
+    this.#guiModelChanged();
+  }
+
+  sortData(sort: Sort) {
+
+    const sortDirection = sort.direction as 'asc' | 'desc';
+
+    if (!sortDirection) {
+      this.#guiModel = { ...this.#guiModel, sortByLabelname: sort.active, sortDirection: null }
+    } else {
+      this.#guiModel = { ...this.#guiModel, sortByLabelname: sort.active, sortDirection: sortDirection }
+    }
+
+    this.#triggerSearchImmediately = true;
+    this.#guiModelChanged();
+    
+  }
+
+  onPageChange(event: PageEvent) {
+
+    this.#guiModel = { ...this.#guiModel, pageSize: event.pageSize, pageIndex: event.pageIndex };
+    this.#triggerSearchImmediately = true;
+    this.#guiModelChanged();    
+  }
+
+
 
   getDisplayedColumns(): string[] {
-    return [NACHNAME, VORNAME];
+    return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, DATE_MODIFIED, ROLLE];
   }
 
   findBenutzer() {
+    this.benutzerFacade.startSuche(this.#guiModel);
+  }
 
-    this.benutzerFacade.findBenutzer();
+  resetFilterDisabled(): boolean {
+    return this.#resetFilterDisabled;
+  }
 
+  resetFilter() {
+    this.uuidFilterValue = '';
+    this.emailFilterValue = '';
+    this.nachnameFilterValue = '';
+    this.vornameFilterValue = '';
+    this.dateModifiedFilterValue = '';
+    this.rolleFilterValue = '';
+    this.benutzerFacade.resetFilterAndSort();
+    this.#triggerSearchImmediately = false;
+  }
+
+  #initPaginator(): void {
+
+    this.paginator.pageIndex = this.#guiModel.pageIndex;
+
+    this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite';
+    this.paginator._intl.nextPageLabel = 'nächste Seite';
+    this.paginator._intl.previousPageLabel = 'vorherige Seite';
+    this.paginator._intl.firstPageLabel = 'erste Seite';
+    this.paginator._intl.lastPageLabel = 'letzte Seite';
+
+    const originalGetRangeLabel = this.paginator._intl.getRangeLabel;
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ) => {
+      return originalGetRangeLabel(page, pageSize, length).replace('of', 'von')
+    }
+    this.sort.direction = this.#guiModel.sortDirection === 'asc' ? 'asc' : 'desc';
+    // reset Paginator when sort changed    
+    this.#matSortChangedSubscription = this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+  }
+
+  #guiModelChanged(): void {
+    this.#adjusting = true;
+    this.benutzerFacade.guiModelChanged(this.#guiModel);
+
+    if (this.#triggerSearchImmediately) {
+      this.findBenutzer();
+    }
   }
 }

@@ -299,7 +299,7 @@
           "rolle" : {
             "description" : "Teil der Rolle eines Users.",
             "maxLength" : 150,
-            "pattern" : "^[A-Z_,]*$",
+            "pattern" : "^[A-Za-z_,]*$",
             "type" : "string",
             "example" : "STANDARD"
           },

@@ -45,7 +45,7 @@ public class BenutzerSuchparameter {
 
 	@JsonProperty
 	@Schema(description = "Teil der Rolle eines Users.", example = "STANDARD")
-	@Pattern(regexp = "^[A-Z_,]*$")
+	@Pattern(regexp = "^[A-Za-z_,]*$")
 	@Size(max = 150)
 	private String rolle;
 

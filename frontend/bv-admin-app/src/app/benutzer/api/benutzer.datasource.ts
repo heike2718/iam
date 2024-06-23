@@ -11,18 +11,17 @@ import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
 })
 export class BenutzerDataSource implements DataSource<Benutzer> {
 
-
     #benutzerFacade = inject(BenutzerFacade);
 
     connect(_collectionViewer: CollectionViewer): Observable<readonly Benutzer[]> {
         swallowEmptyArgument(_collectionViewer, false);
-        return this.#benutzerFacade.page$;       
+        return this.#benutzerFacade.page$;
     }
 
     disconnect(_collectionViewer: CollectionViewer): void {
         // hängt am Store muss also nicht finalized werden?
         swallowEmptyArgument(_collectionViewer, false);
-     }
+    }
 
 
 }

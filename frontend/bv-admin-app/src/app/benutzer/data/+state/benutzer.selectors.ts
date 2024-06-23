@@ -4,9 +4,20 @@ import { benutzerFeature } from './benutzer.reducer';
 
 const {selectBenutzerState: selectBenutzerState} = benutzerFeature
 
-const anzahlTreffer = createSelector(
+
+const guiModel = createSelector(
     selectBenutzerState,
-    (state) => state.anzahlTreffer
+    (state) => state.guiModel
+)
+
+const anzahlTreffer = createSelector(
+    guiModel,
+    (guiModel) => guiModel.anzahlTreffer
+)
+
+const paginationState = createSelector(
+    guiModel,
+    (guiModel) => {guiModel.pageIndex; guiModel.pageSize}
 )
 
 const page = createSelector(
@@ -14,19 +25,9 @@ const page = createSelector(
     (state) => state.page
 )
 
-const paginationState = createSelector(
-    selectBenutzerState,
-    (state) => state.paginationState
-)
-
-const benutzerTableFilter = createSelector(
-    selectBenutzerState,
-    (state) => state.benutzerTableFilter
-)
-
 export const fromBenutzer = {
     anzahlTreffer,
-    page,
     paginationState,
-    benutzerTableFilter: benutzerTableFilter
+    page,
+    guiModel
 }

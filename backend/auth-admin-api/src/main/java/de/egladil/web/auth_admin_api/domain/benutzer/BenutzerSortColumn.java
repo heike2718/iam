@@ -13,7 +13,7 @@ import java.util.Optional;
 public enum BenutzerSortColumn {
 
 	EMAIL("email"),
-	DATE_MODIFIED_STRING("datumGeaendert"),
+	DATE_MODIFIED_STRING("dateModified"),
 	NACHNAME("nachname"),
 	VORNAME("vorname");
 

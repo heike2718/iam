@@ -240,14 +240,14 @@ mat-dialog-content {
     display: grid;
     grid-template-columns: repeat(auto-fill, 1fr);
     margin-left: 2rem;
-    grid-gap: 2rem;
+    grid-gap: 1rem;
 }
 
 .grid-container-2 {
     display: grid;
     grid-template-columns: 1fr 4fr;
     margin-left: 2rem;
-    grid-gap: 2rem;
+    grid-gap: 1rem;
 }
 
 .button-container {

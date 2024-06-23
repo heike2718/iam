@@ -1,16 +1,70 @@
-<div class="centered">
+<div class="centered benutzer-container">
 
     <h1>Benutzersuche</h1>
 
     <p>Anzahl Treffer: {{anzahlBenutzer}}</p>
 
-    <!--
-    <mat-paginator [length]="anzahlBenutzer" [pageSizeOptions]="[25,30,50]" showFirstLastButtons></mat-paginator>
-    -->
+    <!-- (page)="onPageChange($event)"-->
+    <mat-paginator 
+        [length]="anzahlBenutzer"
+        [pageSizeOptions]="[25,30,50]"
+        aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen."
+        showFirstLastButtons
+        
+        >
+    </mat-paginator>
     
-    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mt-2" matSort matSortActive="name"
-        matSortDirection="asc" matSortDisableClear>
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mt-2" matSort (matSortChange)="sortData($event)" matSortActive="name"
+        matSortDirection="asc">
 
+        <!-- Auswahl Benutzer column-->
+        <ng-container matColumnDef="auswahlBenutzer">
+            <mat-header-cell *matHeaderCellDef>
+                <label>Auswahl</label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox
+                  (click)="$event.stopPropagation()"
+                  (change)="toggleRow(row)"
+                  [checked]="selection.isSelected(row)"
+                ></mat-checkbox>
+              </mat-cell>>
+        </ng-container>
+
+
+        <!-- UUID -->
+        <ng-container matColumnDef="uuid">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label>
+                        UUID
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput (keyup)="applyFilter('uuid')" placeholder="UUID" [(ngModel)]="uuidFilterValue" >
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.uuid.substring(0,8)}}
+              </mat-cell>>
+        </ng-container>
+
+        <!-- Email -->
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label mat-sort-header>
+                        Email
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput (keyup)="applyFilter('email')" placeholder="Email" [(ngModel)]="emailFilterValue">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.email}}
+              </mat-cell>>
+        </ng-container>
 
         <!-- Nachname -->
         <ng-container matColumnDef="nachname">
@@ -19,8 +73,8 @@
                     <label mat-sort-header>
                         Nachname
                     </label>
-                    <mat-form-field class="filter input-wrapper__non-suffix" floatLabel="always" appearance="outline">
-                        <input matInput (keyup)="applyFilter($event, 'nachname')" placeholder="Nachname">
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput (keyup)="applyFilter('nachname')" placeholder="Nachname" [(ngModel)]="nachnameFilterValue">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -36,8 +90,8 @@
                     <label mat-sort-header>
                         Vorname
                     </label>
-                    <mat-form-field class="filter input-wrapper__non-suffix" floatLabel="always" appearance="outline">
-                        <input matInput (keyup)="applyFilter($event, 'vorname')" placeholder="Vorname">
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput (keyup)="applyFilter('vorname')" placeholder="Vorname" [(ngModel)]="vornameFilterValue">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -46,9 +100,48 @@
               </mat-cell>>
         </ng-container>
 
+        <!-- dateModified -->
+        <ng-container matColumnDef="dateModified">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label mat-sort-header>
+                        geändert am
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput (keyup)="applyFilter('dateModified')" placeholder="Datum geändert" [(ngModel)]="dateModifiedFilterValue">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.dateModified}}
+              </mat-cell>>
+        </ng-container>
+
+        <!-- Rolle -->
+        <ng-container matColumnDef="rolle">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label>
+                        Rolle
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput (keyup)="applyFilter('rolle')" placeholder="Rolle" [(ngModel)]="rolleFilterValue">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.rollen}}
+              </mat-cell>>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: getDisplayedColumns()" [ngClass]="{
+            'bg-beige': !row.aktiviert
+          }"></mat-row>
     </mat-table>
-    <div>
-        <button (click)="findBenutzer()" class="btn mat-elevation-z8">suchen</button>
-    </div>
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" class="action-button" (click)="findBenutzer()">suchen</button>
+        <button mat-raised-button color="accent" class="action-button" (click)="resetFilter()" [disabled]="resetFilterDisabled()" >Filter leeren</button>
+      </div>
 </div>
