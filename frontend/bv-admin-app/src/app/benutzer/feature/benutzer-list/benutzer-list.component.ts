@@ -60,12 +60,15 @@ export class BenutzerListComponent implements OnInit, OnDestroy, AfterViewInit {
   rolleFilterValue = '';
 
   #guiModel!: BenutzersucheGUIModel;
+  
+
 
   #guiModelSubscription: Subscription = new Subscription();
 
   #pageSubscription = new Subscription();
   #matSortChangedSubscription: Subscription = new Subscription();
   #matPaginatorSubscription: Subscription = new Subscription();
+  #paginationSortMergeSubscription: Subscription = new Subscription();
 
   #resetFilterDisabled = true;
 
@@ -100,10 +103,24 @@ export class BenutzerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.#initPaginator();
 
-   this.#matPaginatorSubscription = merge(this.sort.sortChange, this.paginator.page).pipe(
+    this.#paginationSortMergeSubscription = merge(this.sort.sortChange, this.paginator.page).pipe(
+      tap(() => {
+
+        if (this.sort.direction) {
+          const newSort = this.sort.direction === "asc" ? 'asc' : 'desc';
+          this.#guiModel = { ...this.#guiModel, pageIndex: this.paginator.pageIndex, sortDirection: newSort };
+        } else {
+          this.#guiModel = { ...this.#guiModel, pageIndex: this.paginator.pageIndex, sortDirection: null, sortByLabelname: null };
+        }
+        
+
+      })
+    ).subscribe();
+
+    this.#matPaginatorSubscription = merge(this.sort.sortChange, this.paginator.page).pipe(
       tap(() => {
         this.sort.direction;
-        this.#guiModel = {...this.#guiModel, sortDirection: this.sort.direction, pageIndex: this.paginator.pageIndex, pageSize: this.paginator.pageSize};
+        this.#guiModel = { ...this.#guiModel, sortDirection: this.sort.direction, pageIndex: this.paginator.pageIndex, pageSize: this.paginator.pageSize };
         this.#triggerSearchImmediately = true;
         this.#guiModelChanged();
       })
@@ -115,6 +132,7 @@ export class BenutzerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.#pageSubscription.unsubscribe();
     this.#matPaginatorSubscription.unsubscribe();
     this.#matSortChangedSubscription.unsubscribe();
+    this.#paginationSortMergeSubscription.unsubscribe();
   }
 
   toggleRow(row: Benutzer) {
@@ -128,7 +146,7 @@ export class BenutzerListComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       selectedNeu = [...this.#guiModel.selectedBenutzer, row];
     }
-    this.#guiModel = {...this.#guiModel, selectedBenutzer: selectedNeu};
+    this.#guiModel = { ...this.#guiModel, selectedBenutzer: selectedNeu };
     this.#guiModelChanged();
   }
 
@@ -157,14 +175,14 @@ export class BenutzerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.#triggerSearchImmediately = true;
     this.#guiModelChanged();
-    
+
   }
 
   onPageChange(event: PageEvent) {
 
     this.#guiModel = { ...this.#guiModel, pageSize: event.pageSize, pageIndex: event.pageIndex };
     this.#triggerSearchImmediately = true;
-    this.#guiModelChanged();    
+    this.#guiModelChanged();
   }
 
 

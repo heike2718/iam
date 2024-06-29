@@ -20,6 +20,8 @@ export class BenutzerFacade {
 
         this.guiModelChanged(guiModel);
 
+        const sortDirection = guiModel.sortDirection !== null && guiModel.sortDirection === '' ? null : guiModel.sortDirection;
+
         const suchparameter: BenutzerSuchparameter = {
             aktiviert: guiModel.aktiviert,
             dateModified: guiModel.dateModified,
@@ -29,7 +31,7 @@ export class BenutzerFacade {
             pageSize: guiModel.pageSize,
             rolle: guiModel.rolle,
             sortByLabelname: guiModel.sortByLabelname,
-            sortDirection: guiModel.sortDirection,
+            sortDirection: sortDirection,
             uuid: guiModel.uuid,
             vorname: guiModel.vorname
         }
