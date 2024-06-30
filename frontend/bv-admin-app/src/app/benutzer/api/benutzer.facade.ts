@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable, filter } from "rxjs";
-import { Benutzer, BenutzerSuchparameter, BenutzersucheFilterValues } from "@bv-admin-app/benutzer/model";
+import { Benutzer, BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from "@bv-admin-app/benutzer/model";
 import { fromBenutzer, benutzerActions } from "@bv-admin-app/benutzer/data";
 import { PageDefinition, PaginationState } from '@bv-admin-app/shared/model'
 
@@ -17,17 +17,26 @@ export class BenutzerFacade {
     anzahlTreffer$: Observable<number> = this.#store.select(fromBenutzer.anzahlTreffer);
     paginationState$: Observable<PaginationState> = this.#store.select(fromBenutzer.paginationState);
     benutzerBasket$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.benutzerBasket);
-    filterValues$: Observable<BenutzersucheFilterValues> = this.#store.select(fromBenutzer.filterValues);
+    filterValues$: Observable<BenutzersucheFilterAndSortValues> = this.#store.select(fromBenutzer.filterValues);
 
     selectionsubsetChanged(actuallySelected: Benutzer[], actuallyDeselected: Benutzer[]): void {
         this.#store.dispatch(benutzerActions.sELECTIONSUBSET_CHANGED({actuallySelected, actuallyDeselected}))
+    }
+    
+
+    pageSelected(pageDefinition: PageDefinition): void {
+        this.#store.dispatch(benutzerActions.bENUTZER_SELECT_PAGE({ pageDefinition }));
+    }
+
+    benutzersuchfilterChanged(filter: BenutzersucheFilterAndSortValues): void {
+        this.#store.dispatch(benutzerActions.bENUTZER_FILTER_CHANGED({ filter }));
     }
 
     // benutzerBasketChanged(selection: Benutzer[]): void {
     //     this.#store.dispatch(benutzerActions.bENUTZERBASKET_CHANGED({selection}));
     // }
 
-    triggerSearch(filter: BenutzersucheFilterValues, pageDefinition: PageDefinition): void {
+    triggerSearch(filter: BenutzersucheFilterAndSortValues, pageDefinition: PageDefinition): void {
 
         const sortDirection = pageDefinition.sortDirection !== null && pageDefinition.sortDirection === '' ? null : pageDefinition.sortDirection;
 

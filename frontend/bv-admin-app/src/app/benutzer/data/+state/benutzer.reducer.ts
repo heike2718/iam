@@ -1,4 +1,4 @@
-import { Benutzer, BenutzersucheFilterValues, addBenutzerIfNotContained, initialBenutzersucheFilterValues, removeBenutzers } from "@bv-admin-app/benutzer/model";
+import { Benutzer, BenutzersucheFilterAndSortValues, addBenutzerIfNotContained, initialBenutzersucheFilterAndSortValues, removeBenutzers } from "@bv-admin-app/benutzer/model";
 import { PaginationState, initialPaginationState } from '@bv-admin-app/shared/model'
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { benutzerActions } from './benutzer.actions';
@@ -8,7 +8,7 @@ import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
 export interface BenutzerState {
     readonly page: Benutzer[];
     readonly paginationState: PaginationState;
-    readonly filterValues: BenutzersucheFilterValues;
+    readonly filterValues: BenutzersucheFilterAndSortValues;
     readonly benutzerBasket: Benutzer[];
     readonly selectedBenutzer: Benutzer | undefined;
 }
@@ -16,7 +16,7 @@ export interface BenutzerState {
 const initialBenutzerState: BenutzerState = {
     page: [],
     paginationState: initialPaginationState,
-    filterValues: initialBenutzersucheFilterValues,
+    filterValues: initialBenutzersucheFilterAndSortValues,
     benutzerBasket: [],
     selectedBenutzer: undefined
 }

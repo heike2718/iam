@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { Benutzer, BenutzerSearchResult, BenutzerSuchparameter, BenutzersucheFilterValues } from "@bv-admin-app/benutzer/model";
+import { Benutzer, BenutzerSearchResult, BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from "@bv-admin-app/benutzer/model";
 import { PageDefinition } from '@bv-admin-app/shared/model'
 
 export const benutzerActions = createActionGroup({
@@ -8,7 +8,7 @@ export const benutzerActions = createActionGroup({
         'FIND_BENUTZER': props<{suchparameter: BenutzerSuchparameter}>(),
         'BENUTZER_FOUND': props<{treffer: BenutzerSearchResult}>(),
         'BENUTZER_SELECT_PAGE': props<{pageDefinition: PageDefinition}>(),
-        'BENUTZER_FILTER_CHANGED': props<{filter: BenutzersucheFilterValues}>(),
+        'BENUTZER_FILTER_CHANGED': props<{filter: BenutzersucheFilterAndSortValues}>(),
         'SELECTIONSUBSET_CHANGED': props<{actuallySelected: Benutzer[], actuallyDeselected: Benutzer[]}>(),
         'BENUTZERBASKET_CHANGED': props<{selection: Benutzer[]}>(),
         'RESET_FILTER': emptyProps(),

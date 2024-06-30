@@ -9,13 +9,14 @@
     }
 
 
-    <!-- (page)="onPageChange($event)"-->
+    <!-- Alternative zu einem Subjact of(this.paginator)-->
+    <!-- (page)="onPaginatorChanged($event)"-->
     <mat-paginator 
         [length]="anzahlBenutzer"
         [pageSizeOptions]="[25,30,50]"
         aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen."
-        showFirstLastButtons
-        (page)="findBenutzer()"     
+        showFirstLastButtons  
+        (page)="onPaginatorChanged($event)"   
     >
     </mat-paginator>
     
@@ -45,7 +46,7 @@
                         UUID
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput placeholder="UUID" [(ngModel)]="uuidFilterValue" (ngModelChange)="updateResetFilterButtonState()">
+                        <input matInput placeholder="UUID" [(ngModel)]="uuidFilterValue">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -62,7 +63,7 @@
                         Email
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput placeholder="Email" [(ngModel)]="emailFilterValue" (ngModelChange)="updateResetFilterButtonState()">
+                        <input matInput placeholder="Email" [(ngModel)]="emailFilterValue">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -79,7 +80,7 @@
                         Nachname
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput placeholder="Nachname" [(ngModel)]="nachnameFilterValue" (ngModelChange)="updateResetFilterButtonState()">
+                        <input matInput placeholder="Nachname" [(ngModel)]="nachnameFilterValue">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -96,7 +97,7 @@
                         Vorname
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput placeholder="Vorname" [(ngModel)]="vornameFilterValue" (ngModelChange)="updateResetFilterButtonState()">
+                        <input matInput placeholder="Vorname" [(ngModel)]="vornameFilterValue">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -113,7 +114,7 @@
                         geändert am
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput placeholder="Datum geändert" [(ngModel)]="dateModifiedFilterValue" (ngModelChange)="updateResetFilterButtonState()">
+                        <input matInput placeholder="Datum geändert" [(ngModel)]="dateModifiedFilterValue">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -130,7 +131,7 @@
                         Rolle
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput placeholder="Rolle" [(ngModel)]="rolleFilterValue" (ngModelChange)="updateResetFilterButtonState()">
+                        <input matInput placeholder="Rolle" [(ngModel)]="rolleFilterValue">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -146,8 +147,8 @@
     </mat-table>
 
     <div class="button-container">
-        <button mat-raised-button color="primary" class="action-button" (click)="findBenutzer()">suchen</button>
-        <button mat-raised-button color="accent" class="action-button" (click)="resetFilter()" [disabled]="resetFilterDisabled()" >Filter leeren</button>
+        <button mat-raised-button color="primary" class="action-button" (click)="findBenutzer()" [disabled]="sucheDisabled()">suchen</button>
+        <button mat-raised-button color="accent" class="action-button" (click)="resetFilter()" [disabled]="sucheDisabled()" >Filter leeren</button>
     </div>
 
 </div>

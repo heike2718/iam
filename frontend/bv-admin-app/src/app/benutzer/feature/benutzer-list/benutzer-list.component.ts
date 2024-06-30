@@ -1,15 +1,15 @@
 import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin-app/benutzer/api';
-import { Benutzer, BenutzersucheFilterValues, initialBenutzersucheFilterValues, isBenutzersucheFilterValuesEqual } from '@bv-admin-app/benutzer/model';
+import { Benutzer, BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterEmpty, BenutzersucheFilterValues } from '@bv-admin-app/benutzer/model';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort, SortDirection } from "@angular/material/sort";
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { Subscription, combineLatest, merge, tap } from "rxjs";
+import { Subscription, combineLatest, merge, of, tap } from "rxjs";
 import { SelectionModel } from "@angular/cdk/collections";
 import { PageDefinition, PaginationState, initialPaginationState } from "@bv-admin-app/shared/model";
 
@@ -76,8 +76,6 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   #combinedBenutzerstoreSubscription = new Subscription();
   #matSortChangedSubscription: Subscription = new Subscription();
 
-  #resetFilterDisabled = true;
-
   constructor(private changeDetector: ChangeDetectorRef) {
   }
 
@@ -120,7 +118,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.#combinedBenutzerstoreSubscription.unsubscribe();
-    this.#matSortChangedSubscription.unsubscribe()
+    this.#matSortChangedSubscription.unsubscribe();
   }
 
   toggleRow(row: Benutzer) {
@@ -141,41 +139,42 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       this.#sortByLabelName = sort.active;
     }
 
-    this.findBenutzer();
+    if (this.sucheDisabled()) {
+      this.#benutzerFacade.benutzersuchfilterChanged(this.#createActualFilterAndSort());
+    } else {
+      this.findBenutzer();
+    }    
   }
 
   getDisplayedColumns(): string[] {
     return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, DATE_MODIFIED, ROLLE];
   }
 
+  onPaginatorChanged(event: PageEvent): void {
+    console.log(JSON.stringify(event));
+    const pageDefinition: PageDefinition = this.#createActualPageDefinition();
+    this.#benutzerFacade.pageSelected(pageDefinition);
+  }
+
   findBenutzer() {
     const pageDefinition: PageDefinition = this.#createActualPageDefinition();
-    const filter: BenutzersucheFilterValues = this.#createActualFilter();
+    const filter: BenutzersucheFilterAndSortValues = this.#createActualFilterAndSort();
     this.#benutzerFacade.triggerSearch(filter, pageDefinition);
   }
 
-  updateResetFilterButtonState(): void {
-    const actualFilterValues: BenutzersucheFilterValues = this.#createActualFilter();
-    if (!isBenutzersucheFilterValuesEqual(initialBenutzersucheFilterValues, actualFilterValues)) {
-      this.#resetFilterDisabled = false;
-    } else {
-      this.#resetFilterDisabled = true;
-    }
-  }
-
-  resetFilterDisabled(): boolean {
-    return this.#resetFilterDisabled;
+  sucheDisabled(): boolean {
+    const actFilter = this.#createActualFilter();
+    return isFilterEmpty(actFilter);
   }
 
   resetFilter() {
     // reset Paginator when filter is reseted
     this.paginator.pageIndex = 0;
-    this.#initFilter(initialBenutzersucheFilterValues);
+    this.#initFilter(initialBenutzersucheFilterAndSortValues);
     this.#benutzerFacade.resetFilterAndSort();
-    this.#resetFilterDisabled = true;
   }
 
-  #initFilter(filter: BenutzersucheFilterValues): void {
+  #initFilter(filter: BenutzersucheFilterAndSortValues): void {
 
     this.uuidFilterValue = filter.uuid;
     this.emailFilterValue = filter.email;
@@ -211,9 +210,9 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     this.#matSortChangedSubscription = this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
   }
 
-  #createActualFilter(): BenutzersucheFilterValues {
+  #createActualFilterAndSort(): BenutzersucheFilterAndSortValues {
 
-    const filter: BenutzersucheFilterValues = {
+    const filter: BenutzersucheFilterAndSortValues = {
       aktiviert: null,
       dateModified: this.dateModifiedFilterValue,
       email: this.emailFilterValue,
@@ -225,6 +224,17 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     };
 
     return filter;
+  }
+
+  #createActualFilter(): BenutzersucheFilterValues {
+    return {
+      dateModified: this.dateModifiedFilterValue,
+      email: this.emailFilterValue,
+      nachname: this.nachnameFilterValue,
+      rolle: this.rolleFilterValue,
+      uuid: this.uuidFilterValue,
+      vorname: this.vornameFilterValue
+    }
   }
 
   #createActualPageDefinition(): PageDefinition {

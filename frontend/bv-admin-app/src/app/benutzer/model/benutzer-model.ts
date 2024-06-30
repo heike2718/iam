@@ -6,10 +6,8 @@ export interface BenutzersucheFilterValues {
     readonly nachname: string;
     readonly email: string;
     readonly rolle: string;
-    readonly aktiviert: boolean | null;
     readonly dateModified: string;
-    readonly sortByLabelname: string | null;
-};
+}
 
 export const initialBenutzersucheFilterValues: BenutzersucheFilterValues = {
     uuid: '',
@@ -17,9 +15,29 @@ export const initialBenutzersucheFilterValues: BenutzersucheFilterValues = {
     nachname: '',
     email: '',
     rolle: '',
+    dateModified: ''
+}
+
+export interface BenutzersucheFilterAndSortValues {
+    readonly uuid: string;
+    readonly vorname: string;
+    readonly nachname: string;
+    readonly email: string;
+    readonly rolle: string;
+    readonly aktiviert: boolean | null;
+    readonly dateModified: string;
+    readonly sortByLabelname: string | null;
+};
+
+export const initialBenutzersucheFilterAndSortValues: BenutzersucheFilterAndSortValues = {
+    uuid: '',
+    vorname: '',
+    nachname: '',
+    email: '',
+    rolle: '',
     aktiviert: null,
     dateModified: '',
-    sortByLabelname: null
+    sortByLabelname: ""
 };
 
 export interface Benutzer {
@@ -51,10 +69,12 @@ export interface BenutzerSuchparameter {
     readonly pageSize: number;
 }
 
-export function isBenutzersucheFilterValuesEqual(obj1: BenutzersucheFilterValues, obj2: BenutzersucheFilterValues): boolean {
-    return sortedStringify(obj1) === sortedStringify(obj2);
-}
+export function isFilterEmpty(filter: BenutzersucheFilterValues): boolean {
 
+    const str1 = sortedStringify(initialBenutzersucheFilterValues);
+    const str2 = sortedStringify(filter);
+    return str1 === str2;
+}
 
 /** 
  * Entfernt alle benutzer in benutzerToRemove aus den benutzern.
