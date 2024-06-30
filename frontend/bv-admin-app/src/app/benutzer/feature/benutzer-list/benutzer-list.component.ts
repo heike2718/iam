@@ -74,7 +74,6 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   // subscriptions
 
   #combinedBenutzerstoreSubscription = new Subscription();
-  #matPaginatorSubscription: Subscription = new Subscription();
   #matSortChangedSubscription: Subscription = new Subscription();
 
   #resetFilterDisabled = true;
@@ -121,7 +120,6 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.#combinedBenutzerstoreSubscription.unsubscribe();
-    this.#matPaginatorSubscription.unsubscribe();
     this.#matSortChangedSubscription.unsubscribe()
   }
 
@@ -170,8 +168,8 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   resetFilter() {
-    // reset Paginator when sort changed    
-    this.#matSortChangedSubscription = this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    // reset Paginator when filter is reseted
+    this.paginator.pageIndex = 0;
     this.#initFilter(initialBenutzersucheFilterValues);
     this.#benutzerFacade.resetFilterAndSort();
     this.#resetFilterDisabled = true;
