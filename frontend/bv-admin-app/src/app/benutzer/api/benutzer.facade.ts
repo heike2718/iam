@@ -3,7 +3,7 @@ import { Store } from "@ngrx/store";
 import { Observable, filter } from "rxjs";
 import { Benutzer, BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from "@bv-admin-app/benutzer/model";
 import { fromBenutzer, benutzerActions } from "@bv-admin-app/benutzer/data";
-import { PageDefinition, PaginationState } from '@bv-admin-app/shared/model'
+import { PageDefinition, PaginationState, SortDefinition } from '@bv-admin-app/shared/model'
 
 
 @Injectable({
@@ -18,17 +18,23 @@ export class BenutzerFacade {
     paginationState$: Observable<PaginationState> = this.#store.select(fromBenutzer.paginationState);
     benutzerBasket$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.benutzerBasket);
     filterValues$: Observable<BenutzersucheFilterAndSortValues> = this.#store.select(fromBenutzer.filterValues);
+    sortDefinition$: Observable<SortDefinition> = this.#store.select(fromBenutzer.sortDefinition);
 
     selectionsubsetChanged(actuallySelected: Benutzer[], actuallyDeselected: Benutzer[]): void {
         this.#store.dispatch(benutzerActions.sELECTIONSUBSET_CHANGED({actuallySelected, actuallyDeselected}))
     }
     
 
-    pageSelected(pageDefinition: PageDefinition): void {
-        this.#store.dispatch(benutzerActions.bENUTZER_SELECT_PAGE({ pageDefinition }));
+    #pagedefinitionChanged(pageDefinition: PageDefinition): void {
+        this.#store.dispatch(benutzerActions.bENUTZER_PAGEDEFINITION_CHANGED({ pageDefinition }));
     }
 
-    benutzersuchfilterChanged(filter: BenutzersucheFilterAndSortValues): void {
+    benutzersucheChanged(filter: BenutzersucheFilterAndSortValues, pageDefinition: PageDefinition): void {
+        this.#store.dispatch(benutzerActions.bENUTZER_PAGEDEFINITION_CHANGED({ pageDefinition }));
+        this.#store.dispatch(benutzerActions.bENUTZER_FILTER_CHANGED({ filter }));
+    }
+
+    #benutzersuchfilterChanged(filter: BenutzersucheFilterAndSortValues): void {
         this.#store.dispatch(benutzerActions.bENUTZER_FILTER_CHANGED({ filter }));
     }
 
@@ -54,8 +60,7 @@ export class BenutzerFacade {
             vorname: filter.vorname
         };
 
-        this.#store.dispatch(benutzerActions.bENUTZER_FILTER_CHANGED({ filter }));
-        this.#store.dispatch(benutzerActions.bENUTZER_SELECT_PAGE({ pageDefinition }));
+        this.benutzersucheChanged(filter, pageDefinition);
         this.#store.dispatch(benutzerActions.fIND_BENUTZER({ suchparameter }));
     }
 

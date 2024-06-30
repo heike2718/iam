@@ -7,7 +7,7 @@ export const benutzerActions = createActionGroup({
     events: {
         'FIND_BENUTZER': props<{suchparameter: BenutzerSuchparameter}>(),
         'BENUTZER_FOUND': props<{treffer: BenutzerSearchResult}>(),
-        'BENUTZER_SELECT_PAGE': props<{pageDefinition: PageDefinition}>(),
+        'BENUTZER_PAGEDEFINITION_CHANGED': props<{pageDefinition: PageDefinition}>(),
         'BENUTZER_FILTER_CHANGED': props<{filter: BenutzersucheFilterAndSortValues}>(),
         'SELECTIONSUBSET_CHANGED': props<{actuallySelected: Benutzer[], actuallyDeselected: Benutzer[]}>(),
         'BENUTZERBASKET_CHANGED': props<{selection: Benutzer[]}>(),

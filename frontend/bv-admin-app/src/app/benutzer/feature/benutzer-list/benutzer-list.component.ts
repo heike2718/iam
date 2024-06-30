@@ -11,7 +11,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { Subscription, combineLatest, merge, of, tap } from "rxjs";
 import { SelectionModel } from "@angular/cdk/collections";
-import { PageDefinition, PaginationState, initialPaginationState } from "@bv-admin-app/shared/model";
+import { PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin-app/shared/model";
 
 const AUSWAHL_BENUTZER = 'auswahlBenutzer';
 const UUID = 'uuid';
@@ -65,11 +65,11 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   #benutzerFacade = inject(BenutzerFacade);
 
-  #matSortDirection: SortDirection = "";
-  #sortByLabelName = '';
+  // #matSortDirection: SortDirection = "";
   #paginationState: PaginationState = initialPaginationState;
-
   #page: Benutzer[] = [];
+  #sortDefinition!: SortDefinition;
+  #adjusting = false;
 
   // subscriptions
 
@@ -81,24 +81,25 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    // TODO #sortByLabelName initalisieren, filterValues initialisieren, sortDirection initialisieren
-
     this.#combinedBenutzerstoreSubscription = combineLatest([
       this.#benutzerFacade.paginationState$,
       this.#benutzerFacade.benutzerBasket$,
       this.#benutzerFacade.filterValues$,
-      this.#benutzerFacade.page$
+      this.#benutzerFacade.page$,
+      this.#benutzerFacade.sortDefinition$
     ]).subscribe(
       ([
         paginationState,
         benutzerBasket,
         filterValues,
-        page
+        page,
+        sortDefinition
       ]) => {
-        // wenn anzahlBenutzer nicht gesetzt wird, ist die Pagination inaktiv
+        // wenn anzahlBenutzer nicht gesetzt wird, ist die Pagination inaktiv        
         this.anzahlBenutzer = paginationState.anzahlTreffer;
         this.#paginationState = paginationState;
         this.#initFilter(filterValues);
+        this.#sortDefinition = sortDefinition;
 
         this.#page = page;
         this.selectionModel.clear();
@@ -107,12 +108,14 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
           .forEach(benutzer => this.selectionModel.select(benutzer));
 
         this.benutzerBasket = benutzerBasket;
+
+        this.#initTableAndSort();
       }
     );
 
-    this.#initTableAndSort();
+    // reset Paginator when sort changed    
+    this.#matSortChangedSubscription = this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
-    // wegen NG0100: ExpressionChangedAfterItHasBeenCheckedError nach rücknavigation explizit nochmal changeDetection triggern
     this.changeDetector.detectChanges();
   }
 
@@ -132,28 +135,26 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   sortData(sort: Sort) {
 
-    this.#matSortDirection = sort.direction;
-    if (this.#matSortDirection === "") {
-      this.#sortByLabelName = '';
-    } else {
-      this.#sortByLabelName = sort.active;
+    if (this.#adjusting) {
+      this.#adjusting = false;
+      return;
     }
 
+    const pageDefinition = { ...this.#createActualPageDefinition(), sortDirection: sort.direction.toString() };
+
     if (this.sucheDisabled()) {
-      this.#benutzerFacade.benutzersuchfilterChanged(this.#createActualFilterAndSort());
+      this.#benutzerFacade.benutzersucheChanged(this.#createActualFilterAndSort(), pageDefinition);
     } else {
       this.findBenutzer();
-    }    
+    }
   }
 
   getDisplayedColumns(): string[] {
     return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, DATE_MODIFIED, ROLLE];
   }
 
-  onPaginatorChanged(event: PageEvent): void {
-    console.log(JSON.stringify(event));
-    const pageDefinition: PageDefinition = this.#createActualPageDefinition();
-    this.#benutzerFacade.pageSelected(pageDefinition);
+  onPaginatorChanged(_event: PageEvent): void {
+    this.#benutzerFacade.benutzersucheChanged(this.#createActualFilterAndSort(), this.#createActualPageDefinition());
   }
 
   findBenutzer() {
@@ -188,7 +189,6 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
     this.paginator.pageIndex = this.#paginationState.pageDefinition.pageIndex;
 
-
     this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite';
     this.paginator._intl.nextPageLabel = 'nächste Seite';
     this.paginator._intl.previousPageLabel = 'vorherige Seite';
@@ -204,13 +204,35 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       return originalGetRangeLabel(page, pageSize, length).replace('of', 'von')
     }
 
-    this.sort.active = this.#sortByLabelName;
-    this.sort.direction = this.#matSortDirection;
-    // reset Paginator when sort changed    
-    this.#matSortChangedSubscription = this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    // Apply the sort state
+    this.sort.active = this.#sortDefinition.active;
+    this.sort.direction = this.#sortDefinition.direction;
+    this.#adjusting = true;
+
+    // damit der Pfeil neben der Spalte auch den korrekten Status anzeigt, Angular nochmal sagen, dass er sich aktualisieren soll.
+    this.sort.sortChange.emit({
+      active: this.#sortDefinition.active,
+      direction: this.#sortDefinition.direction
+    });
+
+    // console.log('sort.direction=' + this.sort.direction + ', sort.active=' + this.sort.active);
+
+    this.paginator.pageSize = this.#paginationState.pageDefinition.pageSize;
+    this.paginator.pageIndex = this.#paginationState.pageDefinition.pageIndex;
+
+    this.changeDetector.detectChanges();
   }
 
   #createActualFilterAndSort(): BenutzersucheFilterAndSortValues {
+
+    const matSortDirection = this.sort.direction;
+    let sortByLabel = '';
+
+    if (matSortDirection === "") {
+      sortByLabel = '';
+    } else {
+      sortByLabel = this.sort.active;
+    }
 
     const filter: BenutzersucheFilterAndSortValues = {
       aktiviert: null,
@@ -218,7 +240,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       email: this.emailFilterValue,
       nachname: this.nachnameFilterValue,
       rolle: this.rolleFilterValue,
-      sortByLabelname: this.#sortByLabelName,
+      sortByLabelname: sortByLabel,
       uuid: this.uuidFilterValue,
       vorname: this.vornameFilterValue
     };
@@ -242,7 +264,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     const pageDefinition: PageDefinition = {
       pageIndex: this.paginator ? this.paginator.pageIndex : this.#paginationState.pageDefinition.pageIndex,
       pageSize: this.paginator ? this.paginator.pageSize : this.#paginationState.pageDefinition.pageSize,
-      sortDirection: this.#matSortDirection.toString()
+      sortDirection: this.#paginationState.pageDefinition.sortDirection
     }
 
     return pageDefinition;

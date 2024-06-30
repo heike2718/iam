@@ -38,6 +38,12 @@ export const benutzerFeature = createFeature({
                 filterValues: action.filter
             }
         }),
+        on(benutzerActions.bENUTZER_PAGEDEFINITION_CHANGED, (state, action) => {
+            return {
+                ...state,
+                paginationState: {...state.paginationState, pageDefinition: action.pageDefinition}
+            }
+        }),
         on(benutzerActions.sELECTIONSUBSET_CHANGED, (state, action) => {
 
             const actuallySelected: Benutzer[] = action.actuallySelected;

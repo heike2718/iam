@@ -1,3 +1,5 @@
+import { SortDirection } from "@angular/material/sort";
+
 export interface PageDefinition {
     pageSize: number,
     pageIndex: number,
@@ -12,11 +14,16 @@ export interface PaginationState {
 export const initialPageDefinition: PageDefinition = {
     pageSize: 20,
     pageIndex: 0,
-    sortDirection: 'asc'
+    sortDirection: ''
 };
 
 export const initialPaginationState: PaginationState = {
     anzahlTreffer: 0,
     pageDefinition: initialPageDefinition
+};
+
+export interface SortDefinition {
+    readonly direction: SortDirection;
+    readonly active: string
 };
 

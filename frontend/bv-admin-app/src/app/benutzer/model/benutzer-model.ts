@@ -37,7 +37,7 @@ export const initialBenutzersucheFilterAndSortValues: BenutzersucheFilterAndSort
     rolle: '',
     aktiviert: null,
     dateModified: '',
-    sortByLabelname: ""
+    sortByLabelname: ''
 };
 
 export interface Benutzer {
@@ -70,15 +70,11 @@ export interface BenutzerSuchparameter {
 }
 
 export function isFilterEmpty(filter: BenutzersucheFilterValues): boolean {
-
     const str1 = sortedStringify(initialBenutzersucheFilterValues);
     const str2 = sortedStringify(filter);
     return str1 === str2;
 }
 
-/** 
- * Entfernt alle benutzer in benutzerToRemove aus den benutzern.
-*/
 export function removeBenutzers(benutzer: Benutzer[], benutzerToRemove: Benutzer[]): Benutzer[] {
     const benutzerToRemoveIds = new Set(benutzerToRemove.map(b => b.uuid));
     return benutzer.filter(b => !benutzerToRemoveIds.has(b.uuid));
