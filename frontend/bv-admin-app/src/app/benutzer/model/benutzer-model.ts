@@ -1,5 +1,6 @@
-export interface BenutzersucheGUIModel {
-    readonly anzahlTreffer: number;
+import { sortedStringify } from "@bv-admin-app/shared/util";
+
+export interface BenutzersucheFilterValues {
     readonly uuid: string;
     readonly vorname: string;
     readonly nachname: string;
@@ -7,15 +8,10 @@ export interface BenutzersucheGUIModel {
     readonly rolle: string;
     readonly aktiviert: boolean | null;
     readonly dateModified: string;
-    readonly sortByLabelname: string | null; 
-    readonly sortDirection: string | null;
-    readonly pageSize: number;
-    readonly pageIndex: number;
-    readonly selectedBenutzer: Benutzer[];
-}
+    readonly sortByLabelname: string | null;
+};
 
-export const initialBenutzersucheGUIModel: BenutzersucheGUIModel = {
-    anzahlTreffer: 0,
+export const initialBenutzersucheFilterValues: BenutzersucheFilterValues = {
     uuid: '',
     vorname: '',
     nachname: '',
@@ -23,37 +19,8 @@ export const initialBenutzersucheGUIModel: BenutzersucheGUIModel = {
     rolle: '',
     aktiviert: null,
     dateModified: '',
-    sortByLabelname: null,
-    sortDirection: null,
-    pageSize: 25,
-    pageIndex: 0,
-    selectedBenutzer: []
-}
-
-// export interface BenutzerTableFilterAndSort {
-//     uuid: string;
-//     vorname: string;
-//     nachname: string;
-//     email: string;
-//     rolle: string;
-//     aktiviert: boolean | null;
-//     dateModified: string;
-//     sortByLabelname: string | null; 
-//     sortDirection: string | null;
-// }
-
-
-// export const initialBenutzerTableFilterAndSort: BenutzerTableFilterAndSort = {
-//     uuid: '',
-//     vorname: '',
-//     nachname: '',
-//     email: '',
-//     rolle: '',
-//     aktiviert: null,
-//     dateModified: '',
-//     sortByLabelname: null,
-//     sortDirection: null
-// }
+    sortByLabelname: null
+};
 
 export interface Benutzer {
     readonly uuid: string;
@@ -70,27 +37,6 @@ export interface BenutzerSearchResult {
     readonly items: Benutzer[];
 }
 
-
-// export interface PageDefinition {
-//     readonly pageSize: number,
-//     readonly pageIndex: number
-// }
-
-// export const initialPageDefinition: PageDefinition = {
-//     pageSize: 20,
-//     pageIndex: 0
-// };
-
-// export interface PaginationState {
-//     anzahlTreffer: number;
-//     pageDefinition: PageDefinition
-// }
-
-// export const initialPaginationState: PaginationState = {
-//     anzahlTreffer: 0,
-//     pageDefinition: initialPageDefinition
-// }
-
 export interface BenutzerSuchparameter {
     readonly uuid: string;
     readonly vorname: string;
@@ -103,4 +49,8 @@ export interface BenutzerSuchparameter {
     readonly sortDirection: string | null;
     readonly pageIndex: number;
     readonly pageSize: number;
+}
+
+export function isBenutzersucheFilterValuesEqual(obj1: BenutzersucheFilterValues, obj2: BenutzersucheFilterValues): boolean {
+    return sortedStringify(obj1) === sortedStringify(obj2);
 }

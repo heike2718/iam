@@ -1,4 +1,5 @@
-import { Benutzer, BenutzersucheGUIModel, initialBenutzersucheGUIModel } from "@bv-admin-app/benutzer/model";
+import { Benutzer, BenutzersucheFilterValues, initialBenutzersucheFilterValues } from "@bv-admin-app/benutzer/model";
+import { PaginationState, initialPaginationState} from '@bv-admin-app/shared/model'
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { benutzerActions } from './benutzer.actions';
 import { loggedOutAction } from '@bv-admin-app/shared/auth/data';
@@ -6,12 +7,18 @@ import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
 
 export interface BenutzerState {
     readonly page: Benutzer[];
-    readonly guiModel: BenutzersucheGUIModel;
+    readonly paginationState: PaginationState;
+    readonly filterValues: BenutzersucheFilterValues;
+    readonly tableBenutzerSelection: Benutzer[];
+    readonly selectedBenutzer: Benutzer | undefined;
 }
 
 const initialBenutzerState: BenutzerState = {
     page: [],
-    guiModel: initialBenutzersucheGUIModel
+    paginationState: initialPaginationState,
+    filterValues: initialBenutzersucheFilterValues,
+    tableBenutzerSelection: [],
+    selectedBenutzer: undefined
 }
 
 export const benutzerFeature = createFeature({
@@ -21,18 +28,23 @@ export const benutzerFeature = createFeature({
         on(benutzerActions.bENUTZER_FOUND, (state, action) => {
             return {
                 ...state,
-                guiModel: {...state.guiModel, anzahlTreffer: action.treffer.anzahlGesamt},
+                paginationState: { ...state.paginationState, anzahlTreffer: action.treffer.anzahlGesamt },
                 page: action.treffer.items
             };
         }),
-        on(benutzerActions.gUI_MODEL_CHANGED, (state, action) => {
+        on(benutzerActions.bENUTZER_FILTER_CHANGED, (state, action) => {
             return {
                 ...state,
-                guiModel: action.guiModel
-            };
+                filterValues: action.filter
+            }
         }),
-        
-        on(benutzerActions.sUCHE_ZURUECKSETZEN, (_state, action) => {
+        on(benutzerActions.tABLE_BENUTZERSELECTION_CHANGED, (state, action) => {
+            return {
+                ...state,
+                tableBenutzerSelection: action.selection
+            }
+        }),
+        on(benutzerActions.rESET_FILTER, (_state, action) => {
             swallowEmptyArgument(action, false);
             return initialBenutzerState;
         }),

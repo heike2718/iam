@@ -15,6 +15,7 @@
     "baseUrl": ".",
     "paths": {
       "@bv-admin-app/shared/config": ["src/app/shared/config/index.ts"],
+      "@bv-admin-app/shared/model": ["src/app/shared/model/index.ts"],
       "@bv-admin-app/shared/http": ["src/app/shared/http/index.ts"],
       "@bv-admin-app/shared/messages/api": ["src/app/shared/messages/api/index.ts"],
       "@bv-admin-app/shared/messages/ui": ["src/app/shared/messages/ui/index.ts"],

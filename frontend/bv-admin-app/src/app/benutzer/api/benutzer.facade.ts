@@ -1,8 +1,9 @@
 import { Injectable, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable, filter } from "rxjs";
-import { Benutzer, BenutzerSuchparameter, BenutzersucheGUIModel, initialBenutzersucheGUIModel } from "@bv-admin-app/benutzer/model";
+import { Benutzer, BenutzerSuchparameter, BenutzersucheFilterValues } from "@bv-admin-app/benutzer/model";
 import { fromBenutzer, benutzerActions } from "@bv-admin-app/benutzer/data";
+import { PageDefinition, PaginationState } from '@bv-admin-app/shared/model'
 
 
 @Injectable({
@@ -14,37 +15,39 @@ export class BenutzerFacade {
 
     page$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.page);
     anzahlTreffer$: Observable<number> = this.#store.select(fromBenutzer.anzahlTreffer);
-    guiModel$: Observable<BenutzersucheGUIModel> = this.#store.select(fromBenutzer.guiModel);
+    paginationState$: Observable<PaginationState> = this.#store.select(fromBenutzer.paginationState);
+    tableBenutzerSelection$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.tableBenutzerSelection);
+    filterValues$: Observable<BenutzersucheFilterValues> = this.#store.select(fromBenutzer.filterValues);
 
-    startSuche(guiModel: BenutzersucheGUIModel): void {
+    tableBenutzerselectionChanged(selection: Benutzer[]): void {
+        this.#store.dispatch(benutzerActions.tABLE_BENUTZERSELECTION_CHANGED({selection}));
+    }
 
-        this.guiModelChanged(guiModel);
+    triggerSearch(filter: BenutzersucheFilterValues, pageDefinition: PageDefinition): void {
 
-        const sortDirection = guiModel.sortDirection !== null && guiModel.sortDirection === '' ? null : guiModel.sortDirection;
+        const sortDirection = pageDefinition.sortDirection !== null && pageDefinition.sortDirection === '' ? null : pageDefinition.sortDirection;
 
         const suchparameter: BenutzerSuchparameter = {
-            aktiviert: guiModel.aktiviert,
-            dateModified: guiModel.dateModified,
-            email: guiModel.email,
-            nachname: guiModel.nachname,
-            pageIndex: guiModel.pageIndex,
-            pageSize: guiModel.pageSize,
-            rolle: guiModel.rolle,
-            sortByLabelname: guiModel.sortByLabelname,
+            aktiviert: filter.aktiviert,
+            dateModified: filter.dateModified,
+            email: filter.email,
+            nachname: filter.nachname,
+            pageIndex: pageDefinition.pageIndex,
+            pageSize: pageDefinition.pageSize,
+            rolle: filter.rolle,
+            sortByLabelname: filter.sortByLabelname,
             sortDirection: sortDirection,
-            uuid: guiModel.uuid,
-            vorname: guiModel.vorname
-        }
+            uuid: filter.uuid,
+            vorname: filter.vorname
+        };
 
+        this.#store.dispatch(benutzerActions.bENUTZER_FILTER_CHANGED({ filter }));
+        this.#store.dispatch(benutzerActions.bENUTZER_SELECT_PAGE({ pageDefinition }));
         this.#store.dispatch(benutzerActions.fIND_BENUTZER({ suchparameter }));
     }
 
-    guiModelChanged(guiModel: BenutzersucheGUIModel): void {
-        this.#store.dispatch(benutzerActions.gUI_MODEL_CHANGED({ guiModel }));
-    }
-
     resetFilterAndSort() {
-        this.#store.dispatch(benutzerActions.sUCHE_ZURUECKSETZEN());
+        this.#store.dispatch(benutzerActions.rESET_FILTER());
 
     }
 }

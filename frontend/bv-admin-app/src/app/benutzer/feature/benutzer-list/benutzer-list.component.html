@@ -2,16 +2,14 @@
 
     <h1>Benutzersuche</h1>
 
-    <p>Anzahl Treffer: {{anzahlBenutzer}}</p>
-
     <!-- (page)="onPageChange($event)"-->
     <mat-paginator 
         [length]="anzahlBenutzer"
         [pageSizeOptions]="[25,30,50]"
         aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen."
         showFirstLastButtons
-        
-        >
+        (page)="findBenutzer()"     
+    >
     </mat-paginator>
     
     <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mt-2" matSort (matSortChange)="sortData($event)"
@@ -26,7 +24,7 @@
                 <mat-checkbox
                   (click)="$event.stopPropagation()"
                   (change)="toggleRow(row)"
-                  [checked]="selection.isSelected(row)"
+                  [checked]="selectionModel.isSelected(row)"
                 ></mat-checkbox>
               </mat-cell>>
         </ng-container>
@@ -40,7 +38,7 @@
                         UUID
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput (keyup)="applyFilter('uuid')" placeholder="UUID" [(ngModel)]="uuidFilterValue" >
+                        <input matInput placeholder="UUID" [(ngModel)]="uuidFilterValue" (ngModelChange)="updateResetFilterButtonState()">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -57,7 +55,7 @@
                         Email
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput (keyup)="applyFilter('email')" placeholder="Email" [(ngModel)]="emailFilterValue">
+                        <input matInput placeholder="Email" [(ngModel)]="emailFilterValue" (ngModelChange)="updateResetFilterButtonState()">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -74,7 +72,7 @@
                         Nachname
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput (keyup)="applyFilter('nachname')" placeholder="Nachname" [(ngModel)]="nachnameFilterValue">
+                        <input matInput placeholder="Nachname" [(ngModel)]="nachnameFilterValue" (ngModelChange)="updateResetFilterButtonState()">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -91,7 +89,7 @@
                         Vorname
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput (keyup)="applyFilter('vorname')" placeholder="Vorname" [(ngModel)]="vornameFilterValue">
+                        <input matInput placeholder="Vorname" [(ngModel)]="vornameFilterValue" (ngModelChange)="updateResetFilterButtonState()">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -108,7 +106,7 @@
                         geändert am
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput (keyup)="applyFilter('dateModified')" placeholder="Datum geändert" [(ngModel)]="dateModifiedFilterValue">
+                        <input matInput placeholder="Datum geändert" [(ngModel)]="dateModifiedFilterValue" (ngModelChange)="updateResetFilterButtonState()">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -125,7 +123,7 @@
                         Rolle
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput (keyup)="applyFilter('rolle')" placeholder="Rolle" [(ngModel)]="rolleFilterValue">
+                        <input matInput placeholder="Rolle" [(ngModel)]="rolleFilterValue" (ngModelChange)="updateResetFilterButtonState()">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
