@@ -16,12 +16,16 @@ export class BenutzerFacade {
     page$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.page);
     anzahlTreffer$: Observable<number> = this.#store.select(fromBenutzer.anzahlTreffer);
     paginationState$: Observable<PaginationState> = this.#store.select(fromBenutzer.paginationState);
-    tableBenutzerSelection$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.tableBenutzerSelection);
+    benutzerBasket$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.benutzerBasket);
     filterValues$: Observable<BenutzersucheFilterValues> = this.#store.select(fromBenutzer.filterValues);
 
-    tableBenutzerselectionChanged(selection: Benutzer[]): void {
-        this.#store.dispatch(benutzerActions.tABLE_BENUTZERSELECTION_CHANGED({selection}));
+    selectionsubsetChanged(actuallySelected: Benutzer[], actuallyDeselected: Benutzer[]): void {
+        this.#store.dispatch(benutzerActions.sELECTIONSUBSET_CHANGED({actuallySelected, actuallyDeselected}))
     }
+
+    // benutzerBasketChanged(selection: Benutzer[]): void {
+    //     this.#store.dispatch(benutzerActions.bENUTZERBASKET_CHANGED({selection}));
+    // }
 
     triggerSearch(filter: BenutzersucheFilterValues, pageDefinition: PageDefinition): void {
 

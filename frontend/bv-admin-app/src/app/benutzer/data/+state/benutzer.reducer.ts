@@ -1,5 +1,5 @@
-import { Benutzer, BenutzersucheFilterValues, initialBenutzersucheFilterValues } from "@bv-admin-app/benutzer/model";
-import { PaginationState, initialPaginationState} from '@bv-admin-app/shared/model'
+import { Benutzer, BenutzersucheFilterValues, addBenutzerIfNotContained, initialBenutzersucheFilterValues, removeBenutzers } from "@bv-admin-app/benutzer/model";
+import { PaginationState, initialPaginationState } from '@bv-admin-app/shared/model'
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { benutzerActions } from './benutzer.actions';
 import { loggedOutAction } from '@bv-admin-app/shared/auth/data';
@@ -9,7 +9,7 @@ export interface BenutzerState {
     readonly page: Benutzer[];
     readonly paginationState: PaginationState;
     readonly filterValues: BenutzersucheFilterValues;
-    readonly tableBenutzerSelection: Benutzer[];
+    readonly benutzerBasket: Benutzer[];
     readonly selectedBenutzer: Benutzer | undefined;
 }
 
@@ -17,7 +17,7 @@ const initialBenutzerState: BenutzerState = {
     page: [],
     paginationState: initialPaginationState,
     filterValues: initialBenutzersucheFilterValues,
-    tableBenutzerSelection: [],
+    benutzerBasket: [],
     selectedBenutzer: undefined
 }
 
@@ -38,15 +38,37 @@ export const benutzerFeature = createFeature({
                 filterValues: action.filter
             }
         }),
-        on(benutzerActions.tABLE_BENUTZERSELECTION_CHANGED, (state, action) => {
+        on(benutzerActions.sELECTIONSUBSET_CHANGED, (state, action) => {
+
+            const actuallySelected: Benutzer[] = action.actuallySelected;
+            const actuallyDeselected: Benutzer[] = action.actuallyDeselected;
+            const actualBasket = removeBenutzers([...state.benutzerBasket], actuallyDeselected);
+            const newBasket = addBenutzerIfNotContained([...actualBasket], actuallySelected);
+
             return {
                 ...state,
-                tableBenutzerSelection: action.selection
+                benutzerBasket: newBasket
             }
         }),
-        on(benutzerActions.rESET_FILTER, (_state, action) => {
+        on(benutzerActions.bENUTZERBASKET_CHANGED, (state, action) => {
+
+            const actualSelectionSubset: Benutzer[] = action.selection;
+            const actualBasket = [...state.benutzerBasket];
+
+            const newBasket: Benutzer[] = [];
+
+            actualBasket.forEach(b => {
+                const ben: Benutzer[] = actualSelectionSubset.filter(s => s.uuid === b.uuid);
+            })
+
+            return {
+                ...state,
+                benutzerBasket: newBasket
+            }
+        }),
+        on(benutzerActions.rESET_FILTER, (state, action) => {
             swallowEmptyArgument(action, false);
-            return initialBenutzerState;
+            return {...initialBenutzerState, benutzerBasket: [...state.benutzerBasket]};
         }),
 
         on(loggedOutAction, (_state, action) => {

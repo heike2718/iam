@@ -19,9 +19,9 @@ const page = createSelector(
     (state) => state.page
 )
 
-const tableBenutzerSelection = createSelector(
+const benutzerBasket = createSelector(
     selectBenutzerState,
-    (state) => state.tableBenutzerSelection
+    (state) => state.benutzerBasket
 )
 
 const filterValues = createSelector(
@@ -33,6 +33,6 @@ export const fromBenutzer = {
     anzahlTreffer,
     paginationState,
     page,
-    tableBenutzerSelection,
+    benutzerBasket,
     filterValues
 }

@@ -2,6 +2,13 @@
 
     <h1>Benutzersuche</h1>
 
+    <p>aktuell ausgewählt: {{benutzerBasket.length}}</p>
+
+    @for (item of benutzerBasket; track $index) {
+        <p>{{item.uuid}} - {{item.email}}</p>
+    }
+
+
     <!-- (page)="onPageChange($event)"-->
     <mat-paginator 
         [length]="anzahlBenutzer"
@@ -141,5 +148,6 @@
     <div class="button-container">
         <button mat-raised-button color="primary" class="action-button" (click)="findBenutzer()">suchen</button>
         <button mat-raised-button color="accent" class="action-button" (click)="resetFilter()" [disabled]="resetFilterDisabled()" >Filter leeren</button>
-      </div>
+    </div>
+
 </div>

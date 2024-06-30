@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, NgIf } from "@angular/common";
+import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin-app/benutzer/api';
@@ -27,6 +27,7 @@ const ROLLE = 'rolle';
   imports: [
     CommonModule,
     NgIf,
+    NgFor,
     AsyncPipe,
     FormsModule,
     MatCheckboxModule,
@@ -54,6 +55,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   // Benutzer sollen ausgewählt werden können
   selectionModel: SelectionModel<Benutzer> = new SelectionModel<Benutzer>(true, []);
+  benutzerBasket: Benutzer[] = [];
 
   anzahlBenutzer = 0;
 
@@ -63,10 +65,11 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   #benutzerFacade = inject(BenutzerFacade);
 
-  #checkedBenutzer: Benutzer[] = [];
   #matSortDirection: SortDirection = "";
   #sortByLabelName = '';
   #paginationState: PaginationState = initialPaginationState;
+
+  #page: Benutzer[] = [];
 
   // subscriptions
 
@@ -80,26 +83,33 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    
+
     // TODO #sortByLabelName initalisieren, filterValues initialisieren, sortDirection initialisieren
 
     this.#combinedBenutzerstoreSubscription = combineLatest([
       this.#benutzerFacade.paginationState$,
-      this.#benutzerFacade.tableBenutzerSelection$,
-      this.#benutzerFacade.filterValues$
+      this.#benutzerFacade.benutzerBasket$,
+      this.#benutzerFacade.filterValues$,
+      this.#benutzerFacade.page$
     ]).subscribe(
       ([
         paginationState,
-        tableBenutzerSelection,
-        filterValues
-      ]) => {        
-        this.#checkedBenutzer = tableBenutzerSelection;
-        // TODO: sync with selectionModel;
-
+        benutzerBasket,
+        filterValues,
+        page
+      ]) => {
         // wenn anzahlBenutzer nicht gesetzt wird, ist die Pagination inaktiv
         this.anzahlBenutzer = paginationState.anzahlTreffer;
         this.#paginationState = paginationState;
         this.#initFilter(filterValues);
+
+        this.#page = page;
+        this.selectionModel.clear();
+        benutzerBasket
+          .filter(selected => page.some(benutzer => benutzer.uuid === selected.uuid))
+          .forEach(benutzer => this.selectionModel.select(benutzer));
+
+        this.benutzerBasket = benutzerBasket;
       }
     );
 
@@ -119,15 +129,9 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     const el = this.selectionModel.selected.find((e) => e.uuid === row.uuid);
     el ? this.selectionModel.deselect(el) : this.selectionModel.select(row);
 
-    const ben = this.#checkedBenutzer.find((b) => b.uuid === row.uuid);
-    let selectedNeu: Benutzer[] = [];
-    if (ben) {
-      selectedNeu = this.#checkedBenutzer.filter(benutzer => benutzer.uuid === row.uuid);
-    } else {
-      selectedNeu = [...this.#checkedBenutzer, row];
-    }
-
-    this.#benutzerFacade.tableBenutzerselectionChanged(selectedNeu);
+    const selected = this.#page.filter(benutzer => this.selectionModel.isSelected(benutzer));
+    const deselected = this.#page.filter(benutzer => !this.selectionModel.isSelected(benutzer));
+    this.#benutzerFacade.selectionsubsetChanged(selected, deselected);
   }
 
   sortData(sort: Sort) {
@@ -166,6 +170,8 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   resetFilter() {
+    // reset Paginator when sort changed    
+    this.#matSortChangedSubscription = this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.#initFilter(initialBenutzersucheFilterValues);
     this.#benutzerFacade.resetFilterAndSort();
     this.#resetFilterDisabled = true;
@@ -178,7 +184,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     this.nachnameFilterValue = filter.nachname;
     this.vornameFilterValue = filter.vorname;
     this.dateModifiedFilterValue = filter.dateModified;
-    this.rolleFilterValue = filter.rolle;    
+    this.rolleFilterValue = filter.rolle;
   }
 
   #initTableAndSort(): void {
@@ -233,5 +239,4 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
     return pageDefinition;
   }
-
 }

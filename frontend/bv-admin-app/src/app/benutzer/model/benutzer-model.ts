@@ -54,3 +54,21 @@ export interface BenutzerSuchparameter {
 export function isBenutzersucheFilterValuesEqual(obj1: BenutzersucheFilterValues, obj2: BenutzersucheFilterValues): boolean {
     return sortedStringify(obj1) === sortedStringify(obj2);
 }
+
+
+/** 
+ * Entfernt alle benutzer in benutzerToRemove aus den benutzern.
+*/
+export function removeBenutzers(benutzer: Benutzer[], benutzerToRemove: Benutzer[]): Benutzer[] {
+    const benutzerToRemoveIds = new Set(benutzerToRemove.map(b => b.uuid));
+    return benutzer.filter(b => !benutzerToRemoveIds.has(b.uuid));
+}
+
+export function addBenutzerIfNotContained(benutzer: Benutzer[], benutzerToAdd: Benutzer[]): Benutzer[] {
+    const existingIds = new Set(benutzer.map(b => b.uuid));
+    const uniqueNewArray = benutzerToAdd.filter(b => !existingIds.has(b.uuid));
+    return benutzer.concat(uniqueNewArray);
+}
+
+
+  
