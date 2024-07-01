@@ -2,17 +2,19 @@
 
     <h1>Benutzersuche</h1>
 
-    <p>aktuell ausgewählt: {{benutzerBasket.length}}</p>
+    @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
+        <p>aktuell ausgewählt: {{benutzerBasket.length}}</p>
 
-    @for (item of benutzerBasket; track $index) {
-        <p>{{item.uuid}} - {{item.email}}</p>
+        @for (item of benutzerBasket; track $index) {
+            <p>{{item.uuid}} - {{item.email}}</p>
+        }
     }
 
 
     <!-- Alternative zu einem Subjact of(this.paginator)-->
     <!-- (page)="onPaginatorChanged($event)"-->
     <mat-paginator 
-        [length]="anzahlBenutzer"
+        [length]="benutzerFacade.anzahlTreffer$ | async"
         [pageSizeOptions]="[25,30,50]"
         aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen."
         showFirstLastButtons  

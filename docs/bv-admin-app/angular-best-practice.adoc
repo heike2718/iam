@@ -1,0 +1,27 @@
+== Best practice für komplexe Angular-Komponenten
+
+Komplexe Masken und den State einer Angular-Anwendung synchron zu halten, ist eine Herausforderung. Oft gibt es die Anforderung, beim Aufruf einer Maske die dargestellten Elemente mit dem aktuellen Status der Anwendung zu synchronisieren und bei Änderungen durch Benutzerinteraktion den Status synchron zu halten.
+
+Bei Verwendung eines Stores wie z.B: NgRx oder auch einem in einer Facade mittels Subjects selbst gemanagten Store soll auf den Status nur über Observeables zugegriffen werden und Statusänderungen idempotent mittels actions zurückgeschrieben werden.
+
+Komponenten registrieren sich beim Store (über eine Facade) an den Observeables und initialisieren damit die Elemente im html. Aktionen in der Maske lösen dann (über Methodenaufrufe in der Facade) Aktionen aus, die den Store ändern, so dass die Observeables ihren neuen Status in die Komponente emitten. 
+
+Man sieht also, worauf das hinausläuft. Sowohl das System nimmt beim Initialisieren der Maske Änderungen an den Kontrollelementen vor, die Methoden in der Komponente aufrufen, welche ihrerseits den Zustand der Anwendung ändern, als auch die Benutzer triggern diese Methoden.
+
+Bei komplexen Masken wie eine Tabelle mit Pagination und sortierbaren Spalten wird das Zusammenspiel von Observeables, Store und Events aus den Kontrolelementen schnell unübersichtlich und es lauern Endlosschleifen.
+
+Daher empfiehlt sich, bei der Implementierung die kurze Initialisierungsphase nach Aufruf der Komponente von den "Synchronisationsphasen" (Synchronisation zwischen Store und Komponente), die durch Benutzerinteraktionen getriggert werden, zu trennen.
+
+Dies möchte ich als als "Kontrolliertes Initialisierungs- und Synchronisationsmuster (Controlled Initialization and Synchronization (CIS))- Pattern" bezeichnen.
+
+=== Kontrolliertes Initialisierungs- und Synchronisationsmuster (CIS-Muster)
+
+Das kontrollierte Initialisierungs- und Synchronisationsmuster (CIS-Muster) ist ein Ansatz in der Angular-Entwicklung, der eine wartbare Initialisierung und Synchronisation zwischen Komponentensteuerungen und dem vom Store (wie NgRx) verwalteten Zustand sicherstellt. Dieses Muster umfasst:
+
+. **Initialisierungsphase:** Verwendung einer kombinierten Subscription (combineLatest), um die Steuerelemente der Komponente mit dem anfänglichen Zustand des Stores zu initialisieren und **sofortiges Abmelden** von dieser kombinierten Subscription nach der Initialisierung.
+
+. **Synchronisationsphasen:** Einrichten von feiner granularen Subscriptions, um nach der Initialisierung Zustandsänderungen im Status der Anwendung zu handhaben, die durch Aktionen in der Maske getriggert werden.
+
+. **phasengerechte Zustandsänderung:** Verwendung eines Flags um beim Behandeln von Events, die die Steuerelemente der Komponente bei Benutzerinteraktionen feuern, zwischen der Initialisierungsphase und der Synchronisationsphase unterscheiden zu können, um sicherzustellen, dass Zustandsaktualisierungen aus der Initialisierungsphase keine Endlosschleifen erzeugen.
+
+Dieses Muster ist besonders nützlich für komplexe Benutzeroberflächen, bei denen mehrere Steuerelemente mit dem Store synchronisiert bleiben müssen, während unnötige Zustandsaktualisierungen vermieden und eine klare Trennung der Initialisierungslogik von der laufenden Zustandsverwaltung gewährleistet wird.

@@ -4,12 +4,12 @@ import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin-app/benutzer/api';
 import { Benutzer, BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterEmpty, BenutzersucheFilterValues } from '@bv-admin-app/benutzer/model';
 import { MatTableModule } from '@angular/material/table';
-import { MatSort, MatSortModule, Sort, SortDirection } from "@angular/material/sort";
+import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { Subscription, combineLatest, merge, of, tap } from "rxjs";
+import { Subscription, combineLatest } from "rxjs";
 import { SelectionModel } from "@angular/cdk/collections";
 import { PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin-app/shared/model";
 
@@ -55,95 +55,72 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   // Benutzer sollen ausgewählt werden können
   selectionModel: SelectionModel<Benutzer> = new SelectionModel<Benutzer>(true, []);
-  benutzerBasket: Benutzer[] = [];
-
-  anzahlBenutzer = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  benutzerFacade = inject(BenutzerFacade);
 
-  #benutzerFacade = inject(BenutzerFacade);
-
-  // #matSortDirection: SortDirection = "";
   #paginationState: PaginationState = initialPaginationState;
   #page: Benutzer[] = [];
-  #sortDefinition!: SortDefinition;
   #adjusting = false;
 
-  // subscriptions
-
-  #combinedBenutzerstoreSubscription = new Subscription();
-  #matSortChangedSubscription: Subscription = new Subscription();
+  // eine für alle mit add :)
+  #subscriptions: Subscription = new Subscription();
 
   constructor(private changeDetector: ChangeDetectorRef) {
   }
 
   ngAfterViewInit(): void {
 
-    this.#combinedBenutzerstoreSubscription = combineLatest([
-      this.#benutzerFacade.paginationState$,
-      this.#benutzerFacade.benutzerBasket$,
-      this.#benutzerFacade.filterValues$,
-      this.#benutzerFacade.page$,
-      this.#benutzerFacade.sortDefinition$
+    const combinedBenutzerstoreSubscription = combineLatest([
+      this.benutzerFacade.paginationState$,
+      this.benutzerFacade.filterValues$,
+      this.benutzerFacade.sortDefinition$
     ]).subscribe(
       ([
         paginationState,
-        benutzerBasket,
         filterValues,
-        page,
         sortDefinition
       ]) => {
-        // wenn anzahlBenutzer nicht gesetzt wird, ist die Pagination inaktiv        
-        this.anzahlBenutzer = paginationState.anzahlTreffer;
-        this.#paginationState = paginationState;
-        this.#initFilter(filterValues);
-        this.#sortDefinition = sortDefinition;
 
-        this.#page = page;
-        this.selectionModel.clear();
-        benutzerBasket
-          .filter(selected => page.some(benutzer => benutzer.uuid === selected.uuid))
-          .forEach(benutzer => this.selectionModel.select(benutzer));
-
-        this.benutzerBasket = benutzerBasket;
-
-        this.#initTableAndSort();
+        this.#applyInitialState(paginationState, filterValues, sortDefinition);
+        this.#adjusting = false;
       }
     );
+    combinedBenutzerstoreSubscription.unsubscribe();
 
-    // reset Paginator when sort changed    
-    this.#matSortChangedSubscription = this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-    this.changeDetector.detectChanges();
+    this.#registerSubscribers();
   }
 
   ngOnDestroy(): void {
-    this.#combinedBenutzerstoreSubscription.unsubscribe();
-    this.#matSortChangedSubscription.unsubscribe();
+    this.#subscriptions.unsubscribe();
   }
 
   toggleRow(row: Benutzer) {
+
+    if (this.#adjusting) {
+      return;
+    }
+
     const el = this.selectionModel.selected.find((e) => e.uuid === row.uuid);
     el ? this.selectionModel.deselect(el) : this.selectionModel.select(row);
 
     const selected = this.#page.filter(benutzer => this.selectionModel.isSelected(benutzer));
     const deselected = this.#page.filter(benutzer => !this.selectionModel.isSelected(benutzer));
-    this.#benutzerFacade.selectionsubsetChanged(selected, deselected);
+    this.benutzerFacade.selectionsubsetChanged(selected, deselected);
   }
 
   sortData(sort: Sort) {
 
     if (this.#adjusting) {
-      this.#adjusting = false;
       return;
     }
 
     const pageDefinition = { ...this.#createActualPageDefinition(), sortDirection: sort.direction.toString() };
 
     if (this.sucheDisabled()) {
-      this.#benutzerFacade.benutzersucheChanged(this.#createActualFilterAndSort(), pageDefinition);
+      this.benutzerFacade.benutzersucheChanged(this.#createActualFilterAndSort(), pageDefinition);
     } else {
       this.findBenutzer();
     }
@@ -154,13 +131,22 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   onPaginatorChanged(_event: PageEvent): void {
-    this.#benutzerFacade.benutzersucheChanged(this.#createActualFilterAndSort(), this.#createActualPageDefinition());
+
+    if (this.#adjusting) {
+      return;
+    }
+
+    if (!this.sucheDisabled()) {
+      this.findBenutzer();
+    } else {
+      this.benutzerFacade.benutzersucheChanged(this.#createActualFilterAndSort(), this.#createActualPageDefinition());
+    }
   }
 
   findBenutzer() {
     const pageDefinition: PageDefinition = this.#createActualPageDefinition();
     const filter: BenutzersucheFilterAndSortValues = this.#createActualFilterAndSort();
-    this.#benutzerFacade.triggerSearch(filter, pageDefinition);
+    this.benutzerFacade.triggerSearch(filter, pageDefinition);
   }
 
   sucheDisabled(): boolean {
@@ -172,7 +158,61 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     // reset Paginator when filter is reseted
     this.paginator.pageIndex = 0;
     this.#initFilter(initialBenutzersucheFilterAndSortValues);
-    this.#benutzerFacade.resetFilterAndSort();
+    this.benutzerFacade.resetFilterAndSort();
+  }
+
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //    subscriptions in order to sync store and controls
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  #registerSubscribers(): void {
+
+    // reset the paginator when sort changes
+    const matSortChangedSubscription = this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.#subscriptions.add(matSortChangedSubscription);
+
+    const pageAndBasketSubscription = combineLatest([this.benutzerFacade.page$, this.benutzerFacade.benutzerBasket$]).subscribe(
+      ([page, basket]) => {
+      this.#page = page;
+      if (page.length > 0) {
+        this.#synchronizeSelectioModelWithBenutzerBasket(basket);
+      }
+    });
+
+    this.#subscriptions.add(pageAndBasketSubscription);
+  }
+
+  #synchronizeSelectioModelWithBenutzerBasket(benutzerBasket: Benutzer[]): void {
+    const selectedVisibleBenutzer = this.#page.filter(benutzer =>
+      benutzerBasket.some(b => b.uuid === benutzer.uuid)
+    );
+
+    this.selectionModel.clear();
+    this.selectionModel.select(...selectedVisibleBenutzer);
+  }
+
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //    overall initialization
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  #applyInitialState(paginationState: PaginationState,
+    filterValues: BenutzersucheFilterAndSortValues,
+    sortDefinition: SortDefinition): void {
+
+    if (this.#adjusting) {
+      return;
+    }
+
+    this.#adjusting = true;
+
+    this.#paginationState = paginationState;
+
+    this.#initFilter(filterValues);
+    this.#initPaginator(paginationState);
+    this.#initSort(sortDefinition);
+
+    // if (page.length > 0) {
+    //   this.#synchronizeSelectioModelWithBenutzerBasket(benutzerBasket);
+    // }
+    this.changeDetector.detectChanges();
   }
 
   #initFilter(filter: BenutzersucheFilterAndSortValues): void {
@@ -185,9 +225,9 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     this.rolleFilterValue = filter.rolle;
   }
 
-  #initTableAndSort(): void {
+  #initPaginator(paginationState: PaginationState): void {
 
-    this.paginator.pageIndex = this.#paginationState.pageDefinition.pageIndex;
+    this.paginator.pageIndex = paginationState.pageDefinition.pageIndex;
 
     this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite';
     this.paginator._intl.nextPageLabel = 'nächste Seite';
@@ -204,25 +244,24 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       return originalGetRangeLabel(page, pageSize, length).replace('of', 'von')
     }
 
-    // Apply the sort state
-    this.sort.active = this.#sortDefinition.active;
-    this.sort.direction = this.#sortDefinition.direction;
-    this.#adjusting = true;
+    this.paginator.pageSize = paginationState.pageDefinition.pageSize;
+    this.paginator.pageIndex = paginationState.pageDefinition.pageIndex;
+  }
+
+  #initSort(sortDefinition: SortDefinition): void {
+    this.sort.active = sortDefinition.active;
+    this.sort.direction = sortDefinition.direction;
 
     // damit der Pfeil neben der Spalte auch den korrekten Status anzeigt, Angular nochmal sagen, dass er sich aktualisieren soll.
     this.sort.sortChange.emit({
-      active: this.#sortDefinition.active,
-      direction: this.#sortDefinition.direction
+      active: sortDefinition.active,
+      direction: sortDefinition.direction
     });
-
-    // console.log('sort.direction=' + this.sort.direction + ', sort.active=' + this.sort.active);
-
-    this.paginator.pageSize = this.#paginationState.pageDefinition.pageSize;
-    this.paginator.pageIndex = this.#paginationState.pageDefinition.pageIndex;
-
-    this.changeDetector.detectChanges();
   }
 
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //    mappings
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   #createActualFilterAndSort(): BenutzersucheFilterAndSortValues {
 
     const matSortDirection = this.sort.direction;

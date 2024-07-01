@@ -12,7 +12,7 @@ export interface PaginationState {
 };
 
 export const initialPageDefinition: PageDefinition = {
-    pageSize: 20,
+    pageSize: 25,
     pageIndex: 0,
     sortDirection: ''
 };
