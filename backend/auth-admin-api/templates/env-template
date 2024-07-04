@@ -24,7 +24,9 @@ QUARKUS_SWAGGER_UI_PATH=/swagger-ui
 QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000/authprovider
 QUARKUS_REST_CLIENT_MKGATEWAY_URL=http://localhost:9510/mk-gateway
 
-QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://localhost:3306/authbv
+# falls die IP sich geändert hat, startet Quarkus nicht
+# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb-all
+QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://172.18.0.2:3306/authbv
 QUARKUS_DATASOURCE_PASSWORD=hwinkel
 QUARKUS_HIBERNATE_ORM_LOG_SQL=true
 
