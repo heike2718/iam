@@ -19,9 +19,10 @@
         <!-- Auswahl Benutzer column-->
         <ng-container matColumnDef="auswahlBenutzer">
             <mat-header-cell *matHeaderCellDef>
-                <label>Auswahl</label>
-                <mat-checkbox (click)="toggleSelectAll($event)"
-                    [checked]="allRowsSelected"></mat-checkbox>
+                <div class="grid-container-1">
+                    <label>Auswahl</label>
+                    <mat-checkbox (click)="toggleSelectAll($event)" [checked]="allRowsSelected"></mat-checkbox>
+                </div>
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleRow(row)"
@@ -145,7 +146,8 @@
             [disabled]="sucheDisabled()">Filter leeren</button>
 
         @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
-        <button mat-raised-button color="primary" class="action-button" (click)="gotoBasket()" [disabled]="benutzerBasket.length === 0">gewählte
+        <button mat-raised-button color="primary" class="action-button" (click)="gotoBasket()"
+            [disabled]="benutzerBasket.length === 0">gewählte
             Benutzer</button>
         }
     </div>

@@ -200,9 +200,10 @@ mat-form-field {
 }
 
 mat-header-cell {
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
     box-sizing: border-box;
+    text-align: left;
 }
 
 mat-paginator {
