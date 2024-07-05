@@ -72,6 +72,17 @@ export const benutzerFeature = createFeature({
                 benutzerBasket: newBasket
             }
         }),
+        on(benutzerActions.rEMOVE_SINGLE_BENUTZER_FROM_BASKET, (state, action) => {
+            
+            const actuallyDeselected: Benutzer[] = [];
+            actuallyDeselected.push(action.benutzer);
+            const newBasket = removeBenutzers([...state.benutzerBasket], actuallyDeselected);
+            
+            return {
+                ...state,
+                benutzerBasket: newBasket
+            }
+        }),
         on(benutzerActions.rESET_FILTER, (state, action) => {
             swallowEmptyArgument(action, false);
             return {...initialBenutzerState, benutzerBasket: [...state.benutzerBasket]};

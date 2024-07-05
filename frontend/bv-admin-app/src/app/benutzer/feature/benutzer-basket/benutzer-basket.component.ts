@@ -1,8 +1,10 @@
 import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { BenutzerFacade } from "@bv-admin-app/benutzer/api";
+import { Benutzer } from "@bv-admin-app/benutzer/model";
 
 const UUID = 'uuid';
 const EMAIL = 'email';
@@ -10,6 +12,7 @@ const NACHNAME = 'nachname';
 const VORNAME = 'vorname';
 const DATE_MODIFIED = 'dateModified';
 const ROLLE = 'rolle';
+const REMOVE_BENUTZER_ACTION = "remove"
 
 
 @Component({
@@ -21,7 +24,8 @@ const ROLLE = 'rolle';
         NgFor,
         AsyncPipe,
         MatTableModule,
-        MatButtonModule
+        MatButtonModule,
+        MatIconModule
     ],
     templateUrl: './benutzer-basket.component.html',
     styleUrls: ['./benutzer-basket.component.scss'],
@@ -35,7 +39,11 @@ export class BenutzerBasketComponent {
     }
 
     getDisplayedColumns(): string[] {
-        return [UUID, EMAIL, NACHNAME, VORNAME, DATE_MODIFIED, ROLLE];
+        return [UUID, EMAIL, NACHNAME, VORNAME, DATE_MODIFIED, ROLLE, REMOVE_BENUTZER_ACTION];
+    }
+
+    removeBenutzerFromBasket(benutzer: Benutzer): void {
+        this.benutzerFacade.removeBenutzerFromBasket(benutzer);
     }
 
 }

@@ -11,6 +11,7 @@ export const benutzerActions = createActionGroup({
         'BENUTZER_FILTER_CHANGED': props<{filter: BenutzersucheFilterAndSortValues}>(),
         'SELECTIONSUBSET_CHANGED': props<{actuallySelected: Benutzer[], actuallyDeselected: Benutzer[]}>(),
         'BENUTZERBASKET_CHANGED': props<{selection: Benutzer[]}>(),
+        'REMOVE_SINGLE_BENUTZER_FROM_BASKET': props<{benutzer: Benutzer}>(),
         'RESET_FILTER': emptyProps(),
         // 'SELECT_BENUTZER': props<{ benutzerID: string }>(),
         // 'UNSELECT_BENUTZER': emptyProps()

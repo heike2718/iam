@@ -27,6 +27,10 @@ export class BenutzerFacade {
     resetBenutzerBasket(): void {
         this.#store.dispatch(benutzerActions.bENUTZERBASKET_CHANGED({selection: []}));
     }
+
+    removeBenutzerFromBasket(benutzer: Benutzer): void {
+        this.#store.dispatch(benutzerActions.rEMOVE_SINGLE_BENUTZER_FROM_BASKET({benutzer}));
+    }
     
 
     #pagedefinitionChanged(pageDefinition: PageDefinition): void {

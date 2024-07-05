@@ -1,6 +1,10 @@
 <div class="centered mja-container">
     <h1>Gewählte Benutzer</h1>
 
+    <h2>Aktionen mit den zusammengesuchten Benutzern durchführen</h2>
+
+    <p>Dazu die Buttons unterhalb der Tabelle verwenden</p>
+
     @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
     <p>aktuell ausgewählt: {{benutzerBasket.length}}</p>
 
@@ -59,7 +63,7 @@
             <mat-header-cell *matHeaderCellDef>
                 <label class="ml-1">
                     geändert am
-                </label>                
+                </label>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 {{benutzer.dateModified}}
@@ -75,6 +79,20 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 {{benutzer.rollen}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Actioncolumn -->
+        <ng-container matColumnDef="remove">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    abwählen
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                <button mat-icon-button color="warn" (click)="removeBenutzerFromBasket(benutzer)" title="aus Auswahl entfernen">
+                    <mat-icon>delete</mat-icon>
+                </button>
             </mat-cell>>
         </ng-container>
 
