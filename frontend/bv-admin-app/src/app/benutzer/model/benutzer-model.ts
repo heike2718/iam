@@ -24,7 +24,6 @@ export interface BenutzersucheFilterAndSortValues {
     readonly nachname: string;
     readonly email: string;
     readonly rolle: string;
-    readonly aktiviert: boolean | null;
     readonly dateModified: string;
     readonly sortByLabelname: string | null;
 };
@@ -35,7 +34,6 @@ export const initialBenutzersucheFilterAndSortValues: BenutzersucheFilterAndSort
     nachname: '',
     email: '',
     rolle: '',
-    aktiviert: null,
     dateModified: '',
     sortByLabelname: ''
 };
@@ -61,7 +59,6 @@ export interface BenutzerSuchparameter {
     readonly nachname: string;
     readonly email: string;
     readonly rolle: string;
-    readonly aktiviert: boolean | null;
     readonly dateModified: string;
     readonly sortByLabelname: string | null;
     readonly sortDirection: string | null;

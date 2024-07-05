@@ -103,11 +103,6 @@ public class BenutzerDao {
 			conditions.add("u.DATE_MODIFIED_STRING like :datumGeaendert");
 		}
 
-		if (userSearchDto.getAktiviert() != null) {
-
-			conditions.add("u.AKTIVIERT = :aktiviert");
-		}
-
 		if (conditions.isEmpty()) {
 
 			return entityManager.createNativeQuery(stmt, clazz);
@@ -165,11 +160,6 @@ public class BenutzerDao {
 		if (StringUtils.isNotBlank(userSearchDto.getDateModified())) {
 
 			query.setParameter("datumGeaendert", "%" + userSearchDto.getDateModified() + "%");
-		}
-
-		if (userSearchDto.getAktiviert() != null) {
-
-			query.setParameter("aktiviert", userSearchDto.getAktiviert());
 		}
 
 		return query;

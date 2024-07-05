@@ -56,6 +56,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   // Benutzer sollen ausgewählt werden können
   selectionModel: SelectionModel<Benutzer> = new SelectionModel<Benutzer>(true, []);
+  allRowsSelected = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -142,10 +143,26 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       return;
     }
 
+    this.allRowsSelected = false;
+
     if (!this.sucheDisabled()) {
       this.findBenutzer();
     } else {
       this.benutzerFacade.benutzersucheChanged(this.#createActualFilterAndSort(), this.#createActualPageDefinition());
+    }
+  }
+
+  toggleSelectAll(event$: any): void {
+
+    if (!this.allRowsSelected) {
+      this.selectionModel.clear();
+      this.selectionModel.select(...this.#page);      
+      this.allRowsSelected = true;
+      this.benutzerFacade.selectionsubsetChanged(this.#page, []);
+    } else {
+      this.selectionModel.clear();
+      this.allRowsSelected = false;
+      this.benutzerFacade.selectionsubsetChanged([], this.#page);
     }
   }
 
@@ -177,7 +194,10 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   #registerSubscribers(): void {
 
     // reset the paginator when sort changes
-    const matSortChangedSubscription = this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    const matSortChangedSubscription = this.sort.sortChange.subscribe(() => {
+      this.paginator.pageIndex = 0;
+      this.allRowsSelected = false;
+    });
     this.#subscriptions.add(matSortChangedSubscription);
 
     const pageAndBasketSubscription = combineLatest([this.benutzerFacade.page$, this.benutzerFacade.benutzerBasket$]).subscribe(
@@ -300,7 +320,6 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     }
 
     const filter: BenutzersucheFilterAndSortValues = {
-      aktiviert: null,
       dateModified: this.dateModifiedFilterValue,
       email: this.emailFilterValue,
       nachname: this.nachnameFilterValue,

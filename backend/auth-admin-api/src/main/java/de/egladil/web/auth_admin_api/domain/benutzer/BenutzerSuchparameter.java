@@ -51,12 +51,6 @@ public class BenutzerSuchparameter {
 
 	@JsonProperty
 	@Schema(
-		description = "Flag ,ob der user aktiviert ist. Wenn null dann werden alle unabhängig vom Status gesucht",
-		example = "false")
-	private Boolean aktiviert;
-
-	@JsonProperty
-	@Schema(
 		description = "Teil des Datums, an dem die Daten das letzte Mal geändert wurden - meist letztes Login Format '2019-09-14 18:40:06'",
 		example = "2021")
 	@Pattern(regexp = "^[\\d\\-.:]*$")
@@ -188,15 +182,4 @@ public class BenutzerSuchparameter {
 
 		this.sortDirection = sortDirection;
 	}
-
-	public Boolean getAktiviert() {
-
-		return aktiviert;
-	}
-
-	public void setAktiviert(final Boolean aktiviert) {
-
-		this.aktiviert = aktiviert;
-	}
-
 }

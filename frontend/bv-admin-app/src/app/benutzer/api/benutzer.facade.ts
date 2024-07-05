@@ -51,7 +51,6 @@ export class BenutzerFacade {
         const sortDirection = pageDefinition.sortDirection !== null && pageDefinition.sortDirection === '' ? null : pageDefinition.sortDirection;
 
         const suchparameter: BenutzerSuchparameter = {
-            aktiviert: filter.aktiviert,
             dateModified: filter.dateModified,
             email: filter.email,
             nachname: filter.nachname,

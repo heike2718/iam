@@ -303,11 +303,6 @@
             "type" : "string",
             "example" : "STANDARD"
           },
-          "aktiviert" : {
-            "description" : "Flag ,ob der user aktiviert ist. Wenn null dann werden alle unabhängig vom Status gesucht",
-            "type" : "boolean",
-            "example" : false
-          },
           "dateModified" : {
             "description" : "Teil des Datums, an dem die Daten das letzte Mal geändert wurden - meist letztes Login Format '2019-09-14 18:40:06'",
             "maxLength" : 19,

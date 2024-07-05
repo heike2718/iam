@@ -12,8 +12,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSearchResult;
+import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerTrefferlisteItem;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
 import de.egladil.web.auth_admin_api.profiles.AuthAdminTestProfile;
@@ -36,7 +36,6 @@ public class BenutzerResourceTest {
 	void should_validateInput() {
 
 		BenutzerSuchparameter dto = new BenutzerSuchparameter();
-		dto.setAktiviert(false);
 		dto.setDateModified("abscefg:hijklmn:stuv");
 		dto.setEmail(
 			"Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Γεια σας Rainer Rainerja Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Γεια σας Rainer Rainerja Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rai");

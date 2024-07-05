@@ -20,6 +20,8 @@
         <ng-container matColumnDef="auswahlBenutzer">
             <mat-header-cell *matHeaderCellDef>
                 <label>Auswahl</label>
+                <mat-checkbox (click)="toggleSelectAll($event)"
+                    [checked]="allRowsSelected"></mat-checkbox>
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleRow(row)"
