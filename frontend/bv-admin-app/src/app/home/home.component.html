@@ -1,6 +1,11 @@
 <div class=bv-container>
     @if (authFacade.userIsLoggedIn$ | async) {
     <h1 class="centered">Benutzerverwaltung</h1>
+    
+    @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
+    <p>{{benutzerBasket.length}} Benutzer ausgewält</p>
+    }
+
     } @else {
     <h1 class="centered">Hier gibt es nichts zu sehen. Gehen Sie bitte weiter.</h1>
     <p>Zum Beispiel auf meine <a href="https://mathe-jung-alt.de" target="_blank">Mathe-Seiten</a></p>

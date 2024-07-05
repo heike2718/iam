@@ -3,6 +3,7 @@ import { Routes } from "@angular/router";
 import { AuthFacade } from "@bv-admin-app/shared/auth/api";
 import { BenutzerRootComponent } from "./benutzer-root/benutzer-root.component";
 import { BenutzerListComponent } from "./benutzer-list/benutzer-list.component";
+import { BenutzerBasketComponent } from "./benutzer-basket/benutzer-basket.component";
 
 
 export const benutzerRoutes: Routes = [
@@ -14,6 +15,10 @@ export const benutzerRoutes: Routes = [
           {
             path: '',
             component: BenutzerListComponent,
+          },
+          {
+            path: 'basket',
+            component: BenutzerBasketComponent,
           },
         //   {
         //     path: 'new',

@@ -194,6 +194,25 @@ mat-icon .clickable {
     box-sizing: border-box;
 }
 
+mat-form-field {
+    width: 100% !important;
+    margin-top: 0px;
+}
+
+mat-header-cell {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+mat-paginator {
+    width: 100%;
+    /* Ensure the paginator takes full width */
+    margin-top: 20px;
+    /* Add some space above the paginator */
+    white-space: nowrap; /* Prevent the label from breaking into multiple lines */
+}
+
 mat-card {
     width: 80%;
     min-width: 600px;
@@ -202,12 +221,14 @@ mat-card {
     padding: 20px;
 }
 
-mat-form-field {
-    width: 100% !important;
-}
-
 mat-card-actions>button {
     margin: 1em;
+}
+
+.mja-container {
+    overflow: hidden;
+    /* Prevent scrollbars */
+    margin: 15px;    
 }
 
 .mja-container mat-form-field+mat-form-field {
@@ -255,12 +276,27 @@ mat-dialog-content {
 }
 
 .button-container {
+    display: flex;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+
+    .action-button {
+        width: 100%;
+        max-width: 150px;
+    }
+}
+
+/*
+.button-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
     align-items: center;
     margin-left: 2rem;
     grid-gap: 2rem;
 }
+*/
 
 @media (max-width: 600px) {
 

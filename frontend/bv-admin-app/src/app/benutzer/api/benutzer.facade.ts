@@ -23,6 +23,10 @@ export class BenutzerFacade {
     selectionsubsetChanged(actuallySelected: Benutzer[], actuallyDeselected: Benutzer[]): void {
         this.#store.dispatch(benutzerActions.sELECTIONSUBSET_CHANGED({actuallySelected, actuallyDeselected}))
     }
+
+    resetBenutzerBasket(): void {
+        this.#store.dispatch(benutzerActions.bENUTZERBASKET_CHANGED({selection: []}));
+    }
     
 
     #pagedefinitionChanged(pageDefinition: PageDefinition): void {

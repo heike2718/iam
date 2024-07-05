@@ -12,6 +12,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { Subscription, combineLatest } from "rxjs";
 import { SelectionModel } from "@angular/cdk/collections";
 import { PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin-app/shared/model";
+import { Router } from "@angular/router";
 
 const AUSWAHL_BENUTZER = 'auswahlBenutzer';
 const UUID = 'uuid';
@@ -61,6 +62,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   benutzerFacade = inject(BenutzerFacade);
 
+  #router = inject(Router);
   #paginationState: PaginationState = initialPaginationState;
   #page: Benutzer[] = [];
   #adjusting = false;
@@ -76,15 +78,19 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     const combinedBenutzerstoreSubscription = combineLatest([
       this.benutzerFacade.paginationState$,
       this.benutzerFacade.filterValues$,
-      this.benutzerFacade.sortDefinition$
+      this.benutzerFacade.sortDefinition$,
+      this.benutzerFacade.page$,
+      this.benutzerFacade.benutzerBasket$
     ]).subscribe(
       ([
         paginationState,
         filterValues,
-        sortDefinition
+        sortDefinition,
+        page,
+        benutzerBasket
       ]) => {
 
-        this.#applyInitialState(paginationState, filterValues, sortDefinition);
+        this.#applyInitialState(paginationState, filterValues, sortDefinition, page, benutzerBasket);
         this.#adjusting = false;
       }
     );
@@ -161,6 +167,10 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     this.benutzerFacade.resetFilterAndSort();
   }
 
+  gotoBasket(): void {
+    this.#router.navigateByUrl('users/basket');
+  }
+
   // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //    subscriptions in order to sync store and controls
   // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -172,11 +182,11 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
     const pageAndBasketSubscription = combineLatest([this.benutzerFacade.page$, this.benutzerFacade.benutzerBasket$]).subscribe(
       ([page, basket]) => {
-      this.#page = page;
-      if (page.length > 0) {
-        this.#synchronizeSelectioModelWithBenutzerBasket(basket);
-      }
-    });
+        this.#page = page;
+        if (page.length > 0) {
+          this.#synchronizeSelectioModelWithBenutzerBasket(basket);
+        }
+      });
 
     this.#subscriptions.add(pageAndBasketSubscription);
   }
@@ -195,7 +205,9 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   #applyInitialState(paginationState: PaginationState,
     filterValues: BenutzersucheFilterAndSortValues,
-    sortDefinition: SortDefinition): void {
+    sortDefinition: SortDefinition,
+    page: Benutzer[],
+    benutzerBasket: Benutzer[]): void {
 
     if (this.#adjusting) {
       return;
@@ -208,10 +220,12 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     this.#initFilter(filterValues);
     this.#initPaginator(paginationState);
     this.#initSort(sortDefinition);
+    this.#initSelection(page, benutzerBasket);
 
     // if (page.length > 0) {
     //   this.#synchronizeSelectioModelWithBenutzerBasket(benutzerBasket);
     // }
+
     this.changeDetector.detectChanges();
   }
 
@@ -257,6 +271,18 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       active: sortDefinition.active,
       direction: sortDefinition.direction
     });
+  }
+
+  #initSelection(page: Benutzer[], benutzerBasket: Benutzer[]): void {
+
+    if (page.length > 0) {
+      const selectedVisibleBenutzer = page.filter(benutzer =>
+        benutzerBasket.some(b => b.uuid === benutzer.uuid)
+      );
+
+      this.selectionModel.clear();
+      this.selectionModel.select(...selectedVisibleBenutzer);
+    }
   }
 
   // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

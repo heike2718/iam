@@ -1,0 +1,15 @@
+<div class="centered mja-container">
+    <h1>Gewählte Benutzer</h1>
+
+    @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
+    <p>aktuell ausgewählt: {{benutzerBasket.length}}</p>
+
+    @for (item of benutzerBasket; track $index) {
+    <p>{{item.uuid}} - {{item.email}}</p>
+    }
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" class="action-button" (click)="reset()" [disabled]="benutzerBasket.length === 0">leeren</button>
+    </div>
+    }
+</div>

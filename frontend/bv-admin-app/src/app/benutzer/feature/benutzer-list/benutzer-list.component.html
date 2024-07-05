@@ -1,29 +1,20 @@
-<div class="centered benutzer-container">
+<div class="centered mja-container">
 
     <h1>Benutzersuche</h1>
 
     @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
-        <p>aktuell ausgewählt: {{benutzerBasket.length}}</p>
-
-        @for (item of benutzerBasket; track $index) {
-            <p>{{item.uuid}} - {{item.email}}</p>
-        }
+    <p>{{benutzerBasket.length}} Benutzer ausgewält</p>
     }
-
 
     <!-- Alternative zu einem Subjact of(this.paginator)-->
     <!-- (page)="onPaginatorChanged($event)"-->
-    <mat-paginator 
-        [length]="benutzerFacade.anzahlTreffer$ | async"
-        [pageSizeOptions]="[25,30,50]"
-        aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen."
-        showFirstLastButtons  
-        (page)="onPaginatorChanged($event)"   
-    >
+    <mat-paginator [length]="benutzerFacade.anzahlTreffer$ | async" [pageSizeOptions]="[25,30,50]"
+        aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen." showFirstLastButtons
+        (page)="onPaginatorChanged($event)">
     </mat-paginator>
-    
-    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mt-2" matSort (matSortChange)="sortData($event)"
-        matSortDirection="asc">
+
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mt-2" matSort
+        (matSortChange)="sortData($event)" matSortDirection="asc">
 
         <!-- Auswahl Benutzer column-->
         <ng-container matColumnDef="auswahlBenutzer">
@@ -31,12 +22,9 @@
                 <label>Auswahl</label>
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <mat-checkbox
-                  (click)="$event.stopPropagation()"
-                  (change)="toggleRow(row)"
-                  [checked]="selectionModel.isSelected(row)"
-                ></mat-checkbox>
-              </mat-cell>>
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleRow(row)"
+                    [checked]="selectionModel.isSelected(row)"></mat-checkbox>
+            </mat-cell>>
         </ng-container>
 
 
@@ -54,7 +42,7 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 {{benutzer.uuid.substring(0,8)}}
-              </mat-cell>>
+            </mat-cell>>
         </ng-container>
 
         <!-- Email -->
@@ -71,7 +59,7 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 {{benutzer.email}}
-              </mat-cell>>
+            </mat-cell>>
         </ng-container>
 
         <!-- Nachname -->
@@ -88,7 +76,7 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 {{benutzer.nachname}}
-              </mat-cell>>
+            </mat-cell>>
         </ng-container>
 
         <!-- Vorname -->
@@ -105,7 +93,7 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 {{benutzer.vorname}}
-              </mat-cell>>
+            </mat-cell>>
         </ng-container>
 
         <!-- dateModified -->
@@ -122,7 +110,7 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 {{benutzer.dateModified}}
-              </mat-cell>>
+            </mat-cell>>
         </ng-container>
 
         <!-- Rolle -->
@@ -139,7 +127,7 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 {{benutzer.rollen}}
-              </mat-cell>>
+            </mat-cell>>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
@@ -149,8 +137,15 @@
     </mat-table>
 
     <div class="button-container">
-        <button mat-raised-button color="primary" class="action-button" (click)="findBenutzer()" [disabled]="sucheDisabled()">suchen</button>
-        <button mat-raised-button color="accent" class="action-button" (click)="resetFilter()" [disabled]="sucheDisabled()" >Filter leeren</button>
+        <button mat-raised-button color="primary" class="action-button" (click)="findBenutzer()"
+            [disabled]="sucheDisabled()">suchen</button>
+        <button mat-raised-button color="accent" class="action-button" (click)="resetFilter()"
+            [disabled]="sucheDisabled()">Filter leeren</button>
+
+        @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
+        <button mat-raised-button color="primary" class="action-button" (click)="gotoBasket()" [disabled]="benutzerBasket.length === 0">gewählte
+            Benutzer</button>
+        }
     </div>
 
 </div>
