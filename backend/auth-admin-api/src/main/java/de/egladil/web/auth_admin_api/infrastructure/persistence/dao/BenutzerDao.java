@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSortColumn;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
+import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUser;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUserReadOnly;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -66,6 +67,36 @@ public class BenutzerDao {
 
 		List<PersistenterUserReadOnly> resultList = query.getResultList();
 		return resultList;
+	}
+
+	/**
+	 * @param  uuid
+	 *              String der unique key (fachlicher Schlüssel)
+	 * @return      PersistenterUserReadOnly oder null
+	 */
+	public PersistenterUserReadOnly findUserReadonlyByUUID(final String uuid) {
+
+		List<PersistenterUserReadOnly> trefferliste = entityManager
+			.createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID, PersistenterUserReadOnly.class).setParameter("uuid", uuid)
+			.getResultList();
+
+		return trefferliste.isEmpty() ? null : trefferliste.get(0);
+
+	}
+
+	/**
+	 * @param  uuid
+	 *              String der unique key (fachlicher Schlüssel)
+	 * @return      PersistenterUser oder null
+	 */
+	public PersistenterUser findUserByUUID(final String uuid) {
+
+		List<PersistenterUser> trefferliste = entityManager
+			.createNamedQuery(PersistenterUser.FIND_BY_UUID, PersistenterUser.class).setParameter("uuid", uuid)
+			.getResultList();
+
+		return trefferliste.isEmpty() ? null : trefferliste.get(0);
+
 	}
 
 	@SuppressWarnings("rawtypes")

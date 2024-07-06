@@ -7,6 +7,8 @@ package de.egladil.web.auth_admin_api.infrastructure.persistence.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 /**
@@ -14,7 +16,14 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "VW_USERS_SUCHE")
+@NamedQueries({
+	@NamedQuery(
+		name = "PersistenterUserReadOnly.FIND_BY_UUID",
+		query = "select b from PersistenterUserReadOnly b where b.uuid = :uuid")
+})
 public class PersistenterUserReadOnly {
+
+	public static final String FIND_BY_UUID = "PersistenterUserReadOnly.FIND_BY_UUID";
 
 	@Id
 	@Column(name = "ID")
@@ -40,6 +49,9 @@ public class PersistenterUserReadOnly {
 
 	@Column(name = "DATE_MODIFIED_STRING")
 	public String datumGeaendert;
+
+	@Column(name = "SLZ_ID")
+	public Long saltId;
 
 	public PersistenterUserReadOnly(final Long id, final String uuid, final String vorname, final String nachname, final String email, final boolean aktiviert, final String rollen, final String datumGeaendert) {
 

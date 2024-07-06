@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -21,7 +23,14 @@ import jakarta.persistence.Version;
  */
 @Entity
 @Table(name = "USERS")
+@NamedQueries({
+	@NamedQuery(
+		name = "PersistenterUser.FIND_BY_UUID",
+		query = "select b from PersistenterUser b where b.uuid = :uuid")
+})
 public class PersistenterUser {
+
+	public static final String FIND_BY_UUID = "PersistenterUser.FIND_BY_UUID";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

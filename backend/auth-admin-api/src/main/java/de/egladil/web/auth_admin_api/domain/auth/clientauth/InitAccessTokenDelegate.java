@@ -15,6 +15,7 @@ import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeExcept
 import de.egladil.web.auth_admin_api.infrastructure.restclient.AuthproviderRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 
@@ -36,26 +37,16 @@ public class InitAccessTokenDelegate {
 	 */
 	public ResponsePayload authenticateClient(final OAuthClientCredentials credentials) {
 
-		Response authResponse = null;
-
-		try {
-
-			authResponse = authproviderRestClient.authenticateClient(credentials);
+		try (Response authResponse = authproviderRestClient.authenticateClient(credentials);) {
 
 			ResponsePayload responsePayload = authResponse.readEntity(ResponsePayload.class);
 
 			return responsePayload;
-		} catch (IllegalStateException | RestClientDefinitionException | WebApplicationException e) {
+		} catch (IllegalStateException | RestClientDefinitionException | WebApplicationException | ProcessingException e) {
 
 			String msg = "Unerwarteter Fehler beim Anfordern eines client-accessTokens: " + e.getMessage();
 			LOGGER.error(msg, e);
 			throw new AuthAdminAPIRuntimeException(msg, e);
-		} finally {
-
-			if (authResponse != null) {
-
-				authResponse.close();
-			}
 		}
 	}
 }

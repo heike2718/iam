@@ -10,8 +10,6 @@ MOCK.BENUTZERID=20721575-8c45-4201-a025-7a9fece1f2aa
 MOCK.BENUTZER.FULLNAME=Moki Bulruk
 MOCK.ROLE=STANDARD
 
-MKGATEWAY_AUTH_HEADER=mk-gateway:changeme
-
 TARGET_ORIGIN = heikedeb,heikedeb:4200,localhost:4200,heikedeb:9020,https://mathe-jung-alt.de
 
 QUARKUS_HTTP_CORS_ORIGINS = http://localhost:9020,http://localhost:4200,http://heikedeb:9000,http://localhost:9510,https://fonts.googleapis.com

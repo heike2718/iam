@@ -80,4 +80,9 @@ public class BenutzerResource {
 		return Response.ok(responsePayload).build();
 	}
 
+	public Response benutzerAktivieren(final String uuid) {
+
+		return Response.serverError().entity(MessagePayload.error("Funbktion noch nicht implementiert")).build();
+	}
+
 }

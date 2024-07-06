@@ -1,13 +1,13 @@
 // =====================================================
-// Project: authprovider
+// Project: auth-admin-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.authprovider.event;
+package de.egladil.web.auth_admin_api.domain.events;
 
 /**
- * AuthproviderEventType
+ * EventType
  */
-public enum AuthproviderEventType {
+public enum EventType {
 
 	LOGINVERSUCH_INAKTIVER_USER("LoginversuchInaktiverUser"),
 	REGISTRATION_CONFIRMATION_EXPIRED("RegistrationConfirmationExpired"),
@@ -19,7 +19,7 @@ public enum AuthproviderEventType {
 
 	private final String label;
 
-	private AuthproviderEventType(final String label) {
+	private EventType(final String label) {
 
 		this.label = label;
 	}

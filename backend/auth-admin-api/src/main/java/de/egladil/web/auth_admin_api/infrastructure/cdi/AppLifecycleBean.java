@@ -25,6 +25,12 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "quarkus.datasource.jdbc.url")
 	String jdbcUrl;
 
+	@ConfigProperty(name = "quarkus.rest-client.authprovider.url")
+	String authproviderRESTUrl;
+
+	@ConfigProperty(name = "quarkus.rest-client.mkgateway.url")
+	String mkGatewayRESTUrl;
+
 	@ConfigProperty(name = "quarkus.http.root-path")
 	String quarkusRootPath;
 
@@ -60,6 +66,8 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  session timeout nach {} min", sessionIdleTimeoutMinutes);
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  jdbcUrl={}", jdbcUrl);
+		LOGGER.info(" ===========>  authproviderRESTUrl={}", authproviderRESTUrl);
+		LOGGER.info(" ===========>  mkGatewayRESTUrl={}", mkGatewayRESTUrl);
 		LOGGER.info(" ===========>  targetOrigin={}", targetOrigin);
 		LOGGER.info(" ===========>  loginRedirectUrl={}", loginRedirectUrl);
 		LOGGER.info(" ===========>  csrfEnabled={}", csrfEnabled);
