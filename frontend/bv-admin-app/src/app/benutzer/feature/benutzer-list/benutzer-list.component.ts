@@ -13,6 +13,7 @@ import { Subscription, combineLatest } from "rxjs";
 import { SelectionModel } from "@angular/cdk/collections";
 import { PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin-app/shared/model";
 import { Router } from "@angular/router";
+import { MatIconModule } from "@angular/material/icon";
 
 const AUSWAHL_BENUTZER = 'auswahlBenutzer';
 const UUID = 'uuid';
@@ -21,6 +22,8 @@ const NACHNAME = 'nachname';
 const VORNAME = 'vorname';
 const DATE_MODIFIED = 'dateModified';
 const ROLLE = 'rolle';
+const DELETE_BENUTZER_ACTION = "deleteAccount";
+const TOGGLE_ACTIVATION_STATE_ACTION = "toggleActivationState"
 
 @Component({
   selector: 'bv-users',
@@ -36,7 +39,8 @@ const ROLLE = 'rolle';
     MatSortModule,
     MatInputModule,
     MatPaginatorModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './benutzer-list.component.html',
   styleUrls: ['./benutzer-list.component.scss'],
@@ -104,6 +108,18 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     this.#subscriptions.unsubscribe();
   }
 
+  deleteBenutzer(benutzer: Benutzer): void {
+    this.benutzerFacade.deleteSingleBenutzer(benutzer);
+  }
+
+  changeActivationState(benutzer: Benutzer): void {
+    if(benutzer.aktiviert) {
+      console.log('Benutzer ' + benutzer.uuid + ' deaktivieren');
+    } else {
+      console.log('Benutzer ' + benutzer.uuid + ' aktivieren');
+    }
+  }
+
   toggleRow(row: Benutzer) {
 
     if (this.#adjusting) {
@@ -134,7 +150,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   getDisplayedColumns(): string[] {
-    return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, DATE_MODIFIED, ROLLE];
+    return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, DATE_MODIFIED, ROLLE, TOGGLE_ACTIVATION_STATE_ACTION, DELETE_BENUTZER_ACTION];
   }
 
   onPaginatorChanged(_event: PageEvent): void {
@@ -156,7 +172,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
     if (!this.allRowsSelected) {
       this.selectionModel.clear();
-      this.selectionModel.select(...this.#page);      
+      this.selectionModel.select(...this.#page);
       this.allRowsSelected = true;
       this.benutzerFacade.selectionsubsetChanged(this.#page, []);
     } else {

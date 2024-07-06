@@ -25,30 +25,21 @@ export class BenutzerFacade {
     }
 
     resetBenutzerBasket(): void {
-        this.#store.dispatch(benutzerActions.bENUTZERBASKET_CHANGED({selection: []}));
+        this.#store.dispatch(benutzerActions.rESET_BENUTZERBASKET());
     }
 
     removeBenutzerFromBasket(benutzer: Benutzer): void {
         this.#store.dispatch(benutzerActions.rEMOVE_SINGLE_BENUTZER_FROM_BASKET({benutzer}));
     }
     
-
-    #pagedefinitionChanged(pageDefinition: PageDefinition): void {
-        this.#store.dispatch(benutzerActions.bENUTZER_PAGEDEFINITION_CHANGED({ pageDefinition }));
-    }
-
     benutzersucheChanged(filter: BenutzersucheFilterAndSortValues, pageDefinition: PageDefinition): void {
         this.#store.dispatch(benutzerActions.bENUTZER_PAGEDEFINITION_CHANGED({ pageDefinition }));
         this.#store.dispatch(benutzerActions.bENUTZER_FILTER_CHANGED({ filter }));
     }
 
-    #benutzersuchfilterChanged(filter: BenutzersucheFilterAndSortValues): void {
-        this.#store.dispatch(benutzerActions.bENUTZER_FILTER_CHANGED({ filter }));
+    deleteSingleBenutzer(benutzer: Benutzer): void {
+        this.#store.dispatch(benutzerActions.dELETE_SINGLE_BENUTZER({benutzer}));
     }
-
-    // benutzerBasketChanged(selection: Benutzer[]): void {
-    //     this.#store.dispatch(benutzerActions.bENUTZERBASKET_CHANGED({selection}));
-    // }
 
     triggerSearch(filter: BenutzersucheFilterAndSortValues, pageDefinition: PageDefinition): void {
 

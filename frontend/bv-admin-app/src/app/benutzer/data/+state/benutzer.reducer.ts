@@ -1,4 +1,4 @@
-import { Benutzer, BenutzersucheFilterAndSortValues, addBenutzerIfNotContained, initialBenutzersucheFilterAndSortValues, removeBenutzers } from "@bv-admin-app/benutzer/model";
+import { Benutzer, BenutzersucheFilterAndSortValues, addBenutzerIfNotContained, initialBenutzersucheFilterAndSortValues, removeBenutzer, removeBenutzers } from "@bv-admin-app/benutzer/model";
 import { PaginationState, initialPaginationState } from '@bv-admin-app/shared/model'
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { benutzerActions } from './benutzer.actions';
@@ -56,22 +56,6 @@ export const benutzerFeature = createFeature({
                 benutzerBasket: newBasket
             }
         }),
-        on(benutzerActions.bENUTZERBASKET_CHANGED, (state, action) => {
-
-            const actualSelectionSubset: Benutzer[] = action.selection;
-            const actualBasket = [...state.benutzerBasket];
-
-            const newBasket: Benutzer[] = [];
-
-            actualBasket.forEach(b => {
-                const ben: Benutzer[] = actualSelectionSubset.filter(s => s.uuid === b.uuid);
-            })
-
-            return {
-                ...state,
-                benutzerBasket: newBasket
-            }
-        }),
         on(benutzerActions.rEMOVE_SINGLE_BENUTZER_FROM_BASKET, (state, action) => {
             
             const actuallyDeselected: Benutzer[] = [];
@@ -83,14 +67,29 @@ export const benutzerFeature = createFeature({
                 benutzerBasket: newBasket
             }
         }),
+        on(benutzerActions.sINGLE_BENUTZER_DELETED, (state, action) => {
+            
+            const newBasket = removeBenutzer([...state.benutzerBasket], action.responsePayload.uuid);
+            const newPage = removeBenutzer([...state.page], action.responsePayload.uuid);
+            
+            return {
+                ...state,
+                page: newPage,
+                benutzerBasket: newBasket
+            }
+        }),
+        on(benutzerActions.rESET_BENUTZERBASKET, (state, action) => {
+            swallowEmptyArgument(action, false);
+            return {...state, benutzerBasket: []};
+        }),
         on(benutzerActions.rESET_FILTER, (state, action) => {
             swallowEmptyArgument(action, false);
             return {...initialBenutzerState, benutzerBasket: [...state.benutzerBasket]};
         }),
-
         on(loggedOutAction, (_state, action) => {
             swallowEmptyArgument(action, false);
             return initialBenutzerState;
         })
     )
 })
+

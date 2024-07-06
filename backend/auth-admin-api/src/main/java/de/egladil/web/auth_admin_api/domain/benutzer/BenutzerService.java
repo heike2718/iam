@@ -6,19 +6,25 @@ package de.egladil.web.auth_admin_api.domain.benutzer;
 
 import java.util.List;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
+import de.egladil.web.auth_admin_api.domain.events.AuthAdminEventPayload;
+import de.egladil.web.auth_admin_api.domain.events.EventsService;
+import de.egladil.web.auth_admin_api.domain.events.PropagateEventService;
+import de.egladil.web.auth_admin_api.domain.events.UserDeletedEvent;
+import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.auth_admin_api.domain.exceptions.CommandPropagationFailedException;
+import de.egladil.web.auth_admin_api.infrastructure.cdi.AuthenticationContext;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.BenutzerDao;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.SaltDao;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUserReadOnly;
-import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.Salt;
-import de.egladil.web.auth_admin_api.infrastructure.restclient.MkGatewayRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
@@ -28,15 +34,22 @@ import jakarta.ws.rs.core.Response.Status;
 @ApplicationScoped
 public class BenutzerService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerService.class);
+
+	@Context
+	AuthenticationContext authCtx;
+
+	@Inject
+	PropagateEventService propagateEventService;
+
+	@Inject
+	EventsService eventsService;
+
 	@Inject
 	BenutzerDao benutzerDao;
 
 	@Inject
 	SaltDao saltDao;
-
-	@Inject
-	@RestClient
-	MkGatewayRestClient mkGatewayRestClient;
 
 	/**
 	 * Sucht die users.
@@ -74,7 +87,7 @@ public class BenutzerService {
 	 *
 	 * @param uuid
 	 */
-	public void deleteUser(final String uuid) {
+	public DeleteBenutzerResponseDto deleteUser(final String uuid) {
 
 		PersistenterUserReadOnly user = benutzerDao.findUserReadonlyByUUID(uuid);
 
@@ -86,39 +99,30 @@ public class BenutzerService {
 			throw new WebApplicationException(response);
 		}
 
-		Salt salt = saltDao.findSaltByID(user.saltId);
-
-		if (salt == null) {
-
-			Response response = Response.status(Status.NOT_FOUND)
-				.entity(MessagePayload.warn("Benutzer wurde anscheinend zwischendurch gelöscht")).build();
-
-			throw new WebApplicationException(response);
-		}
+		doDelete(user);
+		return new DeleteBenutzerResponseDto(uuid);
 
 	}
 
 	@Transactional
-	void doDelete(final PersistenterUserReadOnly user, final Salt salt) {
-
-	}
-
-	void propagateDeleteToMkGateway(final String uuid) {
-
-		Response response = null;
+	void doDelete(final PersistenterUserReadOnly user) throws AuthAdminAPIRuntimeException {
 
 		try {
 
-		} catch (WebApplicationException e) {
+			propagateEventService.propagateDeleteUserToMkGateway(user.uuid);
+			saltDao.deleteSaltAndCascade(user.saltId);
 
-		} catch (ProcessingException e) {
+			AuthAdminEventPayload eventPayload = new AuthAdminEventPayload()
+				.withAkteur(authCtx.getUser().getUuid()).withTarget(user.uuid);
 
-		} finally {
+			eventsService.handleEvent(new UserDeletedEvent(eventPayload));
 
-			if (response != null) {
+		} catch (CommandPropagationFailedException e) {
 
-				response.close();
-			}
+			LOGGER.error("CommandPropagationFailed: Löschen des Benutzerkontos {} wird abgebrochen: {}", user.uuid, e.getMessage(),
+				e);
+			throw new AuthAdminAPIRuntimeException(e.getMessage(), e);
+
 		}
 	}
 }

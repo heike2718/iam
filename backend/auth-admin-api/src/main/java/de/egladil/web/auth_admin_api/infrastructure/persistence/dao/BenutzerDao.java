@@ -58,7 +58,7 @@ public class BenutzerDao {
 	@SuppressWarnings("unchecked")
 	public List<PersistenterUserReadOnly> findUsers(final BenutzerSuchparameter benutzerSuchparameter) {
 
-		String stmt = "SELECT u.ID, u.UUID, u.VORNAME, u.NACHNAME, u.EMAIL, u.AKTIVIERT, u.ROLLEN, u.DATE_MODIFIED_STRING from VW_USERS_SUCHE u ";
+		String stmt = "SELECT u.ID, u.UUID, u.VORNAME, u.NACHNAME, u.EMAIL, u.AKTIVIERT, u.ROLLEN, u.DATE_MODIFIED_STRING, u.SLZ_ID from VW_USERS_SUCHE u ";
 
 		int offset = benutzerSuchparameter.getPageIndex() * benutzerSuchparameter.getPageSize();
 

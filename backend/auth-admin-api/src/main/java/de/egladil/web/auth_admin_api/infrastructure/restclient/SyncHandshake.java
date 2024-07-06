@@ -21,7 +21,7 @@ public class SyncHandshake {
 
 	}
 
-	SyncHandshake(final String sendingClientId, final String nonce) {
+	public SyncHandshake(final String sendingClientId, final String nonce) {
 
 		this.sendingClientId = sendingClientId;
 		this.nonce = nonce;

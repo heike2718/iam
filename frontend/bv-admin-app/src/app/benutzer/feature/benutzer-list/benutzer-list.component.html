@@ -133,6 +133,44 @@
             </mat-cell>>
         </ng-container>
 
+        <!-- Action aktivieren/deaktivieren -->
+        <ng-container matColumnDef="toggleActivationState">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    aktiv on/off
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                @if(benutzer.aktiviert){
+                    <button mat-icon-button (click)="changeActivationState(benutzer)"
+                    title="Konto deaktivieren">
+                    <mat-icon>person_off</mat-icon>
+                </button>
+                }
+                @else {
+                    <button mat-icon-button (click)="changeActivationState(benutzer)"
+                    title="Konto aktivieren">
+                    <mat-icon>person</mat-icon>
+                </button>
+                }
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Action Konto löschen -->
+        <ng-container matColumnDef="deleteAccount">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    löschen
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                <button mat-icon-button color="warn" (click)="deleteBenutzer(benutzer)"
+                    title="Konto löschen">
+                    <mat-icon>person_remove</mat-icon>
+                </button>
+            </mat-cell>>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
         <mat-row *matRowDef="let row; columns: getDisplayedColumns()" [ngClass]="{
             'bg-beige': !row.aktiviert

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { BenutzerSearchResult, BenutzerSuchparameter } from '@bv-admin-app/benutzer/model';
+import { BenutzerSearchResult, BenutzerSuchparameter, DeleteBenutzerResponseDto } from '@bv-admin-app/benutzer/model';
 import { Observable } from "rxjs";
 
 
@@ -19,6 +19,12 @@ export class BenutzerHttpService {
         const headers = new HttpHeaders().set('Accept', 'application/json');
         return this.#httpClient.post<BenutzerSearchResult>(this.#url, suchparameter, { headers });
 
+    }
+
+    deleteBenutzer(uuid: string): Observable<DeleteBenutzerResponseDto> {
+
+        const headers = new HttpHeaders().set('Accept', 'application/json');
+        return this.#httpClient.delete<DeleteBenutzerResponseDto>(this.#url + '/' + uuid, {headers});
     }
 
 }

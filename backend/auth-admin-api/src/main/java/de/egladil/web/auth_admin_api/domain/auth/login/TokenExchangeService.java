@@ -30,7 +30,7 @@ import jakarta.ws.rs.core.Response;
 @RequestScoped
 public class TokenExchangeService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(TokenExchangeService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TokenExchangeService.class);
 
 	@Inject
 	@RestClient
@@ -56,13 +56,13 @@ public class TokenExchangeService {
 
 			String message = "Konnte das oneTimeToken nicht gegen das JWT tauschen: " + messagePayload.getMessage();
 
-			LOG.error(message);
+			LOGGER.error(message);
 
 			throw new AuthAdminAPIRuntimeException(message);
 
 		} catch (ProcessingException processingException) {
 
-			LOG.error("endpoint authprovider ist nicht erreichbar");
+			LOGGER.error("endpoint authprovider ist nicht erreichbar");
 
 			throw new InaccessableEndpointException("Der Endpoint authprovider ist nicht erreichbar. ");
 		}
@@ -82,7 +82,7 @@ public class TokenExchangeService {
 
 				{
 
-					LOG.error("Security Thread: zurückgesendetes nonce stimmt nicht");
+					LOGGER.error("Security Thread: zurückgesendetes nonce stimmt nicht");
 					throw new ClientAuthException();
 				}
 			}
@@ -90,7 +90,7 @@ public class TokenExchangeService {
 			return dataMap.get("jwt");
 		} else {
 
-			LOG.error("Authentisierung des Clients hat nicht geklappt: {} - {}", messagePayload.getLevel(),
+			LOGGER.error("Authentisierung des Clients hat nicht geklappt: {} - {}", messagePayload.getLevel(),
 				messagePayload.getMessage());
 			throw new ClientAuthException();
 		}

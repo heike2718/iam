@@ -26,7 +26,7 @@ export interface BenutzersucheFilterAndSortValues {
     readonly rolle: string;
     readonly dateModified: string;
     readonly sortByLabelname: string | null;
-};
+}
 
 export const initialBenutzersucheFilterAndSortValues: BenutzersucheFilterAndSortValues = {
     uuid: '',
@@ -36,7 +36,7 @@ export const initialBenutzersucheFilterAndSortValues: BenutzersucheFilterAndSort
     rolle: '',
     dateModified: '',
     sortByLabelname: ''
-};
+}
 
 export interface Benutzer {
     readonly uuid: string;
@@ -66,6 +66,10 @@ export interface BenutzerSuchparameter {
     readonly pageSize: number;
 }
 
+export interface DeleteBenutzerResponseDto {
+    readonly uuid: string;
+}
+
 export function isFilterEmpty(filter: BenutzersucheFilterValues): boolean {
     const str1 = sortedStringify(initialBenutzersucheFilterValues);
     const str2 = sortedStringify(filter);
@@ -81,6 +85,10 @@ export function addBenutzerIfNotContained(benutzer: Benutzer[], benutzerToAdd: B
     const existingIds = new Set(benutzer.map(b => b.uuid));
     const uniqueNewArray = benutzerToAdd.filter(b => !existingIds.has(b.uuid));
     return benutzer.concat(uniqueNewArray);
+}
+
+export function removeBenutzer(benutzer: Benutzer[], uuid: string): Benutzer[] {
+    return benutzer.filter(b => b.uuid !== uuid);
 }
 
 

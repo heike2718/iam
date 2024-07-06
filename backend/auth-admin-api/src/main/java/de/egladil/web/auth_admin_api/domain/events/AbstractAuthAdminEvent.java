@@ -23,6 +23,12 @@ public abstract class AbstractAuthAdminEvent implements AuthAdminEvent {
 		this.occuredOn = LocalDateTime.now();
 	}
 
+	public AbstractAuthAdminEvent(final AuthAdminEventPayload eventPayload) {
+
+		this();
+		this.eventPayload = eventPayload;
+	}
+
 	@Override
 	public String serializePayload() {
 

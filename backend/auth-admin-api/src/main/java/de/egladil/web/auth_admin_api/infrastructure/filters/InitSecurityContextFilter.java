@@ -44,7 +44,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(InitSecurityContextFilter.class);
 
 	private static List<String> OPEN_DATA_PATHS = Arrays
-		.asList(new String[] { "/mja-api/public", "/mja-api/restricted" });
+		.asList(new String[] {});
 
 	@ConfigProperty(name = "stage")
 	String stage;

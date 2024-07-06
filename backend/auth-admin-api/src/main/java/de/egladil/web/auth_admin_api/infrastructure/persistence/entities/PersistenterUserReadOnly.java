@@ -52,18 +52,4 @@ public class PersistenterUserReadOnly {
 
 	@Column(name = "SLZ_ID")
 	public Long saltId;
-
-	public PersistenterUserReadOnly(final Long id, final String uuid, final String vorname, final String nachname, final String email, final boolean aktiviert, final String rollen, final String datumGeaendert) {
-
-		super();
-		this.id = id;
-		this.uuid = uuid;
-		this.vorname = vorname;
-		this.nachname = nachname;
-		this.email = email;
-		this.aktiviert = aktiviert;
-		this.rollen = rollen;
-		this.datumGeaendert = datumGeaendert;
-	}
-
 }

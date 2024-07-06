@@ -90,6 +90,71 @@
         } ]
       }
     },
+    "/auth-admin-api/benutzer/{uuid}" : {
+      "delete" : {
+        "tags" : [ "BenutzerResource" ],
+        "summary" : "Löscht das durch die uuid definierte Benutzerkonto vollständig aus allen Anwendungen.",
+        "operationId" : "benutzerLoeschen",
+        "parameters" : [ {
+          "name" : "uuid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 36,
+            "pattern" : "^[abcdef\\d\\-]*$",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeleteBenutzerResponseDto"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ValidationErrorResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "content" : {
+              "application/json" : { }
+            }
+          },
+          "403" : {
+            "description" : "kann auch vorkommen, wenn mod_security zuschlägt",
+            "content" : {
+              "application/json" : { }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "SecurityScheme" : [ ]
+        } ]
+      }
+    },
     "/auth-admin-api/session/authurls/login" : {
       "get" : {
         "tags" : [ "SessionResource" ],
@@ -199,7 +264,7 @@
         "summary" : "entfernt die Session",
         "operationId" : "logout",
         "parameters" : [ {
-          "name" : "JSESSIONID_MJA_ADMIN",
+          "name" : "JSESSIONID_AUTH_ADMIN_API",
           "in" : "cookie",
           "schema" : {
             "type" : "string"
@@ -391,6 +456,19 @@
             "pattern" : "^[\\d.\\-:]*$",
             "type" : "string",
             "example" : "2019-09-14 18:40:06"
+          }
+        }
+      },
+      "DeleteBenutzerResponseDto" : {
+        "description" : "Response-Objekt für das Löschen eines Benutzers",
+        "type" : "object",
+        "properties" : {
+          "uuid" : {
+            "description" : "UUID des Users",
+            "maxLength" : 36,
+            "pattern" : "^[abcdef\\d\\-]*$",
+            "type" : "string",
+            "example" : "732b2ed8-b9b7-4800-8685-38fd09d330cf"
           }
         }
       },

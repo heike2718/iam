@@ -30,4 +30,22 @@ public class SaltDao {
 
 	}
 
+	/**
+	 * Löscht den Eintrag mit der gegebenen ID.<br>
+	 * <br>
+	 * Wegen der FK-Konstruktion wird die bis zum USER kaskadiert.
+	 *
+	 * @param id
+	 */
+	public void deleteSaltAndCascade(final Long id) {
+
+		Salt salt = findSaltByID(id);
+
+		if (salt != null) {
+
+			entityManager.remove(salt);
+		}
+
+	}
+
 }

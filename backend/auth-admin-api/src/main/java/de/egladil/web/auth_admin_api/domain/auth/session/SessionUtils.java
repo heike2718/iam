@@ -31,7 +31,9 @@ import jakarta.ws.rs.core.NewCookie;
  */
 public final class SessionUtils {
 
-	public static final String SESSION_COOKIE_NAME = "JSESSIONID_MJA_ADMIN";
+	// Wichtig: der Name des SessionCookies muss mit JSESSIONID beginnen!!!
+	// Außerdem müssen die Requests vom frontend das Attribut withCredentials: true haben (Angular - Intercepror!)
+	public static final String SESSION_COOKIE_NAME = "JSESSIONID_AUTH_ADMIN_API";
 
 	private static final String SESSION_ID_HEADER = "X-SESSIONID";
 
