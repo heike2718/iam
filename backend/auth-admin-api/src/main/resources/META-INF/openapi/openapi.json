@@ -91,6 +91,91 @@
       }
     },
     "/auth-admin-api/benutzer/{uuid}" : {
+      "put" : {
+        "tags" : [ "BenutzerResource" ],
+        "summary" : "Setzt für den gegebenen Benutzer den neuen Aktivierungsstatus",
+        "operationId" : "aktivierungsstatusAendern",
+        "parameters" : [ {
+          "name" : "uuid",
+          "in" : "path",
+          "description" : "UUID eines Benutzers",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 36,
+            "pattern" : "^[abcdef\\d\\-]*$",
+            "type" : "string"
+          },
+          "example" : "a4c4d45e-4a81-4bde-a6a3-54464801716d"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Aktivierungsstatus"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UpdateBenutzerResponseDto"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ValidationErrorResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "kann auch vorkommen, wenn mod_security zuschlägt",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "kann auch vorkommen, wenn mod_security zuschlägt"
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "SecurityScheme" : [ ]
+        } ]
+      },
       "delete" : {
         "tags" : [ "BenutzerResource" ],
         "summary" : "Löscht das durch die uuid definierte Benutzerkonto vollständig aus allen Anwendungen.",
@@ -98,12 +183,14 @@
         "parameters" : [ {
           "name" : "uuid",
           "in" : "path",
+          "description" : "UUID eines Benutzers",
           "required" : true,
           "schema" : {
             "maxLength" : 36,
             "pattern" : "^[abcdef\\d\\-]*$",
             "type" : "string"
-          }
+          },
+          "example" : "a4c4d45e-4a81-4bde-a6a3-54464801716d"
         } ],
         "responses" : {
           "200" : {
@@ -287,6 +374,15 @@
   },
   "components" : {
     "schemas" : {
+      "Aktivierungsstatus" : {
+        "description" : "DTO für den neuen Benutzerstatus",
+        "type" : "object",
+        "properties" : {
+          "aktiviert" : {
+            "type" : "boolean"
+          }
+        }
+      },
       "AuthResult" : {
         "description" : "Ergebnis der Authentifizierung beim authprovider",
         "required" : [ "nonce", "idToken" ],
@@ -530,6 +626,18 @@
       "SortDirection" : {
         "enum" : [ "asc", "desc" ],
         "type" : "string"
+      },
+      "UpdateBenutzerResponseDto" : {
+        "description" : "Ergebnis nach dem Ändern des Benutzers. Attribut benutzer wird null sein, wenn statusCode != 200",
+        "type" : "object",
+        "properties" : {
+          "uuid" : {
+            "type" : "string"
+          },
+          "benuzer" : {
+            "$ref" : "#/components/schemas/BenutzerTrefferlisteItem"
+          }
+        }
       },
       "ValidationErrorResponseDto" : {
         "type" : "object",

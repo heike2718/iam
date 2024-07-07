@@ -114,9 +114,9 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   changeActivationState(benutzer: Benutzer): void {
     if(benutzer.aktiviert) {
-      console.log('Benutzer ' + benutzer.uuid + ' deaktivieren');
+      this.benutzerFacade.updateBenutzerAktivierungsstatue(benutzer, false);
     } else {
-      console.log('Benutzer ' + benutzer.uuid + ' aktivieren');
+      this.benutzerFacade.updateBenutzerAktivierungsstatue(benutzer, true);
     }
   }
 

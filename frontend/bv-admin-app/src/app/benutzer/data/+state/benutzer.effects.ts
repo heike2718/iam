@@ -40,5 +40,24 @@ export class BenutzerEffects {
             }),
         ), { dispatch: false });
 
+    updateAktivierungsstatus$ = createEffect(() => {
+        return this.#actions.pipe(
+            ofType(benutzerActions.uPDATE_BENUTZER_ACTIVATION_STATE),
+            switchMap((action) => this.#benutzerHttpService.updateBenutzerStatus(action.uuid, action.aktivierungsstatus)),
+            map((result) => benutzerActions.bENUTZER_ACTIVATION_STATE_UPDATED({ result }))
+        );
+    });
 
+    benutzerActivationStateUpdated$ = createEffect(() =>
+
+        this.#actions.pipe(
+            ofType(benutzerActions.bENUTZER_ACTIVATION_STATE_UPDATED),
+            tap((action) => {
+                if (action.result.benuzer) {
+                    this.#messageService.info('Benutzer erfolgreich geändert');
+                } else {
+                    this.#messageService.warn('Upsi, der Benutzer hat sein Konto in der Zwischenzeit anscheinend gelöscht');
+                }
+            }),
+        ), { dispatch: false });
 }

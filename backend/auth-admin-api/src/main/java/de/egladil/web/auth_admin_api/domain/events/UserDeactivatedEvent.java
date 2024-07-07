@@ -9,6 +9,12 @@ package de.egladil.web.auth_admin_api.domain.events;
  */
 public class UserDeactivatedEvent extends AbstractAuthAdminEvent {
 
+	public UserDeactivatedEvent(final AuthAdminEventPayload eventPayload) {
+
+		super(eventPayload);
+
+	}
+
 	@Override
 	public boolean writeToEventStore() {
 

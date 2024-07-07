@@ -41,7 +41,7 @@ export const benutzerFeature = createFeature({
         on(benutzerActions.bENUTZER_PAGEDEFINITION_CHANGED, (state, action) => {
             return {
                 ...state,
-                paginationState: {...state.paginationState, pageDefinition: action.pageDefinition}
+                paginationState: { ...state.paginationState, pageDefinition: action.pageDefinition }
             }
         }),
         on(benutzerActions.sELECTIONSUBSET_CHANGED, (state, action) => {
@@ -57,34 +57,58 @@ export const benutzerFeature = createFeature({
             }
         }),
         on(benutzerActions.rEMOVE_SINGLE_BENUTZER_FROM_BASKET, (state, action) => {
-            
+
             const actuallyDeselected: Benutzer[] = [];
             actuallyDeselected.push(action.benutzer);
             const newBasket = removeBenutzers([...state.benutzerBasket], actuallyDeselected);
-            
+
             return {
                 ...state,
                 benutzerBasket: newBasket
             }
         }),
         on(benutzerActions.sINGLE_BENUTZER_DELETED, (state, action) => {
-            
+
             const newBasket = removeBenutzer([...state.benutzerBasket], action.responsePayload.uuid);
             const newPage = removeBenutzer([...state.page], action.responsePayload.uuid);
-            
+
             return {
                 ...state,
                 page: newPage,
                 benutzerBasket: newBasket
             }
         }),
+        on(benutzerActions.bENUTZER_ACTIVATION_STATE_UPDATED, (state, action) => {
+
+            if (action.result.benuzer) {
+
+                const benutzer: Benutzer = action.result.benuzer;
+                const newBasket = state.benutzerBasket.map(b => b.uuid === benutzer.uuid ? benutzer : b );
+                const newPage = state.page.map(b => b.uuid === benutzer.uuid ? benutzer : b );
+
+                return {
+                    ...state,
+                    page: newPage,
+                    benutzerBasket: newBasket
+                }
+            } else {
+                const newBasket = removeBenutzer([...state.benutzerBasket], action.result.uuid);
+                const newPage = removeBenutzer([...state.page], action.result.uuid);
+
+                return {
+                    ...state,
+                    page: newPage,
+                    benutzerBasket: newBasket
+                }
+            }
+        }),
         on(benutzerActions.rESET_BENUTZERBASKET, (state, action) => {
             swallowEmptyArgument(action, false);
-            return {...state, benutzerBasket: []};
+            return { ...state, benutzerBasket: [] };
         }),
         on(benutzerActions.rESET_FILTER, (state, action) => {
             swallowEmptyArgument(action, false);
-            return {...initialBenutzerState, benutzerBasket: [...state.benutzerBasket]};
+            return { ...initialBenutzerState, benutzerBasket: [...state.benutzerBasket] };
         }),
         on(loggedOutAction, (_state, action) => {
             swallowEmptyArgument(action, false);

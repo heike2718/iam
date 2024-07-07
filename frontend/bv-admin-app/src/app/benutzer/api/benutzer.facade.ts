@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable, filter } from "rxjs";
-import { Benutzer, BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from "@bv-admin-app/benutzer/model";
+import { Aktivierungsstatus, Benutzer, BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from "@bv-admin-app/benutzer/model";
 import { fromBenutzer, benutzerActions } from "@bv-admin-app/benutzer/data";
 import { PageDefinition, PaginationState, SortDefinition } from '@bv-admin-app/shared/model'
 
@@ -39,6 +39,13 @@ export class BenutzerFacade {
 
     deleteSingleBenutzer(benutzer: Benutzer): void {
         this.#store.dispatch(benutzerActions.dELETE_SINGLE_BENUTZER({benutzer}));
+    }
+
+    updateBenutzerAktivierungsstatue(benutzer: Benutzer, aktiviert: boolean): void {
+
+        const neuerAktivierungsstatus: Aktivierungsstatus = {aktiviert};
+        this.#store.dispatch(benutzerActions.uPDATE_BENUTZER_ACTIVATION_STATE({uuid: benutzer.uuid, aktivierungsstatus: neuerAktivierungsstatus}));
+
     }
 
     triggerSearch(filter: BenutzersucheFilterAndSortValues, pageDefinition: PageDefinition): void {

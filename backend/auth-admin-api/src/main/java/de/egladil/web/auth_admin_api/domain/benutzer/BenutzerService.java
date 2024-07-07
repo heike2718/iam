@@ -13,12 +13,15 @@ import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.auth_admin_api.domain.events.AuthAdminEventPayload;
 import de.egladil.web.auth_admin_api.domain.events.EventsService;
 import de.egladil.web.auth_admin_api.domain.events.PropagateEventService;
+import de.egladil.web.auth_admin_api.domain.events.UserActivatedEvent;
+import de.egladil.web.auth_admin_api.domain.events.UserDeactivatedEvent;
 import de.egladil.web.auth_admin_api.domain.events.UserDeletedEvent;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeException;
 import de.egladil.web.auth_admin_api.domain.exceptions.CommandPropagationFailedException;
 import de.egladil.web.auth_admin_api.infrastructure.cdi.AuthenticationContext;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.BenutzerDao;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.SaltDao;
+import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUser;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUserReadOnly;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -63,10 +66,70 @@ public class BenutzerService {
 		List<PersistenterUserReadOnly> trefferliste = benutzerDao.findUsers(userSearchDto);
 		List<BenutzerTrefferlisteItem> items = trefferliste.stream().map(this::mapFromDB).toList();
 
+		// Damit ich nicht versehentlich an meinem eigenen Benutzerkonto oder dem der anderen BV-Admins herumfingere, werden die mit
+		// der Rolle AUTH_ADMIN aus der Trefferliste entfernt.
+
 		BenutzerSearchResult result = new BenutzerSearchResult();
 		result.setAnzahlGesamt(anzahl);
 		result.setItems(items);
 		return result;
+	}
+
+	/**
+	 * Setzt das Attribut aktiviert.
+	 *
+	 * @param  uuid
+	 *                            String die UUID des zu ändernden Benutzers.
+	 * @param  aktivierungsstatus
+	 * @return                    UpdateBenutzerResponseDto
+	 */
+	public UpdateBenutzerResponseDto updateAktivierungsstatus(final String uuid, final Aktivierungsstatus aktivierungsstatus) {
+
+		PersistenterUser user = benutzerDao.findUserByUUID(uuid);
+
+		if (user == null) {
+
+			LOGGER.warn("USER {} existiert nicht oder nicht mehr");
+			UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
+			responseDto.setUuid(uuid);
+			return responseDto;
+		}
+
+		this.doUpdate(user, aktivierungsstatus.isAktiviert());
+
+		PersistenterUserReadOnly result = benutzerDao.findUserReadonlyByUUID(uuid);
+
+		if (result == null) {
+
+			LOGGER.warn("echt jetzt? Genau in dieser Nanosekunde wurde USER {} von anderswoher geloescht?");
+			UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
+			responseDto.setUuid(uuid);
+			return responseDto;
+		}
+
+		UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
+		responseDto.setUuid(uuid);
+		responseDto.setBenuzer(this.mapFromDB(result));
+		return responseDto;
+	}
+
+	@Transactional
+	void doUpdate(final PersistenterUser user, final boolean aktiviert) {
+
+		user.setAktiviert(aktiviert);
+		benutzerDao.updateUser(user);
+
+		AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
+			.withTarget(user.getUuid());
+
+		if (aktiviert) {
+
+			eventsService.handleEvent(new UserActivatedEvent(eventPayload));
+		} else {
+
+			eventsService.handleEvent(new UserDeactivatedEvent(eventPayload));
+		}
+
 	}
 
 	BenutzerTrefferlisteItem mapFromDB(final PersistenterUserReadOnly fromDB) {
@@ -112,8 +175,8 @@ public class BenutzerService {
 			propagateEventService.propagateDeleteUserToMkGateway(user.uuid);
 			saltDao.deleteSaltAndCascade(user.saltId);
 
-			AuthAdminEventPayload eventPayload = new AuthAdminEventPayload()
-				.withAkteur(authCtx.getUser().getUuid()).withTarget(user.uuid);
+			AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
+				.withTarget(user.uuid);
 
 			eventsService.handleEvent(new UserDeletedEvent(eventPayload));
 

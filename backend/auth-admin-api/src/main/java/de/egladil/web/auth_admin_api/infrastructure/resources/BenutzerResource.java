@@ -5,17 +5,22 @@
 package de.egladil.web.auth_admin_api.infrastructure.resources;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
+import de.egladil.web.auth_admin_api.domain.benutzer.Aktivierungsstatus;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSearchResult;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerService;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.auth_admin_api.domain.benutzer.DeleteBenutzerResponseDto;
+import de.egladil.web.auth_admin_api.domain.benutzer.UpdateBenutzerResponseDto;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
@@ -26,6 +31,7 @@ import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -84,9 +90,56 @@ public class BenutzerResource {
 		return Response.ok(responsePayload).build();
 	}
 
-	public Response aktivierungsstatusAendern(final String uuid, final boolean neuesAktiviert) {
+	@PUT
+	@Path("{uuid}")
+	@RolesAllowed({ "AUTH_ADMIN" })
+	@Operation(
+		operationId = "aktivierungsstatusAendern", summary = "Setzt für den gegebenen Benutzer den neuen Aktivierungsstatus")
+	@Parameters({
+		@Parameter(
+			in = ParameterIn.PATH, name = "uuid", description = "UUID eines Benutzers",
+			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
+	})
+	@APIResponse(
+		name = "OKResponse",
+		responseCode = "200",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = UpdateBenutzerResponseDto.class)))
+	@APIResponse(
+		name = "BadRequest",
+		responseCode = "400",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(
+		name = "NotAuthorized",
+		responseCode = "401",
+		content = @Content(
+			mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(
+		name = "Forbidden",
+		description = "kann auch vorkommen, wenn mod_security zuschlägt",
+		responseCode = "403",
+		content = @Content(
+			mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(
+		name = "NotFound",
+		description = "kann auch vorkommen, wenn mod_security zuschlägt",
+		responseCode = "404")
+	@APIResponse(
+		name = "ServerError",
+		description = "server error",
+		responseCode = "500", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MessagePayload.class)))
+	public Response aktivierungsstatusAendern(@PathParam(value = "uuid") @Pattern(
+		regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
+			max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid, final Aktivierungsstatus aktivierungsstatus) {
 
-		return Response.serverError().entity(MessagePayload.error("Funktion noch nicht implementiert")).build();
+		UpdateBenutzerResponseDto responsePayload = benutzerService.updateAktivierungsstatus(uuid, aktivierungsstatus);
+
+		return Response.ok(responsePayload).build();
 	}
 
 	@DELETE
@@ -95,6 +148,11 @@ public class BenutzerResource {
 	@Operation(
 		operationId = "benutzerLoeschen",
 		summary = "Löscht das durch die uuid definierte Benutzerkonto vollständig aus allen Anwendungen.")
+	@Parameters({
+		@Parameter(
+			in = ParameterIn.PATH, name = "uuid", description = "UUID eines Benutzers",
+			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
+	})
 	@APIResponse(
 		name = "OKResponse",
 		responseCode = "200",

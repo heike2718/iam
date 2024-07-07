@@ -87,4 +87,26 @@ public class BenutzerResourceTest {
 
 	}
 
+	@Test
+	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
+	void should_excludeAdminsFromResultList() {
+
+		BenutzerSuchparameter dto = new BenutzerSuchparameter();
+		dto.setVorname("checki");
+		dto.setPageIndex(1);
+		dto.setPageSize(50);
+
+		BenutzerSearchResult responsePayload = given()
+			.contentType(ContentType.JSON)
+			.body(dto)
+			.post("")
+			.then()
+			.statusCode(200)
+			.extract()
+			.as(BenutzerSearchResult.class);
+
+		assertEquals(0, responsePayload.getAnzahlGesamt());
+		List<BenutzerTrefferlisteItem> items = responsePayload.getItems();
+		assertEquals(0, items.size());
+	}
 }

@@ -48,6 +48,11 @@ export interface Benutzer {
     readonly dateModified: string;
 }
 
+export interface UpdateBenutzerResponseDto {
+    readonly uuid: string;
+    readonly benuzer?: Benutzer; 
+}
+
 export interface BenutzerSearchResult {
     readonly anzahlGesamt: number;
     readonly items: Benutzer[];
@@ -64,6 +69,10 @@ export interface BenutzerSuchparameter {
     readonly sortDirection: string | null;
     readonly pageIndex: number;
     readonly pageSize: number;
+}
+
+export interface Aktivierungsstatus{
+    readonly aktiviert: boolean;
 }
 
 export interface DeleteBenutzerResponseDto {

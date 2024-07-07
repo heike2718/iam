@@ -50,7 +50,8 @@ public class BenutzerDao {
 	}
 
 	/**
-	 * Gibt den Teil der Treffer zurück, der mittels pagination-Parameter abgefragt wurde.
+	 * Gibt den Teil der Treffer zurück, der mittels pagination-Parameter abgefragt wurde. Dabei werden alle user mit einer
+	 * ADMIN-Rolle ausgeschlossen. Wenn diese mal tatsächlich deaktiviert werden müssen, dann eben auf dem Server in der DB.
 	 *
 	 * @param  benutzerSuchparameter
 	 * @return                       List von PersistenterUserReadOnly
@@ -99,6 +100,17 @@ public class BenutzerDao {
 
 	}
 
+	/**
+	 * Speichert einen vorhandenen user.
+	 *
+	 * @param user
+	 *             PersistenterUser
+	 */
+	public void updateUser(final PersistenterUser user) {
+
+		this.entityManager.merge(user);
+	}
+
 	@SuppressWarnings("rawtypes")
 	Query createQueryAndReplaceSuchparameter(final String stmt, final BenutzerSuchparameter userSearchDto, final Class clazz, final boolean forCount) {
 
@@ -133,6 +145,8 @@ public class BenutzerDao {
 
 			conditions.add("u.DATE_MODIFIED_STRING like :datumGeaendert");
 		}
+
+		conditions.add("u.ROLLEN not like :excludedString");
 
 		if (conditions.isEmpty()) {
 
@@ -192,6 +206,8 @@ public class BenutzerDao {
 
 			query.setParameter("datumGeaendert", "%" + userSearchDto.getDateModified() + "%");
 		}
+
+		query.setParameter("excludedString", "%ADMIN%");
 
 		return query;
 
