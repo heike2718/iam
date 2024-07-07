@@ -175,7 +175,7 @@ public class BenutzerDao {
 
 		Query query = entityManager.createNativeQuery(joined, clazz);
 
-		LOGGER.info(joined);
+		LOGGER.debug(joined);
 
 		if (StringUtils.isNotBlank(userSearchDto.getUuid())) {
 

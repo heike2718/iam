@@ -14,7 +14,9 @@ import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeException;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthException;
 import de.egladil.web.auth_admin_api.domain.exceptions.SessionExpiredException;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -30,10 +32,18 @@ public class AuthAdminAPIExceptionMapper implements ExceptionMapper<Throwable> {
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
+	@Inject
+	ContainerRequestContext containerRequestContext;
+
 	@Override
 	public Response toResponse(final Throwable exception) {
 
 		LOGGER.debug(exception.getMessage(), exception);
+
+		String path = containerRequestContext.getUriInfo().getPath();
+		String method = containerRequestContext.getMethod();
+
+		LOGGER.info("====> method={}, path={}", method, path);
 
 		if (exception instanceof WebApplicationException) {
 
@@ -42,7 +52,7 @@ public class AuthAdminAPIExceptionMapper implements ExceptionMapper<Throwable> {
 			if (ex.getResponse().getStatus() == 403) {
 
 				LOGGER.warn(
-					"403: könnte auch eine fehlende mod-security-Konfiguration sein, wenn es ein PUT oder DELETE-Request war");
+					"403: koennte auch eine fehlende mod-security-Konfiguration sein, wenn es ein PUT oder DELETE-Request war");
 				return Response.status(403).entity(MessagePayload.error("Diese Aktion ist nicht erlaubt")).build();
 			}
 

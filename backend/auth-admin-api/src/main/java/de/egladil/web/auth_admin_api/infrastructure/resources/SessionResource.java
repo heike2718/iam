@@ -19,7 +19,6 @@ import de.egladil.web.auth_admin_api.domain.auth.login.AuthproviderUrlService;
 import de.egladil.web.auth_admin_api.domain.auth.login.LoginLogoutService;
 import de.egladil.web.auth_admin_api.domain.auth.session.SessionUtils;
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -67,26 +66,9 @@ public class SessionResource {
 
 	}
 
-	@GET
-	@Path("authurls/signup")
-	@PermitAll
-	@Operation(
-		operationId = "getSignupUrl",
-		summary = "Gibt die Signup-URL zurück, mit der eine Anwendung zum authprovider redirecten kann")
-	@APIResponse(
-		name = "GetSignupUrlOKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response getSignupUrl() {
-
-		return authproviderUrlService.getSignupUrl();
-	}
-
 	@POST
 	@Path("login")
-	@RolesAllowed({ "AUTH_ADMIN" })
+	@PermitAll // an der Stelle will man sich ja erstmal eine Session holen
 	@Operation(
 		operationId = "login",
 		summary = "Erzeugt eine Session anhand des per S2S-Kommunikation für das 'one time token' beim authprovider gekauften JWT und packt die SessionId in ein Cookie")

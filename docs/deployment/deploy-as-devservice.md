@@ -65,3 +65,12 @@ docker container run -v /home/heike/docker-volumes/authprovider/dev:/usr/local/b
 
 #########
 
+## Smoketest
+
+[scr,cli]
+----
+curl -X 'GET' \
+  'http://localhost:9020/auth-admin-api/version' \
+  -H 'accept: */*'
+----
+

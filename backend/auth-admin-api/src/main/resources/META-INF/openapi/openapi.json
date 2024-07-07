@@ -261,25 +261,6 @@
         }
       }
     },
-    "/auth-admin-api/session/authurls/signup" : {
-      "get" : {
-        "tags" : [ "SessionResource" ],
-        "summary" : "Gibt die Signup-URL zurück, mit der eine Anwendung zum authprovider redirecten kann",
-        "operationId" : "getSignupUrl",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/MessagePayload"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/auth-admin-api/session/dev/logout/{sessionId}" : {
       "delete" : {
         "tags" : [ "SessionResource" ],
@@ -332,17 +313,8 @@
                 }
               }
             }
-          },
-          "401" : {
-            "description" : "Not Authorized"
-          },
-          "403" : {
-            "description" : "Not Allowed"
           }
-        },
-        "security" : [ {
-          "SecurityScheme" : [ ]
-        } ]
+        }
       }
     },
     "/auth-admin-api/session/logout" : {
@@ -367,6 +339,16 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/auth-admin-api/version" : {
+      "get" : {
+        "tags" : [ "Version Resource" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
           }
         }
       }

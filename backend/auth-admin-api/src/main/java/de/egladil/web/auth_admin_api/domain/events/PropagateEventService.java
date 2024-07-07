@@ -114,7 +114,7 @@ public class PropagateEventService {
 
 		try (Response mkGatewayResponse = mkGatewayRestClient.getSyncToken(handshake)) {
 
-			LOGGER.debug("mkGatewayResponse.status={}", mkGatewayResponse.getStatus());
+			LOGGER.info("sync: mkGatewayResponse.status={}", mkGatewayResponse.getStatus());
 
 			ResponsePayload responsePayload = mkGatewayResponse.readEntity(ResponsePayload.class);
 

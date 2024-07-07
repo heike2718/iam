@@ -173,6 +173,9 @@ public class BenutzerService {
 		try {
 
 			propagateEventService.propagateDeleteUserToMkGateway(user.uuid);
+
+			LOGGER.info("delete {} synchronized with mk-gateway", user.uuid);
+
 			saltDao.deleteSaltAndCascade(user.saltId);
 
 			AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())

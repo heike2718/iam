@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild, inject } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin-app/benutzer/api';
 import { Benutzer, BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterEmpty, BenutzersucheFilterValues } from '@bv-admin-app/benutzer/model';
@@ -14,6 +14,8 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin-app/shared/model";
 import { Router } from "@angular/router";
 import { MatIconModule } from "@angular/material/icon";
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmationDialogComponent } from "@bv-admin-app/shared/ui";
 
 const AUSWAHL_BENUTZER = 'auswahlBenutzer';
 const UUID = 'uuid';
@@ -75,7 +77,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   // eine für alle mit add :)
   #subscriptions: Subscription = new Subscription();
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+  constructor(private changeDetector: ChangeDetectorRef, public confirmDeleteDialog: MatDialog) {
   }
 
   ngAfterViewInit(): void {
@@ -109,11 +111,25 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   deleteBenutzer(benutzer: Benutzer): void {
-    this.benutzerFacade.deleteSingleBenutzer(benutzer);
+
+    const dialogRef = this.confirmDeleteDialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      disableClose: true,
+      data: {
+        title: 'Benutzer löschen',
+        question: 'Bist Du vollkommen sicher, dass Du das Benutzerkonto von "' + benutzer.vorname + ' ' + benutzer.nachname + '" löschen willst?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.#doDeleteBenuzuer(benutzer);
+      }
+    });    
   }
 
   changeActivationState(benutzer: Benutzer): void {
-    if(benutzer.aktiviert) {
+    if (benutzer.aktiviert) {
       this.benutzerFacade.updateBenutzerAktivierungsstatue(benutzer, false);
     } else {
       this.benutzerFacade.updateBenutzerAktivierungsstatue(benutzer, true);
@@ -319,6 +335,14 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       this.selectionModel.clear();
       this.selectionModel.select(...selectedVisibleBenutzer);
     }
+  }
+
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //    other private methods
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  #doDeleteBenuzuer(benutzer: Benutzer): void {
+    this.benutzerFacade.deleteSingleBenutzer(benutzer);
   }
 
   // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

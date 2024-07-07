@@ -44,7 +44,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(InitSecurityContextFilter.class);
 
 	private static List<String> OPEN_DATA_PATHS = Arrays
-		.asList(new String[] {});
+		.asList(new String[] { "/auth-admin-api/version" });
 
 	@ConfigProperty(name = "stage")
 	String stage;
@@ -106,11 +106,9 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 				initMockSecurityContext(requestContext);
 			} else {
 
-				LOGGER.debug("path={}", path);
-
 				String sessionId = SessionUtils.getSessionId(requestContext, stage);
 
-				LOGGER.debug("sessionId={}", sessionId);
+				LOGGER.debug("path={}, sessionId={}", path, sessionId);
 
 				if (sessionId != null) {
 

@@ -15,7 +15,6 @@ import de.egladil.web.auth_admin_api.domain.auth.dto.ResponsePayload;
 import de.egladil.web.auth_admin_api.domain.exceptions.ClientAuthException;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response;
 
 /**
  * ClientAccessTokenService
@@ -35,45 +34,34 @@ public class ClientAccessTokenService {
 
 		OAuthClientCredentials credentials = clientCredentialsProvider.getClientCredentials(nonce);
 
-		Response authResponse = null;
+		ResponsePayload responsePayload = initAccessTokenDelegate.authenticateClient(credentials);
+		MessagePayload messagePayload = responsePayload.getMessage();
 
-		try {
+		LOGGER.debug(messagePayload.toString() + " isOK? " + messagePayload.isOk());
 
-			ResponsePayload responsePayload = initAccessTokenDelegate.authenticateClient(credentials);
-			MessagePayload messagePayload = responsePayload.getMessage();
+		if (!messagePayload.isOk()) {
 
-			LOGGER.debug(messagePayload.toString() + " isOK? " + messagePayload.isOk());
-
-			if (!messagePayload.isOk()) {
-
-				LOGGER.error("Authentisierung des Clients hat nicht geklappt: {} - {}", messagePayload.getLevel(),
-					messagePayload.getMessage());
-				throw new ClientAuthException();
-			}
-
-			@SuppressWarnings("unchecked")
-			Map<String, String> dataMap = (Map<String, String>) responsePayload.getData();
-
-			String nonceFromResponse = dataMap.get("nonce");
-
-			if (!nonce.equals(nonceFromResponse)) {
-
-				String msg = "Security Thread: zurückgesendetes nonce stimmt nicht: erwarten '" + nonce + "' aktuell: '"
-					+ nonceFromResponse + "'";
-
-				LOGGER.warn(msg);
-				throw new ClientAuthException();
-			}
-
-			String accessToken = dataMap.get("accessToken");
-
-			return accessToken;
-		} finally {
-
-			if (authResponse != null) {
-
-				authResponse.close();
-			}
+			LOGGER.error("Authentisierung des Clients hat nicht geklappt: {} - {}", messagePayload.getLevel(),
+				messagePayload.getMessage());
+			throw new ClientAuthException();
 		}
+
+		@SuppressWarnings("unchecked")
+		Map<String, String> dataMap = (Map<String, String>) responsePayload.getData();
+
+		String nonceFromResponse = dataMap.get("nonce");
+
+		if (!nonce.equals(nonceFromResponse)) {
+
+			String msg = "Security Thread: zurückgesendetes nonce stimmt nicht: erwarten '" + nonce + "' aktuell: '"
+				+ nonceFromResponse + "'";
+
+			LOGGER.warn(msg);
+			throw new ClientAuthException();
+		}
+
+		String accessToken = dataMap.get("accessToken");
+
+		return accessToken;
 	}
 }

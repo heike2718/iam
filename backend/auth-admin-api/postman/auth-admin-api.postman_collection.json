@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "ad7186c6-2d02-4fd4-9e72-46404f94b57a",
+		"name": "auth-admin-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15742019"
+	},
+	"item": [
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "local - version",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://locahost:9020/auth-admin-api/version",
+							"protocol": "http",
+							"host": [
+								"locahost"
+							],
+							"port": "9020",
+							"path": [
+								"auth-admin-api",
+								"version"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "qs",
+			"item": [
+				{
+					"name": "qs - version",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://lheikeqs/auth-admin-api/version",
+							"protocol": "http",
+							"host": [
+								"lheikeqs"
+							],
+							"path": [
+								"auth-admin-api",
+								"version"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "prod",
+			"item": [
+				{
+					"name": "prod - version",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://mathe-jung-alt.de/auth-admin-api/version",
+							"protocol": "https",
+							"host": [
+								"mathe-jung-alt",
+								"de"
+							],
+							"path": [
+								"auth-admin-api",
+								"version"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

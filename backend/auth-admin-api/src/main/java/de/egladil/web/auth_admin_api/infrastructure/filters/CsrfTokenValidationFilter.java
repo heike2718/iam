@@ -44,7 +44,7 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {
 
-		LOGGER.debug("entering validation filter");
+		LOGGER.debug("entering filter");
 
 		if (!csrfEnabled) {
 
@@ -65,7 +65,7 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 
 		if (csrfTokenCookie != null) {
 
-			LOGGER.info("{} {}", method, path);
+			LOGGER.debug("{} {}", method, path);
 
 			List<String> csrfTokenHeader = requestContext.getHeaders().get(AuthConstants.CSRF_TOKEN_HEADER_NAME);
 

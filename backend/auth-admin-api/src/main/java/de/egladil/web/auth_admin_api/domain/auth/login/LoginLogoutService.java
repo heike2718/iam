@@ -63,13 +63,12 @@ public class LoginLogoutService {
 
 			LOGGER.warn("login wurde ohne payload aufgerufen");
 
-			throw new WebApplicationException(
-				Response.status(Status.BAD_REQUEST).entity(MessagePayload.error("login: erwarte authResult")).build());
+			throw new WebApplicationException(Status.BAD_REQUEST);
 		}
 
 		String oneTimeToken = authResult.getIdToken();
 
-		LOGGER.debug("idToken={}", StringUtils.abbreviate(oneTimeToken, 11));
+		LOGGER.info("idToken={}", StringUtils.abbreviate(oneTimeToken, 11));
 
 		OAuthClientCredentials clientCredentials = clientCredentialsProvider.getClientCredentials(null);
 
@@ -79,6 +78,8 @@ public class LoginLogoutService {
 		Session session = this.sessionService.initSession(jwt);
 
 		if (session.isAnonym()) {
+
+			LOGGER.warn("anonyme sessions sind nicht erlaubt => 401");
 
 			session.clearSessionIdInProd();
 			return Response.status(Status.FORBIDDEN)
@@ -92,6 +93,8 @@ public class LoginLogoutService {
 
 			session.clearSessionIdInProd();
 		}
+
+		LOGGER.debug("session created for user {}", session.getUser().getFullName());
 
 		return Response.ok(session).cookie(csrfCookieService.createCsrfTokenCookie()).cookie(sessionCookie).build();
 	}
