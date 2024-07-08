@@ -4,7 +4,7 @@
 
 export const environment = {
 	production: false,
-	version: '8.0.1',
+	version: '8.0.2',
 	envName: 'heikeqs',
 	datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
 	apiUrl: 'http://heikeqs/authprovider',

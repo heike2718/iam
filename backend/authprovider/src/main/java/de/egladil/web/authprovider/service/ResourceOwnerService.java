@@ -7,14 +7,10 @@ package de.egladil.web.authprovider.service;
 
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.transaction.Transactional.TxType;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Hash;
@@ -34,6 +30,10 @@ import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItemBuilder;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
 import de.egladil.web.authprovider.utils.AuthUtils;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 /**
  * ResourceOwnerService
@@ -183,6 +183,7 @@ public class ResourceOwnerService {
 
 		int anzahlLogins = resourceOwner.getAnzahlLogins();
 		resourceOwner.setAnzahlLogins(++anzahlLogins);
+		resourceOwner.setDatumGeaendert(new Date());
 
 		try {
 
