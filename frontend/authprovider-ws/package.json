@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "nx",
-    "nx": "nx",
-    "start": "ng serve",
+    "start": "NX_DAEMON=false nx serve",
+    "start:auth-app": "NX_DAEMON=false nx serve auth-app",
+    "start:profil-app": "NX_DAEMON=false nx serve profil-app",
     "build:auth-app:heikedeb": "npx nx build auth-app -c heikedeb --base-href /auth-app --deploy-url auth-app/ --skip-nx-cache",
     "build:profil-app:heikedeb": "npx nx build profil-app -c heikedeb --base-href /profil-app --deploy-url profil-app/ --skip-nx-cache",
     "build:auth-app:heikeqs": "npx nx build auth-app -c heikeqs --output-hashing=all --base-href /auth-app --deploy-url auth-app/ --skip-nx-cache",

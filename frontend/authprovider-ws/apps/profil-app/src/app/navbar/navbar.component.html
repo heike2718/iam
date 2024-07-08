@@ -5,15 +5,16 @@
 	</button>
 
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault" [ngbCollapse]="isCollapsed">
-		<ul class="navbar-nav mr-auto">
+		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 			<li routerLinkActive="active"><a routerLink="/" (click)="collapseNav()" class="nav-link">
 					Benutzerdaten </a></li>
-		</ul>
-		<ul class="navbar-nav ml-auto">
 			<li routerLinkActive="active"><a routerLink="/about" (click)="collapseNav()" class="nav-link"><span
 						class="fa fa-info fa-1x" aria-hidden="true"> </span> Info <span
 						class="sr-only">(current)</span></a></li>
 
+		</ul>
+
+		<ul class="nav navbar-nav me-2">
 
 			<li *ngIf="isLoggedOut()" routerLinkActive="active"><a (click)="login()" class="nav-link"><span
 						class="fa fa-sign-in fa-1x" aria-hidden="true"></span> login <span

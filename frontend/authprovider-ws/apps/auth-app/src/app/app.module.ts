@@ -23,6 +23,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { environment } from '../environments/environment';
+import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
+import { LoadingInterceptor } from './loading-indicator/loading.interceptor';
 
 @NgModule({
 	declarations: [
@@ -32,7 +34,8 @@ import { environment } from '../environments/environment';
 		ErrorComponent,
 		TempPasswordComponent,
 		ForgotPasswordComponent,
-		HomeComponent
+		HomeComponent,
+		LoadingIndicatorComponent
 	],
 	imports: [
 		BrowserModule,
@@ -56,6 +59,11 @@ import { environment } from '../environments/environment';
 	providers: [
 		GlobalErrorHandler,
 		{ provide: ErrorHandler, useClass: GlobalErrorHandler },
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: LoadingInterceptor,
+			multi: true
+		},
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: AuthInterceptor,

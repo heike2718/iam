@@ -101,13 +101,10 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
 		this.logger.debug(JSON.stringify(tempPasswordCredentials));
 
-		this.appData.updateLoading(true);
-
 		const response$ = this.tempPwdService.orderTempPassword(tempPasswordCredentials, this.session);
 
 		response$.subscribe(
 			payload => {
-				this.appData.updateLoading(false);
 				const level = payload.message.level;
 
 				if (level === 'INFO') {
@@ -121,7 +118,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 			},
 			error => this.httpErrorService.handleError(error, 'orderTempPassword', undefined),
 			() => {
-				this.appData.updateLoading(false);
 				this.logger.debug('post call completed');
 			}
 		);

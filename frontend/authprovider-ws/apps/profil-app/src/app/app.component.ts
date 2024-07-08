@@ -23,8 +23,6 @@ export class AppComponent implements OnInit {
 
 	ngOnInit() {
 
-		store.updateBlockingIndicator(false);
-
 		this.versionService.ladeExpectedGuiVersion();
 
 		// nach dem redirect vom AuthProvider ist das die Stelle, an der die Anwendung wieder ankommt.

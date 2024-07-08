@@ -1,6 +1,6 @@
 <div class="page">
 
-	<div *ngIf="clientInformation$ | async as clientInfo else loadingIndicator">
+	<div *ngIf="clientInformation$ | async as clientInfo">
 
 		<p>Benutzerkonto anlegen und {{clientInfo.zurueckText}}</p>
 
@@ -91,18 +91,13 @@
 			<cmn-double-password id="doublePassword" formControlName="doublePassword" labelFirstPassword="Passwort"
 				labelSecondPassword="Passwort wiederholt"></cmn-double-password>
 
-
-			<div *ngIf="appData.loading$ | async as isLoading" class="mt-4 mb-4">
-				<div *ngIf="!isLoading else loadingIndicator"></div>
-			</div>
-
 			<div class="form-group kleber">
 				<label for="kleberInput">Kleber:</label>
 				<input class="form-control" type="text" id="kleberInput" placeholder="leer lassen!!!!"
 					formControlName="kleber">
 			</div>
 
-			<div class="btn-group d-flex" role="group">
+			<div class=" d-flex" role="group">
 				<button class="btn btn-primary w-100 ml-1" (click)="submitUser()" [disabled]="submitDisabled()">
 					registrieren
 				</button>
@@ -130,8 +125,3 @@
 	</div>
 </ng-template>
 
-<ng-template #loadingIndicator>
-	<div class="img">
-		<i class="fa fa-spinner fa-spin"></i> Bitte warten...
-	</div>
-</ng-template>

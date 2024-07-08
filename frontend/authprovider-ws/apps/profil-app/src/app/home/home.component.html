@@ -2,22 +2,14 @@
 	<prfl-profil></prfl-profil>	
 </div>
 
-<div *ngIf="!showLoadingIndicator else loadingIndicator"></div>
-
 <div *ngIf="isLoggedIn()" class="d-md-none d-lg-none d-xl-none">
-	<div class="btn-group d-inline" role="group">
+	<div class=" d-inline" role="group">
 		<button class="btn btn-secondary w-100 m-1" (click)="logOut()"><i class="fa fa-sign-out"></i> logout </button>
 	</div>
 </div>
 
 <div *ngIf="!isLoggedIn()" class="d-md-none d-lg-none d-xl-none">
-	<div class="btn-group d-inline" role="group">
+	<div class=" d-inline" role="group">
 		<button class="btn btn-secondary w-100 m-1" (click)="logIn()"><i class="fa fa-sign-in"></i> login </button>
 	</div>
 </div>
-
-<ng-template #loadingIndicator>
-	<div class="img">
-		<p><i class="fa fa-spinner fa-spin"></i> Bitte warten...</p>
-	</div>
-</ng-template>

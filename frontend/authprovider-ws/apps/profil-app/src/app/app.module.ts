@@ -23,6 +23,9 @@ import { AuthInterceptor } from './services/auth.interceptor';
 import { DeleteAccountComponent } from './profil/delete-account.component';
 import { AboutComponent } from './about/about.component';
 import { environment } from '../environments/environment';
+import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
+import { LoadingInterceptor } from './loading-indicator/loading.interceptor';
+
 
 @NgModule({
 	declarations: [
@@ -34,6 +37,7 @@ import { environment } from '../environments/environment';
 		PasswordComponent,
 		DeleteAccountComponent,
 		AboutComponent,
+		LoadingIndicatorComponent
 	],
 	imports: [
 		BrowserModule,
@@ -57,6 +61,11 @@ import { environment } from '../environments/environment';
 	providers: [
 		GlobalErrorHandlerService,
 		{ provide: ErrorHandler, useClass: GlobalErrorHandlerService },
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: LoadingInterceptor,
+			multi: true
+		},
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: AuthInterceptor,

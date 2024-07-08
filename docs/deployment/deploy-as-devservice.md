@@ -21,13 +21,14 @@ kopieren
 
 ## docker images build
 
+```
 cd /media/veracrypt1/ansible/docker/authprovider
 
 docker image build -t heik2718/auth-mariadb ./database
 docker image build -t heik2718/authprovider ./server
 docker image build -t heik2718/profil-server ./profil-server
 docker image build -t heike2718/authprovider-nginx ./nginx
-
+```
 
 ## network
 docker network create -d bridge auth-network

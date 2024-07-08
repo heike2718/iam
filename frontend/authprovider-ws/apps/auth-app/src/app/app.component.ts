@@ -3,6 +3,7 @@ import { LogService } from '@authprovider-ws/common-logging';
 import { environment } from '../environments/environment';
 import { VersionService } from './services/version.service';
 import { AppData } from './shared/app-data.service';
+import { LoadingIndicatorService } from './loading-indicator/loading-indicator.service';
 
 @Component({
 	// tslint:disable-next-line:component-selector
@@ -20,7 +21,10 @@ export class AppComponent implements OnInit {
 	innerWidth: number;
 
 	
-	constructor(private logger: LogService, public versionService: VersionService, public appData: AppData,) { }
+	constructor(private logger: LogService,
+		public versionService: VersionService,
+		public appData: AppData,
+		private loadingIndicatorService: LoadingIndicatorService) { }
 
 	ngOnInit() {
 		const location = window.location;
@@ -31,6 +35,9 @@ export class AppComponent implements OnInit {
 
 		this.logger.debug('innerWidth=' + this.innerWidth);
 		this.versionService.ladeExpectedGuiVersion();
+
+		this.loadingIndicatorService.start();
+
 	}
 }
 

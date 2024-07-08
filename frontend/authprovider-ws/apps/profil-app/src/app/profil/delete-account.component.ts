@@ -88,11 +88,9 @@ export class DeleteAccountComponent implements OnInit, OnDestroy {
 
 		this.userService.deleteAccount(this.csrfToken).subscribe(
 			_payload => {
-				store.updateBlockingIndicator(false);
 				this.showDialogSuccess();
 			},
 			(error => {
-				store.updateBlockingIndicator(false);
 				this.httpErrorService.handleError(error, 'deleteAccount');
 			})
 		);

@@ -32,7 +32,6 @@ export class AuthService {
 
 		const url = environment.apiUrl + '/auth/login';
 
-		store.updateBlockingIndicator(true);
 
 		this.httpClient.get(url).pipe(
 			map(res => res as ResponsePayload),
@@ -40,11 +39,9 @@ export class AuthService {
 			refCount()
 		).subscribe(
 			payload => {
-				store.updateBlockingIndicator(false);
 				window.location.href = payload.message.message;
 			},
 			(error => {
-				store.updateBlockingIndicator(false);
 				this.httpErrorService.handleError(error, 'logIn');
 			}));
 
@@ -92,8 +89,6 @@ export class AuthService {
 
 			const url = environment.apiUrl + '/auth/session';
 
-			store.updateBlockingIndicator(true);
-
 			this.httpClient.post(url, authResult.idToken).pipe(
 				map(res => res as ResponsePayload),
 				publishLast(),
@@ -113,12 +108,10 @@ export class AuthService {
 
 						store.initUser(authUser.user);
 						store.initCsrfToken(authUser.session.csrfToken);
-						store.updateBlockingIndicator(false);
 						this.router.navigateByUrl('/profil');
 					}
 				},
 				(error => {
-					store.updateBlockingIndicator(false);
 					this.httpErrorService.handleError(error, 'createSession');
 				})
 			);

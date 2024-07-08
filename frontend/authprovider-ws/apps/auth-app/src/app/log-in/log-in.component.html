@@ -1,6 +1,6 @@
 <div class="page">
 
-	<div *ngIf="clientInformation$ | async as clientInfo else loadingIndicator">
+	<div *ngIf="clientInformation$ | async as clientInfo">
 
 		<h3>Einloggen und {{clientInfo.zurueckText}}</h3>
 
@@ -32,11 +32,7 @@
 					formControlName="kleber">
 			</div>
 
-			<div *ngIf="appData.loading$ | async as isLoading" class="mt-4 mb-4">
-				<div *ngIf="!isLoading else loadingIndicator"></div>
-			</div>
-
-			<div class="btn-group d-flex" role="group">
+			<div class="d-flex" role="group">
 				<button class="btn btn-primary w-100 ml-1" (click)="submit()"
 					[disabled]="submitDisabled()">einloggen</button>
 
@@ -52,9 +48,3 @@
 		</form>
 	</div>
 </div>
-
-<ng-template #loadingIndicator>
-	<div class="img">
-		<i class="fa fa-spinner fa-spin"></i> Bitte warten...
-	</div>
-</ng-template>

@@ -133,15 +133,11 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 
 		};
 
-		this.appData.updateLoading(true);
-
 		const response$ = this.tempPwdService.changeTempPassword(credentials, this.session);
 
 		response$.subscribe(
 			payload => {
 				const level = payload.message.level;
-
-				this.appData.updateLoading(false);
 
 				if (level === 'INFO') {
 					this.sessionService.clearSession();					
@@ -158,7 +154,6 @@ export class TempPasswordComponent implements OnInit, OnDestroy {
 
 			},
 			error => {
-				this.appData.updateLoading(false);
 				this.resetForm();
 				this.httpErrorService.handleError(error, 'changeTempPassword', undefined);
 			},

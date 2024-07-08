@@ -32,7 +32,6 @@ export class UserService {
 
 	loadUser(): void {
 		const url = environment.apiUrl + '/profiles/profile';
-		store.updateBlockingIndicator(true);
 
 		this.http.get(url).pipe(
 			map(res => res as ResponsePayload),
@@ -52,10 +51,8 @@ export class UserService {
 				}
 
 				store.initUser(authUser.user);
-				store.updateBlockingIndicator(false);
 			},
 			(error => {
-				store.updateBlockingIndicator(false);
 				this.httpErrorService.handleError(error, 'changePassword');
 			})
 		);
@@ -64,7 +61,6 @@ export class UserService {
 	changePassword(changePasswordPayload: ChangePasswordPayload, cachedUser: User, csrfToken: string): void {
 
 		const url = environment.apiUrl + '/profiles/profile/password';
-		store.updateBlockingIndicator(true);
 
 		this.http.put(url, changePasswordPayload, { headers: { 'X-XSRF-TOKEN': csrfToken } }).pipe(
 			map(res => res as ResponsePayload),
@@ -86,13 +82,11 @@ export class UserService {
 						
 						this.messageService.showMessage(message);
 					}
-					store.updateBlockingIndicator(false);
 					store.updateErrorStatus(message.level !== 'INFO');
 					// this.sessionService.clearSession();
 
 				} else {
 					store.updateErrorStatus(true);
-					store.updateBlockingIndicator(false);
 					this.messageService.error('Es ist ein unerwarteter Fehler aufgetreten. Bitte schreiben Sie eine Mail an info@egladil.de.');
 					this.logService.error('changeProfileData: response payload war null');
 					store.initUser(cachedUser);
@@ -100,7 +94,6 @@ export class UserService {
 
 			},
 			(error => {
-				store.updateBlockingIndicator(false);
 				store.updateErrorStatus(true);
 				this.httpErrorService.handleError(error, 'changePassword');
 			})
@@ -110,8 +103,7 @@ export class UserService {
 	changeProfileData(profileDataPayload: ProfileDataPayload, cachedUser: User, csrfToken: string): void {
 
 		const url = environment.apiUrl + '/profiles/profile/data';
-		store.updateBlockingIndicator(true);
-
+		
 		this.http.put(url, profileDataPayload, { headers: { 'X-XSRF-TOKEN': csrfToken } }).pipe(
 			map(res => res as ResponsePayload),
 			publishLast(),
@@ -137,9 +129,7 @@ export class UserService {
 						const _message: Message = payload.message;
 						this.messageService.info(_message.message);
 					}
-					store.updateBlockingIndicator(false);
 				} else {
-					store.updateBlockingIndicator(false);
 					this.messageService.error('Es ist ein unerwarteter Fehler aufgetreten. Bitte schreiben Sie eine Mail an info@egladil.de.');
 					this.logService.error('changeProfileData: response payload war null');
 					store.initUser(cachedUser);
@@ -147,7 +137,6 @@ export class UserService {
 
 			},
 			(error => {
-				store.updateBlockingIndicator(false);
 				this.httpErrorService.handleError(error, 'changeProfileData');
 			})
 		);
@@ -155,7 +144,6 @@ export class UserService {
 
 	deleteAccount(csrfToken: string): Observable<ResponsePayload> {
 		const url = environment.apiUrl + '/profiles/profile';
-		store.updateBlockingIndicator(true);
 
 		return this.http.delete(url, { headers: { 'X-XSRF-TOKEN': csrfToken } }).pipe(
 			map(res => res as ResponsePayload),

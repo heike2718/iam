@@ -49,10 +49,6 @@ export class DataStore {
 		this.authSignUpOutcomeSubject.next(success);
 	}
 
-	updateBlockingIndicator(show: boolean) {
-		this.blockingIndicatorSubject.next(show);
-	}
-
 	initUser(user: User): void {
 		this.userSubject.next(_.cloneDeep(user));
 	}
