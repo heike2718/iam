@@ -85,6 +85,24 @@ export function isFilterEmpty(filter: BenutzersucheFilterValues): boolean {
     return str1 === str2;
 }
 
+export function isFilterAndSortEmpty(filterAndSort: BenutzersucheFilterAndSortValues): boolean {
+
+    const filter: BenutzersucheFilterValues = {
+        dateModified: filterAndSort.dateModified,
+        email: filterAndSort.email,
+        nachname: filterAndSort.nachname,
+        rolle: filterAndSort.rolle,
+        uuid: filterAndSort.uuid,
+        vorname: filterAndSort.vorname
+    };
+
+    if (!isFilterEmpty(filter)) {
+        return false;
+    }
+
+    return initialBenutzersucheFilterAndSortValues.sortByLabelname === filterAndSort.sortByLabelname;
+}
+
 export function removeBenutzers(benutzer: Benutzer[], benutzerToRemove: Benutzer[]): Benutzer[] {
     const benutzerToRemoveIds = new Set(benutzerToRemove.map(b => b.uuid));
     return benutzer.filter(b => !benutzerToRemoveIds.has(b.uuid));

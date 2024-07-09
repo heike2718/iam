@@ -7,7 +7,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>auth-admin-api</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 
 	<properties>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>

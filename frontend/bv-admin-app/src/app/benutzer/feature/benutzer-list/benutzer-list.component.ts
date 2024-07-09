@@ -2,7 +2,7 @@ import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin-app/benutzer/api';
-import { Benutzer, BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterEmpty, BenutzersucheFilterValues } from '@bv-admin-app/benutzer/model';
+import { Benutzer, BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterEmpty, BenutzersucheFilterValues, isFilterAndSortEmpty } from '@bv-admin-app/benutzer/model';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatInputModule } from '@angular/material/input';
@@ -125,7 +125,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       if (result) {
         this.#doDeleteBenuzuer(benutzer);
       }
-    });    
+    });
   }
 
   changeActivationState(benutzer: Benutzer): void {
@@ -205,8 +205,8 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   sucheDisabled(): boolean {
-    const actFilter = this.#createActualFilter();
-    return isFilterEmpty(actFilter);
+    const filterAndSort = this.#createActualFilterAndSort();
+    return isFilterAndSortEmpty(filterAndSort);
   }
 
   resetFilter() {
@@ -350,45 +350,55 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   #createActualFilterAndSort(): BenutzersucheFilterAndSortValues {
 
-    const matSortDirection = this.sort.direction;
-    let sortByLabel = '';
+    if (this.sort) {
+      const matSortDirection = this.sort.direction;
+      console.log('matSortDirection=' + matSortDirection);
+      
+      let sortByLabel = '';
 
-    if (matSortDirection === "") {
-      sortByLabel = '';
+      if (matSortDirection === "") {
+        sortByLabel = '';
+      } else {
+        sortByLabel = this.sort.active;
+      }
+
+      const filter: BenutzersucheFilterAndSortValues = {
+        dateModified: this.dateModifiedFilterValue,
+        email: this.emailFilterValue,
+        nachname: this.nachnameFilterValue,
+        rolle: this.rolleFilterValue,
+        sortByLabelname: sortByLabel,
+        uuid: this.uuidFilterValue,
+        vorname: this.vornameFilterValue
+      };
+
+      return filter;
     } else {
-      sortByLabel = this.sort.active;
-    }
-
-    const filter: BenutzersucheFilterAndSortValues = {
-      dateModified: this.dateModifiedFilterValue,
-      email: this.emailFilterValue,
-      nachname: this.nachnameFilterValue,
-      rolle: this.rolleFilterValue,
-      sortByLabelname: sortByLabel,
-      uuid: this.uuidFilterValue,
-      vorname: this.vornameFilterValue
-    };
-
-    return filter;
-  }
-
-  #createActualFilter(): BenutzersucheFilterValues {
-    return {
-      dateModified: this.dateModifiedFilterValue,
-      email: this.emailFilterValue,
-      nachname: this.nachnameFilterValue,
-      rolle: this.rolleFilterValue,
-      uuid: this.uuidFilterValue,
-      vorname: this.vornameFilterValue
+      return {
+        dateModified: this.dateModifiedFilterValue,
+        email: this.emailFilterValue,
+        nachname: this.nachnameFilterValue,
+        rolle: this.rolleFilterValue,
+        sortByLabelname: null,
+        uuid: this.uuidFilterValue,
+        vorname: this.vornameFilterValue
+      };
     }
   }
 
   #createActualPageDefinition(): PageDefinition {
 
+    let sortDirection = '';
+
+    if (this.sort) {
+      const matSortDirection = this.sort.direction;
+      sortDirection = matSortDirection;
+    }
+
     const pageDefinition: PageDefinition = {
       pageIndex: this.paginator ? this.paginator.pageIndex : this.#paginationState.pageDefinition.pageIndex,
       pageSize: this.paginator ? this.paginator.pageSize : this.#paginationState.pageDefinition.pageSize,
-      sortDirection: this.#paginationState.pageDefinition.sortDirection
+      sortDirection: sortDirection
     }
 
     return pageDefinition;

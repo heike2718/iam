@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSearchResult;
+import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSortColumn;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerTrefferlisteItem;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
@@ -65,7 +66,7 @@ public class BenutzerResourceTest {
 
 		BenutzerSuchparameter dto = new BenutzerSuchparameter();
 		dto.setUuid("7");
-		dto.setSortByLabelname("email");
+		dto.setSortByLabelname(BenutzerSortColumn.EMAIL.getLabel());
 		dto.setPageIndex(2);
 		dto.setPageSize(11);
 
@@ -84,6 +85,44 @@ public class BenutzerResourceTest {
 
 		long anzahlMit7 = items.stream().filter(i -> i.getUuid().contains("7")).count();
 		assertEquals(11, anzahlMit7);
+
+	}
+
+	@Test
+	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
+	void should_returnSortByDatumGeaendert() {
+
+		BenutzerSuchparameter dto = new BenutzerSuchparameter();
+		dto.setSortByLabelname(BenutzerSortColumn.DATE_MODIFIED_STRING.getLabel());
+		dto.setPageIndex(4);
+		dto.setPageSize(50);
+
+		BenutzerSearchResult responsePayload = given()
+			.contentType(ContentType.JSON)
+			.body(dto)
+			.post("")
+			.then()
+			.statusCode(200)
+			.extract()
+			.as(BenutzerSearchResult.class);
+
+		assertEquals(231, responsePayload.getAnzahlGesamt());
+		List<BenutzerTrefferlisteItem> items = responsePayload.getItems();
+		assertEquals(31, items.size());
+
+		{
+
+			BenutzerTrefferlisteItem item = items.get(30);
+			assertEquals("0af99bcd-0596-4e2e-9bac-8cc6aad6fc8e", item.getUuid());
+			assertEquals("2021-08-22 14:57:19", item.getDateModified());
+		}
+
+		{
+
+			BenutzerTrefferlisteItem item = items.get(29);
+			assertEquals("aaac2824-e6bd-4fc4-911b-e65473a012df", item.getUuid());
+			assertEquals("2020-09-04 15:32:25", item.getDateModified());
+		}
 
 	}
 

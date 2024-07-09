@@ -36,4 +36,9 @@ public enum BenutzerSortColumn {
 		throw new IllegalStateException("unbekanntes Label für die Suche nach USER");
 	}
 
+	public String getLabel() {
+
+		return label;
+	}
+
 }
