@@ -16,21 +16,18 @@ export class BenutzerHttpService {
 
     findBenutzer(suchparameter: BenutzerSuchparameter): Observable<BenutzerSearchResult> {
 
-        const headers = new HttpHeaders().set('Accept', 'application/json');
-        return this.#httpClient.post<BenutzerSearchResult>(this.#url, suchparameter, { headers });
+        return this.#httpClient.post<BenutzerSearchResult>(this.#url, suchparameter, { headers: new HttpHeaders() });
 
     }
 
     deleteBenutzer(uuid: string): Observable<DeleteBenutzerResponseDto> {
 
-        const headers = new HttpHeaders().set('Accept', 'application/json');
-        return this.#httpClient.delete<DeleteBenutzerResponseDto>(this.#url + '/' + uuid, {headers});
+        return this.#httpClient.delete<DeleteBenutzerResponseDto>(this.#url + '/' + uuid, { headers: new HttpHeaders() });
     }
 
     updateBenutzerStatus(uuid: string, aktivierungsstatue: Aktivierungsstatus): Observable<UpdateBenutzerResponseDto> {
 
-        const headers = new HttpHeaders().set('Accept', 'application/json');
-        return this.#httpClient.put<UpdateBenutzerResponseDto>(this.#url + '/' + uuid, aktivierungsstatue, { headers });
+        return this.#httpClient.put<UpdateBenutzerResponseDto>(this.#url + '/' + uuid, aktivierungsstatue, { headers: new HttpHeaders() });
     }
 
 }

@@ -17,6 +17,7 @@ export class BenutzerFacade {
     anzahlTreffer$: Observable<number> = this.#store.select(fromBenutzer.anzahlTreffer);
     paginationState$: Observable<PaginationState> = this.#store.select(fromBenutzer.paginationState);
     benutzerBasket$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.benutzerBasket);
+    lengthBenutzerBasket$: Observable<number> = this.#store.select(fromBenutzer.lengthBenutzerBasket);
     filterValues$: Observable<BenutzersucheFilterAndSortValues> = this.#store.select(fromBenutzer.filterValues);
     sortDefinition$: Observable<SortDefinition> = this.#store.select(fromBenutzer.sortDefinition);
 

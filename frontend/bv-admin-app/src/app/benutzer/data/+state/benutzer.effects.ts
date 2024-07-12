@@ -12,13 +12,13 @@ import { MessageService } from "@bv-admin-app/shared/messages/api";
 export class BenutzerEffects {
 
     #actions = inject(Actions);
-    #benutzerHttpService = inject(BenutzerHttpService);
+    #httpService = inject(BenutzerHttpService);
     #messageService = inject(MessageService);
 
     findBenutzer$ = createEffect(() => {
         return this.#actions.pipe(
             ofType(benutzerActions.fIND_BENUTZER),
-            switchMap((action) => this.#benutzerHttpService.findBenutzer(action.suchparameter)),
+            switchMap((action) => this.#httpService.findBenutzer(action.suchparameter)),
             map((treffer) => benutzerActions.bENUTZER_FOUND({ treffer }))
         );
     });
@@ -26,7 +26,7 @@ export class BenutzerEffects {
     deleteSingleBenutzer$ = createEffect(() => {
         return this.#actions.pipe(
             ofType(benutzerActions.dELETE_SINGLE_BENUTZER),
-            switchMap((action) => this.#benutzerHttpService.deleteBenutzer(action.benutzer.uuid)),
+            switchMap((action) => this.#httpService.deleteBenutzer(action.benutzer.uuid)),
             map((responsePayload) => benutzerActions.sINGLE_BENUTZER_DELETED({ responsePayload }))
         );
     });
@@ -43,7 +43,7 @@ export class BenutzerEffects {
     updateAktivierungsstatus$ = createEffect(() => {
         return this.#actions.pipe(
             ofType(benutzerActions.uPDATE_BENUTZER_ACTIVATION_STATE),
-            switchMap((action) => this.#benutzerHttpService.updateBenutzerStatus(action.uuid, action.aktivierungsstatus)),
+            switchMap((action) => this.#httpService.updateBenutzerStatus(action.uuid, action.aktivierungsstatus)),
             map((result) => benutzerActions.bENUTZER_ACTIVATION_STATE_UPDATED({ result }))
         );
     });

@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 @NamedQueries({
 	@NamedQuery(
 		name = "PersistenterUserReadOnly.FIND_BY_UUID",
-		query = "select b from PersistenterUserReadOnly b where b.uuid = :uuid")
+		query = "select i from PersistenterUserReadOnly i where i.uuid = :uuid")
 })
 public class PersistenterUserReadOnly {
 

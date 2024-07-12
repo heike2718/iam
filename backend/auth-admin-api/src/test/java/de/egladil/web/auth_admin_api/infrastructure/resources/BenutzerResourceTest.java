@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import de.egladil.web.auth_admin_api.domain.SortDirection;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSearchResult;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSortColumn;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
@@ -85,6 +86,38 @@ public class BenutzerResourceTest {
 
 		long anzahlMit7 = items.stream().filter(i -> i.getUuid().contains("7")).count();
 		assertEquals(11, anzahlMit7);
+
+	}
+
+	@Test
+	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
+	void testRequestFromFrontend() {
+
+		BenutzerSuchparameter dto = new BenutzerSuchparameter();
+		dto.setUuid("");
+		dto.setDateModified("");
+		dto.setEmail("");
+		dto.setNachname("test");
+		dto.setRolle("");
+		dto.setSortDirection(SortDirection.desc);
+		dto.setVorname("");
+		dto.setSortByLabelname(BenutzerSortColumn.DATE_MODIFIED_STRING.getLabel());
+
+		BenutzerSearchResult responsePayload = given()
+			.contentType(ContentType.JSON)
+			.body(dto)
+			.post("")
+			.then()
+			.statusCode(200)
+			.extract()
+			.as(BenutzerSearchResult.class);
+
+		assertTrue(responsePayload.getAnzahlGesamt() > 25);
+		List<BenutzerTrefferlisteItem> items = responsePayload.getItems();
+		assertEquals(25, items.size());
+
+		long anzahlMitTest = items.stream().filter(i -> i.getNachname().toLowerCase().contains("test")).count();
+		assertEquals(25, anzahlMitTest);
 
 	}
 

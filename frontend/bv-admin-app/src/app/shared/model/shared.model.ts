@@ -1,5 +1,7 @@
 import { SortDirection } from "@angular/material/sort";
 
+export type Jobstatus = 'WAITING' | 'IN_PROGRESS' | 'COMPLETED' | 'ERRORS';
+
 export interface PageDefinition {
     pageSize: number,
     pageIndex: number,
@@ -26,4 +28,6 @@ export interface SortDefinition {
     readonly direction: SortDirection;
     readonly active: string
 };
+
+
 

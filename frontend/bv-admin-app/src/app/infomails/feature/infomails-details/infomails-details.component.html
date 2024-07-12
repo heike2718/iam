@@ -1,0 +1,12 @@
+<mat-card appearance="raised">
+    <mat-card-header>
+        <mat-card-title>{{infomail.betreff}}</mat-card-title>
+        <mat-card-subtitle>{{infomail.uuid}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p>{{infomail.mailtext}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button [disabled]="(benutzerFacade.lengthBenutzerBasket$ | async) === 0">Learn More</button>
+    </mat-card-actions>
+</mat-card>

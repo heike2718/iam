@@ -2,9 +2,7 @@
 
     <h1>Benutzersuche</h1>
 
-    @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
-    <p>{{benutzerBasket.length}} Benutzer ausgewält</p>
-    }
+    <p>{{benutzerFacade.lengthBenutzerBasket$ | async}} Benutzer ausgewält</p>
 
     <!-- Alternative zu einem Subjact of(this.paginator)-->
     <!-- (page)="onPaginatorChanged($event)"-->
@@ -20,7 +18,7 @@
         <ng-container matColumnDef="auswahlBenutzer">
             <mat-header-cell *matHeaderCellDef>
                 <div class="grid-container-1">
-                    <label>Auswahl</label>
+                    <label title="Benutzer auswählen">check</label>
                     <mat-checkbox (click)="toggleSelectAll($event)" [checked]="allRowsSelected"></mat-checkbox>
                 </div>
             </mat-header-cell>
@@ -136,7 +134,7 @@
         <!-- Action aktivieren/deaktivieren -->
         <ng-container matColumnDef="toggleActivationState">
             <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1">
+                <label class="ml-1" title="aktivieren/deaktiv">
                     aktiv on/off
                 </label>
             </mat-header-cell>
@@ -159,8 +157,8 @@
         <!-- Action Konto löschen -->
         <ng-container matColumnDef="deleteAccount">
             <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1">
-                    löschen
+                <label class="ml-1" title="Benutzer löschen">
+                    weg
                 </label>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">

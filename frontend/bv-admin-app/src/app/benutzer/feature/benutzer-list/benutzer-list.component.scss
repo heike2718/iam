@@ -18,3 +18,42 @@ label {
     }
 }
 
+/** Breiten der Spalten definieren  */
+.mat-column-auswahlBenutzer {
+    flex: 0 0 6%;
+}
+
+.mat-column-uuid {
+    flex: 0 0 10%;
+}
+
+
+.mat-column-email {
+    flex: 0 0 14%;
+}
+
+.mat-column-vorname {
+    flex: 0 0 14%;
+}
+
+.mat-column-nachname {
+    flex: 0 0 14%;
+}
+
+.mat-column-dateModified {
+    flex: 0 0 14%;
+}
+
+.mat-column-rolle {
+    flex: 0 0 14%;
+}
+
+
+.mat-column-toggleActivationState {
+    flex: 0 0 5%;
+}
+
+.mat-column-deleteAccount {
+    flex: 0 0 5%;
+}
+

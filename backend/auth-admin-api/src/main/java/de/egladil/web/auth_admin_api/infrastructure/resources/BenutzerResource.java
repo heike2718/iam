@@ -97,7 +97,7 @@ public class BenutzerResource {
 		operationId = "aktivierungsstatusAendern", summary = "Setzt für den gegebenen Benutzer den neuen Aktivierungsstatus")
 	@Parameters({
 		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID eines Benutzers",
+			in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der geändert werden soll",
 			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
 	})
 	@APIResponse(
@@ -150,7 +150,7 @@ public class BenutzerResource {
 		summary = "Löscht das durch die uuid definierte Benutzerkonto vollständig aus allen Anwendungen.")
 	@Parameters({
 		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID eines Benutzers",
+			in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der gelöscht werden soll",
 			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
 	})
 	@APIResponse(
@@ -182,7 +182,7 @@ public class BenutzerResource {
 		responseCode = "500", content = @Content(
 			mediaType = "application/json",
 			schema = @Schema(implementation = MessagePayload.class)))
-	public Response benutzerLoeschen(@PathParam(value = "uuid") @Pattern(
+	public Response benutzerLoeschen(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(value = "uuid") @Pattern(
 		regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
 			max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
 

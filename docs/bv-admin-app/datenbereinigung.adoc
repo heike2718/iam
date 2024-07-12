@@ -1,0 +1,26 @@
+== Bereinigung der Benutzerkonten
+
+Am 2020-12-06 15:01:53 wurden offenbar automatisch Benutzerkonten geändert / migriert oder ähnliche Aktionen. D.h. dieses Änderungsdatum sagt nichts über eine eventuelle Aktivität aus.
+
+=== Löschung nicht aktivierter Benutzerkonten
+
+Log absteigend im Datum
+
+[cols="1,1"] 
+|===
+| *Datum*
+| *Aktion*
+
+| 10.07.2024
+| Alle nicht aktivierten Benutzerkontoen bis gestern einzeln gelöscht, damit an diese keine Mails versendet werden.
+|===
+
+
+=== Wie lassen sich inaktive Benutzer noch herausfinden, damit sie gezielt angeschrieben werden können?
+
+Folgende Tabellen enthalten die UUID des Benuzers:
+
+* DOWNLOADS
+* TEILNAHMEN
+* EVENTS (allerdings im JSON-Format)
+

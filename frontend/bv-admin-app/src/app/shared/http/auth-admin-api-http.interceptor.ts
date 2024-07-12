@@ -25,8 +25,11 @@ export class AuthAdminAPIHttpInterceptor implements HttpInterceptor {
         const url = this.#config.baseUrl + req.url;
 
         // console.log(url);
+        // const headers = new HttpHeaders();
 
-        const headers: HttpHeaders = req.headers.append('X-CLIENT-ID', this.#config.clientId);
+        const headers: HttpHeaders = req.headers
+            .append('X-CLIENT-ID', this.#config.clientId)
+            .append('Accept', 'application/json');
 
         // Es kam vor, dass das SessionCookie nicht im Client ankam.
         // 2 Bedingungen: 

@@ -351,9 +351,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   #createActualFilterAndSort(): BenutzersucheFilterAndSortValues {
 
     if (this.sort) {
-      const matSortDirection = this.sort.direction;
-      console.log('matSortDirection=' + matSortDirection);
-      
+      const matSortDirection = this.sort.direction;      
       let sortByLabel = '';
 
       if (matSortDirection === "") {

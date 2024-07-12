@@ -8,7 +8,7 @@
     @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
     <p>aktuell ausgewählt: {{benutzerBasket.length}}</p>
 
-    <mat-table [dataSource]="benutzerBasket" class="mat-elevation-z8 mt-2">
+    <mat-table [dataSource]="benutzerBasket" class="mat-elevation-z2 mt-2">
 
         <!-- UUID -->
         <ng-container matColumnDef="uuid">

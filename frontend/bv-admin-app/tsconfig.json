@@ -28,7 +28,12 @@
       "@bv-admin-app/benutzer/api": ["src/app/benutzer/api/index.ts"],
       "@bv-admin-app/benutzer/feature": ["src/app/benutzer/feature/index.ts"],
       "@bv-admin-app/benutzer/data": ["src/app/benutzer/data/index.ts"],
-      "@bv-admin-app/benutzer/model": ["src/app/benutzer/model/index.ts"]
+      "@bv-admin-app/benutzer/model": ["src/app/benutzer/model/index.ts"],
+      "@bv-admin-app/infomails/model": ["src/app/infomails/model/index.ts"],
+      "@bv-admin-app/infomails/data": ["src/app/infomails/data/index.ts"],
+      "@bv-admin-app/infomails/api": ["src/app/infomails/api/index.ts"],
+      "@bv-admin-app/infomails/feature": ["src/app/infomails/feature/index.ts"],
+      "@bv-admin-app/versandauftraege/model": ["src/app/versandauftraege/model/index.ts"]
     },
     "useDefineForClassFields": false,
     "esModuleInterop": true,

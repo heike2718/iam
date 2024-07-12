@@ -1,0 +1,44 @@
+import { Infomail } from "@bv-admin-app/infomails/model";
+import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
+import { createFeature, createReducer, on } from "@ngrx/store";
+import { loggedOutAction } from '@bv-admin-app/shared/auth/data';
+import { infomailsActions } from './infomails.actions';
+
+export interface InfomailsState {
+    readonly infomailsLoaded: boolean;
+    readonly infomails: Infomail[];
+    readonly selectedInfomail: Infomail | undefined;
+}
+
+const initialInfomailsState: InfomailsState = {
+    infomailsLoaded: false,
+    infomails: [],
+    selectedInfomail: undefined
+}
+
+export const infomailsFeature = createFeature({
+    name: 'infomails',
+    reducer: createReducer(
+        initialInfomailsState,
+        on(infomailsActions.iNFOMAILS_LOADED, (state, action) => {
+            return {...state, infomails: action.infomails, infomailsLoaded: true}
+        }),
+        on(infomailsActions.iNFOMAIL_SELECTED, (state, action) => {
+            return {...state, selectedInfomail: action.infomail}
+        }),  
+        on(infomailsActions.iNFOMAIL_DESELECTED, (state, _action) => {
+            swallowEmptyArgument(_action, false);
+            return {...state, selectedInfomail: undefined}
+        }),  
+        on(infomailsActions.cLEAR_INFOMAILS, (_state, _action) => {
+            swallowEmptyArgument(_action, false);
+            return initialInfomailsState;
+        }),       
+        on(loggedOutAction, (_state, _action) => {
+            swallowEmptyArgument(_action, false);
+            return initialInfomailsState;
+        })
+
+    )
+})
+

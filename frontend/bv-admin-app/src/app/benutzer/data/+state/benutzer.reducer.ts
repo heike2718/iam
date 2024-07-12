@@ -1,4 +1,10 @@
-import { Benutzer, BenutzersucheFilterAndSortValues, addBenutzerIfNotContained, initialBenutzersucheFilterAndSortValues, removeBenutzer, removeBenutzers } from "@bv-admin-app/benutzer/model";
+import { Benutzer,
+    BenutzersucheFilterAndSortValues,
+    addBenutzerIfNotContained,
+    initialBenutzersucheFilterAndSortValues,
+    removeBenutzer,
+    removeBenutzers 
+} from "@bv-admin-app/benutzer/model";
 import { PaginationState, initialPaginationState } from '@bv-admin-app/shared/model'
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { benutzerActions } from './benutzer.actions';

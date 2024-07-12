@@ -26,6 +26,11 @@ const benutzerBasket = createSelector(
     (state) => state.benutzerBasket
 )
 
+const lengthBenutzerBasket = createSelector(
+    benutzerBasket,
+    (basket) => basket.length
+)
+
 const filterValues = createSelector(
     selectBenutzerState,
     (state) => state.filterValues
@@ -52,6 +57,7 @@ export const fromBenutzer = {
     paginationState,
     page,
     benutzerBasket,
+    lengthBenutzerBasket,
     filterValues,
     sortDefinition
 }

@@ -1,0 +1,61 @@
+<div class="mja-container">
+    <h1 class="centered">Infomails</h1>
+    <p class="centered">{{benutzerBasket.length}} Benutzer ausgewält</p>
+
+    @if(infomailsFacade.infomails$ | async; as infomails) {
+
+    <mat-table [dataSource]="infomails" class="mat-elevation-z2 mt-2">
+
+        <!-- UUID -->
+        <ng-container matColumnDef="uuid">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    UUID
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let infomail">
+                {{infomail.uuid.substring(0,8)}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Betreff -->
+        <ng-container matColumnDef="betreff">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    Betreff
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let infomail">
+                {{infomail.betreff}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Anzahl versendet -->
+        <ng-container matColumnDef="anzahlVersendet">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    #versendet
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let infomail">
+                {{infomail.uuidsMailversandauftraege.length}}
+            </mat-cell>>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="selectInfomail(row)"></mat-row>
+    </mat-table>
+
+    @if(selectedInfomail) {
+    <bv-infomail-text [infomail]="selectedInfomail"></bv-infomail-text>
+    }
+
+    <div class="button-container">
+        @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
+        <button mat-raised-button color="primary" class="action-button" (click)="mailauftragErstellen()" title="Mailversandauftrag erzeugen"
+            [disabled]="buttonMailauftragErstellenDisabled()">Mailauftrag</button>
+        }
+    </div>
+
+    }
+</div>

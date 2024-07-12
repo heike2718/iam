@@ -17,6 +17,11 @@ export const appRoutes: Routes = [
           import('src/app/benutzer/feature').then((m) => m.benutzerRoutes),
     },
     {
+        path: 'infomails',
+        loadChildren: () =>
+          import('src/app/infomails/feature').then((m) => m.infomailsRoutes),
+    },
+    {
         path: '**',
         component: HomeComponent
     }

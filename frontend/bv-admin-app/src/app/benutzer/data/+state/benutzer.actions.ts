@@ -17,7 +17,6 @@ export const benutzerActions = createActionGroup({
         'SINGLE_BENUTZER_DELETED': props<{ responsePayload: DeleteBenutzerResponseDto }>(),
         'UPDATE_BENUTZER_ACTIVATION_STATE': props<{ uuid: string, aktivierungsstatus: Aktivierungsstatus }>(),
         'BENUTZER_ACTIVATION_STATE_UPDATED': props<{ result: UpdateBenutzerResponseDto }>()
-        // 'SELECT_BENUTZER': props<{ benutzerID: string }>(),
-        // 'UNSELECT_BENUTZER': emptyProps()
     }
 });
+
