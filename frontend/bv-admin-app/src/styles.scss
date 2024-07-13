@@ -16,22 +16,26 @@ body {
 /*
  * Make the component injected by <router-outlet> full height:
  */
- 
- main {
- 
+
+main {
+
     display: flex;
     flex-direction: column;
-   
+
     // Select all direct descendants only of the <main> element
     // that are not <router-outlet> elements:
-    > *:not(router-outlet) {
-   
-      flex: 1; // child will set to an equal size inside the container
-      display: block;
-   
+    >*:not(router-outlet) {
+
+        flex: 1; // child will set to an equal size inside the container
+        display: block;
+
     }
-   
-  }
+
+}
+
+mat-sidenav-content {
+    background-color: white;
+}
 
 a,
 .link {
@@ -231,7 +235,8 @@ mat-paginator {
     /* Ensure the paginator takes full width */
     margin-top: 20px;
     /* Add some space above the paginator */
-    white-space: nowrap; /* Prevent the label from breaking into multiple lines */
+    white-space: nowrap;
+    /* Prevent the label from breaking into multiple lines */
 }
 
 mat-card {
@@ -249,7 +254,7 @@ mat-card-actions>button {
 .mja-container {
     overflow: hidden;
     /* Prevent scrollbars */
-    margin: 15px;    
+    margin: 15px;
 }
 
 .mja-container mat-form-field+mat-form-field {
@@ -317,18 +322,6 @@ footer {
     margin-left: 2em;
 }
 
-/*
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: red;
-    color: white;
-    text-align: center;
-}
-    */
-
 /* styles.css (or your component-specific styles file) */
 .hover-details {
     position: fixed;
@@ -378,4 +371,3 @@ footer {
         grid-gap: 2rem;
     }
 }
-

@@ -12,7 +12,6 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { Subscription, combineLatest } from "rxjs";
 import { SelectionModel } from "@angular/cdk/collections";
 import { PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin-app/shared/model";
-import { Router } from "@angular/router";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "@bv-admin-app/shared/ui";
@@ -69,7 +68,6 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
   benutzerFacade = inject(BenutzerFacade);
 
-  #router = inject(Router);
   #paginationState: PaginationState = initialPaginationState;
   #page: Benutzer[] = [];
   #adjusting = false;
@@ -216,10 +214,6 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     this.benutzerFacade.resetFilterAndSort();
   }
 
-  gotoBasket(): void {
-    this.#router.navigateByUrl('users/basket');
-  }
-
   // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //    subscriptions in order to sync store and controls
   // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,10 +267,6 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     this.#initPaginator(paginationState);
     this.#initSort(sortDefinition);
     this.#initSelection(page, benutzerBasket);
-
-    // if (page.length > 0) {
-    //   this.#synchronizeSelectioModelWithBenutzerBasket(benutzerBasket);
-    // }
 
     this.changeDetector.detectChanges();
   }

@@ -178,12 +178,5 @@
             [disabled]="sucheDisabled()">suchen</button>
         <button mat-raised-button color="accent" class="action-button" (click)="resetFilter()"
             [disabled]="sucheDisabled()">Filter leeren</button>
-
-        @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
-        <button mat-raised-button color="primary" class="action-button" (click)="gotoBasket()"
-            [disabled]="benutzerBasket.length === 0">gewählte
-            Benutzer</button>
-        }
     </div>
-
 </div>

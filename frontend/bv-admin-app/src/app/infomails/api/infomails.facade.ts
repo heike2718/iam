@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { Infomail } from '@bv-admin-app/infomails/model';
+import { Infomail, InfomailRequestDto } from '@bv-admin-app/infomails/model';
 import { fromInfomails, infomailsActions } from '@bv-admin-app/infomails/data';
 import { filterDefined } from "@bv-admin-app/shared/util";
 
@@ -38,5 +38,10 @@ export class InfomailsFacade {
         this.#store.dispatch(infomailsActions.iNFOMAIL_CANCEL_EDIT());
     }
     
+    saveInfomailText(uuid: string, infomail: InfomailRequestDto): void {
+
+        // this.#store.dispatch(infomailsActions.)
+
+    }
 
 }

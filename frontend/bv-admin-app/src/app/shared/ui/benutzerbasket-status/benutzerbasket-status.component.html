@@ -1,3 +1,18 @@
-@if(authFacade.userIsLoggedIn$ | async){
-    <p>{{benutzerFacade.lengthBenutzerBasket$ | async}} Benutzer ausgewält</p>
-}
+<div class="footer-container">
+    @if(authFacade.userIsLoggedIn$ | async){
+
+        @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
+
+            <div class="statustext">
+                {{benutzerBasket.length}}
+                <mat-icon color="primary" class="large-icon">people</mat-icon>
+                ausgewält
+            </div>
+        
+        <button mat-raised-button color="primary" class="action-button" (click)="gotoBasket()"
+            [disabled]="benutzerBasket.length === 0" title="zu den gewählten Benutzern navigieren">gewählte
+            Benutzer</button>
+        }
+        }
+</div>
+

@@ -17,13 +17,18 @@ import { Infomail } from "@bv-admin-app/infomails/model";
         MatCardModule
     ],
     templateUrl: './infomails-edit.component.html',
-    styleUrls: ['./infomails-edit.component.scss'],})
+    styleUrls: ['./infomails-edit.component.scss'],
+})
 export class InfomailEditComponent {
 
     @Input()
     infomail!: Infomail;
 
     infomailsFacade = inject(InfomailsFacade);
+
+    save(): void {
+        this.infomailsFacade.saveInfomailText(this.infomail.uuid, { betreff: this.infomail.betreff, mailtext: this.infomail.mailtext });
+    }
 
     cancelEdit(): void {
         this.infomailsFacade.cancelEdit();
