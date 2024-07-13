@@ -1,4 +1,5 @@
 import {
+    HttpErrorResponse,
     HttpEvent,
     HttpHandler,
     HttpHeaders,
@@ -6,7 +7,7 @@ import {
     HttpRequest,
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { Configuration } from '@bv-admin-app/shared/config';
 
 /**
@@ -40,6 +41,11 @@ export class AuthAdminAPIHttpInterceptor implements HttpInterceptor {
                 headers: headers,
                 url: url,
                 withCredentials: true
+            })
+        ).pipe(
+            catchError((error: HttpErrorResponse) => {
+                // Rethrow the error to be handled by the global error handler
+                return throwError(() => error);
             })
         );
     }

@@ -23,7 +23,7 @@ export class InfomailsFacade {
     }
 
     selectInfomail(infomail: Infomail): void {
-        this.#store.dispatch(infomailsActions.iNFOMAIL_SELECTED({infomail}));
+        this.#store.dispatch(infomailsActions.iNFOMAIL_SELECTED({ infomail }));
     }
 
     deselectInfomail(): void {
@@ -41,11 +41,12 @@ export class InfomailsFacade {
     cancelEdit(): void {
         this.#store.dispatch(infomailsActions.iNFOMAIL_CANCEL_EDIT());
     }
-    
-    saveInfomailText(uuid: string, infomail: InfomailRequestDto): void {
 
-        // this.#store.dispatch(infomailsActions.)
-
+    saveInfomailText(uuid: string | undefined, infomailRequestDto: InfomailRequestDto): void {
+        if (uuid) {
+            this.#store.dispatch(infomailsActions.uPDATE_INFOMAIL({ uuid, infomailRequestDto }))
+        } else {
+            this.#store.dispatch(infomailsActions.aDD_INFOMAIL({ infomailRequestDto }))
+        }
     }
-
 }

@@ -753,6 +753,7 @@
       },
       "InfomailRequestDto" : {
         "description" : "Betreff und Text für eine Infomail",
+        "required" : [ "betreff", "mailtext" ],
         "type" : "object",
         "properties" : {
           "betreff" : {

@@ -27,14 +27,19 @@ export class ErrorHandlerService implements ErrorHandler {
 
     #handleHttpError(httpErrorResponse: HttpErrorResponse, messageService: MessageService): void {
 
-        if (httpErrorResponse.status === 440) {
-            // this.injector.get(AuthFacade).handleSessionExpired();
-        } else {
-            const message = extractServerErrorMessage(httpErrorResponse);
-            if (message.level === 'WARN') {
-                messageService.warn(message.message);
-            } else {
-                messageService.error(message.message);
+
+        switch (httpErrorResponse.status) {
+            case 440: {
+                // this.injector.get(AuthFacade).handleSessionExpired();
+                break;
+            }
+            default: {
+                const message = extractServerErrorMessage(httpErrorResponse);
+                if (message.level === 'WARN') {
+                    messageService.warn(message.message);
+                } else {
+                    messageService.error(message.message);
+                }
             }
         }        
     }

@@ -562,6 +562,9 @@ components:
           example: 732b2ed8-b9b7-4800-8685-38fd09d330cf
     InfomailRequestDto:
       description: Betreff und Text für eine Infomail
+      required:
+      - betreff
+      - mailtext
       type: object
       properties:
         betreff:

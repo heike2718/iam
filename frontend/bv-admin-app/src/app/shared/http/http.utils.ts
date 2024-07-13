@@ -12,7 +12,7 @@ export const OPEN_API_HTTP_TOKEN = new HttpContextToken<boolean>(() => false);
 export const ERROR_MESSAGE_CONTEXT = new HttpContextToken(() => defaultErrorMessage);
 
 export interface ConstraintViolation {
-    readonly field: string;
+    readonly fieldName: string;
     readonly message: string;
 };
 
@@ -46,18 +46,12 @@ export function extractServerErrorMessage(error: HttpErrorResponse): Message {
     if (errorResponse.status === 400) {
         const error = errorResponse.error;
 
-        if (error['violations']) {
+        if (Array.isArray(error)) {
 
-            const violations: ConstraintViolation[] = <ConstraintViolation[]>error['violations'];
+            const violations: ConstraintViolation[] = error as ConstraintViolation[];
+            const message = violations.map(cv => `${cv.fieldName}: ${cv.message}`).join(', ');            
 
-            let message = '';
-            violations.forEach(v => {
-                const index = v.field.indexOf('.');
-                const field = v.field.substring(index + 1);
-                message += field + ': ' + v.message;
-            });
-
-            return { level: 'ERROR', message: message };
+            return { level: 'ERROR', message: 'Upsi, da ist im frontend anscheinend etwas schiefgelaufen: ' + message };
         } else {
             const payload: Message = errorResponse.error;
 

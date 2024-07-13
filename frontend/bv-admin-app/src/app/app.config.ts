@@ -7,7 +7,7 @@ import { Configuration } from '@bv-admin-app/shared/config';
 import { environment } from 'src/environments/environment';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { LoadingInterceptor } from '@bv-admin-app/shared/messages/api';
-import { AuthAdminAPIHttpInterceptor, ErrorInterceptor } from '@bv-admin-app/shared/http';
+import { AuthAdminAPIHttpInterceptor } from '@bv-admin-app/shared/http';
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { ErrorHandlerService } from './shell/services/error-handler.service';
 import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from '@bv-admin-app/shared/local-storage-data';
@@ -75,7 +75,6 @@ export const appConfig: ApplicationConfig = {
     ),
     { provide: HTTP_INTERCEPTORS, multi: true, useClass: LoadingInterceptor },
     { provide: HTTP_INTERCEPTORS, multi: true, useClass: AuthAdminAPIHttpInterceptor },
-    { provide: HTTP_INTERCEPTORS, multi: true, useClass: ErrorInterceptor },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
   ],
 };

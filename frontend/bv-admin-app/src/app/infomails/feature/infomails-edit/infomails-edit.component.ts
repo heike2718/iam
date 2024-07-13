@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, Input } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
+import { MatInputModule } from "@angular/material/input";
 import { InfomailsFacade } from "@bv-admin-app/infomails/api";
-import { Infomail } from "@bv-admin-app/infomails/model";
+import { Infomail, InfomailRequestDto, initialInfomailRequestDto } from "@bv-admin-app/infomails/model";
 
 
 @Component({
@@ -13,24 +14,77 @@ import { Infomail } from "@bv-admin-app/infomails/model";
     imports: [
         CommonModule,
         ReactiveFormsModule,
+        MatInputModule,
         MatButtonModule,
         MatCardModule
     ],
     templateUrl: './infomails-edit.component.html',
     styleUrls: ['./infomails-edit.component.scss'],
 })
-export class InfomailEditComponent {
+export class InfomailEditComponent implements OnInit {
 
     @Input()
-    infomail!: Infomail;
+    infomail: Infomail | undefined;
 
     infomailsFacade = inject(InfomailsFacade);
 
+    infomailForm: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.infomailForm = this.fb.group({
+            betreff: ['', [Validators.required, Validators.maxLength(100)]],
+            mailtext: ['', Validators.required]
+        });
+    }
+
+    ngOnInit(): void {
+        this.#patchForm();
+    }
+
     save(): void {
-        this.infomailsFacade.saveInfomailText(this.infomail.uuid, { betreff: this.infomail.betreff, mailtext: this.infomail.mailtext });
+
+        if (this.infomail) {
+            this.infomailsFacade.saveInfomailText(this.infomail.uuid, { betreff: this.infomail.betreff, mailtext: this.infomail.mailtext });
+        } else {
+            this.infomailsFacade.saveInfomailText(undefined, initialInfomailRequestDto);
+        }
     }
 
     cancelEdit(): void {
         this.infomailsFacade.cancelEdit();
+    }
+
+    onBlur(controlName: string): void {
+        const control = this.infomailForm.get(controlName);
+        if (control) {
+            control.markAsTouched();
+        }
+    }
+
+    onSubmit(): void {
+        if (this.infomailForm.valid) {
+            const trimmedBetreff = this.infomailForm.get('betreff')?.value.trim();
+            const trimmedMailtext = this.infomailForm.get('mailtext')?.value.trim();
+            const requestDto: InfomailRequestDto = {
+                betreff: trimmedBetreff,
+                mailtext: trimmedMailtext
+            };
+
+            const uuid: string | undefined = this.infomail ? this.infomail.uuid : undefined;
+
+            this.infomailsFacade.saveInfomailText(uuid, requestDto);
+        }
+    }
+
+
+    #patchForm(): void {
+        if (this.infomail) {
+            this.infomailForm.patchValue(this.infomail);
+        } else {
+            this.infomailForm.patchValue({
+                betreff: '',
+                mailtext: ''
+            });
+        }
     }
 }

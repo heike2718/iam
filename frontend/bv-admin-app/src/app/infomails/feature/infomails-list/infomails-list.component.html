@@ -51,19 +51,18 @@
             aufheben</button>
         }
         @if(!selectedInfomail) {
-        <button mat-raised-button color="accent" class="action-button">neuer Text</button>
+        <button mat-raised-button color="accent" class="action-button" (click)="startEditNewInfomail()">neue
+            Infomailvorlage</button>
         }
     </div>
 
-    @if(selectedInfomail) {
-    @if(!editMode) {
+    @if(selectedInfomail && !editMode) {
     <bv-infomail [infomail]="selectedInfomail"></bv-infomail>
-    } @else {
+    } @if(editMode) {
     <bv-infomail-edit [infomail]="selectedInfomail"></bv-infomail-edit>
     }
-    } @else {
-        <p>eine Infomail auswählen, um sie zu versenden oder zu bearbeiten</p>
-    }
+
+
 
     }
 </div>

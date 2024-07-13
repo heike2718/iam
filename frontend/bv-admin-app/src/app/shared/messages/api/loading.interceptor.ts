@@ -3,11 +3,10 @@ import {
     HttpEvent,
     HttpHandler,
     HttpInterceptor,
-    HttpRequest,
-    HttpResponse,
+    HttpRequest
 } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { LoadingService } from './loading.service';
 import { SILENT_LOAD_CONTEXT } from './silent-load.context';
 
@@ -26,15 +25,7 @@ export class LoadingInterceptor implements HttpInterceptor {
 
         this.#loadingService.start();
         return next.handle(req).pipe(
-            tap((event) => {
-                if (event instanceof HttpResponse) {
-                    this.#loadingService.stop();
-                }
-            }),
-            catchError((err) => {
-                this.#loadingService.stop();
-                return throwError(() => err);
-            })
+            finalize(() => this.#loadingService.stop())
         );
     }
 }
