@@ -17,6 +17,5 @@ import { BenutzerFacade } from "@bv-admin-app/benutzer/api";
 export class HomeComponent {
 
     authFacade = inject(AuthFacade);
-    benutzerFacade = inject(BenutzerFacade);
 
 }

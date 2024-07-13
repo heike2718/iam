@@ -8,12 +8,14 @@ export interface InfomailsState {
     readonly infomailsLoaded: boolean;
     readonly infomails: Infomail[];
     readonly selectedInfomail: Infomail | undefined;
+    readonly editMode: boolean;
 }
 
 const initialInfomailsState: InfomailsState = {
     infomailsLoaded: false,
     infomails: [],
-    selectedInfomail: undefined
+    selectedInfomail: undefined,
+    editMode: false
 }
 
 export const infomailsFeature = createFeature({
@@ -29,7 +31,15 @@ export const infomailsFeature = createFeature({
         on(infomailsActions.iNFOMAIL_DESELECTED, (state, _action) => {
             swallowEmptyArgument(_action, false);
             return {...state, selectedInfomail: undefined}
-        }),  
+        }),
+        on(infomailsActions.iNFOMAIL_START_EDIT, (state, _action) => {
+            swallowEmptyArgument(_action, false);
+            return {...state, editMode: true}
+        }),    
+        on(infomailsActions.iNFOMAIL_CANCEL_EDIT, (state, _action) => {
+            swallowEmptyArgument(_action, false);
+            return {...state, editMode: false}
+        }),    
         on(infomailsActions.cLEAR_INFOMAILS, (_state, _action) => {
             swallowEmptyArgument(_action, false);
             return initialInfomailsState;

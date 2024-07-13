@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
-import { AfterViewInit, Component, inject, OnDestroy } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
@@ -7,8 +7,7 @@ import { InfomailsFacade } from '@bv-admin-app/infomails/api';
 import { Infomail } from "@bv-admin-app/infomails/model";
 import { combineLatest, Subscription } from "rxjs";
 import { InfomailsDetailsComponent } from "../infomails-details/infomails-details.component";
-import { BenutzerFacade } from "@bv-admin-app/benutzer/api";
-import { Benutzer } from "@bv-admin-app/benutzer/model";
+import { InfomailEditComponent } from "../infomails-edit/infomails-edit.component";
 
 const UUID = 'uuid';
 const BETREFF = 'betreff';
@@ -20,6 +19,7 @@ const ANZAHL_VERSENDET = "anzahlVersendet"
   imports: [
     CommonModule,
     InfomailsDetailsComponent,
+    InfomailEditComponent,
     NgIf,
     NgFor,
     AsyncPipe,
@@ -33,13 +33,15 @@ const ANZAHL_VERSENDET = "anzahlVersendet"
 export class InfomailsListComponent implements OnDestroy, AfterViewInit {
 
   infomailsFacade = inject(InfomailsFacade);
-  benutzerFacade = inject(BenutzerFacade);
 
   selectedInfomail: Infomail | undefined;
-  benutzerBasket: Benutzer[] = [];
+  editMode = false;
 
   // eine für alle mit add :)
   #subscriptions: Subscription = new Subscription();
+
+  constructor(private changeDetector: ChangeDetectorRef) {
+  }
 
   ngAfterViewInit(): void {
 
@@ -49,16 +51,19 @@ export class InfomailsListComponent implements OnDestroy, AfterViewInit {
       }
     });
 
-    const combinedStatusSubscription = combineLatest([this.infomailsFacade.selectedInfomail$,
-      this.benutzerFacade.benutzerBasket$]).subscribe(
-        ([infomailText, benutzerBasket]) => {
-          this.selectedInfomail = infomailText;
-          this.benutzerBasket = benutzerBasket
-        }
-      );
+    const combinedStatusSubscription = combineLatest([
+      this.infomailsFacade.selectedInfomail$,
+      this.infomailsFacade.editMode$]).subscribe(
+      ([infomailText, editMode]) => {
+        this.selectedInfomail = infomailText;
+        this.editMode = editMode;
+      }
+    );
 
     this.#subscriptions.add(loadedSubscription);
     this.#subscriptions.add(combinedStatusSubscription);
+
+    this.changeDetector.detectChanges();
 
   }
 
@@ -68,22 +73,10 @@ export class InfomailsListComponent implements OnDestroy, AfterViewInit {
 
 
   getDisplayedColumns(): string[] {
-    return [UUID, BETREFF,ANZAHL_VERSENDET];
+    return [UUID, BETREFF, ANZAHL_VERSENDET];
   }
 
   selectInfomail(infomail: Infomail) {
     this.infomailsFacade.selectInfomail(infomail);
   }
-
-  buttonMailauftragErstellenDisabled(): boolean {
-    if (!this.selectedInfomail) {
-      return true;
-    }
-    return this.benutzerBasket.length === 0;
-  }
-
-  mailauftragErstellen(): void {
-
-  }
-
 }

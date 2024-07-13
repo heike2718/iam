@@ -1,6 +1,5 @@
 <div class="mja-container">
     <h1 class="centered">Infomails</h1>
-    <p class="centered">{{benutzerBasket.length}} Benutzer ausgewält</p>
 
     @if(infomailsFacade.infomails$ | async; as infomails) {
 
@@ -46,16 +45,13 @@
         <mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="selectInfomail(row)"></mat-row>
     </mat-table>
 
-    @if(selectedInfomail) {
-    <bv-infomail-text [infomail]="selectedInfomail"></bv-infomail-text>
+    @if(selectedInfomail && !editMode) {
+    <bv-infomail [infomail]="selectedInfomail"></bv-infomail>
     }
 
-    <div class="button-container">
-        @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
-        <button mat-raised-button color="primary" class="action-button" (click)="mailauftragErstellen()" title="Mailversandauftrag erzeugen"
-            [disabled]="buttonMailauftragErstellenDisabled()">Mailauftrag</button>
-        }
-    </div>
-
+    @if(selectedInfomail && editMode) {
+    <bv-infomail-edit [infomail]="selectedInfomail"></bv-infomail-edit>
+    }
+    
     }
 </div>

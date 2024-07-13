@@ -7,6 +7,11 @@
         <p>{{infomail.mailtext}}</p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button [disabled]="(benutzerFacade.lengthBenutzerBasket$ | async) === 0">Learn More</button>
+        <div class="button-container">
+            <button mat-raised-button (click)="startEdit()">bearbeiten</button>
+            <button mat-raised-button [disabled]="(benutzerFacade.lengthBenutzerBasket$ | async) === 0"
+                (click)="mailauftragErstellen()"
+                title="Mailversandauftrag mit diesem Text erstellen">Mailauftrag</button>
+        </div>
     </mat-card-actions>
 </mat-card>

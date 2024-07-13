@@ -76,7 +76,7 @@ public class InfomailsResourceTest {
 		requestPayload.setBetreff("Testmail Nummer 1 - bitte damit keine Versandaufträge erzeugen!");
 		requestPayload
 			.setMailtext(
-				"Der Text wird jetzt geändert. Versantaufträge sollten damit nicht erzeugt werden, da sonst der size()-Test fehlschlägt. Mit freundlichen Grüßen.");
+				"Der Text wird jetzt geändert. Versandaufträge sollten damit nicht erzeugt werden, da sonst der size()-Test fehlschlägt. Mit freundlichen Grüßen.");
 
 		// Act
 		UpdateInfomailResponseDto responsePayload = given()

@@ -9,6 +9,8 @@ export const infomailsActions = createActionGroup({
         'INFOMAILS_LOADED': props<{infomails: Infomail[]}>(),
         'INFOMAIL_SELECTED': props<{infomail: Infomail}>(),
         'INFOMAIL_DESELECTED': emptyProps(),
+        'INFOMAIL_START_EDIT': emptyProps(),
+        'INFOMAIL_CANCEL_EDIT': emptyProps(),
         'INFOMAIL_ADDED': props<{infomail: Infomail}>(),
         'INFOMAIL_UPDATED': props<{responsePayload: UpdateInfomailResponseDto}>(),
         'CLEAR_INFOMAILS': emptyProps()

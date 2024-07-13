@@ -7,9 +7,13 @@
         <mat-sidenav-content>
             <bv-admin-header (sidenavToggle)="sidenav.toggle()"></bv-admin-header>
             <bv-admin-message></bv-admin-message>
-            <main>
+            <main>                
                 <router-outlet></router-outlet>
             </main>
+
+            <footer>
+                <bv-benutzerbasket-status></bv-benutzerbasket-status>
+              </footer>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </main>

@@ -2,8 +2,6 @@
 
     <h1>Benutzersuche</h1>
 
-    <p>{{benutzerFacade.lengthBenutzerBasket$ | async}} Benutzer ausgewält</p>
-
     <!-- Alternative zu einem Subjact of(this.paginator)-->
     <!-- (page)="onPaginatorChanged($event)"-->
     <mat-paginator [length]="benutzerFacade.anzahlTreffer$ | async" [pageSizeOptions]="[25,30,50]"

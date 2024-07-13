@@ -18,9 +18,15 @@ const selectedInfomail = createSelector(
     (state) => state.selectedInfomail
 )
 
+const editMode = createSelector(
+    selectInfomailsState,
+    (state) => state.editMode
+)
+
 
 export const fromInfomails = {
     infomailsLoaded,
     infomails,
-    selectedInfomail
+    selectedInfomail,
+    editMode
 }
