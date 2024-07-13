@@ -79,4 +79,8 @@ export class InfomailsListComponent implements OnDestroy, AfterViewInit {
   selectInfomail(infomail: Infomail) {
     this.infomailsFacade.selectInfomail(infomail);
   }
+
+  deselectInfomail() {
+    this.infomailsFacade.deselectInfomail();
+  }
 }

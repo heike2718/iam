@@ -1,3 +1,4 @@
+@if(infomail) {
 <mat-card appearance="raised">
     <mat-card-header>
         <mat-card-title>{{infomail.betreff}}</mat-card-title>
@@ -8,10 +9,13 @@
     </mat-card-content>
     <mat-card-actions>
         <div class="button-container">
-            <button mat-raised-button  color="primary" (click)="startEdit()">bearbeiten</button>
+            <button mat-raised-button color="primary" (click)="startEdit()">bearbeiten</button>
             <button mat-raised-button [disabled]="(benutzerFacade.lengthBenutzerBasket$ | async) === 0"
                 (click)="mailauftragErstellen()"
                 title="Mailversandauftrag mit diesem Text an die gewälten Benutzer erstellen">Mailauftrag</button>
         </div>
     </mat-card-actions>
 </mat-card>
+} @else {
+    <p>kein Text ausgewählt</p>
+}

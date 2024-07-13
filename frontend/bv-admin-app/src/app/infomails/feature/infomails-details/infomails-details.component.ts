@@ -22,7 +22,7 @@ export class InfomailsDetailsComponent {
     benutzerFacade = inject(BenutzerFacade);
 
     @Input()
-    infomail!: Infomail;
+    infomail: Infomail | undefined;
 
     infomailsFacade = inject(InfomailsFacade);
 

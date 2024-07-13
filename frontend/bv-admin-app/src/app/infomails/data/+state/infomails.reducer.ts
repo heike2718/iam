@@ -26,11 +26,11 @@ export const infomailsFeature = createFeature({
             return {...state, infomails: action.infomails, infomailsLoaded: true}
         }),
         on(infomailsActions.iNFOMAIL_SELECTED, (state, action) => {
-            return {...state, selectedInfomail: action.infomail}
+            return {...state, selectedInfomail: action.infomail, editMode: false}
         }),  
         on(infomailsActions.iNFOMAIL_DESELECTED, (state, _action) => {
             swallowEmptyArgument(_action, false);
-            return {...state, selectedInfomail: undefined}
+            return {...state, selectedInfomail: undefined, editMode: false}
         }),
         on(infomailsActions.iNFOMAIL_START_EDIT, (state, _action) => {
             swallowEmptyArgument(_action, false);

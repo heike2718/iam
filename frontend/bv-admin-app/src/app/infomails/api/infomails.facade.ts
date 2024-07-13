@@ -15,7 +15,7 @@ export class InfomailsFacade {
 
     readonly infomailsLoaded$: Observable<boolean> = this.#store.select(fromInfomails.infomailsLoaded);
     readonly infomails$: Observable<Infomail[]> = this.#store.select(fromInfomails.infomails);
-    readonly selectedInfomail$: Observable<Infomail> = this.#store.select(fromInfomails.selectedInfomail).pipe(filterDefined);
+    readonly selectedInfomail$: Observable<Infomail | undefined> = this.#store.select(fromInfomails.selectedInfomail);
     readonly editMode$: Observable<boolean> = this.#store.select(fromInfomails.editMode);
 
     loadInfomails(): void {
@@ -24,6 +24,10 @@ export class InfomailsFacade {
 
     selectInfomail(infomail: Infomail): void {
         this.#store.dispatch(infomailsActions.iNFOMAIL_SELECTED({infomail}));
+    }
+
+    deselectInfomail(): void {
+        this.#store.dispatch(infomailsActions.iNFOMAIL_DESELECTED());
     }
 
     clearInfomails(): void {

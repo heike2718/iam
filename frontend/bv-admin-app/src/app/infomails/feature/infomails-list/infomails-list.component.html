@@ -45,13 +45,25 @@
         <mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="selectInfomail(row)"></mat-row>
     </mat-table>
 
-    @if(selectedInfomail && !editMode) {
-    <bv-infomail [infomail]="selectedInfomail"></bv-infomail>
-    }
+    <div class="button-container">
+        @if(selectedInfomail) {
+        <button mat-raised-button color="primary" class="action-button" (click)="deselectInfomail()">Auswahl
+            aufheben</button>
+        }
+        @if(!selectedInfomail) {
+        <button mat-raised-button color="accent" class="action-button">neuer Text</button>
+        }
+    </div>
 
-    @if(selectedInfomail && editMode) {
+    @if(selectedInfomail) {
+    @if(!editMode) {
+    <bv-infomail [infomail]="selectedInfomail"></bv-infomail>
+    } @else {
     <bv-infomail-edit [infomail]="selectedInfomail"></bv-infomail-edit>
     }
-    
+    } @else {
+        <p>eine Infomail auswählen, um sie zu versenden oder zu bearbeiten</p>
+    }
+
     }
 </div>
