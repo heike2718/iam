@@ -42,26 +42,6 @@ export class InfomailEditComponent implements OnInit {
     }
 
     save(): void {
-
-        if (this.infomail) {
-            this.infomailsFacade.saveInfomailText(this.infomail.uuid, { betreff: this.infomail.betreff, mailtext: this.infomail.mailtext });
-        } else {
-            this.infomailsFacade.saveInfomailText(undefined, initialInfomailRequestDto);
-        }
-    }
-
-    cancelEdit(): void {
-        this.infomailsFacade.cancelEdit();
-    }
-
-    onBlur(controlName: string): void {
-        const control = this.infomailForm.get(controlName);
-        if (control) {
-            control.markAsTouched();
-        }
-    }
-
-    onSubmit(): void {
         if (this.infomailForm.valid) {
             const trimmedBetreff = this.infomailForm.get('betreff')?.value.trim();
             const trimmedMailtext = this.infomailForm.get('mailtext')?.value.trim();
@@ -75,6 +55,19 @@ export class InfomailEditComponent implements OnInit {
             this.infomailsFacade.saveInfomailText(uuid, requestDto);
         }
     }
+
+
+    cancelEdit(): void {
+        this.infomailsFacade.cancelEdit();
+    }
+
+    onBlur(controlName: string): void {
+        const control = this.infomailForm.get(controlName);
+        if (control) {
+            control.markAsTouched();
+        }
+    }
+
 
 
     #patchForm(): void {

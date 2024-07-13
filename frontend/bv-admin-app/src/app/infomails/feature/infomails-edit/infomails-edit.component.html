@@ -10,7 +10,7 @@
     </mat-card-header>
     }
     <mat-card-content>
-        <form [formGroup]="infomailForm" class="form-grid" (ngSubmit)="onSubmit()">
+        <form [formGroup]="infomailForm" class="form-grid" novalidate>
             <div class="form-row">
                 <mat-form-field appearance="fill">
                     <mat-label>Betreff</mat-label>

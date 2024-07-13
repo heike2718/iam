@@ -45,12 +45,15 @@ export const infomailsFeature = createFeature({
             return initialInfomailsState;
         }),
         on(infomailsActions.iNFOMAIL_ADDED, (state, action) => {
-            return { ...state, infomails: [...state.infomails, action.infomail] };
+
+            const theNewInfomails = [...state.infomails, action.infomail];
+            return { ...state, infomails: sortInfomailsByBetreff(theNewInfomails) };
         }),
         on(infomailsActions.iNFOMAIL_CHANGED, (state, action) => {
 
             if (action.responsePayload.infomail) {
                 const theChangedInfoMail: Infomail = action.responsePayload.infomail;
+
                 return {
                     ...state,
                     infomails: sortInfomailsByBetreff(state.infomails.map((im: Infomail) => im.uuid === theChangedInfoMail.uuid ? theChangedInfoMail : im))
@@ -58,10 +61,10 @@ export const infomailsFeature = createFeature({
             } else {
                 return {
                     ...state,
-                    infomails: sortInfomailsByBetreff(state.infomails.filter(im => action.responsePayload.uuid !== im.uuid)),
+                    infomails: state.infomails.filter(im => action.responsePayload.uuid !== im.uuid),
                     selectedInfomail: undefined,
                     editMode: false
-                }
+                };
             }
         }),
         on(loggedOutAction, (_state, _action) => {
