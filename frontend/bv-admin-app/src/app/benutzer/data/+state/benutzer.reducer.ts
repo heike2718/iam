@@ -1,11 +1,10 @@
-import { Benutzer,
-    BenutzersucheFilterAndSortValues,
+import { BenutzersucheFilterAndSortValues,
     addBenutzerIfNotContained,
     initialBenutzersucheFilterAndSortValues,
     removeBenutzer,
-    removeBenutzers 
+    removeBenutzers
 } from "@bv-admin-app/benutzer/model";
-import { PaginationState, initialPaginationState } from '@bv-admin-app/shared/model'
+import { Benutzer, PaginationState, initialPaginationState } from '@bv-admin-app/shared/model'
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { benutzerActions } from './benutzer.actions';
 import { loggedOutAction } from '@bv-admin-app/shared/auth/data';
@@ -89,8 +88,8 @@ export const benutzerFeature = createFeature({
             if (action.result.benuzer) {
 
                 const benutzer: Benutzer = action.result.benuzer;
-                const newBasket = state.benutzerBasket.map(b => b.uuid === benutzer.uuid ? benutzer : b );
-                const newPage = state.page.map(b => b.uuid === benutzer.uuid ? benutzer : b );
+                const newBasket = state.benutzerBasket.map(b => b.uuid === benutzer.uuid ? benutzer : b);
+                const newPage = state.page.map(b => b.uuid === benutzer.uuid ? benutzer : b);
 
                 return {
                     ...state,

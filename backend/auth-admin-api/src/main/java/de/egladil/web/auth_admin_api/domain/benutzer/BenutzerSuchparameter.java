@@ -55,11 +55,11 @@ public class BenutzerSuchparameter {
 		example = "2021")
 	@Pattern(regexp = "^[\\d\\-.:]*$")
 	@Size(max = 19)
-	private String dateModified;
+	private String aenderungsdatum;
 
 	@JsonProperty
 	@Schema(
-		description = "Name des Feldes, nach dem sortiert werden soll. Der Name muss sich auf die enum BenutzerSortColumn abbilden lassen",
+		description = "Name des Feldes, nach dem sortiert werden soll. Der Name muss sich auf die enum UsersSortColumn abbilden lassen",
 		example = "vorname")
 	@Pattern(regexp = "^[A-Za-zäöüßÄÖÜ\\-_ ]*$")
 	@Size(max = 100)
@@ -133,14 +133,14 @@ public class BenutzerSuchparameter {
 		this.rolle = rollen;
 	}
 
-	public String getDateModified() {
+	public String getAenderungsdatum() {
 
-		return dateModified;
+		return aenderungsdatum;
 	}
 
-	public void setDateModified(final String dateModified) {
+	public void setAenderungsdatum(final String dateModified) {
 
-		this.dateModified = dateModified;
+		this.aenderungsdatum = dateModified;
 	}
 
 	public String getSortByLabelname() {

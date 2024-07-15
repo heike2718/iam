@@ -35,7 +35,7 @@ export class AuthAdminAPIHttpInterceptor implements HttpInterceptor {
         // Es kam vor, dass das SessionCookie nicht im Client ankam.
         // 2 Bedingungen: 
         // 1. withCredentials muss true sein
-        // 1. Der Name des SessionCookies muss mit JSESSIONID beginnen
+        // 2. Der Name des SessionCookies muss mit JSESSIONID beginnen
         return next.handle(
             req.clone({
                 headers: headers,

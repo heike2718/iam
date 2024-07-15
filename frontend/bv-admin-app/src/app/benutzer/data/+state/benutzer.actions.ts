@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { Aktivierungsstatus, Benutzer, BenutzerSearchResult, BenutzerSuchparameter, BenutzersucheFilterAndSortValues, DeleteBenutzerResponseDto, UpdateBenutzerResponseDto } from "@bv-admin-app/benutzer/model";
-import { PageDefinition } from '@bv-admin-app/shared/model'
+import { Aktivierungsstatus, BenutzerSearchResult, BenutzerSuchparameter, BenutzersucheFilterAndSortValues, DeleteBenutzerResponseDto, UpdateBenutzerResponseDto } from "@bv-admin-app/benutzer/model";
+import { Benutzer, PageDefinition } from '@bv-admin-app/shared/model'
 
 export const benutzerActions = createActionGroup({
     source: 'benutzer',

@@ -58,7 +58,7 @@ public class BenutzerTrefferlisteItem {
 		example = "2019-09-14 18:40:06")
 	@Pattern(regexp = "^[\\d.\\-:]*$")
 	@Size(max = 19)
-	private String dateModified;
+	private String aenderungsdatum;
 
 	public String getUuid() {
 
@@ -120,14 +120,14 @@ public class BenutzerTrefferlisteItem {
 		this.aktiviert = aktiviert;
 	}
 
-	public String getDateModified() {
+	public String getAenderungsdatum() {
 
-		return dateModified;
+		return aenderungsdatum;
 	}
 
-	public void setDateModified(final String dateModified) {
+	public void setAenderungsdatum(final String dateModified) {
 
-		this.dateModified = dateModified;
+		this.aenderungsdatum = dateModified;
 	}
 
 }

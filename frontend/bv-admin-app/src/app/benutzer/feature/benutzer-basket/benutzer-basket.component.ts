@@ -4,13 +4,13 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { BenutzerFacade } from "@bv-admin-app/benutzer/api";
-import { Benutzer } from "@bv-admin-app/benutzer/model";
+import { Benutzer } from "@bv-admin-app/shared/model";
 
 const UUID = 'uuid';
 const EMAIL = 'email';
 const NACHNAME = 'nachname';
 const VORNAME = 'vorname';
-const DATE_MODIFIED = 'dateModified';
+const AENDERUNGSDATUM = 'aenderungsdatum';
 const ROLLE = 'rolle';
 const REMOVE_BENUTZER_ACTION = "remove"
 
@@ -39,7 +39,7 @@ export class BenutzerBasketComponent {
     }
 
     getDisplayedColumns(): string[] {
-        return [UUID, EMAIL, NACHNAME, VORNAME, DATE_MODIFIED, ROLLE, REMOVE_BENUTZER_ACTION];
+        return [UUID, EMAIL, NACHNAME, VORNAME, AENDERUNGSDATUM, ROLLE, REMOVE_BENUTZER_ACTION];
     }
 
     removeBenutzerFromBasket(benutzer: Benutzer): void {

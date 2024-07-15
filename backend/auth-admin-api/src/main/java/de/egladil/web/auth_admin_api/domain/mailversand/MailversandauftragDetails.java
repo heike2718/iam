@@ -63,6 +63,6 @@ public class MailversandauftragDetails {
 
 	@JsonProperty
 	@Schema(description = "Die Gruppen von Mailempfängern, an die die Mail jeweils als Sammelmail versendet wird / wurde")
-	private List<Infomailgruppe> infomailgruppen;
+	private List<Mailversandgruppe> mailversandgruppen;
 
 }

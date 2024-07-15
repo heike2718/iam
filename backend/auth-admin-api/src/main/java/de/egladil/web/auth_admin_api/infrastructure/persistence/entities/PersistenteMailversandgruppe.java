@@ -19,11 +19,11 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
 /**
- * PersistenteInfomailGruppe
+ * PersistenteMailversandgruppe
  */
 @Entity
-@Table(name = "INFOMAIL_GRUPPEN")
-public class PersistenteInfomailGruppe {
+@Table(name = "MAILVERSAND_GRUPPEN")
+public class PersistenteMailversandgruppe {
 
 	@Id
 	@UuidGenerator(style = Style.RANDOM)
@@ -49,5 +49,60 @@ public class PersistenteInfomailGruppe {
 	@Version
 	@Column(name = "VERSION")
 	private int version;
+
+	public String getIdVersandauftrag() {
+
+		return idVersandauftrag;
+	}
+
+	public void setIdVersandauftrag(final String idVersandauftrag) {
+
+		this.idVersandauftrag = idVersandauftrag;
+	}
+
+	public String getEmpfaengerEmails() {
+
+		return empfaengerEmails;
+	}
+
+	public void setEmpfaengerEmails(final String empfaengerEmails) {
+
+		this.empfaengerEmails = empfaengerEmails;
+	}
+
+	public Jobstatus getStatus() {
+
+		return status;
+	}
+
+	public void setStatus(final Jobstatus status) {
+
+		this.status = status;
+	}
+
+	public int getSortnr() {
+
+		return sortnr;
+	}
+
+	public void setSortnr(final int sortnr) {
+
+		this.sortnr = sortnr;
+	}
+
+	public Date getGeaendertAm() {
+
+		return geaendertAm;
+	}
+
+	public void setGeaendertAm(final Date geaendertAm) {
+
+		this.geaendertAm = geaendertAm;
+	}
+
+	public String getUuid() {
+
+		return uuid;
+	}
 
 }

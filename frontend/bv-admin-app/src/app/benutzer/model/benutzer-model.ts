@@ -1,3 +1,4 @@
+import { Benutzer } from "@bv-admin-app/shared/model";
 import { sortedStringify } from "@bv-admin-app/shared/util";
 
 export interface BenutzersucheFilterValues {
@@ -6,7 +7,7 @@ export interface BenutzersucheFilterValues {
     readonly nachname: string;
     readonly email: string;
     readonly rolle: string;
-    readonly dateModified: string;
+    readonly aenderungsdatum: string;
 }
 
 export const initialBenutzersucheFilterValues: BenutzersucheFilterValues = {
@@ -15,7 +16,7 @@ export const initialBenutzersucheFilterValues: BenutzersucheFilterValues = {
     nachname: '',
     email: '',
     rolle: '',
-    dateModified: ''
+    aenderungsdatum: ''
 }
 
 export interface BenutzersucheFilterAndSortValues {
@@ -24,7 +25,7 @@ export interface BenutzersucheFilterAndSortValues {
     readonly nachname: string;
     readonly email: string;
     readonly rolle: string;
-    readonly dateModified: string;
+    readonly aenderungsdatum: string;
     readonly sortByLabelname: string | null;
 }
 
@@ -34,18 +35,8 @@ export const initialBenutzersucheFilterAndSortValues: BenutzersucheFilterAndSort
     nachname: '',
     email: '',
     rolle: '',
-    dateModified: '',
+    aenderungsdatum: '',
     sortByLabelname: ''
-}
-
-export interface Benutzer {
-    readonly uuid: string;
-    readonly vorname: string;
-    readonly nachname: string;
-    readonly email: string;
-    readonly rollen: string;
-    readonly aktiviert: boolean;
-    readonly dateModified: string;
 }
 
 export interface UpdateBenutzerResponseDto {
@@ -64,7 +55,7 @@ export interface BenutzerSuchparameter {
     readonly nachname: string;
     readonly email: string;
     readonly rolle: string;
-    readonly dateModified: string;
+    readonly aenderungsdatum: string;
     readonly sortByLabelname: string | null;
     readonly sortDirection: string | null;
     readonly pageIndex: number;
@@ -88,7 +79,7 @@ export function isFilterEmpty(filter: BenutzersucheFilterValues): boolean {
 export function isFilterAndSortEmpty(filterAndSort: BenutzersucheFilterAndSortValues): boolean {
 
     const filter: BenutzersucheFilterValues = {
-        dateModified: filterAndSort.dateModified,
+        aenderungsdatum: filterAndSort.aenderungsdatum,
         email: filterAndSort.email,
         nachname: filterAndSort.nachname,
         rolle: filterAndSort.rolle,

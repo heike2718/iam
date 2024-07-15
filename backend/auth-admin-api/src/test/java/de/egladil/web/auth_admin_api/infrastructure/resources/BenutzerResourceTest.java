@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import de.egladil.web.auth_admin_api.domain.SortDirection;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSearchResult;
-import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSortColumn;
+import de.egladil.web.auth_admin_api.domain.benutzer.UsersSortColumn;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerTrefferlisteItem;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
@@ -38,7 +38,7 @@ public class BenutzerResourceTest {
 	void should_validateInput() {
 
 		BenutzerSuchparameter dto = new BenutzerSuchparameter();
-		dto.setDateModified("abscefg:hijklmn:stuv");
+		dto.setAenderungsdatum("abscefg:hijklmn:stuv");
 		dto.setEmail(
 			"Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Γεια σας Rainer Rainerja Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Γεια σας Rainer Rainerja Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rai");
 
@@ -67,7 +67,7 @@ public class BenutzerResourceTest {
 
 		BenutzerSuchparameter dto = new BenutzerSuchparameter();
 		dto.setUuid("7");
-		dto.setSortByLabelname(BenutzerSortColumn.EMAIL.getLabel());
+		dto.setSortByLabelname(UsersSortColumn.EMAIL.getLabel());
 		dto.setPageIndex(2);
 		dto.setPageSize(11);
 
@@ -95,13 +95,13 @@ public class BenutzerResourceTest {
 
 		BenutzerSuchparameter dto = new BenutzerSuchparameter();
 		dto.setUuid("");
-		dto.setDateModified("");
+		dto.setAenderungsdatum("");
 		dto.setEmail("");
 		dto.setNachname("test");
 		dto.setRolle("");
 		dto.setSortDirection(SortDirection.desc);
 		dto.setVorname("");
-		dto.setSortByLabelname(BenutzerSortColumn.DATE_MODIFIED_STRING.getLabel());
+		dto.setSortByLabelname(UsersSortColumn.DATE_MODIFIED_STRING.getLabel());
 
 		BenutzerSearchResult responsePayload = given()
 			.contentType(ContentType.JSON)
@@ -126,7 +126,7 @@ public class BenutzerResourceTest {
 	void should_returnSortByDatumGeaendert() {
 
 		BenutzerSuchparameter dto = new BenutzerSuchparameter();
-		dto.setSortByLabelname(BenutzerSortColumn.DATE_MODIFIED_STRING.getLabel());
+		dto.setSortByLabelname(UsersSortColumn.DATE_MODIFIED_STRING.getLabel());
 		dto.setPageIndex(4);
 		dto.setPageSize(50);
 
@@ -147,14 +147,14 @@ public class BenutzerResourceTest {
 
 			BenutzerTrefferlisteItem item = items.get(30);
 			assertEquals("0af99bcd-0596-4e2e-9bac-8cc6aad6fc8e", item.getUuid());
-			assertEquals("2021-08-22 14:57:19", item.getDateModified());
+			assertEquals("2021-08-22 14:57:19", item.getAenderungsdatum());
 		}
 
 		{
 
 			BenutzerTrefferlisteItem item = items.get(29);
 			assertEquals("aaac2824-e6bd-4fc4-911b-e65473a012df", item.getUuid());
-			assertEquals("2020-09-04 15:32:25", item.getDateModified());
+			assertEquals("2020-09-04 15:32:25", item.getAenderungsdatum());
 		}
 
 	}

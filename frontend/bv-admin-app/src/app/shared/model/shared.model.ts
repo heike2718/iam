@@ -28,3 +28,13 @@ export interface SortDefinition {
     readonly direction: SortDirection
     readonly active: string
 }
+
+export interface Benutzer {
+    readonly uuid: string;
+    readonly vorname: string;
+    readonly nachname: string;
+    readonly email: string;
+    readonly rollen: string;
+    readonly aktiviert: boolean;
+    readonly aenderungsdatum: string;
+}

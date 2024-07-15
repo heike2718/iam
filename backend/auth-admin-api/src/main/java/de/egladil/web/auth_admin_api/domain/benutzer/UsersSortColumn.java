@@ -8,25 +8,25 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * BenutzerSortColumn
+ * UsersSortColumn mapped Frontend-Labelnamen auf column-names in der View VW_USERS_SUCHE.
  */
-public enum BenutzerSortColumn {
+public enum UsersSortColumn {
 
 	EMAIL("email"),
-	DATE_MODIFIED_STRING("dateModified"),
+	DATE_MODIFIED_STRING("aenderungsdatum"),
 	NACHNAME("nachname"),
 	VORNAME("vorname");
 
 	private final String label;
 
-	private BenutzerSortColumn(final String label) {
+	private UsersSortColumn(final String label) {
 
 		this.label = label;
 	}
 
-	public static BenutzerSortColumn valueOfLabel(final String label) {
+	public static UsersSortColumn valueOfLabel(final String label) {
 
-		Optional<BenutzerSortColumn> opt = Arrays.stream(values()).filter(v -> v.label.equalsIgnoreCase(label)).findFirst();
+		Optional<UsersSortColumn> opt = Arrays.stream(values()).filter(v -> v.label.equalsIgnoreCase(label)).findFirst();
 
 		if (opt.isPresent()) {
 
@@ -40,5 +40,4 @@ public enum BenutzerSortColumn {
 
 		return label;
 	}
-
 }

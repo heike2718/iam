@@ -2,7 +2,7 @@ import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin-app/benutzer/api';
-import { Benutzer, BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterEmpty, BenutzersucheFilterValues, isFilterAndSortEmpty } from '@bv-admin-app/benutzer/model';
+import { BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterEmpty, BenutzersucheFilterValues, isFilterAndSortEmpty } from '@bv-admin-app/benutzer/model';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatInputModule } from '@angular/material/input';
@@ -11,7 +11,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { Subscription, combineLatest } from "rxjs";
 import { SelectionModel } from "@angular/cdk/collections";
-import { PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin-app/shared/model";
+import { Benutzer, PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin-app/shared/model";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "@bv-admin-app/shared/ui";
@@ -21,7 +21,7 @@ const UUID = 'uuid';
 const EMAIL = 'email';
 const NACHNAME = 'nachname';
 const VORNAME = 'vorname';
-const DATE_MODIFIED = 'dateModified';
+const AENDERUNGSDATUM = 'aenderungsdatum';
 const ROLLE = 'rolle';
 const DELETE_BENUTZER_ACTION = "deleteAccount";
 const TOGGLE_ACTIVATION_STATE_ACTION = "toggleActivationState"
@@ -56,7 +56,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   emailFilterValue = '';
   vornameFilterValue = '';
   nachnameFilterValue = '';
-  dateModifiedFilterValue = '';
+  aenderungsdatumFilterValue = '';
   rolleFilterValue = '';
 
   // Benutzer sollen ausgewählt werden können
@@ -164,7 +164,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   getDisplayedColumns(): string[] {
-    return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, DATE_MODIFIED, ROLLE, TOGGLE_ACTIVATION_STATE_ACTION, DELETE_BENUTZER_ACTION];
+    return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, AENDERUNGSDATUM, ROLLE, TOGGLE_ACTIVATION_STATE_ACTION, DELETE_BENUTZER_ACTION];
   }
 
   onPaginatorChanged(_event: PageEvent): void {
@@ -277,7 +277,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
     this.emailFilterValue = filter.email;
     this.nachnameFilterValue = filter.nachname;
     this.vornameFilterValue = filter.vorname;
-    this.dateModifiedFilterValue = filter.dateModified;
+    this.aenderungsdatumFilterValue = filter.aenderungsdatum;
     this.rolleFilterValue = filter.rolle;
   }
 
@@ -351,7 +351,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       }
 
       const filter: BenutzersucheFilterAndSortValues = {
-        dateModified: this.dateModifiedFilterValue,
+        aenderungsdatum: this.aenderungsdatumFilterValue,
         email: this.emailFilterValue,
         nachname: this.nachnameFilterValue,
         rolle: this.rolleFilterValue,
@@ -363,7 +363,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
       return filter;
     } else {
       return {
-        dateModified: this.dateModifiedFilterValue,
+        aenderungsdatum: this.aenderungsdatumFilterValue,
         email: this.emailFilterValue,
         nachname: this.nachnameFilterValue,
         rolle: this.rolleFilterValue,

@@ -1,9 +1,9 @@
 import { Injectable, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { Observable, filter } from "rxjs";
-import { Aktivierungsstatus, Benutzer, BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from "@bv-admin-app/benutzer/model";
+import { Observable } from "rxjs";
+import { Aktivierungsstatus, BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from "@bv-admin-app/benutzer/model";
 import { fromBenutzer, benutzerActions } from "@bv-admin-app/benutzer/data";
-import { PageDefinition, PaginationState, SortDefinition } from '@bv-admin-app/shared/model'
+import { Benutzer, PageDefinition, PaginationState, SortDefinition } from '@bv-admin-app/shared/model'
 
 
 @Injectable({
@@ -54,7 +54,7 @@ export class BenutzerFacade {
         const sortDirection = pageDefinition.sortDirection !== null && pageDefinition.sortDirection === '' ? null : pageDefinition.sortDirection;
 
         const suchparameter: BenutzerSuchparameter = {
-            dateModified: filter.dateModified,
+            aenderungsdatum: filter.aenderungsdatum,
             email: filter.email,
             nachname: filter.nachname,
             pageIndex: pageDefinition.pageIndex,

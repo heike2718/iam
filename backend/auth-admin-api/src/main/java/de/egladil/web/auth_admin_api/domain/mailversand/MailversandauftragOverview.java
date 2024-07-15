@@ -20,6 +20,10 @@ public class MailversandauftragOverview {
 	private String uuid;
 
 	@JsonProperty
+	@Schema(description = "ID des gespeicherten Mailtexts und Betreffs", example = "663d1c4e-46b7-4b41-a3cc-c753b8f7148c")
+	private String idInfomailtext;
+
+	@JsonProperty
 	@Schema(description = "Mailbetreff", example = "Aktivierung Ihres Benutzerkontos erforderlich")
 	private String betreff;
 
@@ -28,25 +32,71 @@ public class MailversandauftragOverview {
 	private Jobstatus status;
 
 	@JsonProperty
-	@Schema(
-		description = "wie üblich formatiertes Datum mit Uhrzeit, wann der Versand begonnen hat", example = "09.07.2024 19:01:43")
-	private String versandBegonnenAm;
+	@Schema(description = "Anzahl der Benutzer, an die die Infomail gesendet wir bzw. wurde", example = "4352")
+	private long anzahlEmpfaenger;
 
 	@JsonProperty
-	@Schema(
-		description = "wie üblich formatiertes Datum mit Uhrzeit, wann der Versand beendet wurde", example = "09.07.2024 23:56:01")
-	private String versandBeendetAm;
-
-	@JsonProperty
-	@Schema(description = "Anzahl aller Empfänger")
-	private int anzahlEmpfaenger;
-
-	@JsonProperty
-	@Schema(description = "Anzahl der Gruppen, also der Sammelmails")
+	@Schema(description = "Anzahl der Mailversandgruppen", example = "28")
 	private int anzahlGruppen;
 
-	@JsonProperty
-	@Schema(description = "Anzahl der Benutzer, an die die Mail versendet wurde")
-	private int anzahlVersendet;
+	public String getUuid() {
+
+		return uuid;
+	}
+
+	public void setUuid(final String uuid) {
+
+		this.uuid = uuid;
+	}
+
+	public String getIdInfomailtext() {
+
+		return idInfomailtext;
+	}
+
+	public void setIdInfomailtext(final String idInfomailtext) {
+
+		this.idInfomailtext = idInfomailtext;
+	}
+
+	public String getBetreff() {
+
+		return betreff;
+	}
+
+	public void setBetreff(final String betreff) {
+
+		this.betreff = betreff;
+	}
+
+	public Jobstatus getStatus() {
+
+		return status;
+	}
+
+	public void setStatus(final Jobstatus status) {
+
+		this.status = status;
+	}
+
+	public int getAnzahlGruppen() {
+
+		return anzahlGruppen;
+	}
+
+	public void setAnzahlGruppen(final int anzahlGruppen) {
+
+		this.anzahlGruppen = anzahlGruppen;
+	}
+
+	public long getAnzahlEmpfaenger() {
+
+		return anzahlEmpfaenger;
+	}
+
+	public void setAnzahlEmpfaenger(final long anzahlEmpfaenger) {
+
+		this.anzahlEmpfaenger = anzahlEmpfaenger;
+	}
 
 }

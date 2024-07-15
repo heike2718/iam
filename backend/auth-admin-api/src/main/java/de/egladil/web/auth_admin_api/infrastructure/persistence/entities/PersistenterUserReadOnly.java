@@ -19,11 +19,16 @@ import jakarta.persistence.Table;
 @NamedQueries({
 	@NamedQuery(
 		name = "PersistenterUserReadOnly.FIND_BY_UUID",
-		query = "select i from PersistenterUserReadOnly i where i.uuid = :uuid")
+		query = "select u from PersistenterUserReadOnly u where u.uuid = :uuid"),
+	@NamedQuery(
+		name = "PersistenterUserReadOnly.FIND_BY_AN_ID_LIST",
+		query = "select u from PersistenterUserReadOnly u where u.aktiviert = :aktiviert and u.id in :ids"),
 })
 public class PersistenterUserReadOnly {
 
 	public static final String FIND_BY_UUID = "PersistenterUserReadOnly.FIND_BY_UUID";
+
+	public static final String FIND_BY_AN_ID_LIST = "PersistenterUserReadOnly.FIND_BY_AN_ID_LIST";
 
 	@Id
 	@Column(name = "ID")
@@ -48,7 +53,7 @@ public class PersistenterUserReadOnly {
 	public String rollen;
 
 	@Column(name = "DATE_MODIFIED_STRING")
-	public String datumGeaendert;
+	public String aenderungsdatum;
 
 	@Column(name = "SLZ_ID")
 	public Long saltId;

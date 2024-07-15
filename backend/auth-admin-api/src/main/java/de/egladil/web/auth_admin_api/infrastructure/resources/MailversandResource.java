@@ -4,8 +4,6 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.infrastructure.resources;
 
-import java.util.List;
-
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -17,10 +15,11 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
-import de.egladil.web.auth_admin_api.domain.infomails.InfomailRequestDto;
-import de.egladil.web.auth_admin_api.domain.infomails.InfomailResponseDto;
-import de.egladil.web.auth_admin_api.domain.infomails.InfomailService;
-import de.egladil.web.auth_admin_api.domain.infomails.UpdateInfomailResponseDto;
+import de.egladil.web.auth_admin_api.domain.mailversand.DeleteMailversandauftragResponseDto;
+import de.egladil.web.auth_admin_api.domain.mailversand.MailversandauftragDetails;
+import de.egladil.web.auth_admin_api.domain.mailversand.MailversandauftragOverview;
+import de.egladil.web.auth_admin_api.domain.mailversand.MailversandauftragRequestDto;
+import de.egladil.web.auth_admin_api.domain.mailversand.VersandauftragService;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
@@ -29,9 +28,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -39,28 +38,29 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 /**
- * InfomailsResource
+ * MailversandResource
  */
 @RequestScoped
-@Path("auth-admin-api/infomails")
+@Path("auth-admin-api/mailversand")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 @Tag(name = "InfomailsResource")
-public class InfomailsResource {
+public class MailversandResource {
 
 	@Inject
-	InfomailService infomailService;
+	VersandauftragService versandauftragService;
 
 	@GET
+	@Path("auftraege")
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
-		operationId = "loadInfomails", summary = "Gibt alle gespeicherten Infomailtexte zurück.")
+		operationId = "loadInfomails", summary = "Gibt alle gespeicherten Mailversandaufträge zurück.")
 	@APIResponse(
 		name = "OKResponse",
 		responseCode = "200",
 		content = @Content(
 			mediaType = "application/json",
-			schema = @Schema(implementation = InfomailResponseDto.class, type = SchemaType.ARRAY)))
+			schema = @Schema(implementation = MailversandauftragOverview.class, type = SchemaType.ARRAY)))
 	@APIResponse(
 		name = "NotAuthorized",
 		responseCode = "401",
@@ -78,59 +78,20 @@ public class InfomailsResource {
 		responseCode = "500", content = @Content(
 			mediaType = "application/json",
 			schema = @Schema(implementation = MessagePayload.class)))
-	public Response loadInfomails() {
+	public Response loadVersandauftraege() {
 
-		List<InfomailResponseDto> responsePayload = infomailService.loadInfomailTexte();
-		return Response.ok(responsePayload).build();
+		return Response.status(500).entity(MessagePayload.error("noch nicht implementiert")).build();
 	}
 
-	@POST
+	@GET
+	@Path("auftraege/{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
-		operationId = "infomailAnlegen", summary = "Legt eine Infomail an.")
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "201",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = InfomailResponseDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response infomailAnlegen(@Valid final InfomailRequestDto infomailRequestDto) {
-
-		InfomailResponseDto responsePayload = infomailService.infomailAnlegen(infomailRequestDto);
-		return Response.status(201).entity(responsePayload).build();
-	}
-
-	@PUT
-	@Path("{uuid}")
-	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "infomailAendern", summary = "Ändert eine Infomail an.")
+		operationId = "getDetails",
+		summary = "Läd die Details des durch die uuid definierten Mailversandauftrags")
 	@Parameters({
 		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID der Infomail, die geändert werden soll",
+			in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags",
 			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
 	})
 	@APIResponse(
@@ -138,7 +99,7 @@ public class InfomailsResource {
 		responseCode = "200",
 		content = @Content(
 			mediaType = "application/json",
-			schema = @Schema(implementation = UpdateInfomailResponseDto.class)))
+			schema = @Schema(implementation = MailversandauftragDetails.class)))
 	@APIResponse(
 		name = "BadRequest",
 		responseCode = "400",
@@ -157,9 +118,97 @@ public class InfomailsResource {
 		content = @Content(
 			mediaType = "application/json"))
 	@APIResponse(
-		name = "NotFound",
-		description = "wenn es die Entity mit der uuid gar nicht gibt",
-		responseCode = "404",
+		name = "ServerError",
+		description = "server error",
+		responseCode = "500", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MessagePayload.class)))
+	public Response getDetails(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
+		value = "uuid") @Pattern(
+			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
+				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+
+		return Response.status(500).entity(MessagePayload.error("noch nicht implementiert")).build();
+	}
+
+	@POST
+	@Path("auftraege")
+	@RolesAllowed({ "AUTH_ADMIN" })
+	@Operation(
+		operationId = "scheduleInfomailversand", summary = "Legt einen Mailversandauftrag an.")
+	@APIResponse(
+		name = "OKResponse",
+		responseCode = "201",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MailversandauftragOverview.class)))
+	@APIResponse(
+		name = "BadRequest",
+		responseCode = "400",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(
+		name = "NotAuthorized",
+		responseCode = "401",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "Forbidden",
+		description = "kann auch vorkommen, wenn mod_security zuschlägt",
+		responseCode = "403",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "PrecoditionFailed",
+		description = "eine Voraussetzung ist nicht erfüllt. Beispielsweise gibt es keinen Infomailtext mit der gegebenen UUID",
+		responseCode = "412", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(
+		name = "ServerError",
+		description = "server error",
+		responseCode = "500", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MessagePayload.class)))
+	public Response scheduleInfomailversand(@Valid final MailversandauftragRequestDto requestPayload) {
+
+		MailversandauftragOverview responsePayload = versandauftragService.versandauftragAnlegen(requestPayload);
+		return Response.status(201).entity(responsePayload).build();
+	}
+
+	@DELETE
+	@Path("auftraege/{uuid}")
+	@RolesAllowed({ "AUTH_ADMIN" })
+	@Operation(
+		operationId = "versandauftragLoeschen",
+		summary = "Löscht den durch die uuid definierten Mailversandauftrag")
+	@Parameters({
+		@Parameter(
+			in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags, der gelöscht werden soll",
+			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
+	})
+	@APIResponse(
+		name = "OKResponse",
+		responseCode = "200",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = DeleteMailversandauftragResponseDto.class)))
+	@APIResponse(
+		name = "BadRequest",
+		responseCode = "400",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(
+		name = "NotAuthorized",
+		responseCode = "401",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "Forbidden",
+		description = "kann auch vorkommen, wenn mod_security zuschlägt",
+		responseCode = "403",
 		content = @Content(
 			mediaType = "application/json"))
 	@APIResponse(
@@ -168,10 +217,12 @@ public class InfomailsResource {
 		responseCode = "500", content = @Content(
 			mediaType = "application/json",
 			schema = @Schema(implementation = MessagePayload.class)))
-	public Response infomailAendern(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
-		value = "uuid") final String uuid, @Valid final InfomailRequestDto infomailRequestDto) {
+	public Response versandauftragLoeschen(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
+		value = "uuid") @Pattern(
+			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
+				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
 
-		UpdateInfomailResponseDto responsePayload = infomailService.infomailAendern(uuid, infomailRequestDto);
-		return Response.ok(responsePayload).build();
+		return Response.status(500).entity(MessagePayload.error("noch nicht implementiert")).build();
 	}
+
 }

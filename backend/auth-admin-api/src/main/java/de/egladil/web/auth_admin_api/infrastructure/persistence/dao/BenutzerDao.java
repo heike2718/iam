@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSortColumn;
+import de.egladil.web.auth_admin_api.domain.benutzer.UsersSortColumn;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUser;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUserReadOnly;
@@ -141,9 +141,9 @@ public class BenutzerDao {
 			conditions.add("u.ROLLEN like :rollen");
 		}
 
-		if (StringUtils.isNotBlank(userSearchDto.getDateModified())) {
+		if (StringUtils.isNotBlank(userSearchDto.getAenderungsdatum())) {
 
-			conditions.add("u.DATE_MODIFIED_STRING like :datumGeaendert");
+			conditions.add("u.DATE_MODIFIED_STRING like :aenderungsdatum");
 		}
 
 		conditions.add("u.ROLLEN not like :excludedString");
@@ -159,7 +159,7 @@ public class BenutzerDao {
 
 			if (StringUtils.isNotBlank(userSearchDto.getSortByLabelname())) {
 
-				BenutzerSortColumn userSortColumn = BenutzerSortColumn.valueOfLabel(userSearchDto.getSortByLabelname());
+				UsersSortColumn userSortColumn = UsersSortColumn.valueOfLabel(userSearchDto.getSortByLabelname());
 				String dbFieldName = userSortColumn.toString();
 
 				String sortDirection = userSearchDto.getSortDirection() == null ? "asc"
@@ -202,9 +202,9 @@ public class BenutzerDao {
 			query.setParameter("rollen", "%" + userSearchDto.getRolle() + "%");
 		}
 
-		if (StringUtils.isNotBlank(userSearchDto.getDateModified())) {
+		if (StringUtils.isNotBlank(userSearchDto.getAenderungsdatum())) {
 
-			query.setParameter("datumGeaendert", "%" + userSearchDto.getDateModified() + "%");
+			query.setParameter("aenderungsdatum", "%" + userSearchDto.getAenderungsdatum() + "%");
 		}
 
 		query.setParameter("excludedString", "%ADMIN%");

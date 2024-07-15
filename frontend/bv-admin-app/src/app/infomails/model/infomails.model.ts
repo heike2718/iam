@@ -17,14 +17,6 @@ export interface Infomail {
     readonly uuidsMailversandauftraege: string[];
 }
 
-export interface Infomailgruppe {
-    readonly uuid: string;
-    readonly sortnr: number;
-    readonly status: Jobstatus;
-    readonly empfaengerEmails: string[];
-}
-
-
 export interface UpdateInfomailResponseDto {
     readonly uuid: string,
     readonly infomail?: Infomail;

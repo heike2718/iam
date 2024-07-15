@@ -7,8 +7,11 @@ package de.egladil.web.auth_admin_api.infrastructure.persistence.dao;
 import java.util.Date;
 import java.util.List;
 
+import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenteMailversandgruppe;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterInfomailText;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
+import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterMailversandauftrag;
+import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUserReadOnly;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -77,5 +80,46 @@ public class MailsUndVersandDao {
 		}
 
 		return persistenterInfomailText.getUuid();
+	}
+
+	/**
+	 * Läd alle aktivierten PersistenterUserReadOnly mit den gegebenen IDs.
+	 *
+	 * @param  ids
+	 * @return
+	 */
+	public List<PersistenterUserReadOnly> findUsersByIds(final List<Long> ids) {
+
+		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_BY_AN_ID_LIST,
+			PersistenterUserReadOnly.class).setParameter("aktiviert", true).setParameter("ids", ids).getResultList();
+	}
+
+	/**
+	 * Tut das, was der Name sagt.
+	 *
+	 * @param  entity
+	 *                PersistenterMailversandauftrag
+	 * @return        String
+	 */
+	public String insertMailversandauftrag(final PersistenterMailversandauftrag entity) {
+
+		entityManager.persist(entity);
+
+		return entity.getUuid();
+
+	}
+
+	/**
+	 * Tut das, was der Name sagt.
+	 *
+	 * @param  entity
+	 *                PersistenteMailversandgruppe
+	 * @return        String
+	 */
+	public String insertMailversandgruppe(final PersistenteMailversandgruppe entity) {
+
+		entityManager.persist(entity);
+
+		return entity.getUuid();
 	}
 }

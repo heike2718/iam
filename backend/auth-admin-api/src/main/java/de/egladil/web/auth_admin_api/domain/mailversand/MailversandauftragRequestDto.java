@@ -20,4 +20,24 @@ public class MailversandauftragRequestDto {
 	@Schema(description = "die technischen IDs der ausgewählten Benutzer, an die die Mails versendet werden sollen")
 	private List<Long> benutzerIds;
 
+	public String getIdInfomailtext() {
+
+		return idInfomailtext;
+	}
+
+	public void setIdInfomailtext(final String idInfomailtext) {
+
+		this.idInfomailtext = idInfomailtext;
+	}
+
+	public List<Long> getBenutzerIds() {
+
+		return benutzerIds;
+	}
+
+	public void setBenutzerIds(final List<Long> benutzerIds) {
+
+		this.benutzerIds = benutzerIds;
+	}
+
 }

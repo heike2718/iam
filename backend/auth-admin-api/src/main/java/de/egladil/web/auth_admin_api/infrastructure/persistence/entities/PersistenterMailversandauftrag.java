@@ -81,10 +81,10 @@ public class PersistenterMailversandauftrag {
 	private LocalDateTime versandBeendetAm;
 
 	@Column(name = "ANZAHL_EMPFAENGER")
-	private int anzahlEmpfaenger;
+	private long anzahlEmpfaenger;
 
 	@Column(name = "ANZAHL_VERSENDET")
-	private int anzahlVersendet;
+	private long anzahlVersendet;
 
 	@Column(name = "MIT_FEHLERN")
 	private boolean versandMitFehlern;
@@ -95,5 +95,130 @@ public class PersistenterMailversandauftrag {
 	@Version
 	@Column(name = "VERSION")
 	private int version;
+
+	public String getIdInfomailtext() {
+
+		return idInfomailtext;
+	}
+
+	public void setIdInfomailtext(final String idInfomailtext) {
+
+		this.idInfomailtext = idInfomailtext;
+	}
+
+	public String getEmpgaengerIDs() {
+
+		return empgaengerIDs;
+	}
+
+	public void setEmpgaengerIDs(final String empgaengerIDs) {
+
+		this.empgaengerIDs = empgaengerIDs;
+	}
+
+	public String getChecksumEmpfaengerIDs() {
+
+		return checksumEmpfaengerIDs;
+	}
+
+	public void setChecksumEmpfaengerIDs(final String checksumEmpfaengerIDs) {
+
+		this.checksumEmpfaengerIDs = checksumEmpfaengerIDs;
+	}
+
+	public String getVersandJahrMonat() {
+
+		return versandJahrMonat;
+	}
+
+	public void setVersandJahrMonat(final String versandJahrMonat) {
+
+		this.versandJahrMonat = versandJahrMonat;
+	}
+
+	public Jobstatus getStatus() {
+
+		return status;
+	}
+
+	public void setStatus(final Jobstatus status) {
+
+		this.status = status;
+	}
+
+	public LocalDateTime getErfasstAm() {
+
+		return erfasstAm;
+	}
+
+	public void setErfasstAm(final LocalDateTime erfasstAm) {
+
+		this.erfasstAm = erfasstAm;
+	}
+
+	public LocalDateTime getVersandBegonnenAm() {
+
+		return versandBegonnenAm;
+	}
+
+	public void setVersandBegonnenAm(final LocalDateTime versandBegonnenAm) {
+
+		this.versandBegonnenAm = versandBegonnenAm;
+	}
+
+	public LocalDateTime getVersandBeendetAm() {
+
+		return versandBeendetAm;
+	}
+
+	public void setVersandBeendetAm(final LocalDateTime versandBeendetAm) {
+
+		this.versandBeendetAm = versandBeendetAm;
+	}
+
+	public boolean isVersandMitFehlern() {
+
+		return versandMitFehlern;
+	}
+
+	public void setVersandMitFehlern(final boolean versandMitFehlern) {
+
+		this.versandMitFehlern = versandMitFehlern;
+	}
+
+	public Date getGeaendertAm() {
+
+		return geaendertAm;
+	}
+
+	public void setGeaendertAm(final Date geaendertAm) {
+
+		this.geaendertAm = geaendertAm;
+	}
+
+	public String getUuid() {
+
+		return uuid;
+	}
+
+	public long getAnzahlEmpfaenger() {
+
+		return anzahlEmpfaenger;
+	}
+
+	public void setAnzahlEmpfaenger(final long anzahlEmpfaenger) {
+
+		this.anzahlEmpfaenger = anzahlEmpfaenger;
+	}
+
+	public long getAnzahlVersendet() {
+
+		return anzahlVersendet;
+	}
+
+	public void setAnzahlVersendet(final long anzahlVersendet) {
+
+		this.anzahlVersendet = anzahlVersendet;
+	}
 
 }

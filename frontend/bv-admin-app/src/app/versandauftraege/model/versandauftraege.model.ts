@@ -10,17 +10,21 @@ export const initialMailversandauftragRequestDto: MailversandauftragRequestDto =
     benutzerIds: []
 }
 
-export interface MailversandauftragOverview {
+export interface Mailversandgruppe {
     readonly uuid: string;
-    readonly betreff: string;
+    readonly sortnr: number;
     readonly status: Jobstatus;
-    readonly versandBegonnenAm: string;
-    readonly versandBeendetAm: string;
-    readonly anzahlEmpfaenger: number;
-    readonly anzahlGruppen: number;
-    readonly anzahlVersendet: number;
+    readonly empfaengerEmails: string[];
 }
 
+export interface MailversandauftragOverview {
+    readonly uuid: string;
+    readonly idInfomailtext: string;
+    readonly betreff: string;
+    readonly status: Jobstatus;
+    readonly anzahlEmpfaenger: number;
+    readonly anzahlGruppen: number;
+}
 
 export interface MailversandauftragDetails {
     readonly uuid: string;
@@ -33,5 +37,15 @@ export interface MailversandauftragDetails {
     readonly anzahlEmpfaenger: number;
     readonly anzahlVersendet: number;
     readonly versandMitFehlern: boolean;
-    readonly infomailgruppen: Infomailgruppe[];
+    readonly mailversandgruppen: Mailversandgruppe[];
 }
+
+export interface DeleteMailversandauftragResponseDto {
+    readonly uuid: string
+}
+
+
+export function sortMailversandauftragOverviewByBetreff(versandauftraege: MailversandauftragOverview[]): MailversandauftragOverview[] {
+    return versandauftraege.slice().sort((a, b) => a.betreff.localeCompare(b.betreff));
+}
+

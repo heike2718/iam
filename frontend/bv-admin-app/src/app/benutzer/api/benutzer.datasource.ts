@@ -1,9 +1,9 @@
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 import { Injectable, inject } from "@angular/core";
-import { Benutzer } from "@bv-admin-app/benutzer/model";
 import { BenutzerFacade } from "./benutzer.facade";
 import { Observable } from "rxjs";
 import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
+import { Benutzer } from "@bv-admin-app/shared/model";
 
 
 @Injectable({

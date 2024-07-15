@@ -95,20 +95,20 @@
             </mat-cell>>
         </ng-container>
 
-        <!-- dateModified -->
-        <ng-container matColumnDef="dateModified">
+        <!-- aenderungsdatum -->
+        <ng-container matColumnDef="aenderungsdatum">
             <mat-header-cell *matHeaderCellDef>
                 <div class="grid-container-1">
                     <label mat-sort-header>
                         geändert am
                     </label>
                     <mat-form-field floatLabel="always" appearance="outline">
-                        <input matInput placeholder="Datum geändert" [(ngModel)]="dateModifiedFilterValue">
+                        <input matInput placeholder="Datum geändert" [(ngModel)]="aenderungsdatumFilterValue">
                     </mat-form-field>
                 </div>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
-                {{benutzer.dateModified}}
+                {{benutzer.aenderungsdatum}}
             </mat-cell>>
         </ng-container>
 

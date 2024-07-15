@@ -136,7 +136,7 @@ public class BenutzerService {
 
 		BenutzerTrefferlisteItem result = new BenutzerTrefferlisteItem();
 		result.setAktiviert(fromDB.aktiviert);
-		result.setDateModified(fromDB.datumGeaendert);
+		result.setAenderungsdatum(fromDB.aenderungsdatum);
 		result.setEmail(fromDB.email);
 		result.setNachname(fromDB.nachname);
 		result.setRollen(fromDB.rollen);
