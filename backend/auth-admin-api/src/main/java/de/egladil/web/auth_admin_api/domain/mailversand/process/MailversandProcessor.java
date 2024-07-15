@@ -105,7 +105,13 @@ public class MailversandProcessor {
 
 		try {
 
-			sendeMails(persistenterInfomailText, nextMailversandgruppe);
+			if (!nextMailversandgruppe.getEmpfaengerEmails().isEmpty()) {
+
+				sendeMails(persistenterInfomailText, nextMailversandgruppe);
+			} else {
+
+				LOGGER.info("Keine aktiven Mailadressen mehr in Mailversandgruppe {}", nextMailversandgruppe.getUuid());
+			}
 			persistenterMailversandAuftrag = updateMailversandauftragUndGruppe(persistenterMailversandAuftrag,
 				persistenteMailversandGruppe,
 				nextMailversandgruppe.getEmpfaengerEmails().size(), Jobstatus.COMPLETED);

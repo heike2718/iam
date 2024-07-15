@@ -4,6 +4,7 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.domain.mailversand.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -37,10 +38,10 @@ public class Mailversandgruppe {
 
 	@JsonProperty
 	@Schema(description = "die UUIDs der Benutzer")
-	private List<String> empfaengerUUIDs;
+	private List<String> empfaengerUUIDs = new ArrayList<>();
 
 	@JsonIgnore // wollen keine emails im Frontend haben, die es eventuell gar nicht mehr gibt.
-	private List<String> empfaengerEmails;
+	private List<String> empfaengerEmails = new ArrayList<>();
 
 	public String getUuid() {
 

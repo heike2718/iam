@@ -446,4 +446,55 @@ public class MailversandProcessorTest {
 		verify(mailService).sendeMail(any(AuthAdminMailDto.class));
 	}
 
+	@Test
+	void should_notSenddMailUndMarkGruppeFinished_when_mailempfaenderLeer() {
+
+		// Arrange
+		String uuid = "663d1c4e-46b7-4b41-a3cc-c753b8f7148c";
+		String idInfomailtext = "78573dc4-06d7-43f1-9b85-ae79f36c92b7";
+		String uuidMailgruppe = "729fb865-ce0c-4c26-a1f1-742aad8d3072";
+
+		Mailversandgruppe gruppe = new Mailversandgruppe();
+		gruppe.setSortnr(2);
+		gruppe.setStatus(Jobstatus.WAITING);
+		gruppe.setUuid(uuidMailgruppe);
+		gruppe.setEmpfaengerUUIDs(
+			Arrays.asList(new String[] { "14a8fd8e-13d9-48bd-9f3f-e86be83ee871", "868d5890-d4d0-45ab-811d-4bfc081b48ec" }));
+
+		PersistenteMailversandgruppe persistenteMailversandgruppe = new PersistenteMailversandgruppe();
+		persistenteMailversandgruppe.setIdVersandauftrag(uuid);
+		persistenteMailversandgruppe.setStatus(Jobstatus.WAITING);
+
+		PersistenterMailversandauftrag auftrag = new PersistenterMailversandauftrag();
+		auftrag.setStatus(Jobstatus.WAITING);
+		auftrag.setUuid(uuid);
+		auftrag.setIdInfomailtext(idInfomailtext);
+		auftrag.setAnzahlEmpfaenger(10);
+
+		PersistenterInfomailTextReadOnly infomailtext = new PersistenterInfomailTextReadOnly();
+		infomailtext.betreff = "Ja hallo auch";
+		infomailtext.mailtext = "Mein Name ist Hase";
+		infomailtext.uuid = idInfomailtext;
+
+		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
+		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
+		when(dao.findInfomailtextReadOnlyByID(idInfomailtext)).thenReturn(infomailtext);
+		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
+		when(dao.updateMailversandauftrag(any(PersistenterMailversandauftrag.class))).thenReturn(auftrag);
+		doNothing().when(mailService).sendeMail(any(AuthAdminMailDto.class));
+
+		// Act
+		processor.processMailversandauftrag();
+
+		// Assert
+		verify(dao).findOldestNotCompletedMailversandauftrag();
+		verify(versandgruppenSource).getNextMailversandgruppe(uuid);
+		verify(dao, times(2)).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
+		verify(dao).findInfomailtextReadOnlyByID(any(String.class));
+		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao).findMailversandgruppeByUUID(any(String.class));
+		verify(mailService, never()).sendeMail(any(AuthAdminMailDto.class));
+	}
+
 }
