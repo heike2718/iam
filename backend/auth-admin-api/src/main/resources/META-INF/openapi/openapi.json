@@ -1165,12 +1165,11 @@
             "type" : "string",
             "example" : "663d1c4e-46b7-4b41-a3cc-c753b8f7148c"
           },
-          "benutzerIds" : {
-            "description" : "die technischen IDs der ausgewählten Benutzer, an die die Mails versendet werden sollen",
+          "benutzerUUIDs" : {
+            "description" : "die UUIDs der ausgewählten Benutzer, an die die Mails versendet werden sollen",
             "type" : "array",
             "items" : {
-              "format" : "int64",
-              "type" : "integer"
+              "type" : "string"
             }
           }
         }

@@ -17,8 +17,8 @@ public class MailversandauftragRequestDto {
 	@Schema(description = "ID des gespeicherten Mailtexts und Betreffs", example = "663d1c4e-46b7-4b41-a3cc-c753b8f7148c")
 	private String idInfomailtext;
 
-	@Schema(description = "die technischen IDs der ausgewählten Benutzer, an die die Mails versendet werden sollen")
-	private List<Long> benutzerIds;
+	@Schema(description = "die UUIDs der ausgewählten Benutzer, an die die Mails versendet werden sollen")
+	private List<String> benutzerUUIDs;
 
 	public String getIdInfomailtext() {
 
@@ -30,14 +30,14 @@ public class MailversandauftragRequestDto {
 		this.idInfomailtext = idInfomailtext;
 	}
 
-	public List<Long> getBenutzerIds() {
+	public List<String> getBenutzerUUIDs() {
 
-		return benutzerIds;
+		return benutzerUUIDs;
 	}
 
-	public void setBenutzerIds(final List<Long> benutzerIds) {
+	public void setBenutzerUUIDs(final List<String> benutzerUUIDs) {
 
-		this.benutzerIds = benutzerIds;
+		this.benutzerUUIDs = benutzerUUIDs;
 	}
 
 }

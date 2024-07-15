@@ -28,9 +28,6 @@ import jakarta.persistence.Version;
 @Table(name = "MAILVERSANDAUFTRAEGE")
 @NamedQueries({
 	@NamedQuery(
-		name = "PersistenterMailversandauftrag.FIND_FOR_NEWSLETTER",
-		query = "select v from PersistenterMailversandauftrag v where v.idInfomailtext = :idInfomailtext order by v.erfasstAm"),
-	@NamedQuery(
 		name = "PersistenterMailversandauftrag.FIND_BY_UUID",
 		query = "select v from PersistenterMailversandauftrag v where v.uuid = :uuid"),
 	@NamedQuery(
@@ -41,8 +38,6 @@ import jakarta.persistence.Version;
 		query = "select v from PersistenterMailversandauftrag v where v.status = :statusWaiting or v.status = :statusInProgress order by v.erfasstAm")
 })
 public class PersistenterMailversandauftrag {
-
-	public static final String FIND_FOR_NEWSLETTER = "PersistenterMailversandauftrag.FIND_FOR_NEWSLETTER";
 
 	public static final String FIND_BY_UUID = "PersistenterMailversandauftrag.FIND_BY_UUID";
 
@@ -57,9 +52,6 @@ public class PersistenterMailversandauftrag {
 
 	@Column(name = "UUID_INFOMAIL_TEXT")
 	private String idInfomailtext;
-
-	@Column(name = "EMPFAENGER_IDS")
-	private String empgaengerIDs;
 
 	@Column(name = "EMPFAENGER_CHECKSUM")
 	private String checksumEmpfaengerIDs;
@@ -104,16 +96,6 @@ public class PersistenterMailversandauftrag {
 	public void setIdInfomailtext(final String idInfomailtext) {
 
 		this.idInfomailtext = idInfomailtext;
-	}
-
-	public String getEmpgaengerIDs() {
-
-		return empgaengerIDs;
-	}
-
-	public void setEmpgaengerIDs(final String empgaengerIDs) {
-
-		this.empgaengerIDs = empgaengerIDs;
 	}
 
 	public String getChecksumEmpfaengerIDs() {

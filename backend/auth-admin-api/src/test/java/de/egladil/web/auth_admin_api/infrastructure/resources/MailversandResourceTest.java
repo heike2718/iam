@@ -44,7 +44,15 @@ public class MailversandResourceTest {
 		MailversandauftragRequestDto requestPayload = new MailversandauftragRequestDto();
 		String idInfomailtext = "d67e7bc6-3de7-4348-aa3d-174da70fa177";
 		requestPayload.setIdInfomailtext(idInfomailtext);
-		requestPayload.setBenutzerIds(Arrays.asList(new Long[] { 76L, 22L, 20L, 18L, 39L, 19L, 7L, 13L }));
+		requestPayload.setBenutzerUUIDs(Arrays.asList(new String[] {
+			"b2e4faab-c89d-4431-b3e9-6e45faded2c4",
+			"14a8fd8e-13d9-48bd-9f3f-e86be83ee871",
+			"0835e24f-d238-4c65-a1ac-92cc50d17646",
+			"a4395ae1-7de8-4a6e-8e8b-6d085025816f",
+			"5eaaf0ed-4949-4ccd-a9c3-2db9af3559c2",
+			"868d5890-d4d0-45ab-811d-4bfc081b48ec",
+			"02a76d60-0aa0-4097-a55e-2ed6d5823088",
+			"009fac43-1650-4a45-8ab8-30e646f935b3" }));
 
 		// Act
 		MailversandauftragOverview responsePayload = given()

@@ -33,8 +33,8 @@ public class PersistenteMailversandgruppe {
 	@Column(name = "VERSANDAUFTRAG_UUID")
 	private String idVersandauftrag;
 
-	@Column(name = "EMPFAENGER")
-	private String empfaengerEmails;
+	@Column(name = "EMPFAENGER_UUIDS")
+	private String empfaengerUUIDs;
 
 	@Column(name = "STATUS")
 	@Enumerated(EnumType.STRING)
@@ -60,14 +60,14 @@ public class PersistenteMailversandgruppe {
 		this.idVersandauftrag = idVersandauftrag;
 	}
 
-	public String getEmpfaengerEmails() {
+	public String getEmpfaengerUUIDs() {
 
-		return empfaengerEmails;
+		return empfaengerUUIDs;
 	}
 
-	public void setEmpfaengerEmails(final String empfaengerEmails) {
+	public void setEmpfaengerUUIDs(final String empfaengerEmails) {
 
-		this.empfaengerEmails = empfaengerEmails;
+		this.empfaengerUUIDs = empfaengerEmails;
 	}
 
 	public Jobstatus getStatus() {

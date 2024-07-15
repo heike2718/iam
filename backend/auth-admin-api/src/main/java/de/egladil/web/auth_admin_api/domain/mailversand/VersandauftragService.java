@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -22,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.auth_admin_api.domain.Jobstatus;
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.auth_admin_api.domain.utils.AuthAdminCollectionUtils;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.MailsUndVersandDao;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenteMailversandgruppe;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
@@ -41,6 +41,8 @@ public class VersandauftragService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(VersandauftragService.class);
 
+	private static final int MAX_DB_IN_BUNCH_SIZE = 1000;
+
 	@ConfigProperty(name = "emails.groupsize", defaultValue = "50")
 	int emailsGroupSize;
 
@@ -55,7 +57,7 @@ public class VersandauftragService {
 	 */
 	public MailversandauftragOverview versandauftragAnlegen(final MailversandauftragRequestDto requestDto) {
 
-		if (requestDto.getBenutzerIds().isEmpty()) {
+		if (requestDto.getBenutzerUUIDs().isEmpty()) {
 
 			String message = "benutzerIds waren leer. Mindestens 1 Empfänger wird benötigt.";
 			LOGGER.error(message, requestDto.getIdInfomailtext());
@@ -82,28 +84,34 @@ public class VersandauftragService {
 			}
 		}
 
-		String checksum = calculateChecksum(requestDto.getBenutzerIds());
-		List<List<Long>> idGroups = groupTheIds(requestDto.getBenutzerIds());
-		List<List<String>> emailAddressGroups = loadConfirmedEmails(idGroups);
+		String checksum = calculateChecksum(requestDto.getBenutzerUUIDs());
+		List<List<String>> confirmedUUIDGroups = getAllConfirmedUUIDsInGroups(requestDto);
 
-		return createNewVersandauftrag(infomailtext, idGroups, emailAddressGroups, checksum);
+		return createNewVersandauftrag(infomailtext, confirmedUUIDGroups, checksum);
+	}
+
+	private List<List<String>> getAllConfirmedUUIDsInGroups(final MailversandauftragRequestDto requestDto) {
+
+		List<List<String>> uuidGroups = AuthAdminCollectionUtils.groupTheStrings(requestDto.getBenutzerUUIDs(),
+			MAX_DB_IN_BUNCH_SIZE);
+		List<List<String>> confirmedUUIDGroups = extractConfirmedUUIDs(uuidGroups);
+		List<String> confirmedUUIDs = AuthAdminCollectionUtils.joinTheGroups(confirmedUUIDGroups);
+		return AuthAdminCollectionUtils.groupTheStrings(confirmedUUIDs, emailsGroupSize);
 	}
 
 	@Transactional
-	MailversandauftragOverview createNewVersandauftrag(final PersistenterInfomailTextReadOnly infomailtext, final List<List<Long>> idGroups, final List<List<String>> emailAddressGroups, final String checksum) {
+	MailversandauftragOverview createNewVersandauftrag(final PersistenterInfomailTextReadOnly infomailtext, final List<List<String>> confirmedUUIDGroups, final String checksum) {
 
-		String empfaengerIds = getEmpfaengerIds(idGroups);
-		long anzahlEmpfaenger = countElements(emailAddressGroups);
+		long anzahlEmpfaenger = AuthAdminCollectionUtils.countElements(confirmedUUIDGroups);
 		Date geaendertAm = new Date();
 		LocalDateTime now = LocalDateTime.now();
 
 		PersistenterMailversandauftrag persistenterVersandauftrag = new PersistenterMailversandauftrag();
 		persistenterVersandauftrag.setAnzahlEmpfaenger(anzahlEmpfaenger);
 		persistenterVersandauftrag.setChecksumEmpfaengerIDs(checksum);
-		persistenterVersandauftrag.setEmpgaengerIDs(empfaengerIds);
 		persistenterVersandauftrag.setErfasstAm(now);
 		persistenterVersandauftrag.setGeaendertAm(geaendertAm);
-		persistenterVersandauftrag.setVersandJahrMonat(this.getVersamdJahrMonat(now));
+		persistenterVersandauftrag.setVersandJahrMonat(this.getVersandJahrMonat(now));
 		persistenterVersandauftrag.setIdInfomailtext(infomailtext.uuid);
 		persistenterVersandauftrag.setStatus(Jobstatus.NEW);
 
@@ -111,10 +119,10 @@ public class VersandauftragService {
 
 		int sortnr = 0;
 
-		for (List<String> emailGruppe : emailAddressGroups) {
+		for (List<String> uuidGroup : confirmedUUIDGroups) {
 
 			PersistenteMailversandgruppe gruppe = new PersistenteMailversandgruppe();
-			gruppe.setEmpfaengerEmails(StringUtils.join(emailGruppe, ","));
+			gruppe.setEmpfaengerUUIDs(StringUtils.join(uuidGroup, ","));
 			gruppe.setGeaendertAm(geaendertAm);
 			gruppe.setIdVersandauftrag(versandauftragUuid);
 			gruppe.setSortnr(++sortnr);
@@ -126,7 +134,7 @@ public class VersandauftragService {
 
 		MailversandauftragOverview result = new MailversandauftragOverview();
 		result.setAnzahlEmpfaenger(anzahlEmpfaenger);
-		result.setAnzahlGruppen(emailAddressGroups.size());
+		result.setAnzahlGruppen(confirmedUUIDGroups.size());
 		result.setBetreff(infomailtext.betreff);
 		result.setStatus(persistenterVersandauftrag.getStatus());
 		result.setUuid(versandauftragUuid);
@@ -136,64 +144,37 @@ public class VersandauftragService {
 
 	}
 
-	String getEmpfaengerIds(final List<List<Long>> idGroups) {
-
-		return idGroups.stream()
-			.flatMap(List::stream)
-			.map(String::valueOf)
-			.collect(Collectors.joining(","));
-	}
-
-	long countElements(final List<List<String>> groupedLists) {
-
-		return groupedLists.stream()
-			.flatMap(List::stream) // Flatten the list of lists into a single stream of String
-			.count(); // Count the elements in the stream
-	}
-
-	List<List<Long>> groupTheIds(final List<Long> benutzerIDs) {
-
-		List<List<Long>> groupedLists = new ArrayList<>();
-
-		for (int i = 0; i < benutzerIDs.size(); i += emailsGroupSize) {
-
-			groupedLists.add(new ArrayList<>(benutzerIDs.subList(i, Math.min(i + emailsGroupSize, benutzerIDs.size()))));
-		}
-		return groupedLists;
-
-	}
-
 	/**
 	 * @param  idGroups
 	 * @return
 	 */
-	List<List<String>> loadConfirmedEmails(final List<List<Long>> idGroups) {
+	List<List<String>> extractConfirmedUUIDs(final List<List<String>> idGroups) {
 
 		List<List<String>> emailAddressGroups = new ArrayList<>();
 
-		for (List<Long> idGroup : idGroups) {
+		for (List<String> idGroup : idGroups) {
 
-			List<String> allEmails = loadAllEmails(idGroup);
+			List<String> theUUIDs = loadAllUsersAktiviert(idGroup);
 
-			if (!allEmails.isEmpty()) {
+			if (!theUUIDs.isEmpty()) {
 
-				emailAddressGroups.add(allEmails);
+				emailAddressGroups.add(theUUIDs);
 			}
 		}
 		return emailAddressGroups;
 	}
 
-	List<String> loadAllEmails(final List<Long> benutzerIDs) {
+	private List<String> loadAllUsersAktiviert(final List<String> benutzerIDs) {
 
-		List<PersistenterUserReadOnly> users = dao.findUsersByIds(benutzerIDs);
-		return users.stream().map(u -> u.email).toList();
+		List<PersistenterUserReadOnly> users = dao.findAktivierteUsersByUUIDs(benutzerIDs);
+		return users.stream().map(u -> u.uuid).toList();
 	}
 
-	String calculateChecksum(final List<Long> benutzerIds) {
+	String calculateChecksum(final List<String> uuids) {
 
-		Collections.sort(benutzerIds);
+		Collections.sort(uuids);
 
-		String idsString = StringUtils.join(benutzerIds, ",");
+		String idsString = StringUtils.join(uuids, ",");
 
 		MessageDigest md;
 
@@ -210,8 +191,8 @@ public class VersandauftragService {
 			return sb.toString();
 		} catch (NoSuchAlgorithmException e) {
 
-			LOGGER.error("Exception beim Berechnen der Checksumme der BenutzerIDs: {}", e.getMessage(), e);
-			throw new AuthAdminAPIRuntimeException("Exception beim Berechnen der Checksumme der BenutzerIDs");
+			LOGGER.error("Exception beim Berechnen der Checksumme der Benutzer-UUIDs: {}", e.getMessage(), e);
+			throw new AuthAdminAPIRuntimeException("Exception beim Berechnen der Checksumme der Benutzer-UUIDs");
 		}
 
 	}
@@ -224,7 +205,7 @@ public class VersandauftragService {
 
 	}
 
-	String getVersamdJahrMonat(final LocalDateTime ldt) {
+	String getVersandJahrMonat(final LocalDateTime ldt) {
 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM");
 		return dtf.format(ldt);

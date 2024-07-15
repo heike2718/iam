@@ -83,15 +83,16 @@ public class MailsUndVersandDao {
 	}
 
 	/**
-	 * Läd alle aktivierten PersistenterUserReadOnly mit den gegebenen IDs.
+	 * Läd alle aktivierten PersistenterUserReadOnly mit den gegebenen UUIDs.
 	 *
-	 * @param  ids
-	 * @return
+	 * @param  uuids
+	 *               List von String
+	 * @return       List
 	 */
-	public List<PersistenterUserReadOnly> findUsersByIds(final List<Long> ids) {
+	public List<PersistenterUserReadOnly> findAktivierteUsersByUUIDs(final List<String> uuids) {
 
-		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_BY_AN_ID_LIST,
-			PersistenterUserReadOnly.class).setParameter("aktiviert", true).setParameter("ids", ids).getResultList();
+		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_BY_A_UUID_LIST,
+			PersistenterUserReadOnly.class).setParameter("aktiviert", true).setParameter("uuids", uuids).getResultList();
 	}
 
 	/**
