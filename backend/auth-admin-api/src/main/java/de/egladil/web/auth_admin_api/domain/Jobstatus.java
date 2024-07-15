@@ -9,15 +9,6 @@ package de.egladil.web.auth_admin_api.domain;
  */
 public enum Jobstatus {
 
-	NEW {
-
-		@Override
-		public boolean isCompleted() {
-
-			return false;
-		}
-
-	},
 	WAITING {
 
 		@Override

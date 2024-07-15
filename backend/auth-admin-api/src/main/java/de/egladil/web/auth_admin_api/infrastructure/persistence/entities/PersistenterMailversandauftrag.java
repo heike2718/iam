@@ -183,6 +183,11 @@ public class PersistenterMailversandauftrag {
 		return uuid;
 	}
 
+	public void setUuid(final String uuid) {
+
+		this.uuid = uuid;
+	}
+
 	public long getAnzahlEmpfaenger() {
 
 		return anzahlEmpfaenger;

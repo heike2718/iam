@@ -2,7 +2,7 @@
 // Project: auth-admin-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.auth_admin_api.domain.mailversand;
+package de.egladil.web.auth_admin_api.domain.mailversand.api;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,7 +22,7 @@ import de.egladil.web.auth_admin_api.domain.Jobstatus;
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeException;
 import de.egladil.web.auth_admin_api.domain.utils.AuthAdminCollectionUtils;
-import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.MailsUndVersandDao;
+import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.MailversandDao;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenteMailversandgruppe;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterMailversandauftrag;
@@ -47,7 +47,7 @@ public class VersandauftragService {
 	int emailsGroupSize;
 
 	@Inject
-	MailsUndVersandDao dao;
+	MailversandDao dao;
 
 	/**
 	 * Legt einen neuen Mailversandauftrag mit den zugehörigen Gruppen an.
@@ -113,7 +113,7 @@ public class VersandauftragService {
 		persistenterVersandauftrag.setGeaendertAm(geaendertAm);
 		persistenterVersandauftrag.setVersandJahrMonat(this.getVersandJahrMonat(now));
 		persistenterVersandauftrag.setIdInfomailtext(infomailtext.uuid);
-		persistenterVersandauftrag.setStatus(Jobstatus.NEW);
+		persistenterVersandauftrag.setStatus(Jobstatus.WAITING);
 
 		String versandauftragUuid = dao.insertMailversandauftrag(persistenterVersandauftrag);
 
@@ -126,7 +126,7 @@ public class VersandauftragService {
 			gruppe.setGeaendertAm(geaendertAm);
 			gruppe.setIdVersandauftrag(versandauftragUuid);
 			gruppe.setSortnr(++sortnr);
-			gruppe.setStatus(Jobstatus.NEW);
+			gruppe.setStatus(Jobstatus.WAITING);
 
 			dao.insertMailversandgruppe(gruppe);
 

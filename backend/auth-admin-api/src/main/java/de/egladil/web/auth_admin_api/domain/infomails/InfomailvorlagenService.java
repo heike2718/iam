@@ -4,15 +4,14 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.domain.infomails;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeException;
-import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.MailsUndVersandDao;
+import de.egladil.web.auth_admin_api.domain.utils.InfomailvorlageMapper;
+import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.InfomailvorlagenDao;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterInfomailText;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -20,20 +19,20 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 /**
- * InfomailService
+ * InfomailvorlagenService kümmert sich um die Vorlagen für Infomails.
  */
 @ApplicationScoped
-public class InfomailService {
+public class InfomailvorlagenService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(InfomailService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(InfomailvorlagenService.class);
 
 	@Inject
-	MailsUndVersandDao dao;
+	InfomailvorlagenDao dao;
 
 	public List<InfomailResponseDto> loadInfomailTexte() {
 
 		List<PersistenterInfomailTextReadOnly> trefferliste = dao.loadInfomailTexte();
-		return trefferliste.stream().map(this::mapFromDB).toList();
+		return trefferliste.stream().map(InfomailvorlageMapper::mapFromDB).toList();
 	}
 
 	/**
@@ -58,7 +57,7 @@ public class InfomailService {
 			throw new AuthAdminAPIRuntimeException("extrem unwahrscheinlich: gerade erst angelegt und schon nicht mehr gefunden");
 		}
 
-		return mapFromDB(result);
+		return InfomailvorlageMapper.mapFromDB(result);
 	}
 
 	/**
@@ -91,7 +90,7 @@ public class InfomailService {
 			throw new AuthAdminAPIRuntimeException("extrem unwahrscheinlich: gerade erst geaendert und schon nicht mehr gefunden");
 		}
 
-		return new UpdateInfomailResponseDto().withUuid(uuid).withInfomail(mapFromDB(result));
+		return new UpdateInfomailResponseDto().withUuid(uuid).withInfomail(InfomailvorlageMapper.mapFromDB(result));
 
 	}
 
@@ -99,22 +98,6 @@ public class InfomailService {
 	String doSave(final PersistenterInfomailText persistenterInfomailText) {
 
 		return dao.saveInfomailText(persistenterInfomailText);
-	}
-
-	InfomailResponseDto mapFromDB(final PersistenterInfomailTextReadOnly fromDB) {
-
-		InfomailResponseDto result = new InfomailResponseDto();
-		result.setUuid(fromDB.uuid);
-		result.setBetreff(fromDB.betreff);
-		result.setMailtext(fromDB.mailtext);
-
-		if (fromDB.uuidsMailversandauftraege != null) {
-
-			result.setUuidsMailversandauftraege(Arrays.asList(StringUtils.split(fromDB.uuidsMailversandauftraege, ",")));
-		}
-
-		return result;
-
 	}
 
 }

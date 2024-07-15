@@ -19,6 +19,11 @@ MOCK.ROLE=STANDARD
 
 TARGET_ORIGIN = heikedeb,heikedeb:4200,localhost:4200,heikedeb:9020,https://mathe-jung-alt.de
 
+# alle 2 Minuten
+MAILVERSAND_CRON_EXPR=0 0/2 * 1/1 * ? *
+# zu Beginn jeder Stunde
+#MAILVERSAND_CRON_EXPR=0 0 * 1/1 * ? *
+
 QUARKUS_HTTP_CORS_ORIGINS = http://localhost:9020,http://localhost:4200,http://heikedeb:9000,http://localhost:9510,https://fonts.googleapis.com
 QUARKUS_LOG_FILE_PATH = /home/heike/quarkus/log/auth-admin-api/server.log
 QUARKUS_HTTP_ACCESS_LOG_LOG_DIRECTORy = /home/heike/quarkus/log/auth-admin-api

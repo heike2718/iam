@@ -19,7 +19,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.auth_admin_api.domain.infomails.InfomailRequestDto;
 import de.egladil.web.auth_admin_api.domain.infomails.InfomailResponseDto;
-import de.egladil.web.auth_admin_api.domain.infomails.InfomailService;
+import de.egladil.web.auth_admin_api.domain.infomails.InfomailvorlagenService;
 import de.egladil.web.auth_admin_api.domain.infomails.UpdateInfomailResponseDto;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
 import jakarta.annotation.security.RolesAllowed;
@@ -49,7 +49,7 @@ import jakarta.ws.rs.core.Response;
 public class InfomailsResource {
 
 	@Inject
-	InfomailService infomailService;
+	InfomailvorlagenService infomailService;
 
 	@GET
 	@RolesAllowed({ "AUTH_ADMIN" })

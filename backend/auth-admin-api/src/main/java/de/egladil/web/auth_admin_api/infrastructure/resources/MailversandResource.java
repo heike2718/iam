@@ -15,11 +15,11 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
-import de.egladil.web.auth_admin_api.domain.mailversand.DeleteMailversandauftragResponseDto;
-import de.egladil.web.auth_admin_api.domain.mailversand.MailversandauftragDetails;
-import de.egladil.web.auth_admin_api.domain.mailversand.MailversandauftragOverview;
-import de.egladil.web.auth_admin_api.domain.mailversand.MailversandauftragRequestDto;
-import de.egladil.web.auth_admin_api.domain.mailversand.VersandauftragService;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.DeleteMailversandauftragResponseDto;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragDetails;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragOverview;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragRequestDto;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.VersandauftragService;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;

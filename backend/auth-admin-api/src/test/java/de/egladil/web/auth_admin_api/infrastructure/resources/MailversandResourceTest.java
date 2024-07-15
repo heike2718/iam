@@ -14,11 +14,12 @@ import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import de.egladil.web.auth_admin_api.domain.Jobstatus;
-import de.egladil.web.auth_admin_api.domain.mailversand.MailversandauftragOverview;
-import de.egladil.web.auth_admin_api.domain.mailversand.MailversandauftragRequestDto;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragOverview;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragRequestDto;
 import de.egladil.web.auth_admin_api.profiles.AuthAdminTestProfile;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
@@ -35,7 +36,7 @@ import io.restassured.http.ContentType;
 @TestMethodOrder(OrderAnnotation.class)
 public class MailversandResourceTest {
 
-	// @Test // - wollen die DB micht vollknallen
+	@Test // - wollen die DB micht vollknallen
 	@Order(1)
 	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
 	void testInsert() {
@@ -69,7 +70,7 @@ public class MailversandResourceTest {
 		assertFalse(StringUtils.isBlank(responsePayload.getBetreff()));
 		assertEquals(5L, responsePayload.getAnzahlEmpfaenger());
 		assertEquals(3, responsePayload.getAnzahlGruppen());
-		assertEquals(Jobstatus.NEW, responsePayload.getStatus());
+		assertEquals(Jobstatus.WAITING, responsePayload.getStatus());
 		assertEquals(idInfomailtext, responsePayload.getIdInfomailtext());
 
 	}

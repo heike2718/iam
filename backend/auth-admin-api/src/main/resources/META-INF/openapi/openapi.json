@@ -1047,7 +1047,7 @@
         }
       },
       "Jobstatus" : {
-        "enum" : [ "NEW", "WAITING", "IN_PROGRESS", "COMPLETED", "ERRORS" ],
+        "enum" : [ "WAITING", "IN_PROGRESS", "COMPLETED", "ERRORS" ],
         "type" : "string"
       },
       "MailversandauftragDetails" : {
@@ -1183,6 +1183,11 @@
             "type" : "string",
             "example" : "78573dc4-06d7-43f1-9b85-ae79f36c92b7"
           },
+          "idMailversandauftrag" : {
+            "description" : "ID des Meilversandauftrags",
+            "type" : "string",
+            "example" : "663d1c4e-46b7-4b41-a3cc-c753b8f7148c"
+          },
           "status" : {
             "description" : "der Status des Versands dieser Mail",
             "type" : "string",
@@ -1196,8 +1201,8 @@
             "description" : "fortlaufende Nummer zur Sortierung",
             "type" : "integer"
           },
-          "empfaengerEmails" : {
-            "description" : "die Empfängermailadressen",
+          "empfaengerUUIDs" : {
+            "description" : "die UUIDs der Benutzer",
             "type" : "array",
             "items" : {
               "type" : "string"

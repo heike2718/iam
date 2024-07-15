@@ -2,7 +2,7 @@
 // Project: auth-admin-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.auth_admin_api.domain.mailversand;
+package de.egladil.web.auth_admin_api.domain.mailversand.api;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 

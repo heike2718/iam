@@ -58,6 +58,9 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "quarkus.application.version")
 	String version;
 
+	@ConfigProperty(name = "mailversand.cron.expr")
+	String mailversandCronPattern;
+
 	void onStartup(@Observes final StartupEvent ev) {
 
 		LOGGER.info(" ===========> Version {} of the application is starting with profiles {}", version,
@@ -70,6 +73,7 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  mkGatewayRESTUrl={}", mkGatewayRESTUrl);
 		LOGGER.info(" ===========>  targetOrigin={}", targetOrigin);
 		LOGGER.info(" ===========>  loginRedirectUrl={}", loginRedirectUrl);
+		LOGGER.info(" ===========>  mailversandCronPattern={}", mailversandCronPattern);
 		LOGGER.info(" ===========>  csrfEnabled={}", csrfEnabled);
 		LOGGER.info(" ===========>  mockSession={}", mockSession);
 		LOGGER.info(" ===========>  quarkusRootPath={}", quarkusRootPath);
