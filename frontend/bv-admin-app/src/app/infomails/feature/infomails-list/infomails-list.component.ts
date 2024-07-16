@@ -11,7 +11,7 @@ import { InfomailEditComponent } from "../infomails-edit/infomails-edit.componen
 
 const UUID = 'uuid';
 const BETREFF = 'betreff';
-const ANZAHL_VERSENDET = "anzahlVersendet"
+const ANZAHL_VERSANDAUFTRAEGE = "anzahlVersandauftraege"
 
 @Component({
   selector: 'bv-infomails',
@@ -73,7 +73,7 @@ export class InfomailsListComponent implements OnDestroy, AfterViewInit {
 
 
   getDisplayedColumns(): string[] {
-    return [UUID, BETREFF, ANZAHL_VERSENDET];
+    return [UUID, BETREFF, ANZAHL_VERSANDAUFTRAEGE];
   }
 
   selectInfomail(infomail: Infomail) {

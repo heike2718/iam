@@ -10,7 +10,7 @@
     <mat-card-actions>
         <div class="button-container">
             <button mat-raised-button color="primary" (click)="startEdit()">bearbeiten</button>
-            <button mat-raised-button [disabled]="(benutzerFacade.lengthBenutzerBasket$ | async) === 0"
+            <button mat-raised-button [disabled]="btnMailauftragErstellenDisabled()"
                 (click)="mailauftragErstellen()"
                 title="Mailversandauftrag mit diesem Text an die gewälten Benutzer erstellen">Mailauftrag</button>
         </div>

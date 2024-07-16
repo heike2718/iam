@@ -26,7 +26,7 @@ public class InfomailRequestDto {
 	private String betreff;
 
 	@JsonProperty
-	@Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP)
+	@Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP_PLUS_WHITESPACE)
 	@Size(max = 65535)
 	@NotBlank
 	private String mailtext;

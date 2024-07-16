@@ -1,25 +1,25 @@
 import { createSelector } from '@ngrx/store';
 import { infomailsFeature } from './infomails.reducer';
 
-const {selectInfomailsState: selectInfomailsState} = infomailsFeature
+const {selectInfomailsState: infomailsState} = infomailsFeature
 
 const infomailsLoaded = createSelector(
-    selectInfomailsState,
+    infomailsState,
     (state) => state.infomailsLoaded
 )
 
 const infomails = createSelector(
-    selectInfomailsState,
+    infomailsState,
     (state) => state.infomails
 )
 
 const selectedInfomail = createSelector(
-    selectInfomailsState,
+    infomailsState,
     (state) => state.selectedInfomail
 )
 
 const editMode = createSelector(
-    selectInfomailsState,
+    infomailsState,
     (state) => state.editMode
 )
 

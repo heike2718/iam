@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of, switchMap } from 'rxjs';
-import { fromAuth, initSessionAction, requestLoginUrlAction, logOutAction, loggedOutAction} from '@bv-admin-app/shared/auth/data';
+import { fromAuth } from '@bv-admin-app/shared/auth/data';
 import { MessageService } from '@bv-admin-app/shared/messages/api';
 import { AuthResult, User } from '@bv-admin-app/shared/auth/model';
 import { filterDefined } from '@bv-admin-app/shared/util';
+import { authActions } from '../data/+state/auth.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class AuthFacade {
 
   login(): void {
     // Dies triggert einen SideEffect (siehe auth.effects.ts)
-    this.#store.dispatch(requestLoginUrlAction());
+    this.#store.dispatch(authActions.rEQUEST_LOGIN_URL());
   }
 
   initClearOrRestoreSession(): void {
@@ -38,7 +39,7 @@ export class AuthFacade {
 
       if (authResult.state) {
         if (authResult.state === 'login') {
-          this.#store.dispatch(initSessionAction({ authResult }));          
+          this.#store.dispatch(authActions.iNIT_SESSION({ authResult }));          
         }
       } else {
         window.location.hash = '';
@@ -47,11 +48,11 @@ export class AuthFacade {
   }
 
   logout(): void {
-    this.#store.dispatch(logOutAction());
+    this.#store.dispatch(authActions.lOG_OUT());
   }
 
   handleSessionExpired(): void {
-    this.#store.dispatch(loggedOutAction());
+    this.#store.dispatch(authActions.lOGGED_OUT());
     this.#messageService.warn('Die Session ist abgelaufen. Bitte erneut einloggen.');
   }
 

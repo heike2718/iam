@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,9 @@ public class MailService {
 	private static final String DEFAULT_ENCODING = "UTF-8";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailService.class);
+
+	@ConfigProperty(name = "emails.standardempfaenger")
+	private String standardempfaenger;
 
 	/**
 	 * Versendet eine Mail.
@@ -47,7 +51,8 @@ public class MailService {
 
 		String betreff = mailDto.getBetreff();
 
-		LOGGER.info("Sende Mails an {}", StringUtils.join(mailDto.getBccEmpfaenger()));
+		LOGGER.info("Sende Mails an TO {}", standardempfaenger);
+		LOGGER.info("Sende Mails BCC an {}", StringUtils.join(mailDto.getBccEmpfaenger()));
 		LOGGER.info("Betreff: {}", betreff);
 		LOGGER.info("Body: {}", body);
 

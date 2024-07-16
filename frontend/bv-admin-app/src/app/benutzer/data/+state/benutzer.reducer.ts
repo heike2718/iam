@@ -7,7 +7,7 @@ import { BenutzersucheFilterAndSortValues,
 import { Benutzer, PaginationState, initialPaginationState } from '@bv-admin-app/shared/model'
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { benutzerActions } from './benutzer.actions';
-import { loggedOutAction } from '@bv-admin-app/shared/auth/data';
+import { loggedOutEvent } from '@bv-admin-app/shared/auth/data';
 import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
 
 export interface BenutzerState {
@@ -115,7 +115,7 @@ export const benutzerFeature = createFeature({
             swallowEmptyArgument(action, false);
             return { ...initialBenutzerState, benutzerBasket: [...state.benutzerBasket] };
         }),
-        on(loggedOutAction, (_state, action) => {
+        on(loggedOutEvent, (_state, action) => {
             swallowEmptyArgument(action, false);
             return initialBenutzerState;
         })

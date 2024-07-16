@@ -1,5 +1,6 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { DeleteMailversandauftragResponseDto, MailversandauftragDetails, MailversandauftragOverview, MailversandauftragRequestDto } from '@bv-admin-app/versandauftraege/model';
+import { DeleteMailversandauftragResponseDto, MailversandauftragDetails, MailversandauftragOverview } from '@bv-admin-app/versandauftraege/model';
+import { MailversandauftragRequestDto } from "@bv-admin-app/shared/model";
 
 export const versandauftraegeActions = createActionGroup({
     source: 'versandauftraege',
@@ -10,8 +11,8 @@ export const versandauftraegeActions = createActionGroup({
         'LOAD_VERSANDAUFTRA_DETAILS': props<{uuid: string}>(),
         'VERSANDAUFTRAG_DETAILS_LOADED': props<{versandauftrag: MailversandauftragDetails}>(),
         'UNSELECT_VERSANDAUFTRAG': emptyProps(),
-        'ADD_VERSANDAUFTRAG': props<{requestDto: MailversandauftragRequestDto}>(),
-        'VERSANDAUFTRAG_ADDED': props<{versandauftrag: MailversandauftragOverview}>(),
+        'SCHEDULE_VERSANDAUFTRAG': props<{requestDto: MailversandauftragRequestDto}>(),
+        'VERSANDAUFTRAG_SCHEDULED': props<{versandauftrag: MailversandauftragOverview}>(),
         'DELETE_VERSANDAUFTRAG': props<{uuid: string}>(),
         'VERSANDAUFTRAG_DELETED': props<{responsePayload: DeleteMailversandauftragResponseDto}>()
     }

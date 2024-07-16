@@ -4,25 +4,25 @@ import { benutzerFeature } from './benutzer.reducer';
 import { SortDirection } from '@angular/material/sort';
 import { SortDefinition } from '@bv-admin-app/shared/model';
 
-const {selectBenutzerState: selectBenutzerState} = benutzerFeature
+const {selectBenutzerState: benutzerState} = benutzerFeature
 
 const anzahlTreffer = createSelector(
-    selectBenutzerState,
+    benutzerState,
     (state) => state.paginationState.anzahlTreffer
 )
 
 const paginationState = createSelector(
-    selectBenutzerState,
+    benutzerState,
     (state) => state.paginationState
 )
 
 const page = createSelector(
-    selectBenutzerState,
+    benutzerState,
     (state) => state.page
 )
 
 const benutzerBasket = createSelector(
-    selectBenutzerState,
+    benutzerState,
     (state) => state.benutzerBasket
 )
 
@@ -31,8 +31,13 @@ const lengthBenutzerBasket = createSelector(
     (basket) => basket.length
 )
 
+const uuidsGewaehlteBenutzer = createSelector (
+    benutzerBasket,
+    (basket) => basket.map(b => b.uuid)
+)
+
 const filterValues = createSelector(
-    selectBenutzerState,
+    benutzerState,
     (state) => state.filterValues
 )
 
@@ -58,6 +63,7 @@ export const fromBenutzer = {
     page,
     benutzerBasket,
     lengthBenutzerBasket,
+    uuidsGewaehlteBenutzer,
     filterValues,
     sortDefinition
 }

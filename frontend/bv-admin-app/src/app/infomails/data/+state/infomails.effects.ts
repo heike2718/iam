@@ -4,12 +4,15 @@ import { InfomailsHttpService } from '../infomails-http.service';
 import { MessageService } from "@bv-admin-app/shared/messages/api";
 import { infomailsActions } from "./infomails.actions";
 import { map, switchMap, tap } from "rxjs";
+import { Store } from "@ngrx/store";
+import { versandauftragScheduledEvent } from "@bv-admin-app/versandauftraege/data";
 
 @Injectable({
     providedIn: 'root'
 })
 export class InfomailsEffects {
 
+    #store = inject(Store);
     #actions = inject(Actions);
     #httpService = inject(InfomailsHttpService);
     #messageService = inject(MessageService);
@@ -61,4 +64,13 @@ export class InfomailsEffects {
             }),
         ), { dispatch: false });
 
+
+    versandauftragScheduled$ = createEffect(() =>
+
+        this.#actions.pipe(
+            ofType(versandauftragScheduledEvent),
+            tap(() => {
+                this.#store.dispatch(infomailsActions.lOAD_INFOMAILS())
+            }),
+        ), { dispatch: false });
 }

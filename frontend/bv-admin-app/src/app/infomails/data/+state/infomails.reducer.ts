@@ -1,7 +1,7 @@
 import { Infomail, sortInfomailsByBetreff } from "@bv-admin-app/infomails/model";
 import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
 import { createFeature, createReducer, on } from "@ngrx/store";
-import { loggedOutAction } from '@bv-admin-app/shared/auth/data';
+import { loggedOutEvent } from '@bv-admin-app/shared/auth/data';
 import { infomailsActions } from './infomails.actions';
 
 export interface InfomailsState {
@@ -23,6 +23,16 @@ export const infomailsFeature = createFeature({
     reducer: createReducer(
         initialInfomailsState,
         on(infomailsActions.iNFOMAILS_LOADED, (state, action) => {
+            
+            if (state.selectedInfomail) {
+                const theSelectedInfomail = state.selectedInfomail;
+                const infomails = action.infomails.filter(i => theSelectedInfomail.uuid === i.uuid);
+
+                if (infomails.length > 0) {
+                    return {...state, infomails: action.infomails, infomailsLoaded: true, selectedInfomail: infomails[0]};
+                }
+            }
+
             return { ...state, infomails: action.infomails, infomailsLoaded: true }
         }),
         on(infomailsActions.iNFOMAIL_SELECTED, (state, action) => {
@@ -67,7 +77,7 @@ export const infomailsFeature = createFeature({
                 };
             }
         }),
-        on(loggedOutAction, (_state, _action) => {
+        on(loggedOutEvent, (_state, _action) => {
             swallowEmptyArgument(_action, false);
             return initialInfomailsState;
         })

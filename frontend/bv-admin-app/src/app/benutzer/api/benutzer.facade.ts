@@ -13,16 +13,18 @@ export class BenutzerFacade {
 
     #store = inject(Store);
 
-    page$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.page);
-    anzahlTreffer$: Observable<number> = this.#store.select(fromBenutzer.anzahlTreffer);
-    paginationState$: Observable<PaginationState> = this.#store.select(fromBenutzer.paginationState);
-    benutzerBasket$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.benutzerBasket);
-    lengthBenutzerBasket$: Observable<number> = this.#store.select(fromBenutzer.lengthBenutzerBasket);
-    filterValues$: Observable<BenutzersucheFilterAndSortValues> = this.#store.select(fromBenutzer.filterValues);
-    sortDefinition$: Observable<SortDefinition> = this.#store.select(fromBenutzer.sortDefinition);
+    readonly page$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.page);
+    readonly anzahlTreffer$: Observable<number> = this.#store.select(fromBenutzer.anzahlTreffer);
+    readonly paginationState$: Observable<PaginationState> = this.#store.select(fromBenutzer.paginationState);
+    readonly filterValues$: Observable<BenutzersucheFilterAndSortValues> = this.#store.select(fromBenutzer.filterValues);
+    readonly sortDefinition$: Observable<SortDefinition> = this.#store.select(fromBenutzer.sortDefinition);
+
+    readonly benutzerBasket$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.benutzerBasket);
+    readonly lengthBenutzerBasket$: Observable<number> = this.#store.select(fromBenutzer.lengthBenutzerBasket);
+    readonly uuidsGewaehlteBenutzer$: Observable<string[]> = this.#store.select(fromBenutzer.uuidsGewaehlteBenutzer);
 
     selectionsubsetChanged(actuallySelected: Benutzer[], actuallyDeselected: Benutzer[]): void {
-        this.#store.dispatch(benutzerActions.sELECTIONSUBSET_CHANGED({actuallySelected, actuallyDeselected}))
+        this.#store.dispatch(benutzerActions.sELECTIONSUBSET_CHANGED({ actuallySelected, actuallyDeselected }))
     }
 
     resetBenutzerBasket(): void {
@@ -30,22 +32,22 @@ export class BenutzerFacade {
     }
 
     removeBenutzerFromBasket(benutzer: Benutzer): void {
-        this.#store.dispatch(benutzerActions.rEMOVE_SINGLE_BENUTZER_FROM_BASKET({benutzer}));
+        this.#store.dispatch(benutzerActions.rEMOVE_SINGLE_BENUTZER_FROM_BASKET({ benutzer }));
     }
-    
+
     benutzersucheChanged(filter: BenutzersucheFilterAndSortValues, pageDefinition: PageDefinition): void {
         this.#store.dispatch(benutzerActions.bENUTZER_PAGEDEFINITION_CHANGED({ pageDefinition }));
         this.#store.dispatch(benutzerActions.bENUTZER_FILTER_CHANGED({ filter }));
     }
 
     deleteSingleBenutzer(benutzer: Benutzer): void {
-        this.#store.dispatch(benutzerActions.dELETE_SINGLE_BENUTZER({benutzer}));
+        this.#store.dispatch(benutzerActions.dELETE_SINGLE_BENUTZER({ benutzer }));
     }
 
     updateBenutzerAktivierungsstatue(benutzer: Benutzer, aktiviert: boolean): void {
 
-        const neuerAktivierungsstatus: Aktivierungsstatus = {aktiviert};
-        this.#store.dispatch(benutzerActions.uPDATE_BENUTZER_ACTIVATION_STATE({uuid: benutzer.uuid, aktivierungsstatus: neuerAktivierungsstatus}));
+        const neuerAktivierungsstatus: Aktivierungsstatus = { aktiviert };
+        this.#store.dispatch(benutzerActions.uPDATE_BENUTZER_ACTIVATION_STATE({ uuid: benutzer.uuid, aktivierungsstatus: neuerAktivierungsstatus }));
 
     }
 

@@ -17,6 +17,7 @@ import { provideEffects } from '@ngrx/effects';
 import { authDataProvider } from '@bv-admin-app/shared/auth/api';
 import { benutzerDataProvider } from '@bv-admin-app/benutzer/api';
 import { infomailsDataProvider } from './infomails/api';
+import { versandauftraegeDataProvider } from './versandauftraege/api';
 
 
 const localStorageMetaReducer = localStorageReducer(
@@ -66,6 +67,7 @@ export const appConfig: ApplicationConfig = {
     environment.providers,
     benutzerDataProvider,
     infomailsDataProvider,
+    versandauftraegeDataProvider,
     importProvidersFrom(
       HttpClientModule,
       HttpClientXsrfModule.withOptions({

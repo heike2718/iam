@@ -1,7 +1,7 @@
-import { MailversandauftragDetails, MailversandauftragOverview } from "@bv-admin-app/versandauftraege/model";
+import { MailversandauftragDetails, MailversandauftragOverview, sortMailversandauftragOverviewByBetreff } from "@bv-admin-app/versandauftraege/model";
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { versandauftraegeActions } from "./versandauftraege.actions";
-import { loggedOutAction } from "@bv-admin-app/shared/auth/data";
+import { loggedOutEvent } from "@bv-admin-app/shared/auth/data";
 import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
 
 
@@ -25,11 +25,17 @@ export const versandauftraegeFeature = createFeature({
         on(versandauftraegeActions.vERSANDAUFTRAG_DETAILS_LOADED, (state, action) => {
             return {...state, selectedVersandauftrag: action.versandauftrag}
         }),
-        on(versandauftraegeActions.uNSELECT_VERSANDAUFTRAG, (state, action) => {
+        on(versandauftraegeActions.uNSELECT_VERSANDAUFTRAG, (state, _action) => {
+            swallowEmptyArgument(_action, false);
             return {...state, selectedVersandauftrag: undefined}
         }),
-        on(loggedOutAction, (_state, action) => {
-            swallowEmptyArgument(action, false);
+        on(versandauftraegeActions.vERSANDAUFTRAG_SCHEDULED, (state, action) => {
+
+            const theNewVersandauftraege = [...state.versandauftraege, action.versandauftrag];
+            return {...state, versandauftraege: sortMailversandauftragOverviewByBetreff(theNewVersandauftraege)};
+        }),
+        on(loggedOutEvent, (_state, _action) => {
+            swallowEmptyArgument(_action, false);
             return initialVersandauftraegeState;
         })
     )

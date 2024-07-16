@@ -1,15 +1,5 @@
 import { Jobstatus } from "@bv-admin-app/shared/model";
 
-export interface MailversandauftragRequestDto {
-    readonly idInfomailtext: string;
-    readonly benutzerIds: number[];
-}
-
-export const initialMailversandauftragRequestDto: MailversandauftragRequestDto = {
-    idInfomailtext: '',
-    benutzerIds: []
-}
-
 export interface Mailversandgruppe {
     readonly uuid: string;
     readonly sortnr: number;

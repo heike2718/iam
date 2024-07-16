@@ -33,7 +33,9 @@
       "@bv-admin-app/infomails/data": ["src/app/infomails/data/index.ts"],
       "@bv-admin-app/infomails/api": ["src/app/infomails/api/index.ts"],
       "@bv-admin-app/infomails/feature": ["src/app/infomails/feature/index.ts"],
-      "@bv-admin-app/versandauftraege/model": ["src/app/versandauftraege/model/index.ts"]
+      "@bv-admin-app/versandauftraege/model": ["src/app/versandauftraege/model/index.ts"],
+      "@bv-admin-app/versandauftraege/data": ["src/app/versandauftraege/data/index.ts"],
+      "@bv-admin-app/versandauftraege/api": ["src/app/versandauftraege/api/index.ts"]
     },
     "useDefineForClassFields": false,
     "esModuleInterop": true,

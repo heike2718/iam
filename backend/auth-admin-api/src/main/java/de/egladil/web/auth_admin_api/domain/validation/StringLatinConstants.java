@@ -101,4 +101,10 @@ public interface StringLatinConstants {
 	 */
 	String WHITELIST_REGEXP = "^[" + LATIN + DIACRITICS + DIGITS + SPECIALS + "]*$";
 
+	/**
+	 * Alle Buchstaben und diakritischen Zeichen aus StringLatin, alle Ziffern, Minus, Unterstrich, Punkt, Komma,
+	 * Apostrophe und alle Arten von whitespace
+	 */
+	String WHITELIST_REGEXP_PLUS_WHITESPACE = "^[" + LATIN + DIACRITICS + DIGITS + SPECIALS + "\\s]*$";
+
 }

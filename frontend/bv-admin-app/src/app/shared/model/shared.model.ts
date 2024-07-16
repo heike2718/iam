@@ -38,3 +38,13 @@ export interface Benutzer {
     readonly aktiviert: boolean;
     readonly aenderungsdatum: string;
 }
+
+export interface MailversandauftragRequestDto {
+    readonly idInfomailtext: string;
+    readonly benutzerUUIDs: string[];
+}
+
+export const initialMailversandauftragRequestDto: MailversandauftragRequestDto = {
+    idInfomailtext: '',
+    benutzerUUIDs: []
+}
