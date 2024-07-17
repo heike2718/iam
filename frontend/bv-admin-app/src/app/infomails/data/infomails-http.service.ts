@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Infomail, InfomailRequestDto, UpdateInfomailResponseDto } from "@bv-admin-app/infomails/model";
+import { InfomailRequestDto, UpdateInfomailResponseDto } from "@bv-admin-app/infomails/model";
+import { Infomail } from "@bv-admin-app/shared/model";
 
 @Injectable({
     providedIn: 'root'

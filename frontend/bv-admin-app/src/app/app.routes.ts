@@ -14,12 +14,17 @@ export const appRoutes: Routes = [
     {
         path: 'users',
         loadChildren: () =>
-          import('src/app/benutzer/feature').then((m) => m.benutzerRoutes),
+          import('@bv-admin-app/benutzer/feature').then((m) => m.benutzerRoutes),
     },
     {
         path: 'infomails',
         loadChildren: () =>
-          import('src/app/infomails/feature').then((m) => m.infomailsRoutes),
+          import('@bv-admin-app/infomails/feature').then((m) => m.infomailsRoutes),
+    },
+    {
+        path: 'versandauftraege',
+        loadChildren: () =>
+          import('@bv-admin-app/versandauftraege/feature').then((m) => m.versandauftraegeRoutes),
     },
     {
         path: '**',

@@ -1,10 +1,9 @@
 import { inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { MailversandauftragOverview } from '@bv-admin-app/versandauftraege/model';
-import { Store } from "@ngrx/store";
+import { Observable, Subscription, take } from "rxjs";
+import { MailversandauftragDetails, MailversandauftragOverview } from '@bv-admin-app/versandauftraege/model';
+import { select, Store } from "@ngrx/store";
 import { fromVersandauftraege, versandauftraegeActions } from '@bv-admin-app/versandauftraege/data';
-import { MailversandauftragRequestDto } from "@bv-admin-app/shared/model";
-import { Infomail } from "@bv-admin-app/infomails/model";
+import { MailversandauftragRequestDto, Infomail } from "@bv-admin-app/shared/model";
 
 @Injectable(
     { providedIn: 'root' }
@@ -13,11 +12,41 @@ export class VersandauftraegeFacade {
 
     #store = inject(Store);
 
-    readonly versandauftraege$: Observable<MailversandauftragOverview[]> = this.#store.select(fromVersandauftraege.versandauftraege);
+    #versandauftraegeDetailsSubscription: Subscription = new Subscription();
+    
 
+    readonly loaded$: Observable<boolean> = this.#store.select(fromVersandauftraege.loaded);
+    readonly versandauftraege$: Observable<MailversandauftragOverview[]> = this.#store.select(fromVersandauftraege.versandauftraege);
+    readonly selectedVersandauftrag$: Observable<MailversandauftragDetails | undefined> = this.#store.select(fromVersandauftraege.selectedVersandauftrag);
+
+    public loadVersandauftraege(): void {
+        this.#store.dispatch(versandauftraegeActions.lOAD_VERSANDAUFTRAEGE());
+    }
+
+    public loadVersandauftragDetails(uuid: string): void {
+
+        this.#versandauftraegeDetailsSubscription.unsubscribe();
+
+        this.#versandauftraegeDetailsSubscription = this.#store.pipe(
+            select(fromVersandauftraege.versandauftraegeDetails),
+            take(1)
+        ).subscribe(
+            (details: MailversandauftragDetails[]) => {
+                const filtered = details.filter(d => d.uuid === uuid);
+                if (filtered.length === 1 && (filtered[0].status === 'COMPLETED' || filtered[0].status === 'ERRORS')) {
+                    this.#selectDetails(filtered[0]);
+                } else {
+                    this.#loadDetails(uuid);
+                }
+            }
+        );
+    }
+
+    public refreshVersandauftrag(uuid: string): void {
+        this.#loadDetails(uuid);
+    }
 
     public scheduleMailversandauftrag(infomail: Infomail, uuids: string[]): void {
-
 
         const requestDto: MailversandauftragRequestDto = {
             benutzerUUIDs: uuids,
@@ -26,6 +55,14 @@ export class VersandauftraegeFacade {
 
         this.#store.dispatch(versandauftraegeActions.sCHEDULE_VERSANDAUFTRAG({ requestDto }))
 
+    }
+
+    #loadDetails(uuid: string): void {
+        this.#store.dispatch(versandauftraegeActions.lOAD_VERSANDAUFTRAG_DETAILS({ uuid }));
+    }
+
+    #selectDetails(versandauftrag: MailversandauftragDetails): void {
+        this.#store.dispatch(versandauftraegeActions.sELECT_VERSANDAUFTRAG({ versandauftrag }));
     }
 
 }

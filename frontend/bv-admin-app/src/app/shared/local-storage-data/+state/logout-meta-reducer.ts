@@ -1,5 +1,5 @@
 import { ActionReducer, INIT, MetaReducer } from '@ngrx/store';
-import { loggedOutEvent } from '@bv-admin-app/shared/auth/data';
+import { loggedOutEvent } from '@bv-admin-app/shared/auth/api';
 
 function clearState(reducer: ActionReducer<any>): ActionReducer<any> {
     return (state, action) => {

@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-    selector: 'bv-confirmation-dialog',
+    selector: 'bv-admin-confirmation-dialog',
     standalone: true,
     imports: [
         CommonModule,

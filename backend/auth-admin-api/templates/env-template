@@ -39,8 +39,6 @@ QUARKUS_REST_CLIENT_MKGATEWAY_URL=http://localhost:9510/mk-gateway
 # docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb-all
 QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://172.18.0.2:3306/authbv
 QUARKUS_DATASOURCE_PASSWORD=hwinkel
-QUARKUS_HIBERNATE_ORM_LOG_SQL=true
-
 # man muss auch das MIN-Level auf TRACE setzen, wenn man das SQL von namedQueries sehen will
 QUARKUS_LOG_MIN_LEVEL=TRACE
 QUARKUS_HIBERNATE_ORM_LOG_BIND_PARAMETERS=true
@@ -65,7 +63,7 @@ QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_DOMAIN_AUTH_SESSION_SESSIONUTILS
 QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_INFRASTRUCTURE_CDI_AUTHENTICATIONCONTEXTIMPL__LEVEL=WARN
 
 QUARKUS_LOG_CATEGORY__ORG_JBOSS_RESTEASY_REACTIVE_CLIENT_LOGGING_DEFAULTCLIENTLOGGER__LEVEL=WARN
-
+QUARKUS_LOG_CATEGORY__ORG_HIBERNATE_SQL__LEVEL=ERROR
 
 #=============================================================================================#
 #        _TEST_                                                                               #

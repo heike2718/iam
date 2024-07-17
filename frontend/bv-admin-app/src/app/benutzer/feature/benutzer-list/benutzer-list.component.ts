@@ -1,8 +1,8 @@
 import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild, inject } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin-app/benutzer/api';
-import { BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterEmpty, BenutzersucheFilterValues, isFilterAndSortEmpty } from '@bv-admin-app/benutzer/model';
+import { BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterAndSortEmpty } from '@bv-admin-app/benutzer/model';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatInputModule } from '@angular/material/input';
@@ -14,7 +14,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { Benutzer, PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin-app/shared/model";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialog } from "@angular/material/dialog";
-import { ConfirmationDialogComponent } from "@bv-admin-app/shared/ui";
+import { ConfirmationDialogComponent } from "@bv-admin-app/shared/ui/components";
 
 const AUSWAHL_BENUTZER = 'auswahlBenutzer';
 const UUID = 'uuid';
@@ -27,7 +27,7 @@ const DELETE_BENUTZER_ACTION = "deleteAccount";
 const TOGGLE_ACTIVATION_STATE_ACTION = "toggleActivationState"
 
 @Component({
-  selector: 'bv-users',
+  selector: 'bv-admin-benutzer',
   standalone: true,
   imports: [
     CommonModule,

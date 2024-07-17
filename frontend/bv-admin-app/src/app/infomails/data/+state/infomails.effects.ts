@@ -5,7 +5,7 @@ import { MessageService } from "@bv-admin-app/shared/messages/api";
 import { infomailsActions } from "./infomails.actions";
 import { map, switchMap, tap } from "rxjs";
 import { Store } from "@ngrx/store";
-import { versandauftragScheduledEvent } from "@bv-admin-app/versandauftraege/data";
+import { versandauftragScheduledEvent } from "@bv-admin-app/versandauftraege/api";
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +20,7 @@ export class InfomailsEffects {
     loadInfomailTexte$ = createEffect(() => {
         return this.#actions.pipe(
             ofType(infomailsActions.lOAD_INFOMAILS),
-            switchMap((action) => this.#httpService.loadInfomailTexte()),
+            switchMap(() => this.#httpService.loadInfomailTexte()),
             map((infomails) => infomailsActions.iNFOMAILS_LOADED({ infomails }))
         );
     });

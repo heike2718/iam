@@ -2,6 +2,7 @@ import { Jobstatus } from "@bv-admin-app/shared/model";
 
 export interface Mailversandgruppe {
     readonly uuid: string;
+    readonly idMailversandauftrag: string;
     readonly sortnr: number;
     readonly status: Jobstatus;
     readonly empfaengerEmails: string[];
@@ -11,6 +12,7 @@ export interface MailversandauftragOverview {
     readonly uuid: string;
     readonly idInfomailtext: string;
     readonly betreff: string;
+    readonly erfasstAm: string;
     readonly status: Jobstatus;
     readonly anzahlEmpfaenger: number;
     readonly anzahlGruppen: number;
@@ -32,6 +34,11 @@ export interface MailversandauftragDetails {
 
 export interface DeleteMailversandauftragResponseDto {
     readonly uuid: string
+}
+
+export interface MailversandauftragDetailsResponseDto {
+    readonly uuid: string;
+    readonly versandauftrag: MailversandauftragDetails | undefined;
 }
 
 

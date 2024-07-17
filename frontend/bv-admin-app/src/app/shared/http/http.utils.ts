@@ -14,7 +14,7 @@ export const ERROR_MESSAGE_CONTEXT = new HttpContextToken(() => defaultErrorMess
 export interface ConstraintViolation {
     readonly fieldName: string;
     readonly message: string;
-};
+}
 
 
 export function withErrorMessageContext(message: string) {

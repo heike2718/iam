@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of, switchMap } from 'rxjs';
-import { fromAuth } from '@bv-admin-app/shared/auth/data';
+import { fromAuth, authActions } from '@bv-admin-app/shared/auth/data';
 import { MessageService } from '@bv-admin-app/shared/messages/api';
 import { AuthResult, User } from '@bv-admin-app/shared/auth/model';
 import { filterDefined } from '@bv-admin-app/shared/util';
-import { authActions } from '../data/+state/auth.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -85,4 +84,4 @@ export class AuthFacade {
     window.location.hash = '';
     return result;
   }  
-};
+}

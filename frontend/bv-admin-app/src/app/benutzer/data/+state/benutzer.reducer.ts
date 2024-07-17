@@ -7,7 +7,7 @@ import { BenutzersucheFilterAndSortValues,
 import { Benutzer, PaginationState, initialPaginationState } from '@bv-admin-app/shared/model'
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { benutzerActions } from './benutzer.actions';
-import { loggedOutEvent } from '@bv-admin-app/shared/auth/data';
+import { loggedOutEvent } from '@bv-admin-app/shared/auth/api';
 import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
 
 export interface BenutzerState {

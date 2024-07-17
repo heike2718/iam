@@ -8,7 +8,7 @@ import { AuthFacade } from "@bv-admin-app/shared/auth/api";
 
 
 @Component({
-    selector: 'bv-benutzerbasket-status',
+    selector: 'bv-admin-benutzerbasket-status',
     standalone: true,
     imports: [
         CommonModule,
@@ -19,7 +19,7 @@ import { AuthFacade } from "@bv-admin-app/shared/auth/api";
     templateUrl: './benutzerbasket-status.component.html',
     styleUrls: ['./benutzerbasket-status.component.scss'],
 })
-export class BenutzerBasketStatusComponend {
+export class BenutzerBasketStatusComponent {
 
 
     authFacade = inject(AuthFacade);

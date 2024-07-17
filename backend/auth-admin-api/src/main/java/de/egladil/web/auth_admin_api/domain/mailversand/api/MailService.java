@@ -64,7 +64,7 @@ public class MailService {
 
 			IOUtils.copy(in, sw, Charset.forName(DEFAULT_ENCODING));
 
-			return sw.toString();
+			return "\n\n" + sw.toString();
 
 		} catch (IOException e) {
 

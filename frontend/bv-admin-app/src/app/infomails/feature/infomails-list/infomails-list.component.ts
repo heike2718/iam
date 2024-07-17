@@ -4,17 +4,17 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { InfomailsFacade } from '@bv-admin-app/infomails/api';
-import { Infomail } from "@bv-admin-app/infomails/model";
 import { combineLatest, Subscription } from "rxjs";
 import { InfomailsDetailsComponent } from "../infomails-details/infomails-details.component";
 import { InfomailEditComponent } from "../infomails-edit/infomails-edit.component";
+import { Infomail } from "@bv-admin-app/shared/model";
 
 const UUID = 'uuid';
 const BETREFF = 'betreff';
 const ANZAHL_VERSANDAUFTRAEGE = "anzahlVersandauftraege"
 
 @Component({
-  selector: 'bv-infomails',
+  selector: 'bv-admin-infomails',
   standalone: true,
   imports: [
     CommonModule,

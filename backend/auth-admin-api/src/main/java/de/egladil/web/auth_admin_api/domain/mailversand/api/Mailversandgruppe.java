@@ -29,12 +29,12 @@ public class Mailversandgruppe {
 	private String idMailversandauftrag;
 
 	@JsonProperty
-	@Schema(description = "der Status des Versands dieser Mail", example = "WAITING")
-	private Jobstatus status;
-
-	@JsonProperty
 	@Schema(description = "fortlaufende Nummer zur Sortierung")
 	private int sortnr;
+
+	@JsonProperty
+	@Schema(description = "der Status des Versands dieser Mail", example = "WAITING")
+	private Jobstatus status;
 
 	@JsonProperty
 	@Schema(description = "die UUIDs der Benutzer")

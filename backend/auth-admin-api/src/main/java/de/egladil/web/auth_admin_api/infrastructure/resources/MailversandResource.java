@@ -4,6 +4,8 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.infrastructure.resources;
 
+import java.util.List;
+
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -16,7 +18,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.DeleteMailversandauftragResponseDto;
-import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragDetails;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragDetailsResponseDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragOverview;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragRequestDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.VersandauftragService;
@@ -80,7 +82,8 @@ public class MailversandResource {
 			schema = @Schema(implementation = MessagePayload.class)))
 	public Response loadVersandauftraege() {
 
-		return Response.status(500).entity(MessagePayload.error("noch nicht implementiert")).build();
+		List<MailversandauftragOverview> responsePayload = versandauftragService.versandauftraegeLaden();
+		return Response.status(200).entity(responsePayload).build();
 	}
 
 	@GET
@@ -99,7 +102,7 @@ public class MailversandResource {
 		responseCode = "200",
 		content = @Content(
 			mediaType = "application/json",
-			schema = @Schema(implementation = MailversandauftragDetails.class)))
+			schema = @Schema(implementation = MailversandauftragDetailsResponseDto.class)))
 	@APIResponse(
 		name = "BadRequest",
 		responseCode = "400",
@@ -128,7 +131,9 @@ public class MailversandResource {
 			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
 				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
 
-		return Response.status(500).entity(MessagePayload.error("noch nicht implementiert")).build();
+		MailversandauftragDetailsResponseDto responsePayload = versandauftragService.detailsLaden(uuid);
+
+		return Response.status(200).entity(responsePayload).build();
 	}
 
 	@POST

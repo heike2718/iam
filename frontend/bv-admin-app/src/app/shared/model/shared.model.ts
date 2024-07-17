@@ -39,6 +39,13 @@ export interface Benutzer {
     readonly aenderungsdatum: string;
 }
 
+export interface Infomail {
+    readonly uuid: string;
+    readonly betreff: string;
+    readonly mailtext: string;
+    readonly uuidsMailversandauftraege: string[];
+}
+
 export interface MailversandauftragRequestDto {
     readonly idInfomailtext: string;
     readonly benutzerUUIDs: string[];

@@ -569,7 +569,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/MailversandauftragDetails"
+                  "$ref" : "#/components/schemas/MailversandauftragDetailsResponseDto"
                 }
               }
             }
@@ -1092,13 +1092,13 @@
             "example" : "09.07.2024 23:56:01"
           },
           "anzahlEmpfaenger" : {
-            "format" : "int32",
+            "format" : "int64",
             "description" : "Anzahl der Benutzer, an die die Infomail gesendet wir bzw. wurde",
             "type" : "integer",
             "example" : 4352
           },
           "anzahlVersendet" : {
-            "format" : "int32",
+            "format" : "int64",
             "description" : "Anzahl bereits versendeter Mails",
             "type" : "integer",
             "example" : 2524
@@ -1113,6 +1113,18 @@
             "items" : {
               "$ref" : "#/components/schemas/Mailversandgruppe"
             }
+          }
+        }
+      },
+      "MailversandauftragDetailsResponseDto" : {
+        "description" : "Kombiniert uuid mit dem MailversandauftragDetailsDto.",
+        "type" : "object",
+        "properties" : {
+          "uuid" : {
+            "type" : "string"
+          },
+          "versandauftrag" : {
+            "$ref" : "#/components/schemas/MailversandauftragDetails"
           }
         }
       },
@@ -1134,6 +1146,11 @@
             "type" : "string",
             "example" : "Aktivierung Ihres Benutzerkontos erforderlich"
           },
+          "erfasstAm" : {
+            "description" : "Erfasungsdatum",
+            "type" : "string",
+            "example" : "16.07.2024 11:55:22"
+          },
           "status" : {
             "description" : "Status des Auftrags",
             "type" : "string",
@@ -1144,12 +1161,12 @@
           },
           "anzahlEmpfaenger" : {
             "format" : "int64",
-            "description" : "Anzahl der Benutzer, an die die Infomail gesendet wir bzw. wurde",
+            "description" : "Anzahl der Benutzer, an die die Infomail gesendet werden sollte",
             "type" : "integer",
             "example" : 4352
           },
           "anzahlGruppen" : {
-            "format" : "int32",
+            "format" : "int64",
             "description" : "Anzahl der Mailversandgruppen",
             "type" : "integer",
             "example" : 28
@@ -1188,6 +1205,11 @@
             "type" : "string",
             "example" : "663d1c4e-46b7-4b41-a3cc-c753b8f7148c"
           },
+          "sortnr" : {
+            "format" : "int32",
+            "description" : "fortlaufende Nummer zur Sortierung",
+            "type" : "integer"
+          },
           "status" : {
             "description" : "der Status des Versands dieser Mail",
             "type" : "string",
@@ -1195,11 +1217,6 @@
               "$ref" : "#/components/schemas/Jobstatus"
             } ],
             "example" : "WAITING"
-          },
-          "sortnr" : {
-            "format" : "int32",
-            "description" : "fortlaufende Nummer zur Sortierung",
-            "type" : "integer"
           },
           "empfaengerUUIDs" : {
             "description" : "die UUIDs der Benutzer",

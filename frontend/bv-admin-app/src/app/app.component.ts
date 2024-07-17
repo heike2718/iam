@@ -7,8 +7,8 @@ import { LoadingIndicatorComponent, MessageComponent } from './shared/messages/u
 import { NavbarComponent } from './shell/layout/navbar/navbar.component';
 import { SidenavComponent } from './shell/layout/sidenav/sidenav.component';
 import { AuthFacade } from '@bv-admin-app/shared/auth/api';
-import { BenutzerListComponent } from './benutzer/feature/benutzer-list/benutzer-list.component';
-import { BenutzerBasketStatusComponend } from './shared/ui';
+import { BenutzerListComponent } from '@bv-admin-app/benutzer/feature';
+import { BenutzerBasketStatusComponent } from '@bv-admin-app/shared/ui/benutzerbasket-status';
 
 @Component({
   standalone: true,
@@ -21,7 +21,7 @@ import { BenutzerBasketStatusComponend } from './shared/ui';
     BenutzerListComponent,
     LoadingIndicatorComponent,
     RouterModule,
-    BenutzerBasketStatusComponend
+    BenutzerBasketStatusComponent
   ],
   selector: 'bv-admin-root',
   templateUrl: './app.component.html',

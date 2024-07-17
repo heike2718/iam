@@ -1,19 +1,20 @@
-import { CommonModule, NgFor } from "@angular/common";
+import { CommonModule, NgFor, NgIf } from "@angular/common";
 import { Component, inject, Input, OnDestroy, OnInit } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from '@angular/material/card';
 import { BenutzerFacade } from "@bv-admin-app/benutzer/api";
 import { InfomailsFacade } from "@bv-admin-app/infomails/api";
-import { Infomail } from "@bv-admin-app/infomails/model";
+import { Infomail } from "@bv-admin-app/shared/model";
 import { VersandauftraegeFacade } from "@bv-admin-app/versandauftraege/api";
 import { Subscription } from "rxjs";
 
 @Component({
-    selector: 'bv-infomail',
+    selector: 'bv-admin-infomail',
     standalone: true,
     imports: [
         CommonModule,
         NgFor,
+        NgIf,
         MatButtonModule,
         MatCardModule
     ],

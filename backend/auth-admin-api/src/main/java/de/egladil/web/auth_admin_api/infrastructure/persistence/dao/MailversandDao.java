@@ -10,6 +10,7 @@ import de.egladil.web.auth_admin_api.domain.Jobstatus;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenteMailversandgruppe;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterMailversandauftrag;
+import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterMailversandauftragReadOnly;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUserReadOnly;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -48,6 +49,19 @@ public class MailversandDao {
 
 		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_BY_A_UUID_LIST,
 			PersistenterUserReadOnly.class).setParameter("aktiviert", true).setParameter("uuids", uuids).getResultList();
+	}
+
+	/**
+	 * Läd alle Versandaufträge für die Übersicht, also nicht alle Attribute.
+	 *
+	 * @return
+	 */
+	public List<PersistenterMailversandauftragReadOnly> loadAllMailversandauftraege() {
+
+		return entityManager
+			.createNamedQuery(PersistenterMailversandauftragReadOnly.LOAD_ALL, PersistenterMailversandauftragReadOnly.class)
+			.getResultList();
+
 	}
 
 	/**
@@ -145,5 +159,15 @@ public class MailversandDao {
 	public void removeMailversandauftrag(final PersistenterMailversandauftrag persistenterMailversandAuftrag) {
 
 		entityManager.remove(persistenterMailversandAuftrag);
+	}
+
+	public List<PersistenterMailversandauftragReadOnly> findMailversandauftraegeWithInfomailtextAndJahrMonat(final String idInfomailtext, final String versandJahrMonat) {
+
+		return entityManager
+			.createNamedQuery(PersistenterMailversandauftragReadOnly.FIND_WITH_INFOMAILTEXT_AND_JAHR_MONAT,
+				PersistenterMailversandauftragReadOnly.class)
+			.setParameter("idInfomailtext", idInfomailtext)
+			.setParameter("versandJahrMonat", versandJahrMonat)
+			.getResultList();
 	}
 }

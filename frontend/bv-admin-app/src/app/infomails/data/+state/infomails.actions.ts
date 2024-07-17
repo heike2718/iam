@@ -1,4 +1,5 @@
-import { Infomail, InfomailRequestDto, UpdateInfomailResponseDto } from "@bv-admin-app/infomails/model";
+import { InfomailRequestDto, UpdateInfomailResponseDto } from "@bv-admin-app/infomails/model";
+import { Infomail } from "@bv-admin-app/shared/model";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
 
 

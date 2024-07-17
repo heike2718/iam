@@ -1,15 +1,16 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { Component, inject, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatInputModule } from "@angular/material/input";
 import { InfomailsFacade } from "@bv-admin-app/infomails/api";
-import { Infomail, InfomailRequestDto, initialInfomailRequestDto } from "@bv-admin-app/infomails/model";
+import { InfomailRequestDto } from "@bv-admin-app/infomails/model";
+import { Infomail } from "@bv-admin-app/shared/model";
 
 
 @Component({
-    selector: 'bv-infomail-edit',
+    selector: 'bv-admin-infomail-edit',
     standalone: true,
     imports: [
         CommonModule,

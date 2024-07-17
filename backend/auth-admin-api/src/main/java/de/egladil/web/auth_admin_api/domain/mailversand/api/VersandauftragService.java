@@ -9,23 +9,28 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_admin_api.domain.Jobstatus;
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminSQLExceptionHelper;
+import de.egladil.web.auth_admin_api.domain.exceptions.ConflictException;
 import de.egladil.web.auth_admin_api.domain.utils.AuthAdminCollectionUtils;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.MailversandDao;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenteMailversandgruppe;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterMailversandauftrag;
+import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterMailversandauftragReadOnly;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUserReadOnly;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -41,6 +46,10 @@ public class VersandauftragService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(VersandauftragService.class);
 
+	private static final DateTimeFormatter DATE_TIME_FORMATTER_JAHR_MONAT = DateTimeFormatter.ofPattern("yyyy-MM");
+
+	private static final DateTimeFormatter DATE_TIME_FORMATTER_DEFAULT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
 	private static final int MAX_DB_IN_BUNCH_SIZE = 1000;
 
 	@ConfigProperty(name = "emails.groupsize", defaultValue = "50")
@@ -48,6 +57,41 @@ public class VersandauftragService {
 
 	@Inject
 	MailversandDao dao;
+
+	public List<MailversandauftragOverview> versandauftraegeLaden() {
+
+		List<PersistenterMailversandauftragReadOnly> ausDB = dao.loadAllMailversandauftraege();
+
+		return ausDB.stream().map(this::mapFromDBToOverview).toList();
+	}
+
+	/**
+	 * Läd die Details eines Mailversandauftrags.
+	 *
+	 * @param  uuid
+	 * @return      MailversandauftragDetailsResponseDto
+	 */
+	public MailversandauftragDetailsResponseDto detailsLaden(final String uuid) {
+
+		PersistenterMailversandauftrag fromDB = dao.findMailversandauftragByUUID(uuid);
+		MailversandauftragDetailsResponseDto result = new MailversandauftragDetailsResponseDto();
+		result.setUuid(uuid);
+
+		if (fromDB == null) {
+
+			LOGGER.warn("Mailversandauftrag mit UUID={} existiert nicht oder nicht mehr", StringUtils.abbreviate(uuid, 11));
+			return result;
+
+		}
+
+		List<PersistenteMailversandgruppe> versandgruppen = dao.findAllMailversandgruppenWithVersandauftragUUID(uuid);
+
+		MailversandauftragDetails versandauftrag = mapFromDBToDetails(fromDB);
+		List<Mailversandgruppe> gruppen = versandgruppen.stream().map(this::mapFromDB).toList();
+		versandauftrag.setMailversandgruppen(gruppen);
+		result.setVersandauftrag(versandauftrag);
+		return result;
+	}
 
 	/**
 	 * Legt einen neuen Mailversandauftrag mit den zugehörigen Gruppen an.
@@ -87,7 +131,18 @@ public class VersandauftragService {
 		String checksum = calculateChecksum(requestDto.getBenutzerUUIDs());
 		List<List<String>> confirmedUUIDGroups = getAllConfirmedUUIDsInGroups(requestDto);
 
-		return createNewVersandauftrag(infomailtext, confirmedUUIDGroups, checksum);
+		try {
+
+			return createNewVersandauftrag(infomailtext, confirmedUUIDGroups, checksum);
+		} catch (Exception e) {
+
+			ConstraintViolationException cve = AuthAdminSQLExceptionHelper.unwrappConstraintViolationException(e,
+				"Beim Anlegen eines Mailversandauftrags ist etwas schiefgegaben");
+
+			LOGGER.error("infomailtext={}, checksum={}: {}", infomailtext.uuid, checksum, cve.getMessage());
+
+			throw new ConflictException("An diesen Benutzerkreis wurde in diesem Monat bereits eine Mail versendet.");
+		}
 	}
 
 	private List<List<String>> getAllConfirmedUUIDsInGroups(final MailversandauftragRequestDto requestDto) {
@@ -111,7 +166,7 @@ public class VersandauftragService {
 		persistenterVersandauftrag.setChecksumEmpfaengerIDs(checksum);
 		persistenterVersandauftrag.setErfasstAm(now);
 		persistenterVersandauftrag.setGeaendertAm(geaendertAm);
-		persistenterVersandauftrag.setVersandJahrMonat(this.getVersandJahrMonat(now));
+		persistenterVersandauftrag.setVersandJahrMonat(DATE_TIME_FORMATTER_JAHR_MONAT.format(now));
 		persistenterVersandauftrag.setIdInfomailtext(infomailtext.uuid);
 		persistenterVersandauftrag.setStatus(Jobstatus.WAITING);
 
@@ -197,17 +252,62 @@ public class VersandauftragService {
 
 	}
 
-	MailversandauftragOverview mapFromDBToOverview(final PersistenterMailversandauftrag fromDB) {
+	MailversandauftragOverview mapFromDBToOverview(final PersistenterMailversandauftragReadOnly fromDB) {
 
 		MailversandauftragOverview result = new MailversandauftragOverview();
+		result.setAnzahlEmpfaenger(fromDB.anzahlEmpfaenger);
+		result.setAnzahlGruppen(fromDB.anzahlGruppen);
+		result.setBetreff(fromDB.betreff);
+		result.setIdInfomailtext(fromDB.idInfomailtext);
+		result.setStatus(fromDB.status);
+		result.setUuid(fromDB.uuid);
+		result.setErfasstAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.erfasstAm));
 
 		return result;
 
 	}
 
-	String getVersandJahrMonat(final LocalDateTime ldt) {
+	MailversandauftragDetails mapFromDBToDetails(final PersistenterMailversandauftrag fromDB) {
 
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM");
-		return dtf.format(ldt);
+		MailversandauftragDetails versandauftrag = new MailversandauftragDetails();
+		versandauftrag.setAnzahlEmpfaenger(fromDB.getAnzahlEmpfaenger());
+		versandauftrag.setAnzahlVersendet(fromDB.getAnzahlVersendet());
+		versandauftrag.setErfasstAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getErfasstAm()));
+		versandauftrag.setIdInfomailtext(fromDB.getIdInfomailtext());
+		versandauftrag.setMailversandgruppen(new ArrayList<>());
+		versandauftrag.setStatus(fromDB.getStatus());
+		versandauftrag.setUuid(fromDB.getUuid());
+
+		if (fromDB.getVersandBeendetAm() != null) {
+
+			versandauftrag.setVersandBeendetAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getVersandBeendetAm()));
+		}
+
+		if (fromDB.getVersandBegonnenAm() != null) {
+
+			versandauftrag.setVersandBegonnenAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getVersandBegonnenAm()));
+		}
+
+		versandauftrag.setVersandJahrMonat(fromDB.getVersandJahrMonat());
+		versandauftrag.setVersandMitFehlern(fromDB.isVersandMitFehlern());
+
+		return versandauftrag;
+	}
+
+	Mailversandgruppe mapFromDB(final PersistenteMailversandgruppe fromDB) {
+
+		Mailversandgruppe result = new Mailversandgruppe();
+
+		if (StringUtils.isNotBlank(fromDB.getEmpfaengerUUIDs())) {
+
+			result.setEmpfaengerUUIDs(Arrays.asList(StringUtils.split(fromDB.getEmpfaengerUUIDs(), ",")));
+		}
+
+		result.setIdMailversandauftrag(fromDB.getIdVersandauftrag());
+		result.setSortnr(fromDB.getSortnr());
+		result.setStatus(fromDB.getStatus());
+		result.setUuid(fromDB.getUuid());
+		return result;
+
 	}
 }

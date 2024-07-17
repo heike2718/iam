@@ -1,1 +1,1 @@
-export * from './benutzer-model';
+export * from './benutzer.model';

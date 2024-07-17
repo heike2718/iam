@@ -51,11 +51,11 @@ public class MailversandauftragDetails {
 
 	@JsonProperty
 	@Schema(description = "Anzahl der Benutzer, an die die Infomail gesendet wir bzw. wurde", example = "4352")
-	private int anzahlEmpfaenger;
+	private long anzahlEmpfaenger;
 
 	@JsonProperty
 	@Schema(description = "Anzahl bereits versendeter Mails", example = "2524")
-	private int anzahlVersendet;
+	private long anzahlVersendet;
 
 	@JsonProperty
 	@Schema(description = "true, wenn eine der Sammelmails nicht fehlerfrei versendet werden konnte, sonst false")
@@ -64,5 +64,115 @@ public class MailversandauftragDetails {
 	@JsonProperty
 	@Schema(description = "Die Gruppen von Mailempfängern, an die die Mail jeweils als Sammelmail versendet wird / wurde")
 	private List<Mailversandgruppe> mailversandgruppen;
+
+	public String getUuid() {
+
+		return uuid;
+	}
+
+	public void setUuid(final String uuid) {
+
+		this.uuid = uuid;
+	}
+
+	public String getIdInfomailtext() {
+
+		return idInfomailtext;
+	}
+
+	public void setIdInfomailtext(final String idInfomailtext) {
+
+		this.idInfomailtext = idInfomailtext;
+	}
+
+	public String getVersandJahrMonat() {
+
+		return versandJahrMonat;
+	}
+
+	public void setVersandJahrMonat(final String versandJahrMonat) {
+
+		this.versandJahrMonat = versandJahrMonat;
+	}
+
+	public Jobstatus getStatus() {
+
+		return status;
+	}
+
+	public void setStatus(final Jobstatus status) {
+
+		this.status = status;
+	}
+
+	public String getErfasstAm() {
+
+		return erfasstAm;
+	}
+
+	public void setErfasstAm(final String erfasstAm) {
+
+		this.erfasstAm = erfasstAm;
+	}
+
+	public String getVersandBegonnenAm() {
+
+		return versandBegonnenAm;
+	}
+
+	public void setVersandBegonnenAm(final String versandBegonnenAm) {
+
+		this.versandBegonnenAm = versandBegonnenAm;
+	}
+
+	public String getVersandBeendetAm() {
+
+		return versandBeendetAm;
+	}
+
+	public void setVersandBeendetAm(final String versandBeendetAm) {
+
+		this.versandBeendetAm = versandBeendetAm;
+	}
+
+	public long getAnzahlEmpfaenger() {
+
+		return anzahlEmpfaenger;
+	}
+
+	public void setAnzahlEmpfaenger(final long anzahlEmpfaenger) {
+
+		this.anzahlEmpfaenger = anzahlEmpfaenger;
+	}
+
+	public long getAnzahlVersendet() {
+
+		return anzahlVersendet;
+	}
+
+	public void setAnzahlVersendet(final long anzahlVersendet) {
+
+		this.anzahlVersendet = anzahlVersendet;
+	}
+
+	public boolean isVersandMitFehlern() {
+
+		return versandMitFehlern;
+	}
+
+	public void setVersandMitFehlern(final boolean versandMitFehlern) {
+
+		this.versandMitFehlern = versandMitFehlern;
+	}
+
+	public List<Mailversandgruppe> getMailversandgruppen() {
+
+		return mailversandgruppen;
+	}
+
+	public void setMailversandgruppen(final List<Mailversandgruppe> mailversandgruppen) {
+
+		this.mailversandgruppen = mailversandgruppen;
+	}
 
 }

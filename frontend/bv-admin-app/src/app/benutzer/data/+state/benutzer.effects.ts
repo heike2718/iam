@@ -35,7 +35,7 @@ export class BenutzerEffects {
 
         this.#actions.pipe(
             ofType(benutzerActions.sINGLE_BENUTZER_DELETED),
-            tap((action) => {
+            tap(() => {
                 this.#messageService.info('Benutzer erfolgreich gelöscht');
             }),
         ), { dispatch: false });

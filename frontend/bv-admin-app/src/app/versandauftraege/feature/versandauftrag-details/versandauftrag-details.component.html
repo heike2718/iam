@@ -1,0 +1,16 @@
+<div class="centered mja-container">
+    <h1>Versandauftrag</h1>
+    @if(versandauftraegeFacade.selectedVersandauftrag$ | async; as versandauftrag) {
+
+    <div class="subtitle">{{versandauftrag.uuid.substring(0,8)}}</div>
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" class="action-button" (click)="refresh(versandauftrag)"
+            [disabled]="btnRefreshDisabled(versandauftrag)" title="neu Laden">aktualisieren</button>
+    </div>
+
+    } @else {
+    <p>Kein Versandauftrag ausgewählt. Navigiere über das Menü oben woandershin. Auswahl ist unter "Mailversandaufträge"
+        möglich.</p>
+    }
+</div>

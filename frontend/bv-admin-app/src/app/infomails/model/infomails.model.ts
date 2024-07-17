@@ -1,4 +1,4 @@
-import { Jobstatus } from "@bv-admin-app/shared/model";
+import { Infomail } from "@bv-admin-app/shared/model";
 
 export interface InfomailRequestDto {
     readonly betreff: string;
@@ -10,12 +10,7 @@ export const initialInfomailRequestDto: InfomailRequestDto = {
     mailtext: ''
 }
 
-export interface Infomail {
-    readonly uuid: string;
-    readonly betreff: string;
-    readonly mailtext: string;
-    readonly uuidsMailversandauftraege: string[];
-}
+
 
 export interface UpdateInfomailResponseDto {
     readonly uuid: string,

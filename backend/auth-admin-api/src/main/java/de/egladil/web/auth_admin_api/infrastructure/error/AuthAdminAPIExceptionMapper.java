@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeException;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthException;
+import de.egladil.web.auth_admin_api.domain.exceptions.ConflictException;
 import de.egladil.web.auth_admin_api.domain.exceptions.SessionExpiredException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
@@ -68,6 +69,12 @@ public class AuthAdminAPIExceptionMapper implements ExceptionMapper<Throwable> {
 		if (exception instanceof SessionExpiredException) {
 
 			return Response.status(440).entity(MessagePayload.warn(exception.getMessage()))
+				.build();
+		}
+
+		if (exception instanceof ConflictException) {
+
+			return Response.status(409).entity(MessagePayload.warn(exception.getMessage()))
 				.build();
 		}
 

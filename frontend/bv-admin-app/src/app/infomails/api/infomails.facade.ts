@@ -1,9 +1,9 @@
 import { inject, Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { Infomail, InfomailRequestDto } from '@bv-admin-app/infomails/model';
+import { InfomailRequestDto } from '@bv-admin-app/infomails/model';
 import { fromInfomails, infomailsActions } from '@bv-admin-app/infomails/data';
-import { filterDefined } from "@bv-admin-app/shared/util";
+import { Infomail } from "@bv-admin-app/shared/model";
 
 
 @Injectable({

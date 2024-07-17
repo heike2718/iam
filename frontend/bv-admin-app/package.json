@@ -11,7 +11,8 @@
     "test": "NX_DAEMON=false npx nx test",
     "test:all": "NX_DAEMON=false npx nx run-many --target=test --all",
     "lint:all": "NX_DAEMON=false npx nx run-many --target=lint --all",
-    "full-check": "NX_DAEMON=false npx nx run-s lint:all test:all build"
+    "full-check": "NX_DAEMON=false npx nx run-s lint:all test:all build",
+    "sheriff": "NX_DAEMON=false npx sheriff verify src/main.ts"
   },
   "private": true,
   "dependencies": {

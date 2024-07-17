@@ -1,0 +1,74 @@
+<div class="centered mja-container">
+    <h1>Versandaufträge</h1>
+
+    @if(versandauftraegeFacade.versandauftraege$ | async; as versandauftraege) {
+    <mat-table [dataSource]="versandauftraege" class="mat-elevation-z8 mt-2">
+
+        <!-- Betreff -->
+        <ng-container matColumnDef="betreff">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    Betreff
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let versandauftrag">
+                {{versandauftrag.betreff}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- erfasst am -->
+        <ng-container matColumnDef="erfasstAm">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    erfasst am
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let versandauftrag">
+                {{versandauftrag.erfasstAm}}
+            </mat-cell>>
+        </ng-container>
+
+
+        <!-- Status -->
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    Status
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let versandauftrag">
+                {{versandauftrag.status}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Anzahl Empfänger -->
+        <ng-container matColumnDef="anzahlEmpfaenger">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    Anzahl Empfänger
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let versandauftrag">
+                {{versandauftrag.anzahlEmpfaenger}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Anzahl Gruppen -->
+        <ng-container matColumnDef="anzahlGruppen">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    Anzahl Gruppen
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let versandauftrag">
+                {{versandauftrag.anzahlGruppen}}
+            </mat-cell>>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="selectVersandauftrag(row)"></mat-row>
+
+    </mat-table>
+    }
+
+</div>

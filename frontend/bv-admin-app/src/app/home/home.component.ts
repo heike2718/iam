@@ -1,11 +1,10 @@
 import { AsyncPipe, CommonModule, NgIf } from "@angular/common";
-import { Component, OnInit, inject } from "@angular/core";
-import { AuthFacade } from "../shared/auth/api/auth.facade";
-import { BenutzerFacade } from "@bv-admin-app/benutzer/api";
+import { Component, inject } from "@angular/core";
+import { AuthFacade } from "@bv-admin-app/shared/auth/api";
 
 
 @Component({
-    selector: 'bv-home',
+    selector: 'bv-admin-home',
     standalone: true,
     imports: [
         CommonModule,

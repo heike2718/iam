@@ -28,16 +28,20 @@ public class MailversandauftragOverview {
 	private String betreff;
 
 	@JsonProperty
+	@Schema(description = "Erfasungsdatum", example = "16.07.2024 11:55:22")
+	private String erfasstAm;
+
+	@JsonProperty
 	@Schema(description = "Status des Auftrags", example = "COMPLETED")
 	private Jobstatus status;
 
 	@JsonProperty
-	@Schema(description = "Anzahl der Benutzer, an die die Infomail gesendet wir bzw. wurde", example = "4352")
+	@Schema(description = "Anzahl der Benutzer, an die die Infomail gesendet werden sollte", example = "4352")
 	private long anzahlEmpfaenger;
 
 	@JsonProperty
 	@Schema(description = "Anzahl der Mailversandgruppen", example = "28")
-	private int anzahlGruppen;
+	private long anzahlGruppen;
 
 	public String getUuid() {
 
@@ -79,12 +83,12 @@ public class MailversandauftragOverview {
 		this.status = status;
 	}
 
-	public int getAnzahlGruppen() {
+	public long getAnzahlGruppen() {
 
 		return anzahlGruppen;
 	}
 
-	public void setAnzahlGruppen(final int anzahlGruppen) {
+	public void setAnzahlGruppen(final long anzahlGruppen) {
 
 		this.anzahlGruppen = anzahlGruppen;
 	}
@@ -97,6 +101,16 @@ public class MailversandauftragOverview {
 	public void setAnzahlEmpfaenger(final long anzahlEmpfaenger) {
 
 		this.anzahlEmpfaenger = anzahlEmpfaenger;
+	}
+
+	public String getErfasstAm() {
+
+		return erfasstAm;
+	}
+
+	public void setErfasstAm(final String erfasstAm) {
+
+		this.erfasstAm = erfasstAm;
 	}
 
 }

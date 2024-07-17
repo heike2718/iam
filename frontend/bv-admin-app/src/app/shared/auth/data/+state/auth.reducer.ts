@@ -7,12 +7,12 @@ import { Session, anonymousSession } from '@bv-admin-app/shared/auth/model';
 export interface AuthState {
     readonly session: Session;
     readonly sessionExists: boolean;
-};
+}
 
 export const initialState: AuthState = {
     session: anonymousSession,
     sessionExists: false
-};
+}
 
 export const authFeature = createFeature({
     name: 'bvAuth',
@@ -35,4 +35,4 @@ export const authFeature = createFeature({
             }
         })
     )
-});
+})

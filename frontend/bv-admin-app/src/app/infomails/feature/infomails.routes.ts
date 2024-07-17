@@ -15,16 +15,6 @@ export const infomailsRoutes: Routes = [
             path: '',
             component: InfomailsListComponent,
           }
-        //   {
-        //     path: 'new',
-        //     component: AddCustomerComponent,
-        //     data: { mode: 'new' },
-        //   },
-        //   {
-        //     path: ':id',
-        //     component: EditCustomerComponent,
-        //     data: { mode: 'edit' },
-        //   },
         ],
       },
 ]

@@ -1,8 +1,9 @@
-import { Infomail, sortInfomailsByBetreff } from "@bv-admin-app/infomails/model";
+import { sortInfomailsByBetreff } from "@bv-admin-app/infomails/model";
 import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
 import { createFeature, createReducer, on } from "@ngrx/store";
-import { loggedOutEvent } from '@bv-admin-app/shared/auth/data';
+import { loggedOutEvent } from '@bv-admin-app/shared/auth/api';
 import { infomailsActions } from './infomails.actions';
+import { Infomail } from "@bv-admin-app/shared/model";
 
 export interface InfomailsState {
     readonly infomailsLoaded: boolean;
@@ -62,12 +63,21 @@ export const infomailsFeature = createFeature({
         on(infomailsActions.iNFOMAIL_CHANGED, (state, action) => {
 
             if (action.responsePayload.infomail) {
+
                 const theChangedInfoMail: Infomail = action.responsePayload.infomail;
 
-                return {
-                    ...state,
-                    infomails: sortInfomailsByBetreff(state.infomails.map((im: Infomail) => im.uuid === theChangedInfoMail.uuid ? theChangedInfoMail : im))
-                };
+                if (state.selectedInfomail) {
+                    return {
+                        ...state,
+                        selectedInfomail: theChangedInfoMail,
+                        infomails: sortInfomailsByBetreff(state.infomails.map((im: Infomail) => im.uuid === theChangedInfoMail.uuid ? theChangedInfoMail : im))
+                    };
+                } else {
+                    return {
+                        ...state,
+                        infomails: sortInfomailsByBetreff(state.infomails.map((im: Infomail) => im.uuid === theChangedInfoMail.uuid ? theChangedInfoMail : im))
+                    };
+                }
             } else {
                 return {
                     ...state,

@@ -22,7 +22,8 @@
       "@bv-admin-app/shared/auth/api": ["src/app/shared/auth/api/index.ts"],
       "@bv-admin-app/shared/auth/model": ["src/app/shared/auth/model/index.ts"],
       "@bv-admin-app/shared/auth/data": ["src/app/shared/auth/data/index.ts"],
-      "@bv-admin-app/shared/ui": ["src/app/shared/ui/index.ts"],
+      "@bv-admin-app/shared/ui/benutzerbasket-status": ["src/app/shared/ui/benutzerbasket-status/index.ts"],
+      "@bv-admin-app/shared/ui/components": ["src/app/shared/ui/components/index.ts"],
       "@bv-admin-app/shared/util": ["src/app/shared/util/index.ts"],
       "@bv-admin-app/shared/local-storage-data": ["src/app/shared/local-storage-data/index.ts"],
       "@bv-admin-app/benutzer/api": ["src/app/benutzer/api/index.ts"],
@@ -35,7 +36,8 @@
       "@bv-admin-app/infomails/feature": ["src/app/infomails/feature/index.ts"],
       "@bv-admin-app/versandauftraege/model": ["src/app/versandauftraege/model/index.ts"],
       "@bv-admin-app/versandauftraege/data": ["src/app/versandauftraege/data/index.ts"],
-      "@bv-admin-app/versandauftraege/api": ["src/app/versandauftraege/api/index.ts"]
+      "@bv-admin-app/versandauftraege/api": ["src/app/versandauftraege/api/index.ts"],
+      "@bv-admin-app/versandauftraege/feature": ["src/app/versandauftraege/feature/index.ts"]
     },
     "useDefineForClassFields": false,
     "esModuleInterop": true,

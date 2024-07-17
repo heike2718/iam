@@ -31,17 +31,12 @@ import jakarta.persistence.Version;
 		name = "PersistenterMailversandauftrag.FIND_BY_UUID",
 		query = "select v from PersistenterMailversandauftrag v where v.uuid = :uuid"),
 	@NamedQuery(
-		name = "PersistenterMailversandauftrag.LOAD_ALL",
-		query = "select v from PersistenterMailversandauftrag v order by v.erfasstAm"),
-	@NamedQuery(
 		name = "PersistenterMailversandauftrag.FIND_NOT_COMPLETED",
 		query = "select v from PersistenterMailversandauftrag v where v.status = :statusWaiting or v.status = :statusInProgress order by v.erfasstAm")
 })
 public class PersistenterMailversandauftrag {
 
 	public static final String FIND_BY_UUID = "PersistenterMailversandauftrag.FIND_BY_UUID";
-
-	public static final String LOAD_ALL = "PersistenterMailversandauftrag.LOAD_ALL";
 
 	public static final String FIND_NOT_COMPLETED = "PersistenterMailversandauftrag.FIND_NOT_COMPLETED";
 

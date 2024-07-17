@@ -5,17 +5,23 @@
         <mat-card-subtitle>{{infomail.uuid}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <p>{{infomail.mailtext}}</p>
+        <p class="bordered">{{infomail.mailtext}}</p>
+        @if(infomail.uuidsMailversandauftraege.length > 0) {
+        <div class="subtitle">Versandaufträge:</div>
+        @for (uuid of infomail.uuidsMailversandauftraege; track $index) {
+        <div>{{uuid}}</div>
+        }
+        }
+
     </mat-card-content>
     <mat-card-actions>
         <div class="button-container">
             <button mat-raised-button color="primary" (click)="startEdit()">bearbeiten</button>
-            <button mat-raised-button [disabled]="btnMailauftragErstellenDisabled()"
-                (click)="mailauftragErstellen()"
+            <button mat-raised-button [disabled]="btnMailauftragErstellenDisabled()" (click)="mailauftragErstellen()"
                 title="Mailversandauftrag mit diesem Text an die gewälten Benutzer erstellen">Mailauftrag</button>
         </div>
     </mat-card-actions>
 </mat-card>
 } @else {
-    <p>kein Text ausgewählt</p>
+<p>kein Text ausgewählt</p>
 }

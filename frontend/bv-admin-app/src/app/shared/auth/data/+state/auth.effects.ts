@@ -5,7 +5,7 @@ import { AuthHttpService } from "../auth-http.service";
 import { authActions } from "./auth.actions";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { Message } from "@bv-admin-app/shared/messages/api";
-import { AuthResult, Session } from "@bv-admin-app/shared/auth/model";
+import { Session } from "@bv-admin-app/shared/auth/model";
 
 
 @Injectable({
