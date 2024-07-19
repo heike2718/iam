@@ -28,22 +28,48 @@ export const versandauftraegeFeature = createFeature({
         }),
         on(versandauftraegeActions.vERSANDAUFTRAG_DETAILS_LOADED, (state, action) => {
 
-            // TODO: Liste aktualisiert sich nicht, wenn ein Versandauftrag refreshed wurde und dann finished ist
-
             if (action.responsePayload.versandauftrag) {
 
+                const theVersandauftrag = action.responsePayload.versandauftrag;
                 const filtered = state.details.filter(v => v.uuid === action.responsePayload.uuid);
 
-                if (filtered.length === 0) {
-                    return { ...state, selectedVersandauftrag: action.responsePayload.versandauftrag, details: [...state.details, action.responsePayload.versandauftrag] };
-                } else {
-                    return { ...state, selectedVersandauftrag: action.responsePayload.versandauftrag };
-                }
-            }
+                const theExistingVersandazftragInAnArray = state.versandauftraege.filter(v => v.uuid === theVersandauftrag.uuid);
 
-            const neueDetails = state.details.filter(v => v.uuid !== action.responsePayload.uuid);
-            const neueVersandauftraege = state.versandauftraege.filter(v => v.uuid !== action.responsePayload.uuid);
-            return { ...state, versandauftraege: neueVersandauftraege, details: neueDetails, selectedVersandauftrag: undefined };
+                // wenn ich den Versandauftrag nicht gerade gelöscht habe, was dumm wäre, gibt es den Overview!
+                const theChangedOverview = { ...theExistingVersandazftragInAnArray[0], status: theVersandauftrag.status };
+                const theOtherOverviews = state.versandauftraege.filter(v => v.uuid !== theVersandauftrag.uuid);
+                const theChangedVersandauftraege = [...theOtherOverviews, theChangedOverview];
+
+                if (filtered.length === 0) {
+
+                    return {
+                        ...state,
+                        selectedVersandauftrag: theVersandauftrag,
+                        details: [...state.details, action.responsePayload.versandauftrag],
+                        versandauftraege: sortMailversandauftragOverviewByBetreff(theChangedVersandauftraege)
+                    };
+
+                } else {
+                    const alteDetials = state.details.filter(v => v.uuid !== action.responsePayload.uuid);
+                    const neueDetails = [...alteDetials, theVersandauftrag];
+
+                    return { ...state,
+                        selectedVersandauftrag:
+                        theVersandauftrag,
+                        details: neueDetails,
+                        versandauftraege: sortMailversandauftragOverviewByBetreff(theChangedVersandauftraege) 
+                    };
+                }
+            } else {
+
+                const neueDetails = state.details.filter(v => v.uuid !== action.responsePayload.uuid);
+                const neueVersandauftraege = state.versandauftraege.filter(v => v.uuid !== action.responsePayload.uuid);
+                return { ...state,
+                    versandauftraege: neueVersandauftraege,
+                    details: neueDetails,
+                    selectedVersandauftrag: undefined 
+                };
+            }
         }),
         on(versandauftraegeActions.sELECT_VERSANDAUFTRAG, (state, action) => {
             return { ...state, selectedVersandauftrag: action.versandauftrag }
