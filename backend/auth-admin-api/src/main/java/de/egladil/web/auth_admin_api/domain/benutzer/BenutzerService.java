@@ -75,6 +75,13 @@ public class BenutzerService {
 		return result;
 	}
 
+	public List<BenutzerTrefferlisteItem> findBenutzersByUUIDs(final List<String> uuids) {
+
+		List<PersistenterUserReadOnly> persistenteUsers = benutzerDao.findUsersByUUIDList(uuids);
+		return persistenteUsers.stream().map(this::mapFromDB).toList();
+
+	}
+
 	/**
 	 * Setzt das Attribut aktiviert.
 	 *

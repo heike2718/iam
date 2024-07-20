@@ -21,6 +21,7 @@ import de.egladil.web.auth_admin_api.domain.mailversand.api.DeleteMailversandauf
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragDetailsResponseDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragOverview;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragRequestDto;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandgruppeDetailsResponseDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.VersandauftragService;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
 import jakarta.annotation.security.RolesAllowed;
@@ -90,7 +91,7 @@ public class MailversandResource {
 	@Path("auftraege/{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
-		operationId = "getDetails",
+		operationId = "getDetailsVersandauftrag",
 		summary = "Läd die Details des durch die uuid definierten Mailversandauftrags")
 	@Parameters({
 		@Parameter(
@@ -126,12 +127,63 @@ public class MailversandResource {
 		responseCode = "500", content = @Content(
 			mediaType = "application/json",
 			schema = @Schema(implementation = MessagePayload.class)))
-	public Response getDetails(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
+	public Response getDetailsVersandauftrag(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
 		value = "uuid") @Pattern(
 			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
 				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
 
-		MailversandauftragDetailsResponseDto responsePayload = versandauftragService.detailsLaden(uuid);
+		MailversandauftragDetailsResponseDto responsePayload = versandauftragService.detailsMailversandauftragLaden(uuid);
+
+		return Response.status(200).entity(responsePayload).build();
+	}
+
+	@GET
+	@Path("gruppen/{uuid}")
+	@RolesAllowed({ "AUTH_ADMIN" })
+	@Operation(
+		operationId = "getDetailsMailversandgruppe",
+		summary = "Läd die Details der durch die uuid definierten Mainversandgruppe")
+	@Parameters({
+		@Parameter(
+			in = ParameterIn.PATH, name = "uuid", description = "UUID der Mailversandgruppe",
+			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
+	})
+	@APIResponse(
+		name = "OKResponse",
+		responseCode = "200",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MailversandgruppeDetailsResponseDto.class)))
+	@APIResponse(
+		name = "BadRequest",
+		responseCode = "400",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(
+		name = "NotAuthorized",
+		responseCode = "401",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "Forbidden",
+		description = "kann auch vorkommen, wenn mod_security zuschlägt",
+		responseCode = "403",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "ServerError",
+		description = "server error",
+		responseCode = "500", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MessagePayload.class)))
+	public Response getDetailsMailversandgruppe(@Pattern(
+		regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
+			value = "uuid") @Pattern(
+				regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
+					max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+
+		MailversandgruppeDetailsResponseDto responsePayload = versandauftragService.detailsMailversandgruppeLaden(uuid);
 
 		return Response.status(200).entity(responsePayload).build();
 	}

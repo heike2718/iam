@@ -361,7 +361,7 @@ paths:
       tags:
       - InfomailsResource
       summary: Läd die Details des durch die uuid definierten Mailversandauftrags
-      operationId: getDetails
+      operationId: getDetailsVersandauftrag
       parameters:
       - name: uuid
         in: path
@@ -419,6 +419,49 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteMailversandauftragResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
+  /auth-admin-api/mailversand/gruppen/{uuid}:
+    get:
+      tags:
+      - InfomailsResource
+      summary: Läd die Details der durch die uuid definierten Mainversandgruppe
+      operationId: getDetailsMailversandgruppe
+      parameters:
+      - name: uuid
+        in: path
+        description: UUID der Mailversandgruppe
+        required: true
+        schema:
+          type: string
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MailversandgruppeDetailsResponseDto"
         "400":
           content:
             application/json:
@@ -943,6 +986,50 @@ components:
         aenderungsdatum:
           description: Datum der letzten Änderung
           type: string
+    MailversandgruppeDetails:
+      description: Deteils einer Mailversandgruppe
+      type: object
+      properties:
+        uuid:
+          description: die technische ID
+          type: string
+          example: 78573dc4-06d7-43f1-9b85-ae79f36c92b7
+        idInfomailtext:
+          description: ID des gespeicherten Mailtexts und Betreffs
+          type: string
+          example: 663d1c4e-46b7-4b41-a3cc-c753b8f7148c
+        sortnr:
+          format: int32
+          description: fortlaufende Nummer zur Sortierung
+          type: integer
+        status:
+          description: der Status des Versands dieser Mail
+          type: string
+          allOf:
+          - $ref: "#/components/schemas/Jobstatus"
+          example: WAITING
+        aenderungsdatum:
+          description: Datum der letzten Änderung
+          type: string
+        benutzer:
+          description: "Benutzer, an die die Mail versendet wurde. Wenn sie inzwischen\
+            \ gelöscht sind, wird ein Platzhalter zurückgegeben"
+          type: array
+          items:
+            $ref: "#/components/schemas/BenutzerTrefferlisteItem"
+    MailversandgruppeDetailsResponseDto:
+      type: object
+      properties:
+        uuid:
+          description: die technische ID
+          type: string
+          example: 78573dc4-06d7-43f1-9b85-ae79f36c92b7
+        mailversandgruppe:
+          description: "falls noch vorhanden, die Details der Mailversandgruppe, sonst\
+            \ null"
+          type: object
+          allOf:
+          - $ref: "#/components/schemas/MailversandgruppeDetails"
     MessagePayload:
       description: eine kategorisierte Meldung
       type: object

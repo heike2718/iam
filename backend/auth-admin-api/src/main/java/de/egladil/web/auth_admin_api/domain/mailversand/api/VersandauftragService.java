@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -22,6 +23,8 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_admin_api.domain.Jobstatus;
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
+import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerService;
+import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerTrefferlisteItem;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminAPIRuntimeException;
 import de.egladil.web.auth_admin_api.domain.exceptions.AuthAdminSQLExceptionHelper;
 import de.egladil.web.auth_admin_api.domain.exceptions.ConflictException;
@@ -44,6 +47,11 @@ import jakarta.ws.rs.core.Response;
 @ApplicationScoped
 public class VersandauftragService {
 
+	/**
+	 *
+	 */
+	private static final String GELOESCHT = "geloescht";
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(VersandauftragService.class);
 
 	private static final DateTimeFormatter DATE_TIME_FORMATTER_JAHR_MONAT = DateTimeFormatter.ofPattern("yyyy-MM");
@@ -56,11 +64,14 @@ public class VersandauftragService {
 	int emailsGroupSize;
 
 	@Inject
-	MailversandDao dao;
+	MailversandDao mailversandDao;
+
+	@Inject
+	BenutzerService benutzerService;
 
 	public List<MailversandauftragOverview> versandauftraegeLaden() {
 
-		List<PersistenterMailversandauftragReadOnly> ausDB = dao.loadAllMailversandauftraege();
+		List<PersistenterMailversandauftragReadOnly> ausDB = mailversandDao.loadAllMailversandauftraege();
 
 		return ausDB.stream().map(this::mapFromDBToOverview).toList();
 	}
@@ -71,9 +82,9 @@ public class VersandauftragService {
 	 * @param  uuid
 	 * @return      MailversandauftragDetailsResponseDto
 	 */
-	public MailversandauftragDetailsResponseDto detailsLaden(final String uuid) {
+	public MailversandauftragDetailsResponseDto detailsMailversandauftragLaden(final String uuid) {
 
-		PersistenterMailversandauftrag fromDB = dao.findMailversandauftragByUUID(uuid);
+		PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
 		MailversandauftragDetailsResponseDto result = new MailversandauftragDetailsResponseDto();
 		result.setUuid(uuid);
 
@@ -84,12 +95,65 @@ public class VersandauftragService {
 
 		}
 
-		List<PersistenteMailversandgruppe> versandgruppen = dao.findAllMailversandgruppenWithVersandauftragUUID(uuid);
+		List<PersistenteMailversandgruppe> versandgruppen = mailversandDao.findAllMailversandgruppenWithVersandauftragUUID(uuid);
 
 		MailversandauftragDetails versandauftrag = mapFromDBToDetails(fromDB);
 		List<Mailversandgruppe> gruppen = versandgruppen.stream().map(this::mapFromDB).toList();
 		versandauftrag.setMailversandgruppen(gruppen);
 		result.setVersandauftrag(versandauftrag);
+		return result;
+	}
+
+	/**
+	 * Läd die Deteils einer Mailversandgruppe und die Liste der Benutzer, an die die Mail versendet wurde.
+	 * @param  gruppeUuid
+	 *
+	 * @return             MailversandgruppeDetailsResponseDto
+	 */
+	public MailversandgruppeDetailsResponseDto detailsMailversandgruppeLaden(final String gruppeUuid) {
+
+		PersistenteMailversandgruppe gruppeDB = mailversandDao.findMailversandgruppeByUUID(gruppeUuid);
+		MailversandgruppeDetailsResponseDto result = new MailversandgruppeDetailsResponseDto();
+		result.setUuid(gruppeUuid);
+
+		if (gruppeDB == null) {
+
+			return result;
+		}
+
+		PersistenterMailversandauftrag auftragDB = mailversandDao.findMailversandauftragByUUID(gruppeDB.getIdVersandauftrag());
+
+		MailversandgruppeDetails gruppeDetails = new MailversandgruppeDetails();
+		gruppeDetails.setAenderungsdatum(DATE_TIME_FORMATTER_DEFAULT.format(gruppeDB.getGeaendertAm()));
+		gruppeDetails.setSortnr(gruppeDB.getSortnr());
+		gruppeDetails.setStatus(gruppeDB.getStatus());
+		gruppeDetails.setUuid(gruppeUuid);
+		gruppeDetails.setIdInfomailtext(auftragDB.getIdInfomailtext());
+
+		List<String> benutzerUUIDs = Arrays.asList(StringUtils.split(gruppeDB.getEmpfaengerUUIDs(), ","));
+
+		List<BenutzerTrefferlisteItem> benutzerTrefferlisteItems = benutzerService.findBenutzersByUUIDs(benutzerUUIDs);
+
+		final List<BenutzerTrefferlisteItem> benutzers = new ArrayList<>();
+
+		benutzerUUIDs.forEach(uuid -> {
+
+			Optional<BenutzerTrefferlisteItem> optBenutzer = benutzerTrefferlisteItems.stream()
+				.filter(i -> i.getUuid().equals(uuid)).findFirst();
+
+			if (optBenutzer.isEmpty()) {
+
+				benutzers.add(createMarkerGeloeschterBenutzer(uuid));
+			} else {
+
+				benutzers.add(optBenutzer.get());
+			}
+
+		});
+
+		gruppeDetails.setBenutzer(benutzers);
+		result.setMailversandgruppe(gruppeDetails);
+
 		return result;
 	}
 
@@ -114,7 +178,7 @@ public class VersandauftragService {
 			}
 		}
 
-		PersistenterInfomailTextReadOnly infomailtext = dao.findInfomailtextReadOnlyByID(requestDto.getIdInfomailtext());
+		PersistenterInfomailTextReadOnly infomailtext = mailversandDao.findInfomailtextReadOnlyByID(requestDto.getIdInfomailtext());
 
 		if (infomailtext == null) {
 
@@ -170,7 +234,7 @@ public class VersandauftragService {
 		persistenterVersandauftrag.setIdInfomailtext(infomailtext.uuid);
 		persistenterVersandauftrag.setStatus(Jobstatus.WAITING);
 
-		String versandauftragUuid = dao.insertMailversandauftrag(persistenterVersandauftrag);
+		String versandauftragUuid = mailversandDao.insertMailversandauftrag(persistenterVersandauftrag);
 
 		int sortnr = 0;
 
@@ -183,7 +247,7 @@ public class VersandauftragService {
 			gruppe.setSortnr(++sortnr);
 			gruppe.setStatus(Jobstatus.WAITING);
 
-			dao.insertMailversandgruppe(gruppe);
+			mailversandDao.insertMailversandgruppe(gruppe);
 
 		}
 
@@ -221,7 +285,7 @@ public class VersandauftragService {
 
 	private List<String> loadAllUsersAktiviert(final List<String> benutzerIDs) {
 
-		List<PersistenterUserReadOnly> users = dao.findAktivierteUsersByUUIDs(benutzerIDs);
+		List<PersistenterUserReadOnly> users = mailversandDao.findAktivierteUsersByUUIDs(benutzerIDs);
 		return users.stream().map(u -> u.uuid).toList();
 	}
 
@@ -310,5 +374,18 @@ public class VersandauftragService {
 		result.setAenderungsdatum(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getGeaendertAm()));
 		return result;
 
+	}
+
+	BenutzerTrefferlisteItem createMarkerGeloeschterBenutzer(final String uuid) {
+
+		BenutzerTrefferlisteItem result = new BenutzerTrefferlisteItem();
+		result.setUuid(uuid);
+		result.setAenderungsdatum(GELOESCHT);
+		result.setAktiviert(false);
+		result.setEmail(GELOESCHT);
+		result.setNachname(GELOESCHT);
+		result.setRollen(GELOESCHT);
+		result.setVorname(GELOESCHT);
+		return result;
 	}
 }

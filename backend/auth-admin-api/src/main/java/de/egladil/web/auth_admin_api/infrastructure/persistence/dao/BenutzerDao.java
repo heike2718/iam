@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.auth_admin_api.domain.benutzer.UsersSortColumn;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
+import de.egladil.web.auth_admin_api.domain.benutzer.UsersSortColumn;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUser;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterUserReadOnly;
 import jakarta.enterprise.context.RequestScoped;
@@ -97,6 +97,23 @@ public class BenutzerDao {
 			.getResultList();
 
 		return trefferliste.isEmpty() ? null : trefferliste.get(0);
+
+	}
+
+	/**
+	 * @param  uuid
+	 *              String der unique key (fachlicher Schlüssel)
+	 * @return      PersistenterUser oder null
+	 */
+	public List<PersistenterUserReadOnly> findUsersByUUIDList(final List<String> uuids) {
+
+		List<PersistenterUserReadOnly> trefferliste = entityManager
+			.createNamedQuery(PersistenterUserReadOnly.FIND_BY_A_UUID_LIST, PersistenterUserReadOnly.class)
+			.setParameter("uuids", uuids)
+			.setParameter("aktiviert", true)
+			.getResultList();
+
+		return trefferliste;
 
 	}
 

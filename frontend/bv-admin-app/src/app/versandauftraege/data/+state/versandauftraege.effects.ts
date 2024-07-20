@@ -29,7 +29,7 @@ export class VersandauftraegeEffects {
     loadVersandauftragDetails$ = createEffect(() => {
         return this.#actions.pipe(
             ofType(versandauftraegeActions.lOAD_VERSANDAUFTRAG_DETAILS),
-            switchMap((action) => this.#httpService.loadDetails(action.uuid)),
+            switchMap((action) => this.#httpService.loadVersandauftragDetails(action.uuid)),
             map((responsePayload) => versandauftraegeActions.vERSANDAUFTRAG_DETAILS_LOADED({ responsePayload }))
         );
     });

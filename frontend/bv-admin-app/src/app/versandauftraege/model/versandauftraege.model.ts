@@ -1,4 +1,4 @@
-import { Jobstatus } from "@bv-admin-app/shared/model";
+import { Benutzer, Jobstatus } from "@bv-admin-app/shared/model";
 
 export interface Mailversandgruppe {
     readonly uuid: string;
@@ -7,6 +7,20 @@ export interface Mailversandgruppe {
     readonly status: Jobstatus;
     readonly aenderungsdatum: string;
     readonly empfaengerUUIDs: string[];
+}
+
+export interface MailversandgruppeDetails {
+    readonly uuid: string;
+    readonly idMailversandauftrag: string;
+    readonly sortnr: number;
+    readonly status: Jobstatus;
+    readonly aenderungsdatum: string;
+    readonly benutzer: Benutzer[];
+}
+
+export interface MailversandgruppeDetailsResponseDto {
+    readonly uuid: string;
+    readonly mailversandgruppe: MailversandgruppeDetails;
 }
 
 export interface MailversandauftragOverview {
