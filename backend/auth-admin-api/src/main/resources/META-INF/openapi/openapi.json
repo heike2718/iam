@@ -435,7 +435,7 @@
       "get" : {
         "tags" : [ "InfomailsResource" ],
         "summary" : "Gibt alle gespeicherten Mailversandaufträge zurück.",
-        "operationId" : "loadInfomails",
+        "operationId" : "loadVersandauftraege",
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -1224,6 +1224,10 @@
             "items" : {
               "type" : "string"
             }
+          },
+          "aenderungsdatum" : {
+            "description" : "Datum der letzten Änderung",
+            "type" : "string"
           }
         }
       },

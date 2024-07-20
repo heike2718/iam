@@ -23,11 +23,18 @@ const versandauftraegeDetails = createSelector(
     (state) => state.details
 )
 
+const selectedMailversandgruppe = createSelector(
+    versandauftraegeState,
+    (state) => state.selectedMailversandgruppe
+
+)
+
 
 export const fromVersandauftraege = {
     loaded,
     versandauftraege,
     versandauftraegeDetails,
-    selectedVersandauftrag
+    selectedVersandauftrag,
+    selectedMailversandgruppe
 }
 

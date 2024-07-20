@@ -179,7 +179,7 @@ public class MailversandProcessor {
 			mailversandauftrag.setVersandMitFehlern(true);
 		}
 
-		gruppe.setGeaendertAm(new Date());
+		gruppe.setGeaendertAm(LocalDateTime.now());
 		gruppe.setStatus(statusGruppe);
 
 		PersistenterMailversandauftrag result = dao.updateMailversandauftrag(mailversandauftrag);

@@ -56,7 +56,7 @@ public class MailversandResource {
 	@Path("auftraege")
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
-		operationId = "loadInfomails", summary = "Gibt alle gespeicherten Mailversandaufträge zurück.")
+		operationId = "loadVersandauftraege", summary = "Gibt alle gespeicherten Mailversandaufträge zurück.")
 	@APIResponse(
 		name = "OKResponse",
 		responseCode = "200",

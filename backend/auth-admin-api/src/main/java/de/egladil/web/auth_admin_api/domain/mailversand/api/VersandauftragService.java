@@ -178,7 +178,7 @@ public class VersandauftragService {
 
 			PersistenteMailversandgruppe gruppe = new PersistenteMailversandgruppe();
 			gruppe.setEmpfaengerUUIDs(StringUtils.join(uuidGroup, ","));
-			gruppe.setGeaendertAm(geaendertAm);
+			gruppe.setGeaendertAm(now);
 			gruppe.setIdVersandauftrag(versandauftragUuid);
 			gruppe.setSortnr(++sortnr);
 			gruppe.setStatus(Jobstatus.WAITING);
@@ -307,6 +307,7 @@ public class VersandauftragService {
 		result.setSortnr(fromDB.getSortnr());
 		result.setStatus(fromDB.getStatus());
 		result.setUuid(fromDB.getUuid());
+		result.setAenderungsdatum(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getGeaendertAm()));
 		return result;
 
 	}

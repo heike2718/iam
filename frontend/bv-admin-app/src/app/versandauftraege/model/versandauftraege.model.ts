@@ -5,7 +5,8 @@ export interface Mailversandgruppe {
     readonly idMailversandauftrag: string;
     readonly sortnr: number;
     readonly status: Jobstatus;
-    readonly empfaengerEmails: string[];
+    readonly aenderungsdatum: string;
+    readonly empfaengerUUIDs: string[];
 }
 
 export interface MailversandauftragOverview {

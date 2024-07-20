@@ -1,8 +1,76 @@
-<div class="centered mja-container">
-    <h1>Versandauftrag</h1>
+<div class="mja-container">
     @if(versandauftraegeFacade.selectedVersandauftrag$ | async; as versandauftrag) {
 
-    <div class="subtitle">{{versandauftrag.uuid.substring(0,8)}}</div>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Versandauftrag</mat-card-title>
+        </mat-card-header>        
+        <mat-card-content>
+            <div class="details-container mt-2 mb-2">
+                <div class="subtitle">UUID:</div>
+                <div>{{versandauftrag.uuid}}</div>
+    
+                <div class="subtitle">erfasst am:</div>
+                <div>{{versandauftrag.erfasstAm}}</div>
+    
+                <div class="subtitle">Status:</div>
+                <div>{{versandauftrag.status}}</div>
+    
+                @if(versandauftrag.versandBegonnenAm) {
+                <div class="subtitle">begonnen am:</div>
+                <div>{{versandauftrag.versandBegonnenAm}}</div>
+                }
+    
+                @if(versandauftrag.versandBeendetAm) {
+                <div class="subtitle">beendet am:</div>
+                <div>{{versandauftrag.versandBeendetAm}}</div>
+                }
+            </div>
+
+            <h3>Mailversandgruppen ({{versandauftrag.mailversandgruppen.length}})</h3>
+
+            <mat-table [dataSource]="versandauftrag.mailversandgruppen" class="mat-elevation-z2">
+                <!-- Sortnr Columns -->
+                <ng-container matColumnDef="sortnr">
+                    <mat-header-cell *matHeaderCellDef> Nummer </mat-header-cell>
+                    <mat-cell *matCellDef="let gruppe"> {{ gruppe.sortnr }} </mat-cell>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                    <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                    <mat-cell *matCellDef="let gruppe"> {{ gruppe.status }} </mat-cell>
+                </ng-container>
+
+                <!-- Änderungsdatum Column -->
+                <ng-container matColumnDef="aenderungsdatum">
+                    <mat-header-cell *matHeaderCellDef> Änderungsdatum </mat-header-cell>
+                    <mat-cell *matCellDef="let gruppe"> {{ gruppe.aenderungsdatum }} </mat-cell>
+                </ng-container>
+
+                <!-- Anzahl Empfänger Column -->
+                <ng-container matColumnDef="anzahlEmpfaenger">
+                    <mat-header-cell *matHeaderCellDef> Anzahl Empfänger </mat-header-cell>
+                    <mat-cell *matCellDef="let gruppe"> {{ gruppe.empfaengerUUIDs.length }} </mat-cell>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-cell *matCellDef="let gruppe">
+                        <button mat-button color="primary" (click)="navigateToDetails(gruppe)" title="Details anschauen">
+                            <mat-icon>info</mat-icon> Details
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="versandgruppenDisplayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: versandgruppenDisplayedColumns;"></mat-row>
+            </mat-table>
+
+        </mat-card-content>
+    </mat-card>
+
 
     <div class="button-container">
         <button mat-raised-button color="primary" class="action-button" (click)="refresh(versandauftrag)"
@@ -10,6 +78,8 @@
     </div>
 
     } @else {
+    <h1>Versandauftrag</h1>
+
     <p>Kein Versandauftrag ausgewählt. Navigiere über das Menü oben woandershin. Auswahl ist unter "Mailversandaufträge"
         möglich.</p>
     }

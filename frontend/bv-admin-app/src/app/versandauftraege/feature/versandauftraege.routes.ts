@@ -4,6 +4,7 @@ import { AuthFacade } from "@bv-admin-app/shared/auth/api";
 import { VersandauftraegeRootComponent } from "./versandauftraege-root/versandauftraege-root.component";
 import { VersandauftraegeListComponent } from "./versandauftraege-list/versandauftraege-list.component";
 import { VersandauftragDetailsComponent } from "./versandauftrag-details/versandauftrag-details.component";
+import { VersandgruppeDetailsComponent } from "./versandgruppe-details/versandgruppe-details.component";
 
 
 export const versandauftraegeRoutes: Routes = [
@@ -19,6 +20,10 @@ export const versandauftraegeRoutes: Routes = [
       {
         path: 'details',
         component: VersandauftragDetailsComponent
+      },
+      {
+        path: 'gruppe',
+        component: VersandgruppeDetailsComponent
       }
     ],
   },

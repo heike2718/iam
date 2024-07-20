@@ -1,12 +1,12 @@
 import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
-import { AfterViewInit, Component, inject, OnDestroy } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { VersandauftraegeFacade } from "@bv-admin-app/versandauftraege/api";
-import { MailversandauftragDetails } from "@bv-admin-app/versandauftraege/model";
-import { Subscription } from "rxjs";
+import { MailversandauftragDetails, Mailversandgruppe } from "@bv-admin-app/versandauftraege/model";
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
     selector: 'bv-admin-versandauftrag',
@@ -16,6 +16,7 @@ import { Subscription } from "rxjs";
         NgIf,
         NgFor,
         AsyncPipe,
+        MatCardModule,
         MatTableModule,
         MatButtonModule,
         MatIconModule,
@@ -24,25 +25,16 @@ import { Subscription } from "rxjs";
     templateUrl: './versandauftrag-details.component.html',
     styleUrls: ['./versandauftrag-details.component.scss'],
 })
-export class VersandauftragDetailsComponent implements AfterViewInit, OnDestroy {
+export class VersandauftragDetailsComponent {
 
 
     versandauftraegeFacade = inject(VersandauftraegeFacade);
 
-    #subscriptions: Subscription = new Subscription();
+    versandgruppenDisplayedColumns: string[] = ['sortnr', 'status', 'aenderungsdatum', 'anzahlEmpfaenger', 'action'];
 
     constructor(public confirmDeleteDialog: MatDialog) {
     }
 
-    ngAfterViewInit(): void {
-
-        // Error: NG0100: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked.
-        // haben wir immernoch :()
-    }
-
-    ngOnDestroy(): void {
-        this.#subscriptions.unsubscribe();
-    }
 
     refresh(versandauftrag: MailversandauftragDetails): void {
 
@@ -62,4 +54,10 @@ export class VersandauftragDetailsComponent implements AfterViewInit, OnDestroy 
 
         return versandauftrag.status === 'COMPLETED' || versandauftrag.status === 'ERRORS';
     }
+
+    navigateToDetails(gruppe: Mailversandgruppe): void {
+        console.log('jetzt Gruppe ' + gruppe.uuid + ' selektieren');
+    }
+
+    
 }

@@ -4,7 +4,7 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.infrastructure.persistence.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.UuidGenerator.Style;
@@ -53,7 +53,7 @@ public class PersistenteMailversandgruppe {
 	private int sortnr;
 
 	@Column(name = "DATE_MODIFIED")
-	private Date geaendertAm;
+	private LocalDateTime geaendertAm;
 
 	@Version
 	@Column(name = "VERSION")
@@ -99,12 +99,12 @@ public class PersistenteMailversandgruppe {
 		this.sortnr = sortnr;
 	}
 
-	public Date getGeaendertAm() {
+	public LocalDateTime getGeaendertAm() {
 
 		return geaendertAm;
 	}
 
-	public void setGeaendertAm(final Date geaendertAm) {
+	public void setGeaendertAm(final LocalDateTime geaendertAm) {
 
 		this.geaendertAm = geaendertAm;
 	}

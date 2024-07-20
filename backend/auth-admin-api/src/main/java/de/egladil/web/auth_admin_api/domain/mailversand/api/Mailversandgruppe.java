@@ -40,6 +40,10 @@ public class Mailversandgruppe {
 	@Schema(description = "die UUIDs der Benutzer")
 	private List<String> empfaengerUUIDs = new ArrayList<>();
 
+	@JsonProperty
+	@Schema(description = "Datum der letzten Änderung")
+	private String aenderungsdatum;
+
 	@JsonIgnore // wollen keine emails im Frontend haben, die es eventuell gar nicht mehr gibt.
 	private List<String> empfaengerEmails = new ArrayList<>();
 
@@ -101,6 +105,16 @@ public class Mailversandgruppe {
 	public void setIdMailversandauftrag(final String idMailversandauftrag) {
 
 		this.idMailversandauftrag = idMailversandauftrag;
+	}
+
+	public String getAenderungsdatum() {
+
+		return aenderungsdatum;
+	}
+
+	public void setAenderungsdatum(final String aenderungsdatum) {
+
+		this.aenderungsdatum = aenderungsdatum;
 	}
 
 }

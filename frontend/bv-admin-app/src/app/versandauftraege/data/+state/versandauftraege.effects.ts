@@ -73,4 +73,13 @@ export class VersandauftraegeEffects {
             }),
         ), { dispatch: false });
 
+    versandgruppeSelected$ = createEffect(() =>
+
+        this.#actions.pipe(
+            ofType(versandauftraegeActions.vERSANDGRUPPE_SELECTED),
+            tap(() => {
+                this.#router.navigateByUrl('/versandauftraege/gruppe');
+            }),
+        ), { dispatch: false });
+
 }

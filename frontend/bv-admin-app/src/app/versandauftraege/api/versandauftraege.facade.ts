@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { Observable, Subscription, take } from "rxjs";
-import { MailversandauftragDetails, MailversandauftragOverview } from '@bv-admin-app/versandauftraege/model';
+import { MailversandauftragDetails, MailversandauftragOverview, Mailversandgruppe } from '@bv-admin-app/versandauftraege/model';
 import { select, Store } from "@ngrx/store";
 import { fromVersandauftraege, versandauftraegeActions } from '@bv-admin-app/versandauftraege/data';
 import { MailversandauftragRequestDto, Infomail } from "@bv-admin-app/shared/model";
@@ -13,11 +13,15 @@ export class VersandauftraegeFacade {
     #store = inject(Store);
 
     #versandauftraegeDetailsSubscription: Subscription = new Subscription();
-    
+    #mailversandgruppeSubscription: Subscription = new Subscription();
+
 
     readonly loaded$: Observable<boolean> = this.#store.select(fromVersandauftraege.loaded);
     readonly versandauftraege$: Observable<MailversandauftragOverview[]> = this.#store.select(fromVersandauftraege.versandauftraege);
-    readonly selectedVersandauftrag$: Observable<MailversandauftragDetails | undefined> = this.#store.select(fromVersandauftraege.selectedVersandauftrag);
+    readonly selectedVersandauftrag$: Observable<MailversandauftragDetails | undefined> =
+        this.#store.select(fromVersandauftraege.selectedVersandauftrag);
+    readonly selectedMailversandgruppe$: Observable<Mailversandgruppe | undefined> = 
+    this.#store.select(fromVersandauftraege.selectedMailversandgruppe);
 
     public loadVersandauftraege(): void {
         this.#store.dispatch(versandauftraegeActions.lOAD_VERSANDAUFTRAEGE());
@@ -56,6 +60,27 @@ export class VersandauftraegeFacade {
         this.#store.dispatch(versandauftraegeActions.sCHEDULE_VERSANDAUFTRAG({ requestDto }))
 
     }
+
+    public selectMailversandgruppe(versandgruppe: Mailversandgruppe): void {
+
+        this.#mailversandgruppeSubscription.unsubscribe();
+
+        this.#mailversandgruppeSubscription = this.#store.pipe(
+            select(fromVersandauftraege.selectedMailversandgruppe),
+            take(1)
+        ).subscribe(
+            (gruppe: Mailversandgruppe | undefined) => {
+                if (gruppe) {
+                    this.#store.dispatch(versandauftraegeActions.vERSANDGRUPPE_SELECTED());
+                    this.#mailversandgruppeSubscription.unsubscribe();                    
+                }
+            }
+        );
+
+        this.#store.dispatch(versandauftraegeActions.sELECT_VERSANDGRUPPE({versandgruppe}));
+    }
+
+    
 
     #loadDetails(uuid: string): void {
         this.#store.dispatch(versandauftraegeActions.lOAD_VERSANDAUFTRAG_DETAILS({ uuid }));
