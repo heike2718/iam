@@ -22,7 +22,7 @@ export class VersandauftraegeHttpService {
         return this.#httpClient.get<MailversandauftragDetailsResponseDto>(theUrl, { headers: new HttpHeaders() });
     }
 
-    public loadMailversandgruppeetails(uuid: string): Observable<MailversandgruppeDetailsResponseDto> {
+    public loadMailversandgruppedetails(uuid: string): Observable<MailversandgruppeDetailsResponseDto> {
         const theUrl = this.#url + '/gruppen/' + uuid;
         return this.#httpClient.get<MailversandgruppeDetailsResponseDto>(theUrl, { headers: new HttpHeaders() });
     }

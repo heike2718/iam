@@ -11,7 +11,7 @@ export interface Mailversandgruppe {
 
 export interface MailversandgruppeDetails {
     readonly uuid: string;
-    readonly idMailversandauftrag: string;
+    readonly idInfomailtext: string;
     readonly sortnr: number;
     readonly status: Jobstatus;
     readonly aenderungsdatum: string;

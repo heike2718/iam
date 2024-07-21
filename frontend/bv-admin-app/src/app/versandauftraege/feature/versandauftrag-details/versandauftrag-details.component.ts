@@ -6,7 +6,6 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { VersandauftraegeFacade } from "@bv-admin-app/versandauftraege/api";
 import { MailversandauftragDetails, Mailversandgruppe } from "@bv-admin-app/versandauftraege/model";
-import { MatCardModule } from "@angular/material/card";
 
 @Component({
     selector: 'bv-admin-versandauftrag',
@@ -16,7 +15,6 @@ import { MatCardModule } from "@angular/material/card";
         NgIf,
         NgFor,
         AsyncPipe,
-        MatCardModule,
         MatTableModule,
         MatButtonModule,
         MatIconModule,
@@ -55,8 +53,8 @@ export class VersandauftragDetailsComponent {
         return versandauftrag.status === 'COMPLETED' || versandauftrag.status === 'ERRORS';
     }
 
-    navigateToDetails(gruppe: Mailversandgruppe): void {
-        console.log('jetzt Gruppe ' + gruppe.uuid + ' selektieren');
+    showDetails(gruppe: Mailversandgruppe): void {
+        this.versandauftraegeFacade.loadMailversandgruppe(gruppe.uuid);
     }
 
     

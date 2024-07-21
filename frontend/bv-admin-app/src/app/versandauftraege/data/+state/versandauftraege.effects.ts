@@ -5,6 +5,7 @@ import { versandauftraegeActions } from "./versandauftraege.actions";
 import { map, switchMap, tap } from "rxjs";
 import { MessageService } from "@bv-admin-app/shared/messages/api";
 import { Router } from "@angular/router";
+import { MailversandgruppeDetailsResponseDto } from "@bv-admin-app/versandauftraege/model";
 
 @Injectable(
     {
@@ -73,13 +74,23 @@ export class VersandauftraegeEffects {
             }),
         ), { dispatch: false });
 
-    versandgruppeSelected$ = createEffect(() =>
+    loadVersandgruppeDetails$ = createEffect(() => {
+        return this.#actions.pipe(
+            ofType(versandauftraegeActions.lOAD_VERSANDGRUPPE),
+            switchMap((action) => this.#httpService.loadMailversandgruppedetails(action.uuid)),
+            map((responsePayload) => versandauftraegeActions.vERSANDGRUPPE_LOADED({ responsePayload }))
+        );
+    });
+
+    versandgruppeDetailsLoaded$ = createEffect(() =>
 
         this.#actions.pipe(
-            ofType(versandauftraegeActions.vERSANDGRUPPE_SELECTED),
-            tap(() => {
-                this.#router.navigateByUrl('/versandauftraege/gruppe');
-            }),
+            ofType(versandauftraegeActions.vERSANDGRUPPE_LOADED),
+            tap((action) => {
+                if (action.responsePayload.mailversandgruppe) {
+                    this.#router.navigateByUrl('/versandauftraege/gruppe');
+                }
+            })            
         ), { dispatch: false });
 
 }

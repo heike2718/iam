@@ -1,4 +1,4 @@
-import { MailversandauftragDetails, MailversandauftragOverview, Mailversandgruppe, sortMailversandauftragOverviewByBetreff } from "@bv-admin-app/versandauftraege/model";
+import { MailversandauftragDetails, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetails, sortMailversandauftragOverviewByBetreff } from "@bv-admin-app/versandauftraege/model";
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { versandauftraegeActions } from "./versandauftraege.actions";
 import { loggedOutEvent } from "@bv-admin-app/shared/auth/api";
@@ -10,7 +10,7 @@ export interface VersandauftraegeState {
     readonly versandauftraege: MailversandauftragOverview[];
     readonly details: MailversandauftragDetails[];
     readonly selectedVersandauftrag: MailversandauftragDetails | undefined;
-    readonly selectedMailversandgruppe: Mailversandgruppe | undefined;
+    readonly selectedMailversandgruppe: MailversandgruppeDetails | undefined;
 }
 
 const initialVersandauftraegeState: VersandauftraegeState = {
@@ -80,8 +80,13 @@ export const versandauftraegeFeature = createFeature({
             swallowEmptyArgument(_action, false);
             return { ...state, selectedVersandauftrag: undefined }
         }),
-        on(versandauftraegeActions.sELECT_VERSANDGRUPPE, (state, action) => {
-            return { ...state, selectedMailversandgruppe: action.versandgruppe }
+        on(versandauftraegeActions.vERSANDGRUPPE_LOADED, (state, action) => {
+
+            if (action.responsePayload.mailversandgruppe) {
+                return {...state, selectedMailversandgruppe: action.responsePayload.mailversandgruppe};
+            }
+
+            return { ...state, selectedMailversandgruppe: undefined }
         }),
         on(versandauftraegeActions.vERSANDAUFTRAG_SCHEDULED, (state, action) => {
 
