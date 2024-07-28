@@ -4,6 +4,7 @@
 // =====================================================
 package de.egladil.web.authprovider.restclient;
 
+import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import de.egladil.web.authprovider.event.CreateUserCommand;
@@ -28,13 +29,16 @@ public interface MkGatewayRestClient {
 
 	@Path("sync/veranstalter")
 	@DELETE
+	@Retry(maxRetries = 3, delay = 1000)
 	Response propagateUserDeleted(DeleteUserCommand command);
 
 	@Path("sync/veranstalter")
 	@POST
+	@Retry(maxRetries = 3, delay = 1000)
 	Response propagateUserCreated(CreateUserCommand command);
 
 	@Path("sync/ack")
 	@POST
+	@Retry(maxRetries = 3, delay = 1000)
 	Response getSyncToken(SyncHandshake handshake);
 }

@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.authprovider.restclient.MkGatewayRestClientDelegate;
+import de.egladil.web.authprovider.restclient.MkGatewayRestClient;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie.MinikaengurukontenMailKontext;
@@ -37,7 +37,7 @@ public class AuthproviderEventHandlerTest {
 	EventRepository eventRepository;
 
 	@InjectMock
-	MkGatewayRestClientDelegate mkGateway;
+	MkGatewayRestClient mkGateway;
 
 	@InjectMock
 	AuthMailService mailService;

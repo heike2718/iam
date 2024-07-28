@@ -96,7 +96,7 @@ public class PropagateEventService {
 
 			LOGGER.error("endpoint mk-gateway ist nicht erreichbar");
 			// this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
-			throw new CommandPropagationFailedException("Der Endpoint mk-gateway ist nicht erreichbar. ");
+			throw new CommandPropagationFailedException("Der Endpoint mk-gateway ist nicht erreichbar.");
 
 		}
 	}

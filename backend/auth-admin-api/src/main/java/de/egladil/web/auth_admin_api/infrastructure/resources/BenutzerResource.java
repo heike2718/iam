@@ -4,6 +4,8 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.infrastructure.resources;
 
+import java.util.List;
+
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -188,6 +190,51 @@ public class BenutzerResource {
 
 		DeleteBenutzerResponseDto responsePayload = benutzerService.deleteUser(uuid);
 		return Response.ok().entity(responsePayload).build();
+	}
+
+	@PUT
+	@Path("loeschung")
+	@RolesAllowed({ "AUTH_ADMIN" })
+	@Operation(
+		operationId = "batchDelete",
+		summary = "Löscht sie durch die uuids definierten Benutzerkonten vollständig aus allen Anwendungen.")
+	@Parameters({
+		@Parameter(
+			in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der gelöscht werden soll",
+			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
+	})
+	@APIResponse(
+		name = "OKResponse",
+		responseCode = "200",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = DeleteBenutzerResponseDto.class)))
+	@APIResponse(
+		name = "BadRequest",
+		responseCode = "400",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(
+		name = "NotAuthorized",
+		responseCode = "401",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "Forbidden",
+		description = "kann auch vorkommen, wenn mod_security zuschlägt",
+		responseCode = "403",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "ServerError",
+		description = "server error",
+		responseCode = "500", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MessagePayload.class)))
+	public Response batchDelete(final List<String> uuids) {
+
+		return Response.status(500).entity(MessagePayload.error("noch nicht implementiert")).build();
 	}
 
 }

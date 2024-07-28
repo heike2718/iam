@@ -11,11 +11,12 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.error.PropagationFailedException;
-import de.egladil.web.authprovider.restclient.MkGatewayRestClientDelegate;
+import de.egladil.web.authprovider.restclient.MkGatewayRestClient;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie.MinikaengurukontenMailKontext;
@@ -25,6 +26,7 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 
@@ -34,9 +36,13 @@ import jakarta.ws.rs.core.Response;
 @ApplicationScoped
 public class AuthproviderEventHandler {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AuthproviderEventHandler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthproviderEventHandler.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+
+	@Inject
+	@RestClient
+	MkGatewayRestClient mkGateway;
 
 	@ConfigProperty(name = "mkv-app.client-id")
 	private String mkvAppClientId;
@@ -53,9 +59,6 @@ public class AuthproviderEventHandler {
 	@Inject
 	AuthMailService mailService;
 
-	@Inject
-	MkGatewayRestClientDelegate mkGatewayDelegate;
-
 	public void handleEvent(@Observes final AuthproviderEvent event) {
 
 		if (event != null) {
@@ -64,7 +67,7 @@ public class AuthproviderEventHandler {
 
 				String body = event.serializePayload();
 
-				LOG.debug("Event body = " + body);
+				LOGGER.debug("Event body = " + body);
 
 				StoredEvent storedEvent = StoredEvent.createEvent(event.occuredOn(), event.eventType().getLabel(), body);
 
@@ -74,15 +77,30 @@ public class AuthproviderEventHandler {
 
 		if (event.propagateToListeners()) {
 
-			sendEventToListeners(event);
+			if (!isSyncInfrastructureAvailable()) {
+
+				LOGGER.warn("Infrastruktur nicht verfuegbar: Abbruch");
+
+				return;
+			}
+
+			String syncToken = null;
+
+			if (event.eventType() != AuthproviderEventType.LOGINVERSUCH_INAKTIVER_USER) {
+
+				syncToken = this.getSyncToken();
+			}
+
+			sendEventToListeners(event, syncToken);
 		}
 
 	}
 
 	/**
 	 * @param event
+	 * @param syncToken
 	 */
-	private void sendEventToListeners(final AuthproviderEvent event) {
+	private void sendEventToListeners(final AuthproviderEvent event, final String syncToken) {
 
 		switch (event.eventType()) {
 
@@ -92,12 +110,12 @@ public class AuthproviderEventHandler {
 
 		case REGISTRATION_CONFIRMATION_EXPIRED:
 			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.CONFIRMATION_EXPIRED, event.payload());
-			this.propagateUserDeleted(event.payload());
+			this.propagateUserDeleted(event.payload(), syncToken);
 			break;
 
 		case USER_CREATED:
 			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.USER_CREATED, event.payload());
-			this.propagateUserCreated(event.payload());
+			this.propagateUserCreated(event.payload(), syncToken);
 			break;
 
 		default:
@@ -121,55 +139,43 @@ public class AuthproviderEventHandler {
 			}
 		} catch (ClassCastException e) {
 
-			LOG.error("Fehler beim Propagieren eines AuthproviderEvents: " + e.getMessage(), e);
+			LOGGER.error("Fehler beim Propagieren eines AuthproviderEvents: " + e.getMessage(), e);
 		} catch (Exception e) {
 
-			LOG.error("Infomail an mich konnte nicht gesendet werden: " + e.getMessage(), e);
+			LOGGER.error("Infomail an mich konnte nicht gesendet werden: " + e.getMessage(), e);
 		}
 	}
 
 	/**
 	 * @param event
 	 */
-	private void propagateUserDeleted(final Object payload) {
+	private void propagateUserDeleted(final Object payload, final String syncToken) {
 
-		Response mkGatewayResponse = null;
 		DeleteUserCommand command = null;
 		ResourceOwnerEventPayload resourceOwner = null;
 
-		try {
+		resourceOwner = (ResourceOwnerEventPayload) payload;
 
-			resourceOwner = (ResourceOwnerEventPayload) payload;
+		LOGGER.debug("sende UserDeleted für {} an mk-gateway", resourceOwner);
 
-			if (!isSyncInfrastructureAvailable()) {
+		if (syncToken == null) {
 
-				LOG.warn("Infrastruktur nicht verfuegbar: Löschen von {} wird nicht propagiert", resourceOwner);
+			LOGGER.error("Datensynchronisation hat keine Freigabe: syncToken ist null");
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
+			throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
+		}
 
-				return;
-			}
+		LOGGER.debug("sync ack erhalten");
 
-			LOG.debug("sende UserDeleted für {} an mk-gateway", resourceOwner);
+		command = DeleteUserCommand.create(resourceOwner.getUuid()).withSyncToken(syncToken);
 
-			String syncToken = getSyncToken();
+		try (Response mkGatewayResponse = mkGateway.propagateUserDeleted(command)) {
 
-			if (syncToken == null) {
-
-				LOG.error("Datensynchronisation hat keine Freigabe: syncToken ist null");
-				this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
-				throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
-			}
-
-			LOG.debug("sync ack erhalten");
-
-			command = DeleteUserCommand.create(resourceOwner.getUuid()).withSyncToken(syncToken);
-
-			mkGatewayResponse = mkGatewayDelegate.propagateUserDeleted(command);
-
-			LOG.debug("Antwort: " + mkGatewayResponse.getStatus());
+			LOGGER.debug("Antwort: " + mkGatewayResponse.getStatus());
 
 			if (mkGatewayResponse.getStatus() != 200) {
 
-				LOG.error("Status {} vom mk-gateway beim Senden des DeleteUserCommands {} ", mkGatewayResponse.getStatus(),
+				LOGGER.error("Status {} vom mk-gateway beim Senden des DeleteUserCommands {} ", mkGatewayResponse.getStatus(),
 					resourceOwner.getUuid());
 				this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
 				throw new PropagationFailedException(applicationMessages.getString("deleteUser.propagation.failure"));
@@ -177,85 +183,70 @@ public class AuthproviderEventHandler {
 
 		} catch (Exception e) {
 
-			LOG.error("Konnte delete-event nicht propagieren: {} - {}", command, e.getMessage(), e);
+			LOGGER.error("Konnte delete-event nicht propagieren: {} - {}", command, e.getMessage(), e);
 
 			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
 
 			throw new PropagationFailedException(applicationMessages.getString("deleteUser.propagation.failure"));
-		} finally {
-
-			if (mkGatewayResponse != null) {
-
-				mkGatewayResponse.close();
-			}
 		}
 	}
 
 	/**
 	 * @param event
 	 */
-	private void propagateUserCreated(final Object payload) {
+	private void propagateUserCreated(final Object payload, final String syncToken) {
 
-		Response mkGatewayResponse = null;
 		CreateUserCommand command = null;
 		ResourceOwnerEventPayload resourceOwner = null;
 
-		try {
+		resourceOwner = (ResourceOwnerEventPayload) payload;
 
-			resourceOwner = (ResourceOwnerEventPayload) payload;
+		LOGGER.info("sende UserCreated für {} an mk-gateway", resourceOwner);
 
-			if (!isSyncInfrastructureAvailable()) {
+		if (syncToken == null) {
 
-				LOG.warn("Infrastruktur nicht verfuegbar: Anlegen von {} wird nicht propagiert", resourceOwner);
+			LOGGER.error("Datensynchronisation hat keine Freigabe: syncToken ist null");
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
+			throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
 
-				return;
-			}
+		}
 
-			LOG.info("sende UserCreated für {} an mk-gateway", resourceOwner);
+		String fullName = StringUtils.isAllBlank(new String[] { resourceOwner.getVorname(), resourceOwner.getNachname() })
+			? null
+			: resourceOwner.getVorname() + " " + resourceOwner.getNachname();
 
-			String syncToken = getSyncToken();
+		command = new CreateUserCommand()
+			.withEmail(resourceOwner.getEmail())
+			.withFullName(fullName)
+			.withNonce(resourceOwner.getNonce())
+			.withSyncToken(syncToken)
+			.withUuid(resourceOwner.getUuid())
+			.withClientId(resourceOwner.getClientId());
 
-			if (syncToken == null) {
+		try (Response mkGatewayResponse = mkGateway.propagateUserCreated(command)) {
 
-				LOG.error("Datensynchronisation hat keine Freigabe: syncToken ist null");
-				this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
-				throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
-
-			}
-
-			LOG.debug("sync ack erhalten");
-
-			String fullName = StringUtils.isAllBlank(new String[] { resourceOwner.getVorname(), resourceOwner.getNachname() })
-				? null
-				: resourceOwner.getVorname() + " " + resourceOwner.getNachname();
-
-			command = new CreateUserCommand()
-				.withEmail(resourceOwner.getEmail())
-				.withFullName(fullName)
-				.withNonce(resourceOwner.getNonce())
-				.withSyncToken(syncToken)
-				.withUuid(resourceOwner.getUuid())
-				.withClientId(resourceOwner.getClientId());
-
-			mkGatewayResponse = mkGatewayDelegate.propagateUserCreated(command);
-
-			LOG.debug("CreateUserCommand=" + command + ", httpStatusCode=" + mkGatewayResponse.getStatus());
+			LOGGER.debug("CreateUserCommand=" + command + ", httpStatusCode=" + mkGatewayResponse.getStatus());
 
 			if (mkGatewayResponse.getStatus() != 200) {
 
-				LOG.error("Status {} vom mk-gateway beim Senden des CreateUserCommand {} ", mkGatewayResponse.getStatus(),
+				LOGGER.error("Status {} vom mk-gateway beim Senden des CreateUserCommand {} ", mkGatewayResponse.getStatus(),
 					command);
 				this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
 				throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
 			}
 
-		} catch (PropagationFailedException e) {
+		} catch (ProcessingException e) {
 
-			throw e;
+			LOGGER.error("ProcessingException beim Propagieren des CreateUserEvents ans mk-gateway: {}",
+				e.getMessage(), e);
+
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
+
+			throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
 		} catch (WebApplicationException e) {
 
 			Response exceptionResponse = e.getResponse();
-			LOG.error("WebApplicationException beim Propagieren des CreateUserEvents: status={} - {}",
+			LOGGER.error("WebApplicationException beim Propagieren des CreateUserEvents: status={} - {}",
 				exceptionResponse.getStatus(), e.getMessage(), e);
 
 			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
@@ -264,17 +255,11 @@ public class AuthproviderEventHandler {
 
 		} catch (Exception e) {
 
-			LOG.error("Konnte create-event nicht propagieren: {} - {}", command, e.getMessage(), e);
+			LOGGER.error("Konnte create-event nicht propagieren: {} - {}", command, e.getMessage(), e);
 
 			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
 
 			throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
-		} finally {
-
-			if (mkGatewayResponse != null) {
-
-				mkGatewayResponse.close();
-			}
 		}
 	}
 
@@ -287,21 +272,17 @@ public class AuthproviderEventHandler {
 
 		SyncHandshake handshake = new SyncHandshake(mkvAppClientId, nonce);
 
-		LOG.debug("mkvAppClientId={}", mkvAppClientId);
+		LOGGER.debug("mkvAppClientId={}", mkvAppClientId);
 
-		Response mkGatewayResponse = null;
+		try (Response mkGatewayResponse = mkGateway.getSyncToken(handshake)) {
 
-		try {
-
-			mkGatewayResponse = mkGatewayDelegate.getSyncToken(handshake);
-
-			LOG.debug("mkGatewayResponse.status={}", mkGatewayResponse.getStatus());
+			LOGGER.debug("mkGatewayResponse.status={}", mkGatewayResponse.getStatus());
 
 			ResponsePayload responsePayload = mkGatewayResponse.readEntity(ResponsePayload.class);
 
 			MessagePayload messagePayload = responsePayload.getMessage();
 
-			LOG.debug("Result={}", messagePayload.toString());
+			LOGGER.debug("Result={}", messagePayload.toString());
 
 			if (messagePayload.isOk()) {
 
@@ -312,21 +293,15 @@ public class AuthproviderEventHandler {
 
 				if (!"dev".equals(stage) && !nonce.equals(ack.nonce())) {
 
-					LOG.error("Nonce wurde geändert");
+					LOGGER.error("Nonce wurde geändert");
 					return null;
 				}
 
 				return ack.syncToken();
 			}
 
-			LOG.error("MessagePayload={}", messagePayload.toString());
+			LOGGER.error("MessagePayload={}", messagePayload.toString());
 			return null;
-		} finally {
-
-			if (mkGatewayResponse != null) {
-
-				mkGatewayResponse.close();
-			}
 		}
 	}
 
