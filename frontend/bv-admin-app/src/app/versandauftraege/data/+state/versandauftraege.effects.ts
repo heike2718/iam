@@ -57,11 +57,27 @@ export class VersandauftraegeEffects {
             }),
         ), { dispatch: false });
 
-    sheduleVersandauftrag$ = createEffect(() => {
+    scheduleVersandauftrag$ = createEffect(() => {
         return this.#actions.pipe(
             ofType(versandauftraegeActions.sCHEDULE_VERSANDAUFTRAG),
             switchMap((action) => this.#httpService.scheduleVersandauftrag(action.requestDto)),
             map((versandauftrag) => versandauftraegeActions.vERSANDAUFTRAG_SCHEDULED({ versandauftrag }))
+        );
+    });
+
+    cancelVersandauftrag$ = createEffect(() => {
+        return this.#actions.pipe(
+            ofType(versandauftraegeActions.cANCEL_VERSANDAUFTRAG),
+            switchMap((action) => this.#httpService.cancelVersandauftrag(action.uuid)),
+            map((responsePayload) => versandauftraegeActions.lOAD_VERSANDAUFTRAG_DETAILS({ uuid: responsePayload.uuid }))
+        );
+    });
+    
+    deleteVersandauftrag$ = createEffect(() => {
+        return this.#actions.pipe(
+            ofType(versandauftraegeActions.dELETE_VERSANDAUFTRAG),
+            switchMap((action) => this.#httpService.deleteVersandauftrag(action.uuid)),
+            map((responsePayload) => versandauftraegeActions.vERSANDAUFTRAG_DELETED({ responsePayload }))
         );
     });
 

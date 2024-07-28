@@ -41,13 +41,13 @@ import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
 
 /**
- * MailversandResourceTest
+ * VersandauftraegeResourceTest
  */
 @QuarkusTest
-@TestHTTPEndpoint(MailversandResource.class)
+@TestHTTPEndpoint(VersandauftraegeResource.class)
 @TestProfile(AuthAdminTestProfile.class)
 @TestMethodOrder(OrderAnnotation.class)
-public class MailversandResourceTest {
+public class VersandauftraegeResourceTest {
 
 	@Inject
 	MailversandDao mailversandDao;

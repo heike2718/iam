@@ -60,6 +60,20 @@ export class VersandauftraegeFacade {
 
     }
 
+    public cancelVersandauftrag(versandauftrag: MailversandauftragOverview): void {
+
+        this.#store.dispatch(versandauftraegeActions.cANCEL_VERSANDAUFTRAG({uuid: versandauftrag.uuid}));
+    }
+
+    public deleteVersandauftrag(versandauftrag: MailversandauftragOverview): void {
+
+        if (versandauftrag.status === 'IN_PROGRESS') {
+            return;
+        }
+
+        this.#store.dispatch(versandauftraegeActions.dELETE_VERSANDAUFTRAG({uuid: versandauftrag.uuid}))
+    }
+
     public loadMailversandgruppe(uuid: string): void {
 
         this.#store.dispatch(versandauftraegeActions.lOAD_VERSANDGRUPPE({uuid}));

@@ -12,10 +12,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
- * DeleteMailversandauftragResponseDto
+ * SingleUuidDto
  */
 @Schema(description = "Response-Objekt für das Löschen eines Benutzers")
-public class DeleteMailversandauftragResponseDto {
+public class SingleUuidDto {
 
 	@JsonProperty
 	@Schema(description = "UUID des Mailversandauftrags", example = "732b2ed8-b9b7-4800-8685-38fd09d330cf")
@@ -23,13 +23,13 @@ public class DeleteMailversandauftragResponseDto {
 	@Size(max = 36)
 	private String uuid;
 
-	DeleteMailversandauftragResponseDto() {
+	SingleUuidDto() {
 
 		super();
 
 	}
 
-	public DeleteMailversandauftragResponseDto(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) final String uuid) {
+	public SingleUuidDto(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) final String uuid) {
 
 		super();
 		this.uuid = uuid;

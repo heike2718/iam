@@ -17,11 +17,11 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
-import de.egladil.web.auth_admin_api.domain.mailversand.api.DeleteMailversandauftragResponseDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragDetailsResponseDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragOverview;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragRequestDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandgruppeDetailsResponseDto;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.SingleUuidDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.VersandauftragService;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
 import jakarta.annotation.security.RolesAllowed;
@@ -34,6 +34,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -41,20 +42,19 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 /**
- * MailversandResource
+ * VersandauftraegeResource
  */
 @RequestScoped
-@Path("auth-admin-api/mailversand")
+@Path("auth-admin-api/versandauftraege")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-@Tag(name = "InfomailsResource")
-public class MailversandResource {
+@Tag(name = "VersandauftraegeResource")
+public class VersandauftraegeResource {
 
 	@Inject
 	VersandauftragService versandauftragService;
 
 	@GET
-	@Path("auftraege")
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
 		operationId = "loadVersandauftraege", summary = "Gibt alle gespeicherten Mailversandaufträge zurück.")
@@ -88,7 +88,7 @@ public class MailversandResource {
 	}
 
 	@GET
-	@Path("auftraege/{uuid}")
+	@Path("{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
 		operationId = "getDetailsVersandauftrag",
@@ -189,7 +189,6 @@ public class MailversandResource {
 	}
 
 	@POST
-	@Path("auftraege")
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
 		operationId = "scheduleInfomailversand", summary = "Legt einen Mailversandauftrag an.")
@@ -235,7 +234,7 @@ public class MailversandResource {
 	}
 
 	@DELETE
-	@Path("auftraege/{uuid}")
+	@Path("{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
 		operationId = "versandauftragLoeschen",
@@ -250,7 +249,7 @@ public class MailversandResource {
 		responseCode = "200",
 		content = @Content(
 			mediaType = "application/json",
-			schema = @Schema(implementation = DeleteMailversandauftragResponseDto.class)))
+			schema = @Schema(implementation = SingleUuidDto.class)))
 	@APIResponse(
 		name = "BadRequest",
 		responseCode = "400",
@@ -279,7 +278,56 @@ public class MailversandResource {
 			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
 				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
 
-		return Response.status(500).entity(MessagePayload.error("noch nicht implementiert")).build();
+		SingleUuidDto responsePayload = versandauftragService.versandauftragLoeschen(uuid);
+		return Response.status(200).entity(responsePayload).build();
 	}
 
+	@PUT
+	@Path("{uuid}/cancellation")
+	@RolesAllowed({ "AUTH_ADMIN" })
+	@Operation(
+		operationId = "versandauftragAbbrechen",
+		summary = "Bricht den durch die uuid definierten Mailversandauftrag ab")
+	@Parameters({
+		@Parameter(
+			in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags, der abgebrochen werden soll",
+			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
+	})
+	@APIResponse(
+		name = "OKResponse",
+		responseCode = "200",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = SingleUuidDto.class)))
+	@APIResponse(
+		name = "BadRequest",
+		responseCode = "400",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(
+		name = "NotAuthorized",
+		responseCode = "401",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "Forbidden",
+		description = "kann auch vorkommen, wenn mod_security zuschlägt",
+		responseCode = "403",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "ServerError",
+		description = "server error",
+		responseCode = "500", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MessagePayload.class)))
+	public Response versandauftragAbbrechen(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
+		value = "uuid") @Pattern(
+			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
+				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+
+		SingleUuidDto responsePayload = versandauftragService.mailversandAbbrechen(uuid);
+		return Response.status(200).entity(responsePayload).build();
+	}
 }

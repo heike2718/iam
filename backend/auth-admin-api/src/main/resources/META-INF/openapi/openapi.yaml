@@ -18,7 +18,9 @@ servers:
 tags:
 - name: BenutzerResource
 - name: InfomailsResource
+- name: MailingResource
 - name: SessionResource
+- name: VersandauftraegeResource
 paths:
   /auth-admin-api/benutzer:
     post:
@@ -38,6 +40,49 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BenutzerSearchResult"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
+  /auth-admin-api/benutzer/loeschung:
+    put:
+      tags:
+      - BenutzerResource
+      summary: Löscht die durch die uuids definierten Benutzerkonten vollständig aus
+        allen Anwendungen.
+      operationId: batchDelete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteBenutzerResponseDto"
         "400":
           content:
             application/json:
@@ -281,194 +326,19 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/mailversand/auftraege:
+  /auth-admin-api/mails/testmail:
     get:
       tags:
-      - InfomailsResource
-      summary: Gibt alle gespeicherten Mailversandaufträge zurück.
-      operationId: loadVersandauftraege
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/MailversandauftragOverview"
-        "401":
-          content:
-            application/json: {}
-        "403":
-          description: "kann auch vorkommen, wenn mod_security zuschlägt"
-          content:
-            application/json: {}
-        "500":
-          description: server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MessagePayload"
-      security:
-      - SecurityScheme: []
-    post:
-      tags:
-      - InfomailsResource
-      summary: Legt einen Mailversandauftrag an.
-      operationId: scheduleInfomailversand
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/MailversandauftragRequestDto"
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MailversandauftragOverview"
-        "400":
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ValidationErrorResponseDto"
-        "401":
-          content:
-            application/json: {}
-        "403":
-          description: "kann auch vorkommen, wenn mod_security zuschlägt"
-          content:
-            application/json: {}
-        "412":
-          description: eine Voraussetzung ist nicht erfüllt. Beispielsweise gibt es
-            keinen Infomailtext mit der gegebenen UUID
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MessagePayload"
-        "500":
-          description: server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MessagePayload"
-      security:
-      - SecurityScheme: []
-  /auth-admin-api/mailversand/auftraege/{uuid}:
-    get:
-      tags:
-      - InfomailsResource
-      summary: Läd die Details des durch die uuid definierten Mailversandauftrags
-      operationId: getDetailsVersandauftrag
+      - MailingResource
+      summary: Endpoint zum Testen der Mailerkonfiguration.
+      operationId: sendTestMail
       parameters:
-      - name: uuid
-        in: path
-        description: UUID des Mailversandauftrags
-        required: true
+      - name: to
+        in: query
         schema:
           type: string
-        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MailversandauftragDetailsResponseDto"
-        "400":
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ValidationErrorResponseDto"
-        "401":
-          content:
-            application/json: {}
-        "403":
-          description: "kann auch vorkommen, wenn mod_security zuschlägt"
-          content:
-            application/json: {}
-        "500":
-          description: server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MessagePayload"
-      security:
-      - SecurityScheme: []
-    delete:
-      tags:
-      - InfomailsResource
-      summary: Löscht den durch die uuid definierten Mailversandauftrag
-      operationId: versandauftragLoeschen
-      parameters:
-      - name: uuid
-        in: path
-        description: "UUID des Mailversandauftrags, der gelöscht werden soll"
-        required: true
-        schema:
-          type: string
-        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DeleteMailversandauftragResponseDto"
-        "400":
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ValidationErrorResponseDto"
-        "401":
-          content:
-            application/json: {}
-        "403":
-          description: "kann auch vorkommen, wenn mod_security zuschlägt"
-          content:
-            application/json: {}
-        "500":
-          description: server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MessagePayload"
-      security:
-      - SecurityScheme: []
-  /auth-admin-api/mailversand/gruppen/{uuid}:
-    get:
-      tags:
-      - InfomailsResource
-      summary: Läd die Details der durch die uuid definierten Mainversandgruppe
-      operationId: getDetailsMailversandgruppe
-      parameters:
-      - name: uuid
-        in: path
-        description: UUID der Mailversandgruppe
-        required: true
-        schema:
-          type: string
-        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MailversandgruppeDetailsResponseDto"
-        "400":
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "202": {}
         "401":
           content:
             application/json: {}
@@ -556,6 +426,252 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessagePayload"
+  /auth-admin-api/versandauftraege:
+    get:
+      tags:
+      - VersandauftraegeResource
+      summary: Gibt alle gespeicherten Mailversandaufträge zurück.
+      operationId: loadVersandauftraege
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MailversandauftragOverview"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
+    post:
+      tags:
+      - VersandauftraegeResource
+      summary: Legt einen Mailversandauftrag an.
+      operationId: scheduleInfomailversand
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MailversandauftragRequestDto"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MailversandauftragOverview"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "412":
+          description: eine Voraussetzung ist nicht erfüllt. Beispielsweise gibt es
+            keinen Infomailtext mit der gegebenen UUID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
+  /auth-admin-api/versandauftraege/gruppen/{uuid}:
+    get:
+      tags:
+      - VersandauftraegeResource
+      summary: Läd die Details der durch die uuid definierten Mainversandgruppe
+      operationId: getDetailsMailversandgruppe
+      parameters:
+      - name: uuid
+        in: path
+        description: UUID der Mailversandgruppe
+        required: true
+        schema:
+          type: string
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MailversandgruppeDetailsResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
+  /auth-admin-api/versandauftraege/{uuid}:
+    get:
+      tags:
+      - VersandauftraegeResource
+      summary: Läd die Details des durch die uuid definierten Mailversandauftrags
+      operationId: getDetailsVersandauftrag
+      parameters:
+      - name: uuid
+        in: path
+        description: UUID des Mailversandauftrags
+        required: true
+        schema:
+          type: string
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MailversandauftragDetailsResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
+    delete:
+      tags:
+      - VersandauftraegeResource
+      summary: Löscht den durch die uuid definierten Mailversandauftrag
+      operationId: versandauftragLoeschen
+      parameters:
+      - name: uuid
+        in: path
+        description: "UUID des Mailversandauftrags, der gelöscht werden soll"
+        required: true
+        schema:
+          type: string
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleUuidDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
+  /auth-admin-api/versandauftraege/{uuid}/cancellation:
+    put:
+      tags:
+      - VersandauftraegeResource
+      summary: Bricht den durch die uuid definierten Mailversandauftrag ab
+      operationId: versandauftragAbbrechen
+      parameters:
+      - name: uuid
+        in: path
+        description: "UUID des Mailversandauftrags, der abgebrochen werden soll"
+        required: true
+        schema:
+          type: string
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleUuidDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme: []
   /auth-admin-api/version:
     get:
       tags:
@@ -756,16 +872,6 @@ components:
           pattern: "^[abcdef\\d\\-]*$"
           type: string
           example: 732b2ed8-b9b7-4800-8685-38fd09d330cf
-    DeleteMailversandauftragResponseDto:
-      description: Response-Objekt für das Löschen eines Benutzers
-      type: object
-      properties:
-        uuid:
-          description: UUID des Mailversandauftrags
-          maxLength: 36
-          pattern: "^[abcdef\\d\\-]*$"
-          type: string
-          example: 732b2ed8-b9b7-4800-8685-38fd09d330cf
     InfomailRequestDto:
       description: Betreff und Text für eine Infomail
       required:
@@ -839,6 +945,7 @@ components:
       enum:
       - WAITING
       - IN_PROGRESS
+      - CANCELLED
       - COMPLETED
       - ERRORS
       type: string
@@ -1075,6 +1182,16 @@ components:
           - $ref: "#/components/schemas/MessagePayload"
         data:
           description: daten die als JSON mitgegeben werden. Kann null sein
+    SingleUuidDto:
+      description: Response-Objekt für das Löschen eines Benutzers
+      type: object
+      properties:
+        uuid:
+          description: UUID des Mailversandauftrags
+          maxLength: 36
+          pattern: "^[abcdef\\d\\-]*$"
+          type: string
+          example: 732b2ed8-b9b7-4800-8685-38fd09d330cf
     SortDirection:
       enum:
       - asc

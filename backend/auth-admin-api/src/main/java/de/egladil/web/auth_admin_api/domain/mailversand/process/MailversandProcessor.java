@@ -155,6 +155,12 @@ public class MailversandProcessor {
 
 		Jobstatus status = versandauftrag.isVersandMitFehlern() ? Jobstatus.ERRORS : Jobstatus.COMPLETED;
 
+		if (versandauftrag.getStatus() == Jobstatus.CANCELLED) {
+
+			// cancelled soll auch cancelled bleiben
+			status = versandauftrag.getStatus();
+		}
+
 		versandauftrag.setGeaendertAm(new Date());
 		versandauftrag.setVersandBeendetAm(LocalDateTime.now());
 		versandauftrag.setStatus(status);

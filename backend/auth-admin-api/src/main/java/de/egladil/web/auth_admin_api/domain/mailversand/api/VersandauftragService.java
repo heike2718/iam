@@ -106,9 +106,9 @@ public class VersandauftragService {
 
 	/**
 	 * Läd die Deteils einer Mailversandgruppe und die Liste der Benutzer, an die die Mail versendet wurde.
-	 * @param  gruppeUuid
 	 *
-	 * @return             MailversandgruppeDetailsResponseDto
+	 * @param  gruppeUuid
+	 * @return            MailversandgruppeDetailsResponseDto
 	 */
 	public MailversandgruppeDetailsResponseDto detailsMailversandgruppeLaden(final String gruppeUuid) {
 
@@ -388,4 +388,75 @@ public class VersandauftragService {
 		result.setVorname(GELOESCHT);
 		return result;
 	}
+
+	/**
+	 * Löscht den gegebenen Mailversandauftrag, falls er existiert.
+	 *
+	 * @param  uuid
+	 *              String
+	 * @return      SingleUuidDto
+	 */
+	public SingleUuidDto versandauftragLoeschen(final String uuid) {
+
+		SingleUuidDto result = new SingleUuidDto(uuid);
+
+		PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
+
+		if (fromDB == null) {
+
+			LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
+			return result;
+
+		}
+
+		return result;
+	}
+
+	@Transactional
+	void doDelete(final PersistenterMailversandauftrag versandauftrag) {
+
+		mailversandDao.removeMailversandauftrag(versandauftrag);
+	}
+
+	public SingleUuidDto mailversandAbbrechen(final String uuid) {
+
+		PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
+
+		if (fromDB == null) {
+
+			LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
+			throw new WebApplicationException(404);
+
+		}
+
+		List<PersistenteMailversandgruppe> versandgruppen = mailversandDao.findAllMailversandgruppenWithVersandauftragUUID(uuid);
+
+		this.doCancel(fromDB, versandgruppen);
+
+		return new SingleUuidDto(uuid);
+
+	}
+
+	@Transactional
+	void doCancel(final PersistenterMailversandauftrag versandauftrag, final List<PersistenteMailversandgruppe> versandgruppen) {
+
+		versandauftrag.setStatus(Jobstatus.CANCELLED);
+		versandauftrag.setGeaendertAm(new Date());
+		versandauftrag.setVersandBeendetAm(LocalDateTime.now());
+
+		mailversandDao.updateMailversandauftrag(versandauftrag);
+
+		for (PersistenteMailversandgruppe gruppe : versandgruppen) {
+
+			if (gruppe.getStatus() == Jobstatus.WAITING) {
+
+				gruppe.setStatus(Jobstatus.CANCELLED);
+				gruppe.setGeaendertAm(LocalDateTime.now());
+
+				mailversandDao.updateMailversandgruppe(gruppe);
+			}
+		}
+
+	}
+
 }

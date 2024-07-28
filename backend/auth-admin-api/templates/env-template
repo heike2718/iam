@@ -66,6 +66,18 @@ QUARKUS_LOG_CATEGORY__ORG_JBOSS_RESTEASY_REACTIVE_CLIENT_LOGGING_DEFAULTCLIENTLO
 QUARKUS_LOG_CATEGORY__ORG_HIBERNATE_SQL__LEVEL=ERROR
 
 #=============================================================================================#
+#        Mail                                                                              #
+#=============================================================================================#
+QUARKUS_MAILER_FROM=ueberschreiben
+QUARKUS_MAILER_HOST=ueberschreiben
+QUARKUS_MAILER_PORT=000
+QUARKUS_MAILER_START_TLS=ueberschreiben
+QUARKUS_MAILER_USERNAME=ueberschreiben
+QUARKUS_MAILER_PASSWORD=ueberschreiben
+QUARKUS_MAILER_BOUNCE_ADDRESS=ueberschreiben
+QUARKUS_MAILER_MOCK=true
+
+#=============================================================================================#
 #        _TEST_                                                                               #
 #=============================================================================================#
 

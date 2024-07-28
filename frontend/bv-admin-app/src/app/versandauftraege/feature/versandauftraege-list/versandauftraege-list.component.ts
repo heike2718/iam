@@ -15,6 +15,9 @@ const ERFASST_AM = 'erfasstAm';
 const STATUS = 'status';
 const ANZAHL_EMPFAENGER = 'anzahlEmpfaenger';
 const ANZAHL_GRUPPEN = 'anzahlGruppen';
+const DETAILS_ACTION = 'details';
+const CANCEL_ACTION = 'cancel';
+const DELETE_ACTION = 'delete'
 
 @Component({
   selector: 'bv-admin-versandauftraege',
@@ -60,7 +63,7 @@ export class VersandauftraegeListComponent implements AfterViewInit, OnDestroy {
   }
 
   getDisplayedColumns(): string[] {
-    return [BETREFF, ERFASST_AM, STATUS, ANZAHL_EMPFAENGER, ANZAHL_GRUPPEN];
+    return [BETREFF, ERFASST_AM, STATUS, ANZAHL_EMPFAENGER, ANZAHL_GRUPPEN, DETAILS_ACTION, CANCEL_ACTION, DELETE_ACTION];
   }
 
   selectVersandauftrag(row: MailversandauftragOverview): void {
@@ -85,9 +88,31 @@ export class VersandauftraegeListComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  cancel(versandauftrag: MailversandauftragOverview): void {
+    const dialogRef = this.confirmDeleteDialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      disableClose: true,
+      data: {
+        title: 'Mailversandauftrag abbrechen',
+        question: 'Bist Du vollkommen sicher, dass Du den Mailversandauftrag "' + versandauftrag.betreff + '" von ' + versandauftrag.erfasstAm + ' abbrechen willst?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.#doCancel(versandauftrag);
+      }
+    });
+  }
+
 
   #doDelete(versandauftrag: MailversandauftragOverview): void {
-    console.log('jetzt löschen: ' + versandauftrag.uuid);
+    this.versandauftraegeFacade.deleteVersandauftrag(versandauftrag);
+  }
+
+  #doCancel(versandauftrag: MailversandauftragOverview): void {
+    this.versandauftraegeFacade.cancelVersandauftrag(versandauftrag);
+
   }
 
 }

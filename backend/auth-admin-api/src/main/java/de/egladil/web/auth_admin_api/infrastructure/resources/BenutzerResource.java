@@ -197,7 +197,7 @@ public class BenutzerResource {
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(
 		operationId = "batchDelete",
-		summary = "Löscht sie durch die uuids definierten Benutzerkonten vollständig aus allen Anwendungen.")
+		summary = "Löscht die durch die uuids definierten Benutzerkonten vollständig aus allen Anwendungen.")
 	@Parameters({
 		@Parameter(
 			in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der gelöscht werden soll",

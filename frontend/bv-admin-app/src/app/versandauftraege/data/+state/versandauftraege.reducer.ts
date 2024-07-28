@@ -1,4 +1,4 @@
-import { MailversandauftragDetails, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetails, sortMailversandauftragOverviewByBetreff } from "@bv-admin-app/versandauftraege/model";
+import { MailversandauftragDetails, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetails, sortMailversandauftragOverviewByDate } from "@bv-admin-app/versandauftraege/model";
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { versandauftraegeActions } from "./versandauftraege.actions";
 import { loggedOutEvent } from "@bv-admin-app/shared/auth/api";
@@ -35,10 +35,10 @@ export const versandauftraegeFeature = createFeature({
                 const theVersandauftrag = action.responsePayload.versandauftrag;
                 const filtered = state.details.filter(v => v.uuid === action.responsePayload.uuid);
 
-                const theExistingVersandazftragInAnArray = state.versandauftraege.filter(v => v.uuid === theVersandauftrag.uuid);
+                const theExistingVersandauftragInAnArray = state.versandauftraege.filter(v => v.uuid === theVersandauftrag.uuid);
 
                 // wenn ich den Versandauftrag nicht gerade gelöscht habe, was dumm wäre, gibt es den Overview!
-                const theChangedOverview = { ...theExistingVersandazftragInAnArray[0], status: theVersandauftrag.status };
+                const theChangedOverview = { ...theExistingVersandauftragInAnArray[0], status: theVersandauftrag.status };
                 const theOtherOverviews = state.versandauftraege.filter(v => v.uuid !== theVersandauftrag.uuid);
                 const theChangedVersandauftraege = [...theOtherOverviews, theChangedOverview];
 
@@ -48,7 +48,7 @@ export const versandauftraegeFeature = createFeature({
                         ...state,
                         selectedVersandauftrag: theVersandauftrag,
                         details: [...state.details, action.responsePayload.versandauftrag],
-                        versandauftraege: sortMailversandauftragOverviewByBetreff(theChangedVersandauftraege)
+                        versandauftraege: sortMailversandauftragOverviewByDate(theChangedVersandauftraege)
                     };
 
                 } else {
@@ -59,7 +59,7 @@ export const versandauftraegeFeature = createFeature({
                         selectedVersandauftrag:
                         theVersandauftrag,
                         details: neueDetails,
-                        versandauftraege: sortMailversandauftragOverviewByBetreff(theChangedVersandauftraege) 
+                        versandauftraege: sortMailversandauftragOverviewByDate(theChangedVersandauftraege) 
                     };
                 }
             } else {
@@ -80,6 +80,11 @@ export const versandauftraegeFeature = createFeature({
             swallowEmptyArgument(_action, false);
             return { ...state, selectedVersandauftrag: undefined }
         }),
+        on(versandauftraegeActions.vERSANDAUFTRAG_DELETED, (state, action) => {
+            const theVersandauftraege = state.versandauftraege.filter(v => v.uuid !== action.responsePayload.uuid);
+
+            return { ...state, selectedVersandauftrag: undefined, versandauftraege: theVersandauftraege }
+        }),
         on(versandauftraegeActions.vERSANDGRUPPE_LOADED, (state, action) => {
 
             if (action.responsePayload.mailversandgruppe) {
@@ -91,7 +96,7 @@ export const versandauftraegeFeature = createFeature({
         on(versandauftraegeActions.vERSANDAUFTRAG_SCHEDULED, (state, action) => {
 
             const theNewVersandauftraege = [...state.versandauftraege, action.versandauftrag];
-            return { ...state, versandauftraege: sortMailversandauftragOverviewByBetreff(theNewVersandauftraege) };
+            return { ...state, versandauftraege: sortMailversandauftragOverviewByDate(theNewVersandauftraege) };
         }),
         on(loggedOutEvent, (_state, _action) => {
             swallowEmptyArgument(_action, false);

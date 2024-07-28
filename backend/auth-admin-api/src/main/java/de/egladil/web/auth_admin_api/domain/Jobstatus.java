@@ -27,6 +27,13 @@ public enum Jobstatus {
 		}
 
 	},
+	CANCELLED {
+		@Override
+		public boolean isCompleted() {
+
+			return true;
+		}
+	},
 	COMPLETED {
 
 		@Override

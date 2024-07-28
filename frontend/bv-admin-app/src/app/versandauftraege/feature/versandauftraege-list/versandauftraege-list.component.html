@@ -65,8 +65,43 @@
             </mat-cell>>
         </ng-container>
 
+        <!-- details action Column -->
+        <ng-container matColumnDef="details">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let versandauftrag">
+                <button mat-button color="primary" (click)="selectVersandauftrag(versandauftrag)"
+                    title="Details anschauen">
+                    <mat-icon>info</mat-icon> Details
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <!-- cancel action Column -->
+        <ng-container matColumnDef="cancel">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let versandauftrag">
+                @if(versandauftrag.status === 'WAITING' || versandauftrag.status === 'IN_PROGRESS') {
+                <button mat-button color="primary" (click)="cancel(versandauftrag)" title="abbrechen">
+                    <mat-icon>cancel</mat-icon> Stopp
+                </button>
+                }
+            </mat-cell>
+        </ng-container>
+
+        <!-- delete action Column -->
+        <ng-container matColumnDef="delete">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let versandauftrag">
+                @if(versandauftrag.status !== 'WAITING' && versandauftrag.status !== 'IN_PROGRESS') {
+                <button mat-button color="warn" (click)="delete(versandauftrag)" title="löschen">
+                    <mat-icon>delete</mat-icon> löschen
+                </button>
+                }
+            </mat-cell>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="selectVersandauftrag(row)"></mat-row>
+        <mat-row *matRowDef="let row; columns: getDisplayedColumns()"></mat-row>
 
     </mat-table>
     }

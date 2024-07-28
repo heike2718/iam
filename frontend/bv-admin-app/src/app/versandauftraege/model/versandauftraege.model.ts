@@ -57,7 +57,7 @@ export interface MailversandauftragDetailsResponseDto {
 }
 
 
-export function sortMailversandauftragOverviewByBetreff(versandauftraege: MailversandauftragOverview[]): MailversandauftragOverview[] {
-    return versandauftraege.slice().sort((a, b) => a.betreff.localeCompare(b.betreff));
+export function sortMailversandauftragOverviewByDate(versandauftraege: MailversandauftragOverview[]): MailversandauftragOverview[] {
+    return versandauftraege.slice().sort((a, b) => b.erfasstAm.localeCompare(a.erfasstAm));
 }
 

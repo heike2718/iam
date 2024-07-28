@@ -24,7 +24,7 @@ import jakarta.persistence.Table;
 @NamedQueries({
 	@NamedQuery(
 		name = "PersistenterMailversandauftragReadOnly.LOAD_ALL",
-		query = "select v from PersistenterMailversandauftragReadOnly v order by v.betreff asc, v.erfasstAm asc, v.uuid"),
+		query = "select v from PersistenterMailversandauftragReadOnly v order by v.erfasstAm desc, v.uuid"),
 	@NamedQuery(
 		name = "PersistenterMailversandauftragReadOnly.FIND_WITH_INFOMAILTEXT_AND_JAHR_MONAT",
 		query = "select v from PersistenterMailversandauftragReadOnly v where v.idInfomailtext = :idInfomailtext and v.versandJahrMonat = :versandJahrMonat order by v.erfasstAm desc, v.uuid"),

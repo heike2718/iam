@@ -1,6 +1,6 @@
 import { SortDirection } from "@angular/material/sort"
 
-export type Jobstatus = 'WAITING' | 'IN_PROGRESS' | 'COMPLETED' | 'ERRORS'
+export type Jobstatus = 'WAITING' | 'CANCELLED' | 'IN_PROGRESS' | 'COMPLETED' | 'ERRORS'
 
 export interface PageDefinition {
     pageSize: number,
@@ -27,6 +27,10 @@ export const initialPaginationState: PaginationState = {
 export interface SortDefinition {
     readonly direction: SortDirection
     readonly active: string
+}
+
+export interface SingleUuidDto {
+    readonly uuid: string;
 }
 
 export interface Benutzer {

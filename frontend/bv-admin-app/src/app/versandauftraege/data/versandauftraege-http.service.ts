@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { MailversandauftragRequestDto } from "@bv-admin-app/shared/model";
+import { MailversandauftragRequestDto, SingleUuidDto } from "@bv-admin-app/shared/model";
 import { Observable } from "rxjs";
 import { MailversandauftragDetailsResponseDto, MailversandauftragOverview, MailversandgruppeDetailsResponseDto } from '@bv-admin-app/versandauftraege/model';
 
@@ -9,16 +9,15 @@ import { MailversandauftragDetailsResponseDto, MailversandauftragOverview, Mailv
 })
 export class VersandauftraegeHttpService {
 
-    #url = '/auth-admin-api/mailversand';
+    #url = '/auth-admin-api/versandauftraege';
     #httpClient = inject(HttpClient);
 
     public loadVersandauftraege(): Observable<MailversandauftragOverview[]> {
-        const theUrl = this.#url + '/auftraege';
-        return this.#httpClient.get<MailversandauftragOverview[]>(theUrl, { headers: new HttpHeaders() });
+        return this.#httpClient.get<MailversandauftragOverview[]>(this.#url, { headers: new HttpHeaders() });
     }
 
     public loadVersandauftragDetails(uuid: string): Observable<MailversandauftragDetailsResponseDto> {
-        const theUrl = this.#url + '/auftraege/' + uuid;
+        const theUrl = this.#url + '/' + uuid;
         return this.#httpClient.get<MailversandauftragDetailsResponseDto>(theUrl, { headers: new HttpHeaders() });
     }
 
@@ -27,9 +26,17 @@ export class VersandauftraegeHttpService {
         return this.#httpClient.get<MailversandgruppeDetailsResponseDto>(theUrl, { headers: new HttpHeaders() });
     }
 
-
     public scheduleVersandauftrag(requestDto: MailversandauftragRequestDto): Observable<MailversandauftragOverview> {
-        const theUrl = this.#url + '/auftraege';
-        return this.#httpClient.post<MailversandauftragOverview>(theUrl, requestDto, { headers: new HttpHeaders() });
+        return this.#httpClient.post<MailversandauftragOverview>(this.#url, requestDto, { headers: new HttpHeaders() });
+    }
+
+    public cancelVersandauftrag(uuid: string): Observable<SingleUuidDto> {
+        const theUrl = this.#url + '/' + uuid + '/cancellation';
+        return this.#httpClient.put<SingleUuidDto>(theUrl, { headers: new HttpHeaders() });
+    }
+
+    public deleteVersandauftrag(uuid: string): Observable<SingleUuidDto> {
+        const theUrl = this.#url + '/' + uuid;
+        return this.#httpClient.delete<SingleUuidDto>(theUrl, { headers: new HttpHeaders() });
     }
 }
