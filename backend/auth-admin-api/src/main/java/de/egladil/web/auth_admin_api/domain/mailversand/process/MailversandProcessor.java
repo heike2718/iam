@@ -60,7 +60,7 @@ public class MailversandProcessor {
 			if (!persistenterMailversandAuftrag.getStatus().isCompleted()) {
 
 				// Es könnte sein, dass es gar keine Gruppe (mehr) gibt. Dann muss der Job auch beendet werden, da sonst ein Job
-				// alle weiteren MAufträge blockiert
+				// alle weiteren Aufträge blockiert
 
 				// normalerweise wird bereits nach dem Versenden geschaut, ob anzahlEmpfaenger == anzahlVersendet und dann beendet,
 				// aber zwischenzeitlich können sich USER in der DB verabschiedet haben und dann ist anzahlVersendet stets kleiner

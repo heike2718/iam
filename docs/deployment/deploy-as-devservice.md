@@ -75,3 +75,23 @@ curl -X 'GET' \
   -H 'accept: */*'
 ----
 
+## Nach Spiegelung auf heikeqs CLIENTS.REDIRECT-URLs anpassen 
+
+[script,sql]
+----
+UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/checklistenapp,heikeqs/checklistenapp/listen', BASE_URL = 'http://heikeqs/checklistenapp' WHERE NAME = 'Checklisten';
+
+UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/profil-app,heikeqs/profil-app/home,heikeqs/profil-app/profil', BASE_URL = 'http://heikeqs/profil-app' WHERE NAME = 'ProfilApp';
+
+UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/mk-admin-app', BASE_URL = 'http://heikeqs/mk-admin-app' WHERE NAME = 'MinikänguruAdmin';
+
+UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/mkv-app,heikeqs/mkv-app/dashboard', BASE_URL = 'http://heikeqs/mkv-app' WHERE NAME = 'MinikänguruApp';
+
+UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/mja-app', BASE_URL = 'http://heikeqs/mja-app/' WHERE NAME = 'Mathe-jung-alt-App';
+
+UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/mja-admin ', BASE_URL = 'http://heikeqs/mja-admin' WHERE NAME = 'Mja-Admin';
+
+UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/bv-admin-app', BASE_URL = 'http://heikeqs/bv-admin-app/' WHERE NAME = 'BV Admin';
+
+```
+
