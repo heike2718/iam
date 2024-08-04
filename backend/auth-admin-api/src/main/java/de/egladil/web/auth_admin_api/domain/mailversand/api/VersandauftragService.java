@@ -232,6 +232,8 @@ public class VersandauftragService {
 		persistenterVersandauftrag.setGeaendertAm(geaendertAm);
 		persistenterVersandauftrag.setVersandJahrMonat(DATE_TIME_FORMATTER_JAHR_MONAT.format(now));
 		persistenterVersandauftrag.setIdInfomailtext(infomailtext.uuid);
+		persistenterVersandauftrag.setBetreff(infomailtext.betreff);
+		persistenterVersandauftrag.setMailtext(infomailtext.mailtext);
 		persistenterVersandauftrag.setStatus(Jobstatus.WAITING);
 
 		String versandauftragUuid = mailversandDao.insertMailversandauftrag(persistenterVersandauftrag);
@@ -338,6 +340,8 @@ public class VersandauftragService {
 		versandauftrag.setAnzahlVersendet(fromDB.getAnzahlVersendet());
 		versandauftrag.setErfasstAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getErfasstAm()));
 		versandauftrag.setIdInfomailtext(fromDB.getIdInfomailtext());
+		versandauftrag.setBetreff(fromDB.betreff);
+		versandauftrag.setMailtext(fromDB.mailtext);
 		versandauftrag.setMailversandgruppen(new ArrayList<>());
 		versandauftrag.setStatus(fromDB.getStatus());
 		versandauftrag.setUuid(fromDB.getUuid());
@@ -400,22 +404,14 @@ public class VersandauftragService {
 
 		SingleUuidDto result = new SingleUuidDto(uuid);
 
-		PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
+		boolean removed = mailversandDao.removeMailversandauftrag(uuid);
 
-		if (fromDB == null) {
+		if (!removed) {
 
 			LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
-			return result;
-
 		}
 
 		return result;
-	}
-
-	@Transactional
-	void doDelete(final PersistenterMailversandauftrag versandauftrag) {
-
-		mailversandDao.removeMailversandauftrag(versandauftrag);
 	}
 
 	public SingleUuidDto mailversandAbbrechen(final String uuid) {

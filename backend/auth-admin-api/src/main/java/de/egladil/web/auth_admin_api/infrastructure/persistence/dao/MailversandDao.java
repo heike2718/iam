@@ -156,9 +156,17 @@ public class MailversandDao {
 	 * @param persistenterMailversandAuftrag
 	 */
 	@Transactional
-	public void removeMailversandauftrag(final PersistenterMailversandauftrag persistenterMailversandAuftrag) {
+	public boolean removeMailversandauftrag(final String uuid) {
+
+		PersistenterMailversandauftrag persistenterMailversandAuftrag = findMailversandauftragByUUID(uuid);
+
+		if (persistenterMailversandAuftrag == null) {
+
+			return false;
+		}
 
 		entityManager.remove(persistenterMailversandAuftrag);
+		return true;
 	}
 
 	public List<PersistenterMailversandauftragReadOnly> findMailversandauftraegeWithInfomailtextAndJahrMonat(final String idInfomailtext, final String versandJahrMonat) {

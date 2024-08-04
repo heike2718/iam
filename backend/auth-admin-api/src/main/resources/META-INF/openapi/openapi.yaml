@@ -961,6 +961,30 @@ components:
           description: ID des gespeicherten Mailtexts und Betreffs
           type: string
           example: 663d1c4e-46b7-4b41-a3cc-c753b8f7148c
+        betreff:
+          description: "Betreff der Mail, die versendet weren wird"
+          maxLength: 100
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          type: string
+        mailtext:
+          description: "Text der Mail, die versendet werden wird"
+          maxLength: 65535
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          type: string
         versandJahrMonat:
           description: Jahr und Monat des Versands im Format YYYY-MM
           type: string

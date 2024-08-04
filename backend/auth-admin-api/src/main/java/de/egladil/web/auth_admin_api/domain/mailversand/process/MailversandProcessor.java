@@ -18,7 +18,6 @@ import de.egladil.web.auth_admin_api.domain.mailversand.api.MailService;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.Mailversandgruppe;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.dao.MailversandDao;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenteMailversandgruppe;
-import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
 import de.egladil.web.auth_admin_api.infrastructure.persistence.entities.PersistenterMailversandauftrag;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -74,20 +73,6 @@ public class MailversandProcessor {
 			return;
 		}
 
-		PersistenterInfomailTextReadOnly persistenterInfomailText = dao
-			.findInfomailtextReadOnlyByID(persistenterMailversandAuftrag.getIdInfomailtext());
-
-		if (persistenterInfomailText == null) {
-
-			// Dieser Zweig ist nicht möglich wegen FK.
-			LOGGER.error(
-				"der Infomailtext {} ist verschwunden. Das ist nicht moeglich wegen FKs. Mailversandauftrag {} wird gelöscht",
-				persistenterMailversandAuftrag.getIdInfomailtext(), persistenterMailversandAuftrag.getUuid());
-
-			dao.removeMailversandauftrag(persistenterMailversandAuftrag);
-			return;
-		}
-
 		if (persistenterMailversandAuftrag.getStatus() == Jobstatus.WAITING) {
 
 			LOGGER.info("starte Mailversandauftrag {}: anzahl Empfänger={}", persistenterMailversandAuftrag.getUuid(),
@@ -107,7 +92,7 @@ public class MailversandProcessor {
 
 			if (!nextMailversandgruppe.getEmpfaengerEmails().isEmpty()) {
 
-				sendeMails(persistenterInfomailText, nextMailversandgruppe);
+				sendeMails(persistenterMailversandAuftrag, nextMailversandgruppe);
 			} else {
 
 				LOGGER.info("Keine aktiven Mailadressen mehr in Mailversandgruppe {}", nextMailversandgruppe.getUuid());
@@ -194,10 +179,11 @@ public class MailversandProcessor {
 		return result;
 	}
 
-	void sendeMails(final PersistenterInfomailTextReadOnly infomailText, final Mailversandgruppe gruppe) {
+	void sendeMails(final PersistenterMailversandauftrag persistenterMailversandAuftrag, final Mailversandgruppe gruppe) {
 
 		AuthAdminMailDto mailDto = new AuthAdminMailDto().withAttachSpammailhinweis(true)
-			.withBccEmpfaenger(gruppe.getEmpfaengerEmails()).withBetreff(infomailText.betreff).withBody(infomailText.mailtext);
+			.withBccEmpfaenger(gruppe.getEmpfaengerEmails()).withBetreff(persistenterMailversandAuftrag.betreff)
+			.withBody(persistenterMailversandAuftrag.mailtext);
 
 		mailService.sendeMail(mailDto);
 

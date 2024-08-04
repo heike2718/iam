@@ -45,6 +45,9 @@ public class PersistenterMailversandauftragReadOnly {
 	@Column(name = "BETREFF")
 	public String betreff;
 
+	@Column(name = "MAILTEXT")
+	public String mailtext;
+
 	@Column(name = "STATUS")
 	@Enumerated(EnumType.STRING)
 	public Jobstatus status;

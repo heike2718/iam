@@ -48,6 +48,12 @@ public class PersistenterMailversandauftrag {
 	@Column(name = "UUID_INFOMAIL_TEXT")
 	private String idInfomailtext;
 
+	@Column(name = "BETREFF")
+	public String betreff;
+
+	@Column(name = "MAILTEXT")
+	public String mailtext;
+
 	@Column(name = "EMPFAENGER_CHECKSUM")
 	private String checksumEmpfaengerIDs;
 
@@ -201,6 +207,26 @@ public class PersistenterMailversandauftrag {
 	public void setAnzahlVersendet(final long anzahlVersendet) {
 
 		this.anzahlVersendet = anzahlVersendet;
+	}
+
+	public String getBetreff() {
+
+		return betreff;
+	}
+
+	public void setBetreff(final String betreff) {
+
+		this.betreff = betreff;
+	}
+
+	public String getMailtext() {
+
+		return mailtext;
+	}
+
+	public void setMailtext(final String mailtext) {
+
+		this.mailtext = mailtext;
 	}
 
 }

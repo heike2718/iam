@@ -11,6 +11,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.egladil.web.auth_admin_api.domain.Jobstatus;
+import de.egladil.web.auth_admin_api.domain.validation.StringLatinConstants;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 /**
  * MailversandauftragDetails
@@ -25,6 +28,18 @@ public class MailversandauftragDetails {
 	@JsonProperty
 	@Schema(description = "ID des gespeicherten Mailtexts und Betreffs", example = "663d1c4e-46b7-4b41-a3cc-c753b8f7148c")
 	private String idInfomailtext;
+
+	@JsonProperty
+	@Schema(description = "Betreff der Mail, die versendet weren wird")
+	@Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP)
+	@Size(max = 100)
+	private String betreff;
+
+	@JsonProperty
+	@Schema(description = "Text der Mail, die versendet werden wird")
+	@Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP)
+	@Size(max = 65535)
+	private String mailtext;
 
 	@JsonProperty
 	@Schema(description = "Jahr und Monat des Versands im Format YYYY-MM")
@@ -173,6 +188,26 @@ public class MailversandauftragDetails {
 	public void setMailversandgruppen(final List<Mailversandgruppe> mailversandgruppen) {
 
 		this.mailversandgruppen = mailversandgruppen;
+	}
+
+	public String getBetreff() {
+
+		return betreff;
+	}
+
+	public void setBetreff(final String betreff) {
+
+		this.betreff = betreff;
+	}
+
+	public String getMailtext() {
+
+		return mailtext;
+	}
+
+	public void setMailtext(final String mailtext) {
+
+		this.mailtext = mailtext;
 	}
 
 }

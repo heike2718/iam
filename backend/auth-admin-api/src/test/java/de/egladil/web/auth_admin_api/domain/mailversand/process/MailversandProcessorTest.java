@@ -62,7 +62,7 @@ public class MailversandProcessorTest {
 		verify(dao, never()).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao, never()).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
 		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao, never()).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService, never()).sendeMail(any(AuthAdminMailDto.class));
 	}
@@ -90,7 +90,7 @@ public class MailversandProcessorTest {
 		verify(dao).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao, never()).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
 		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao, never()).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService, never()).sendeMail(any(AuthAdminMailDto.class));
 	}
@@ -117,7 +117,7 @@ public class MailversandProcessorTest {
 		verify(dao).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao, never()).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
 		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao, never()).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService, never()).sendeMail(any(AuthAdminMailDto.class));
 	}
@@ -144,42 +144,7 @@ public class MailversandProcessorTest {
 		verify(dao, never()).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao, never()).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
 		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
-		verify(dao, never()).findMailversandgruppeByUUID(any(String.class));
-		verify(mailService, never()).sendeMail(any(AuthAdminMailDto.class));
-	}
-
-	@Test
-	void should_removeVersandauftrag_when_noMailvorlage() {
-
-		// Arrange
-		String uuid = "663d1c4e-46b7-4b41-a3cc-c753b8f7148c";
-		String idInfomailtext = "78573dc4-06d7-43f1-9b85-ae79f36c92b7";
-
-		Mailversandgruppe gruppe = new Mailversandgruppe();
-		gruppe.setSortnr(2);
-		gruppe.setStatus(Jobstatus.WAITING);
-
-		PersistenterMailversandauftrag auftrag = new PersistenterMailversandauftrag();
-		auftrag.setStatus(Jobstatus.IN_PROGRESS);
-		auftrag.setUuid(uuid);
-		auftrag.setIdInfomailtext(idInfomailtext);
-
-		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
-		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
-		when(dao.findInfomailtextReadOnlyByID(idInfomailtext)).thenReturn(null);
-		doNothing().when(dao).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
-
-		// Act
-		processor.processMailversandauftrag();
-
-		// Assert
-		verify(dao).findOldestNotCompletedMailversandauftrag();
-		verify(versandgruppenSource).getNextMailversandgruppe(uuid);
-		verify(dao, never()).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
-		verify(dao, never()).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
-		verify(dao).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao, never()).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService, never()).sendeMail(any(AuthAdminMailDto.class));
 	}
@@ -216,7 +181,6 @@ public class MailversandProcessorTest {
 
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
-		when(dao.findInfomailtextReadOnlyByID(idInfomailtext)).thenReturn(infomailtext);
 		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
 		when(dao.updateMailversandauftrag(any(PersistenterMailversandauftrag.class))).thenReturn(auftrag);
 		doNothing().when(mailService).sendeMail(any(AuthAdminMailDto.class));
@@ -229,8 +193,8 @@ public class MailversandProcessorTest {
 		verify(versandgruppenSource).getNextMailversandgruppe(uuid);
 		verify(dao, times(2)).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
-		verify(dao).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService).sendeMail(any(AuthAdminMailDto.class));
 	}
@@ -268,7 +232,6 @@ public class MailversandProcessorTest {
 
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
-		when(dao.findInfomailtextReadOnlyByID(idInfomailtext)).thenReturn(infomailtext);
 		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
 		when(dao.updateMailversandauftrag(any(PersistenterMailversandauftrag.class))).thenReturn(auftrag);
 		doNothing().when(mailService).sendeMail(any(AuthAdminMailDto.class));
@@ -281,8 +244,8 @@ public class MailversandProcessorTest {
 		verify(versandgruppenSource).getNextMailversandgruppe(uuid);
 		verify(dao, times(2)).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
-		verify(dao).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService).sendeMail(any(AuthAdminMailDto.class));
 	}
@@ -320,7 +283,6 @@ public class MailversandProcessorTest {
 
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
-		when(dao.findInfomailtextReadOnlyByID(idInfomailtext)).thenReturn(infomailtext);
 		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
 		when(dao.updateMailversandauftrag(any(PersistenterMailversandauftrag.class))).thenReturn(auftrag);
 		doNothing().when(mailService).sendeMail(any(AuthAdminMailDto.class));
@@ -333,8 +295,8 @@ public class MailversandProcessorTest {
 		verify(versandgruppenSource).getNextMailversandgruppe(uuid);
 		verify(dao).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
-		verify(dao).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService).sendeMail(any(AuthAdminMailDto.class));
 	}
@@ -372,7 +334,6 @@ public class MailversandProcessorTest {
 
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
-		when(dao.findInfomailtextReadOnlyByID(idInfomailtext)).thenReturn(infomailtext);
 		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
 		when(dao.updateMailversandauftrag(any(PersistenterMailversandauftrag.class))).thenReturn(auftrag);
 		doNothing().when(mailService).sendeMail(any(AuthAdminMailDto.class));
@@ -387,8 +348,8 @@ public class MailversandProcessorTest {
 		verify(versandgruppenSource).getNextMailversandgruppe(uuid);
 		verify(dao).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
-		verify(dao).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService).sendeMail(any(AuthAdminMailDto.class));
 	}
@@ -426,7 +387,6 @@ public class MailversandProcessorTest {
 
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
-		when(dao.findInfomailtextReadOnlyByID(idInfomailtext)).thenReturn(infomailtext);
 		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
 		when(dao.updateMailversandauftrag(any(PersistenterMailversandauftrag.class))).thenReturn(auftrag);
 
@@ -440,8 +400,8 @@ public class MailversandProcessorTest {
 		verify(versandgruppenSource).getNextMailversandgruppe(uuid);
 		verify(dao).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
-		verify(dao).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService).sendeMail(any(AuthAdminMailDto.class));
 	}
@@ -478,7 +438,6 @@ public class MailversandProcessorTest {
 
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
-		when(dao.findInfomailtextReadOnlyByID(idInfomailtext)).thenReturn(infomailtext);
 		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
 		when(dao.updateMailversandauftrag(any(PersistenterMailversandauftrag.class))).thenReturn(auftrag);
 		doNothing().when(mailService).sendeMail(any(AuthAdminMailDto.class));
@@ -491,8 +450,8 @@ public class MailversandProcessorTest {
 		verify(versandgruppenSource).getNextMailversandgruppe(uuid);
 		verify(dao, times(2)).updateMailversandauftrag(any(PersistenterMailversandauftrag.class));
 		verify(dao).updateMailversandgruppe(any(PersistenteMailversandgruppe.class));
-		verify(dao).findInfomailtextReadOnlyByID(any(String.class));
-		verify(dao, never()).removeMailversandauftrag(any(PersistenterMailversandauftrag.class));
+		verify(dao, never()).findInfomailtextReadOnlyByID(any(String.class));
+		verify(dao, never()).removeMailversandauftrag(any(String.class));
 		verify(dao).findMailversandgruppeByUUID(any(String.class));
 		verify(mailService, never()).sendeMail(any(AuthAdminMailDto.class));
 	}

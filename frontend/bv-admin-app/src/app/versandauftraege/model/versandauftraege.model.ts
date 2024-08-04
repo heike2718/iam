@@ -36,6 +36,8 @@ export interface MailversandauftragOverview {
 export interface MailversandauftragDetails {
     readonly uuid: string;
     readonly idInfomailtext: string;
+    readonly betreff: string;
+    readonly mailtext: string;
     readonly versandJahrMonat: string;
     readonly status: Jobstatus;
     readonly erfasstAm: string;
