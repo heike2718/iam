@@ -1,1 +1,9 @@
-Stand 28.07.2024: Frontend zum Löschen von Versandaufträgen funktioniert bereits, aber backend löscht noch nicht
+Stand 25.08.2024:
+
+- Benutzer aus Mailversandgruppe löschen funktioniert im Backend noch nicht. Die RequestPayload ist irgendwie leer und das löst id to load is required for loading: java.lang.IllegalArgumentException: id to load is required for loading im entityManager aus.
+
+
+
+Stand 28.07.2024: 
+
+/ Frontend zum Löschen von Versandaufträgen funktioniert bereits, aber backend löscht noch nicht 

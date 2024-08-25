@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { DeleteMailversandauftragResponseDto, MailversandauftragDetails, MailversandauftragDetailsResponseDto, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetailsResponseDto } from '@bv-admin-app/versandauftraege/model';
-import { MailversandauftragRequestDto } from "@bv-admin-app/shared/model";
+import { DeleteMailversandauftragResponseDto, MailversandauftragDetails, MailversandauftragDetailsResponseDto, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetails, MailversandgruppeDetailsResponseDto } from '@bv-admin-app/versandauftraege/model';
+import { Benutzer, MailversandauftragRequestDto } from "@bv-admin-app/shared/model";
 
 export const versandauftraegeActions = createActionGroup({
     source: 'versandauftraege',
@@ -17,6 +17,8 @@ export const versandauftraegeActions = createActionGroup({
         'DELETE_VERSANDAUFTRAG': props<{uuid: string}>(),
         'VERSANDAUFTRAG_DELETED': props<{responsePayload: DeleteMailversandauftragResponseDto}>(),
         'LOAD_VERSANDGRUPPE': props<{uuid: string}>(),
-        'VERSANDGRUPPE_LOADED': props<{responsePayload: MailversandgruppeDetailsResponseDto}>()
+        'VERSANDGRUPPE_LOADED': props<{responsePayload: MailversandgruppeDetailsResponseDto}>(),
+        'VERSANDGRUPPE_SPEICHERN': props<{mailversandgruppe: MailversandgruppeDetails}>(),
+        'VERSANDGRUPPE_BENUTZER_ENTFERNEN': props<{benutzer: Benutzer, mailversandgruppe: MailversandgruppeDetails}>()
     }
 })

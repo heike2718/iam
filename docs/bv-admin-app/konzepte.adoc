@@ -1,0 +1,13 @@
+== Fachliche und technische Konzepte
+
+=== Umgang mit Mailversandaufträgen
+
+Momentan können Details eines Mailversandauftrags angezeigt werden. Die Mailversandgruppen werden dabei mit Status als Tabelle agezeigt.
+
+Interessant sind die Gruppen mit Status ERRORS und CANCELLED, denn diese möchte man vermutlich nochmals losschicken.
+
+Bei den Gruppen mit ERRORS sind die Benutzer gekennzeichnet, die die Mail nicht erhalten haben können. Diese sollte man also am besten aus der Gruppe entfernen können, so dass eine Gruppe mit korrekten Mailadressen übrig bleibt. Nach dem Entfernen könnte man der Gruppe den Status CANCELLED geben und dann eine Aktion zum Fortsetzen des Mailversands vorsehen.
+
+Also: in der Detailansicht einer Versandgruppe einen Button "aus  Gruppe löschen" in jeder Row vorsehen. Das kann gleich im Backend getan werden. Nachdem (per Augenschein) festgestellt ist, dass die Gruppe aus vernünftigen Mailadressen besteht, sollte die ganze Gruppe in den Status CANCELLED versetzt werden.
+
+In der Detailansicht des Veranstalters Action "Fortsetzen". Dann setzt das Backend alle Gruppen mit CANCELLED auf WAITING und den Versandauftrag auf IN_PROGRESS.

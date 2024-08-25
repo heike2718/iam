@@ -4,7 +4,7 @@
 
     <h1>Mailversandauftrag</h1>
 
-    <div class="details-container mt-2 mb-2">
+    <div class="details-container mt-2 mb-5">
         <div class="subtitle">UUID:</div>
         <div>{{versandauftrag.uuid}}</div>
 
@@ -59,8 +59,8 @@
             <mat-cell *matCellDef="let gruppe"> {{ gruppe.empfaengerUUIDs.length }} </mat-cell>
         </ng-container>
 
-        <!-- Action Column -->
-        <ng-container matColumnDef="action">
+        <!-- Action Column details-->
+        <ng-container matColumnDef="detailsAction">
             <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
             <mat-cell *matCellDef="let gruppe">
                 <button mat-button color="primary" (click)="showDetails(gruppe)" title="Details anschauen">

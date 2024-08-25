@@ -98,6 +98,14 @@ export class VersandauftraegeEffects {
         );
     });
 
+    saveVersandgruppe$ = createEffect(() => {
+        return this.#actions.pipe(
+            ofType(versandauftraegeActions.vERSANDGRUPPE_SPEICHERN),
+            switchMap((action) => this.#httpService.updateMailversandgruppe(action.mailversandgruppe)),
+            map((responsePayload) => versandauftraegeActions.vERSANDGRUPPE_LOADED({ responsePayload }))
+        );
+    });
+
     versandgruppeDetailsLoaded$ = createEffect(() =>
 
         this.#actions.pipe(

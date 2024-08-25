@@ -20,6 +20,7 @@ import de.egladil.web.auth_admin_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragDetailsResponseDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragOverview;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandauftragRequestDto;
+import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandgruppeDetails;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.MailversandgruppeDetailsResponseDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.SingleUuidDto;
 import de.egladil.web.auth_admin_api.domain.mailversand.api.VersandauftragService;
@@ -322,12 +323,65 @@ public class VersandauftraegeResource {
 		responseCode = "500", content = @Content(
 			mediaType = "application/json",
 			schema = @Schema(implementation = MessagePayload.class)))
-	public Response versandauftragAbbrechen(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
+	public Response versandauftragAbbrechen(@PathParam(
 		value = "uuid") @Pattern(
 			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
 				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
 
 		SingleUuidDto responsePayload = versandauftragService.mailversandAbbrechen(uuid);
 		return Response.status(200).entity(responsePayload).build();
+	}
+
+	@PUT
+	@Path("gruppen/{uuid}")
+	@RolesAllowed({ "AUTH_ADMIN" })
+	@Operation(
+		operationId = "versandgruppeAendern",
+		summary = "Überschreibt die Daten der gegebenen Mailversandgruppe.")
+	@Parameters({
+		@Parameter(
+			in = ParameterIn.PATH, name = "uuid", description = "UUID der Mailversandgruppe",
+			example = "f8d11b4a-72df-4a05-ad76-ce3392a02438", required = true)
+	})
+	@APIResponse(
+		name = "OKResponse",
+		responseCode = "200",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MailversandgruppeDetailsResponseDto.class)))
+	@APIResponse(
+		name = "BadRequest",
+		responseCode = "400",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(
+		name = "NotAuthorized",
+		responseCode = "401",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "Forbidden",
+		description = "kann auch vorkommen, wenn mod_security zuschlägt",
+		responseCode = "403",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "ServerError",
+		description = "server error",
+		responseCode = "500", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MessagePayload.class)))
+	public Response versandgruppeAendern(@PathParam(value = "uuidAuftrag") @Pattern(
+		regexp = "^[abcdef\\d\\-]*$", message = "uuidAuftrag enthält ungültige Zeichen") @Size(
+			max = 36, message = "uuidAuftrag zu lang (max. 36 Zeichen)") final String uuidAuftrag, @PathParam(
+				value = "uuid") @Pattern(
+					regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
+						max = 36,
+						message = "uuid zu lang (max. 36 Zeichen)") final String uuidGruppe, @Valid final MailversandgruppeDetails gruppe) {
+
+		MailversandgruppeDetailsResponseDto responsePayload = versandauftragService.mailversandgruppeAendern(gruppe);
+
+		return Response.ok(responsePayload).build();
 	}
 }

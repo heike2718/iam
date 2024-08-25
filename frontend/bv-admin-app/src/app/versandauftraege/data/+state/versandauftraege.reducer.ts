@@ -3,6 +3,7 @@ import { createFeature, createReducer, on } from "@ngrx/store";
 import { versandauftraegeActions } from "./versandauftraege.actions";
 import { loggedOutEvent } from "@bv-admin-app/shared/auth/api";
 import { swallowEmptyArgument } from "@bv-admin-app/shared/util";
+import { Benutzer } from "@bv-admin-app/shared/model";
 
 
 export interface VersandauftraegeState {
@@ -55,21 +56,23 @@ export const versandauftraegeFeature = createFeature({
                     const alteDetials = state.details.filter(v => v.uuid !== action.responsePayload.uuid);
                     const neueDetails = [...alteDetials, theVersandauftrag];
 
-                    return { ...state,
+                    return {
+                        ...state,
                         selectedVersandauftrag:
-                        theVersandauftrag,
+                            theVersandauftrag,
                         details: neueDetails,
-                        versandauftraege: sortMailversandauftragOverviewByDate(theChangedVersandauftraege) 
+                        versandauftraege: sortMailversandauftragOverviewByDate(theChangedVersandauftraege)
                     };
                 }
             } else {
 
                 const neueDetails = state.details.filter(v => v.uuid !== action.responsePayload.uuid);
                 const neueVersandauftraege = state.versandauftraege.filter(v => v.uuid !== action.responsePayload.uuid);
-                return { ...state,
+                return {
+                    ...state,
                     versandauftraege: neueVersandauftraege,
                     details: neueDetails,
-                    selectedVersandauftrag: undefined 
+                    selectedVersandauftrag: undefined
                 };
             }
         }),
@@ -88,10 +91,22 @@ export const versandauftraegeFeature = createFeature({
         on(versandauftraegeActions.vERSANDGRUPPE_LOADED, (state, action) => {
 
             if (action.responsePayload.mailversandgruppe) {
-                return {...state, selectedMailversandgruppe: action.responsePayload.mailversandgruppe};
+                return { ...state, selectedMailversandgruppe: action.responsePayload.mailversandgruppe };
             }
 
             return { ...state, selectedMailversandgruppe: undefined }
+        }),
+        on(versandauftraegeActions.vERSANDGRUPPE_BENUTZER_ENTFERNEN, (state, action) => {
+
+            const versandgruppe: MailversandgruppeDetails = action.mailversandgruppe;
+
+            if (state.selectedMailversandgruppe === undefined || state.selectedMailversandgruppe.uuid !== versandgruppe.uuid) {
+                return { ...state };
+            }
+
+            const removedBenutzer: Benutzer = action.benutzer;
+            const remainingBenutzers: Benutzer[] = state.selectedMailversandgruppe.benutzer.filter(b => b.uuid !== removedBenutzer.uuid);
+            return { ...state, selectedMailversandgruppe: { ...state.selectedMailversandgruppe, benutzer: remainingBenutzers } };
         }),
         on(versandauftraegeActions.vERSANDAUFTRAG_SCHEDULED, (state, action) => {
 
@@ -101,7 +116,8 @@ export const versandauftraegeFeature = createFeature({
         on(loggedOutEvent, (_state, _action) => {
             swallowEmptyArgument(_action, false);
             return initialVersandauftraegeState;
-        })
+        }),
+
     )
 })
 

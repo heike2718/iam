@@ -170,12 +170,8 @@ public class VersandauftragService {
 			String message = "benutzerIds waren leer. Mindestens 1 Empfänger wird benötigt.";
 			LOGGER.error(message, requestDto.getIdInfomailtext());
 
-			try (Response response = Response.status(412)
-				.entity(MessagePayload.error(message)).build()) {
-
-				throw new WebApplicationException(response);
-
-			}
+			Response response = Response.status(412).entity(MessagePayload.error(message)).build();
+			throw new WebApplicationException(response);
 		}
 
 		PersistenterInfomailTextReadOnly infomailtext = mailversandDao.findInfomailtextReadOnlyByID(requestDto.getIdInfomailtext());
@@ -184,12 +180,9 @@ public class VersandauftragService {
 
 			LOGGER.error("Infomailtext mit UUID={} existiert nicht oder nicht mehr", requestDto.getIdInfomailtext());
 
-			try (Response response = Response.status(412)
-				.entity(MessagePayload.error("kein Infomailtext mit der gegebenen UUID vorhanden")).build()) {
-
-				throw new WebApplicationException(response);
-
-			}
+			Response response = Response.status(412)
+				.entity(MessagePayload.error("kein Infomailtext mit der gegebenen UUID vorhanden")).build();
+			throw new WebApplicationException(response);
 		}
 
 		String checksum = calculateChecksum(requestDto.getBenutzerUUIDs());
@@ -453,6 +446,33 @@ public class VersandauftragService {
 			}
 		}
 
+	}
+
+	/**
+	 * @param  versandgruppe
+	 * @return               Mailversandgruppe
+	 */
+	public MailversandgruppeDetailsResponseDto mailversandgruppeAendern(final MailversandgruppeDetails versandgruppe) {
+
+		PersistenteMailversandgruppe ausDB = mailversandDao.findMailversandgruppeByUUID(versandgruppe.getUuid());
+
+		if (ausDB == null) {
+
+			String message = "mailversandgruppe mit UUID [" + versandgruppe.getUuid() + "] existiert nicht.";
+			LOGGER.error(message);
+
+			Response response = Response.status(404).entity(MessagePayload.error(message)).build();
+			throw new WebApplicationException(response);
+		}
+
+		List<String> empfaengerUUIds = versandgruppe.getBenutzer().stream().map(b -> b.getUuid()).toList();
+
+		ausDB.setEmpfaengerUUIDs(StringUtils.join(empfaengerUUIds, ","));
+		ausDB.setStatus(versandgruppe.getStatus());
+		ausDB.setGeaendertAm(LocalDateTime.now());
+		PersistenteMailversandgruppe gespeicherte = mailversandDao.updateMailversandgruppe(ausDB);
+
+		return detailsMailversandgruppeLaden(gespeicherte.getUuid());
 	}
 
 }

@@ -28,7 +28,7 @@ export class VersandauftragDetailsComponent {
 
     versandauftraegeFacade = inject(VersandauftraegeFacade);
 
-    versandgruppenDisplayedColumns: string[] = ['sortnr', 'status', 'aenderungsdatum', 'anzahlEmpfaenger', 'action'];
+    versandgruppenDisplayedColumns: string[] = ['sortnr', 'status', 'aenderungsdatum', 'anzahlEmpfaenger', 'detailsAction'];
 
     constructor(public confirmDeleteDialog: MatDialog) {
     }

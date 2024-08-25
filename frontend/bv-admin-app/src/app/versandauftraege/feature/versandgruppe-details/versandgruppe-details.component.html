@@ -95,6 +95,18 @@
             </mat-cell>>
         </ng-container>
 
+        <!-- Action Column removeFromGroup -->
+        <ng-container matColumnDef="removeFromGroup">
+            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                <button mat-button color="primary" (click)="benutzerEntfernen(benutzer, gruppe)"
+                    title="Benutzer aus der Gruppe entfernen">
+                    <mat-icon>delete</mat-icon> weg
+                </button>
+            </mat-cell>
+        </ng-container>
+
+
         <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
         <mat-row *matRowDef="let row; columns: getDisplayedColumns()"
             [ngClass]="{'bg-beige': !row.aktiviert}"></mat-row>
@@ -103,6 +115,8 @@
     <div class="button-container">
         <button mat-raised-button color="primary" class="action-button" (click)="refresh(gruppe)"
             [disabled]="btnRefreshDisabled(gruppe)" title="neu Laden">aktualisieren</button>
+        <button mat-raised-button (click)="saveGruppe(gruppe)"
+            title="Änderungen speichern">speichern</button>
     </div>
 
     } @else {

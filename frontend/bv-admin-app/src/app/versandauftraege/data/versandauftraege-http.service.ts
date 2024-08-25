@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { MailversandauftragRequestDto, SingleUuidDto } from "@bv-admin-app/shared/model";
 import { Observable } from "rxjs";
-import { MailversandauftragDetailsResponseDto, MailversandauftragOverview, MailversandgruppeDetailsResponseDto } from '@bv-admin-app/versandauftraege/model';
+import { MailversandauftragDetailsResponseDto, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetails, MailversandgruppeDetailsResponseDto } from '@bv-admin-app/versandauftraege/model';
 
 @Injectable({
     providedIn: 'root'
@@ -38,5 +38,10 @@ export class VersandauftraegeHttpService {
     public deleteVersandauftrag(uuid: string): Observable<SingleUuidDto> {
         const theUrl = this.#url + '/' + uuid;
         return this.#httpClient.delete<SingleUuidDto>(theUrl, { headers: new HttpHeaders() });
+    }
+
+    public updateMailversandgruppe(mailversandgruppe: MailversandgruppeDetails): Observable<MailversandgruppeDetailsResponseDto> {
+        const theUrl = this.#url + '/gruppen/' + mailversandgruppe.uuid;
+        return this.#httpClient.put<MailversandgruppeDetailsResponseDto>(theUrl, { headers: new HttpHeaders() });
     }
 }

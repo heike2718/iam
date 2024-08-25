@@ -3,7 +3,7 @@ import { Observable, Subscription, take } from "rxjs";
 import { MailversandauftragDetails, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetails } from '@bv-admin-app/versandauftraege/model';
 import { select, Store } from "@ngrx/store";
 import { fromVersandauftraege, versandauftraegeActions } from '@bv-admin-app/versandauftraege/data';
-import { MailversandauftragRequestDto, Infomail } from "@bv-admin-app/shared/model";
+import { MailversandauftragRequestDto, Infomail, Benutzer } from "@bv-admin-app/shared/model";
 
 @Injectable(
     { providedIn: 'root' }
@@ -77,7 +77,17 @@ export class VersandauftraegeFacade {
     public loadMailversandgruppe(uuid: string): void {
 
         this.#store.dispatch(versandauftraegeActions.lOAD_VERSANDGRUPPE({uuid}));
-    }    
+    }   
+    
+    public updateMailversandgruppe(mailversandgruppe: MailversandgruppeDetails): void {
+
+        this.#store.dispatch(versandauftraegeActions.vERSANDGRUPPE_SPEICHERN({mailversandgruppe: mailversandgruppe}));
+    }
+
+    public removeBenutzerFromMailversandgruppe(benutzer: Benutzer, mailversandgruppe: MailversandgruppeDetails): void {
+
+        this.#store.dispatch(versandauftraegeActions.vERSANDGRUPPE_BENUTZER_ENTFERNEN({benutzer, mailversandgruppe}));
+    }
 
     #loadDetails(uuid: string): void {
         this.#store.dispatch(versandauftraegeActions.lOAD_VERSANDAUFTRAG_DETAILS({ uuid }));
