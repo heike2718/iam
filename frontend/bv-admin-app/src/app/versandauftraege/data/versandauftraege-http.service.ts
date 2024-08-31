@@ -42,6 +42,6 @@ export class VersandauftraegeHttpService {
 
     public updateMailversandgruppe(mailversandgruppe: MailversandgruppeDetails): Observable<MailversandgruppeDetailsResponseDto> {
         const theUrl = this.#url + '/gruppen/' + mailversandgruppe.uuid;
-        return this.#httpClient.put<MailversandgruppeDetailsResponseDto>(theUrl, { headers: new HttpHeaders() });
+        return this.#httpClient.put<MailversandgruppeDetailsResponseDto>(theUrl, mailversandgruppe, { headers: new HttpHeaders() });
     }
 }

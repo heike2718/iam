@@ -10,4 +10,14 @@ Bei den Gruppen mit ERRORS sind die Benutzer gekennzeichnet, die die Mail nicht 
 
 Also: in der Detailansicht einer Versandgruppe einen Button "aus  Gruppe löschen" in jeder Row vorsehen. Das kann gleich im Backend getan werden. Nachdem (per Augenschein) festgestellt ist, dass die Gruppe aus vernünftigen Mailadressen besteht, sollte die ganze Gruppe in den Status CANCELLED versetzt werden.
 
-In der Detailansicht des Veranstalters Action "Fortsetzen". Dann setzt das Backend alle Gruppen mit CANCELLED auf WAITING und den Versandauftrag auf IN_PROGRESS.
+Ändern nur im Status CANCELLED, WAITING oder ERROR möglich. PROGRESS: dann kann man nicht mehr eingreifen, COMPLETED, dann wurde die Mail an alle versendet.
+
+In der Detailansicht des Versandauftrags Action "Fortsetzen". Dann setzt das Backend alle Gruppen mit CANCELLED auf WAITING und den Versandauftrag auf IN_PROGRESS.
+
+
+
+=== Mailversandgruppen
+
+Navigation zum Mailversandauftrag
+
+
