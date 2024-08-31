@@ -57,5 +57,9 @@ export class VersandauftragDetailsComponent {
         this.versandauftraegeFacade.loadMailversandgruppe(gruppe.uuid);
     }
 
+    goBack(): void {
+        this.versandauftraegeFacade.unselectVersandauftrag();
+    }
+
     
 }

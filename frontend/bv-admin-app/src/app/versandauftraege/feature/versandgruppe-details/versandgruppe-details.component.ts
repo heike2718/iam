@@ -68,4 +68,13 @@ export class VersandgruppeDetailsComponent {
         this.versandauftraegeFacade.removeBenutzerFromMailversandgruppe(benutzer, gruppe);
     }
 
+    isGruppeAenderbar(gruppe: MailversandgruppeDetails): boolean {
+
+        return gruppe.status === "CANCELLED" || gruppe.status === "ERRORS" || gruppe.status === "WAITING";
+    }
+
+    goBack(): void {
+        this.versandauftraegeFacade.unselectVersandgruppe();
+    }
+
 }

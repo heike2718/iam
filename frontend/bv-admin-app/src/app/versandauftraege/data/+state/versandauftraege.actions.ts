@@ -18,6 +18,7 @@ export const versandauftraegeActions = createActionGroup({
         'VERSANDAUFTRAG_DELETED': props<{responsePayload: DeleteMailversandauftragResponseDto}>(),
         'LOAD_VERSANDGRUPPE': props<{uuid: string}>(),
         'VERSANDGRUPPE_LOADED': props<{responsePayload: MailversandgruppeDetailsResponseDto}>(),
+        'UNSELECT_VERSANDGRUPPE': emptyProps(),
         'VERSANDGRUPPE_SPEICHERN': props<{mailversandgruppe: MailversandgruppeDetails}>(),
         'VERSANDGRUPPE_BENUTZER_ENTFERNEN': props<{benutzer: Benutzer, mailversandgruppe: MailversandgruppeDetails}>()
     }

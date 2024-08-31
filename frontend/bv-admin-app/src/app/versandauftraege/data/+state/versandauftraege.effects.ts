@@ -72,7 +72,7 @@ export class VersandauftraegeEffects {
             map((responsePayload) => versandauftraegeActions.lOAD_VERSANDAUFTRAG_DETAILS({ uuid: responsePayload.uuid }))
         );
     });
-    
+
     deleteVersandauftrag$ = createEffect(() => {
         return this.#actions.pipe(
             ofType(versandauftraegeActions.dELETE_VERSANDAUFTRAG),
@@ -114,7 +114,25 @@ export class VersandauftraegeEffects {
                 if (action.responsePayload.mailversandgruppe) {
                     this.#router.navigateByUrl('/versandauftraege/gruppe');
                 }
-            })            
+            })
+        ), { dispatch: false });
+
+    unselectVersandauftrag$ = createEffect(() =>
+
+        this.#actions.pipe(
+            ofType(versandauftraegeActions.uNSELECT_VERSANDAUFTRAG),
+            tap(() => {
+                this.#router.navigateByUrl('/versandauftraege');
+            })
+        ), { dispatch: false });
+
+    unselectVersandgruppe$ = createEffect(() =>
+
+        this.#actions.pipe(
+            ofType(versandauftraegeActions.uNSELECT_VERSANDGRUPPE),
+            tap(() => {
+                this.#router.navigateByUrl('/versandauftraege/details');
+            })
         ), { dispatch: false });
 
 }

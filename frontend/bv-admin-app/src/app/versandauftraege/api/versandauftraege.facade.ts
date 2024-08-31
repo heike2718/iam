@@ -89,6 +89,14 @@ export class VersandauftraegeFacade {
         this.#store.dispatch(versandauftraegeActions.vERSANDGRUPPE_BENUTZER_ENTFERNEN({benutzer, mailversandgruppe}));
     }
 
+    public unselectVersandauftrag(): void {
+        this.#store.dispatch(versandauftraegeActions.uNSELECT_VERSANDAUFTRAG());
+    }
+
+    public unselectVersandgruppe(): void {
+        this.#store.dispatch(versandauftraegeActions.uNSELECT_VERSANDGRUPPE());
+    }
+
     #loadDetails(uuid: string): void {
         this.#store.dispatch(versandauftraegeActions.lOAD_VERSANDAUFTRAG_DETAILS({ uuid }));
     }

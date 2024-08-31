@@ -108,6 +108,9 @@ export const versandauftraegeFeature = createFeature({
             const remainingBenutzers: Benutzer[] = state.selectedMailversandgruppe.benutzer.filter(b => b.uuid !== removedBenutzer.uuid);
             return { ...state, selectedMailversandgruppe: { ...state.selectedMailversandgruppe, benutzer: remainingBenutzers } };
         }),
+        on(versandauftraegeActions.uNSELECT_VERSANDGRUPPE, (state, _action) => {
+            return {...state, selectedMailversandgruppe: undefined};
+        }),
         on(versandauftraegeActions.vERSANDAUFTRAG_SCHEDULED, (state, action) => {
 
             const theNewVersandauftraege = [...state.versandauftraege, action.versandauftrag];
