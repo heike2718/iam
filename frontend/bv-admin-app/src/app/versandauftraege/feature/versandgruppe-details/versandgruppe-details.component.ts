@@ -73,6 +73,22 @@ export class VersandgruppeDetailsComponent {
         return gruppe.status === "CANCELLED" || gruppe.status === "ERRORS" || gruppe.status === "WAITING";
     }
 
+    statusZuruecksetzen(gruppe: MailversandgruppeDetails): void {
+
+        if (gruppe.status === "CANCELLED") {
+            return;
+        }
+
+        if (this.isGruppeAenderbar(gruppe)) {
+
+            const zuSpeicherndeGruppe: MailversandgruppeDetails = {
+                ...gruppe,
+                status: "CANCELLED"
+            };
+            this.versandauftraegeFacade.updateMailversandgruppe(zuSpeicherndeGruppe);
+        }
+    }
+
     goBack(): void {
         this.versandauftraegeFacade.unselectVersandgruppe();
     }

@@ -107,12 +107,12 @@
             </mat-cell>
         </ng-container>
         } @else {
-            <ng-container matColumnDef="removeFromGroup">
-                <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-                <mat-cell *matCellDef="let benutzer">
-                    <mat-icon>block</mat-icon>
-                </mat-cell>
-            </ng-container>
+        <ng-container matColumnDef="removeFromGroup">
+            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                <mat-icon>block</mat-icon>
+            </mat-cell>
+        </ng-container>
         }
 
 
@@ -126,6 +126,12 @@
             title="zurück zum Versandauftrag">Versandauftrag</button>
         <button mat-raised-button color="primary" class="action-button" (click)="refresh(gruppe)"
             [disabled]="btnRefreshDisabled(gruppe)" title="neu Laden">aktualisieren</button>
+
+        @if(isGruppeAenderbar(gruppe) && gruppe.status !== "CANCELLED") {
+        <button mat-raised-button color="primary" (click)="statusZuruecksetzen(gruppe)"
+            title="zurücksetzen auf CANCELLED">Status zurücksetzen</button>
+        }
+
         <button mat-raised-button color="primary" (click)="saveGruppe(gruppe)"
             title="Änderungen speichern">speichern</button>
     </div>
