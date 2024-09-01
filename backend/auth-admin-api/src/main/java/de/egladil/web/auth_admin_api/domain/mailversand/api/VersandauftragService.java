@@ -449,6 +449,50 @@ public class VersandauftragService {
 	}
 
 	/**
+	 * Versetzt alle Mailversandgruppen mit Status CANCELLED zurück in WAITING
+	 *
+	 * @param  uuid
+	 *              String die uuid des Versandauftrags
+	 * @return      MailversandauftragOverview
+	 */
+	public SingleUuidDto mailversandFortsetzen(final String uuid) {
+
+		PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
+
+		if (fromDB == null) {
+
+			LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
+			throw new WebApplicationException(404);
+
+		}
+
+		List<PersistenteMailversandgruppe> versandgruppen = mailversandDao.findAllMailversandgruppenWithVersandauftragUUID(uuid);
+
+		doResetVersandauftrag(fromDB, versandgruppen);
+		LOGGER.info("Versandauftrag {} wird fortgesetzt", fromDB.getUuid());
+		return new SingleUuidDto(uuid);
+	}
+
+	@Transactional
+	void doResetVersandauftrag(final PersistenterMailversandauftrag versandauftrag, final List<PersistenteMailversandgruppe> versandgruppen) {
+
+		for (PersistenteMailversandgruppe gruppe : versandgruppen) {
+
+			if (gruppe.getStatus() == Jobstatus.CANCELLED) {
+
+				gruppe.setStatus(Jobstatus.WAITING);
+				mailversandDao.updateMailversandgruppe(gruppe);
+			}
+		}
+
+		versandauftrag.setStatus(Jobstatus.WAITING);
+		versandauftrag.setVersandBegonnenAm(null);
+		versandauftrag.setVersandBeendetAm(null);
+		versandauftrag.setVersandMitFehlern(false);
+		mailversandDao.updateMailversandauftrag(versandauftrag);
+	}
+
+	/**
 	 * @param  versandgruppe
 	 * @return               Mailversandgruppe
 	 */

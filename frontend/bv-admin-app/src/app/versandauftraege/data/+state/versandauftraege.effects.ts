@@ -73,6 +73,14 @@ export class VersandauftraegeEffects {
         );
     });
 
+    continueVersandauftrag$ = createEffect(() => {
+        return this.#actions.pipe(
+            ofType(versandauftraegeActions.cONTINUE_VERSANDAUFTRAG),
+            switchMap((action) => this.#httpService.continueVersandauftrag(action.uuid)),
+            map((responsePayload) => versandauftraegeActions.lOAD_VERSANDAUFTRAG_DETAILS({ uuid: responsePayload.uuid }))
+        );
+    });
+
     deleteVersandauftrag$ = createEffect(() => {
         return this.#actions.pipe(
             ofType(versandauftraegeActions.dELETE_VERSANDAUFTRAG),

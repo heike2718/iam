@@ -61,5 +61,9 @@ export class VersandauftragDetailsComponent {
         this.versandauftraegeFacade.unselectVersandauftrag();
     }
 
+    continue(versandauftrag: MailversandauftragDetails): void {
+        this.versandauftraegeFacade.continueVersandauftrag(versandauftrag);
+    }
+
     
 }

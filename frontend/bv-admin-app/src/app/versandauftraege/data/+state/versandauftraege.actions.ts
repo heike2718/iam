@@ -14,6 +14,7 @@ export const versandauftraegeActions = createActionGroup({
         'SCHEDULE_VERSANDAUFTRAG': props<{requestDto: MailversandauftragRequestDto}>(),
         'VERSANDAUFTRAG_SCHEDULED': props<{versandauftrag: MailversandauftragOverview}>(),
         'CANCEL_VERSANDAUFTRAG': props<{uuid: string}>(),
+        'CONTINUE_VERSANDAUFTRAG': props<{uuid: string}>(),
         'DELETE_VERSANDAUFTRAG': props<{uuid: string}>(),
         'VERSANDAUFTRAG_DELETED': props<{responsePayload: DeleteMailversandauftragResponseDto}>(),
         'LOAD_VERSANDGRUPPE': props<{uuid: string}>(),

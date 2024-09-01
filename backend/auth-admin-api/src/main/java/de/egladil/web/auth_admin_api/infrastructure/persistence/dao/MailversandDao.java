@@ -4,6 +4,8 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.infrastructure.persistence.dao;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import de.egladil.web.auth_admin_api.domain.Jobstatus;
@@ -134,6 +136,7 @@ public class MailversandDao {
 	@Transactional
 	public PersistenterMailversandauftrag updateMailversandauftrag(final PersistenterMailversandauftrag entity) {
 
+		entity.setGeaendertAm(new Date());
 		return entityManager.merge(entity);
 
 	}
@@ -141,6 +144,7 @@ public class MailversandDao {
 	@Transactional
 	public PersistenteMailversandgruppe updateMailversandgruppe(final PersistenteMailversandgruppe entity) {
 
+		entity.setGeaendertAm(LocalDateTime.now());
 		return entityManager.merge(entity);
 
 	}

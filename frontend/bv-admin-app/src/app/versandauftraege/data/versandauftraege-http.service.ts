@@ -35,6 +35,11 @@ export class VersandauftraegeHttpService {
         return this.#httpClient.put<SingleUuidDto>(theUrl, { headers: new HttpHeaders() });
     }
 
+    public continueVersandauftrag(uuid: string): Observable<SingleUuidDto> {
+        const theUrl = this.#url + '/' + uuid + '/continuation';
+        return this.#httpClient.put<SingleUuidDto>(theUrl, { headers: new HttpHeaders() });
+    }
+
     public deleteVersandauftrag(uuid: string): Observable<SingleUuidDto> {
         const theUrl = this.#url + '/' + uuid;
         return this.#httpClient.delete<SingleUuidDto>(theUrl, { headers: new HttpHeaders() });

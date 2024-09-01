@@ -234,6 +234,55 @@ public class VersandauftraegeResource {
 		return Response.status(201).entity(responsePayload).build();
 	}
 
+	@PUT
+	@Path("{uuid}/continuation")
+	@RolesAllowed({ "AUTH_ADMIN" })
+	@Operation(
+		operationId = "versandauftragFortsetzen",
+		summary = "Setzt den durch die uuid definierten Mailversandauftrag fort")
+	@Parameters({
+		@Parameter(
+			in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags, der fortgesetzt werden soll",
+			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
+	})
+	@APIResponse(
+		name = "OKResponse",
+		responseCode = "200",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = SingleUuidDto.class)))
+	@APIResponse(
+		name = "BadRequest",
+		responseCode = "400",
+		content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(
+		name = "NotAuthorized",
+		responseCode = "401",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "Forbidden",
+		description = "kann auch vorkommen, wenn mod_security zuschlägt",
+		responseCode = "403",
+		content = @Content(
+			mediaType = "application/json"))
+	@APIResponse(
+		name = "ServerError",
+		description = "server error",
+		responseCode = "500", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(implementation = MessagePayload.class)))
+	public Response versandauftragFortsetzen(@PathParam(
+		value = "uuid") @Pattern(
+			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
+				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+
+		SingleUuidDto responsePayload = versandauftragService.mailversandFortsetzen(uuid);
+		return Response.status(200).entity(responsePayload).build();
+	}
+
 	@DELETE
 	@Path("{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })

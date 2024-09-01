@@ -1095,6 +1095,73 @@
         } ]
       }
     },
+    "/auth-admin-api/versandauftraege/{uuid}/continuation" : {
+      "put" : {
+        "tags" : [ "VersandauftraegeResource" ],
+        "summary" : "Setzt den durch die uuid definierten Mailversandauftrag fort",
+        "operationId" : "versandauftragFortsetzen",
+        "parameters" : [ {
+          "name" : "uuid",
+          "in" : "path",
+          "description" : "UUID des Mailversandauftrags, der fortgesetzt werden soll",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 36,
+            "pattern" : "^[abcdef\\d\\-]*$",
+            "type" : "string"
+          },
+          "example" : "a4c4d45e-4a81-4bde-a6a3-54464801716d"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SingleUuidDto"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ValidationErrorResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "content" : {
+              "application/json" : { }
+            }
+          },
+          "403" : {
+            "description" : "kann auch vorkommen, wenn mod_security zuschlägt",
+            "content" : {
+              "application/json" : { }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "SecurityScheme" : [ ]
+        } ]
+      }
+    },
     "/auth-admin-api/version" : {
       "get" : {
         "tags" : [ "Version Resource" ],
