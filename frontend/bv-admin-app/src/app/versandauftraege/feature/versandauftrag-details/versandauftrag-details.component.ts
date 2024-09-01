@@ -53,6 +53,16 @@ export class VersandauftragDetailsComponent {
         return versandauftrag.status === 'COMPLETED' || versandauftrag.status === 'ERRORS';
     }
 
+
+    btnFortsetzenDisabled(versandauftrag: MailversandauftragDetails): boolean {
+
+        if (!versandauftrag) {
+            return true;
+        }
+
+        return versandauftrag.status !== 'CANCELLED';
+    }
+ 
     showDetails(gruppe: Mailversandgruppe): void {
         this.versandauftraegeFacade.loadMailversandgruppe(gruppe.uuid);
     }

@@ -77,7 +77,7 @@
         <button mat-raised-button color="primary" class="action-button" (click)="goBack()"
             title="zurück zu den Versandaufträgen">Versandaufträge</button>
         <button mat-raised-button color="primary" class="action-button" (click)="continue(versandauftrag)"
-            title="neu Laden">fortsetzen</button>
+           [disabled]="btnFortsetzenDisabled(versandauftrag)" title="neu Laden">fortsetzen</button>
         <button mat-raised-button color="primary" class="action-button" (click)="refresh(versandauftrag)"
             [disabled]="btnRefreshDisabled(versandauftrag)" title="neu Laden">aktualisieren</button>
     </div>

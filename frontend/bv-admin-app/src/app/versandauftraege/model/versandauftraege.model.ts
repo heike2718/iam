@@ -49,6 +49,31 @@ export interface MailversandauftragDetails {
     readonly mailversandgruppen: Mailversandgruppe[];
 }
 
+export interface MailversandauftragStatistik {
+    readonly completed: number;
+    readonly errors: number;
+    readonly waiting: number;
+    readonly inProgress: number;
+    readonly cancelled: number;
+}
+
+export interface MailversandauftragUIModel {
+    readonly mailversandauftrag: MailversandauftragDetails;
+    readonly statistik: MailversandauftragStatistik;
+}
+
+export const initialMailversandauftraStatistik: MailversandauftragStatistik = {
+    cancelled: 0,
+    completed: 0,
+    errors: 0,
+    inProgress: 0,
+    waiting: 0
+}
+
+// export const initialMailversandauftragUIModel: MailversandauftragUIModel = {
+//     mailversandauftrag: ini
+// }
+
 export interface DeleteMailversandauftragResponseDto {
     readonly uuid: string
 }
