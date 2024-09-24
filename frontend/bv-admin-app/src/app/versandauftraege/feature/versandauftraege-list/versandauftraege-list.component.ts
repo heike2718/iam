@@ -89,6 +89,7 @@ export class VersandauftraegeListComponent implements AfterViewInit, OnDestroy {
   }
 
   cancel(versandauftrag: MailversandauftragOverview): void {
+
     const dialogRef = this.confirmDeleteDialog.open(ConfirmationDialogComponent, {
       width: '400px',
       disableClose: true,
@@ -111,7 +112,7 @@ export class VersandauftraegeListComponent implements AfterViewInit, OnDestroy {
   }
 
   #doCancel(versandauftrag: MailversandauftragOverview): void {
-    this.versandauftraegeFacade.cancelVersandauftrag(versandauftrag);
+    this.versandauftraegeFacade.cancelVersandauftrag(versandauftrag.uuid);
 
   }
 

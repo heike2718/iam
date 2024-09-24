@@ -1,6 +1,10 @@
+Stand 23.09.2024
+
+- Sortierung der Mailversandaufträge springt: Sortierung ändern auf ERFASST_AM. Danach wird bereits sortiert, aber nur im backend. Im frontend muss für neue Versandauftraege entweder alles nochmal geladen werden, oder der neue muss an den Anfang der Schlange gesetzt werden, damit er ganz oben steht.
+
 Stand 25.08.2024:
 
-- Benutzer aus Mailversandgruppe löschen funktioniert im Backend noch nicht. Die RequestPayload ist irgendwie leer und das löst id to load is required for loading: java.lang.IllegalArgumentException: id to load is required for loading im entityManager aus.
+/ Benutzer aus Mailversandgruppe löschen funktioniert im Backend noch nicht. Die RequestPayload ist irgendwie leer und das löst id to load is required for loading: java.lang.IllegalArgumentException: id to load is required for loading im entityManager aus.
 
 
 

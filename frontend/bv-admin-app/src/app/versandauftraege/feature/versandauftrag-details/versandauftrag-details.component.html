@@ -1,40 +1,76 @@
 <div class="mja-container">
-    @if(versandauftraegeFacade.selectedVersandauftrag$ | async; as versandauftrag) {
+    @if(versandauftraegeFacade.selectedVersandauftrag$ | async; as guimodel) {
 
+    <!-- TODO: hier kommt das MailversandauftragGUIModel an. Das muss also geändert werden und ein Statistikbereich kommt hinzu -->
 
     <h1>Mailversandauftrag</h1>
 
     <div class="details-container mt-2 mb-5">
         <div class="subtitle">UUID:</div>
-        <div>{{versandauftrag.uuid}}</div>
+        <div>{{guimodel.mailversandauftrag.uuid}}</div>
 
         <div class="subtitle">erfasst am:</div>
-        <div>{{versandauftrag.erfasstAm}}</div>
+        <div>{{guimodel.mailversandauftrag.erfasstAm}}</div>
 
         <div class="subtitle">Status:</div>
-        <div>{{versandauftrag.status}}</div>
+        <div>{{guimodel.mailversandauftrag.status}}</div>
 
-        @if(versandauftrag.versandBegonnenAm) {
+        @if(guimodel.mailversandauftrag.versandBegonnenAm) {
         <div class="subtitle">begonnen am:</div>
-        <div>{{versandauftrag.versandBegonnenAm}}</div>
+        <div>{{guimodel.mailversandauftrag.versandBegonnenAm}}</div>
         }
 
-        @if(versandauftrag.versandBeendetAm) {
+        @if(guimodel.mailversandauftrag.versandBeendetAm) {
         <div class="subtitle">beendet am:</div>
-        <div>{{versandauftrag.versandBeendetAm}}</div>
+        <div>{{guimodel.mailversandauftrag.versandBeendetAm}}</div>
         }
 
         <div class="subtitle">Betreff:</div>
-        <div>{{versandauftrag.betreff}}</div>
+        <div>{{guimodel.mailversandauftrag.betreff}}</div>
 
         <div class="subtitle">Mailtext:</div>
-        <div>{{versandauftrag.mailtext}}</div>
+        <div>{{guimodel.mailversandauftrag.mailtext}}</div>
 
     </div>
 
-    <h3>Mailversandgruppen ({{versandauftrag.mailversandgruppen.length}})</h3>
+    <h3>Statistik</h3>
+    <div class="details-container mt-2 mb-5">
+        <div class="subtitle">Status cancelled:</div>
+        <div>{{guimodel.statistik.cancelled}}</div>
 
-    <mat-table [dataSource]="versandauftrag.mailversandgruppen" class="mat-elevation-z2">
+        <div class="subtitle">Status completed:</div>
+        <div>{{guimodel.statistik.completed}}</div>
+
+        <div class="subtitle">Status errors:</div>
+        <div>{{guimodel.statistik.errors}}</div>
+
+        <div class="subtitle">Status inProgress:</div>
+        <div>{{guimodel.statistik.inProgress}}</div>
+
+        <div class="subtitle">Status waiting:</div>
+        <div>{{guimodel.statistik.waiting}}</div>
+    </div>
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" class="action-button" (click)="goBack()"
+            title="zurück zu den Versandaufträgen">Versandaufträge</button>
+        @if(canFortsetzen(guimodel.mailversandauftrag)) {
+        <button mat-raised-button color="primary" class="action-button" (click)="continue(guimodel.mailversandauftrag)"
+            title="fortsetzen">fortsetzen</button>
+        }
+        @if(canAbbrechen(guimodel.mailversandauftrag)) {
+        <button mat-raised-button color="primary" class="action-button" (click)="cancel(guimodel.mailversandauftrag)"
+            title="abbrechen">abbrechen</button>
+        }
+        @if(canAktualisieren(guimodel.mailversandauftrag)) {
+        <button mat-raised-button color="primary" class="action-button" (click)="refresh(guimodel.mailversandauftrag)"
+            title="neu Laden">aktualisieren</button>
+        }
+    </div>
+
+    <h3>Mailversandgruppen ({{guimodel.mailversandauftrag.mailversandgruppen.length}})</h3>
+
+    <mat-table [dataSource]="guimodel.mailversandauftrag.mailversandgruppen" class="mat-elevation-z2">
         <!-- Sortnr Columns -->
         <ng-container matColumnDef="sortnr">
             <mat-header-cell *matHeaderCellDef> Nummer </mat-header-cell>
@@ -72,15 +108,6 @@
         <mat-header-row *matHeaderRowDef="versandgruppenDisplayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: versandgruppenDisplayedColumns;"></mat-row>
     </mat-table>
-
-    <div class="button-container">
-        <button mat-raised-button color="primary" class="action-button" (click)="goBack()"
-            title="zurück zu den Versandaufträgen">Versandaufträge</button>
-        <button mat-raised-button color="primary" class="action-button" (click)="continue(versandauftrag)"
-           [disabled]="btnFortsetzenDisabled(versandauftrag)" title="neu Laden">fortsetzen</button>
-        <button mat-raised-button color="primary" class="action-button" (click)="refresh(versandauftrag)"
-            [disabled]="btnRefreshDisabled(versandauftrag)" title="neu Laden">aktualisieren</button>
-    </div>
 
     } @else {
     <h1>Versandauftrag</h1>

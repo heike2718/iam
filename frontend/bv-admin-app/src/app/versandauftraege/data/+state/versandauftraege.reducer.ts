@@ -1,4 +1,4 @@
-import { MailversandauftragDetails, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetails, sortMailversandauftragOverviewByDate } from "@bv-admin-app/versandauftraege/model";
+import { computeStatistics, MailversandauftragDetails, MailversandauftragDetailsResponseDto, MailversandauftragOverview, MailversandauftragUIModel, MailversandgruppeDetails, sortMailversandauftragOverviewByDate } from "@bv-admin-app/versandauftraege/model";
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { versandauftraegeActions } from "./versandauftraege.actions";
 import { loggedOutEvent } from "@bv-admin-app/shared/auth/api";
@@ -10,7 +10,7 @@ export interface VersandauftraegeState {
     readonly loaded: boolean;
     readonly versandauftraege: MailversandauftragOverview[];
     readonly details: MailversandauftragDetails[];
-    readonly selectedVersandauftrag: MailversandauftragDetails | undefined;
+    readonly selectedVersandauftrag: MailversandauftragUIModel | undefined;
     readonly selectedMailversandgruppe: MailversandgruppeDetails | undefined;
 }
 
@@ -33,9 +33,8 @@ export const versandauftraegeFeature = createFeature({
 
             if (action.responsePayload.versandauftrag) {
 
-                const theVersandauftrag = action.responsePayload.versandauftrag;
-                const filtered = state.details.filter(v => v.uuid === action.responsePayload.uuid);
-
+                const filtered: MailversandauftragDetails[] = state.details.filter(v => v.uuid === action.responsePayload.uuid);
+                const theVersandauftrag: MailversandauftragDetails = action.responsePayload.versandauftrag;
                 const theExistingVersandauftragInAnArray = state.versandauftraege.filter(v => v.uuid === theVersandauftrag.uuid);
 
                 // wenn ich den Versandauftrag nicht gerade gelöscht habe, was dumm wäre, gibt es den Overview!
@@ -47,7 +46,7 @@ export const versandauftraegeFeature = createFeature({
 
                     return {
                         ...state,
-                        selectedVersandauftrag: theVersandauftrag,
+                        selectedVersandauftrag: computeStatistics(theVersandauftrag),
                         details: [...state.details, action.responsePayload.versandauftrag],
                         versandauftraege: sortMailversandauftragOverviewByDate(theChangedVersandauftraege)
                     };
@@ -58,8 +57,7 @@ export const versandauftraegeFeature = createFeature({
 
                     return {
                         ...state,
-                        selectedVersandauftrag:
-                            theVersandauftrag,
+                        selectedVersandauftrag: computeStatistics(theVersandauftrag),
                         details: neueDetails,
                         versandauftraege: sortMailversandauftragOverviewByDate(theChangedVersandauftraege)
                     };
@@ -77,7 +75,12 @@ export const versandauftraegeFeature = createFeature({
             }
         }),
         on(versandauftraegeActions.sELECT_VERSANDAUFTRAG, (state, action) => {
-            return { ...state, selectedVersandauftrag: action.versandauftrag }
+
+            if (action.versandauftrag) {
+                return { ...state, selectedVersandauftrag: computeStatistics(action.versandauftrag) }
+            } else {
+                return { ...state, selectedVersandauftrag: undefined }
+            }
         }),
         on(versandauftraegeActions.uNSELECT_VERSANDAUFTRAG, (state, _action) => {
             swallowEmptyArgument(_action, false);
@@ -109,7 +112,7 @@ export const versandauftraegeFeature = createFeature({
             return { ...state, selectedMailversandgruppe: { ...state.selectedMailversandgruppe, benutzer: remainingBenutzers } };
         }),
         on(versandauftraegeActions.uNSELECT_VERSANDGRUPPE, (state, _action) => {
-            return {...state, selectedMailversandgruppe: undefined};
+            return { ...state, selectedMailversandgruppe: undefined };
         }),
         on(versandauftraegeActions.vERSANDAUFTRAG_SCHEDULED, (state, action) => {
 

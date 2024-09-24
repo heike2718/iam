@@ -4,6 +4,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
+import { ConfirmationDialogComponent } from "@bv-admin-app/shared/ui/components";
 import { VersandauftraegeFacade } from "@bv-admin-app/versandauftraege/api";
 import { MailversandauftragDetails, Mailversandgruppe } from "@bv-admin-app/versandauftraege/model";
 
@@ -44,6 +45,14 @@ export class VersandauftragDetailsComponent {
 
     }
 
+    canAktualisieren(versandauftrag: MailversandauftragDetails): boolean {
+        if (!versandauftrag) {
+            return false;
+        }
+        return versandauftrag.status !== 'COMPLETED' && versandauftrag.status !== 'ERRORS';
+    }
+
+
     btnRefreshDisabled(versandauftrag: MailversandauftragDetails): boolean {
 
         if (!versandauftrag) {
@@ -53,16 +62,20 @@ export class VersandauftragDetailsComponent {
         return versandauftrag.status === 'COMPLETED' || versandauftrag.status === 'ERRORS';
     }
 
-
-    btnFortsetzenDisabled(versandauftrag: MailversandauftragDetails): boolean {
-
+    canFortsetzen(versandauftrag: MailversandauftragDetails): boolean {
         if (!versandauftrag) {
-            return true;
+            return false;
         }
-
-        return versandauftrag.status !== 'CANCELLED';
+        return versandauftrag.status === 'CANCELLED';
     }
- 
+
+    canAbbrechen(versandauftrag: MailversandauftragDetails): boolean {
+        if (!versandauftrag) {
+            return false;
+        }
+        return versandauftrag.status === 'IN_PROGRESS' || versandauftrag.status === 'WAITING';
+    }
+
     showDetails(gruppe: Mailversandgruppe): void {
         this.versandauftraegeFacade.loadMailversandgruppe(gruppe.uuid);
     }
@@ -72,8 +85,31 @@ export class VersandauftragDetailsComponent {
     }
 
     continue(versandauftrag: MailversandauftragDetails): void {
-        this.versandauftraegeFacade.continueVersandauftrag(versandauftrag);
+        this.versandauftraegeFacade.continueVersandauftrag(versandauftrag.uuid);
     }
 
-    
+    cancel(versandauftrag: MailversandauftragDetails): void {
+
+        const dialogRef = this.confirmDeleteDialog.open(ConfirmationDialogComponent, {
+            width: '400px',
+            disableClose: true,
+            data: {
+                title: 'Mailversandauftrag abbrechen',
+                question: 'Bist Du vollkommen sicher, dass Du den Mailversandauftrag "' + versandauftrag.betreff + '" von ' + versandauftrag.erfasstAm + ' abbrechen willst?'
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.#doCancel(versandauftrag);
+            }
+        });
+    }
+
+    #doCancel(versandauftrag: MailversandauftragDetails): void {
+        this.versandauftraegeFacade.cancelVersandauftrag(versandauftrag.uuid);
+
+    }
+
+
 }

@@ -1,4 +1,5 @@
 import { Benutzer, Jobstatus } from "@bv-admin-app/shared/model";
+import { parseGermanDate, parseGermanDateTime } from "@bv-admin-app/shared/util";
 
 export interface Mailversandgruppe {
     readonly uuid: string;
@@ -70,10 +71,6 @@ export const initialMailversandauftraStatistik: MailversandauftragStatistik = {
     waiting: 0
 }
 
-// export const initialMailversandauftragUIModel: MailversandauftragUIModel = {
-//     mailversandauftrag: ini
-// }
-
 export interface DeleteMailversandauftragResponseDto {
     readonly uuid: string
 }
@@ -85,6 +82,35 @@ export interface MailversandauftragDetailsResponseDto {
 
 
 export function sortMailversandauftragOverviewByDate(versandauftraege: MailversandauftragOverview[]): MailversandauftragOverview[] {
-    return versandauftraege.slice().sort((a, b) => b.erfasstAm.localeCompare(a.erfasstAm));
+
+    return versandauftraege.sort((a: MailversandauftragOverview, b: MailversandauftragOverview) => {
+
+        const dateA = parseGermanDateTime(a.erfasstAm);
+        const dateB = parseGermanDateTime(b.erfasstAm);
+
+        return dateB.getTime() - dateA.getTime();
+    });
 }
 
+export function computeStatistics(versandauftrag: MailversandauftragDetails): MailversandauftragUIModel {
+
+
+    const cancelled = versandauftrag.mailversandgruppen.filter(g => g.status === 'CANCELLED').length;
+    const completed = versandauftrag.mailversandgruppen.filter(g => g.status === 'COMPLETED').length;
+    const errors = versandauftrag.mailversandgruppen.filter(g => g.status === 'ERRORS').length;
+    const inProgress = versandauftrag.mailversandgruppen.filter(g => g.status === 'IN_PROGRESS').length;
+    const waiting = versandauftrag.mailversandgruppen.filter(g => g.status === 'WAITING').length;
+
+    const statistik: MailversandauftragStatistik = {
+        cancelled: cancelled,
+        completed: completed,
+        errors: errors,
+        inProgress: inProgress,
+        waiting: waiting
+    };
+
+    return {
+        mailversandauftrag: { ...versandauftrag },
+        statistik: statistik
+    };
+}

@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "nx",
     "start": "NX_DAEMON=false nx serve",
-    "build:local": "NX_DAEMON=false npx nx build bv-admin-app -c local --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
+    "build:local": "NX_DAEMON=false npx nx build bv-admin-app -c local --with-stats=true --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
     "build:heikeqs": "NX_DAEMON=false npx nx build bv-admin-app -c heikeqs --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
     "build:prod": "NX_DAEMON=false npx nx run bv-admin-app:build:production --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
     "test": "NX_DAEMON=false npx nx test",
@@ -76,7 +76,8 @@
     "prettier": "^2.6.2",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "~5.4.2"
+    "typescript": "~5.4.2",
+    "webpack-bundle-analyzer": "^4.10.2"
   },
   "nx": {
     "includedScripts": []

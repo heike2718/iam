@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { Observable, Subscription, take } from "rxjs";
-import { MailversandauftragDetails, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetails } from '@bv-admin-app/versandauftraege/model';
+import { MailversandauftragDetails, MailversandauftragOverview, MailversandauftragUIModel, Mailversandgruppe, MailversandgruppeDetails } from '@bv-admin-app/versandauftraege/model';
 import { select, Store } from "@ngrx/store";
 import { fromVersandauftraege, versandauftraegeActions } from '@bv-admin-app/versandauftraege/data';
 import { MailversandauftragRequestDto, Infomail, Benutzer } from "@bv-admin-app/shared/model";
@@ -17,7 +17,7 @@ export class VersandauftraegeFacade {
 
     readonly loaded$: Observable<boolean> = this.#store.select(fromVersandauftraege.loaded);
     readonly versandauftraege$: Observable<MailversandauftragOverview[]> = this.#store.select(fromVersandauftraege.versandauftraege);
-    readonly selectedVersandauftrag$: Observable<MailversandauftragDetails | undefined> =
+    readonly selectedVersandauftrag$: Observable<MailversandauftragUIModel | undefined> =
         this.#store.select(fromVersandauftraege.selectedVersandauftrag);
     readonly selectedMailversandgruppe$: Observable<MailversandgruppeDetails | undefined> = 
     this.#store.select(fromVersandauftraege.selectedMailversandgruppe);
@@ -60,14 +60,14 @@ export class VersandauftraegeFacade {
 
     }
 
-    public cancelVersandauftrag(versandauftrag: MailversandauftragOverview): void {
+    public cancelVersandauftrag(uuid: string): void {
 
-        this.#store.dispatch(versandauftraegeActions.cANCEL_VERSANDAUFTRAG({uuid: versandauftrag.uuid}));
+        this.#store.dispatch(versandauftraegeActions.cANCEL_VERSANDAUFTRAG({uuid}));
     }
 
-    public continueVersandauftrag(versandauftrag: MailversandauftragDetails): void {
+    public continueVersandauftrag(uuid: string): void {
 
-        this.#store.dispatch(versandauftraegeActions.cONTINUE_VERSANDAUFTRAG({uuid: versandauftrag.uuid}));
+        this.#store.dispatch(versandauftraegeActions.cONTINUE_VERSANDAUFTRAG({uuid}));
     }
 
 
