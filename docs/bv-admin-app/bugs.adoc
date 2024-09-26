@@ -1,0 +1,11 @@
+== Bugs die so auffallen
+
+=== Mailversandauftrag im Status ERROR lässt sich ncht wieder starten
+
+Hatte die emails der Standardempfänger nicht konfigiriert, so dass der Mailversand insgesamt scheiterte.
+
+Nach der Korrektur klappte "Zurücksetzen" nicht so richtig. Auftrag wird mit IN_PROGRESS angezeigt, aber die (einzige) Mailversandgruppe ist CANCELLED. Beides sollte auf WAITING gesetzt werden, oder?
+
+=== Mailversandauftrag wird nicht auf COMPLETED gesetzt, nachdem die Mails versendet wurden
+
+Ist unschön

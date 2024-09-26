@@ -1,13 +1,13 @@
 {
   "name": "@bv-admin-app/source",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
     "start": "NX_DAEMON=false nx serve",
-    "build:local": "NX_DAEMON=false npx nx build bv-admin-app -c local --with-stats=true --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
-    "build:heikeqs": "NX_DAEMON=false npx nx build bv-admin-app -c heikeqs --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
-    "build:prod": "NX_DAEMON=false npx nx run bv-admin-app:build:production --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
+    "build:local": "NX_DAEMON=false npx nx build bv-admin-app -c local --verbose --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
+    "build:heikeqs": "NX_DAEMON=false npx nx build bv-admin-app -c heikeqs --verbose --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
+    "build:prod": "NX_DAEMON=false npx nx run bv-admin-app:build:production --verbose --output-hashing=all --base-href /bv-admin-app/ --skip-nx-cache",
     "test": "NX_DAEMON=false npx nx test",
     "test:all": "NX_DAEMON=false npx nx run-many --target=test --all",
     "lint:all": "NX_DAEMON=false npx nx run-many --target=lint --all",

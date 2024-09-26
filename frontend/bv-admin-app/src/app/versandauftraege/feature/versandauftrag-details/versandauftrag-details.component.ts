@@ -49,7 +49,7 @@ export class VersandauftragDetailsComponent {
         if (!versandauftrag) {
             return false;
         }
-        return versandauftrag.status !== 'COMPLETED' && versandauftrag.status !== 'ERRORS';
+        return versandauftrag.status === 'IN_PROGRESS' || versandauftrag.status === 'WAITING';
     }
 
 

@@ -23,3 +23,8 @@ In der Detailansicht des Versandauftrags Action "Fortsetzen". Dann setzt das Bac
 Navigation zum Mailversandauftrag
 
 
+=== Weitere Dinge, die gemacht werden sollten
+
+PRIO 1: Mailadresse eines Benutzers ändern (ist besonders gut für die QS, damit ich mehr Testdaten für den Mailversand bekomme).
+
+PRIO 2: Sammellöschungen von Benutzern

@@ -49,6 +49,7 @@ public class MailingResourceTest {
 
 		given()
 			.when()
+			.queryParam("to", standardempfaenger)
 			.get("/testmail")
 			.then()
 			.statusCode(401);
@@ -60,6 +61,7 @@ public class MailingResourceTest {
 
 		given()
 			.when()
+			.queryParam("to", standardempfaenger)
 			.get("/testmail")
 			.then()
 			.statusCode(403);
@@ -71,6 +73,7 @@ public class MailingResourceTest {
 
 		given()
 			.when()
+			.queryParam("to", standardempfaenger)
 			.get("/testmail")
 			.then()
 			.statusCode(202);

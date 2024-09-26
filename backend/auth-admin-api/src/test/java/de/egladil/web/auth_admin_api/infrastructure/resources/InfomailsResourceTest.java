@@ -71,9 +71,9 @@ public class InfomailsResourceTest {
 	void testUpdate() {
 
 		// Arrange
-		String uuid = "81188afe-abfa-4870-ae27-98259fdf36aa";
+		String uuid = "e4084091-582a-4b84-b2e2-9f165f965a89";
 		InfomailRequestDto requestPayload = new InfomailRequestDto();
-		requestPayload.setBetreff("Testmail Nummer 1 - bitte damit keine Versandaufträge erzeugen!");
+		requestPayload.setBetreff("erster neuer Text für Versandtests geänderter Betreff!");
 		requestPayload
 			.setMailtext(
 				"Der Text wird jetzt geändert. Versandaufträge sollten damit nicht erzeugt werden, da sonst der size()-Test fehlschlägt. Mit freundlichen Grüßen.");
@@ -96,7 +96,7 @@ public class InfomailsResourceTest {
 		assertEquals(uuid, infomailResponseDto.getUuid());
 		assertEquals(requestPayload.getBetreff(), infomailResponseDto.getBetreff());
 		assertEquals(requestPayload.getMailtext(), infomailResponseDto.getMailtext());
-		assertEquals(0, infomailResponseDto.getUuidsMailversandauftraege().size());
+		assertEquals(3, infomailResponseDto.getUuidsMailversandauftraege().size());
 	}
 
 	@Test

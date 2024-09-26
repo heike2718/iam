@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Test;
 
 import de.egladil.web.auth_admin_api.domain.SortDirection;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSearchResult;
-import de.egladil.web.auth_admin_api.domain.benutzer.UsersSortColumn;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.auth_admin_api.domain.benutzer.BenutzerTrefferlisteItem;
+import de.egladil.web.auth_admin_api.domain.benutzer.UsersSortColumn;
 import de.egladil.web.auth_admin_api.domain.validation.ValidationErrorResponseDto;
 import de.egladil.web.auth_admin_api.profiles.AuthAdminTestProfile;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
@@ -123,12 +123,12 @@ public class BenutzerResourceTest {
 
 	@Test
 	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
-	void should_returnSortByDatumGeaendert() {
+	void should_returnSortByDatumGeaendert_page3() {
 
 		BenutzerSuchparameter dto = new BenutzerSuchparameter();
 		dto.setSortByLabelname(UsersSortColumn.DATE_MODIFIED_STRING.getLabel());
-		dto.setPageIndex(4);
-		dto.setPageSize(50);
+		dto.setPageIndex(2);
+		dto.setPageSize(25);
 
 		BenutzerSearchResult responsePayload = given()
 			.contentType(ContentType.JSON)
@@ -139,22 +139,22 @@ public class BenutzerResourceTest {
 			.extract()
 			.as(BenutzerSearchResult.class);
 
-		assertEquals(231, responsePayload.getAnzahlGesamt());
+		assertEquals(232, responsePayload.getAnzahlGesamt());
 		List<BenutzerTrefferlisteItem> items = responsePayload.getItems();
-		assertEquals(31, items.size());
+		assertEquals(25, items.size());
 
 		{
 
-			BenutzerTrefferlisteItem item = items.get(30);
-			assertEquals("0af99bcd-0596-4e2e-9bac-8cc6aad6fc8e", item.getUuid());
-			assertEquals("2021-08-22 14:57:19", item.getAenderungsdatum());
+			BenutzerTrefferlisteItem item = items.get(0);
+			assertEquals("e5807325-e14d-4f74-8b52-e6b289e48d51", item.getUuid());
+			assertEquals("2020-04-19 15:58:59", item.getAenderungsdatum());
 		}
 
 		{
 
-			BenutzerTrefferlisteItem item = items.get(29);
-			assertEquals("aaac2824-e6bd-4fc4-911b-e65473a012df", item.getUuid());
-			assertEquals("2020-09-04 15:32:25", item.getAenderungsdatum());
+			BenutzerTrefferlisteItem item = items.get(24);
+			assertEquals("057ec7aa-65c2-4bcb-8a9e-8d3689cdb8ea", item.getUuid());
+			assertEquals("2020-08-09 15:13:57", item.getAenderungsdatum());
 		}
 
 	}

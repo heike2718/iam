@@ -30,7 +30,7 @@ import { User } from '@bv-admin-app/shared/auth/model';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
-  version = "1.0.1";
+  version = "1.1.0";
 
   @Output()
   sidenavToggle = new EventEmitter();

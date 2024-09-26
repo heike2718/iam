@@ -52,7 +52,7 @@ public class VersandauftraegeResourceTest {
 	@Inject
 	MailversandDao mailversandDao;
 
-	@Test // - wollen die DB micht vollknallen
+	@Test // - wollen die DB nicht vollknallen
 	@Order(1)
 	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
 	void testCVExceptionOnInsert() {
@@ -85,7 +85,7 @@ public class VersandauftraegeResourceTest {
 			MailversandauftragOverview responsePayload = given()
 				.contentType(ContentType.JSON)
 				.body(requestPayload)
-				.post("auftraege")
+				.post()
 				.then()
 				.statusCode(201)
 				.extract()
@@ -122,7 +122,7 @@ public class VersandauftraegeResourceTest {
 			MessagePayload responsePayload = given()
 				.contentType(ContentType.JSON)
 				.body(requestPayload)
-				.post("auftraege")
+				.post()
 				.then()
 				.statusCode(409)
 				.extract()
@@ -145,7 +145,7 @@ public class VersandauftraegeResourceTest {
 		// Act
 		MailversandauftragOverview[] responsePayload = given()
 			.contentType(ContentType.JSON)
-			.get("auftraege")
+			.get()
 			.then()
 			.statusCode(200)
 			.extract()

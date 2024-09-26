@@ -24,8 +24,11 @@ public class AuthAdminTestProfile implements QuarkusTestProfile {
 		configOverrides.put("mock.benutzer.fullname", "Moki Bulruk");
 		configOverrides.put("mock.role", "AUTH_ADMIN");
 		configOverrides.put("quarkus.http.test.timeout", "600S");
+		configOverrides.put("quarkus.http.test.timeout", "600S");
+		configOverrides.put("quarkus.mailer.mock", "true");
+		configOverrides.put("quarkus.datasource.jdbc.url", "jdbc:mariadb://172.26.0.2:3306/authbv");
 
-		System.out.println("config overridden");
+		System.out.println("config overridden:");
 
 		return configOverrides;
 	}
