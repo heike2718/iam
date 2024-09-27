@@ -478,7 +478,7 @@ public class VersandauftragService {
 
 		for (PersistenteMailversandgruppe gruppe : versandgruppen) {
 
-			if (gruppe.getStatus() == Jobstatus.CANCELLED) {
+			if (gruppe.getStatus() != Jobstatus.COMPLETED) {
 
 				gruppe.setStatus(Jobstatus.WAITING);
 				mailversandDao.updateMailversandgruppe(gruppe);

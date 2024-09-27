@@ -1,4 +1,4 @@
-import { computeStatistics, MailversandauftragDetails, MailversandauftragDetailsResponseDto, MailversandauftragOverview, MailversandauftragUIModel, MailversandgruppeDetails, sortMailversandauftragOverviewByDate } from "@bv-admin-app/versandauftraege/model";
+import { computeStatistics, MailversandauftragDetails, MailversandauftragDetailsResponseDto, MailversandauftragOverview, MailversandauftragStatistik, MailversandauftragUIModel, Mailversandgruppe, MailversandgruppeDetails, mapToOverview, sortMailversandauftragOverviewByDate } from "@bv-admin-app/versandauftraege/model";
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { versandauftraegeActions } from "./versandauftraege.actions";
 import { loggedOutEvent } from "@bv-admin-app/shared/auth/api";
@@ -94,10 +94,30 @@ export const versandauftraegeFeature = createFeature({
         on(versandauftraegeActions.vERSANDGRUPPE_LOADED, (state, action) => {
 
             if (action.responsePayload.mailversandgruppe) {
-                return { ...state, selectedMailversandgruppe: action.responsePayload.mailversandgruppe };
+
+                const theVersandauftrag: MailversandauftragUIModel | undefined = state.selectedVersandauftrag;
+
+                if (theVersandauftrag) {
+
+                    const theNewGruppe: Mailversandgruppe = mapToOverview(action.responsePayload.mailversandgruppe, theVersandauftrag.mailversandauftrag.uuid);
+
+                    const newGruppen: Mailversandgruppe[] =
+                        theVersandauftrag.mailversandauftrag.mailversandgruppen.map(g => g.uuid === action.responsePayload.mailversandgruppe.uuid ? theNewGruppe : g);
+
+                    const inner: MailversandauftragDetails = { ...theVersandauftrag.mailversandauftrag, mailversandgruppen: newGruppen };
+
+                    return {
+                        ...state,
+                        selectedMailversandgruppe: action.responsePayload.mailversandgruppe,
+                        selectedVersandauftrag: computeStatistics(inner)
+                    };
+                } else {
+                    return { ...state, selectedMailversandgruppe: action.responsePayload.mailversandgruppe, selectedVersandauftrag: undefined }
+                }
+            } else {
+                return { ...state, selectedMailversandgruppe: undefined }
             }
 
-            return { ...state, selectedMailversandgruppe: undefined }
         }),
         on(versandauftraegeActions.vERSANDGRUPPE_BENUTZER_ENTFERNEN, (state, action) => {
 

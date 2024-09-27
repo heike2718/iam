@@ -49,7 +49,7 @@ export class VersandauftragDetailsComponent {
         if (!versandauftrag) {
             return false;
         }
-        return versandauftrag.status === 'IN_PROGRESS' || versandauftrag.status === 'WAITING';
+        return versandauftrag.status !== 'COMPLETED';
     }
 
 
@@ -66,7 +66,7 @@ export class VersandauftragDetailsComponent {
         if (!versandauftrag) {
             return false;
         }
-        return versandauftrag.status === 'CANCELLED';
+        return versandauftrag.status === 'CANCELLED' || versandauftrag.status === 'ERRORS';
     }
 
     canAbbrechen(versandauftrag: MailversandauftragDetails): boolean {

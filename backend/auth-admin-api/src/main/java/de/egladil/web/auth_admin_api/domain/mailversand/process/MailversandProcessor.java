@@ -78,7 +78,7 @@ public class MailversandProcessor {
 			LOGGER.info("starte Mailversandauftrag {}: anzahl Empfänger={}", persistenterMailversandAuftrag.getUuid(),
 				persistenterMailversandAuftrag.getAnzahlEmpfaenger());
 
-			persistenterMailversandAuftrag = this.markStarded(persistenterMailversandAuftrag);
+			persistenterMailversandAuftrag = this.markStarted(persistenterMailversandAuftrag);
 
 		}
 
@@ -126,7 +126,7 @@ public class MailversandProcessor {
 
 	}
 
-	PersistenterMailversandauftrag markStarded(final PersistenterMailversandauftrag mailversandauftrag) {
+	PersistenterMailversandauftrag markStarted(final PersistenterMailversandauftrag mailversandauftrag) {
 
 		mailversandauftrag.setVersandBegonnenAm(LocalDateTime.now());
 		mailversandauftrag.setStatus(Jobstatus.IN_PROGRESS);

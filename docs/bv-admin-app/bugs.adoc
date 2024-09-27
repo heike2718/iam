@@ -8,4 +8,5 @@ Nach der Korrektur klappte "Zurücksetzen" nicht so richtig. Auftrag wird mit IN
 
 === Mailversandauftrag wird nicht auf COMPLETED gesetzt, nachdem die Mails versendet wurden
 
-Ist unschön
+Wird doch, aber erst beim letzten Durchgang des schedulers.
+

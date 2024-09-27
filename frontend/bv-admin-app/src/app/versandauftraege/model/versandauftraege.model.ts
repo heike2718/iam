@@ -114,3 +114,19 @@ export function computeStatistics(versandauftrag: MailversandauftragDetails): Ma
         statistik: statistik
     };
 }
+
+export function mapToOverview(mailversandgruppe: MailversandgruppeDetails, idMailversandauftrag: string): Mailversandgruppe {
+
+    const empfaengerUUIDs: string[] =  mailversandgruppe.benutzer.map(b => b.uuid);
+
+    const result: Mailversandgruppe = {
+        aenderungsdatum: mailversandgruppe.aenderungsdatum,
+        empfaengerUUIDs: empfaengerUUIDs,
+        idMailversandauftrag: idMailversandauftrag,
+        sortnr: mailversandgruppe.sortnr,
+        status: mailversandgruppe.status,
+        uuid: mailversandgruppe.uuid
+    };
+
+    return result;
+}
