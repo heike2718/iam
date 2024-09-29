@@ -4,7 +4,7 @@
 
 [source,cli]
 ----
-npx create-nx-workspace@latest auth-app-profil-app-ws --preset angular
+npx nx create-nx-workspace@latest auth-app-profil-app-ws --preset angular
 ----
 
 
@@ -23,4 +23,20 @@ npx create-nx-workspace@latest auth-app-profil-app-ws --preset angular
 ----
 
 
+Anschließend ergab nmp install folgende Inkompatibilität in der generierten package.json
 
+[source,cli]
+----
+npm error code ERESOLVE
+npm error ERESOLVE unable to resolve dependency tree
+npm error
+npm error While resolving: @auth-app-profil-app-ws/source@0.0.0
+npm error Found: eslint@9.11.1
+npm error node_modules/eslint
+npm error   dev eslint@"^9.8.0" from the root project
+npm error
+npm error Could not resolve dependency:
+npm error peer eslint@"^8.56.0" from @typescript-eslint/utils@7.18.0
+npm error node_modules/@typescript-eslint/utils
+npm error   dev @typescript-eslint/utils@"^7.16.0" from the root project
+----
