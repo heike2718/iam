@@ -57,8 +57,12 @@ https://softarc-consulting.github.io/sheriff/docs/dependency-rules
 
 [source,cli]
 ----
-npx nx generate @nrwl/angular:library api --directory=messages --style=scss --prefix=auth --skipModule=true --no-interactive --dry-run
+npx nx g @nx/angular:library api --directory=libs/messages --style=scss --prefix=auth --standalone --no-interactive --dry-run
 ----
 
 Das generiert gleich einen Haufen Müll wie z.B. eine Komponente, die ich dort gar nicht haben will. Alles gelöscht und nur die services, das model und den loading-interceptor von mja-ws kopiert + exportiert.
 
+[source,cli]
+----
+npx nx generate @nrwl/angular:library ui --directory=messages --style=scss --prefix=auth --skipModule=true --no-interactive --dry-run
+----

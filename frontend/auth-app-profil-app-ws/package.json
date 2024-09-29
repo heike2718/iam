@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start-auth": "npx nx serve auth-app",
-    "start-profil": "npx nx serve profil-app",
+    "auth": "npx nx serve auth-app",
+    "profil": "npx nx serve profil-app",
     "build:auth-app:local": "npx nx build auth-app -c local --output-hashing=all --base-href /auth-app/ --skip-nx-cache",
     "build:profil-app:local": "npx nx build profil-app -c local --output-hashing=all --base-href /profil-app/ --skip-nx-cache",
     "test": "npx nx test",
