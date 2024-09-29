@@ -38,6 +38,20 @@ npm i @ngrx/store @ngrx/router-store @ngrx/store-devtools ngrx-store-localstorag
 npm i @ngrx/eslint-plugin -D
 ----
 
+=== Sheriff einbinden
+
+Kleines feines https://angular-camp.de/blog/strategic-design-mit-sheriff-und-standalone/[Tutorial]
+
+Sheriff ist ein tool, das ungewünschte direkte dependencies und damit zyklische Abhänigkeiten verhindert.
+
+[source,cli]
+----
+npm i @softarc/sheriff-core @softarc/eslint-plugin-sheriff -D
+npx sheriff init
+----
+
+https://softarc-consulting.github.io/sheriff/docs/dependency-rules
+
 
 === Libraries messaging/api und messaging/ui
 
