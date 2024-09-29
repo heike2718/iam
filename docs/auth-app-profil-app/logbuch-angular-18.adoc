@@ -1,0 +1,26 @@
+== Alles neu mit Angular 18
+
+=== Neuer Workspace
+
+[source,cli]
+----
+npx create-nx-workspace@latest auth-app-profil-app-ws --preset angular
+----
+
+
+[source,cli]
+----
+ NX   Let's create a new workspace [https://nx.dev/getting-started/intro]
+
+✔ Integrated monorepo, or standalone project? · integrated
+✔ Application name · auth-app
+✔ Which bundler would you like to use? · esbuild
+✔ Default stylesheet format · scss
+✔ Do you want to enable Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering)? · No
+✔ Test runner to use for end to end (E2E) tests · playwright
+✔ Which CI provider would you like to use? · skip
+✔ Would you like remote caching to make your build faster? · skip
+----
+
+
+
