@@ -22,7 +22,10 @@
             "input": "apps/auth-app/public"
           }
         ],
-        "styles": ["apps/auth-app/src/styles.scss"],
+        "styles": [
+          "libs/styles/theme.scss",
+          "apps/auth-app/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {

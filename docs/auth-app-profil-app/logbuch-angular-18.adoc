@@ -53,7 +53,7 @@ npx sheriff init
 https://softarc-consulting.github.io/sheriff/docs/dependency-rules
 
 
-=== Libraries messaging/api und messaging/ui
+=== Libraries messages/api und messages/ui
 
 [source,cli]
 ----
@@ -64,5 +64,12 @@ Das generiert gleich einen Haufen Müll wie z.B. eine Komponente, die ich dort g
 
 [source,cli]
 ----
-npx nx generate @nrwl/angular:library ui --directory=messages --style=scss --prefix=auth --skipModule=true --no-interactive --dry-run
+npx nx g @nx/angular:library ui --directory=libs/messages --style=scss --prefix=auth --standalone  --no-interactive --dry-run
+----
+
+=== theme einbinden
+
+[source,cli]
+----
+npx nx g @nx/angular:library theme --directory=libs/theme --style=scss --prefix=auth --standalone --no-interactive --dry-run
 ----

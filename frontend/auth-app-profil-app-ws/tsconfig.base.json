@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@auth-app-profil-app-ws/messages/api": ["libs/messages/api/src/index.ts"
+      "@auth-app-profil-app-ws/messages/api": [
+        "libs/messages/api/src/index.ts"
       ],
       "@auth-app-profil-app-ws/messages/ui": ["libs/messages/ui/src/index.ts"]
     }
