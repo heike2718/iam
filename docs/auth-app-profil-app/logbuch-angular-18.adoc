@@ -1,6 +1,6 @@
 == Alles neu mit Angular 18
 
-=== Neuer Workspace
+=== Neuer Workspace mit default app auth-app
 
 [source,cli]
 ----
@@ -22,5 +22,29 @@ npx create-nx-workspace@latest auth-app-profil-app-ws --preset angular
 ✔ Would you like remote caching to make your build faster? · skip
 ----
 
+=== profil-app
 
+[source,cli]
+----
+npx nx generate @nrwl/angular:application profil-app
+----
+
+=== npm-Pakete hinzugefügt
+
+[source,cli]
+----
+npm i @angular/material material-icons @angular/cdk
+npm i @ngrx/store @ngrx/router-store @ngrx/store-devtools ngrx-store-localstorage @ngrx/effects
+npm i @ngrx/eslint-plugin -D
+----
+
+
+=== Libraries messaging/api und messaging/ui
+
+[source,cli]
+----
+npx nx generate @nrwl/angular:library api --directory=messages --style=scss --prefix=auth --skipModule=true --no-interactive --dry-run
+----
+
+Das generiert gleich einen Haufen Müll wie z.B. eine Komponente, die ich dort gar nicht haben will. Alles gelöscht und nur die services, das model und den loading-interceptor von mja-ws kopiert + exportiert.
 
