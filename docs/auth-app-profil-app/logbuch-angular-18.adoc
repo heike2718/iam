@@ -4,7 +4,7 @@
 
 [source,cli]
 ----
-npx create-nx-workspace@latest auth-app-profil-app-ws --preset angular
+npx nx create-nx-workspace@latest auth-app-profil-app-ws --preset angular
 ----
 
 
