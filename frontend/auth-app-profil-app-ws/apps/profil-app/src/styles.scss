@@ -1,1 +1,165 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.0rem;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+a,
+.link {
+    color: #4e709a;
+}
+
+.centered {
+    text-align: center;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.bordered {
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+
+mat-icon .clickable {
+    cursor: pointer;
+}
+
+.block {
+    display: block;
+}
+
+.formcontrol-hint {
+    font-size: small;
+    margin-left: 1rem;
+}
+
+.hint {
+    font-size: small;
+    color: #467096;
+}
+
+.hint-red {
+    font-size: small;
+    color: red;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
+.mb-2 {
+    margin-bottom: 2rem;
+}
+
+.mr-1 {
+    margin-right: 1rem;
+}
+
+.mr-2 {
+    margin-right: 2rem;
+}
+
+.ml-1 {
+    margin-left: 1rem;
+}
+
+.ml-2 {
+    margin-left: 2rem;
+}
+
+.m-1 {
+    margin: 1rem;
+}
+
+.p-5 {
+    padding: 5px;
+}
+
+.p-10 {
+    padding: 10px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+mat-form-field {
+    width: 100% !important;
+}
+
+mat-form-field+mat-form-field {
+    margin-left: 8px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+form>* {
+    margin: 12px 0;
+}
+
+.mat-radio-button {
+    margin: 0 12px;
+}
+
+.auth-form {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.block {
+    display: block;
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+    align-items: center;
+    margin-left: 2rem;
+    grid-gap: 2rem;
+}
+
+
+
+label {
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+
+    /* Breakpoint for smartphones */
+    .button-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        /* Stack buttons in a single column */
+        align-items: center;
+        margin-left: 2rem;
+        grid-gap: 2rem;
+    }
+}

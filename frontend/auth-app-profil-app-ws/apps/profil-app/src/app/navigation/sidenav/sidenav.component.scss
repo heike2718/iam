@@ -1,0 +1,22 @@
+.nav-caption {
+    display: inline-block;
+    padding-left: 6px;
+}
+
+.nav-item {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+a {
+    text-decoration: none;
+    color: white;
+    padding: 16px 5px; /* Adjust the padding as needed */
+}
+
+a:hover,
+a:active {
+    color: lightgray;
+}

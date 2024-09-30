@@ -4,12 +4,17 @@ export const environment = {
   version: '9.0.0',
   envName: 'dev',
   production: false,
-  baseUrl: '',
-  loginRedirectUrl: 'http://localhost:/profil-app',
+  baseUrl: 'http://localhost:10000/authprovider',
+  loginRedirectUrl: 'http://localhost:4400/profil-app',
   datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
-  assetsPath: '/profil-app/assets/',
+  assetsPath: '',
   providers: [
-    provideStoreDevtools({ maxAge: 25 , connectInZone: true})
+    provideStoreDevtools({
+      maxAge: 25,
+      autoPause: true,
+      connectInZone: true
+    }),
   ],
 };
+

@@ -1,18 +1,11 @@
-import { provideStoreDevtools } from '@ngrx/store-devtools';
-
-// export const environment = {
-//     production: false,
-//     baseUrl: 'http://heikeqs/mja-api',
-//     withCredentials: true,
-//     assetsPath: '/mja-app/assets/'
-//   };
-
 export const environment = {
+  version: '9.0.0',
+  envName: 'dev',
   production: false,
   baseUrl: '',
+  loginRedirectUrl: 'http://heikeqs/profil-app',
+  datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
-  assetsPath: '/mja-app/assets/',
-  providers: [
-    provideStoreDevtools({ maxAge: 25 , connectInZone: true})
-  ],
+  assetsPath: '/profil-app/assets/',
+  providers: [],
 };

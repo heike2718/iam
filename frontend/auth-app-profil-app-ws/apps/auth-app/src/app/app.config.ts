@@ -3,8 +3,8 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
-import { Configuration } from '@auth-app-profil-app-ws/config';
 import { environment } from '../environments/environment';
+import { AuthAppConfiguration } from './config/auth-app.configuration';
 
 registerLocaleData(LOCALE_ID, 'de');
 
@@ -13,9 +13,9 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     {
-      provide: Configuration,
+      provide: AuthAppConfiguration,
       useFactory: () =>
-        new Configuration(
+        new AuthAppConfiguration(
           environment.version,
           environment.envName,
           environment.baseUrl,

@@ -6,6 +6,5 @@ export const environment = {
   profilUrl: 'http://localhost:4400/profil-app',
   datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
-  assetsPath: '/auth-app/public/',
-  providers: [],
+  assetsPath: '/auth-app/public/'
 };

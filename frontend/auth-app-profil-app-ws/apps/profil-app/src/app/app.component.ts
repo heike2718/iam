@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { Component, inject } from '@angular/core';
+import { ProfilAppConfiguration } from './configuration/profil-app.configuration';
+import { ShellComponent } from './shell/shell.component';
+import { ShellService } from './shell/shell.service';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
-  selector: 'app-root',
+  imports: [
+     ShellComponent
+  ],
+  selector: 'profil-app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'profil-app';
+
+  configuration = inject(ProfilAppConfiguration);
+  imageSourceLogo = this.configuration.assetsPath + 'mja_logo_2.svg';
 }

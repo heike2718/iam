@@ -1,0 +1,21 @@
+mat-sidenav-container,
+mat-sidenav-content,
+mat-sidenav {
+    height: 100%;
+    z-index: 2;
+}
+
+
+mat-sidenav {
+    width: 250px;
+    background-color: white;
+    color: black;
+}
+
+mat-sidenav-content {
+    z-index: 1;
+}
+
+main {
+    padding: 10px 10px 50px 10px;
+}

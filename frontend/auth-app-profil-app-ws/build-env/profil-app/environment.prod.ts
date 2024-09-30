@@ -1,10 +1,11 @@
 export const environment = {
   version: '9.0.0',
-  envName: 'heikeqs',
-  production: false,
+  envName: 'prod',
+  production: true,
   baseUrl: '',
-  profilUrl: 'http://heikeqs/profil-app/',
+  loginRedirectUrl: 'http://mathe-jung-alt.de/profil-app',
   datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
-  assetsPath: '/auth-app/public/'
+  assetsPath: '/profil-app/assets/',
+  providers: [],
 };

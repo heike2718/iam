@@ -4,7 +4,7 @@ import { MessageService } from '@auth-app-profil-app-ws/messages/api';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'auth-message',
+  selector: 'auth-common-message',
   standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './message.component.html',

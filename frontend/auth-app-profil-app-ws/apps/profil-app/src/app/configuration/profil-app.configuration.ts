@@ -1,10 +1,9 @@
-
-export class Configuration {
+export class ProfilAppConfiguration {
     constructor(
         public version: string,
         public envName: string,
         public baseUrl: string,
-        public profilUrl: string,
+        public loginRedirectUrl: string,
         public datenschutzUrl: string,
         public assetsPath: string,
         public withCredentials: boolean,

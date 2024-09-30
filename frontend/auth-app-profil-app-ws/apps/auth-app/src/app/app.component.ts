@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MessageComponent, LoadingIndicatorComponent} from '@auth-app-profil-app-ws/messages/ui';
 import { HomeComponent } from './home/home.component';
-import { Configuration } from '@auth-app-profil-app-ws/config';
+import { AuthAppConfiguration } from './config/auth-app.configuration';
 
 @Component({
   standalone: true,
@@ -17,7 +17,7 @@ import { Configuration } from '@auth-app-profil-app-ws/config';
 })
 export class AppComponent  {
 
-  configuration = inject(Configuration);
+  configuration = inject(AuthAppConfiguration);
 
   imageSourceLogo = this.configuration.assetsPath + 'mja_logo_2.svg';
 }

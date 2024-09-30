@@ -19,7 +19,7 @@
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/profil-app/public"
+            "input": "apps/profil-app/src/assets"
           }
         ],
         "styles": ["apps/profil-app/src/styles.scss"],
@@ -37,6 +37,66 @@
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
               "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/profil-app/index.prod.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/profil-app/src/environments/environment.ts",
+              "with": "build-env/profil-app/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "heikeqs": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/profil-app/index.heikeqs.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/profil-app/src/environments/environment.ts",
+              "with": "build-env/profil-app/environment.heikeqs.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "local": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/profil-app/index.local.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/profil-app/src/environments/environment.ts",
+              "with": "build-env/profil-app/environment.local.ts"
             }
           ],
           "outputHashing": "all"
