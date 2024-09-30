@@ -1,5 +1,26 @@
-<h1>Hallo Allerseits in der auth-app</h1>
-<auth-message></auth-message>
-<auth-loader></auth-loader>
-<router-outlet></router-outlet>
+<div class="main">
+    <div class="content">
+        <auth-loader></auth-loader>
+        <auth-message></auth-message>
+        <h1>Mathe für jung und alt - Login / Registrierung</h1>
 
+        <div class="centered">
+            <img src={{imageSourceLogo}} alt="" aria-role="mathe-jung-alt-Logo" />
+        </div>
+
+        <p>DSGVO- konformes Benutzerkonto für Angebote von &quot;Mathe für
+            jung und alt&quot; ( <a href="{{configuration.datenschutzUrl}}" target="_blank">Datenschutz</a>)</p>
+
+        <router-outlet></router-outlet>
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col-md-4 text-md-left">&copy; Heike Winkelvoß</div>
+            @if(!configuration.production){
+            <div class="col-md-4 text-xs-center">env: {{configuration.envName}}, API: {{configuration.baseUrl}}</div>
+            }
+            <div class="col-md-4 text-md-right">Version {{configuration.version}}</div>
+        </div>
+    </footer>
+</div>

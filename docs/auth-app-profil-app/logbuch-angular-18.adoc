@@ -57,19 +57,60 @@ https://softarc-consulting.github.io/sheriff/docs/dependency-rules
 
 [source,cli]
 ----
-npx nx g @nx/angular:library api --directory=libs/messages --style=scss --prefix=auth --standalone --no-interactive --dry-run
+npx nx g @nx/angular:library api --directory=messages --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:shared,type:api --no-interactive --dry-run
 ----
 
 Das generiert gleich einen Haufen Müll wie z.B. eine Komponente, die ich dort gar nicht haben will. Alles gelöscht und nur die services, das model und den loading-interceptor von mja-ws kopiert + exportiert.
 
 [source,cli]
 ----
-npx nx g @nx/angular:library ui --directory=libs/messages --style=scss --prefix=auth --standalone  --no-interactive --dry-run
+npx nx g @nx/angular:library ui --directory=messages --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:shared,type:ui --no-interactive --dry-run
 ----
 
 === theme einbinden
 
 [source,cli]
 ----
-npx nx g @nx/angular:library theme --directory=libs/theme --style=scss --prefix=auth --standalone --no-interactive --dry-run
+cd libs
+mkdir styles
+touch theme.scss
 ----
+
+=== Locale konfigurieren in app.config.ts
+
+[src,typescript,source-file="app.config.ts"]
+----
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+
+...
+registerLocaleData(LOCALE_ID, 'de');
+
+...
+
+providers: [
+    ...,
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'de-DE',
+    },
+    { provide: LOCALE_ID, useValue: 'de-DE' },
+]
+----
+
+=== config
+
+Mit der neuen Version von nx wird erst einmal kein environment-Verzeichnis mehr generiert. Das kann man manuell tun:
+
+[src,cli]
+----
+npx nx generate environments --project=auth-app
+----
+
+Soll einen Provider kapseln, der über environmemt initialisiert wird um environment nirgends anders extra importieren zu müssen.
+
+[src,cli]
+---- 
+npx nx g @nx/angular:library config --directory=libs --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:shared,type:config --no-interactive --dry-run
+----
+
+Dann wieder den überflüssigen Schmodder löschen

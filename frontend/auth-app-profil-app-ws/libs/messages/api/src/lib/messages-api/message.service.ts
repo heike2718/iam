@@ -14,21 +14,25 @@ export class MessageService {
     }
 
     info(message: string) {
-        this.#messageSignal.set({ content: message, level: 'INFO' });
+        this.#add({ content: message, level: 'INFO' });
         setTimeout(() => {
             this.clearMessage();
         }, 5000); // Clear after 5 seconds
     }
 
     warn(message: string) {
-        this.#messageSignal.set({ content: message, level: 'WARN' });
+        this.#add({ content: message, level: 'WARN' });
     }
 
     error(message: string) {
-        this.#messageSignal.set({ content: message, level: 'ERROR' });
+        this.#add({ content: message, level: 'ERROR' });
     }
 
     clearMessage() {
         this.#messageSignal.set(undefined);
+    }
+
+    #add(message: Message) {
+        this.#messageSignal.set(message);
     }
 }

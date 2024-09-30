@@ -1,29 +1,23 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { MessageComponent, LoadingIndicatorComponent} from '@auth-app-profil-app-ws/messages/ui';
-import { LoadingService, MessageService } from '@auth-app-profil-app-ws/messages/api';
+import { HomeComponent } from './home/home.component';
+import { Configuration } from '@auth-app-profil-app-ws/config';
 
 @Component({
   standalone: true,
   imports: [
-    NxWelcomeComponent,
     MessageComponent,
     LoadingIndicatorComponent,
+    HomeComponent,
     RouterModule],
-  selector: 'app-root',
+  selector: 'auth-app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-  title = 'auth-app';
+export class AppComponent  {
 
-  #messageService = inject(MessageService);
-  #loadingService = inject(LoadingService);
+  configuration = inject(Configuration);
 
-  ngOnInit(): void {    
-    this.#loadingService.start();
-    this.#messageService.info('Das ist ein Willkommensgruß');
-  }
-
+  imageSourceLogo = this.configuration.assetsPath + 'mja_logo_2.svg';
 }

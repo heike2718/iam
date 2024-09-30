@@ -4,22 +4,29 @@
   "projectType": "application",
   "prefix": "auth-app",
   "sourceRoot": "apps/auth-app/src",
-  "tags": [],
+  "tags": [
+    "domain:auth",
+    "type:app"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/auth-app",
         "index": "apps/auth-app/src/index.html",
         "browser": "apps/auth-app/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/auth-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/auth-app/public"
+            "input": "apps/auth-app/src/assets"
           }
         ],
         "styles": [
@@ -40,6 +47,66 @@
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
               "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/auth-app/index.prod.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/auth-app/src/environments/environment.ts",
+              "with": "build-env/auth-app/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "heikeqs": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/auth-app/index.heikeqs.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/auth-app/src/environments/environment.ts",
+              "with": "build-env/auth-app/environment.heikeqs.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "local": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/auth-app/index.local.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/auth-app/src/environments/environment.ts",
+              "with": "build-env/auth-app/environment.local.ts"
             }
           ],
           "outputHashing": "all"
@@ -75,7 +142,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/auth-app/jest.config.ts"
       }

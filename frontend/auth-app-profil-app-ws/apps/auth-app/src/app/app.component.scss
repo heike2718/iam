@@ -1,13 +1,20 @@
-mat-sidenav-container,
-mat-sidenav-content,
-mat-sidenav {
-    height: 100%;
-}
+  .main {
+    display: grid;
+    grid-template-rows: 1fr auto; /* One row for content, one for footer */
+    min-height: 100vh; /* Ensure the grid takes the full viewport height */
+  }
 
-mat-sidenav {
-    width: 250px;
-}
+  .content {
+      padding: 30px;
+      /* Adjust for your content's spacing needs */
+      overflow-y: auto;
+      /* This ensures that only the content scrolls if it's too large */
+  }
 
-main {
-    padding: 10px 10px 50px 10px;
-}
+  footer {
+      background-color: #194778;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      height: 80px;
+  }

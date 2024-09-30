@@ -4,7 +4,7 @@
   "sourceRoot": "libs/messages/api/src",
   "prefix": "auth",
   "projectType": "library",
-  "tags": [],
+  "tags": ["domain:shared", "type:api"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
