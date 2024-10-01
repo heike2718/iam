@@ -4,7 +4,7 @@
   "sourceRoot": "libs/messages/ui/src",
   "prefix": "auth",
   "projectType": "library",
-  "tags": ["domain:shared", "type:ui"],
+  "tags": ["shared", "type:ui"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

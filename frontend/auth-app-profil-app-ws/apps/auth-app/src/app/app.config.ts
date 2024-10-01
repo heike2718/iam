@@ -5,6 +5,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import { environment } from '../environments/environment';
 import { AuthAppConfiguration } from './config/auth-app.configuration';
+import { provideStore } from '@ngrx/store';
+import { authDataProvider } from '@auth-app/auth/api';
+import { HttpClientModule } from '@angular/common/http';
 
 registerLocaleData(LOCALE_ID, 'de');
 
@@ -12,6 +15,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
+    provideStore({}),
+    authDataProvider,
+    importProvidersFrom(
+      HttpClientModule
+    ),
     {
       provide: AuthAppConfiguration,
       useFactory: () =>

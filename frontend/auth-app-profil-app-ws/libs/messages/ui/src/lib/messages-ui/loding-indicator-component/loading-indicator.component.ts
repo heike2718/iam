@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoadingService } from '@auth-app-profil-app-ws/messages/api';
+import { LoadingService } from '@ap-ws/messages/api';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @Component({

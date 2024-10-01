@@ -108,9 +108,59 @@ npx nx generate environments --project=auth-app
 
 Soll einen Provider kapseln, der über environmemt initialisiert wird um environment nirgends anders extra importieren zu müssen.
 
+Da es Differenzen zwischen den env-Konfigurationen für auth-app und profil-app gibt, hat jede Anwendung ihre eigene XXXConfiguration-Klasse als provider eingebunden.
+
+=== shared http-Zeug
+
+
 [src,cli]
 ---- 
-npx nx g @nx/angular:library config --directory=libs --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:shared,type:config --no-interactive --dry-run
+npx nx g @nx/angular:library http --directory=libs --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:shared,type:util --no-interactive --dry-run
 ----
 
 Dann wieder den überflüssigen Schmodder löschen
+
+=== shared utils-Zeug
+[src,cli]
+---- 
+npx nx g @nx/angular:library common-utils --directory=libs --flat --simpleName --style=scss --prefix=auth --standalone --tags=shared,type:util --no-interactive --dry-run
+----
+
+
+=== shared components-Zeug
+
+[src,cli]
+---- 
+npx nx g @nx/angular:library common-components --directory=libs --flat --simpleName --style=scss --prefix=auth --standalone --tags=shared,type:ui --no-interactive --dry-run
+----
+
+
+
+=== auth-app-spezifische Libraries
+
+=== sessions
+
+[src,cli]
+---- 
+npx nx g @nx/angular:library model --directory=apps/auth-app/src/app/auth --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:auth,type:model --no-interactive --dry-run
+
+
+npx nx g @nx/angular:library api --directory=apps/auth-app/src/app/auth --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:auth,type:api --no-interactive --dry-run
+
+npx nx g @nx/angular:library data --directory=apps/auth-app/src/app/auth --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:auth,type:data --no-interactive --dry-run
+----
+
+==== Passwort vergessen
+
+Library mit api (für facade und model), data für service, feature für die Component
+
+[src,cli]
+---- 
+npx nx g @nx/angular:library data --directory=apps/auth-app/src/app/forgot-password --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:auth,type:data --no-interactive --dry-run
+
+npx nx g @nx/angular:library api --directory=apps/auth-app/src/app/forgot-password --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:auth,type:api --no-interactive --dry-run
+
+npx nx g @nx/angular:library feature ---directory=apps/auth-app/src/app/forgot-password --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:auth,type:feature --no-interactive --dry-run
+----
+
+

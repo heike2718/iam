@@ -2,6 +2,8 @@ import { Component, inject } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthAppConfiguration } from "../config/auth-app.configuration";
+import { Router } from "@angular/router";
+import { AuthFacade } from "@auth-app/auth/api";
 
 
 @Component({
@@ -17,11 +19,17 @@ import { AuthAppConfiguration } from "../config/auth-app.configuration";
 export class HomeComponent {
 
     configuration = inject(AuthAppConfiguration);
+    #router = inject(Router);
+    authFacade = inject(AuthFacade);
 
     redirectToProfilApp() {
 
 		window.location.href = this.configuration.profilUrl;
 	}
 
+    gotoOrderTempPassword() {
 
+        this.#router.navigateByUrl('password/temp/order');
+
+    }
 }

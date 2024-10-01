@@ -1,6 +1,6 @@
 import { Component, inject, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MessageService } from '@auth-app-profil-app-ws/messages/api';
+import { MessageService } from '@ap-ws/messages/api';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({

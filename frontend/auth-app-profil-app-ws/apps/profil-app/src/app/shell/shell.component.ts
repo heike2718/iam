@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { MessageComponent, LoadingIndicatorComponent } from '@auth-app-profil-app-ws/messages/ui';
+import { MessageComponent, LoadingIndicatorComponent } from '@ap-ws/messages/ui';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';

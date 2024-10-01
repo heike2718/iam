@@ -1,6 +1,6 @@
 <div>
     <p>Zum Ändern Ihrer Kontodaten (Name, Vorname, Loginname, Email, Passwort) oder zum Löschen Ihres Benutzerkontos
-        klicken Sie bitte auf "Kontodaten ändern". Sie werden dann in die "Anwendung Mathe-jung-alt - Benutzerprofil" umgeleitet.</p>
+        klicken Sie bitte auf "Kontodaten ändern". Sie werden dann in die Anwendung "Mathe-jung-alt - Benutzerprofil" umgeleitet.</p>
     <p>
         <button mat-raised-button color="primary" matTooltip="zurück zur Suche"
             (click)="redirectToProfilApp()">Kontodaten ändern</button>
@@ -8,5 +8,10 @@
     @if(configuration.production === false) {
     <p>URL Profil-App: {{configuration.profilUrl}}</p>
     }
+    <p>
+        <button mat-raised-button color="primary" matTooltip="Ich habe mein Passwort vergessen"
+            (click)="gotoOrderTempPassword()">Passwort vergessen</button>
+    </p>
 
+    <p>Auth Session: sessionId = {{authFacade.authSession().sessionId}}, csrfToken = {{authFacade.authSession().csrfToken}}</p>
 </div>

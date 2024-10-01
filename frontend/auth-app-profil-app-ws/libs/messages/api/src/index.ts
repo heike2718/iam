@@ -1,4 +1,3 @@
-export * from './lib/messages-api/messages.model';
 export { MessageService } from './lib/messages-api/message.service';
 export { LoadingService } from './lib/messages-api/loading.service';
 export { LoadingInterceptor } from './lib/messages-api/loading.interceptor';

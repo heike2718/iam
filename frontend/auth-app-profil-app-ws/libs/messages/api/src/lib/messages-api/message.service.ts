@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { Message } from "./messages.model";
+import { Message } from "@ap-ws/common-utils";
 
 
 @Injectable({
@@ -14,18 +14,18 @@ export class MessageService {
     }
 
     info(message: string) {
-        this.#add({ content: message, level: 'INFO' });
+        this.#add({ message: message, level: 'INFO' });
         setTimeout(() => {
             this.clearMessage();
         }, 5000); // Clear after 5 seconds
     }
 
     warn(message: string) {
-        this.#add({ content: message, level: 'WARN' });
+        this.#add({ message: message, level: 'WARN' });
     }
 
     error(message: string) {
-        this.#add({ content: message, level: 'ERROR' });
+        this.#add({ message: message, level: 'ERROR' });
     }
 
     clearMessage() {
