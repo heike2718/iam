@@ -7,7 +7,7 @@ import { environment } from '../environments/environment';
 import { AuthAppConfiguration } from './config/auth-app.configuration';
 import { provideStore } from '@ngrx/store';
 import { authDataProvider } from '@auth-app/auth/api';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 
 registerLocaleData(LOCALE_ID, 'de');
 
@@ -17,9 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideStore({}),
     authDataProvider,
-    importProvidersFrom(
-      HttpClientModule
-    ),
+    provideHttpClient(),
     {
       provide: AuthAppConfiguration,
       useFactory: () =>
