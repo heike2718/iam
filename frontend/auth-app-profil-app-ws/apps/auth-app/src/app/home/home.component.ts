@@ -1,6 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthAppConfiguration } from "../config/auth-app.configuration";
 
 
 @Component({
@@ -8,7 +9,19 @@ import { MatButtonModule } from '@angular/material/button';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     standalone: true,
-    imports: [CommonModule, MatButtonModule]
+    imports: [
+        CommonModule,
+        MatButtonModule
+    ]
 })
 export class HomeComponent {
+
+    configuration = inject(AuthAppConfiguration);
+
+    redirectToProfilApp() {
+
+		window.location.href = this.configuration.profilUrl;
+	}
+
+
 }

@@ -1,20 +1,62 @@
   .main {
     display: grid;
-    grid-template-rows: 1fr auto; /* One row for content, one for footer */
-    min-height: 100vh; /* Ensure the grid takes the full viewport height */
+    grid-template-rows: 1fr auto;
+    /* One row for content, one for footer */
+    min-height: 100vh;
+    /* Ensure the grid takes the full viewport height */
   }
 
   .content {
-      padding: 30px;
-      /* Adjust for your content's spacing needs */
-      overflow-y: auto;
-      /* This ensures that only the content scrolls if it's too large */
+    padding: 30px;
+    /* Adjust for your content's spacing needs */
+    overflow-y: auto;
+    /* This ensures that only the content scrolls if it's too large */
   }
 
   footer {
-      background-color: #194778;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      height: 80px;
+    background-color: #194778;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    height: 80px;
   }
+
+  .info-list {
+    list-style-type: none;
+    /* Remove bullets */
+    padding: 0;
+    margin: 0;
+  }
+
+  .info-item {
+    margin: 10px 0;
+    padding: 10px;
+    border: 2px solid #eee;
+    /* Add a soft border */
+    border-radius: 8px;
+    /* Rounded corners */
+    transition: background-color 0.3s ease;
+  }
+
+  .info-item:hover {
+    background-color: #bfcbdb;
+    /* Light background color on hover */
+  }
+
+  .info-item a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #194778;
+    /* Standard link color */
+    font-weight: bold;
+  }
+
+  .info-item a:hover {
+    color: black;
+  }
+
+  .info-item a:visited {
+    color: #5a5a5a;
+    /* Different color for visited links */
+  }
+  

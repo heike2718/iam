@@ -1,3 +1,12 @@
-<div class="centered">
+<div>
+    <p>Zum Ändern Ihrer Kontodaten (Name, Vorname, Loginname, Email, Passwort) oder zum Löschen Ihres Benutzerkontos
+        klicken Sie bitte auf "Kontodaten ändern". Sie werden dann in die "Anwendung Mathe-jung-alt - Benutzerprofil" umgeleitet.</p>
+    <p>
+        <button mat-raised-button color="primary" matTooltip="zurück zur Suche"
+            (click)="redirectToProfilApp()">Kontodaten ändern</button>
+    </p>
+    @if(configuration.production === false) {
+    <p>URL Profil-App: {{configuration.profilUrl}}</p>
+    }
 
 </div>
