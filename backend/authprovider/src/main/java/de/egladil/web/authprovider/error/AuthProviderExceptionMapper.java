@@ -5,6 +5,14 @@
 
 package de.egladil.web.authprovider.error;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.egladil.web.authprovider.dao.impl.PersistenceExceptionMapper;
+import de.egladil.web.commons_net.exception.SessionExpiredException;
+import de.egladil.web.commons_validation.exception.InvalidInputException;
+import de.egladil.web.commons_validation.payload.MessagePayload;
+import de.egladil.web.commons_validation.payload.ResponsePayload;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.RollbackException;
 import jakarta.ws.rs.NotFoundException;
@@ -14,29 +22,20 @@ import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.egladil.web.authprovider.dao.impl.PersistenceExceptionMapper;
-import de.egladil.web.commons_net.exception.SessionExpiredException;
-import de.egladil.web.commons_validation.exception.InvalidInputException;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
-
 /**
  * AuthProviderExceptionMapper
  */
 @Provider
 public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AuthProviderExceptionMapper.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthProviderExceptionMapper.class);
 
 	@Override
 	public Response toResponse(final Exception exception) {
 
 		String generalError = "Es ist ein Serverfehler aufgetreten. Bitte senden Sie eine Mail an info@egladil.de";
 
-		LOG.debug("Exception {} gefangen", exception.getClass().getName());
+		LOGGER.debug("Exception {} gefangen", exception.getClass().getName(), exception);
 
 		if (exception instanceof NoContentException) {
 
@@ -49,7 +48,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 			if (exceptionMessage != null) {
 
-				LOG.warn(LogmessagePrefixes.BOT + exceptionMessage, exception);
+				LOGGER.warn(LogmessagePrefixes.BOT + exceptionMessage, exception);
 			}
 			return Response.status(Status.FORBIDDEN)
 				.entity(ResponsePayload.messageOnly(MessagePayload.error("Netter Versuch, klappt aber nicht."))).build();
@@ -86,7 +85,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 			if (ex.getClientCredentials() != null && ex.getClientCredentials().getRedirectUrl() != null) {
 
-				LOG.warn("Das client access token {} ist unterwegs verlorengegangen. redirectUrl={}",
+				LOGGER.warn("Das client access token {} ist unterwegs verlorengegangen. redirectUrl={}",
 					ex.getClientCredentials().getAccessToken(), ex.getClientCredentials().getRedirectUrl());
 
 				ResponsePayload payload = new ResponsePayload(MessagePayload.error("Ups, da ist etwas schiefgegangen"),
@@ -96,7 +95,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 					.build();
 			} else {
 
-				LOG.error(ex.getMessage());
+				LOGGER.error(ex.getMessage());
 				ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error("Fehler beim Holen der ClientDaten"));
 				return Response.serverError()
 					.header("X-Auth-Error", "Serverfehler")
@@ -108,7 +107,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 		if (exception instanceof AuthException) {
 
 			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
-			LOG.warn(exceptionMessage);
+			LOGGER.warn("{}: {}", exception.getClass().getSimpleName(), exceptionMessage);
 			return Response.status(401)
 				.entity(payload)
 				.build();
@@ -182,7 +181,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 		}
 
-		LOG.error(exceptionMessage, exception);
+		LOGGER.error(exceptionMessage, exception);
 
 		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(generalError));
 		return Response.serverError()

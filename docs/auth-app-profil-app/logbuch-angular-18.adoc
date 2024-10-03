@@ -144,7 +144,6 @@ npx nx g @nx/angular:library common-components --directory=libs --flat --simpleN
 ---- 
 npx nx g @nx/angular:library model --directory=apps/auth-app/src/app/auth --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:auth,type:model --no-interactive --dry-run
 
-
 npx nx g @nx/angular:library api --directory=apps/auth-app/src/app/auth --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:auth,type:api --no-interactive --dry-run
 
 npx nx g @nx/angular:library data --directory=apps/auth-app/src/app/auth --flat --simpleName --style=scss --prefix=auth --standalone --tags=domain:auth,type:data --no-interactive --dry-run

@@ -5,6 +5,7 @@
 
 package de.egladil.web.authprovider.crypto.impl;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -24,10 +25,12 @@ import de.egladil.web.authprovider.domain.Salt;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.ClientAuthException;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
+import de.egladil.web.authprovider.utils.AuthUtils;
 import de.egladil.web.commons_crypto.CryptoService;
 import de.egladil.web.commons_crypto.PasswordAlgorithm;
 import de.egladil.web.commons_crypto.PasswordAlgorithmBuilder;
 import de.egladil.web.commons_validation.SecUtils;
+import io.vertx.core.http.HttpServerRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -39,9 +42,14 @@ import jakarta.inject.Inject;
 @ApplicationScoped
 public class AuthCryptoServiceImpl implements AuthCryptoService {
 
+	private static final String MESSAGE_FORMAT_FAILED_LOGIN = "ipAddress={0}, userAgent={1}, ressourceOwner={2}";
+
 	private static final Logger LOG = LoggerFactory.getLogger(AuthCryptoServiceImpl.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+
+	@Inject
+	HttpServerRequest request;
 
 	@ConfigProperty(name = "stage")
 	String stage;
@@ -117,7 +125,7 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 
 			if (!korrekt) {
 
-				LOG.warn("ResourceOwner {} stimmt, passwort nicht", resourceOwner);
+				LOG.warn("ResourceOwner {} stimmt, passwort nicht", getFailedLoginDetails(resourceOwner));
 				throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
 			}
 			return true;
@@ -125,6 +133,14 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 
 			SecUtils.wipe(password);
 		}
+	}
+
+	private String getFailedLoginDetails(final ResourceOwner resourceOwner) {
+
+		String ipAddress = AuthUtils.getIPAddress(request);
+		String userAgent = AuthUtils.getUserAgent(request);
+		return MessageFormat.format(MESSAGE_FORMAT_FAILED_LOGIN,
+			new Object[] { ipAddress, userAgent, resourceOwner.toLogString() });
 	}
 
 	@Override

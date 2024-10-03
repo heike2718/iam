@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.vertx.core.http.HttpServerRequest;
+
 /**
  * AuthUtils
  */
@@ -127,6 +129,27 @@ public final class AuthUtils {
 		Collections.sort(sortierbar, Collator.getInstance(Locale.GERMAN));
 
 		return StringUtils.join(sortierbar, ",");
+	}
+
+	public static final String getUserAgent(final HttpServerRequest request) {
+
+		return request == null ? null : request.getHeader("User-Agent");
+	}
+
+	public static final String getIPAddress(final HttpServerRequest request) {
+
+		if (request == null) {
+
+			return null;
+		}
+
+		String ipAddress = request.getHeader("X-Forwarded-For");
+
+		if (ipAddress == null || ipAddress.isEmpty()) {
+
+			ipAddress = request.remoteAddress().host();
+		}
+		return ipAddress;
 	}
 
 }

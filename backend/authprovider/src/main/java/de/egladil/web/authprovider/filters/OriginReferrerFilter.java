@@ -8,6 +8,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.egladil.web.authprovider.config.ConfigService;
+import de.egladil.web.authprovider.error.AuthException;
+import de.egladil.web.commons_net.utils.CommonHttpUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -16,14 +23,6 @@ import jakarta.ws.rs.container.PreMatching;
 import jakarta.ws.rs.core.NoContentException;
 import jakarta.ws.rs.core.UriInfo;
 import jakarta.ws.rs.ext.Provider;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.egladil.web.authprovider.config.ConfigService;
-import de.egladil.web.authprovider.error.AuthException;
-import de.egladil.web.commons_net.utils.CommonHttpUtils;
 
 /**
  * OriginReferrerFilter
@@ -42,6 +41,11 @@ public class OriginReferrerFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {
+
+		String path = requestContext.getUriInfo().getPath();
+		String method = requestContext.getMethod();
+
+		LOG.info("{} : {}", method, path);
 
 		UriInfo uriInfo = requestContext.getUriInfo();
 		String pathInfo = uriInfo.getPath();
@@ -101,7 +105,7 @@ public class OriginReferrerFilter implements ContainerRequestFilter {
 
 				final String details = "targetOrigin != extractedOrigin: [targetOrigin=" + targetOrigin
 					+ ", extractedOriginOrReferer="
-					+ extractedValue + "]";
+					+ extractedValue + ", allowedOrigins=" + StringUtils.join(allowedOrigins) + "]";
 				logErrorAndThrow(details, requestContext);
 			}
 		}

@@ -20,22 +20,17 @@ import de.egladil.web.authprovider.error.LogmessagePrefixes;
 import de.egladil.web.authprovider.service.AuthproviderSessionService;
 import de.egladil.web.commons_net.exception.SessionExpiredException;
 import de.egladil.web.commons_net.utils.CommonHttpUtils;
-import jakarta.annotation.Priority;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
-import jakarta.ws.rs.container.PreMatching;
-import jakarta.ws.rs.ext.Provider;
 
 /**
  * AuthorizationFilter
  */
-@ApplicationScoped
-@Provider
-@Priority(Priorities.AUTHORIZATION)
-@PreMatching
+// @ApplicationScoped
+// @Provider
+// @Priority(Priorities.AUTHORIZATION)
+// @PreMatching
 public class AuthorizationFilter implements ContainerRequestFilter {
 
 	private static final String CSRF_TOKEN_HEADER = "X-XSRF-TOKEN";
