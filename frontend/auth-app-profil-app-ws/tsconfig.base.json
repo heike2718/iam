@@ -19,11 +19,9 @@
       "@ap-ws/messages/api": ["libs/messages/api/src/index.ts"],
       "@ap-ws/messages/http": ["libs/http/src/index.ts"],
       "@ap-ws/messages/ui": ["libs/messages/ui/src/index.ts"],
-      "@auth-app/auth/model": [
-        "apps/auth-app/src/app/auth/model/src/index.ts"
-      ],
       "@auth-app/auth/api": ["apps/auth-app/src/app/auth/api/src/index.ts"],
       "@auth-app/auth/data": ["apps/auth-app/src/app/auth/data/src/index.ts"],
+      "@auth-app/auth/model": ["apps/auth-app/src/app/auth/model/src/index.ts"],
       "@auth-app/forgot-password/api": [
         "apps/auth-app/src/app/forgot-password/api/src/index.ts"
       ],
@@ -32,6 +30,13 @@
       ],
       "@auth-app/forgot-password/feature": [
         "apps/auth-app/src/app/forgot-password/feature/src/index.ts"
+      ],
+      "@profil-app/auth/api": ["apps/profil-app/src/app/auth/api/src/index.ts"],
+      "@profil-app/auth/data": [
+        "apps/profil-app/src/app/auth/data/src/index.ts"
+      ],
+      "@profil-app/auth/model": [
+        "apps/profil-app/src/app/auth/model/src/index.ts"
       ]
     }
   },

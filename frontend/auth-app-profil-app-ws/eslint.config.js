@@ -1,6 +1,12 @@
 const nx = require('@nx/eslint-plugin');
 
 module.exports = [
+  {
+    files: ['**/*.json'],
+    // Override or add rules here
+    rules: {},
+    languageOptions: { parser: require('jsonc-eslint-parser') },
+  },
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
@@ -17,13 +23,13 @@ module.exports = [
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
           depConstraints: [
             {
-              "sourceTag": "domain:auth",
-              "onlyDependOnLibsWithTags": ["domain:auth", "shared"]
+              sourceTag: 'domain:auth',
+              onlyDependOnLibsWithTags: ['domain:auth', 'shared'],
             },
             {
-              "sourceTag": "domain:profil",
-              "onlyDependOnLibsWithTags": ["domain:profil", "shared"]
-            }
+              sourceTag: 'domain:profil',
+              onlyDependOnLibsWithTags: ['domain:profil', 'shared'],
+            },
           ],
         },
       ],
