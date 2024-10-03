@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthHttpService } from "../auth-http.service";
 import { authActions } from "./auth.actions";
 import { map, of, switchMap, tap } from "rxjs";
-import { Message, ResponsePayload } from "@ap-ws/common-utils";
+import { Message } from "@ap-ws/common-utils";
 import { UserSession } from "@profil-app/auth/model";
 import { Router } from '@angular/router';
 
@@ -53,7 +53,7 @@ export class AuthEffects {
             switchMap(({ sessionId }) =>
                 this.#authHttpService.logOut(sessionId)
             ),
-            map((_rp: ResponsePayload) => authActions.lOGGED_OUT())
+            map(() => authActions.lOGGED_OUT())
         );
     });
 
@@ -62,5 +62,5 @@ export class AuthEffects {
             ofType(authActions.lOGGED_OUT),
             tap(() => this.#router.navigateByUrl('/'))
         ), { dispatch: false });
-    
+
 }

@@ -1,7 +1,8 @@
-import { inject, Injectable, ɵsetInjectorProfilerContext } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 import { Message, ResponsePayload, mapResponseDataToType } from '@ap-ws/common-utils';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { ProfilAppConfiguration } from '../../../../configuration/profil-app.configuration';
 import { anonymousSession, AuthResult, UserSession } from "@profil-app/auth/model";
 
