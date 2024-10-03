@@ -54,9 +54,20 @@ https://softarc-consulting.github.io/sheriff/docs/dependency-rules
 
 === Tooling: ein eigenes library schematic
 
-https://nx.dev/extending-nx/recipes/local-generators
+Generierung einer minimalen library:
 
-Wenn man das angular:library- schematic verwendet, kann man nicht verhindern, dasss gleich immer eine Komponente generiert wird, die man bei einfachen Service-Libraries mühsam wieder löschen muss.
+[source,cli]
+----
+npx nx generate @nx/js:library --name=api --directory=apps/profil-app/password/api --minimal=true --projectNameAndRootFormat=as-provided --tags=domain:profil,type:api --no-interactive --dry-run 
+----
+
+==== generator für ngrx
+
+[scr,cli]
+----
+npx nx g @nrwl/angular:ngrx --module=libs/auth/src/lib/auth.module.ts --minimal false
+
+----
 
 Ich benötige am häufigsten eine Library, die einen injectable service bereitstellt und eine data-library, die Files für ngrx generiert.
 
