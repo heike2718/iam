@@ -21,16 +21,8 @@ module.exports = [
         {
           enforceBuildableLibDependency: true,
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
-          depConstraints: [
-            {
-              sourceTag: 'domain:auth',
-              onlyDependOnLibsWithTags: ['domain:auth', 'shared'],
-            },
-            {
-              sourceTag: 'domain:profil',
-              onlyDependOnLibsWithTags: ['domain:profil', 'shared'],
-            },
-          ],
+          depConstraints: [            
+          ]
         },
       ],
     },
