@@ -1,5 +1,49 @@
 == Bereinigung der Benutzerkonten
 
+== Ankündigung Löschung 24.10.2024
+
+Benutzersuche: page size = 50, Sortierung ist automatisch nach Datum aufsteigend, was blöd ist, Filter 2020
+
+[cols="1,1,1"] 
+|===
+| *Seiten*
+| *letzter Benutzer*
+| *email falsch*
+
+| 1-6 (300)
+| 1aef2453
+| gsvgcoc.de
+
+| 301-600 (300)
+| 36563534
+| rwaschule.de
+
+| 601-900 (300)
+| 51b1b763
+|
+
+| 901-1200 (300)
+| 2d75b8a3
+|
+
+| 1201-1700 (500)
+| 94268160
+|
+
+| 1701-2200 (500)
+| bea4f78b
+|
+
+| 2201-2700 (500)
+| ebab151e
+|
+
+| 2701-3006
+| 50ad78f7
+|
+|===
+
+
 Am 2020-12-06 15:01:53 wurden offenbar automatisch Benutzerkonten geändert / migriert oder ähnliche Aktionen. D.h. dieses Änderungsdatum sagt nichts über eine eventuelle Aktivität aus.
 
 === Löschung nicht aktivierter Benutzerkonten
