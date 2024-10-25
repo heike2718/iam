@@ -28,20 +28,19 @@ export class AuthHttpService {
     public createSession(authResult: AuthResult): Observable<UserSession> {
 
         const url = this.#configuration.baseUrl + '/auth/session';
-        const headers = new HttpHeaders().set('Accept', 'application/json');
 
-        const obs$: Observable<ResponsePayload> = this.#httpClient.post<ResponsePayload>(url, authResult.idToken, {headers});
+        const obs$: Observable<ResponsePayload> = this.#httpClient.post<ResponsePayload>(url, authResult.idToken);
         return mapResponseDataToType<UserSession>(obs$, anonymousSession);
 
     }
 
 
-    public logOut(sessionId: string | undefined): Observable<ResponsePayload> {
+    public logOut(): Observable<ResponsePayload> {
 
-        const url = sessionId === undefined ? this.#configuration.baseUrl + '/auth/logout' : this.#configuration.baseUrl + '/auth/dev/logout/' + sessionId;
-        const headers = new HttpHeaders().set('Accept', 'application/json');
+        // const url = sessionId === undefined ? this.#configuration.baseUrl + '/auth/logout' : this.#configuration.baseUrl + '/auth/dev/logout/' + sessionId;
+        const url = this.#configuration.baseUrl + '/auth/logout';
 
-        return this.#httpClient.delete<ResponsePayload>(url, {headers});
+        return this.#httpClient.delete<ResponsePayload>(url);
 
 
     }

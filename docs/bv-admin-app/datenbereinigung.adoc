@@ -24,7 +24,7 @@ Benutzersuche: page size = 50, Sortierung ist automatisch nach Datum aufsteigend
 
 | 901-1200 (300)
 | 2d75b8a3
-|
+| dsbur.o, waldschule-esterwegen.de
 
 | 1201-1700 (500)
 | 94268160
@@ -40,8 +40,9 @@ Benutzersuche: page size = 50, Sortierung ist automatisch nach Datum aufsteigend
 
 | 2701-3006
 | 50ad78f7
-|
+| aol.om
 |===
+
 
 
 Am 2020-12-06 15:01:53 wurden offenbar automatisch Benutzerkonten geändert / migriert oder ähnliche Aktionen. D.h. dieses Änderungsdatum sagt nichts über eine eventuelle Aktivität aus.

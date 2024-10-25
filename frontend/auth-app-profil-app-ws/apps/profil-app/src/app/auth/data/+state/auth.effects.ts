@@ -50,8 +50,8 @@ export class AuthEffects {
 
         return this.#actions.pipe(
             ofType(authActions.lOG_OUT),
-            switchMap(({ sessionId }) =>
-                this.#authHttpService.logOut(sessionId)
+            switchMap(() =>
+                this.#authHttpService.logOut()
             ),
             map(() => authActions.lOGGED_OUT())
         );

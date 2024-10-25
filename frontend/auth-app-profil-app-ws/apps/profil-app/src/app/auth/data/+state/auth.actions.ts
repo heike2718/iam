@@ -11,7 +11,7 @@ export const authActions = createActionGroup({
         'CREATE_SESSION': props<{hash: string}>(),
         'INIT_SESSION': props<{ authResult: AuthResult }>(),
         'SESSION_CREATED': props<{ session: UserSession }>(),
-        'LOG_OUT': props<{sessionId: string | undefined}>(),
+        'LOG_OUT': emptyProps(),
         'LOGGED_OUT': emptyProps()
     }
 

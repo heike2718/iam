@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ap-ws/common-model": ["libs/common-model/index.ts"],
       "@ap-ws/common-utils": ["libs/common-utils/index.ts"],
       "@ap-ws/messages/api": ["libs/messages/api/index.ts"],
       "@ap-ws/messages/ui": ["libs/messages/ui/index.ts"],
