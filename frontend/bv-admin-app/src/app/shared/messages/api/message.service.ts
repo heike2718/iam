@@ -1,15 +1,20 @@
 import { Injectable, signal } from "@angular/core";
-import { Message } from "./message.model";
+import { Message, noopMessage } from "./message.model";
+import { BehaviorSubject, Observable } from "rxjs";
 
 
 @Injectable({ providedIn: 'root' })
 export class MessageService {
 
-    #messageSignal = signal<Message | undefined>(undefined);
+    // #messageSignal = signal<Message>(noopMessage);
 
-    public message() {
-        return this.#messageSignal;
-    }
+    #messageSubject = new BehaviorSubject(noopMessage);
+
+    message$: Observable<Message> = this.#messageSubject.asObservable();
+
+    // public message() {
+    //     return this.#messageSignal;
+    // }
 
     public info(text: string) {
         this.#add({ message: text, level: 'INFO' });
@@ -30,10 +35,12 @@ export class MessageService {
 
     public clear(): void {
 
-        this.#messageSignal.set(undefined);
+        // this.#messageSignal.set(noopMessage);
+        this.#messageSubject.next(noopMessage);
     }
 
     #add(message: Message) {
-        this.#messageSignal.set(message);
+        // this.#messageSignal.set(message);
+        this.#messageSubject.next(message);
     }
 }

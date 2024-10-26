@@ -1,4 +1,4 @@
-export { Message } from './message.model';
+export { Message, noopMessage } from './message.model';
 export { MessageService } from './message.service';
 
 export { LoadingService } from './loading.service';

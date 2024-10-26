@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { Message } from "@ap-ws/common-utils";
+import { Message } from "@ap-ws/common-model";
 
 
 @Injectable({

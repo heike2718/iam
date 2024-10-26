@@ -35,13 +35,21 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "quarkus.rest-client.profile.url")
 	String profileRoute;
 
+	@ConfigProperty(name = "auth.redirect-url.login")
+	String redirectUrl;
+
+	@ConfigProperty(name = "quarkus.http.port")
+	String port;
+
 	void onStartup(@Observes final StartupEvent ev) {
 
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  mkGatewayRoute={}", mkGatewayRoute);
 		LOGGER.info(" ===========>  accessTokenRoute={}", accessTokenRoute);
 		LOGGER.info(" ===========>  tokenExchangeRoute={}", tokenExchangeRoute);
+		LOGGER.info(" ===========>  redirectUrl={}", redirectUrl);
 		LOGGER.info(" ===========>  profileRoute={}", profileRoute);
+		LOGGER.info(" ===========>  profil-server-port={}", port);
 	}
 
 }

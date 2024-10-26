@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ResponsePayload } from '../common-model/common.model';
+import { ResponsePayload } from '@ap-ws/common-model';
 
 /**
  * ResponsePayload hat ein möglicherweise undefined generisches Attribut data. Für die Arbeit mit Signals ist es manchmal besser, nichts undefined hineinzupacken.

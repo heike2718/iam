@@ -7,9 +7,9 @@ export const environment = {
   production: false,
   version: '8.0.2',
   envName: 'Test',
-  apiUrl: 'http://heikedeb:9600/profil-api',
+  apiUrl: 'http://heiketux:9600/profil-api',
   assetsUrl: 'profil-app/assets',
-  loginRedirectUrl: 'http://heikedeb/profil-app',
+  loginRedirectUrl: 'http://heiketux/profil-app',
   consoleLogActive: true,
   serverLogActive: true,
   loglevel: 1

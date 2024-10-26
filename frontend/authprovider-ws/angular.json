@@ -82,7 +82,7 @@
                 }
               ]
             },
-            "heikedeb": {
+            "heiketux": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -99,7 +99,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/auth-app/src/environments/environment.ts",
-                  "with": "build-env/auth-app/environment-heikedeb.ts"
+                  "with": "build-env/auth-app/environment-heiketux.ts"
                 }
               ]
             }
@@ -239,7 +239,7 @@
                 }
               ]
             },
-            "heikedeb": {
+            "heiketux": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -256,7 +256,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/profil-app/src/environments/environment.ts",
-                  "with": "build-env/profil-app/environment-heikedeb.ts"
+                  "with": "build-env/profil-app/environment-heiketux.ts"
                 }
               ]
             }

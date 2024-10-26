@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthHttpService } from "../auth-http.service";
 import { authActions } from "./auth.actions";
 import { map, of, switchMap, tap } from "rxjs";
-import { Message } from "@ap-ws/common-utils";
+import { Message } from "@ap-ws/common-model";
 import { UserSession } from "apps/profil-app/src/app/auth/model";
 import { Router } from '@angular/router';
 

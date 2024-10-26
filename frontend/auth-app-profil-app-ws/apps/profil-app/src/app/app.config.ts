@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection, importProvidersFrom, ErrorHandler } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -12,6 +12,7 @@ import { authDataProvider } from '@profil-app/auth/api';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LoadingInterceptor } from '@ap-ws/messages/api';
 import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
+import { ErrorHandlerService } from '@ap-ws/common-utils';
 
 registerLocaleData(LOCALE_ID, 'de');
 
@@ -46,5 +47,6 @@ export const appConfig: ApplicationConfig = {
     { provide: LOCALE_ID, useValue: 'de-DE' },
     { provide: HTTP_INTERCEPTORS, multi: true, useClass: LoadingInterceptor },
     { provide: HTTP_INTERCEPTORS, multi: true, useClass: APIHttpInterceptor },
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
   ],
 };

@@ -26,7 +26,6 @@ public class AuthAdminTestProfile implements QuarkusTestProfile {
 		configOverrides.put("quarkus.http.test.timeout", "600S");
 		configOverrides.put("quarkus.http.test.timeout", "600S");
 		configOverrides.put("quarkus.mailer.mock", "true");
-		configOverrides.put("quarkus.datasource.jdbc.url", "jdbc:mariadb://172.26.0.2:3306/authbv");
 
 		System.out.println("config overridden:");
 

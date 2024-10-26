@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -11,7 +10,14 @@
   },
   "files": [],
   "include": [],
-  "references": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ],
   "extends": "../../tsconfig.base.json",
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
