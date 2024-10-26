@@ -1,26 +1,18 @@
-import { Injectable, signal } from "@angular/core";
-import { Message, noopMessage } from "./message.model";
+import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
+import { Message } from "./message.model";
 
 
 @Injectable({ providedIn: 'root' })
 export class MessageService {
 
-    // #messageSignal = signal<Message>(noopMessage);
+    #messageSubject$ = new BehaviorSubject<Message | undefined>(undefined);
 
-    #messageSubject = new BehaviorSubject(noopMessage);
-
-    message$: Observable<Message> = this.#messageSubject.asObservable();
-
-    // public message() {
-    //     return this.#messageSignal;
-    // }
+    public message$: Observable<Message | undefined> = this.#messageSubject$.asObservable();
 
     public info(text: string) {
+
         this.#add({ message: text, level: 'INFO' });
-        setTimeout(() => {
-            this.clear();
-        }, 3000); // Clear after 3 seconds
     }
 
     public warn(text: string) {
@@ -33,14 +25,16 @@ export class MessageService {
         this.#add({ message: text, level: 'ERROR' });
     }
 
+    public message(message: Message): void {
+        this.#add(message);
+    }
+
     public clear(): void {
 
-        // this.#messageSignal.set(noopMessage);
-        this.#messageSubject.next(noopMessage);
+        this.#messageSubject$.next(undefined);
     }
 
     #add(message: Message) {
-        // this.#messageSignal.set(message);
-        this.#messageSubject.next(message);
+        this.#messageSubject$.next(message);
     }
 }
