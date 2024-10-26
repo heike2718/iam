@@ -1,10 +1,10 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
-import { anonymousSession, UserSession } from "apps/profil-app/src/app/auth/model";
+import { anonymousSession, Session } from "apps/profil-app/src/app/auth/model";
 import { authActions } from "./auth.actions";
 
 
 export interface AuthState {
-  readonly session: UserSession;
+  readonly session: Session;
 };
 
 const initialState: AuthState = {

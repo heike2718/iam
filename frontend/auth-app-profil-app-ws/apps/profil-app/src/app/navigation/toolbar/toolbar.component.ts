@@ -27,7 +27,7 @@ export class ToolbarComponent {
     @Output()
     sidenavToggle = new EventEmitter();
 
-    shellService = inject(ShellService);
+    shellService = inject(ShellService);    
 
     onToggleSidenav(): void {
         this.sidenavToggle.emit();
@@ -38,8 +38,8 @@ export class ToolbarComponent {
     }
 
     logout(): void {
-        
+
         this.authFacade.logout();
-        
+
     }
 }

@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { authActions, fromAuth } from "@profil-app/auth/data";
 import { Observable, of, switchMap } from "rxjs";
+import { AuthResult, User } from "@profil-app/auth/model";
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +17,7 @@ export class AuthFacade {
         switchMap((li) => of(!li))
     );
 
-
+    readonly user$: Observable<User> = this.#store.select(fromAuth.user);
 
     public login(): void {
 
@@ -27,6 +28,39 @@ export class AuthFacade {
 
         this.#store.dispatch(authActions.lOG_OUT());
     }
+
+    public createSession(authResult: AuthResult) {
+        this.#store.dispatch(authActions.cREATE_SESSION({ authResult}))
+    }
+
+    public parseHash(hashStr: string): AuthResult {
+
+		hashStr = hashStr.replace(/^#?\/?/, '');
+
+		const result: AuthResult = {
+			expiresAt: 0,
+			nonce: undefined,
+			state: undefined,
+			idToken: undefined
+		};
+
+		if (hashStr.length > 0) {
+
+			const tokens = hashStr.split('&');
+			tokens.forEach(
+				(token) => {
+					const keyVal = token.split('=');
+					switch (keyVal[0]) {
+						case 'expiresAt': result.expiresAt = JSON.parse(keyVal[1]); break;
+						case 'nonce': result.nonce = keyVal[1]; break;
+						case 'state': result.state = keyVal[1]; break;
+						case 'idToken': result.idToken = keyVal[1]; break;
+					}
+				}
+			);
+		}
+		return result;
+	}
 
 
 

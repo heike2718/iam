@@ -31,6 +31,9 @@
       "@auth-app/forgot-password/feature": [
         "apps/auth-app/src/app/forgot-password/feature/index.ts"
       ],
+      "@profil-app/local-storage": [
+        "apps/profil-app/src/app/local-storage-data/index.ts"
+      ],
       "@profil-app/auth/api": ["apps/profil-app/src/app/auth/api/index.ts"],
       "@profil-app/auth/data": [
         "apps/profil-app/src/app/auth/data/index.ts"

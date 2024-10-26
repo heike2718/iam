@@ -13,6 +13,18 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { LoadingInterceptor } from '@ap-ws/messages/api';
 import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
 import { ErrorHandlerService } from '@ap-ws/common-utils';
+import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from './local-storage-data';
+
+const localStorageMetaReducer = localStorageReducer(
+  'auth'
+); // <-- synchronisiert diese Slices des Store mit localStorage wegen F5.
+// auth = auth.reducer.ts/authFeature
+
+const clearStoreMetaReducer = loggedOutMetaReducer;
+
+const allMetaReducers = environment.production
+  ? [localStorageMetaReducer]
+  : [localStorageMetaReducer, clearStoreMetaReducer];
 
 registerLocaleData(LOCALE_ID, 'de');
 
@@ -22,7 +34,13 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideRouter(appRoutes),
     provideRouterStore(),
-    provideStore({}),
+    provideStore(
+      {
+
+      },
+      {
+        metaReducers: allMetaReducers,
+      }),
     provideHttpClient(withInterceptorsFromDi()),
     authDataProvider,
     environment.providers,

@@ -18,6 +18,12 @@
     <span class="toolbar-spacer"></span>
     }
 
+    @if (authFacade.user$ | async; as user) {
+    <div class="mr-2">
+        Guten Tag, {{user.fullName}}
+    </div>
+    }
+
     @if (authFacade.userIsLoggedOut$ | async) {
     <a mat-button (click)="login()">
         <mat-icon class="nav-item">login</mat-icon>

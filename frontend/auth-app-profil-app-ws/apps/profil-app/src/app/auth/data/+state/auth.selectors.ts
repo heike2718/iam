@@ -9,11 +9,6 @@ const session = createSelector(
     (state) => state.session
 );
 
-const userName = createSelector(
-    selectSession,
-    (session) => session.fullName
-);
-
 const isAnonymous = createSelector(
     selectSession,
     (session) => anonymousSession.fullName === session.fullName
@@ -29,9 +24,14 @@ const isLoggedOut = createSelector(
     (anonymous) => anonymous
 )
 
+const user = createSelector(
+    selectAuthFeatureState,
+    (state) => state.session.user
+)
+
 export const fromAuth = {
     session,
-    userName,
+    user,
     isLoggedIn,
     isLoggedOut
 }

@@ -4,7 +4,7 @@ import { AuthHttpService } from "../auth-http.service";
 import { authActions } from "./auth.actions";
 import { map, of, switchMap, tap } from "rxjs";
 import { Message } from "@ap-ws/common-model";
-import { UserSession } from "apps/profil-app/src/app/auth/model";
+import { Session } from "apps/profil-app/src/app/auth/model";
 import { Router } from '@angular/router';
 
 
@@ -38,11 +38,11 @@ export class AuthEffects {
     createSession$ = createEffect(() => {
 
         return this.#actions.pipe(
-            ofType(authActions.iNIT_SESSION),
+            ofType(authActions.cREATE_SESSION),
             switchMap(({ authResult }) =>
                 this.#authHttpService.createSession(authResult)
             ),
-            map((session: UserSession) => authActions.sESSION_CREATED({ session }))
+            map((session: Session) => authActions.sESSION_CREATED({ session }))
         );
     });
 
@@ -61,6 +61,12 @@ export class AuthEffects {
         this.#actions.pipe(
             ofType(authActions.lOGGED_OUT),
             tap(() => this.#router.navigateByUrl('/'))
+        ), { dispatch: false });
+
+    sessionCreated$ = createEffect(() =>
+        this.#actions.pipe(
+            ofType(authActions.sESSION_CREATED),
+            tap((response) => console.log('fullName=' + response.session.fullName))
         ), { dispatch: false });
 
 }

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 import { mapResponseDataToType } from '@ap-ws/common-utils';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { anonymousSession, AuthResult, UserSession } from "apps/profil-app/src/app/auth/model";
+import { anonymousSession, AuthResult, Session } from "apps/profil-app/src/app/auth/model";
 import { Message, ResponsePayload } from "@ap-ws/common-model";
 
 
@@ -25,12 +25,12 @@ export class AuthHttpService {
         );
     }
 
-    public createSession(authResult: AuthResult): Observable<UserSession> {
+    public createSession(authResult: AuthResult): Observable<Session> {
 
         const url = this.#url + '/auth/session';
 
         const obs$: Observable<ResponsePayload> = this.#httpClient.post<ResponsePayload>(url, authResult.idToken);
-        return mapResponseDataToType<UserSession>(obs$, anonymousSession);
+        return mapResponseDataToType<Session>(obs$, anonymousSession);
 
     }
 
