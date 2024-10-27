@@ -6,10 +6,10 @@ import { filterDefined } from '@ap-ws/common-utils';
 
 @Injectable()
 export class LocalStorageEffects {
-  storageEvent = createEffect(() => {
+  
+  storageEvent$ = createEffect(() => {
     return fromEvent<StorageEvent>(window, 'storage').pipe(
-      map(x => x?'key':''),
-      // pluck('key'),
+      map(x => x ? 'key' : ''),
       filterDefined,
       map((featureState) => syncLocalStorage({ featureState }))
     );

@@ -14,9 +14,10 @@ import { LoadingInterceptor } from '@ap-ws/messages/api';
 import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
 import { ErrorHandlerService } from '@ap-ws/common-utils';
 import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from './local-storage-data';
+import { provideEffects } from '@ngrx/effects';
 
 const localStorageMetaReducer = localStorageReducer(
-  'auth'
+  'authFeature'
 ); // <-- synchronisiert diese Slices des Store mit localStorage wegen F5.
 // auth = auth.reducer.ts/authFeature
 
@@ -41,6 +42,7 @@ export const appConfig: ApplicationConfig = {
       {
         metaReducers: allMetaReducers,
       }),
+    provideEffects(LocalStorageEffects),
     provideHttpClient(withInterceptorsFromDi()),
     authDataProvider,
     environment.providers,

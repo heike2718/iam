@@ -2,6 +2,7 @@ import { ActionReducer, INIT, MetaReducer } from '@ngrx/store';
 import { loggedOutEvent } from '@profil-app/auth/api';
 
 function clearState(reducer: ActionReducer<any>): ActionReducer<any> {
+    
     return (state, action) => {
         if (action != null && action.type === loggedOutEvent.type) {
             return reducer(undefined, { type: INIT });
