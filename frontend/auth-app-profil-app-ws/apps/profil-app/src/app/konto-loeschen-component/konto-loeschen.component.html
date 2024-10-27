@@ -1,0 +1,5 @@
+@if(authFacade.userIsLoggedIn$ | async){
+    <p>Hier können Sie Ihr Benutzerkonto löschen.</p>
+} @else {
+    <p>Bitte loggen Sie sich ein, um Ihr Benutzerkonto zu löschen.</p>
+}

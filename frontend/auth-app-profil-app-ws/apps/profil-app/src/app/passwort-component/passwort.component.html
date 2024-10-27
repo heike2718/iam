@@ -1,0 +1,5 @@
+@if(authFacade.userIsLoggedIn$ | async){
+    <p>Hier können Sie Ihr Passwort ändern.</p>
+} @else {
+    <p>Bitte loggen Sie sich ein, um Ihr Passwort zu ändern.</p>
+}

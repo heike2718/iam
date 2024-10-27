@@ -12,11 +12,12 @@
 
 a {
     text-decoration: none;
-    color: white;
+    color: black;
     padding: 16px 5px; /* Adjust the padding as needed */
 }
 
 a:hover,
 a:active {
-    color: lightgray;
+    color: black;
+    cursor: pointer;
 }

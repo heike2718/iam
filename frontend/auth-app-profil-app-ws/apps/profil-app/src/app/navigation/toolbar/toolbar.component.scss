@@ -18,8 +18,14 @@ a {
 
 a:hover,
 a:active {
-    color: lightgray;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border: 2px solid #133d6b;
+    /* Optional: Dark blue border to enhance button effect */
 }
+
+
 
 .nav-caption {
     color: white;
@@ -33,6 +39,10 @@ a:active {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+.menu-item {
+    margin-left: 1em;
 }
 
 

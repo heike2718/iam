@@ -1,1 +1,5 @@
-<p>Home Component</p>
+@if(authFacade.userIsLoggedIn$ | async){
+    <p>Hier können Sie die Daten Ihres Benutzerkontos ändern.</p>
+} @else {
+    <p>Bitte loggen Sie sich ein, um die Daten Ihres Benutzerkontos zu ändern.</p>
+}
