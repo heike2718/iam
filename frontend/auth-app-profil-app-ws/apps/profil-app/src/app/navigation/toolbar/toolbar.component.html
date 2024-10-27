@@ -6,19 +6,19 @@
         </button>
     </div>
     } @else {
-    <a mat-button routerLink="/" class="menu-item">
+    <a mat-button routerLink="/">
         <mat-icon class="nav-item">person</mat-icon>
         <span class="nav-caption">Benutzerkonto</span>
     </a>
 
     @if(authFacade.userIsLoggedIn$ | async){
-    <a mat-list-item routerLink="/passwort" class="menu-item">
+    <a mat-list-item routerLink="/passwort">
         <mat-icon class="nav-icon">password</mat-icon>
         <span class="nav-caption">Passwort ändern</span>
     </a>
 
 
-    <a mat-list-item routerLink="/loeschung-benutzerkonto" class="menu-item">
+    <a mat-list-item routerLink="/loeschung-benutzerkonto">
         <mat-icon class="nav-icon">delete</mat-icon>
         <span class="nav-caption">Konto löschen</span>
     </a>
@@ -34,20 +34,20 @@
     }
 
     @if (authFacade.userIsLoggedOut$ | async) {
-    <a mat-button (click)="login()" class="menu-item">
+    <a mat-button (click)="login()">
         <mat-icon class="nav-item">login</mat-icon>
         <span class="nav-caption">einloggen</span>
     </a>
     }
 
     @if (authFacade.userIsLoggedIn$ | async) {
-    <a mat-button (click)="logout()" class="menu-item">
+    <a mat-button (click)="logout()">
         <mat-icon class="nav-item">logout</mat-icon>
         <span class="nav-caption">ausloggen</span>
     </a>
     }
 
-    <a mat-button href="https://mathe-jung-alt.de/impressum.html" target="_blank" class="menu-item">
+    <a mat-button href="https://mathe-jung-alt.de/impressum.html" target="_blank">
         <span class="nav-caption">Impressum</span>
     </a>
 

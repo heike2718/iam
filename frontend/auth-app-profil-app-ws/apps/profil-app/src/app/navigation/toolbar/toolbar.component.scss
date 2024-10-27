@@ -1,55 +1,43 @@
+/* Base styling for toolbar and items */
 mat-toolbar {
-    /** border-radius: 3px;
-    
-    */
     background-color: #133d6b;
     color: white;
-    height: 50px;
+    display: flex;
+    align-items: center;
 }
 
+/* Styling for menu items */
+mat-toolbar a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+/* Hover effect for menu items */
+mat-toolbar a:hover, mat-toolbar a:active{
+    background-color: white;
+    color: #133d6b;
+    border-radius: 8px;
+}
+
+/* Spacer for alignment */
 .toolbar-spacer {
     flex: 1 1 auto;
 }
 
-a {
-    text-decoration: none;
-    color: white;
-}
-
-a:hover,
-a:active {
-    background-color: white;
-    color: black;
-    cursor: pointer;
-    border: 2px solid #133d6b;
-    /* Optional: Dark blue border to enhance button effect */
-}
-
-
-
-.nav-caption {
-    color: white;
-    display: inline-block;
-    padding-left: 6px;
-    font-size: 1.1rem;
-}
-
+/* Icon styling */
+mat-icon,
 .nav-item {
-    color: white;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    margin-right: 8px;
+    color: inherit;
 }
 
-.menu-item {
-    margin-left: 1em;
-}
-
-
-/** ======================   */
-
-@media(max-width: 959px) {
-    mat-toolbar {
-        border-radius: 0px;
-    }
+/* Adjust text spacing */
+.nav-caption {
+    font-size: 14px;
+    font-weight: 500;
 }

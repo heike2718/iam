@@ -16,13 +16,13 @@
         <span class="nav-caption">Konto löschen</span>
     </a>
 
-    <a mat-button (click)="logout()" (click)="onSidenavClose()">
+    <a mat-list-item (click)="logout()" (click)="onSidenavClose()">
         <mat-icon class="nav-item">logout</mat-icon>
         <span class="nav-caption">ausloggen</span>
     </a>
 
     } @else {
-        <a mat-button (click)="login()" (click)="onSidenavClose()">
+        <a mat-list-item (click)="login()" (click)="onSidenavClose()">
             <mat-icon class="nav-item">login</mat-icon>
             <span class="nav-caption">einloggen</span>
         </a>
