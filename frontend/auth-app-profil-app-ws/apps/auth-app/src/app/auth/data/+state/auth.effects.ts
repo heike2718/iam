@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthHttpService } from "../auth-http.service";
 import { authActions } from "./auth.actions";
-import { map, switchMap, tap } from "rxjs";
+import { map, switchMap } from "rxjs";
 
 @Injectable({
     providedIn: 'root'

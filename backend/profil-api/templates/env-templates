@@ -1,0 +1,60 @@
+ENV=dev
+STAGE=dev
+
+QUARKUS_HTTP_PORT=10600
+
+TARGET_ORIGIN=localhost:4300,localhost:4400,localhost:10600
+
+AUTHPROVIDER_URL=http://heiketux:9000/authprovider
+AUTH_APP_URL=http://heiketux:80/auth-app
+
+MKV_APP_CLIENT_ID=k7Ax...
+MKV_APP_CLIENT_SECRET=start123
+
+SYNC_INFRASTRUCTURE_AVAILABLE=false
+
+PUBLIC-CLIENT-ID=T73...
+PUBLIC-CLIENT-SECRET=start123
+
+CSRF_ENABLED=false
+
+
+#=================================================================#
+#        Redirect URL                                             #
+#=================================================================#
+#PUBLIC_REDIRECT_URL=http://localhost:4400
+PUBLIC_REDIRECT_URL=http://localhost:10600/profil-app
+
+#=================================================================#
+#        REST-Clients                                             #
+#=================================================================#
+QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000/authprovider
+QUARKUS_REST_CLIENT_MKGATEWAY_URL=http://localhost:9510/mk-gateway
+
+QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4300,http://localhost:4400,http://localhost:10600
+
+#=================================================================#
+#        Database                                                 #
+#=================================================================#
+# falls die IP sich geändert hat, startet Quarkus nicht
+# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb-all
+QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://172.18.0.2:3306/authbv
+QUARKUS_DATASOURCE_PASSWORD=hwinkel
+# man muss auch das MIN-Level auf TRACE setzen, wenn man das SQL von namedQueries sehen will
+QUARKUS_LOG_MIN_LEVEL=TRACE
+QUARKUS_HIBERNATE_ORM_LOG_BIND_PARAMETERS=true
+QUARKUS_HIBERNATE_ORM_LOG_SQL=true
+
+#=============================================================================================#
+#        Logging                                                                              #
+#=============================================================================================#
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_INFRASTRUCTURE_FILTERS_SPAROUTEFILTER__LEVEL=DEBUG
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_DOMAIN_AUTH_SESSION_SESSIONUTILS__LEVEL=WARN
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_INFRASTRUCTURE_CDI_AUTHENTICATIONCONTEXTIMPL__LEVEL=WARN
+
+QUARKUS_LOG_CATEGORY__ORG_JBOSS_RESTEASY_REACTIVE_CLIENT_LOGGING_DEFAULTCLIENTLOGGER__LEVEL=WARN
+QUARKUS_LOG_CATEGORY__ORG_HIBERNATE_SQL__LEVEL=ERROR
+
+
+QUARKUS_LOG_CATEGORY_DE_EGLADIL_WEB_PROFIL_SERVER_LEVEL=INFO
+

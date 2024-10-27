@@ -1,41 +1,17 @@
+
 export interface AuthResult {
-	expiresAt?: number;
-	state?: string;
-	nonce?: string;
-	idToken?: string;
-}
-
-export interface User {
-	readonly loginName: string;
-	readonly email: string;
-	readonly vorname: string;
-	readonly nachname: string;
-	readonly fullName: string;
-}
-
-export const anonymousUser: User = {
-	loginName: '',
-	email: '',
-	vorname: '',
-	nachname: '',
-	fullName: 'Gast'
+    expiresAt: number | undefined;
+    state: string | undefined;
+    nonce: string | undefined;
+    idToken: string | undefined;
 }
 
 export interface Session {
-	readonly sessionId: string;
-	readonly csrfToken: string;
-	readonly fullName: string;
-	readonly expiresAt: number; // expiration in milliseconds after 01.01.1970
-	readonly idReference: string;
-	readonly user: User;
+    readonly sessionId: string | undefined;
+    readonly expiresAt: number;
 }
 
 export const anonymousSession: Session = {
-	sessionId: '',
-	csrfToken: '',
-	fullName: 'Gast',
-	expiresAt: 0,
-	idReference: '',
-	user: anonymousUser
+    sessionId: undefined,
+    expiresAt: 0
 }
-

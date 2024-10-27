@@ -17,9 +17,9 @@ import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from '
 import { provideEffects } from '@ngrx/effects';
 
 const localStorageMetaReducer = localStorageReducer(
-  'authFeature'
+  'profilAuth'
 ); // <-- synchronisiert diese Slices des Store mit localStorage wegen F5.
-// auth = auth.reducer.ts/authFeature
+// auth = auth.reducer.ts/profilAuth
 
 const clearStoreMetaReducer = loggedOutMetaReducer;
 

@@ -13,36 +13,20 @@ import { Message, ResponsePayload } from "@ap-ws/common-model";
 export class AuthHttpService {
 
     #httpClient = inject(HttpClient);
-    #url = '/profil-api';
+    #url = '/profil-api/session';
 
 
     public getLoginUrl(): Observable<Message> {
-
-        const url =  this.#url + '/auth/login';
-        const headers = new HttpHeaders().set('Accept', 'application/json');
-        return this.#httpClient.get<ResponsePayload>(url, { headers }).pipe(
-            map((rp) => rp.message)
-        );
+        return this.#httpClient.get<Message>(this.#url + '/authurls/login');
     }
 
     public createSession(authResult: AuthResult): Observable<Session> {
-
-        const url = this.#url + '/auth/session';
-
-        const obs$: Observable<ResponsePayload> = this.#httpClient.post<ResponsePayload>(url, authResult.idToken);
-        return mapResponseDataToType<Session>(obs$, anonymousSession);
-
+        return this.#httpClient.post<Session>(this.#url +  '/login', authResult);
     }
 
 
-    public logOut(): Observable<ResponsePayload> {
-
-        // const url = sessionId === undefined ? this.#configuration.baseUrl + '/auth/logout' : this.#configuration.baseUrl + '/auth/dev/logout/' + sessionId;
-        const url = this.#url + '/auth/logout';
-
-        return this.#httpClient.delete<ResponsePayload>(url);
-
-
+    public logOut(): Observable<Message> {
+        return this.#httpClient.delete<Message>(this.#url +  '/logout');
     }
 
 }

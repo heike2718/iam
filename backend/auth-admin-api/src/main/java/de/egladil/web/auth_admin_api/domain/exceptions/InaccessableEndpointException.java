@@ -1,5 +1,5 @@
 // =====================================================
-// Project: auth-admin-api
+// Project: profil-api
 // (c) Heike Winkelvoß
 // =====================================================
 package de.egladil.web.auth_admin_api.domain.exceptions;

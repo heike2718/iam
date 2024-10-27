@@ -2,38 +2,37 @@ import { inject, Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { authActions, fromAuth } from "@profil-app/auth/data";
 import { Observable, of, switchMap } from "rxjs";
-import { AuthResult, User } from "@profil-app/auth/model";
+import { AuthResult } from "@profil-app/auth/model";
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root'
 })
 export class AuthFacade {
 
-    #store = inject(Store);
+	#store = inject(Store);
 
-    readonly userIsLoggedIn$: Observable<boolean> = this.#store.select(fromAuth.isLoggedIn);
+	readonly userIsLoggedIn$: Observable<boolean> = this.#store.select(fromAuth.session).pipe(switchMap((session) => of(session.sessionId !== undefined))
+	);
 
-    readonly userIsLoggedOut$: Observable<boolean> = this.userIsLoggedIn$.pipe(
-        switchMap((li) => of(!li))
-    );
+	readonly userIsLoggedOut$: Observable<boolean> = this.userIsLoggedIn$.pipe(
+		switchMap((li) => of(!li))
+	);
 
-    readonly user$: Observable<User> = this.#store.select(fromAuth.user);
+	public login(): void {
 
-    public login(): void {
+		this.#store.dispatch(authActions.rEQUEST_LOGIN_URL());
+	}
 
-        this.#store.dispatch(authActions.rEQUEST_LOGIN_URL());
-    }
+	public logout(): void {
 
-    public logout(): void {
+		this.#store.dispatch(authActions.lOG_OUT());
+	}
 
-        this.#store.dispatch(authActions.lOG_OUT());
-    }
+	public createSession(authResult: AuthResult) {
+		this.#store.dispatch(authActions.cREATE_SESSION({ authResult }))
+	}
 
-    public createSession(authResult: AuthResult) {
-        this.#store.dispatch(authActions.cREATE_SESSION({ authResult}))
-    }
-
-    public parseHash(hashStr: string): AuthResult {
+	public parseHash(hashStr: string): AuthResult {
 
 		hashStr = hashStr.replace(/^#?\/?/, '');
 

@@ -12,7 +12,7 @@ const initialState: AuthState = {
 }
 
 export const authFeature = createFeature({
-  name: 'authFeature',
+  name: 'profilAuth',
   reducer: createReducer<AuthState>(
     initialState,
     on(

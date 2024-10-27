@@ -65,8 +65,7 @@ export class AuthEffects {
 
     sessionCreated$ = createEffect(() =>
         this.#actions.pipe(
-            ofType(authActions.sESSION_CREATED),
-            tap((response) => console.log('fullName=' + response.session.fullName))
+            ofType(authActions.sESSION_CREATED)
         ), { dispatch: false });
 
 }
