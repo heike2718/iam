@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
  * TwoStringsPayload
  */
 @ValidPasswords
-public class TwoPasswords {
+public class ZweiPassworte {
 
 	@NotNull
 	@Passwort
@@ -26,7 +26,7 @@ public class TwoPasswords {
 	/**
 	 *
 	 */
-	public TwoPasswords() {
+	public ZweiPassworte() {
 
 	}
 
@@ -34,7 +34,7 @@ public class TwoPasswords {
 	 * @param passwort
 	 * @param passwortWdh
 	 */
-	public TwoPasswords(final String passwort, final String passwortWdh) {
+	public ZweiPassworte(final String passwort, final String passwortWdh) {
 
 		super();
 		this.passwort = passwort;

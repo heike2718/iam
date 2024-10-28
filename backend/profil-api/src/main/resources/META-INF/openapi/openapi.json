@@ -86,6 +86,34 @@
         } ]
       }
     },
+    "/profil-api/passwort" : {
+      "put" : {
+        "tags" : [ "Passwort Resource" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PasswortPayload"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Not Authorized"
+          },
+          "403" : {
+            "description" : "Not Allowed"
+          }
+        },
+        "security" : [ {
+          "SecurityScheme" : [ ]
+        } ]
+      }
+    },
     "/profil-api/session/authurls/login" : {
       "get" : {
         "tags" : [ "SessionResource" ],
@@ -254,6 +282,18 @@
           }
         }
       },
+      "PasswortPayload" : {
+        "required" : [ "passwort", "twoPasswords" ],
+        "type" : "object",
+        "properties" : {
+          "passwort" : {
+            "type" : "string"
+          },
+          "twoPasswords" : {
+            "$ref" : "#/components/schemas/ZweiPassworte"
+          }
+        }
+      },
       "ResponsePayload" : {
         "description" : "generisches Response-Objekt, das ein MessagePayload und ggf. Daten enthält",
         "type" : "object",
@@ -280,6 +320,18 @@
           "expiresAt" : {
             "format" : "int64",
             "type" : "integer"
+          }
+        }
+      },
+      "ZweiPassworte" : {
+        "required" : [ "passwort", "passwortWdh" ],
+        "type" : "object",
+        "properties" : {
+          "passwort" : {
+            "type" : "string"
+          },
+          "passwortWdh" : {
+            "type" : "string"
           }
         }
       }

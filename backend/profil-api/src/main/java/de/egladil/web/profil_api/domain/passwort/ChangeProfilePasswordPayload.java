@@ -17,12 +17,12 @@ public class ChangeProfilePasswordPayload {
 	private OAuthClientCredentials clientCredentials;
 
 	@JsonProperty
-	private ProfilePasswordPayload passwordPayload;
+	private PasswortPayload passwordPayload;
 
 	@JsonProperty
 	private String uuid;
 
-	public static ChangeProfilePasswordPayload create(final OAuthClientCredentials clientCredentials, final ProfilePasswordPayload passwordPayload, final String uuid) {
+	public static ChangeProfilePasswordPayload create(final OAuthClientCredentials clientCredentials, final PasswortPayload passwordPayload, final String uuid) {
 
 		ChangeProfilePasswordPayload result = new ChangeProfilePasswordPayload();
 		result.clientCredentials = clientCredentials;

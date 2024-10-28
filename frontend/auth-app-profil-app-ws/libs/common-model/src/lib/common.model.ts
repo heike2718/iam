@@ -10,3 +10,12 @@ export interface ResponsePayload {
     readonly data?: any;
 };
 
+export interface ZweiPassworte {
+    readonly passwortNeu: string;
+    readonly passwortWdh: string;
+}
+
+export interface PasswortPayload {
+    readonly passwort: string;
+    readonly zweiPassworte: ZweiPassworte;
+}

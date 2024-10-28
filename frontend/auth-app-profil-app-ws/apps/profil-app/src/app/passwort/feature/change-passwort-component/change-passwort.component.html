@@ -1,0 +1,24 @@
+@if(authFacade.userIsLoggedIn$ | async){
+<h2>Passwort ändern</h2>
+<form [formGroup]="parentForm">
+    <mat-form-field appearance="fill">
+        <mat-label>aktuelles Passwort</mat-label>
+        <input matInput type="password" formControlName="passwort">
+        <mat-error *ngIf="parentForm.get('passwort')?.hasError('required')">Das aktuelle Passwort ist
+            erforderlich</mat-error>
+    </mat-form-field>
+</form>
+
+<auth-common-zwei-passworte [labelPasswort1]="'neues Passwort'" [labelPasswort2]="'neues Passwort wiederholen'"
+    [praefixRegeln]="'Bitte wählen Sie das neue Passwort gemäß folgenden Regeln: '" (passwordChanges)="handlePasswordChanges($event)"></auth-common-zwei-passworte>
+
+<div class="button-container">
+    <button mat-raised-button color="primary" type="submit" [disabled]="buttonSubmitDisabled()"
+        (click)="save()">speichern</button>
+    <button mat-raised-button color="secondary" type="submit" [disabled]="buttonCancelDisabled()"
+        (click)="cancel()">abbrechen</button>
+</div>
+
+} @else {
+<p>Bitte loggen Sie sich ein, um Ihr Passwort zu ändern.</p>
+}

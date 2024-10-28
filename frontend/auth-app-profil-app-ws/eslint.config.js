@@ -21,8 +21,7 @@ module.exports = [
         {
           enforceBuildableLibDependency: true,
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
-          depConstraints: [            
-          ]
+          depConstraints: [],
         },
       ],
     },
@@ -31,5 +30,15 @@ module.exports = [
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     // Override or add rules here
     rules: {},
+  },
+  {
+    files: ['**/*.json'],
+    rules: {
+      '@nx/dependency-checks': [
+        'error',
+        { ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'] },
+      ],
+    },
+    languageOptions: { parser: require('jsonc-eslint-parser') },
   },
 ];

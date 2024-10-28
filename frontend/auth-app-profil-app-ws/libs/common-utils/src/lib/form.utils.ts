@@ -1,4 +1,4 @@
-import { FormGroup } from "@angular/forms";
+import { FormGroup, AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 
 export function trimFormValues(formGroup: FormGroup): void {
@@ -9,3 +9,12 @@ export function trimFormValues(formGroup: FormGroup): void {
         }
     });
 }
+
+export function forbiddenPasswordValidator(pattern: RegExp): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) return null; // Ignore empty values
+    const forbidden = !pattern.test(control.value);
+    return forbidden ? { forbiddenPassword: { value: control.value } } : null;
+  };
+}
+

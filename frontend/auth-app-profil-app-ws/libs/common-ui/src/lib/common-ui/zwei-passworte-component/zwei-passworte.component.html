@@ -1,0 +1,17 @@
+<form [formGroup]="passwortForm">
+  <div class="helper-text">{{praefixRegeln}} {{passwortregeln}}</div>
+  <mat-form-field appearance="fill">
+    <mat-label>{{labelPasswort1}}*</mat-label>
+    <input matInput type="password" formControlName="passwortNeu">
+    @if("passwortForm.get('passwortNeu')?.hasError('forbiddenPassword')"){
+      <mat-error>Das neue Passwort genügt den Regeln nicht.</mat-error>
+    }    
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{labelPasswort2}}</mat-label>
+    <input matInput type="password" formControlName="passwortNeuWdh">
+    @if("passwortForm.get('passwortNeuWdh')?.hasError('required')"){
+      <mat-error>Bitte wiederholen Sie das neue Passwort.</mat-error>
+    }    
+  </mat-form-field>
+</form>

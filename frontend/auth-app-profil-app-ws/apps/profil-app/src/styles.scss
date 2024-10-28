@@ -108,20 +108,25 @@ mat-icon .clickable {
     box-sizing: border-box;
 }
 
-mat-form-field {
-    width: 100% !important;
-}
-
-mat-form-field+mat-form-field {
-    margin-left: 8px;
-}
-
+/* Container styles for the form using CSS Grid */
 form {
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Single-column layout; adjust for multi-column as needed */
+    gap: 16px;
+    /* Space between rows and columns */
+    max-width: 100%;
+    /* Ensures form fits within the viewport */
 }
 
-form>* {
-    margin: 12px 0;
+/* Default styling for mat-form-field elements */
+mat-form-field {
+    margin: 0;
+    /* Reset margin */
+    width: 100%;
+    /* Full width of the grid column */
+    box-sizing: border-box;
+    /* Ensures padding and border are included in width/height */
 }
 
 .mat-radio-button {

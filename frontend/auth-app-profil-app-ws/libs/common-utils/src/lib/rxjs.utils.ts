@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { ResponsePayload } from '@ap-ws/common-model';
 
 /**
@@ -13,3 +13,14 @@ export function mapResponseDataToType<T>(response$: Observable<ResponsePayload>,
         })
     );
 }
+
+function isDefined<T>(value: T): value is NonNullable<T> {
+    return value !== undefined;
+  }
+  
+  export function filterDefined<T>(
+    source$: Observable<T>
+  ): Observable<NonNullable<T>> {
+    return source$.pipe(filter(isDefined));
+  }
+  

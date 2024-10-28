@@ -5,7 +5,7 @@
 
 package de.egladil.web.profil_api.domain.validation;
 
-import de.egladil.web.profil_api.domain.passwort.TwoPasswords;
+import de.egladil.web.profil_api.domain.passwort.ZweiPassworte;
 import de.egladil.web.profil_api.domain.validation.annotations.ValidPasswords;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -13,10 +13,10 @@ import jakarta.validation.ConstraintValidatorContext;
 /**
  * RegistrationCredentialsValidator
  */
-public class TwoPasswordsValidator implements ConstraintValidator<ValidPasswords, TwoPasswords> {
+public class TwoPasswordsValidator implements ConstraintValidator<ValidPasswords, ZweiPassworte> {
 
 	@Override
-	public boolean isValid(final TwoPasswords value, final ConstraintValidatorContext context) {
+	public boolean isValid(final ZweiPassworte value, final ConstraintValidatorContext context) {
 
 		if (value == null) {
 

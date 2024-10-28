@@ -2,11 +2,9 @@
 // Project: profil-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.profil_api.domain.benutzer;
+package de.egladil.web.profil_api.domain.passwort;
 
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,21 +22,18 @@ import de.egladil.web.profil_api.domain.exceptions.ProfilserverRuntimeException;
 import de.egladil.web.profil_api.infrastructure.restclient.AuthproviderRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 
 /**
- * BenutzerService
+ * PasswortService
  */
 @ApplicationScoped
-public class BenutzerService {
+public class PasswortService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerService.class);
-
-	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PasswortService.class);
 
 	@ConfigProperty(name = "public-client-id")
 	String clientId;
@@ -53,102 +48,27 @@ public class BenutzerService {
 	@RestClient
 	AuthproviderRestClient authproviderRestClient;
 
-	public BenutzerDto ladeBenuterDaten() {
-
-		String uuid = securityContext.getUserPrincipal().getName();
-
-		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
-			clientSecret, null);
-
-		SelectProfilePayload selectPayload = SelectProfilePayload.create(credentials, uuid);
-
-		Response response = null;
-
-		try {
-
-			response = authproviderRestClient.getUserProfile(selectPayload);
-			ResponsePayload payload = response.readEntity(ResponsePayload.class);
-			MessagePayload messagePayload = payload.getMessage();
-
-			if (messagePayload.isOk()) {
-
-				@SuppressWarnings("unchecked")
-				Map<String, String> data = (Map<String, String>) payload.getData();
-
-				BenutzerDto benutzer = new BenutzerDto();
-				benutzer.setEmail(data.get("email"));
-				benutzer.setLoginName(data.get("loginName"));
-				benutzer.setNachname(data.get("nachname"));
-				benutzer.setVorname(data.get("vorname"));
-
-				return benutzer;
-			}
-
-			return createAnonumousBenutzer();
-		} catch (WebApplicationException e) {
-
-			response = e.getResponse();
-
-			int status = response.getStatus();
-
-			if (status == 401) {
-
-				LOGGER.error("Authentisierungsfehler für Client {} gegenüber dem authprovider",
-					StringUtils.abbreviate(clientId, 11));
-				throw new ProfilserverRuntimeException("Authentisierungsfehler für Client");
-			}
-
-			if (status == 404) {
-
-				LOGGER.error("Nach gueltigem Login wird USER mit uuid={} nicht gefunden.", StringUtils.abbreviate(uuid, 11));
-				throw new ConflictException(applicationMessages.getString("conflict"));
-			}
-
-			LOGGER.error("Statuscode {} beim Holen des Users", status);
-
-			throw new ProfilserverRuntimeException("Unerwarteter Response-Status beim Holen des Users.");
-
-		} catch (Exception e) {
-
-			LOGGER.error(e.getMessage(), e);
-
-			throw new ProfilserverRuntimeException("Fehler bei Anfrage des authproviders: " + e.getMessage(), e);
-
-		} finally {
-
-			credentials.clean();
-
-			if (response != null) {
-
-				response.close();
-			}
-		}
-	}
-
 	/**
-	 * Ändert die Benutzerdaten und gibt die geänderten zurück.
+	 * Sendet die Payload an die authprovider-API und bekommt von dort eine Message zurück.
 	 *
-	 * @param  benutzerDto
-	 *                     BenutzerDto
-	 * @return             BenutzerDto
+	 * @param  payload
+	 * @return         MessagePayload
 	 */
-	@Transactional
-	public BenutzerDto benutzerdatenAendern(final BenutzerDto benutzerDto) {
+	public MessagePayload passwortAendern(final PasswortPayload passwortPayload) {
 
 		String uuid = securityContext.getUserPrincipal().getName();
 		String expectedNonce = UUID.randomUUID().toString();
+
 		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
 			clientSecret, expectedNonce);
 
-		ChangeProfileDataPayload payload = ChangeProfileDataPayload.create(credentials, benutzerDto, uuid);
+		ChangeProfilePasswordPayload payload = ChangeProfilePasswordPayload.create(credentials, passwortPayload, uuid);
 
 		Response response = null;
 
 		try {
 
-			response = authproviderRestClient.changeData(payload);
-
-			LOGGER.debug("Response-Status={}", response.getStatus());
+			response = authproviderRestClient.changePassword(payload);
 
 			ResponsePayload responsePayload = response.readEntity(ResponsePayload.class);
 			@SuppressWarnings("unchecked")
@@ -164,12 +84,10 @@ public class BenutzerService {
 
 			}
 
-			BenutzerDto result = new BenutzerDto();
-			result.setEmail(dataMap.get("email"));
-			result.setLoginName(dataMap.get("loginName"));
-			result.setNachname(dataMap.get("nachname"));
-			result.setVorname(dataMap.get("vorname"));
-			return result;
+			@SuppressWarnings("unchecked")
+			Map<String, String> messageMap = (Map<String, String>) responsePayload.getMessage();
+
+			return MessagePayload.info("Passwort wurde geändert");
 
 		} catch (WebApplicationException e) {
 
@@ -182,6 +100,11 @@ public class BenutzerService {
 				LOGGER.error("Authentisierungsfehler für Client {} gegenüber dem authprovider",
 					StringUtils.abbreviate(clientId, 11));
 				throw new ProfilserverRuntimeException("Authentisierungsfehler für Client");
+			}
+
+			if (status == 404) {
+
+				return MessagePayload.error("Ihr Benutzerkonto existiert seit Kurzem nicht mehr");
 			}
 
 			if (status == 412) {
@@ -211,21 +134,5 @@ public class BenutzerService {
 				response.close();
 			}
 		}
-
 	}
-
-	/**
-	 * @return
-	 */
-	private BenutzerDto createAnonumousBenutzer() {
-
-		BenutzerDto benutzer = new BenutzerDto();
-		benutzer.setEmail("");
-		benutzer.setLoginName("");
-		benutzer.setNachname("Anonym");
-		benutzer.setVorname("Gast");
-
-		return benutzer;
-	}
-
 }

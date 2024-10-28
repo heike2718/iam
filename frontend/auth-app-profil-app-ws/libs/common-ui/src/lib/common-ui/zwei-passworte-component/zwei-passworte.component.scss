@@ -1,0 +1,10 @@
+.helper-text {
+    color: #747474;
+    /* Default color */
+    font-size: 0.9em;
+}
+
+.helper-text.ng-invalid {
+    color: red;
+    /* Change color if invalid */
+}

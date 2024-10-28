@@ -4,15 +4,17 @@
 // =====================================================
 package de.egladil.web.profil_api.domain.passwort;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.egladil.web.profil_api.domain.auth.util.SecUtils;
 import de.egladil.web.profil_api.domain.validation.annotations.Passwort;
 import de.egladil.web.profil_api.domain.validation.annotations.ValidPasswords;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * ProfilePasswordPayload
+ * PasswortPayload
  */
-public class ProfilePasswordPayload {
+public class PasswortPayload {
 
 	@NotNull
 	@Passwort
@@ -20,17 +22,18 @@ public class ProfilePasswordPayload {
 
 	@NotNull
 	@ValidPasswords
-	private TwoPasswords twoPasswords;
+	@JsonProperty(value = "twoPasswords")
+	private ZweiPassworte zweiPassworte;
 
 	/**
 	 * Entfernt alle sensiblen Infos: also password und passwordWdh.
 	 */
 	public void clean() {
 
-		if (twoPasswords != null) {
+		if (zweiPassworte != null) {
 
-			twoPasswords.clean();
-			twoPasswords = null;
+			zweiPassworte.clean();
+			zweiPassworte = null;
 		}
 
 		if (passwort != null) {
@@ -40,14 +43,14 @@ public class ProfilePasswordPayload {
 		}
 	}
 
-	public TwoPasswords getTwoPasswords() {
+	public ZweiPassworte getZweiPassworte() {
 
-		return twoPasswords;
+		return zweiPassworte;
 	}
 
-	public void setTwoPasswords(final TwoPasswords twoPasswords) {
+	public void setZweiPassworte(final ZweiPassworte twoPasswords) {
 
-		this.twoPasswords = twoPasswords;
+		this.zweiPassworte = twoPasswords;
 	}
 
 	public String getPasswort() {
