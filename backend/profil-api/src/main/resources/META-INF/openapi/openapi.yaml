@@ -18,6 +18,48 @@ servers:
 tags:
 - name: SessionResource
 paths:
+  /profil-api/benutzer:
+    get:
+      tags:
+      - Benutzer Resource
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      security:
+      - SecurityScheme: []
+    put:
+      tags:
+      - Benutzer Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BenutzerDto"
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      security:
+      - SecurityScheme: []
+    delete:
+      tags:
+      - Benutzer Resource
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      security:
+      - SecurityScheme: []
   /profil-api/session/authurls/login:
     get:
       tags:
@@ -51,7 +93,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MessagePayload"
+                $ref: "#/components/schemas/Session"
   /profil-api/session/logout:
     delete:
       tags:
@@ -95,6 +137,31 @@ components:
           description: "Einmaltoken, mit dem sich der authprovider-Client das JWT\
             \ holen kann"
           pattern: \S
+          type: string
+    BenutzerDto:
+      description: änderbare Daten eines Users
+      required:
+      - loginName
+      - email
+      - vorname
+      - nachname
+      type: object
+      properties:
+        loginName:
+          maxLength: 255
+          minLength: 1
+          type: string
+        email:
+          maxLength: 255
+          minLength: 1
+          type: string
+        vorname:
+          maxLength: 100
+          minLength: 1
+          type: string
+        nachname:
+          maxLength: 100
+          minLength: 1
           type: string
     MessagePayload:
       description: eine kategorisierte Meldung
@@ -141,6 +208,15 @@ components:
           - $ref: "#/components/schemas/MessagePayload"
         data:
           description: daten die als JSON mitgegeben werden. Kann null sein
+    Session:
+      description: session für F5-Robustheit
+      type: object
+      properties:
+        sessionId:
+          type: string
+        expiresAt:
+          format: int64
+          type: integer
   securitySchemes:
     SecurityScheme:
       type: http

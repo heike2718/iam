@@ -4,6 +4,10 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.infrastructure.restclient;
 
+import java.time.temporal.ChronoUnit;
+
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import de.egladil.web.auth_admin_api.domain.auth.dto.OAuthClientCredentials;
@@ -30,10 +34,14 @@ public interface AuthproviderRestClient {
 
 	@POST
 	@Path("clients/client/accesstoken")
+	@Retry(maxRetries = 3, delay = 1000)
+	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response authenticateClient(OAuthClientCredentials clientSecrets);
 
 	@PUT
 	@Path("token/exchange/{oneTimeToken}")
+	@Retry(maxRetries = 3, delay = 1000)
+	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	public Response exchangeOneTimeTokenWithJwt(@PathParam(
 		value = "oneTimeToken") final String oneTimeToken, final OAuthClientCredentials clientCredentials);
 

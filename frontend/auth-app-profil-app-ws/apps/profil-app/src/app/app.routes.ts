@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { PasswortComponent } from './passwort-component/passwort.component';
-import { KontoLoeschenComponent } from './konto-loeschen-component/konto-loeschen.component';
+import { BenutzerdatenComponent } from './benutzerdaten/feature/benutzerdaten-component/benutzerdaten.component';
+import { PasswortComponent } from './passwort/passwort-component/passwort.component';
+import { KontoLoeschenComponent } from './konto-loeschen/konto-loeschen-component/konto-loeschen.component';
 
 export const appRoutes: Route[] = [
 
@@ -15,6 +15,6 @@ export const appRoutes: Route[] = [
     },
     {
         path: '**',
-        component: HomeComponent
+        component: BenutzerdatenComponent
     }
 ];

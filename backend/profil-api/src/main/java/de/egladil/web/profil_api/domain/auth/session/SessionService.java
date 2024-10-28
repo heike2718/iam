@@ -74,7 +74,7 @@ public class SessionService {
 			String userIdReference = uuid.substring(0, 8) + "_" + secureTokenService.createRandomToken();
 
 			AuthenticatedUser authenticatedUser = new AuthenticatedUser(uuid).withFullName(fullName)
-				.withIdReference(userIdReference);
+				.withIdReference(userIdReference).withUuid(decodedJWT.getSubject());
 
 			Session session = this.internalCreateAnonymousSession().withUser(authenticatedUser);
 
@@ -89,7 +89,7 @@ public class SessionService {
 
 			sessions.put(session.getSessionId(), session);
 
-			LOGGER.info("User eingeloggt: {}", session.getUser().toString());
+			LOGGER.info("Benutzer eingeloggt: {}", session.getUser().toString());
 
 			return session;
 		} catch (TokenExpiredException e) {
@@ -149,7 +149,7 @@ public class SessionService {
 
 		if (session != null && !session.isAnonym()) {
 
-			LOGGER.info("User ausgeloggt: {}", session.getUser().toString());
+			LOGGER.info("BenutzerDto ausgeloggt: {}", session.getUser().toString());
 		}
 	}
 

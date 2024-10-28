@@ -4,8 +4,6 @@
 // =====================================================
 package de.egladil.web.profil_api.infrastructure.persistence.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +13,6 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -43,7 +40,6 @@ public class ResourceOwner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	@JsonIgnore
 	private Long id;
 
 	@NotBlank
@@ -57,14 +53,12 @@ public class ResourceOwner {
 	private String loginName;
 
 	@NotBlank
-	@Email
 	@Size(min = 1, max = 255)
 	@Column(name = "EMAIL")
 	private String email;
 
 	@Version
 	@Column(name = "VERSION")
-	@JsonIgnore
 	private int version;
 
 	@Override

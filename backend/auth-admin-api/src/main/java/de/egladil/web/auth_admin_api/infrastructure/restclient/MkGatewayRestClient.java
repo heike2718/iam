@@ -4,6 +4,10 @@
 // =====================================================
 package de.egladil.web.auth_admin_api.infrastructure.restclient;
 
+import java.time.temporal.ChronoUnit;
+
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import de.egladil.web.auth_admin_api.domain.benutzer.DeleteUserCommand;
@@ -26,9 +30,13 @@ public interface MkGatewayRestClient {
 
 	@Path("sync/veranstalter")
 	@DELETE
+	@Retry(maxRetries = 3, delay = 1000)
+	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response propagateUserDeleted(DeleteUserCommand command);
 
 	@Path("sync/ack")
 	@POST
+	@Retry(maxRetries = 3, delay = 1000)
+	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response getSyncToken(SyncHandshake handshake);
 }

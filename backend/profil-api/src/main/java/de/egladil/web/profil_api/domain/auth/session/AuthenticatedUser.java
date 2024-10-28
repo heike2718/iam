@@ -17,6 +17,8 @@ public class AuthenticatedUser extends QuarkusPrincipal {
 
 	private String fullName;
 
+	private String uuid;
+
 	public static AuthenticatedUser createAnonymousUser() {
 
 		AuthenticatedUser result = new AuthenticatedUser(SessionUtils.ANONYME_UUID);
@@ -62,6 +64,17 @@ public class AuthenticatedUser extends QuarkusPrincipal {
 	public AuthenticatedUser withFullName(final String fullName) {
 
 		this.fullName = fullName;
+		return this;
+	}
+
+	public String getUuid() {
+
+		return uuid;
+	}
+
+	public AuthenticatedUser withUuid(final String uuid) {
+
+		this.uuid = uuid;
 		return this;
 	}
 }

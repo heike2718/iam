@@ -6,6 +6,7 @@ import { map, of, switchMap, tap } from "rxjs";
 import { Message } from "@ap-ws/common-model";
 import { Session } from "apps/profil-app/src/app/auth/model";
 import { Router } from '@angular/router';
+import { BenutzerdatenFacade } from "@profil-app/benutzerdaten/api";
 
 
 @Injectable({
@@ -16,6 +17,7 @@ export class AuthEffects {
     #actions = inject(Actions);
     #authHttpService = inject(AuthHttpService);
     #router = inject(Router);
+    #benutzerdatenFacade = inject(BenutzerdatenFacade);
 
     requestLoginUrl$ = createEffect(() => {
 
@@ -60,12 +62,16 @@ export class AuthEffects {
     loggedOut$ = createEffect(() =>
         this.#actions.pipe(
             ofType(authActions.lOGGED_OUT),
-            tap(() => this.#router.navigateByUrl('/'))
+            tap(() => {
+                this.#benutzerdatenFacade.handleLogout();
+                this.#router.navigateByUrl('/');
+            })
         ), { dispatch: false });
 
     sessionCreated$ = createEffect(() =>
         this.#actions.pipe(
-            ofType(authActions.sESSION_CREATED)
+            ofType(authActions.sESSION_CREATED),
+            tap(() => this.#benutzerdatenFacade.benutzerdatenLaden())
         ), { dispatch: false });
 
 }

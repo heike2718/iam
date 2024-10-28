@@ -142,5 +142,4 @@ public class PropagateEventService {
 			return null;
 		}
 	}
-
 }

@@ -40,6 +40,15 @@
       ],
       "@profil-app/auth/model": [
         "apps/profil-app/src/app/auth/model/index.ts"
+      ],
+      "@profil-app/benutzerdaten/model": [
+        "apps/profil-app/src/app/benutzerdaten/model/index.ts"
+      ],
+      "@profil-app/benutzerdaten/data": [
+        "apps/profil-app/src/app/benutzerdaten/data/index.ts"
+      ],
+      "@profil-app/benutzerdaten/api": [
+        "apps/profil-app/src/app/benutzerdaten/api/index.ts"
       ]
     }
   },

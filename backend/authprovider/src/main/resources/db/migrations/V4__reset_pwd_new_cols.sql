@@ -1,5 +1,0 @@
-ALTER TABLE authbv.CLIENTS ADD COLUMN `BASE_URL` varchar(100) COLLATE utf8_unicode_ci;
-ALTER TABLE authbv.TEMPPWDS ADD COLUMN `REDIRECT_URL` varchar(500) COLLATE utf8_unicode_ci;
-
-UPDATE authbv.CLIENTS SET BASE_URL = 'localhost:4200' where CLIENT_ID='WLJLH4vsldWapZrMZi2U5HKRBVpgyUiRTWwX7aiJd8nX';
-

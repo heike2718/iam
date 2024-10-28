@@ -20,10 +20,13 @@ public class AppLifecycleBean {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AppLifecycleBean.class);
 
+	@ConfigProperty(name = "quarkus.datasource.jdbc.url")
+	String jdbcURL;
+
 	@ConfigProperty(name = "stage")
 	String stage;
 
-	@ConfigProperty(name = "quarkus.rest-client.mk-gateway.url")
+	@ConfigProperty(name = "quarkus.rest-client.mkgateway.url")
 	String mkGatewayRoute;
 
 	@ConfigProperty(name = "quarkus.http.cors.origins", defaultValue = "")
@@ -37,6 +40,7 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  stage={}", stage);
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  mkGatewayRoute={}", mkGatewayRoute);
+		LOGGER.info(" ===========>  jdbcURL={}", jdbcURL);
 		LOGGER.info(" ===========>  port={}", port);
 
 	}

@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import de.egladil.web.profil_api.domain.user.User;
+import de.egladil.web.profil_api.domain.benutzer.BenutzerDto;
 
 /**
  * UserChanged
@@ -38,7 +38,7 @@ public class UserChanged implements ProfilEvent {
 		this.occuredOn = LocalDateTime.now();
 	}
 
-	public UserChanged(final String uuid, final User user) {
+	public UserChanged(final String uuid, final BenutzerDto user) {
 
 		this();
 		this.uuid = uuid;

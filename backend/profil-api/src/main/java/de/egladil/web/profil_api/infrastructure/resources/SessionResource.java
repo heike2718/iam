@@ -14,6 +14,7 @@ import de.egladil.web.profil_api.domain.auth.dto.AuthResult;
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.profil_api.domain.auth.login.AuthproviderUrlService;
 import de.egladil.web.profil_api.domain.auth.login.LoginLogoutService;
+import de.egladil.web.profil_api.domain.auth.session.Session;
 import de.egladil.web.profil_api.domain.auth.session.SessionUtils;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
@@ -73,7 +74,7 @@ public class SessionResource {
 		responseCode = "200",
 		content = @Content(
 			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
+			schema = @Schema(implementation = Session.class)))
 	public Response login(final AuthResult authResult) {
 
 		return loginLogoutService.login(authResult);

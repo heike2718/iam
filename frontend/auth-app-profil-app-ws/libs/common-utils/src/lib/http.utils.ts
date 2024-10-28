@@ -80,7 +80,7 @@ function getGenericMessageForStatus(status: number): Message {
         case 401: result = 'keine Berechtigung (401)'; break;
         case 403: result = 'unerlaubte Aktion (403)'; break;
         case 404: result = 'Das Objekt existiert nicht (404)'; break;
-        case 409: result = 'Speichern wegen eines Datenkonflikts nicht möglich'; break;
+        case 409: result = 'Die Aktion ist wegen eines Datenkonflikts nicht möglich. Bitte kontaktieren Sie die im Impressum angegebene Mailadresse'; break;
         default: result = 'Im Backend ist ein unerwarteter Fehler aufgetreten.';
     }
 

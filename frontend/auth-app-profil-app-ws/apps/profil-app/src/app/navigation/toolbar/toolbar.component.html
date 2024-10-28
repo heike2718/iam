@@ -27,15 +27,8 @@
     <span class="toolbar-spacer"></span>
     }
 
-    <!-- TODO: hier die Facade mit den änderbaren User-Daten einbinden.
-    @if (authFacade.user$ | async; as user) {
     <div class="mr-2">
-        Guten Tag, {{user.fullName}}
-    </div>
-    }
-    -->
-    <div class="mr-2">
-        Guten Tag
+        Guten Tag, {{benutzer.vorname}} {{benutzer.nachname}}
     </div>
 
     @if (authFacade.userIsLoggedOut$ | async) {
