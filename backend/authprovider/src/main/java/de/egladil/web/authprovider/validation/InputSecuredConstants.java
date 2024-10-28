@@ -1,9 +1,9 @@
 // =====================================================
-// Projekt: profil-api
+// Projekt: commons-validation
 // (c) Heike Winkelvoß
 // =====================================================
 
-package de.egladil.web.profil_api.domain.validation;
+package de.egladil.web.authprovider.validation;
 
 /**
  * InputSecuredConstants

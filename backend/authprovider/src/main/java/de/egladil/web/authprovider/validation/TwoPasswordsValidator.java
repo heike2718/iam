@@ -1,12 +1,12 @@
 // =====================================================
-// Projekt: profil-api
+// Projekt: commons-validation
 // (c) Heike Winkelvoß
 // =====================================================
 
-package de.egladil.web.profil_api.domain.validation;
+package de.egladil.web.authprovider.validation;
 
-import de.egladil.web.profil_api.domain.passwort.ZweiPassworte;
-import de.egladil.web.profil_api.domain.validation.annotations.ValidPasswords;
+import de.egladil.web.authprovider.payload.ZweiPassworte;
+import de.egladil.web.authprovider.validation.annotations.ValidPasswords;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

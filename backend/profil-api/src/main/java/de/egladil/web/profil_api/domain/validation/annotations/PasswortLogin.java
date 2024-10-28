@@ -16,7 +16,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import de.egladil.web.profil_api.domain.validation.PasswortValidator;
+import de.egladil.web.profil_api.domain.validation.PasswortNeuValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -29,10 +29,10 @@ import jakarta.validation.Payload;
 @Documented
 @Retention(RUNTIME)
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
-@Constraint(validatedBy = { PasswortValidator.class })
-public @interface Passwort {
+@Constraint(validatedBy = { PasswortNeuValidator.class })
+public @interface PasswortLogin {
 
-	String message() default "{de.egladil.constraints.passwort}";
+	String message() default "Das Passwort enthält ungültige Zeichen.";
 
 	Class<?>[] groups() default {};
 

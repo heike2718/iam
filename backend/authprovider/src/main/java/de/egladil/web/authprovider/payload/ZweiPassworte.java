@@ -2,11 +2,11 @@
 // Project: commons-validation
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.profil_api.domain.passwort;
+package de.egladil.web.authprovider.payload;
 
-import de.egladil.web.profil_api.domain.auth.util.SecUtils;
-import de.egladil.web.profil_api.domain.validation.annotations.PasswortNeu;
-import de.egladil.web.profil_api.domain.validation.annotations.ValidPasswords;
+import de.egladil.web.authprovider.validation.annotations.PasswortNeu;
+import de.egladil.web.authprovider.validation.annotations.ValidPasswords;
+import de.egladil.web.commons_validation.SecUtils;
 import jakarta.validation.constraints.NotNull;
 
 /**

@@ -1,29 +1,24 @@
 // =====================================================
-// Projekt: commons-validation
+// Projekt: profil-api
 // (c) Heike Winkelvoß
 // =====================================================
 
 package de.egladil.web.profil_api.domain.validation;
 
-import de.egladil.web.profil_api.domain.validation.annotations.Passwort;
+import de.egladil.web.profil_api.domain.validation.annotations.PasswortNeu;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
- * PasswortValidator
+ * PasswortNeuValidator
  * (?=[^A-ZÄÖÜa-zäöüß]*[A-ZÄÖÜa-zäöüß])(?=[^\d]*[\d])[A-Za-z0-9ÄÖÜäöüß !"#\$%&'\(\)\*\+,\-\.\/:<=>\?@\[\]\^\\_ `'{|}~
  * ]{8,100}$
  */
-public class PasswortValidator extends AbstractWhitelistValidator<Passwort, String> {
-
-	// private static final String REGEXP =
-	// "(?=[^A-ZÄÖÜ]*[A-ZÄÖÜ])(?=[^a-zäöüß]*[a-zäöüß])(?=[^\\d]*[\\d])[A-Za-z0-9ÄÖÜäöüß
-	// !\"#\\$%&'\\(\\)\\*\\+,\\-\\.\\/:;<=>\\?@\\[\\]\\^\\\\_`'{|}~]{8,20}$";
+public class PasswortNeuValidator extends AbstractWhitelistValidator<PasswortNeu, String> {
 
 	/**
-	 * (?=[^A-ZÄÖÜa-zäöüß]*[A-ZÄÖÜa-zäöüß])(?=[^\d]*[\d])[A-Za-z0-9ÄÖÜäöüß!"#\$%&'\(\)\*\+,\-\.\/:<=>\?@\[\]\^\\_ `'{|}~
-	 * ]{8,100}$
+	 * ^(?=.*\d)(?=.*[a-zA-ZäÄöÖüÜß])(?=.*[!#$%&()*+,\-./:;=?@\[\]^_`'{|}~])[\da-zA-ZäÄöÖüÜß!#$%&()*+,\-./:;=?@\[\]^_`'{|}~]{12,100}$
 	 */
-	private static final String REGEXP = "(?=[^A-ZÄÖÜa-zäöüß]*[A-ZÄÖÜa-zäöüß])(?=[^\\d]*[\\d])[A-Za-z0-9ÄÖÜäöüß!\"#\\$%&'\\(\\)\\*\\+,\\-\\.\\/:;<=>\\?@\\[\\]\\^\\\\_`'{|}~ ]{8,100}$";
+	private static final String REGEXP = "^(?=.*\\d)(?=.*[a-zA-ZäÄöÖüÜß])(?=.*[!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~])[\\da-zA-ZäÄöÖüÜß!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~]{12,100}$";
 
 	@Override
 	protected String getWhitelist() {

@@ -87,7 +87,7 @@ public class PasswortService {
 			@SuppressWarnings("unchecked")
 			Map<String, String> messageMap = (Map<String, String>) responsePayload.getMessage();
 
-			return MessagePayload.info("Passwort wurde geändert");
+			return MessagePayload.info("PasswortNeu wurde geändert");
 
 		} catch (WebApplicationException e) {
 

@@ -7,17 +7,20 @@ package de.egladil.web.profil_api.domain.passwort;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.egladil.web.profil_api.domain.auth.util.SecUtils;
-import de.egladil.web.profil_api.domain.validation.annotations.Passwort;
+import de.egladil.web.profil_api.domain.validation.annotations.PasswortLogin;
 import de.egladil.web.profil_api.domain.validation.annotations.ValidPasswords;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 /**
  * PasswortPayload
  */
 public class PasswortPayload {
 
-	@NotNull
-	@Passwort
+	@NotBlank
+	@PasswortLogin
+	@Size(max = 100, message = "maximal 100 Zeichen lang")
 	private String passwort;
 
 	@NotNull

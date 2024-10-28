@@ -1,13 +1,13 @@
 // =====================================================
-// Projekt: profil-api
+// Projekt: authprovider
 // (c) Heike Winkelvoß
 // =====================================================
 
-package de.egladil.web.profil_api.domain.validation;
+package de.egladil.web.authprovider.validation;
 
 import java.util.regex.Matcher;
 
-import de.egladil.web.profil_api.domain.validation.annotations.InputSecured;
+import de.egladil.web.authprovider.validation.annotations.InputSecured;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
