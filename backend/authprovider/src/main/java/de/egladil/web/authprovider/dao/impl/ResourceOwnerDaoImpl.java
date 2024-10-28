@@ -8,13 +8,12 @@ package de.egladil.web.authprovider.dao.impl;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 /**
  * ResourceOwnerDaoImpl
@@ -166,5 +165,25 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 		return em.createNamedQuery(ResourceOwner.FIND_BY_UUID_LIKE, ResourceOwner.class)
 			.setParameter("email", "%" + uuidFragment.trim().toLowerCase() + "%")
 			.getResultList();
+	}
+
+	@Override
+	public List<ResourceOwner> findOtherUsersWithSameLoginName(final String loginName, final String uuidOwner) {
+
+		List<ResourceOwner> resultList = em.createNamedQuery(ResourceOwner.FIND_OTHER_BY_LOGINNAME, ResourceOwner.class)
+			.setParameter("uuid", uuidOwner)
+			.setParameter("loginName", loginName.toLowerCase()).getResultList();
+
+		return resultList;
+	}
+
+	@Override
+	public List<ResourceOwner> findOtherUsersWithSameEmailName(final String email, final String uuidOwner) {
+
+		List<ResourceOwner> resultList = em.createNamedQuery(ResourceOwner.FIND_OTHER_BY_EMAIL, ResourceOwner.class)
+			.setParameter("uuid", uuidOwner)
+			.setParameter("email", email.toLowerCase()).getResultList();
+
+		return resultList;
 	}
 }

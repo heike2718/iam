@@ -25,6 +25,24 @@ public interface ResourceOwnerDao extends BaseDao {
 	Optional<ResourceOwner> findByEmail(String email);
 
 	/**
+	 * Sucht alle USERS mit dem gleichen loginNamen, die eine andere UUID haben.
+	 *
+	 * @param  loginName
+	 * @param  uuidOwner
+	 * @return
+	 */
+	List<ResourceOwner> findOtherUsersWithSameLoginName(String loginName, String uuidOwner);
+
+	/**
+	 * Sucht alle USERS mit der gleichen email, die eine andere UUID haben.
+	 *
+	 * @param  email
+	 * @param  uuidOwner
+	 * @return
+	 */
+	List<ResourceOwner> findOtherUsersWithSameEmailName(String email, String uuidOwner);
+
+	/**
 	 * Suche nach resourceOwner.loginName.
 	 *
 	 * @param  email

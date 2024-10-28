@@ -1,0 +1,20 @@
+/* Container styles for the form using CSS Grid */
+form {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Single-column layout; adjust for multi-column as needed */
+    gap: 16px;
+    /* Space between rows and columns */
+    max-width: 100%;
+    /* Ensures form fits within the viewport */
+}
+
+/* Default styling for mat-form-field elements */
+mat-form-field {
+    margin: 0;
+    /* Reset margin */
+    width: 100%;
+    /* Full width of the grid column */
+    box-sizing: border-box;
+    /* Ensures padding and border are included in width/height */
+}

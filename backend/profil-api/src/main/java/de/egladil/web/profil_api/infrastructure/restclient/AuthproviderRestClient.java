@@ -28,7 +28,7 @@ import jakarta.ws.rs.core.Response;
  * AuthproviderRestClient
  */
 @RegisterRestClient(configKey = "authprovider")
-@Path("/")
+@Path("authprovider")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface AuthproviderRestClient {

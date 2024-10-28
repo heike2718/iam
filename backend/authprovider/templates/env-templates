@@ -7,6 +7,7 @@ TARGET_ORIGIN=http://localhost:4200,http://localhost:4300,http://localhost:4400
 
 ACCOUNT_DELETED_SUBJECT=DEV: Authprovider Benutzerkonto gel\u00f6scht
 
+SYNC_INFRASTRUCTURE_AVAILABLE=false
 QUARKUS_REST_CLIENT_MK_GATEWAY_URL=http://localhost:9510/mk-gateway
 
 QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4200,http://localhost:4300,http://localhost:4400,http://localhost:10000

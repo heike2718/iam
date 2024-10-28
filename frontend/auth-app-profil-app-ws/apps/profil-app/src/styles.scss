@@ -159,7 +159,8 @@ label {
         grid-template-columns: 1fr;
         /* Stack buttons in a single column */
         align-items: center;
-        margin-left: 2rem;
-        grid-gap: 2rem;
+        margin-left: 5px;
+        margin-right: 5px;
+        grid-gap: 1rem;
     }
 }

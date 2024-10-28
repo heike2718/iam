@@ -50,7 +50,7 @@ public class AuthproviderEventHandler {
 	@ConfigProperty(name = "stage")
 	String stage;
 
-	@ConfigProperty(name = "syncInfrastructureAvailable", defaultValue = "true")
+	@ConfigProperty(name = "sync.infrastructure.available")
 	String syncInfrastructureAvailable;
 
 	@Inject
@@ -79,7 +79,7 @@ public class AuthproviderEventHandler {
 
 			if (!isSyncInfrastructureAvailable()) {
 
-				LOGGER.warn("Infrastruktur nicht verfuegbar: Abbruch");
+				LOGGER.warn("Infrastruktur zum Synchronisieren nicht verfuegbar: Abbruch");
 
 				return;
 			}
@@ -116,6 +116,11 @@ public class AuthproviderEventHandler {
 		case USER_CREATED:
 			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.USER_CREATED, event.payload());
 			this.propagateUserCreated(event.payload(), syncToken);
+			break;
+
+		case USER_CHANGED:
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.USER_CHANGED, event.payload());
+			this.propagateUserChanged(event, syncToken);
 			break;
 
 		default:
@@ -224,6 +229,73 @@ public class AuthproviderEventHandler {
 			.withClientId(resourceOwner.getClientId());
 
 		try (Response mkGatewayResponse = mkGateway.propagateUserCreated(command)) {
+
+			LOGGER.debug("CreateUserCommand=" + command + ", httpStatusCode=" + mkGatewayResponse.getStatus());
+
+			if (mkGatewayResponse.getStatus() != 200) {
+
+				LOGGER.error("Status {} vom mk-gateway beim Senden des CreateUserCommand {} ", mkGatewayResponse.getStatus(),
+					command);
+				this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
+				throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
+			}
+
+		} catch (ProcessingException e) {
+
+			LOGGER.error("ProcessingException beim Propagieren des CreateUserEvents ans mk-gateway: {}",
+				e.getMessage(), e);
+
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
+
+			throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
+		} catch (WebApplicationException e) {
+
+			Response exceptionResponse = e.getResponse();
+			LOGGER.error("WebApplicationException beim Propagieren des CreateUserEvents: status={} - {}",
+				exceptionResponse.getStatus(), e.getMessage(), e);
+
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
+
+			throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
+
+		} catch (Exception e) {
+
+			LOGGER.error("Konnte create-event nicht propagieren: {} - {}", command, e.getMessage(), e);
+
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
+
+			throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
+		}
+	}
+
+	/**
+	 * @param event
+	 */
+	private void propagateUserChanged(final Object payload, final String syncToken) {
+
+		ChangeUserCommand command = null;
+		ResourceOwnerEventPayload resourceOwner = null;
+
+		resourceOwner = (ResourceOwnerEventPayload) payload;
+
+		LOGGER.info("sende UserChanged für {} an mk-gateway", resourceOwner);
+
+		if (syncToken == null) {
+
+			LOGGER.error("Datensynchronisation hat keine Freigabe: syncToken ist null");
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
+			throw new PropagationFailedException(applicationMessages.getString("createUser.propagation.failure"));
+
+		}
+
+		command = new ChangeUserCommand()
+			.withEmail(resourceOwner.getEmail())
+			.withNachname(resourceOwner.getNachname())
+			.withSyncToken(syncToken)
+			.withUuid(resourceOwner.getUuid())
+			.withVorname(resourceOwner.getVorname());
+
+		try (Response mkGatewayResponse = mkGateway.propagateUserChanged(command)) {
 
 			LOGGER.debug("CreateUserCommand=" + command + ", httpStatusCode=" + mkGatewayResponse.getStatus());
 

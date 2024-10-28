@@ -8,10 +8,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.persistence.PersistenceException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,9 +15,18 @@ import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
+import de.egladil.web.authprovider.event.AuthproviderEvent;
+import de.egladil.web.authprovider.event.AuthproviderEventHandler;
+import de.egladil.web.authprovider.event.LoggableEventDelegate;
+import de.egladil.web.authprovider.event.ResourceOwnerEventPayload;
+import de.egladil.web.authprovider.event.UserChanged;
 import de.egladil.web.authprovider.payload.User;
 import de.egladil.web.authprovider.payload.profile.ProfileDataPayload;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+import jakarta.persistence.PersistenceException;
 
 /**
  * ChangeDataService
@@ -39,6 +44,12 @@ public class ChangeDataService {
 	@Inject
 	ResourceOwnerService resourceOwnerService;
 
+	@Inject
+	AuthproviderEventHandler eventHandler;
+
+	@Inject
+	Event<AuthproviderEvent> authproviderEvent;
+
 	/**
 	 * Ändert die Daten zu gegebenem ResourceOwner, falls es dadurch nicht zu Eindeutigkeitskonflikten kommt.
 	 *
@@ -55,6 +66,8 @@ public class ChangeDataService {
 
 		if (checkOutcome != null) {
 
+			LOG.info(checkOutcome);
+
 			throw new DuplicateEntityException(applicationMessages.getString(checkOutcome));
 		}
 
@@ -68,14 +81,7 @@ public class ChangeDataService {
 
 		ResourceOwner resourceOwner = optRO.get();
 
-		if (resourceOwner.getLoginName().equals(resourceOwner.getEmail())) {
-
-			resourceOwner.setLoginName(payload.getEmail());
-		} else {
-
-			resourceOwner.setLoginName(payload.getLoginName());
-		}
-
+		resourceOwner.setLoginName(payload.getLoginName());
 		resourceOwner.setEmail(payload.getEmail());
 		resourceOwner.setNachname(payload.getNachname() != null ? payload.getNachname().trim() : null);
 		resourceOwner.setVorname(payload.getVorname() != null ? payload.getVorname().trim() : null);
@@ -84,13 +90,25 @@ public class ChangeDataService {
 
 			ResourceOwner persisted = resourceOwnerDao.save(resourceOwner);
 
-			LOG.info("{}: Daten geändert", resourceOwner);
+			LOG.info("{}: Daten geaendert", resourceOwner);
+
+			ResourceOwnerEventPayload roPayload = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner);
+			UserChanged eventPayload = new UserChanged(roPayload);
+
+			// Machen wir synchron wegen des ExceptionHandlings
+			if (this.eventHandler != null) {
+
+				this.eventHandler.handleEvent(eventPayload);
+			} else {
+
+				new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
+			}
 
 			return User.fromResourceOwner(persisted);
 
 		} catch (PersistenceException e) {
 
-			LOG.error("Fehler beim Ändern der Benutzerdaten zu UUID={}, {}: {}", uuid, payload, e.getMessage(), e);
+			LOG.error("Fehler beim Aendern der Benutzerdaten zu UUID={}, {}: {}", uuid, payload, e.getMessage(), e);
 			throw new AuthRuntimeException("Benutzerdaten konnten nicht geändert werden: " + e.getMessage(), e);
 
 		}

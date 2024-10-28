@@ -23,4 +23,13 @@ export class BenutzerdatenEffects {
         );
     });
 
+    benutzerdatenAendern$ = createEffect(() => {
+
+        return this.#actions.pipe(
+            ofType(benutzerdatenActions.bENUTZERDATEN_AENDERN),
+            switchMap((action) => this.#httpDervice.updateBenutzerdaten(action.benutzerdaten)),
+            map((benutzerdaten: Benutzerdaten) => benutzerdatenActions.bENUTZERDATEN_LOADED({ benutzerdaten }))
+        );
+    });
+
 }

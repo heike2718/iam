@@ -96,6 +96,10 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 			textTemplate = "Neues Benutzerkonto {0} am {1} erstellt";
 			break;
 
+		case USER_CHANGED:
+			textTemplate = "Benutzerkonto {0} am {1} geaendert";
+			break;
+
 		case CONFIRMATION_EXPIRED:
 			textTemplate = "Benutzerkonto {0} am {1} gelöscht, weil Aktivierungscode angelaufen war.";
 			break;
@@ -120,6 +124,7 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 		CONFIRMATION_EXPIRED,
 		LOGIN_INAKTIV,
 		USER_CREATED,
+		USER_CHANGED,
 		SYNC_FAILED
 	};
 

@@ -202,10 +202,11 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 	private Response handleDuplicateEntityException(final DuplicateEntityException e) {
 
-		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.warn(e.getMessage()));
+		LOGGER.error("fangen die DuplicateEntityException mit message={}", e.getMessage());
+
 		return Response.status(412)
 			.header("X-Auth-Error", "resource exists")
-			.entity(payload)
+			.entity(MessagePayload.warn(e.getMessage()))
 			.build();
 	}
 }

@@ -13,11 +13,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.event.Event;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.core.UriInfo;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +37,10 @@ import de.egladil.web.authprovider.utils.AuthUtils;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
 import de.egladil.web.commons_mailer.exception.InvalidMailAddressException;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * RegistrationService
@@ -134,11 +133,7 @@ public class RegistrationService {
 
 			return resourceOwner;
 
-		} catch (InvalidMailAddressException e) {
-
-			throw e;
-
-		} catch (PropagationFailedException e) {
+		} catch (InvalidMailAddressException | PropagationFailedException e) {
 
 			throw e;
 

@@ -37,7 +37,9 @@ public class BenutzerResource {
 	@Authenticated
 	public Response benutzerdatenAendern(@Valid final BenutzerDto benutzerDto) {
 
-		return Response.ok().build();
+		BenutzerDto result = benutzerService.benutzerdatenAendern(benutzerDto);
+
+		return Response.ok(result).build();
 	}
 
 	@DELETE

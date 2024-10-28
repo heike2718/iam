@@ -8,6 +8,13 @@ package de.egladil.web.authprovider.domain;
 import java.util.Date;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import de.egladil.web.commons_validation.annotations.StringLatin;
+import de.egladil.web.commons_validation.annotations.UuidString;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,14 +34,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import de.egladil.web.commons_validation.annotations.StringLatin;
-import de.egladil.web.commons_validation.annotations.UuidString;
-
 /**
  * ResourceOwner is the subject of an identity.<br>
  * <br>
@@ -49,7 +48,12 @@ import de.egladil.web.commons_validation.annotations.UuidString;
 	@NamedQuery(name = "FIND_BY_LOGINNAME", query = "select o from ResourceOwner o where o.loginName = :loginName"),
 	@NamedQuery(name = "FIND_BY_LOGINNAME_LIKE", query = "select o from ResourceOwner o where lower(o.loginName) like :loginName"),
 	@NamedQuery(name = "FIND_BY_UUID", query = "select o from ResourceOwner o where o.uuid = :uuid"),
-	@NamedQuery(name = "FIND_BY_UUID_LIKE", query = "select o from ResourceOwner o where o.uuid LIKE :uuid")
+	@NamedQuery(name = "FIND_BY_UUID_LIKE", query = "select o from ResourceOwner o where o.uuid LIKE :uuid"),
+	@NamedQuery(
+		name = "FIND_OTHER_BY_EMAIL", query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.email) = :email"),
+	@NamedQuery(
+		name = "FIND_OTHER_BY_LOGINNAME",
+		query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.loginName) = :loginName"),
 })
 public class ResourceOwner implements AuthProviderEntity {
 
@@ -73,6 +77,12 @@ public class ResourceOwner implements AuthProviderEntity {
 
 	@JsonIgnore
 	public static final String FIND_BY_UUID_LIKE = "FIND_BY_UUID_LIKE";
+
+	@JsonIgnore
+	public static final String FIND_OTHER_BY_EMAIL = "FIND_OTHER_BY_EMAIL";
+
+	@JsonIgnore
+	public static final String FIND_OTHER_BY_LOGINNAME = "FIND_OTHER_BY_LOGINNAME";
 
 	public static ResourceOwner createAktiviert(final String uuid, final String loginName, final String email) {
 

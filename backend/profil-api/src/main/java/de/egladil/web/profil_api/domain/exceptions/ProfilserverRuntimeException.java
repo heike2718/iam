@@ -7,6 +7,7 @@ package de.egladil.web.profil_api.domain.exceptions;
 /**
  * ProfilserverRuntimeException
  */
+// FIXME umbenennen
 public class ProfilserverRuntimeException extends RuntimeException {
 
 	/**

@@ -12,10 +12,16 @@ export class BenutzerdatenFacade {
     #store = inject(Store);
 
     benutzerdaten$: Observable<Benutzerdaten> = this.#store.select(fromBenutzerdaten.benutzerdaten);
+    isExistierenderBenutzer$: Observable<boolean> = this.#store.select(fromBenutzerdaten.isExistierenderBenutzer);
 
     public benutzerdatenLaden(): void {
         
         this.#store.dispatch(benutzerdatenActions.lOAD_BENUTZERDATEN());
+    }
+
+    public benutzerdatenAendern(benutzerdaten: Benutzerdaten): void {
+
+        this.#store.dispatch(benutzerdatenActions.bENUTZERDATEN_AENDERN({benutzerdaten}));
     }
 
     public handleLogout(): void {

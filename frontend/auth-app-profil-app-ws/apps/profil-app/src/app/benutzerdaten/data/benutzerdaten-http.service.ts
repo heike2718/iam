@@ -18,4 +18,10 @@ export class BenutzerdatenHttpService {
         
     }
 
+    public updateBenutzerdaten(benutzerdaten: Benutzerdaten): Observable<Benutzerdaten> {
+
+        return this.#httpClient.put<Benutzerdaten>(this.#url, benutzerdaten);
+
+    }
+
 }

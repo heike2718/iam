@@ -293,32 +293,27 @@ public class ResourceOwnerService {
 	 */
 	public String changeLoginNameAndEmailAllowed(final String loginName, final String email, final String uuid) {
 
-		Optional<ResourceOwner> optROEmail = findResourceOwnerByEmail(email);
-		Optional<ResourceOwner> optROLoginname = findResourceOwnerByLoginName(loginName);
+		List<ResourceOwner> gleicherLoginName = resourceOwnerDao.findOtherUsersWithSameLoginName(loginName, uuid);
+		List<ResourceOwner> gleicheEmail = new ArrayList<>();
 
-		if (!optROEmail.isPresent() && !optROLoginname.isPresent()) {
+		if (!loginName.equalsIgnoreCase(email)) {
 
-			return null;
+			gleicheEmail = resourceOwnerDao.findOtherUsersWithSameEmailName(email, uuid);
 		}
 
-		if (optROEmail.isPresent()) {
+		if (gleicherLoginName.size() > 0 && gleicheEmail.size() > 0) {
 
-			ResourceOwner treffer = optROEmail.get();
-
-			if (!uuid.equals(treffer.getUuid())) {
-
-				return "ProfileResource.data.duplicate.email";
-			}
+			return "conflict.sameEmailAndLoginName";
 		}
 
-		if (optROLoginname.isPresent()) {
+		if (gleicherLoginName.size() > 0) {
 
-			ResourceOwner treffer = optROLoginname.get();
+			return "conflict.sameLoginName";
+		}
 
-			if (!uuid.equals(treffer.getUuid())) {
+		if (gleicheEmail.size() > 0) {
 
-				return "ProfileResource.data.duplicate.loginName";
-			}
+			return "conflict.sameEmail";
 		}
 
 		return null;

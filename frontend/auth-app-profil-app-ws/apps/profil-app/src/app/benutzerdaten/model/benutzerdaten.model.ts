@@ -22,3 +22,18 @@ export function fullName(benutzerdaten: Benutzerdaten): string {
     return benutzerdaten.vorname + ' ' + benutzerdaten.nachname;
 
 }
+
+/**
+ * Compares two Benutzerdaten objects and returns true if all attributes are equal, false otherwise.
+ * @param benutzer1 The first Benutzerdaten object.
+ * @param benutzer2 The second Benutzerdaten object.
+ * @returns boolean indicating if both Benutzerdaten objects are equal.
+ */
+export function benutzerAreEqual(benutzer1: Benutzerdaten, benutzer2: Benutzerdaten): boolean {
+    return (
+        benutzer1.loginName === benutzer2.loginName &&
+        benutzer1.email === benutzer2.email &&
+        benutzer1.vorname === benutzer2.vorname &&
+        benutzer1.nachname === benutzer2.nachname
+    );
+}
