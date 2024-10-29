@@ -298,22 +298,22 @@ public class ResourceOwnerService {
 
 		if (!loginName.equalsIgnoreCase(email)) {
 
-			gleicheEmail = resourceOwnerDao.findOtherUsersWithSameEmailName(email, uuid);
+			gleicheEmail = resourceOwnerDao.findOtherUsersWithSameEmail(email, uuid);
 		}
 
 		if (gleicherLoginName.size() > 0 && gleicheEmail.size() > 0) {
 
-			return "conflict.sameEmailAndLoginName";
+			return "ProfileResource.data.duplicate.emailAndLoginName";
 		}
 
 		if (gleicherLoginName.size() > 0) {
 
-			return "conflict.sameLoginName";
+			return "ProfileResource.data.duplicate.loginName";
 		}
 
 		if (gleicheEmail.size() > 0) {
 
-			return "conflict.sameEmail";
+			return "ProfileResource.data.duplicate.email";
 		}
 
 		return null;

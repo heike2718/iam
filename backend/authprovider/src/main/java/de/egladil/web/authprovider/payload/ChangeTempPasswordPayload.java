@@ -5,14 +5,13 @@
 
 package de.egladil.web.authprovider.payload;
 
+import de.egladil.web.auth_validations.annotations.UuidString;
+import de.egladil.web.auth_validations.annotations.ValidPasswords;
+import de.egladil.web.auth_validations.dto.ZweiPassworte;
+import de.egladil.web.auth_validations.utils.SecUtils;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import de.egladil.web.commons_validation.SecUtils;
-import de.egladil.web.commons_validation.annotations.UuidString;
-import de.egladil.web.commons_validation.annotations.ValidPasswords;
-import de.egladil.web.commons_validation.payload.TwoPasswords;
 
 /**
  * TempPasswordCredentials
@@ -36,7 +35,7 @@ public class ChangeTempPasswordPayload {
 
 	@NotNull
 	@ValidPasswords
-	private TwoPasswords twoPasswords;
+	private ZweiPassworte twoPasswords;
 
 	/**
 	 * Entfernt alle sensiblen Infos: also password, passwordWdh und tempPassword.
@@ -86,12 +85,12 @@ public class ChangeTempPasswordPayload {
 		this.tokenId = tokenId;
 	}
 
-	public TwoPasswords getTwoPasswords() {
+	public ZweiPassworte getTwoPasswords() {
 
 		return twoPasswords;
 	}
 
-	public void setTwoPasswords(final TwoPasswords twoPasswords) {
+	public void setTwoPasswords(final ZweiPassworte twoPasswords) {
 
 		this.twoPasswords = twoPasswords;
 	}

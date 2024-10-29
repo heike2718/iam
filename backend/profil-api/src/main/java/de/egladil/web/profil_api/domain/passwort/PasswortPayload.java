@@ -6,9 +6,10 @@ package de.egladil.web.profil_api.domain.passwort;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import de.egladil.web.profil_api.domain.auth.util.SecUtils;
-import de.egladil.web.profil_api.domain.validation.annotations.PasswortLogin;
-import de.egladil.web.profil_api.domain.validation.annotations.ValidPasswords;
+import de.egladil.web.auth_validations.annotations.PasswortLogin;
+import de.egladil.web.auth_validations.annotations.ValidPasswords;
+import de.egladil.web.auth_validations.dto.ZweiPassworte;
+import de.egladil.web.auth_validations.utils.SecUtils;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

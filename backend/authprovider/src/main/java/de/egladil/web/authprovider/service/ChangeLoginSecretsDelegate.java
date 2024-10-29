@@ -6,13 +6,11 @@ package de.egladil.web.authprovider.service;
 
 import java.util.Base64;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-
 import org.apache.shiro.crypto.hash.Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.auth_validations.utils.SecUtils;
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.dao.LoginSecretsDao;
 import de.egladil.web.authprovider.domain.LoginSecrets;
@@ -20,7 +18,8 @@ import de.egladil.web.authprovider.domain.Salt;
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;
-import de.egladil.web.commons_validation.SecUtils;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 /**
  * ChangeLoginSecretsService

@@ -1,7 +1,9 @@
 @if(authFacade.userIsLoggedIn$ | async){
 <h2>Änderung Ihrer Daten</h2>
 <p>Die Angaben mit * sind erforderlich.</p>
-<p>Zum Login-Namen: Sie haben die Wahl zwischen Ihrer Mailadresse oder einem selbst gewählten Loginnamen. In der Regel reicht die Mailadresse.</p>
+<p>Zum Login-Namen: Sie haben die Wahl zwischen Ihrer Mailadresse oder einem selbst gewählten Loginnamen. In der Regel
+    reicht die Mailadresse.</p>
+<p>Loginname und Mailadresse sind private Daten und werden in keiner Anwendung angezeigt.</p>
 @if(benutzerdatenFacade.isExistierenderBenutzer$ | async) {
 <form [formGroup]="benutzerForm">
     <mat-form-field appearance="fill">

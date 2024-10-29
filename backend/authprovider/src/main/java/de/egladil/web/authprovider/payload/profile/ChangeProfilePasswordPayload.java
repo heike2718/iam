@@ -4,10 +4,9 @@
 // =====================================================
 package de.egladil.web.authprovider.payload.profile;
 
+import de.egladil.web.auth_validations.annotations.UuidString;
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import jakarta.validation.constraints.NotNull;
-
-import de.egladil.web.commons_validation.annotations.UuidString;
-import de.egladil.web.commons_validation.payload.OAuthClientCredentials;
 
 /**
  * ChangeProfilePasswordPayload

@@ -4,13 +4,12 @@
 // =====================================================
 package de.egladil.web.authprovider.payload;
 
+import de.egladil.web.auth_validations.annotations.Honeypot;
+import de.egladil.web.auth_validations.annotations.LoginName;
+import de.egladil.web.auth_validations.annotations.PasswortLogin;
+import de.egladil.web.auth_validations.utils.SecUtils;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import de.egladil.web.commons_validation.SecUtils;
-import de.egladil.web.commons_validation.annotations.Honeypot;
-import de.egladil.web.commons_validation.annotations.LoginName;
-import de.egladil.web.commons_validation.annotations.Passwort;
 
 /**
  * AuthorizationCredentials sind die Daten, mit denen ein Benutzer eine Änderung an seinem Profil autoriisieren kann.
@@ -23,7 +22,7 @@ public class AuthorizationCredentials {
 	private String loginName;
 
 	@NotNull
-	@Passwort
+	@PasswortLogin
 	private String passwort;
 
 	@Honeypot(message = "")

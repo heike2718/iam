@@ -1,12 +1,12 @@
 // =====================================================
-// Projekt: commons-validation
+// Projekt: auth-validations
 // (c) Heike Winkelvoß
 // =====================================================
 
 package de.egladil.web.authprovider.validation;
 
+import de.egladil.web.auth_validations.AbstractWhitelistValidator;
 import de.egladil.web.authprovider.validation.annotations.GeneratedPasswort;
-import de.egladil.web.commons_validation.AbstractWhitelistValidator;
 
 /**
  * Validator für generiertes Passwort.

@@ -8,10 +8,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.NotFoundException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,13 +18,16 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.payload.profile.ProfilePasswordPayload;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.ChangeLoginSecretsDelegate;
 import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
 import de.egladil.web.authprovider.service.mail.PasswordChangedMailStrategy;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
 
 /**
  * ChangePasswordService

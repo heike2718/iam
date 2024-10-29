@@ -6,7 +6,7 @@ package de.egladil.web.profil_api.domain.auth.dto;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import de.egladil.web.profil_api.domain.auth.util.SecUtils;
+import de.egladil.web.auth_validations.utils.SecUtils;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

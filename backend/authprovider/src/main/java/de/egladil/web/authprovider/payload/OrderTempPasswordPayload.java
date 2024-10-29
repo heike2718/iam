@@ -4,12 +4,11 @@
 // =====================================================
 package de.egladil.web.authprovider.payload;
 
+import de.egladil.web.auth_validations.annotations.Honeypot;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import de.egladil.web.commons_validation.annotations.Honeypot;
 
 /**
  * OrderTempPasswordCredentials

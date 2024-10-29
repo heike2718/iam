@@ -5,10 +5,9 @@
 
 package de.egladil.web.authprovider.payload;
 
+import de.egladil.web.auth_validations.annotations.InputSecured;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import de.egladil.web.commons_validation.annotations.StringLatin;
 
 /**
  * LoginCredentials sind die Daten für die Authentisierung eines ResourceOwners erforderlich sind. Das sind die Daten
@@ -32,7 +31,7 @@ public class LoginCredentials {
 	@NotNull
 	private ClientCredentials clientCredentials;
 
-	@StringLatin
+	@InputSecured
 	@Size(max = 60)
 	private String nonce;
 

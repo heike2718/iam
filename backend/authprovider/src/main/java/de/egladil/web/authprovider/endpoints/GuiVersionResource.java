@@ -4,6 +4,9 @@
 // =====================================================
 package de.egladil.web.authprovider.endpoints;
 
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
+import de.egladil.web.authprovider.service.GuiVersionService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -11,10 +14,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import de.egladil.web.authprovider.service.GuiVersionService;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
 
 /**
  * GuiVersionResource

@@ -4,12 +4,11 @@
 // =====================================================
 package de.egladil.web.authprovider.payload.profile;
 
+import de.egladil.web.auth_validations.annotations.PasswortLogin;
+import de.egladil.web.auth_validations.annotations.ValidPasswords;
+import de.egladil.web.auth_validations.dto.ZweiPassworte;
+import de.egladil.web.auth_validations.utils.SecUtils;
 import jakarta.validation.constraints.NotNull;
-
-import de.egladil.web.commons_validation.SecUtils;
-import de.egladil.web.commons_validation.annotations.Passwort;
-import de.egladil.web.commons_validation.annotations.ValidPasswords;
-import de.egladil.web.commons_validation.payload.TwoPasswords;
 
 /**
  * ProfilePasswordPayload
@@ -17,12 +16,12 @@ import de.egladil.web.commons_validation.payload.TwoPasswords;
 public class ProfilePasswordPayload {
 
 	@NotNull
-	@Passwort
+	@PasswortLogin
 	private String passwort;
 
 	@NotNull
 	@ValidPasswords
-	private TwoPasswords twoPasswords;
+	private ZweiPassworte twoPasswords;
 
 	/**
 	 * Entfernt alle sensiblen Infos: also password und passwordWdh.
@@ -41,12 +40,12 @@ public class ProfilePasswordPayload {
 		}
 	}
 
-	public TwoPasswords getTwoPasswords() {
+	public ZweiPassworte getTwoPasswords() {
 
 		return twoPasswords;
 	}
 
-	public void setTwoPasswords(final TwoPasswords twoPasswords) {
+	public void setTwoPasswords(final ZweiPassworte twoPasswords) {
 
 		this.twoPasswords = twoPasswords;
 	}

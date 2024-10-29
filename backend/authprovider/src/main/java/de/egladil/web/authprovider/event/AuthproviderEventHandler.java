@@ -16,13 +16,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.error.PropagationFailedException;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.restclient.MkGatewayRestClient;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie.MinikaengurukontenMailKontext;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;

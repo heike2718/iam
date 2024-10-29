@@ -14,8 +14,6 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.egladil.web.commons_validation.ValidationUtils;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -67,8 +65,6 @@ public class OrderTempPasswordPayloadTest {
 
 		// Assert
 		assertEquals(2, errors.size());
-		ResponsePayload rp = new ValidationUtils().toConstraintViolationMessage(errors, OrderTempPasswordPayload.class);
-		System.out.println(new ObjectMapper().writeValueAsString(rp));
 	}
 
 }

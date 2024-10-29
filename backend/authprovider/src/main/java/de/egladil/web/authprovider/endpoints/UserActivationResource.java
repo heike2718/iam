@@ -8,6 +8,13 @@ package de.egladil.web.authprovider.endpoints;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.egladil.web.auth_validations.annotations.UuidString;
+import de.egladil.web.authprovider.error.LogmessagePrefixes;
+import de.egladil.web.authprovider.service.confirm.ConfirmationService;
+import de.egladil.web.authprovider.service.confirm.ConfirmationStatus;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -17,16 +24,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.egladil.web.authprovider.error.LogmessagePrefixes;
-import de.egladil.web.authprovider.payload.UuidPayload;
-import de.egladil.web.authprovider.service.confirm.ConfirmationService;
-import de.egladil.web.authprovider.service.confirm.ConfirmationStatus;
-import de.egladil.web.commons_validation.ValidationDelegate;
-import de.egladil.web.commons_validation.exception.InvalidInputException;
 
 /**
  * UserActivationResource stellt REST- Endpoints Aktivieren eines neu angelegten ResourceOwner-Kontos zur Verfügung.
@@ -47,11 +44,7 @@ public class UserActivationResource {
 
 	private static final String ACTIVATION_FAILED_RESOURCE = CONTENT_ROOT + "activationFailed.html";
 
-	private static final String ACTIVATION_BAD_REQUEST_RESOURCE = CONTENT_ROOT + "activationBadRequest.html";
-
 	private static final String ACTIVATION_DELETED_RESOURCE = CONTENT_ROOT + "activationDeleted.html";
-
-	private ValidationDelegate validationDelegate = new ValidationDelegate();
 
 	@Inject
 	ConfirmationService confirmationService;
@@ -63,13 +56,11 @@ public class UserActivationResource {
 	 */
 	@GET
 	@Path("/confirmation")
-	public Response activateUser(@QueryParam("code") final String confirmationCode) {
+	public Response activateUser(@UuidString @QueryParam("code") final String confirmationCode) {
 
 		String htmlResource = "";
 
 		try {
-
-			validationDelegate.check(new UuidPayload(confirmationCode), UuidPayload.class);
 
 			ConfirmationStatus confirmStatus = this.confirmationService.confirmCode(confirmationCode);
 
@@ -92,10 +83,6 @@ public class UserActivationResource {
 				LOG.error(LogmessagePrefixes.IMPOSSIBLE + "unerwarteter confirmStatus '" + confirmStatus + "'");
 				htmlResource = ACTIVATION_FAILED_RESOURCE;
 			}
-		} catch (InvalidInputException e) {
-
-			LOG.warn(LogmessagePrefixes.BOT + "confirmationCode ungueltig - [{}]", confirmationCode);
-			htmlResource = ACTIVATION_BAD_REQUEST_RESOURCE;
 		} catch (Exception e) {
 
 			LOG.error(

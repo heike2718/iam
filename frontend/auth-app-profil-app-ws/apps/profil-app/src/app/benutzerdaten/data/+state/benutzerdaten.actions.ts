@@ -8,6 +8,7 @@ export const benutzerdatenActions = createActionGroup({
         'LOAD_BENUTZERDATEN': emptyProps(),
         'BENUTZERDATEN_LOADED': props<{ benutzerdaten: Benutzerdaten }>(),
         'BENUTZERDATEN_AENDERN': props<{ benutzerdaten: Benutzerdaten }>(),
+        'BENUTZERDATEN_GEAENDERT': props<{ benutzerdaten: Benutzerdaten }>(),        
         'RESET_BENUTZERDATEN': emptyProps()
     }
 });

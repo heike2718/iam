@@ -5,6 +5,7 @@
 
 package de.egladil.web.authprovider.domain;
 
+import de.egladil.web.auth_validations.annotations.ClientId;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,8 +19,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import de.egladil.web.commons_validation.annotations.ClientId;
 
 /**
  * Ein Client ist eine Anwendung, die diesen AuthProvider für die Authentisierung Ihrer Benutzer verwendet.<br>

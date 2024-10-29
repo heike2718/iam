@@ -17,14 +17,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import de.egladil.web.auth_validations.dto.ZweiPassworte;
 import de.egladil.web.authprovider.dao.TempPasswordDao;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.domain.TempPassword;
 import de.egladil.web.authprovider.payload.ChangeTempPasswordPayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.ChangeLoginSecretsDelegate;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
-import de.egladil.web.commons_validation.payload.TwoPasswords;
 import io.quarkus.test.junit.QuarkusTest;
 
 /**
@@ -65,7 +65,7 @@ public class ChangeTempPasswordServiceTest {
 
 		ChangeTempPasswordPayload result = new ChangeTempPasswordPayload();
 		result.setEmail(VALID_EMAIL);
-		result.setTwoPasswords(new TwoPasswords("start567", "start567"));
+		result.setTwoPasswords(new ZweiPassworte("start567", "start567"));
 		result.setTempPassword(VALID_TEMP_PWD);
 		result.setTokenId(VALID_TOKENID);
 

@@ -8,11 +8,11 @@ package de.egladil.web.authprovider.error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.auth_validations.exceptions.InvalidInputException;
 import de.egladil.web.authprovider.dao.impl.PersistenceExceptionMapper;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.commons_net.exception.SessionExpiredException;
-import de.egladil.web.commons_validation.exception.InvalidInputException;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.RollbackException;
 import jakarta.ws.rs.NotFoundException;
@@ -145,7 +145,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 			// wurde schon geloggt.
 			return Response.status(400)
 				.header("X-Auth-Error", "ungültige Eingaben")
-				.entity(invalidInputException.getResponsePayload())
+				.entity(ResponsePayload.messageOnly(MessagePayload.error(invalidInputException.getMessage())))
 				.build();
 		}
 

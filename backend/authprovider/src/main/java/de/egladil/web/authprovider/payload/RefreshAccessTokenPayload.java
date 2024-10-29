@@ -6,12 +6,11 @@ package de.egladil.web.authprovider.payload;
 
 import java.util.List;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.StringUtils;
 
-import de.egladil.web.commons_validation.annotations.UuidList;
-import de.egladil.web.commons_validation.annotations.UuidString;
+import de.egladil.web.auth_validations.annotations.UuidList;
+import de.egladil.web.auth_validations.annotations.UuidString;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * RefreshAccessTokenPayload

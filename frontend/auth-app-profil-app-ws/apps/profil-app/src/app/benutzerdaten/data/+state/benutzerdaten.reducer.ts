@@ -18,6 +18,9 @@ export const benutzerdatenFeature = createFeature({
         on(benutzerdatenActions.bENUTZERDATEN_LOADED, (state, action) => {
             return { ...state, benutzerdaten: action.benutzerdaten };
         }),
+        on(benutzerdatenActions.bENUTZERDATEN_GEAENDERT, (state, action) => {
+            return { ...state, benutzerdaten: action.benutzerdaten };
+        }),
         on(benutzerdatenActions.rESET_BENUTZERDATEN, (_state, _action) => {
             return initialState;
         })

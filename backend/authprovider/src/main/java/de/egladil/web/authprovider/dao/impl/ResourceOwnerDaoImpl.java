@@ -178,7 +178,7 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 	}
 
 	@Override
-	public List<ResourceOwner> findOtherUsersWithSameEmailName(final String email, final String uuidOwner) {
+	public List<ResourceOwner> findOtherUsersWithSameEmail(final String email, final String uuidOwner) {
 
 		List<ResourceOwner> resultList = em.createNamedQuery(ResourceOwner.FIND_OTHER_BY_EMAIL, ResourceOwner.class)
 			.setParameter("uuid", uuidOwner)

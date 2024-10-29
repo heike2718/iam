@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.egladil.web.commons_validation.payload.TwoPasswords;
+import de.egladil.web.auth_validations.dto.ZweiPassworte;
 import io.quarkus.test.junit.QuarkusTest;
 
 /**
@@ -41,7 +41,7 @@ public class SignUpCredentialsTest {
 		cred.setNachname("Doe");
 		cred.setNonce("GT543ERG");
 
-		cred.setTwoPasswords(new TwoPasswords("start123", "start123"));
+		cred.setTwoPasswords(new ZweiPassworte("start123", "start123"));
 
 		// Act + Assert
 		System.out.println(new ObjectMapper().writeValueAsString(cred));
@@ -63,7 +63,7 @@ public class SignUpCredentialsTest {
 		assertEquals("http://localhost:4200", clientCredentials.getRedirectUrl());
 		assertEquals("horst", clientCredentials.getState());
 
-		TwoPasswords twoPasswords = cred.getTwoPasswords();
+		ZweiPassworte twoPasswords = cred.getTwoPasswords();
 		assertNotNull(twoPasswords);
 		assertEquals("start123", twoPasswords.getPasswort());
 		assertEquals("start123", twoPasswords.getPasswortWdh());

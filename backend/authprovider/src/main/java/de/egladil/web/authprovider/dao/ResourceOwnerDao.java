@@ -40,7 +40,7 @@ public interface ResourceOwnerDao extends BaseDao {
 	 * @param  uuidOwner
 	 * @return
 	 */
-	List<ResourceOwner> findOtherUsersWithSameEmailName(String email, String uuidOwner);
+	List<ResourceOwner> findOtherUsersWithSameEmail(String email, String uuidOwner);
 
 	/**
 	 * Suche nach resourceOwner.loginName.

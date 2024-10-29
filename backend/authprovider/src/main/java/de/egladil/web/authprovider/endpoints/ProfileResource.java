@@ -13,8 +13,12 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.auth_validations.dto.NoncePayload;
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.payload.User;
 import de.egladil.web.authprovider.payload.profile.ChangeProfileDataPayload;
 import de.egladil.web.authprovider.payload.profile.ChangeProfilePasswordPayload;
@@ -24,13 +28,9 @@ import de.egladil.web.authprovider.service.ResourceOwnerService;
 import de.egladil.web.authprovider.service.profile.ChangeDataService;
 import de.egladil.web.authprovider.service.profile.ChangePasswordService;
 import de.egladil.web.authprovider.service.profile.DeleteAccountService;
-import de.egladil.web.commons_validation.ValidationDelegate;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.NoncePayload;
-import de.egladil.web.commons_validation.payload.OAuthClientCredentials;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.NotFoundException;
@@ -54,8 +54,6 @@ public class ProfileResource {
 
 	@ConfigProperty(name = "profilapp.client-id")
 	String permittedClientId;
-
-	private ValidationDelegate validationDelegate = new ValidationDelegate();
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
@@ -81,13 +79,11 @@ public class ProfileResource {
 	 */
 	@PUT
 	@Path("/profile/password")
-	public Response changePassword(final ChangeProfilePasswordPayload payload) {
+	public Response changePassword(@Valid final ChangeProfilePasswordPayload payload) {
 
 		try {
 
 			verifyClientId(payload.getClientCredentials());
-
-			validationDelegate.check(payload, ChangeProfilePasswordPayload.class);
 
 			clientService.authorizeClient(payload.getClientCredentials());
 
@@ -111,11 +107,9 @@ public class ProfileResource {
 
 	@PUT
 	@Path("/profile/data")
-	public Response changeData(final ChangeProfileDataPayload payload) {
+	public Response changeData(@Valid final ChangeProfileDataPayload payload) {
 
 		try {
-
-			validationDelegate.check(payload, ChangeProfileDataPayload.class);
 
 			verifyClientId(payload.getClientCredentials());
 
@@ -146,11 +140,9 @@ public class ProfileResource {
 	 */
 	@POST
 	@Path("/profile")
-	public Response getUserProfile(final SelectProfilePayload selectProfilePayload) {
+	public Response getUserProfile(@Valid final SelectProfilePayload selectProfilePayload) {
 
 		try {
-
-			validationDelegate.check(selectProfilePayload, SelectProfilePayload.class);
 
 			verifyClientId(selectProfilePayload.getClientCredentials());
 
@@ -183,11 +175,9 @@ public class ProfileResource {
 	 */
 	@DELETE
 	@Path("/profile")
-	public Response deleteUserProfile(final SelectProfilePayload selectProfilePayload) {
+	public Response deleteUserProfile(@Valid final SelectProfilePayload selectProfilePayload) {
 
 		try {
-
-			validationDelegate.check(selectProfilePayload, SelectProfilePayload.class);
 
 			verifyClientId(selectProfilePayload.getClientCredentials());
 
@@ -201,7 +191,7 @@ public class ProfileResource {
 		}
 	}
 
-	private void verifyClientId(final OAuthClientCredentials clientCredentials) {
+	void verifyClientId(@Valid final OAuthClientCredentials clientCredentials) {
 
 		if (!permittedClientId.equals(clientCredentials.getClientId())) {
 

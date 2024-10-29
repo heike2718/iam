@@ -9,11 +9,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.transaction.Transactional.TxType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,14 +20,18 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.domain.TempPassword;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
 import de.egladil.web.authprovider.payload.ChangeTempPasswordPayload;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.ChangeLoginSecretsDelegate;
 import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
 import de.egladil.web.authprovider.service.mail.TempPasswordChangedMailStrategy;
 import de.egladil.web.authprovider.service.profile.SendMailProfilChangedTask;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 /**
  * ChangeTempPasswordService

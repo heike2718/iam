@@ -16,6 +16,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.auth_validations.utils.SecUtils;
 import de.egladil.web.authprovider.config.PasswordConfig;
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.domain.Client;
@@ -29,7 +30,6 @@ import de.egladil.web.authprovider.utils.AuthUtils;
 import de.egladil.web.commons_crypto.CryptoService;
 import de.egladil.web.commons_crypto.PasswordAlgorithm;
 import de.egladil.web.commons_crypto.PasswordAlgorithmBuilder;
-import de.egladil.web.commons_validation.SecUtils;
 import io.vertx.core.http.HttpServerRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

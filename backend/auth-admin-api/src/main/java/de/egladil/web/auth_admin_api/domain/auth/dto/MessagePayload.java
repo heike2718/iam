@@ -1,5 +1,5 @@
 // =====================================================
-// Projekt: commons-validation
+// Projekt: auth-validations
 // (c) Heike Winkelvoß
 // =====================================================
 

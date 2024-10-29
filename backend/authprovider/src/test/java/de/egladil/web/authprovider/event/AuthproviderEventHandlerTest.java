@@ -5,23 +5,25 @@
 package de.egladil.web.authprovider.event;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.restclient.MkGatewayRestClient;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie.MinikaengurukontenMailKontext;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -37,6 +39,7 @@ public class AuthproviderEventHandlerTest {
 	EventRepository eventRepository;
 
 	@InjectMock
+	@RestClient
 	MkGatewayRestClient mkGateway;
 
 	@InjectMock
@@ -53,12 +56,14 @@ public class AuthproviderEventHandlerTest {
 		LoginversuchInaktiverUser eventPayload = new LoginversuchInaktiverUser(resourceOwner);
 		DefaultEmailDaten emailDaten = createEmailDaten(MinikaengurukontenMailKontext.LOGIN_INAKTIV, resourceOwner);
 
-		when(mailService.sendMail(emailDaten)).thenReturn(Boolean.TRUE);
+		doNothing().when(eventRepository).appendEvent(any(StoredEvent.class));
 
 		// Act
 		handler.handleEvent(eventPayload);
 
-		Mockito.verify(mailService, Mockito.times(1)).sendMail(emailDaten);
+		// never, weil Infrastructure nicht da ist
+		verify(mailService, never()).sendMail(emailDaten);
+		verify(eventRepository).appendEvent(any(StoredEvent.class));
 
 	}
 
@@ -81,14 +86,16 @@ public class AuthproviderEventHandlerTest {
 
 		Response userCreatedResponse = Response.ok().build();
 
-		when(mailService.sendMail(emailDaten)).thenReturn(Boolean.TRUE);
+		doNothing().when(eventRepository).appendEvent(any(StoredEvent.class));
 		when(mkGateway.getSyncToken(any(SyncHandshake.class))).thenReturn(response);
 		when(mkGateway.propagateUserCreated(any(CreateUserCommand.class))).thenReturn(userCreatedResponse);
 
 		// Act
 		handler.handleEvent(eventPayload);
 
-		verify(mailService, Mockito.times(1)).sendMail(emailDaten);
+		// never, weil Infrastructure nicht da ist
+		verify(mailService, never()).sendMail(emailDaten);
+		verify(eventRepository).appendEvent(any(StoredEvent.class));
 
 	}
 
@@ -106,14 +113,16 @@ public class AuthproviderEventHandlerTest {
 		ResponsePayload responsePayload = ResponsePayload.messageOnly(MessagePayload.ok());
 		responsePayload.setData(data);
 
+		doNothing().when(eventRepository).appendEvent(any(StoredEvent.class));
 		when(mkGateway.getSyncToken(any(SyncHandshake.class))).thenReturn(Response.ok(responsePayload).build());
 		when(mkGateway.propagateUserDeleted(any(DeleteUserCommand.class))).thenReturn(Response.ok().build());
-		when(mailService.sendMail(emailDaten)).thenReturn(Boolean.TRUE);
 
 		// Act
 		handler.handleEvent(eventPayload);
 
-		Mockito.verify(mailService, Mockito.times(1)).sendMail(emailDaten);
+		// never, weil Infrastructure nicht da ist
+		verify(mailService, never()).sendMail(emailDaten);
+		verify(eventRepository).appendEvent(any(StoredEvent.class));
 	}
 
 	private ResourceOwner createTestData() {

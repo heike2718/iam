@@ -17,7 +17,7 @@ export class MessageService {
         this.#add({ message: message, level: 'INFO' });
         setTimeout(() => {
             this.clearMessage();
-        }, 5000); // Clear after 5 seconds
+        }, 3000); // nach 3 Sekunden clearen
     }
 
     warn(message: string) {

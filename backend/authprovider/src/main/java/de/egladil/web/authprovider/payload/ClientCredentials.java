@@ -5,15 +5,14 @@
 
 package de.egladil.web.authprovider.payload;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.URL;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import de.egladil.web.commons_validation.SecUtils;
-import de.egladil.web.commons_validation.annotations.UuidString;
+import de.egladil.web.auth_validations.annotations.UuidString;
+import de.egladil.web.auth_validations.utils.SecUtils;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 /**
  * ClientCredentials<br>

@@ -6,24 +6,22 @@
 package de.egladil.web.authprovider.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.egladil.web.auth_validations.dto.ZweiPassworte;
 import de.egladil.web.authprovider.payload.ClientCredentials;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
-import de.egladil.web.commons_validation.InvalidProperty;
-import de.egladil.web.commons_validation.ValidationDelegate;
-import de.egladil.web.commons_validation.exception.InvalidInputException;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
-import de.egladil.web.commons_validation.payload.TwoPasswords;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 /**
  * RegistrationCredentialsValidationTest
@@ -31,18 +29,21 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 public class RegistrationCredentialsValidationTest {
 
-	private ValidationDelegate validationDelegate;
+	private Validator validator;
 
 	@BeforeEach
 	void setUp() {
 
-		validationDelegate = new ValidationDelegate();
+		final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+		validator = validatorFactory.getValidator();
 	}
 
 	@Test
 	void validCredentialsIsValid() {
 
-		validationDelegate.check(getValidCredentials(), SignUpCredentials.class);
+		Set<ConstraintViolation<SignUpCredentials>> constraintViolations = validator.validate(getValidCredentials());
+
+		assertTrue(constraintViolations.isEmpty());
 	}
 
 	@Test
@@ -52,22 +53,14 @@ public class RegistrationCredentialsValidationTest {
 		final SignUpCredentials credentials = getValidCredentials();
 		credentials.setAgbGelesen(false);
 
-		// Act + Assert
-		final Throwable ex = assertThrows(InvalidInputException.class, () -> {
+		// Act
+		Set<ConstraintViolation<SignUpCredentials>> constraintViolations = validator.validate(credentials);
 
-			validationDelegate.check(credentials, SignUpCredentials.class);
-		});
-		InvalidInputException e = (InvalidInputException) ex;
-		ResponsePayload responsePayload = e.getResponsePayload();
-		assertNotNull(responsePayload);
-		assertEquals("ERROR", responsePayload.getMessage().getLevel());
-		assertEquals("Die Eingaben sind nicht korrekt.", responsePayload.getMessage().getMessage());
-		@SuppressWarnings("unchecked")
-		Collection<InvalidProperty> invalidProperties = (Collection<InvalidProperty>) responsePayload.getData();
-		assertEquals(1, invalidProperties.size());
-		InvalidProperty prop = invalidProperties.iterator().next();
-		assertEquals("agbGelesen", prop.getName());
-		assertEquals("Bitte stimmen Sie den Datenschutzhinweisen zu.", prop.getMessage());
+		// Assert
+		assertEquals(1, constraintViolations.size());
+
+		ConstraintViolation<SignUpCredentials> cv = constraintViolations.iterator().next();
+		assertEquals("Bitte stimmen Sie den Datenschutzhinweisen zu.", cv.getMessage());
 	}
 
 	@Test
@@ -75,25 +68,18 @@ public class RegistrationCredentialsValidationTest {
 
 		// Arrange
 		final SignUpCredentials credentials = getValidCredentials();
-		credentials.getTwoPasswords().setPasswortWdh("123start");
+		credentials.getTwoPasswords().setPasswortWdh("123start$trats321");
 
-		// Act + Assert
-		final Throwable ex = assertThrows(InvalidInputException.class, () -> {
+		// Act
+		Set<ConstraintViolation<SignUpCredentials>> constraintViolations = validator.validate(credentials);
 
-			validationDelegate.check(credentials, SignUpCredentials.class);
-		});
-		InvalidInputException e = (InvalidInputException) ex;
-		ResponsePayload responsePayload = e.getResponsePayload();
-		assertNotNull(responsePayload);
-		assertEquals("ERROR", responsePayload.getMessage().getLevel());
-		assertEquals("Die Eingaben sind nicht korrekt.", responsePayload.getMessage().getMessage());
-		@SuppressWarnings("unchecked")
-		Collection<InvalidProperty> invalidProperties = (Collection<InvalidProperty>) responsePayload.getData();
-		assertEquals(1, invalidProperties.size());
-		InvalidProperty prop = invalidProperties.iterator().next();
-		assertEquals("twoPasswords", prop.getName());
-		System.out.println("passwordsNotEqual: message='" + prop.getMessage() + "'");
-		assertTrue(prop.getMessage().contains("Die Passwörter stimmen nicht überein"));
+		// Assert
+		assertEquals(2, constraintViolations.size());
+
+		List<String> messages = constraintViolations.stream().map(cv -> cv.getMessage()).toList();
+
+		assertTrue(messages.contains("Die Passwörter stimmen nicht überein"));
+		assertTrue(messages.contains("twoPasswords ist nicht valid"));
 	}
 
 	@Test
@@ -101,37 +87,20 @@ public class RegistrationCredentialsValidationTest {
 
 		// Arrange
 		final SignUpCredentials credentials = getValidCredentials();
-		credentials.getTwoPasswords().setPasswortWdh("123start");
+		credentials.getTwoPasswords().setPasswortWdh("123starttrats1321!");
 		credentials.setKleber("hui");
 
-		// Act + Assert
-		final Throwable ex = assertThrows(InvalidInputException.class, () -> {
+		// Act
+		Set<ConstraintViolation<SignUpCredentials>> constraintViolations = validator.validate(credentials);
 
-			validationDelegate.check(credentials, SignUpCredentials.class);
-		});
-		InvalidInputException e = (InvalidInputException) ex;
-		ResponsePayload responsePayload = e.getResponsePayload();
-		assertNotNull(responsePayload);
-		assertEquals("ERROR", responsePayload.getMessage().getLevel());
-		assertEquals("Die Eingaben sind nicht korrekt.", responsePayload.getMessage().getMessage());
-		@SuppressWarnings("unchecked")
-		List<InvalidProperty> invalidProperties = (List<InvalidProperty>) responsePayload.getData();
-		assertEquals(2, invalidProperties.size());
+		// Assert
+		assertEquals(3, constraintViolations.size());
 
-		{
+		List<String> messages = constraintViolations.stream().map(cv -> cv.getMessage()).toList();
 
-			InvalidProperty prop = invalidProperties.get(0);
-			assertEquals("twoPasswords", prop.getName());
-			System.out.println("passwordsNotEqual: message='" + prop.getMessage() + "'");
-			assertTrue(prop.getMessage().contains("Die Passwörter stimmen nicht überein"));
-		}
-
-		{
-
-			InvalidProperty prop = invalidProperties.get(1);
-			assertEquals("kleber", prop.getName());
-			assertEquals("", prop.getMessage());
-		}
+		assertTrue(messages.contains("Die Passwörter stimmen nicht überein"));
+		assertTrue(messages.contains("twoPasswords ist nicht valid"));
+		assertTrue(messages.contains(""));
 	}
 
 	@Test
@@ -141,22 +110,14 @@ public class RegistrationCredentialsValidationTest {
 		final SignUpCredentials credentials = getValidCredentials();
 		credentials.setClientCredentials(null);
 
-		// Act + Assert
-		final Throwable ex = assertThrows(InvalidInputException.class, () -> {
+		// Act
+		Set<ConstraintViolation<SignUpCredentials>> constraintViolations = validator.validate(credentials);
 
-			validationDelegate.check(credentials, SignUpCredentials.class);
-		});
-		InvalidInputException e = (InvalidInputException) ex;
-		ResponsePayload responsePayload = e.getResponsePayload();
-		assertNotNull(responsePayload);
-		assertEquals("ERROR", responsePayload.getMessage().getLevel());
-		assertEquals("Die Eingaben sind nicht korrekt.", responsePayload.getMessage().getMessage());
-		@SuppressWarnings("unchecked")
-		Collection<InvalidProperty> invalidProperties = (Collection<InvalidProperty>) responsePayload.getData();
-		assertEquals(1, invalidProperties.size());
-		InvalidProperty prop = invalidProperties.iterator().next();
-		assertEquals("clientCredentials", prop.getName());
-		assertEquals("darf nicht null sein", prop.getMessage());
+		// Assert
+		assertEquals(1, constraintViolations.size());
+
+		ConstraintViolation<SignUpCredentials> cv = constraintViolations.iterator().next();
+		assertEquals("clientCredentials ist erforderlich.", cv.getMessage());
 	}
 
 	private SignUpCredentials getValidCredentials() {
@@ -165,7 +126,7 @@ public class RegistrationCredentialsValidationTest {
 		result.setAgbGelesen(true);
 		result.setEmail("bla@eladil.de");
 		result.setLoginName("Herbert");
-		result.setTwoPasswords(new TwoPasswords("start123", "start123"));
+		result.setTwoPasswords(new ZweiPassworte("start123!321trats", "start123!321trats"));
 
 		ClientCredentials clientCredentials = ClientCredentials.createWithState("asghkggd", "localhost:4200", "horst");
 		result.setClientCredentials(clientCredentials);

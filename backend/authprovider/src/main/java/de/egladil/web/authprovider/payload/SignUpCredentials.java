@@ -5,16 +5,15 @@
 
 package de.egladil.web.authprovider.payload;
 
+import de.egladil.web.auth_validations.annotations.Honeypot;
+import de.egladil.web.auth_validations.annotations.InputSecured;
+import de.egladil.web.auth_validations.annotations.LoginName;
+import de.egladil.web.auth_validations.annotations.ValidPasswords;
+import de.egladil.web.auth_validations.dto.ZweiPassworte;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import de.egladil.web.commons_validation.annotations.Honeypot;
-import de.egladil.web.commons_validation.annotations.LoginName;
-import de.egladil.web.commons_validation.annotations.StringLatin;
-import de.egladil.web.commons_validation.annotations.ValidPasswords;
-import de.egladil.web.commons_validation.payload.TwoPasswords;
 
 /**
  * SignUpCredentials enthalten die Credentials des ResourceOwners:
@@ -38,34 +37,34 @@ public class SignUpCredentials {
 	private String email;
 
 	@NotNull
-	@LoginName
+	@LoginName(message = "loginName enthält ungueltige Zeichen")
 	@Size(max = 255)
 	private String loginName;
 
-	@StringLatin
+	@InputSecured(message = "vorname enthält ungültige Zeichen")
 	@Size(min = 1, max = 100)
 	private String vorname;
 
-	@StringLatin
+	@InputSecured(message = "nachname enthält ungültige Zeichen")
 	@Size(min = 1, max = 100)
 	private String nachname;
 
-	@StringLatin
+	@InputSecured(message = "groups enthält ungültige Zeichen")
 	@Size(max = 150)
 	private String groups;
 
-	@StringLatin
+	@InputSecured(message = "nonce enthält ungültige Zeichen")
 	@Size(max = 60)
 	private String nonce;
 
 	@NotNull
-	@ValidPasswords
-	private TwoPasswords twoPasswords;
+	@ValidPasswords(message = "twoPasswords ist nicht valid")
+	private ZweiPassworte twoPasswords;
 
 	@AssertTrue(message = "Bitte stimmen Sie den Datenschutzhinweisen zu.")
 	private boolean agbGelesen;
 
-	@NotNull
+	@NotNull(message = "clientCredentials ist erforderlich.")
 	private ClientCredentials clientCredentials;
 
 	@Honeypot(message = "")
@@ -146,12 +145,12 @@ public class SignUpCredentials {
 		this.nachname = nachname;
 	}
 
-	public TwoPasswords getTwoPasswords() {
+	public ZweiPassworte getTwoPasswords() {
 
 		return twoPasswords;
 	}
 
-	public void setTwoPasswords(final TwoPasswords twoPasswords) {
+	public void setTwoPasswords(final ZweiPassworte twoPasswords) {
 
 		this.twoPasswords = twoPasswords;
 	}

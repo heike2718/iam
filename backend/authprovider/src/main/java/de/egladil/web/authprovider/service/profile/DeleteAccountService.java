@@ -6,25 +6,24 @@ package de.egladil.web.authprovider.service.profile;
 
 import java.util.Optional;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.core.Response;
-
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.payload.profile.SelectProfilePayload;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.ClientService;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
 import de.egladil.web.authprovider.service.mail.BenutzerkontoGeloeschtMailStrategie;
 import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.Response;
 
 /**
  * DeleteAccountService

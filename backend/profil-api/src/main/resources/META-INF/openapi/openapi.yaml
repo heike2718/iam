@@ -221,6 +221,8 @@ components:
       type: object
       properties:
         passwort:
+          maxLength: 100
+          pattern: \S
           type: string
         twoPasswords:
           $ref: "#/components/schemas/ZweiPassworte"

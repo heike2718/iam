@@ -8,23 +8,22 @@ package de.egladil.web.authprovider.endpoints;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.payload.LoginCredentials;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
+import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
+import de.egladil.web.authprovider.service.AuthJWTService;
+import de.egladil.web.authprovider.service.AuthenticationService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.authprovider.payload.LoginCredentials;
-import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
-import de.egladil.web.authprovider.service.AuthenticationService;
-import de.egladil.web.authprovider.service.AuthJWTService;
-import de.egladil.web.commons_validation.ValidationDelegate;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
 
 /**
  * AuthenticationResource stellt REST-Endpoints zur Authentisierung von ResourceOwnern zur Verfügung.
@@ -34,8 +33,6 @@ import de.egladil.web.commons_validation.payload.ResponsePayload;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationResource {
-
-	private ValidationDelegate validationDelegate = new ValidationDelegate();
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
@@ -54,7 +51,7 @@ public class AuthenticationResource {
 	 */
 	@POST
 	@Path("/sessions/auth-token-grant")
-	public Response authenticateUserWithTokenExchangeTypeAuthTokenGrant(final LoginCredentials credentials) {
+	public Response authenticateUserWithTokenExchangeTypeAuthTokenGrant(@Valid final LoginCredentials credentials) {
 
 		try {
 
@@ -65,8 +62,6 @@ public class AuthenticationResource {
 						.error(applicationMessages.getString("general.notAuthenticated")));
 				return Response.status(401).entity(responsePayload).build();
 			}
-
-			validationDelegate.check(credentials, LoginCredentials.class);
 
 			ResourceOwner resourceOwner = authenticationService
 				.authenticateResourceOwner(credentials.getAuthorizationCredentials());

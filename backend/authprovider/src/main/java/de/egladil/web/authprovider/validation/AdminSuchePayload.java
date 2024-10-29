@@ -7,9 +7,8 @@ package de.egladil.web.authprovider.validation;
 
 import java.io.Serializable;
 
+import de.egladil.web.auth_validations.annotations.LoginName;
 import jakarta.validation.constraints.Size;
-
-import de.egladil.web.commons_validation.annotations.LoginName;
 
 /**
  * AdminSuchePayload kapselt die Whitelist für Suchen in MKV-Admin.

@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "nx",
     "start": "NX_DAEMON=false nx serve",
-    "start:auth-app": "NX_DAEMON=false nx serve auth-app",
-    "start:profil-app": "NX_DAEMON=false nx serve profil-app",
+    "auth-app": "NX_DAEMON=false nx serve auth-app",
+    "profil-app": "NX_DAEMON=false nx serve profil-app",
     "build:auth-app:heiketux": "npx nx build auth-app -c heiketux --base-href /auth-app --deploy-url auth-app/ --skip-nx-cache",
     "build:profil-app:heiketux": "npx nx build profil-app -c heiketux --base-href /profil-app --deploy-url profil-app/ --skip-nx-cache",
     "build:auth-app:heikeqs": "npx nx build auth-app -c heikeqs --output-hashing=all --base-href /auth-app --deploy-url auth-app/ --skip-nx-cache",

@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -313,12 +314,14 @@ public class ResourceOwnerServiceTest {
 		}
 
 		@Test
-		@DisplayName("Mail ändern zu unbekannt, Loginname ändern zu unbekannt")
-		void check20() {
+		void should_returnNull_when_emailAndLoginNameUnbekant() {
 
 			// Arrange
-			Mockito.when(resourceOwnerDao.findByEmail(EMAIL_UNBEKANNT)).thenReturn(Optional.empty());
-			Mockito.when(resourceOwnerDao.findByLoginName(LOGINNAME_UNBEKANNT)).thenReturn(Optional.empty());
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameEmail(EMAIL_UNBEKANNT, UUID1))
+				.thenReturn(Collections.emptyList());
+
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameLoginName(LOGINNAME_UNBEKANNT, UUID1))
+				.thenReturn(Collections.emptyList());
 
 			// Act
 			String result = service.changeLoginNameAndEmailAllowed(LOGINNAME_UNBEKANNT, EMAIL_UNBEKANNT, UUID1);
@@ -328,166 +331,64 @@ public class ResourceOwnerServiceTest {
 		}
 
 		@Test
-		@DisplayName("Mail behalten, Loginname ändern zu unbekannt, Mail == Loginname")
-		void check21() {
+		void should_returnExpectedMessageKey_when_duplicateEmail() {
 
 			// Arrange
-			person.setLoginName(person.getEmail());
+			String loginName = "loginName";
+			String email = "email@provider.com";
 
-			Mockito.when(resourceOwnerDao.findByEmail(person.getEmail())).thenReturn(Optional.of(person));
-			Mockito.when(resourceOwnerDao.findByLoginName(LOGINNAME_UNBEKANNT)).thenReturn(Optional.empty());
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameEmail(email, UUID1))
+				.thenReturn(Collections.singletonList(anderePerson));
 
-			// Act
-			String result = service.changeLoginNameAndEmailAllowed(LOGINNAME_UNBEKANNT, person.getEmail(), UUID1);
-
-			// Assert
-			assertNull(result);
-		}
-
-		@Test
-		@DisplayName("Mail ändern zu unbekannt, Loginname behalten, Mail == Loginname")
-		void check22() {
-
-			// Arrange
-			person.setLoginName(person.getEmail());
-
-			Mockito.when(resourceOwnerDao.findByEmail(EMAIL_UNBEKANNT)).thenReturn(Optional.empty());
-			Mockito.when(resourceOwnerDao.findByLoginName(person.getLoginName())).thenReturn(Optional.of(person));
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameLoginName(loginName, UUID1))
+				.thenReturn(Collections.emptyList());
 
 			// Act
-			String result = service.changeLoginNameAndEmailAllowed(person.getLoginName(), EMAIL_UNBEKANNT, UUID1);
-
-			// Assert
-			assertNull(result);
-		}
-
-		@Test
-		@DisplayName("Mail behalten, Loginname ändern zu unbekannt, Mail != Loginname")
-		void check23() {
-
-			// Arrange
-			Mockito.when(resourceOwnerDao.findByEmail(person.getEmail())).thenReturn(Optional.of(person));
-			Mockito.when(resourceOwnerDao.findByLoginName(LOGINNAME_UNBEKANNT)).thenReturn(Optional.empty());
-
-			// Act
-			String result = service.changeLoginNameAndEmailAllowed(LOGINNAME_UNBEKANNT, person.getEmail(), UUID1);
-
-			// Assert
-			assertNull(result);
-		}
-
-		@Test
-		@DisplayName("Mail ändern zu unbekannt, Loginname behalten, Mail != Loginname")
-		void check24() {
-
-			// Arrange
-			Mockito.when(resourceOwnerDao.findByEmail(EMAIL_UNBEKANNT)).thenReturn(Optional.empty());
-			Mockito.when(resourceOwnerDao.findByLoginName(person.getLoginName())).thenReturn(Optional.of(person));
-
-			// Act
-			String result = service.changeLoginNameAndEmailAllowed(person.getLoginName(), EMAIL_UNBEKANNT, UUID1);
-
-			// Assert
-			assertNull(result);
-		}
-
-		@Test
-		@DisplayName("Mail ändern zu bekannter anderer, Loginname behalten, Mail == Loginname, andere Person aktiviert")
-		void check26() {
-
-			// Arrange
-			person.setLoginName(person.getEmail());
-
-			Mockito.when(resourceOwnerDao.findByEmail(anderePerson.getEmail())).thenReturn(Optional.of(anderePerson));
-			Mockito.when(resourceOwnerDao.findByLoginName(person.getLoginName())).thenReturn(Optional.of(person));
-
-			// Act
-			String result = service.changeLoginNameAndEmailAllowed(person.getLoginName(), anderePerson.getEmail(), UUID1);
+			String result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
 
 			// Assert
 			assertEquals("ProfileResource.data.duplicate.email", result);
+		}
+
+		@Test
+		void should_returnExpectedMessageKey_when_duplicateLoginName() {
+
+			// Arrange
+			String loginName = "loginName";
+			String email = "email@provider.com";
+
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameEmail(email, UUID1))
+				.thenReturn(Collections.emptyList());
+
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameLoginName(loginName, UUID1))
+				.thenReturn(Collections.singletonList(anderePerson));
+
+			// Act
+			String result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
+
+			// Assert
+			assertEquals("ProfileResource.data.duplicate.loginName", result);
 		}
 
 		@Test
 		@DisplayName("Mail behalten, Loginname ändern zu bekanntem anderen, Mail != Loginname, andere Person aktiviert")
-		void check27() {
+		void should_returnExpectedMessageKey_when_duplicateEmailAndLoginName() {
+
+			String loginName = "loginName";
+			String email = "email@provider.com";
 
 			// Arrange
-			Mockito.when(resourceOwnerDao.findByEmail(person.getEmail())).thenReturn(Optional.of(person));
-			Mockito.when(resourceOwnerDao.findByLoginName(anderePerson.getLoginName())).thenReturn(Optional.of(anderePerson));
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameEmail(email, UUID1))
+				.thenReturn(Collections.singletonList(anderePerson));
+
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameLoginName(loginName, UUID1))
+				.thenReturn(Collections.singletonList(anderePerson));
 
 			// Act
-			String result = service.changeLoginNameAndEmailAllowed(anderePerson.getLoginName(), person.getEmail(), UUID1);
+			String result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
 
 			// Assert
-			assertEquals("ProfileResource.data.duplicate.loginName", result);
-		}
-
-		@Test
-		@DisplayName("Mail ändern zu bekannter anderer, Loginname behalten, Mail != Loginname, andere Person aktiviert")
-		void check28() {
-
-			// Arrange
-			Mockito.when(resourceOwnerDao.findByEmail(anderePerson.getEmail())).thenReturn(Optional.of(anderePerson));
-			Mockito.when(resourceOwnerDao.findByLoginName(person.getLoginName())).thenReturn(Optional.of(person));
-
-			// Act
-			String result = service.changeLoginNameAndEmailAllowed(person.getLoginName(), anderePerson.getEmail(), UUID1);
-
-			// Assert
-			assertEquals("ProfileResource.data.duplicate.email", result);
-		}
-
-		@Test
-		@DisplayName("Mail ändern zu bekannter anderer, Loginname behalten, Mail == Loginname, andere Person deaktiviert")
-		void check30() {
-
-			// Arrange
-			person.setLoginName(person.getEmail());
-			anderePerson.setAktiviert(false);
-
-			Mockito.when(resourceOwnerDao.findByEmail(anderePerson.getEmail())).thenReturn(Optional.of(anderePerson));
-			Mockito.when(resourceOwnerDao.findByLoginName(person.getLoginName())).thenReturn(Optional.of(person));
-
-			// Act
-			String result = service.changeLoginNameAndEmailAllowed(person.getLoginName(), anderePerson.getEmail(), UUID1);
-
-			// Assert
-			assertEquals("ProfileResource.data.duplicate.email", result);
-		}
-
-		@Test
-		@DisplayName("Mail behalten, Loginname ändern zu bekanntem anderen, Mail != Loginname, andere Person deaktiviert")
-		void check31() {
-
-			// Arrange
-			anderePerson.setAktiviert(false);
-
-			Mockito.when(resourceOwnerDao.findByEmail(person.getEmail())).thenReturn(Optional.of(person));
-			Mockito.when(resourceOwnerDao.findByLoginName(anderePerson.getLoginName())).thenReturn(Optional.of(anderePerson));
-
-			// Act
-			String result = service.changeLoginNameAndEmailAllowed(anderePerson.getLoginName(), person.getEmail(), UUID1);
-
-			// Assert
-			assertEquals("ProfileResource.data.duplicate.loginName", result);
-		}
-
-		@Test
-		@DisplayName("Mail ändern zu bekannter anderer, Loginname behalten, Mail != Loginname, andere Person deaktiviert")
-		void check32() {
-
-			// Arrange
-			anderePerson.setAktiviert(false);
-
-			Mockito.when(resourceOwnerDao.findByEmail(anderePerson.getEmail())).thenReturn(Optional.of(anderePerson));
-			Mockito.when(resourceOwnerDao.findByLoginName(person.getLoginName())).thenReturn(Optional.of(person));
-
-			// Act
-			String result = service.changeLoginNameAndEmailAllowed(person.getLoginName(), anderePerson.getEmail(), UUID1);
-
-			// Assert
-			assertEquals("ProfileResource.data.duplicate.email", result);
+			assertEquals("ProfileResource.data.duplicate.emailAndLoginName", result);
 		}
 
 	}

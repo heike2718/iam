@@ -15,9 +15,36 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
+import de.egladil.web.auth_validations.exceptions.InvalidInputException;
+import de.egladil.web.authprovider.domain.Client;
+import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.error.AuthException;
+import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
+import de.egladil.web.authprovider.error.LogmessagePrefixes;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResourceOwnerResponse;
+import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
+import de.egladil.web.authprovider.payload.ResponsePayload;
+import de.egladil.web.authprovider.payload.SignUpCredentials;
+import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
+import de.egladil.web.authprovider.payload.User;
+import de.egladil.web.authprovider.payload.UserQueryParametersPayload;
+import de.egladil.web.authprovider.payload.UuidPayloadList;
+import de.egladil.web.authprovider.service.AuthJWTService;
+import de.egladil.web.authprovider.service.ClientService;
+import de.egladil.web.authprovider.service.RegistrationService;
+import de.egladil.web.authprovider.service.ResourceOwnerService;
+import de.egladil.web.commons_mailer.exception.InvalidMailAddressException;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
@@ -29,35 +56,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriInfo;
-
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.egladil.web.authprovider.domain.Client;
-import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.authprovider.error.AuthException;
-import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
-import de.egladil.web.authprovider.error.LogmessagePrefixes;
-import de.egladil.web.authprovider.payload.ResourceOwnerResponse;
-import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
-import de.egladil.web.authprovider.payload.SignUpCredentials;
-import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
-import de.egladil.web.authprovider.payload.User;
-import de.egladil.web.authprovider.payload.UserQueryParametersPayload;
-import de.egladil.web.authprovider.payload.UuidPayloadList;
-import de.egladil.web.authprovider.service.AuthJWTService;
-import de.egladil.web.authprovider.service.ClientService;
-import de.egladil.web.authprovider.service.RegistrationService;
-import de.egladil.web.authprovider.service.ResourceOwnerService;
-import de.egladil.web.commons_mailer.exception.InvalidMailAddressException;
-import de.egladil.web.commons_validation.InvalidProperty;
-import de.egladil.web.commons_validation.ValidationDelegate;
-import de.egladil.web.commons_validation.exception.InvalidInputException;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.OAuthClientCredentials;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
 
 /**
  * UserResource stellt REST-Endpoints für die Verwaltung von ResourceOwnern nur Verfügung.
@@ -71,8 +69,6 @@ public class UserResource {
 	private static final Logger LOG = LoggerFactory.getLogger(UserResource.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
-
-	private final ValidationDelegate validationDelegate = new ValidationDelegate();
 
 	@ConfigProperty(name = "admin.clientIds")
 	String adminClientIds;
@@ -128,11 +124,9 @@ public class UserResource {
 	 */
 	@POST
 	@Path("/signup")
-	public Response signUp(final SignUpCredentials signUpCredentials, @Context final UriInfo uriInfo) {
+	public Response signUp(@Valid final SignUpCredentials signUpCredentials, @Context final UriInfo uriInfo) {
 
 		try {
-
-			this.validationDelegate.check(signUpCredentials, SignUpCredentials.class);
 
 			if (signUpCredentials.getGroups() != null && signUpCredentials.getGroups().toUpperCase().contains("ADMIN")) {
 
@@ -154,29 +148,10 @@ public class UserResource {
 
 			return Response.created(uri).entity(responsePayload).build();
 
-		} catch (InvalidInputException ex) {
-
-			ResponsePayload rp = ex.getResponsePayload();
-			@SuppressWarnings("unchecked")
-			List<InvalidProperty> invalidProperties = (List<InvalidProperty>) rp.getData();
-
-			Optional<InvalidProperty> optKleber = invalidProperties.stream().filter(p -> "kleber".equals(p.getName())).findFirst();
-
-			if (optKleber.isEmpty()) {
-
-				throw ex;
-			}
-
-			ResponsePayload responsePayload = ResponsePayload.messageOnly(
-				MessagePayload
-					.error(applicationMessages.getString("general.forbidden")));
-			return Response.status(403).entity(responsePayload).build();
-
 		} catch (InvalidMailAddressException e) {
 
 			this.resourceOwnerService.deleteResourceOwnerQuietly(signUpCredentials.getEmail());
-			throw new InvalidInputException(
-				ResponsePayload.messageOnly(MessagePayload.error(applicationMessages.getString("email.invalid"))));
+			throw new InvalidInputException(applicationMessages.getString("email.invalid"));
 		} catch (URISyntaxException | ClientAccessTokenNotFoundException e) {
 
 			LOG.error(e.getMessage());
@@ -189,13 +164,11 @@ public class UserResource {
 
 	@POST
 	@Path("/names")
-	public Response getUserNames(final UuidPayloadList uuids) {
+	public Response getUserNames(@Valid final UuidPayloadList uuids) {
 
 		OAuthClientCredentials clientCredentials = uuids.getClientCredentials();
 
 		try {
-
-			validationDelegate.check(uuids, UuidPayloadList.class);
 
 			clientService.authorizeClient(clientCredentials);
 
@@ -218,13 +191,11 @@ public class UserResource {
 
 	@POST
 	@Path("/details")
-	public Response getGeschuetzteKontodatenByQuery(final UserQueryParametersPayload requestPayload) {
+	public Response getGeschuetzteKontodatenByQuery(@Valid final UserQueryParametersPayload requestPayload) {
 
 		OAuthClientCredentials clientCredentials = requestPayload.getClientCredentials();
 
 		try {
-
-			validationDelegate.check(requestPayload, UserQueryParametersPayload.class);
 
 			// Hier noch Whitelist-Validation für die 4 verschiedenen queries
 
@@ -284,20 +255,15 @@ public class UserResource {
 
 	@POST
 	@Path("/user/details")
-	public Response getOwnKontodaten(final UuidPayloadList requestPayload) {
+	public Response getOwnKontodaten(@Valid final UuidPayloadList requestPayload) {
 
 		OAuthClientCredentials clientCredentials = requestPayload.getClientCredentials();
 
 		try {
 
-			validationDelegate.check(requestPayload, UuidPayloadList.class);
-
 			if (requestPayload.getUuids().size() != 1) {
 
-				ResponsePayload payload = new ResponsePayload(MessagePayload.error("Die Eingaben sind nicht korrekt."),
-					Arrays.asList(new InvalidProperty[] { new InvalidProperty("uuid", "size != 1", 0) }));
-
-				throw new InvalidInputException(payload);
+				throw new InvalidInputException("Die Eingaben sind nicht korrekt. Genau eine ist erlaubt");
 			}
 
 			String adminUuid = requestPayload.getAdminUUID();

@@ -13,8 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import de.egladil.web.commons_validation.annotations.StringLatin;
-import de.egladil.web.commons_validation.annotations.UuidString;
+import de.egladil.web.auth_validations.annotations.InputSecured;
+import de.egladil.web.auth_validations.annotations.UuidString;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -118,19 +118,19 @@ public class ResourceOwner implements AuthProviderEntity {
 	private String uuid;
 
 	@NotBlank
-	@StringLatin
+	@InputSecured
 	@Size(min = 1, max = 255)
 	@Column(name = "LOGINNAME")
 	@JsonIgnore
 	private String loginName;
 
-	@StringLatin
+	@InputSecured
 	@Size(min = 1, max = 100)
 	@Column(name = "VORNAME")
 	@JsonIgnore
 	private String vorname;
 
-	@StringLatin
+	@InputSecured
 	@Size(min = 1, max = 100)
 	@Column(name = "NACHNAME")
 	@JsonIgnore

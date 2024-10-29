@@ -4,6 +4,17 @@
 // =====================================================
 package de.egladil.web.authprovider.endpoints;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.egladil.web.authprovider.AuthProviderApp;
+import de.egladil.web.authprovider.domain.AuthSession;
+import de.egladil.web.authprovider.error.AuthException;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
+import de.egladil.web.authprovider.service.AuthproviderSessionService;
+import de.egladil.web.commons_net.utils.CommonHttpUtils;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -16,18 +27,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
-
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.egladil.web.authprovider.AuthProviderApp;
-import de.egladil.web.authprovider.domain.AuthSession;
-import de.egladil.web.authprovider.error.AuthException;
-import de.egladil.web.authprovider.service.AuthproviderSessionService;
-import de.egladil.web.commons_net.utils.CommonHttpUtils;
-import de.egladil.web.commons_validation.payload.MessagePayload;
-import de.egladil.web.commons_validation.payload.ResponsePayload;
 
 /**
  * AnonymousSessionResource

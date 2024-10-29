@@ -4,13 +4,12 @@
 // =====================================================
 package de.egladil.web.authprovider.payload.profile;
 
+import de.egladil.web.auth_validations.annotations.InputSecured;
+import de.egladil.web.auth_validations.annotations.LoginName;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import de.egladil.web.commons_validation.annotations.LoginName;
-import de.egladil.web.commons_validation.annotations.StringLatin;
 
 /**
  * ChangeProfileDataPayload
@@ -27,12 +26,12 @@ public class ProfileDataPayload {
 	@Size(max = 255)
 	private String loginName;
 
-	@StringLatin
+	@InputSecured
 	@Size(min = 1, max = 100)
 	@Column(name = "VORNAME")
 	private String vorname;
 
-	@StringLatin
+	@InputSecured
 	@Size(min = 1, max = 100)
 	@Column(name = "NACHNAME")
 	private String nachname;
@@ -80,7 +79,8 @@ public class ProfileDataPayload {
 	@Override
 	public String toString() {
 
-		return "ChangeProfileDataPayload [email=" + email + ", loginName=" + loginName + ", vorname=" + vorname + ", nachname=" + nachname
+		return "ChangeProfileDataPayload [email=" + email + ", loginName=" + loginName + ", vorname=" + vorname + ", nachname="
+			+ nachname
 			+ "]";
 	}
 

@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.authprovider.api.ClientInformation;
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.dao.ClientDao;
@@ -34,7 +35,6 @@ import de.egladil.web.authprovider.payload.OAuthAccessTokenPayload;
 import de.egladil.web.authprovider.utils.AuthUtils;
 import de.egladil.web.commons_net.exception.SessionExpiredException;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
-import de.egladil.web.commons_validation.payload.OAuthClientCredentials;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
