@@ -10,15 +10,12 @@ import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * PasswortNeuValidator
- * (?=[^A-ZÄÖÜa-zäöüß]*[A-ZÄÖÜa-zäöüß])(?=[^\d]*[\d])[A-Za-z0-9ÄÖÜäöüß !"#\$%&'\(\)\*\+,\-\.\/:<=>\?@\[\]\^\\_ `'{|}~
- * ]{8,100}$
  */
 public class PasswortNeuValidator extends AbstractWhitelistValidator<PasswortNeu, String> {
 
-	/**
-	 * ^(?=.*\d)(?=.*[a-zA-ZäÄöÖüÜß])(?=.*[!#$%&()*+,\-./:;=?@\[\]^_`'{|}~])[\da-zA-ZäÄöÖüÜß!#$%&()*+,\-./:;=?@\[\]^_`'{|}~]{12,100}$
-	 */
-	private static final String REGEXP = "^(?=.*\\d)(?=.*[a-zA-ZäÄöÖüÜß])(?=.*[!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~])[\\da-zA-ZäÄöÖüÜß!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~]{12,100}$";
+	// ^(?!\s)(?=.*\d)(?=.*[a-zA-ZäÄöÖüÜß])(?=.*[!#$%&()*+,\-./:;=?@\[\]^_`'{|}~])[a-zA-ZäÄöÖüÜß\d!#$%&()*+,\-./:;=?@\[\]^_`'{|}~
+	// ]{6,98}(?<!\s)$
+	private static final String REGEXP = "^(?!\\s)(?=.*\\d)(?=.*[a-zA-ZäÄöÖüÜß])(?=.*[!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~])[a-zA-ZäÄöÖüÜß\\d!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~ ]{6,98}(?<!\\s)$";
 
 	@Override
 	protected String getWhitelist() {

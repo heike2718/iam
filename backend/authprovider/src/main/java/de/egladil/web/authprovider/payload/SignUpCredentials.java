@@ -58,8 +58,8 @@ public class SignUpCredentials {
 	private String nonce;
 
 	@NotNull
-	@ValidPasswords(message = "twoPasswords ist nicht valid")
-	private ZweiPassworte twoPasswords;
+	@ValidPasswords(message = "zweiPassworte ist nicht valid")
+	private ZweiPassworte zweiPassworte;
 
 	@AssertTrue(message = "Bitte stimmen Sie den Datenschutzhinweisen zu.")
 	private boolean agbGelesen;
@@ -145,14 +145,14 @@ public class SignUpCredentials {
 		this.nachname = nachname;
 	}
 
-	public ZweiPassworte getTwoPasswords() {
+	public ZweiPassworte getZweiPassworte() {
 
-		return twoPasswords;
+		return zweiPassworte;
 	}
 
-	public void setTwoPasswords(final ZweiPassworte twoPasswords) {
+	public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
 
-		this.twoPasswords = twoPasswords;
+		this.zweiPassworte = zweiPassworte;
 	}
 
 	public String getGroups() {
@@ -167,9 +167,9 @@ public class SignUpCredentials {
 
 	public void clean() {
 
-		if (twoPasswords != null) {
+		if (zweiPassworte != null) {
 
-			twoPasswords.clean();
+			zweiPassworte.clean();
 		}
 	}
 

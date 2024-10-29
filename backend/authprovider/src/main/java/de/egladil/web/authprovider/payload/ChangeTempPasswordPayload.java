@@ -35,16 +35,16 @@ public class ChangeTempPasswordPayload {
 
 	@NotNull
 	@ValidPasswords
-	private ZweiPassworte twoPasswords;
+	private ZweiPassworte zweiPassworte;
 
 	/**
 	 * Entfernt alle sensiblen Infos: also password, passwordWdh und tempPassword.
 	 */
 	public void clean() {
 
-		if (twoPasswords != null) {
+		if (zweiPassworte != null) {
 
-			twoPasswords.clean();
+			zweiPassworte.clean();
 		}
 		tempPassword = SecUtils.wipe(tempPassword);
 	}
@@ -85,13 +85,13 @@ public class ChangeTempPasswordPayload {
 		this.tokenId = tokenId;
 	}
 
-	public ZweiPassworte getTwoPasswords() {
+	public ZweiPassworte getZweiPassworte() {
 
-		return twoPasswords;
+		return zweiPassworte;
 	}
 
-	public void setTwoPasswords(final ZweiPassworte twoPasswords) {
+	public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
 
-		this.twoPasswords = twoPasswords;
+		this.zweiPassworte = zweiPassworte;
 	}
 }

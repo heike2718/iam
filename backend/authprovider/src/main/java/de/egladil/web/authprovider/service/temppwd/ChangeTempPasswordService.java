@@ -83,16 +83,6 @@ public class ChangeTempPasswordService {
 	@Transactional(value = TxType.REQUIRED)
 	public ResponsePayload changeTempPassword(final ChangeTempPasswordPayload payload) {
 
-		if (payload == null) {
-
-			throw new IllegalArgumentException("payload null");
-		}
-
-		if (payload.getTwoPasswords() == null) {
-
-			throw new IllegalArgumentException("payload.twoPasswords null");
-		}
-
 		try {
 
 			Optional<TempPassword> optTempPassword = tempPasswordDao.findByTokenId(payload.getTokenId());
@@ -146,7 +136,7 @@ public class ChangeTempPasswordService {
 			LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
 
 			changeLoginSecretsDelegate.updateLoginSecrets(loginSecrets,
-				payload.getTwoPasswords().getPasswort().toCharArray());
+				payload.getZweiPassworte().getPasswort().toCharArray());
 
 			sendMail(payload.getEmail());
 

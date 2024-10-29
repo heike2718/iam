@@ -1,10 +1,7 @@
-.helper-text {
-    color: #747474;
-    /* Default color */
-    font-size: 0.9em;
-}
-
-.helper-text.ng-invalid {
+.cross-field-error {
     color: red;
-    /* Change color if invalid */
+    font-size: 0.875rem;
+    margin-top: 0;
+    margin-bottom: 2em;
+    display: block;
 }

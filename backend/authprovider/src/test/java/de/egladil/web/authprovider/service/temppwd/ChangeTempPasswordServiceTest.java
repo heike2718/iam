@@ -65,7 +65,7 @@ public class ChangeTempPasswordServiceTest {
 
 		ChangeTempPasswordPayload result = new ChangeTempPasswordPayload();
 		result.setEmail(VALID_EMAIL);
-		result.setTwoPasswords(new ZweiPassworte("start567", "start567"));
+		result.setZweiPassworte(new ZweiPassworte("start567", "start567"));
 		result.setTempPassword(VALID_TEMP_PWD);
 		result.setTokenId(VALID_TOKENID);
 
@@ -87,21 +87,6 @@ public class ChangeTempPasswordServiceTest {
 	}
 
 	@Test
-	void changeTempPasswordTwoPasswordsNull() {
-
-		try {
-
-			payload.setTwoPasswords(null);
-			service.changeTempPassword(payload);
-			fail("keine IllegalArgumentException");
-		} catch (IllegalArgumentException e) {
-
-			assertEquals("payload.twoPasswords null", e.getMessage());
-		}
-
-	}
-
-	@Test
 	void changeTempPasswordTokenIdUnbekannt() {
 
 		// Arrange
@@ -116,8 +101,8 @@ public class ChangeTempPasswordServiceTest {
 		assertEquals("Das Einmalpasswort ist bereits abgelaufen. Bitte fordern Sie ein neues an.",
 			responsePayload.getMessage().getMessage());
 
-		assertNull(payload.getTwoPasswords().getPasswort());
-		assertNull(payload.getTwoPasswords().getPasswortWdh());
+		assertNull(payload.getZweiPassworte().getPasswort());
+		assertNull(payload.getZweiPassworte().getPasswortWdh());
 		assertNull(payload.getTempPassword());
 
 	}
@@ -141,8 +126,8 @@ public class ChangeTempPasswordServiceTest {
 		assertEquals("Das Einmalpasswort ist bereits abgelaufen. Bitte fordern Sie ein neues an.",
 			responsePayload.getMessage().getMessage());
 
-		assertNull(payload.getTwoPasswords().getPasswort());
-		assertNull(payload.getTwoPasswords().getPasswortWdh());
+		assertNull(payload.getZweiPassworte().getPasswort());
+		assertNull(payload.getZweiPassworte().getPasswortWdh());
 		assertNull(payload.getTempPassword());
 
 	}
@@ -166,8 +151,8 @@ public class ChangeTempPasswordServiceTest {
 		assertEquals("Das Einmalpasswort ist bereits abgelaufen. Bitte fordern Sie ein neues an.",
 			responsePayload.getMessage().getMessage());
 
-		assertNull(payload.getTwoPasswords().getPasswort());
-		assertNull(payload.getTwoPasswords().getPasswortWdh());
+		assertNull(payload.getZweiPassworte().getPasswort());
+		assertNull(payload.getZweiPassworte().getPasswortWdh());
 		assertNull(payload.getTempPassword());
 
 	}
@@ -192,8 +177,8 @@ public class ChangeTempPasswordServiceTest {
 		assertEquals("Bitte überprüfen Sie die eingegebene Mailadresse und das Einmalpasswort.",
 			responsePayload.getMessage().getMessage());
 
-		assertNull(payload.getTwoPasswords().getPasswort());
-		assertNull(payload.getTwoPasswords().getPasswortWdh());
+		assertNull(payload.getZweiPassworte().getPasswort());
+		assertNull(payload.getZweiPassworte().getPasswortWdh());
 		assertNull(payload.getTempPassword());
 	}
 
@@ -224,8 +209,8 @@ public class ChangeTempPasswordServiceTest {
 		assertEquals("Bitte überprüfen Sie die eingegebene Mailadresse und das Einmalpasswort.",
 			responsePayload.getMessage().getMessage());
 
-		assertNull(payload.getTwoPasswords().getPasswort());
-		assertNull(payload.getTwoPasswords().getPasswortWdh());
+		assertNull(payload.getZweiPassworte().getPasswort());
+		assertNull(payload.getZweiPassworte().getPasswortWdh());
 		assertNull(payload.getTempPassword());
 	}
 
@@ -256,8 +241,8 @@ public class ChangeTempPasswordServiceTest {
 			"Das Benutzerkonto ist nicht aktiviert. Falls Sie die Mail mit dem Aktivierungslink nicht mehr haben, senden Sie eine Mail an 'info@egladil.de'.",
 			responsePayload.getMessage().getMessage());
 
-		assertNull(payload.getTwoPasswords().getPasswort());
-		assertNull(payload.getTwoPasswords().getPasswortWdh());
+		assertNull(payload.getZweiPassworte().getPasswort());
+		assertNull(payload.getZweiPassworte().getPasswortWdh());
 		assertNull(payload.getTempPassword());
 	}
 

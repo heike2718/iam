@@ -62,16 +62,6 @@ public class ChangePasswordService {
 	 */
 	public ResponsePayload changePassword(final String userUUID, final ProfilePasswordPayload payload) {
 
-		if (payload == null) {
-
-			throw new IllegalArgumentException("payload null");
-		}
-
-		if (payload.getTwoPasswords() == null) {
-
-			throw new IllegalArgumentException("payload.twoPasswords null");
-		}
-
 		try {
 
 			Optional<ResourceOwner> optResourceOwner = resourceOwnerDao.findByUUID(userUUID);
@@ -87,37 +77,33 @@ public class ChangePasswordService {
 			ResourceOwner resourceOwner = optResourceOwner.get();
 			LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
 
-			try {
+			authCryptoService.verifyPassword(payload.getPasswort().toCharArray(), resourceOwner);
 
-				authCryptoService.verifyPassword(payload.getPasswort().toCharArray(), resourceOwner);
+			changeLoginSecretsDelegate.updateLoginSecrets(loginSecrets,
+				payload.getZweiPassworte().getPasswort().toCharArray());
 
-				changeLoginSecretsDelegate.updateLoginSecrets(loginSecrets,
-					payload.getTwoPasswords().getPasswort().toCharArray());
+			sendMail(resourceOwner.getEmail());
 
-				sendMail(resourceOwner.getEmail());
+			return ResponsePayload.messageOnly(MessagePayload.info(applicationMessages.getString("Password.changed.success")));
 
-				return ResponsePayload.messageOnly(MessagePayload.info(applicationMessages.getString("Password.changed.success")));
+		} catch (ConcurrentUpdateException e) {
 
-			} catch (ConcurrentUpdateException e) {
+			LOG.warn("ConcurrentUpdate beim Ändern des Passworts durch {}", userUUID);
 
-				LOG.warn("ConcurrentUpdate beim Ändern des Passworts durch {}", resourceOwner);
+			return ResponsePayload
+				.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.error")));
+		} catch (AuthPersistenceException e) {
 
-				return ResponsePayload
-					.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.error")));
-			} catch (AuthPersistenceException e) {
+			return ResponsePayload
+				.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.error")));
+		} catch (AuthException e) {
 
-				return ResponsePayload
-					.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.error")));
-			} catch (AuthException e) {
-
-				LOG.warn("Passwort ändern: altes Passwort stimmt nicht: {}", resourceOwner);
-				return ResponsePayload
-					.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.authFailure")));
-			}
-
+			LOG.warn("Passwort ändern: altes Passwort stimmt nicht: {}", userUUID);
+			return ResponsePayload
+				.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.authFailure")));
 		} finally {
 
-			payload.getTwoPasswords().clean();
+			payload.getZweiPassworte().clean();
 		}
 
 	}

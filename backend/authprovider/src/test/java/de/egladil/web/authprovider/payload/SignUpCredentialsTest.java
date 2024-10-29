@@ -41,7 +41,7 @@ public class SignUpCredentialsTest {
 		cred.setNachname("Doe");
 		cred.setNonce("GT543ERG");
 
-		cred.setTwoPasswords(new ZweiPassworte("start123", "start123"));
+		cred.setZweiPassworte(new ZweiPassworte("start123", "start123"));
 
 		// Act + Assert
 		System.out.println(new ObjectMapper().writeValueAsString(cred));
@@ -51,7 +51,7 @@ public class SignUpCredentialsTest {
 	void deserialize() throws JsonParseException, JsonMappingException, IOException {
 
 		// Arrange
-		String json = "{\"email\":\"zezeze@egladil.de\",\"loginName\":\"zezeze\",\"vorname\":\"Jane\",\"nachname\":\"Doe\",\"twoPasswords\":{\"passwort\":\"start123\",\"passwortWdh\":\"start123\"},\"agbGelesen\":true,\"clientCredentials\":{\"accessToken\":\"ahsgagsgdga\",\"redirectUrl\":\"http://localhost:4200\",\"state\":\"horst\"},\"kleber\":null}";
+		String json = "{\"email\":\"zezeze@egladil.de\",\"loginName\":\"zezeze\",\"vorname\":\"Jane\",\"nachname\":\"Doe\",\"zweiPassworte\":{\"passwort\":\"start123\",\"passwortWdh\":\"start123\"},\"agbGelesen\":true,\"clientCredentials\":{\"accessToken\":\"ahsgagsgdga\",\"redirectUrl\":\"http://localhost:4200\",\"state\":\"horst\"},\"kleber\":null}";
 
 		// Act
 		SignUpCredentials cred = new ObjectMapper().readValue(json, SignUpCredentials.class);
@@ -63,10 +63,10 @@ public class SignUpCredentialsTest {
 		assertEquals("http://localhost:4200", clientCredentials.getRedirectUrl());
 		assertEquals("horst", clientCredentials.getState());
 
-		ZweiPassworte twoPasswords = cred.getTwoPasswords();
-		assertNotNull(twoPasswords);
-		assertEquals("start123", twoPasswords.getPasswort());
-		assertEquals("start123", twoPasswords.getPasswortWdh());
+		ZweiPassworte zweiPassworte = cred.getZweiPassworte();
+		assertNotNull(zweiPassworte);
+		assertEquals("start123", zweiPassworte.getPasswort());
+		assertEquals("start123", zweiPassworte.getPasswortWdh());
 	}
 
 }

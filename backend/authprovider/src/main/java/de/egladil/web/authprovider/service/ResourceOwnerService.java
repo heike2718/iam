@@ -338,12 +338,7 @@ public class ResourceOwnerService {
 
 	LoginSecrets createLoginSecrets(final SignUpCredentials credentials) {
 
-		if (credentials.getTwoPasswords() == null) {
-
-			throw new IllegalArgumentException("credentials.twoPasswords null");
-		}
-
-		Hash hash = authCryptoService.hashPassword(credentials.getTwoPasswords().getPasswort().toCharArray());
+		Hash hash = authCryptoService.hashPassword(credentials.getZweiPassworte().getPasswort().toCharArray());
 		LoginSecrets loginSecrets = new LoginSecrets();
 		loginSecrets.setPasswordhash(Base64.getEncoder().encodeToString(hash.getBytes()));
 

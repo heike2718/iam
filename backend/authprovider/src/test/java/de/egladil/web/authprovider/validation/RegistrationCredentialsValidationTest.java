@@ -68,7 +68,7 @@ public class RegistrationCredentialsValidationTest {
 
 		// Arrange
 		final SignUpCredentials credentials = getValidCredentials();
-		credentials.getTwoPasswords().setPasswortWdh("123start$trats321");
+		credentials.getZweiPassworte().setPasswortWdh("123start$trats321");
 
 		// Act
 		Set<ConstraintViolation<SignUpCredentials>> constraintViolations = validator.validate(credentials);
@@ -79,7 +79,7 @@ public class RegistrationCredentialsValidationTest {
 		List<String> messages = constraintViolations.stream().map(cv -> cv.getMessage()).toList();
 
 		assertTrue(messages.contains("Die Passwörter stimmen nicht überein"));
-		assertTrue(messages.contains("twoPasswords ist nicht valid"));
+		assertTrue(messages.contains("zweiPassworte ist nicht valid"));
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class RegistrationCredentialsValidationTest {
 
 		// Arrange
 		final SignUpCredentials credentials = getValidCredentials();
-		credentials.getTwoPasswords().setPasswortWdh("123starttrats1321!");
+		credentials.getZweiPassworte().setPasswortWdh("123starttrats1321!");
 		credentials.setKleber("hui");
 
 		// Act
@@ -99,7 +99,7 @@ public class RegistrationCredentialsValidationTest {
 		List<String> messages = constraintViolations.stream().map(cv -> cv.getMessage()).toList();
 
 		assertTrue(messages.contains("Die Passwörter stimmen nicht überein"));
-		assertTrue(messages.contains("twoPasswords ist nicht valid"));
+		assertTrue(messages.contains("zweiPassworte ist nicht valid"));
 		assertTrue(messages.contains(""));
 	}
 
@@ -126,7 +126,7 @@ public class RegistrationCredentialsValidationTest {
 		result.setAgbGelesen(true);
 		result.setEmail("bla@eladil.de");
 		result.setLoginName("Herbert");
-		result.setTwoPasswords(new ZweiPassworte("start123!321trats", "start123!321trats"));
+		result.setZweiPassworte(new ZweiPassworte("start123!321trats", "start123!321trats"));
 
 		ClientCredentials clientCredentials = ClientCredentials.createWithState("asghkggd", "localhost:4200", "horst");
 		result.setClientCredentials(clientCredentials);

@@ -26,7 +26,7 @@ public class PasswortPayload {
 
 	@NotNull
 	@ValidPasswords
-	@JsonProperty(value = "twoPasswords")
+	@JsonProperty
 	private ZweiPassworte zweiPassworte;
 
 	/**
@@ -52,9 +52,9 @@ public class PasswortPayload {
 		return zweiPassworte;
 	}
 
-	public void setZweiPassworte(final ZweiPassworte twoPasswords) {
+	public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
 
-		this.zweiPassworte = twoPasswords;
+		this.zweiPassworte = zweiPassworte;
 	}
 
 	public String getPasswort() {

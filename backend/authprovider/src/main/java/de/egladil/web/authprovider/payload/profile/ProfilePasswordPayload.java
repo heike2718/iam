@@ -21,17 +21,17 @@ public class ProfilePasswordPayload {
 
 	@NotNull
 	@ValidPasswords
-	private ZweiPassworte twoPasswords;
+	private ZweiPassworte zweiPassworte;
 
 	/**
 	 * Entfernt alle sensiblen Infos: also password und passwordWdh.
 	 */
 	public void clean() {
 
-		if (twoPasswords != null) {
+		if (zweiPassworte != null) {
 
-			twoPasswords.clean();
-			twoPasswords = null;
+			zweiPassworte.clean();
+			zweiPassworte = null;
 		}
 
 		if (passwort != null) {
@@ -40,14 +40,14 @@ public class ProfilePasswordPayload {
 		}
 	}
 
-	public ZweiPassworte getTwoPasswords() {
+	public ZweiPassworte getZweiPassworte() {
 
-		return twoPasswords;
+		return zweiPassworte;
 	}
 
-	public void setTwoPasswords(final ZweiPassworte twoPasswords) {
+	public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
 
-		this.twoPasswords = twoPasswords;
+		this.zweiPassworte = zweiPassworte;
 	}
 
 	public String getPasswort() {
