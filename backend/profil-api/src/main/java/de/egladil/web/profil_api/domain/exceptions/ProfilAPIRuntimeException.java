@@ -5,10 +5,10 @@
 package de.egladil.web.profil_api.domain.exceptions;
 
 /**
- * ProfilserverRuntimeException
+ * ProfilAPIRuntimeException
  */
 // FIXME umbenennen
-public class ProfilserverRuntimeException extends RuntimeException {
+public class ProfilAPIRuntimeException extends RuntimeException {
 
 	/**
 	 *
@@ -19,7 +19,7 @@ public class ProfilserverRuntimeException extends RuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public ProfilserverRuntimeException(final String message, final Throwable cause) {
+	public ProfilAPIRuntimeException(final String message, final Throwable cause) {
 
 		super(message, cause);
 	}
@@ -27,7 +27,7 @@ public class ProfilserverRuntimeException extends RuntimeException {
 	/**
 	 * @param message
 	 */
-	public ProfilserverRuntimeException(final String message) {
+	public ProfilAPIRuntimeException(final String message) {
 
 		super(message);
 	}

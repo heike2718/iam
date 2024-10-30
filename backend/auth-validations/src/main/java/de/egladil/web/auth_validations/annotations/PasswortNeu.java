@@ -32,7 +32,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = { PasswortNeuValidator.class })
 public @interface PasswortNeu {
 
-	String message() default "Das Passwort enthält ungültige Zeichen oder ist nicht komplex genug";
+	String message() default "Das neue Passwort enthält ungültige Zeichen oder ist nicht komplex genug.";
 
 	Class<?>[] groups() default {};
 

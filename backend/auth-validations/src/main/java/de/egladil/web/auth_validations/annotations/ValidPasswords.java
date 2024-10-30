@@ -24,7 +24,7 @@ import jakarta.validation.Payload;
 @Documented
 public @interface ValidPasswords {
 
-	String message() default "";
+	String message() default "Die Passwörter stimmen nicht überein";
 
 	Class<?>[] groups() default {};
 

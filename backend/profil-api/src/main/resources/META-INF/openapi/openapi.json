@@ -283,7 +283,7 @@
         }
       },
       "PasswortPayload" : {
-        "required" : [ "passwort", "twoPasswords" ],
+        "required" : [ "passwort", "zweiPassworte" ],
         "type" : "object",
         "properties" : {
           "passwort" : {
@@ -291,7 +291,7 @@
             "pattern" : "\\S",
             "type" : "string"
           },
-          "twoPasswords" : {
+          "zweiPassworte" : {
             "$ref" : "#/components/schemas/ZweiPassworte"
           }
         }

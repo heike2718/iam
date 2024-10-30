@@ -13,14 +13,14 @@ import { MessageService } from "@ap-ws/messages/api";
 export class BenutzerdatenEffects {
 
     #actions = inject(Actions);
-    #httpDervice = inject(BenutzerdatenHttpService);
+    #httpService = inject(BenutzerdatenHttpService);
     #messageService = inject(MessageService);
 
     loadBenutzerdaten$ = createEffect(() => {
 
         return this.#actions.pipe(
             ofType(benutzerdatenActions.lOAD_BENUTZERDATEN),
-            switchMap(() => this.#httpDervice.loadBenutzerdaten()),
+            switchMap(() => this.#httpService.loadBenutzerdaten()),
             map((benutzerdaten: Benutzerdaten) => benutzerdatenActions.bENUTZERDATEN_LOADED({ benutzerdaten }))
         );
     });
@@ -29,7 +29,7 @@ export class BenutzerdatenEffects {
 
         return this.#actions.pipe(
             ofType(benutzerdatenActions.bENUTZERDATEN_AENDERN),
-            switchMap((action) => this.#httpDervice.updateBenutzerdaten(action.benutzerdaten)),
+            switchMap((action) => this.#httpService.updateBenutzerdaten(action.benutzerdaten)),
             map((benutzerdaten: Benutzerdaten) => benutzerdatenActions.bENUTZERDATEN_GEAENDERT({ benutzerdaten }))
         );
     });

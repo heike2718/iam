@@ -5,20 +5,22 @@
 package de.egladil.web.auth_validations.dto;
 
 import de.egladil.web.auth_validations.annotations.PasswortNeu;
+import de.egladil.web.auth_validations.annotations.ValidPasswords;
 import de.egladil.web.auth_validations.utils.SecUtils;
 import jakarta.validation.constraints.NotNull;
 
 /**
  * TwoStringsPayload
  */
+@ValidPasswords
 public class ZweiPassworte {
 
-	@NotNull(message = "passwort ist erforderlich")
-	@PasswortNeu(message = "passwort ist nicht regelkonform")
+	@NotNull(message = "Das (neue) Passwort ist erforderlich. ")
+	@PasswortNeu(message = "Das (neue) Passwort ist nicht regelkonform. ")
 	private String passwort;
 
-	@NotNull(message = "passwortWdh ist erforderlich")
-	@PasswortNeu(message = "passwortWdh ist nicht regelkonform")
+	@NotNull(message = "Das wiederholte Passwort ist erforderlich. ")
+	@PasswortNeu(message = "Das wiederholte Passwort ist nicht regelkonform. ")
 	private String passwortWdh;
 
 	/**

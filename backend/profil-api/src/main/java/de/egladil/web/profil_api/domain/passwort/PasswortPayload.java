@@ -7,9 +7,9 @@ package de.egladil.web.profil_api.domain.passwort;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.egladil.web.auth_validations.annotations.PasswortLogin;
-import de.egladil.web.auth_validations.annotations.ValidPasswords;
 import de.egladil.web.auth_validations.dto.ZweiPassworte;
 import de.egladil.web.auth_validations.utils.SecUtils;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,13 +19,13 @@ import jakarta.validation.constraints.Size;
  */
 public class PasswortPayload {
 
-	@NotBlank
-	@PasswortLogin
-	@Size(max = 100, message = "maximal 100 Zeichen lang")
+	@NotBlank(message = "Das aktuelle Passwort ist erforderlich. ")
+	@PasswortLogin(message = "Das aktuelle Passwort enthält ungültige Zeichen. ")
+	@Size(max = 100, message = "Das aktuelle Passwort ist zu lang (max. {max} Zeichen. ")
 	private String passwort;
 
-	@NotNull
-	@ValidPasswords
+	@NotNull(message = "Die neuen Passwörter sind erforderlich. ")
+	@Valid
 	@JsonProperty
 	private ZweiPassworte zweiPassworte;
 

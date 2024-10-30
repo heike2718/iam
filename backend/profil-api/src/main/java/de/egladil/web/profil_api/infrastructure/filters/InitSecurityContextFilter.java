@@ -17,7 +17,7 @@ import de.egladil.web.profil_api.domain.auth.session.AuthenticatedUser;
 import de.egladil.web.profil_api.domain.auth.session.Session;
 import de.egladil.web.profil_api.domain.auth.session.SessionService;
 import de.egladil.web.profil_api.domain.auth.session.SessionUtils;
-import de.egladil.web.profil_api.domain.exceptions.ProfilserverRuntimeException;
+import de.egladil.web.profil_api.domain.exceptions.ProfilAPIRuntimeException;
 import de.egladil.web.profil_api.infrastructure.cdi.AuthenticationContextImpl;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -131,7 +131,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 		} catch (Exception e) {
 
 			LOGGER.error("{}: {}", path, e.getMessage(), e);
-			throw new ProfilserverRuntimeException("Unerwarterer Fehler bei Request " + method + " path=" + path);
+			throw new ProfilAPIRuntimeException("Unerwarterer Fehler bei Request " + method + " path=" + path);
 		}
 	}
 

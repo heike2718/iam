@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.auth_validations.exceptions.InvalidInputException;
 import de.egladil.web.authprovider.dao.impl.PersistenceExceptionMapper;
 import de.egladil.web.authprovider.payload.MessagePayload;
-import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.commons_net.exception.SessionExpiredException;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.RollbackException;
@@ -51,31 +50,28 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 				LOGGER.warn(LogmessagePrefixes.BOT + exceptionMessage, exception);
 			}
 			return Response.status(Status.FORBIDDEN)
-				.entity(ResponsePayload.messageOnly(MessagePayload.error("Netter Versuch, klappt aber nicht."))).build();
+				.entity(MessagePayload.error("Netter Versuch, klappt aber nicht.")).build();
 		}
 
 		if (exception instanceof SessionExpiredException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.warn(exceptionMessage));
 			return Response.status(908)
 				.header("X-Auth-Error", "SessionExpired")
-				.entity(payload)
+				.entity(MessagePayload.warn(exceptionMessage))
 				.build();
 		}
 
 		if (exception instanceof NotFoundException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error("Not Found"));
 			return Response.status(404)
-				.entity(payload)
+				.entity(MessagePayload.error("Not Found"))
 				.build();
 		}
 
 		if (exception instanceof AccountDeactivatedException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
 			return Response.status(401)
-				.entity(payload)
+				.entity(MessagePayload.error(exceptionMessage))
 				.build();
 		}
 
@@ -88,28 +84,25 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 				LOGGER.warn("Das client access token {} ist unterwegs verlorengegangen. redirectUrl={}",
 					ex.getClientCredentials().getAccessToken(), ex.getClientCredentials().getRedirectUrl());
 
-				ResponsePayload payload = new ResponsePayload(MessagePayload.error("Ups, da ist etwas schiefgegangen"),
-					ex.getClientCredentials().getRedirectUrl());
 				return Response.status(904)
-					.entity(payload)
+					.entity(MessagePayload
+						.error("Ups, da ist etwas schiefgegangen: redirectUrl=" + ex.getClientCredentials().getRedirectUrl()))
 					.build();
 			} else {
 
 				LOGGER.error(ex.getMessage());
-				ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error("Fehler beim Holen der ClientDaten"));
 				return Response.serverError()
 					.header("X-Auth-Error", "Serverfehler")
-					.entity(payload)
+					.entity(MessagePayload.error("Fehler beim Holen der ClientDaten"))
 					.build();
 			}
 		}
 
 		if (exception instanceof AuthException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
 			LOGGER.warn("{}: {}", exception.getClass().getSimpleName(), exceptionMessage);
 			return Response.status(401)
-				.entity(payload)
+				.entity(MessagePayload.error(exceptionMessage))
 				.build();
 		}
 
@@ -145,7 +138,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 			// wurde schon geloggt.
 			return Response.status(400)
 				.header("X-Auth-Error", "ungültige Eingaben")
-				.entity(ResponsePayload.messageOnly(MessagePayload.error(invalidInputException.getMessage())))
+				.entity(MessagePayload.error(invalidInputException.getMessage()))
 				.build();
 		}
 
@@ -154,8 +147,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 			// wurde schon geloggt
 			return Response.serverError()
 				.header("X-Auth-Error", "Serverfehler")
-				.entity(ResponsePayload.messageOnly(MessagePayload
-					.error(generalError)))
+				.entity(MessagePayload.error(generalError))
 				.build();
 		}
 
@@ -163,40 +155,36 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 			// wurde schon geloggt.
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(generalError));
 			return Response.serverError()
 				.header("X-Auth-Error", generalError)
-				.entity(payload)
+				.entity(MessagePayload.error(generalError))
 				.build();
 		}
 
 		if (exception instanceof PropagationFailedException) {
 
 			// wurde schon geloggt
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
 			return Response.serverError()
 				.header("X-Auth-Error", exceptionMessage)
-				.entity(payload)
+				.entity(MessagePayload.error(exceptionMessage))
 				.build();
 
 		}
 
 		LOGGER.error(exceptionMessage, exception);
 
-		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(generalError));
 		return Response.serverError()
 			.header("X-Auth-Error", "Serverfehler")
-			.entity(payload)
+			.entity(MessagePayload.error(generalError))
 			.build();
 	}
 
 	private Response handleConcurrentUpdateException(final ConcurrentUpdateException e) {
 
-		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload
-			.error("Es ist ein Fehler aufgetreten. Bitte Klicken Sie 'abbrechen' und wiederholen Sie Ihre Änderungen."));
 		return Response.status(409)
 			.header("X-Auth-Error", "concurrent update please reload")
-			.entity(payload)
+			.entity(MessagePayload
+				.error("Es ist ein Fehler aufgetreten. Bitte Klicken Sie 'abbrechen' und wiederholen Sie Ihre Änderungen."))
 			.build();
 	}
 

@@ -4,9 +4,7 @@
 // =====================================================
 package de.egladil.web.profil_api.domain.benutzer;
 
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,14 +16,14 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.profil_api.domain.auth.dto.OAuthClientCredentials;
 import de.egladil.web.profil_api.domain.auth.dto.ResponsePayload;
-import de.egladil.web.profil_api.domain.exceptions.ConflictException;
+import de.egladil.web.profil_api.domain.exceptions.CommunicationException;
 import de.egladil.web.profil_api.domain.exceptions.LogmessagePrefixes;
-import de.egladil.web.profil_api.domain.exceptions.ProfilserverRuntimeException;
+import de.egladil.web.profil_api.domain.exceptions.ProfilAPIRuntimeException;
 import de.egladil.web.profil_api.infrastructure.restclient.AuthproviderRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
@@ -37,8 +35,6 @@ import jakarta.ws.rs.core.SecurityContext;
 public class BenutzerService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerService.class);
-
-	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
 	@ConfigProperty(name = "public-client-id")
 	String clientId;
@@ -62,11 +58,8 @@ public class BenutzerService {
 
 		SelectProfilePayload selectPayload = SelectProfilePayload.create(credentials, uuid);
 
-		Response response = null;
+		try (Response response = authproviderRestClient.getUserProfile(selectPayload);) {
 
-		try {
-
-			response = authproviderRestClient.getUserProfile(selectPayload);
 			ResponsePayload payload = response.readEntity(ResponsePayload.class);
 			MessagePayload messagePayload = payload.getMessage();
 
@@ -84,44 +77,30 @@ public class BenutzerService {
 				return benutzer;
 			}
 
-			return createAnonumousBenutzer();
-		} catch (WebApplicationException e) {
+			LOGGER.error(
+				"kein OK vom authprovider: USER {} existiert nicht mehr? Oder stimmt path beim AuthprovderRestClient.getUserProfile nicht?",
+				StringUtils.abbreviate(uuid, 11));
+			throw new ProfilAPIRuntimeException(
+				"unerwarteter Fehler bei Kommunikation mit authprovider");
 
-			response = e.getResponse();
+		} catch (CommunicationException e) {
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der ProfilAPIExceptionMapper dann
+			// umwandeln kann.
 
-			int status = response.getStatus();
+			throw e.getExceptionToPropagate();
+		} catch (ProcessingException e) {
 
-			if (status == 401) {
-
-				LOGGER.error("Authentisierungsfehler für Client {} gegenüber dem authprovider",
-					StringUtils.abbreviate(clientId, 11));
-				throw new ProfilserverRuntimeException("Authentisierungsfehler für Client");
-			}
-
-			if (status == 404) {
-
-				LOGGER.error("Nach gueltigem Login wird USER mit uuid={} nicht gefunden.", StringUtils.abbreviate(uuid, 11));
-				throw new ConflictException(applicationMessages.getString("conflict"));
-			}
-
-			LOGGER.error("Statuscode {} beim Holen des Users", status);
-
-			throw new ProfilserverRuntimeException("Unerwarteter Response-Status beim Holen des Users.");
-
+			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
+			throw new ProfilAPIRuntimeException(
+				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
 		} catch (Exception e) {
 
-			LOGGER.error(e.getMessage(), e);
-
-			throw new ProfilserverRuntimeException("Fehler bei Anfrage des authproviders: " + e.getMessage(), e);
-
+			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
+			throw new ProfilAPIRuntimeException(
+				"unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();
-
-			if (response != null) {
-
-				response.close();
-			}
 		}
 	}
 
@@ -142,11 +121,7 @@ public class BenutzerService {
 
 		ChangeProfileDataPayload payload = ChangeProfileDataPayload.create(credentials, benutzerDto, uuid);
 
-		Response response = null;
-
-		try {
-
-			response = authproviderRestClient.changeData(payload);
+		try (Response response = authproviderRestClient.changeData(payload);) {
 
 			LOGGER.debug("Response-Status={}", response.getStatus());
 
@@ -160,7 +135,7 @@ public class BenutzerService {
 				LOGGER.warn(LogmessagePrefixes.BOT + "angefragter Entdpoint hat das nonce geändert: expected={}, actual={}",
 					expectedNonce, nonce);
 
-				throw new ProfilserverRuntimeException("Der authprovider konnte nicht erreicht werden.");
+				throw new ProfilAPIRuntimeException("Der authprovider konnte nicht erreicht werden.");
 
 			}
 
@@ -171,61 +146,24 @@ public class BenutzerService {
 			result.setVorname(dataMap.get("vorname"));
 			return result;
 
-		} catch (WebApplicationException e) {
+		} catch (CommunicationException e) {
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der ProfilAPIExceptionMapper dann
+			// umwandeln kann.
 
-			response = e.getResponse();
+			throw e.getExceptionToPropagate();
+		} catch (ProcessingException e) {
 
-			int status = response.getStatus();
-
-			if (status == 401) {
-
-				LOGGER.error("Authentisierungsfehler für Client {} gegenüber dem authprovider",
-					StringUtils.abbreviate(clientId, 11));
-				throw new ProfilserverRuntimeException("Authentisierungsfehler für Client");
-			}
-
-			if (status == 412) {
-
-				MessagePayload messagePayload = response.readEntity(MessagePayload.class);
-				String message = messagePayload.getMessage();
-				LOGGER.warn("Konflikt beim Aendern der Daten des Users {}: {}", StringUtils.abbreviate(uuid, 11), message);
-				throw new ConflictException(message);
-			}
-
-			LOGGER.error("Statuscode {} beim Aendern des USERS {}", status, StringUtils.abbreviate(uuid, 11));
-
-			throw new ProfilserverRuntimeException("Unerwarteter Response-Status " + status + " beim Aendern des Users.");
-
+			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
+			throw new ProfilAPIRuntimeException(
+				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
 		} catch (Exception e) {
 
-			LOGGER.error(e.getMessage(), e);
-
-			throw new ProfilserverRuntimeException("Fehler bei Anfrage des authproviders: " + e.getMessage(), e);
-
+			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
+			throw new ProfilAPIRuntimeException(
+				"unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();
-
-			if (response != null) {
-
-				response.close();
-			}
 		}
-
 	}
-
-	/**
-	 * @return
-	 */
-	private BenutzerDto createAnonumousBenutzer() {
-
-		BenutzerDto benutzer = new BenutzerDto();
-		benutzer.setEmail("");
-		benutzer.setLoginName("");
-		benutzer.setNachname("Anonym");
-		benutzer.setVorname("Gast");
-
-		return benutzer;
-	}
-
 }

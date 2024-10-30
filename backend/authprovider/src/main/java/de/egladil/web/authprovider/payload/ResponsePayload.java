@@ -8,25 +8,15 @@ package de.egladil.web.authprovider.payload;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
-
 /**
  * ResponsePayload
  */
-@XmlRootElement(name = "response-payload")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class ResponsePayload {
 
 	@JsonProperty
-	@XmlElement
 	private MessagePayload message;
 
 	@JsonProperty
-	@XmlTransient
 	private Object data;
 
 	/**

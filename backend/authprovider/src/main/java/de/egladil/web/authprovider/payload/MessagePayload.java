@@ -8,23 +8,14 @@ package de.egladil.web.authprovider.payload;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-
 /**
  * MessagePayload
  */
-@XmlRootElement(name = "gesamtpunktverteilung")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class MessagePayload {
 
-	@XmlElement
 	@JsonProperty
 	private String level;
 
-	@XmlElement
 	@JsonProperty
 	private String message;
 

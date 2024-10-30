@@ -217,14 +217,14 @@ components:
     PasswortPayload:
       required:
       - passwort
-      - twoPasswords
+      - zweiPassworte
       type: object
       properties:
         passwort:
           maxLength: 100
           pattern: \S
           type: string
-        twoPasswords:
+        zweiPassworte:
           $ref: "#/components/schemas/ZweiPassworte"
     ResponsePayload:
       description: "generisches Response-Objekt, das ein MessagePayload und ggf. Daten\

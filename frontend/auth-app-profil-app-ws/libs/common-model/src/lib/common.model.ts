@@ -11,11 +11,19 @@ export interface ResponsePayload {
 };
 
 export interface ZweiPassworte {
-    readonly passwortNeu: string;
+    readonly passwort: string;
     readonly passwortWdh: string;
 }
 
 export interface PasswortPayload {
     readonly passwort: string;
     readonly zweiPassworte: ZweiPassworte;
+}
+
+export const initialPasswortPayload : PasswortPayload = {
+    passwort: '',
+    zweiPassworte: {
+        passwort: '',
+        passwortWdh: ''
+    }
 }

@@ -12,8 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.profil_api.domain.exceptions.AuthRuntimeException;
+import de.egladil.web.profil_api.domain.exceptions.ConcurrentModificationException;
 import de.egladil.web.profil_api.domain.exceptions.ConflictException;
-import de.egladil.web.profil_api.domain.exceptions.ProfilserverRuntimeException;
+import de.egladil.web.profil_api.domain.exceptions.ProfilAPIRuntimeException;
 import de.egladil.web.profil_api.domain.exceptions.SessionExpiredException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
@@ -80,9 +81,16 @@ public class ProfilAPIExceptionMapper implements ExceptionMapper<Throwable> {
 				.build();
 		}
 
+		if (exception instanceof ConcurrentModificationException) {
+
+			return Response.status(412).entity(MessagePayload.warn(
+				"Ihr Benutzerkonto wurde zwischenzeitlich anscheinend gelöscht. Bitte kontaktieren Sie die Mailadresse im Impressum."))
+				.build();
+		}
+
 		LOGGER.error(exception.getMessage(), exception);
 
-		if (exception instanceof ProfilserverRuntimeException) {
+		if (exception instanceof ProfilAPIRuntimeException) {
 
 			return Response.status(500).entity(MessagePayload.error(exception.getMessage()))
 				.build();

@@ -16,6 +16,7 @@ import { ErrorHandlerService } from '@ap-ws/common-utils';
 import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from './local-storage-data';
 import { provideEffects } from '@ngrx/effects';
 import { benutzerdatenDataProvider } from '@profil-app/benutzerdaten/api';
+import { passwortDataProvider } from '@profil-app/passwort/api';
 
 const localStorageMetaReducer = localStorageReducer(
   'profilAuth'
@@ -47,6 +48,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     authDataProvider,
     benutzerdatenDataProvider,
+    passwortDataProvider,
     environment.providers,
     {
       provide: ProfilAppConfiguration,

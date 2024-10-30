@@ -21,7 +21,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.profil_api.domain.exceptions.ProfilserverRuntimeException;
+import de.egladil.web.profil_api.domain.exceptions.ProfilAPIRuntimeException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.NewCookie;
@@ -60,7 +60,7 @@ public final class SessionUtils {
 			return sw.toString().getBytes();
 		} catch (IOException e) {
 
-			throw new ProfilserverRuntimeException("Konnte jwt-public-key nicht lesen: " + e.getMessage());
+			throw new ProfilAPIRuntimeException("Konnte jwt-public-key nicht lesen: " + e.getMessage());
 		}
 
 	}

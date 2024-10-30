@@ -4,10 +4,12 @@ import { AuthFacade } from "@profil-app/auth/api";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { ZweiPassworte } from "@ap-ws/common-model";
+import { initialPasswortPayload, PasswortPayload, ZweiPassworte } from "@ap-ws/common-model";
 import { ZweiPassworteComponent } from "@ap-ws/common-ui";
 import { forbiddenPasswordValidator, PASSWORT_ERLAUBTE_ZEICHEN, REG_EXP_PASSWORD } from '@ap-ws/common-utils';
 import { MatIconModule } from "@angular/material/icon";
+import { PasswortFacade } from "@profil-app/passwort/api";
+import { Subscription } from "rxjs";
 
 
 
@@ -29,6 +31,7 @@ import { MatIconModule } from "@angular/material/icon";
 export class ChangePasswortComponent implements OnInit, OnDestroy {
 
   authFacade = inject(AuthFacade);
+  passwortFacade = inject(PasswortFacade);
 
   parentForm!: FormGroup;
 
@@ -37,6 +40,8 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
   #neuePasswoerterValid = false;
 
   #fb = new FormBuilder();
+  #subscriptions = new Subscription();
+  #passwort: PasswortPayload = initialPasswortPayload;
 
   #visibilityTimeout: any;
   showPassword = false;
@@ -47,10 +52,15 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
         validators: [Validators.required, forbiddenPasswordValidator(REG_EXP_PASSWORD)]
       }]
     });
+
+    const passwortSubscription = this.passwortFacade.passwort$.subscribe((passwort) => this.#passwort = {...passwort});
+    this.#subscriptions.add(passwortSubscription);
   }
 
   ngOnDestroy(): void {
     this.#clearVisibilityTimeout();
+    this.#subscriptions.unsubscribe();
+    this.passwortFacade.passwortWegraeumen();
   }
 
   buttonSubmitDisabled(): boolean {
@@ -64,11 +74,12 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  handlePasswordChanges(zweiPassworte: ZweiPassworte): void {
-    console.log('Password changes received:', {
-      ...this.parentForm.value,
-      ...zweiPassworte
-    });
+  handlePasswordChanges(zweiPassworte: ZweiPassworte): void {    
+    this.#passwort = {
+      ...this.#passwort,
+      zweiPassworte: zweiPassworte
+    }
+    console.log(JSON.stringify(this.#passwort));
   }
 
   handleNeuePasswoerterValidityChanges(isValid: boolean): void {
@@ -91,6 +102,16 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
 
   save(): void {
 
+    const passwordValue = this.parentForm.get('passwort')?.value || '';
+
+    if (this.parentForm.valid && passwordValue.length > 0) {
+      const passwortPayload: PasswortPayload = {
+        ...this.#passwort,
+        passwort: passwordValue
+      };
+
+      this.passwortFacade.passwortAendern(passwortPayload);
+    }
   }
 
   #clearVisibilityTimeout() {
