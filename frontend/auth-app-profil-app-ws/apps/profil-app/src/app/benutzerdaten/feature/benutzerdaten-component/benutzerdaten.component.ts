@@ -8,6 +8,8 @@ import { Subscription } from "rxjs";
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { trimFormValues } from "@ap-ws/common-utils";
+import { Router } from "@angular/router";
+import { MatIconModule } from "@angular/material/icon";
 
 
 @Component({
@@ -20,6 +22,7 @@ import { trimFormValues } from "@ap-ws/common-utils";
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
+    MatIconModule,
     AsyncPipe
   ]
 })
@@ -32,6 +35,7 @@ export class BenutzerdatenComponent implements OnInit, OnDestroy {
   #subscriptions = new Subscription();
   #cachedBenutzerdaten: Benutzerdaten = anonymeBenutzerdaten;
   #fb: FormBuilder = new FormBuilder();
+  #router = inject(Router);
 
   ngOnInit(): void {
 
@@ -42,16 +46,17 @@ export class BenutzerdatenComponent implements OnInit, OnDestroy {
       nachname: ['', [Validators.required, Validators.maxLength(100)]],
     });
 
-    const benutzerSubscription = this.benutzerdatenFacade.benutzerdaten$.subscribe((benutzerdaten) => {
-      this.#cachedBenutzerdaten = { ...benutzerdaten };
-      this.#patchFormValues(benutzerdaten);
-    });
+    // const benutzerSubscription = this.benutzerdatenFacade.benutzerdaten$.subscribe((benutzerdaten) => {
+    //   this.#cachedBenutzerdaten = { ...benutzerdaten };
+    //   this.#patchFormValues(benutzerdaten);
+    // });
 
-    this.#subscriptions.add(benutzerSubscription);
+    // this.#subscriptions.add(benutzerSubscription);
   }
 
   ngOnDestroy(): void {
     this.#subscriptions.unsubscribe();
+    console.log('BenutzerdatenComponent destroyed');
   }
 
   buttonSubmitDisabled(): boolean {
@@ -86,6 +91,12 @@ export class BenutzerdatenComponent implements OnInit, OnDestroy {
   cancel(): void {
     // oder man läd sie aus der DB nach?
     this.#patchFormValues(this.#cachedBenutzerdaten);
+  }
+
+  gotoStartseite() {
+    console.log('navigate home');
+    this.#router.navigateByUrl('/home');
+    // this.#router.navigate(['/home'], { replaceUrl: true, queryParamsHandling: 'merge' });
   }
 
   #patchFormValues(benutzerdaten: Benutzerdaten): void {

@@ -25,7 +25,9 @@
 
 <div class="button-container">
     <button mat-raised-button color="primary" type="submit" [disabled]="buttonSubmitDisabled()"
-        (click)="save()">Passwort ändern</button>
+        (click)="save()"><mat-icon class="nav-item">save</mat-icon>Passwort ändern</button>
+    <button mat-raised-button color="primary" type="submit" (click)="gotoStartseite()"><mat-icon
+            class="nav-item">home</mat-icon>Startseite</button>
 </div>
 
 } @else {

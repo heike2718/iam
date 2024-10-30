@@ -1,10 +1,8 @@
-@if(authFacade.userIsLoggedIn$ | async){
 <h2>Änderung Ihrer Daten</h2>
 <p>Die Angaben mit * sind erforderlich.</p>
 <p>Zum Login-Namen: Sie haben die Wahl zwischen Ihrer Mailadresse oder einem selbst gewählten Loginnamen. In der Regel
     reicht die Mailadresse.</p>
 <p>Loginname und Mailadresse sind private Daten und werden in keiner Anwendung angezeigt.</p>
-@if(benutzerdatenFacade.isExistierenderBenutzer$ | async) {
 <form [formGroup]="benutzerForm">
     <mat-form-field appearance="fill">
         <mat-label>Login-Name</mat-label>
@@ -59,14 +57,10 @@
 
     <div class="button-container">
         <button mat-raised-button color="primary" type="submit" [disabled]="buttonSubmitDisabled()"
-            (click)="save()">speichern</button>
+            (click)="save()"><mat-icon class="nav-item">save</mat-icon>speichern</button>
         <button mat-raised-button color="secondary" type="submit" [disabled]="buttonCancelDisabled()"
-            (click)="cancel()">abbrechen</button>
+            (click)="cancel()"><mat-icon class="nav-item">close</mat-icon>abbrechen</button>
+        <button mat-raised-button color="primary" type="submit" (click)="gotoStartseite()"><mat-icon
+                class="nav-item">home</mat-icon>Startseite</button>
     </div>
 </form>
-
-
-}
-} @else {
-<p>Bitte loggen Sie sich ein, um die Daten Ihres Benutzerkontos zu ändern.</p>
-}

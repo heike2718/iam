@@ -1,0 +1,34 @@
+<div class="centered">
+    <h1>Benutzerkonto für "Minikänguru" und "Mathe für jung und alt"</h1>
+
+    <img src={{imageSourceLogo}} alt="" aria-role="mathe-jung-alt-Logo" />
+
+
+</div>
+<p>Hier können Sie die Daten Ihres Benutzerkontos für den <a href="https://mathe-jung-alt.de/minikaenguru"
+        target="blank">Minikänguru-Wettbewerb</a> oder die neue Anwendung "Mathe für jung und alt" ändern oder Ihr
+    Benutzerkonto löschen, wenn Sie es nicht mehr benötigen.</p>
+
+<p>Ein Konto anlegen können Sie in der <a href="https://mathe-jung-alt.de/minikaenguru"
+        target="blank">Minikänguru-Anwendung</a> oder in der Anwendung <a href="https://mathe-jung-alt.de/mja-app/"
+        target="_blank">Mathe für jung und alt</a></p>
+@if(authFacade.userIsLoggedIn$ | async){
+<p>Was möchten Sie tun?</p>
+<div class="button-container">
+    <button mat-raised-button color="primary" type="submit" (click)="gotoBenutzerdaten()"><mat-icon
+            class="nav-item">person</mat-icon>Daten ändern</button>
+    <button mat-raised-button color="primary" type="submit" (click)="gotoPasswort()"><mat-icon
+            class="nav-item">password</mat-icon>Passwort ändern</button>
+    <button mat-raised-button color="warn" type="submit" (click)="gotoLoeschung()"><mat-icon
+            class="nav-item">delete</mat-icon>Konto löschen</button>
+</div>
+}@else {
+
+@if(shellService.isHandset()){
+<div class="button-container">
+    <button mat-raised-button color="primary" type="submit" (click)="login()">
+        <mat-icon class="nav-item">login</mat-icon>
+        einloggen</button>
+</div>
+}
+}

@@ -21,14 +21,6 @@ export class AppComponent implements OnInit {
   #authService = inject(AuthFacade)
 
   ngOnInit(): void {
-      
-
-    // nach dem redirect vom AuthProvider ist das die Stelle, an der die Anwendung wieder ankommt.
-		// Daher hier redirect-URL parsen
-		const hash = window.location.hash;
-		if (hash && hash.indexOf('idToken') > 0) {
-			const authResult = this.#authService.parseHash(hash);
-			this.#authService.createSession(authResult);
-		}
+    this.#authService.initClearOrRestoreSession();
   }
 }

@@ -1,5 +1,18 @@
 <form [formGroup]="passwortForm">
-  <div class="helper-text">{{passwortregeln}}</div>
+  <div class="helper-text">
+    {{passwortregeln}}
+    <p>Bedingungen für ein sicheres Passwort
+
+      Mindestens 12 Zeichen
+      Wenigstens 2 verschiedene Zeichengruppen
+      Großbuchstaben A-Z
+      Kleinbuchstaben a-z
+      Ziffern 0-9
+      Sonderzeichen wie !#$%
+      Höchstens 2 gleiche Zeichen nacheinander
+    </p>
+  </div>
+
   <mat-form-field appearance="fill">
     <mat-label>{{labelPasswort1}}</mat-label>
     <input matInput [type]="showPasswords ? 'text' : 'password'" formControlName="passwortNeu">

@@ -5,31 +5,45 @@
             <mat-icon>menu</mat-icon>
         </button>
     </div>
+    <span class="toolbar-spacer"></span>
+    @if(benutzerdatenFacade.benutzerdaten$ | async; as benutzer){
+    <div>
+        {{benutzer.vorname}} {{benutzer.nachname}}
+    </div>
+    }
     } @else {
-    <a mat-button routerLink="/">
-        <mat-icon class="nav-item">person</mat-icon>
-        <span class="nav-caption">Benutzerkonto</span>
+    <a mat-button routerLink="/home" routerLinkActive="activebutton" ariaCurrentWhenActive="page">
+        <mat-icon class="nav-item">home</mat-icon>
+        <span class="nav-caption">Startseite</span>
     </a>
 
     @if(authFacade.userIsLoggedIn$ | async){
-    <a mat-list-item routerLink="/passwort">
+
+    <a mat-button routerLink="/benutzerdaten" routerLinkActive="activebutton" ariaCurrentWhenActive="page">
+        <mat-icon class="nav-item">person</mat-icon>
+        <span class="nav-caption">Benutzerdaten</span>
+    </a>
+
+    <a mat-list-item routerLink="/passwort" routerLinkActive="activebutton" ariaCurrentWhenActive="page">
         <mat-icon class="nav-icon">password</mat-icon>
         <span class="nav-caption">Passwort ändern</span>
     </a>
 
 
-    <a mat-list-item routerLink="/loeschung-benutzerkonto">
+    <a mat-list-item routerLink="/loeschung-benutzerkonto" routerLinkActive="activebutton" ariaCurrentWhenActive="page">
         <mat-icon class="nav-icon">delete</mat-icon>
         <span class="nav-caption">Konto löschen</span>
     </a>
     }
 
     <span class="toolbar-spacer"></span>
-    }
 
+
+    @if(benutzerdatenFacade.benutzerdaten$ | async; as benutzer){
     <div class="mr-2">
         Guten Tag, {{benutzer.vorname}} {{benutzer.nachname}}
     </div>
+    }
 
     @if (authFacade.userIsLoggedOut$ | async) {
     <a mat-button (click)="login()">
@@ -48,5 +62,6 @@
     <a mat-button href="https://mathe-jung-alt.de/impressum.html" target="_blank">
         <span class="nav-caption">Impressum</span>
     </a>
+    }
 
 </mat-toolbar>

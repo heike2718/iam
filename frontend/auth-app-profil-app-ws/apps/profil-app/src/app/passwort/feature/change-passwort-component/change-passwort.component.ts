@@ -10,6 +10,7 @@ import { forbiddenPasswordValidator, PASSWORT_ERLAUBTE_ZEICHEN, REG_EXP_PASSWORD
 import { MatIconModule } from "@angular/material/icon";
 import { PasswortFacade } from "@profil-app/passwort/api";
 import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
 
 
 
@@ -37,6 +38,7 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
 
   passwortErlaubteZeichen = PASSWORT_ERLAUBTE_ZEICHEN;
 
+  #router = inject(Router);
   #neuePasswoerterValid = false;
 
   #fb = new FormBuilder();
@@ -112,6 +114,10 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
 
       this.passwortFacade.passwortAendern(passwortPayload);
     }
+  }
+
+  gotoStartseite() {
+    this.#router.navigateByUrl('/home');
   }
 
   #clearVisibilityTimeout() {

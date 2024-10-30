@@ -23,31 +23,18 @@ import { Subscription } from "rxjs";
         AsyncPipe
     ],
 })
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent {
 
     authFacade = inject(AuthFacade);
 
     benutzer: Benutzerdaten = anonymeBenutzerdaten;
-    #benutzerdatenFacade = inject(BenutzerdatenFacade);
-    #subscriptions: Subscription = new Subscription();
+    benutzerdatenFacade = inject(BenutzerdatenFacade);
 
 
     @Output()
     sidenavToggle = new EventEmitter();
 
     shellService = inject(ShellService);
-
-    ngOnInit(): void {
-        const benutzerSubscription = this.#benutzerdatenFacade.benutzerdaten$.subscribe((benutzerdaten) => {
-            this.benutzer = benutzerdaten;
-        });
-
-        this.#subscriptions.add(benutzerSubscription);
-    }
-
-    ngOnDestroy(): void {
-        this.#subscriptions.unsubscribe();
-    }
 
     onToggleSidenav(): void {
         this.sidenavToggle.emit();

@@ -8,7 +8,7 @@ export const environment = {
   loginRedirectUrl: 'http://localhost:4400/profil-app',
   datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
-  assetsPath: '',
+  assetsPath: 'assets',
   providers: [
     provideStoreDevtools({
       maxAge: 25,
