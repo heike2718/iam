@@ -46,12 +46,12 @@ export class BenutzerdatenComponent implements OnInit, OnDestroy {
       nachname: ['', [Validators.required, Validators.maxLength(100)]],
     });
 
-    // const benutzerSubscription = this.benutzerdatenFacade.benutzerdaten$.subscribe((benutzerdaten) => {
-    //   this.#cachedBenutzerdaten = { ...benutzerdaten };
-    //   this.#patchFormValues(benutzerdaten);
-    // });
+    const benutzerSubscription = this.benutzerdatenFacade.benutzerdaten$.subscribe((benutzerdaten) => {
+      this.#cachedBenutzerdaten = { ...benutzerdaten };
+      this.#patchFormValues(benutzerdaten);
+    });
 
-    // this.#subscriptions.add(benutzerSubscription);
+    this.#subscriptions.add(benutzerSubscription);
   }
 
   ngOnDestroy(): void {
@@ -104,7 +104,7 @@ export class BenutzerdatenComponent implements OnInit, OnDestroy {
   }
 
   #readFormValues(): Benutzerdaten {
-    trimFormValues(this.benutzerForm);
+    // trimFormValues(this.benutzerForm);
     return this.benutzerForm.value;
   }
 }
