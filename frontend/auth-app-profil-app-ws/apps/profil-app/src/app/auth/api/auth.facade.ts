@@ -4,6 +4,7 @@ import { authActions, fromAuth } from "@profil-app/auth/data";
 import { Observable, of, switchMap } from "rxjs";
 import { anonymousSession, AuthResult, Session } from "@profil-app/auth/model";
 import { BenutzerdatenFacade } from "@profil-app/benutzerdaten/api";
+import { MessageService } from "@ap-ws/messages/api";
 
 @Injectable({
 	providedIn: 'root'
@@ -13,6 +14,7 @@ export class AuthFacade {
 	#store = inject(Store);
 	#benutzerdatenFacade = inject(BenutzerdatenFacade);
 	#currentSession: Session = anonymousSession;
+	#messageService = inject(MessageService);
 
 	readonly userIsLoggedIn$: Observable<boolean> = this.#store.select(fromAuth.session).pipe(switchMap((session) => of(session.sessionId !== undefined))
 	);
@@ -23,6 +25,12 @@ export class AuthFacade {
 
 	constructor() {
 		this.#store.select(fromAuth.session).subscribe((session) => this.#currentSession = {...session});
+
+		this.#messageService.securityEvent$.subscribe((secEvent) => {
+			if (secEvent) {
+				this.logout();
+			}
+		});
 	}
 
 	public login(): void {

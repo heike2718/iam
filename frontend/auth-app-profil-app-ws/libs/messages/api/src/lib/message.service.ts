@@ -1,5 +1,6 @@
-import { Injectable, signal } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Message } from "@ap-ws/common-model";
+import { BehaviorSubject, Observable, of } from "rxjs";
 
 
 @Injectable({
@@ -7,32 +8,61 @@ import { Message } from "@ap-ws/common-model";
 })
 export class MessageService {
 
-    #messageSignal = signal<Message | undefined>(undefined);
+    #messageSubject = new BehaviorSubject<Message | undefined>(undefined);
+    #securityEvent = new BehaviorSubject<boolean>(false); 
+    
+    message$: Observable<Message | undefined> = this.#messageSubject.asObservable();
+    securityEvent$: Observable<boolean> = this.#securityEvent.asObservable();
+    
+    #currentMessage: Message | undefined;
+    #adjusting = false;
 
-    get message() {
-        return this.#messageSignal;
+    constructor() {
+        this.message$.subscribe((message) => {
+            if (!this.#adjusting) {
+                this.#currentMessage = message;
+            }
+        });
     }
 
-    info(message: string) {
-        this.#add({ message: message, level: 'INFO' });
+    info(text: string, isSecurityEvent: boolean) {
+
+        const message: Message = { message: text, level: 'INFO', securityEvent: isSecurityEvent };
+
+        console.log(JSON.stringify(message));
+
+        this.#add(message);
         setTimeout(() => {
+            if (message.securityEvent) {
+                this.#adjusting = true;
+            }
             this.clearMessage();
         }, 5000); // nach x Sekunden clearen
     }
 
-    warn(message: string) {
-        this.#add({ message: message, level: 'WARN' });
+    warn(text: string) {
+        this.#add({ message: text, level: 'WARN', securityEvent: false });
     }
 
     error(message: string) {
-        this.#add({ message: message, level: 'ERROR' });
+        this.#add({ message: message, level: 'ERROR', securityEvent: false });
     }
 
     clearMessage() {
-        this.#messageSignal.set(undefined);
+
+        if (this.#currentMessage && this.#currentMessage.securityEvent) {
+            console.log('sollte logout triggern');            
+            this.#securityEvent.next(this.#currentMessage.securityEvent);
+        }
+        this.#adjusting = false;
+        this.#messageSubject.next(undefined);
+    }
+
+    clearSecurityEvent(): void {
+        this.#securityEvent.next(false);
     }
 
     #add(message: Message) {
-        this.#messageSignal.set(message);
+       this.#messageSubject.next(message);
     }
 }

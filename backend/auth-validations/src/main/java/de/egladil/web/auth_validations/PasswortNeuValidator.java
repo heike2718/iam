@@ -9,13 +9,14 @@ import de.egladil.web.auth_validations.annotations.PasswortNeu;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
- * PasswortNeuValidator
+ * PasswortNeuValidator.
  */
 public class PasswortNeuValidator extends AbstractWhitelistValidator<PasswortNeu, String> {
 
 	// ^(?!\s)(?=.*\d)(?=.*[a-zA-ZäÄöÖüÜß])(?=.*[!#$%&()*+,\-./:;=?@\[\]^_`'{|}~])[a-zA-ZäÄöÖüÜß\d!#$%&()*+,\-./:;=?@\[\]^_`'{|}~
-	// ]{6,98}(?<!\s)$
-	private static final String REGEXP = "^(?!\\s)(?=.*\\d)(?=.*[a-zA-ZäÄöÖüÜß])(?=.*[!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~])[a-zA-ZäÄöÖüÜß\\d!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~ ]{6,98}(?<!\\s)$";
+	// ]{8,100}(?<!\s)$
+	// ^(?!\s)(?=.*\d)(?=.*[a-zA-ZäÄöÖüÜß])[a-zA-ZäÄöÖüÜß \d!#$%&()*+,\-./:;=?@\[\]^_`'{|}~]{8,100}(?<!\s)
+	private static final String REGEXP = "^(?!\\s)(?=.*\\d)(?=.*[a-zA-ZäÄöÖüÜß])[a-zA-ZäÄöÖüÜß \\d!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~]{6,100}(?<!\\s)";
 
 	@Override
 	protected String getWhitelist() {

@@ -3,6 +3,7 @@ export type MessageLevel = 'INFO' | 'WARN' | 'ERROR';
 export interface Message {
     readonly level: MessageLevel;
     readonly message: string;
+    readonly securityEvent: boolean
 };
 
 export interface ResponsePayload {

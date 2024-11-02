@@ -34,7 +34,7 @@ export function getHttpErrorResponse(error: NonNullable<unknown>): HttpErrorResp
 export function extractServerErrorMessage(error: HttpErrorResponse): Message {
 
     if (error.status === 0) {
-        return { level: 'ERROR', message: 'Der Server ist nicht erreichbar.' };
+        return { level: 'ERROR', message: 'Der Server ist nicht erreichbar.', securityEvent: false };
     }
 
     const errorResponse: HttpErrorResponse = <HttpErrorResponse>error;
@@ -51,7 +51,7 @@ export function extractServerErrorMessage(error: HttpErrorResponse): Message {
             const violations: ConstraintViolation[] = error as ConstraintViolation[];
             const message = violations.map(cv => `${cv.fieldName}: ${cv.message}`).join(', ');            
 
-            return { level: 'ERROR', message: 'Upsi, da ist im frontend anscheinend etwas schiefgelaufen: ' + message };
+            return { level: 'ERROR', message: 'Upsi, da ist im frontend anscheinend etwas schiefgelaufen: ' + message, securityEvent: false };
         } else {
             const payload: Message = errorResponse.error;
 
@@ -63,7 +63,7 @@ export function extractServerErrorMessage(error: HttpErrorResponse): Message {
         const payload: Message = errorResponse.error;
 
         if (payload && payload.level && payload.message) {
-            return { message: payload.message, level: payload.level };
+            return { message: payload.message, level: payload.level, securityEvent: false };
         }
     }
 
@@ -84,5 +84,5 @@ function getGenericMessageForStatus(status: number): Message {
         default: result = 'Im Backend ist ein unerwarteter Fehler aufgetreten.';
     }
 
-    return { level: 'ERROR', message: result };
+    return { level: 'ERROR', message: result, securityEvent: false };
 }

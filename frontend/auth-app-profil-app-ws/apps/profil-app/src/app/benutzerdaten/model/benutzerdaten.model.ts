@@ -12,6 +12,11 @@ export const anonymeBenutzerdaten: Benutzerdaten = {
     vorname: 'Gast'
 }
 
+export interface ChangeBenutzerdatenResponseDto {
+    readonly benutzer: Benutzerdaten;
+    readonly securityEvent: boolean;
+}
+
 export function isAnonymerBenutzer(benutzerdaten: Benutzerdaten): boolean {
 
     return benutzerdaten.nachname === 'Anonym' && benutzerdaten.vorname === 'Gast';

@@ -6,6 +6,7 @@ package de.egladil.web.profil_api.infrastructure.resources;
 
 import de.egladil.web.profil_api.domain.benutzer.BenutzerDto;
 import de.egladil.web.profil_api.domain.benutzer.BenutzerService;
+import de.egladil.web.profil_api.domain.benutzer.ChangeBenutzerdatenResponseDto;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -37,7 +38,7 @@ public class BenutzerResource {
 	@Authenticated
 	public Response benutzerdatenAendern(@Valid final BenutzerDto benutzerDto) {
 
-		BenutzerDto result = benutzerService.benutzerdatenAendern(benutzerDto);
+		ChangeBenutzerdatenResponseDto result = benutzerService.benutzerdatenAendern(benutzerDto);
 
 		return Response.ok(result).build();
 	}

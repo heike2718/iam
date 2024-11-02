@@ -112,9 +112,14 @@ public class BenutzerService {
 	 * @return             BenutzerDto
 	 */
 	@Transactional
-	public BenutzerDto benutzerdatenAendern(final BenutzerDto benutzerDto) {
+	public ChangeBenutzerdatenResponseDto benutzerdatenAendern(final BenutzerDto benutzerDto) {
 
 		String uuid = securityContext.getUserPrincipal().getName();
+
+		BenutzerDto existing = ladeBenuterDaten();
+
+		boolean isSecurityRelevant = this.isSecurityRelevant(existing, benutzerDto);
+
 		String expectedNonce = UUID.randomUUID().toString();
 		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
 			clientSecret, expectedNonce);
@@ -144,7 +149,8 @@ public class BenutzerService {
 			result.setLoginName(dataMap.get("loginName"));
 			result.setNachname(dataMap.get("nachname"));
 			result.setVorname(dataMap.get("vorname"));
-			return result;
+
+			return new ChangeBenutzerdatenResponseDto().withBenutzer(benutzerDto).withSecurityEvent(isSecurityRelevant);
 
 		} catch (CommunicationException e) {
 			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der ProfilAPIExceptionMapper dann
@@ -165,5 +171,20 @@ public class BenutzerService {
 
 			credentials.clean();
 		}
+	}
+
+	boolean isSecurityRelevant(final BenutzerDto alteDaten, final BenutzerDto neueDaten) {
+
+		if (!alteDaten.getEmail().equalsIgnoreCase(neueDaten.getEmail())) {
+
+			return true;
+		}
+
+		if (!alteDaten.getLoginName().equalsIgnoreCase(neueDaten.getLoginName())) {
+
+			return true;
+		}
+
+		return false;
 	}
 }

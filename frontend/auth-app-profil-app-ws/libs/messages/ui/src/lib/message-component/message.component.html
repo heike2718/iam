@@ -1,4 +1,4 @@
-@if ((messageService.message()); as msg) {
+@if ((messageService.message$) | async; as msg) {
     @if (msg) {
         <div class="mpx-1 cmn-message-section" (click)="close()">
 

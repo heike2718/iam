@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Benutzerdaten } from "../model";
+import { Benutzerdaten, ChangeBenutzerdatenResponseDto } from "../model";
 
 
 @Injectable({
@@ -18,9 +18,9 @@ export class BenutzerdatenHttpService {
         
     }
 
-    public updateBenutzerdaten(benutzerdaten: Benutzerdaten): Observable<Benutzerdaten> {
+    public updateBenutzerdaten(benutzerdaten: Benutzerdaten): Observable<ChangeBenutzerdatenResponseDto> {
 
-        return this.#httpClient.put<Benutzerdaten>(this.#url, benutzerdaten);
+        return this.#httpClient.put<ChangeBenutzerdatenResponseDto>(this.#url, benutzerdaten);
 
     }
 

@@ -1,16 +1,16 @@
 <form [formGroup]="passwortForm">
   <div class="helper-text">
+    <p>Ein sicheres Passwort erfüllt folgende Bedingungen:</p>
+    <ul>
+      <li>mindestens 12 Zeichen</li>
+      <li>wenigstens 2 verschiedene Zeichengruppen</li>
+      <li>Großbuchstaben A-ZÄÖÜ</li>
+      <li>Kleinbuchstaben a-zäöüß</li>
+      <li>Ziffern 0-9</li>
+      <li>Sonderzeichen wie !#$%</li>
+      <li>höchstens 2 gleiche Zeichen nacheinander</li>
+    </ul>    
     {{passwortregeln}}
-    <p>Bedingungen für ein sicheres Passwort
-
-      Mindestens 12 Zeichen
-      Wenigstens 2 verschiedene Zeichengruppen
-      Großbuchstaben A-Z
-      Kleinbuchstaben a-z
-      Ziffern 0-9
-      Sonderzeichen wie !#$%
-      Höchstens 2 gleiche Zeichen nacheinander
-    </p>
   </div>
 
   <mat-form-field appearance="fill">

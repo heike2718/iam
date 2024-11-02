@@ -5,6 +5,7 @@ import { MessageService } from "@ap-ws/messages/api";
 import { passwortActions } from "./passwort.actions";
 import { map, switchMap, tap } from "rxjs";
 import { Message } from "@ap-ws/common-model";
+import { MESSAGE_PASSWORT_SUCCESS } from "@ap-ws/common-utils";
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,7 @@ export class PasswortEffects {
     passwortGeaendert$ = createEffect(() =>
         this.#actions.pipe(
             ofType(passwortActions.pASSWORT_GEAENDERT),
-            tap((payload) => this.#messageService.info(payload.message.message))
+            tap(() => this.#messageService.info(MESSAGE_PASSWORT_SUCCESS, true))
         ), { dispatch: false })
 
 }

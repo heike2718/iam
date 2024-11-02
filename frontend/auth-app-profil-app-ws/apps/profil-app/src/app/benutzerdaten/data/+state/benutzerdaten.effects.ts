@@ -1,10 +1,11 @@
 import { inject, Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { Benutzerdaten } from "@profil-app/benutzerdaten/model";
+import { Benutzerdaten, ChangeBenutzerdatenResponseDto } from "@profil-app/benutzerdaten/model";
 import { map, switchMap, tap } from "rxjs";
 import { BenutzerdatenHttpService } from "../benutzerdaten-http.service";
 import { benutzerdatenActions } from "./benutzerdaten.actions";
 import { MessageService } from "@ap-ws/messages/api";
+import { MESSAGE_BENUTZERDATEN_SUCCESS, MESSAGE_BENUTZERDATEN_SUCCESS_WITH_LOGOUT } from "@ap-ws/common-utils";
 
 
 @Injectable({
@@ -30,14 +31,22 @@ export class BenutzerdatenEffects {
         return this.#actions.pipe(
             ofType(benutzerdatenActions.bENUTZERDATEN_AENDERN),
             switchMap((action) => this.#httpService.updateBenutzerdaten(action.benutzerdaten)),
-            map((benutzerdaten: Benutzerdaten) => benutzerdatenActions.bENUTZERDATEN_GEAENDERT({ benutzerdaten }))
+            map((responseDto: ChangeBenutzerdatenResponseDto) => benutzerdatenActions.bENUTZERDATEN_GEAENDERT({ responseDto }))
         );
     });
 
     benutzerdatenGeaendert$ = createEffect(() =>
         this.#actions.pipe(
             ofType(benutzerdatenActions.bENUTZERDATEN_GEAENDERT),
-            tap(() => this.#messageService.info('Ihre Benutzerdaten wurden erfolgreich geändert.'))
+            tap((responseDto) => {
+                const isSecurityRelevant = responseDto.responseDto.securityEvent;
+                if (isSecurityRelevant) {
+                    this.#messageService.info(MESSAGE_BENUTZERDATEN_SUCCESS_WITH_LOGOUT, responseDto.responseDto.securityEvent)
+                } else {
+                    this.#messageService.info(MESSAGE_BENUTZERDATEN_SUCCESS, responseDto.responseDto.securityEvent)
+                }
+
+            })
         ), { dispatch: false })
 
 }

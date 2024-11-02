@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { Benutzerdaten } from "@profil-app/benutzerdaten/model";
+import { Benutzerdaten, ChangeBenutzerdatenResponseDto } from "@profil-app/benutzerdaten/model";
 
 
 export const benutzerdatenActions = createActionGroup({
@@ -8,7 +8,7 @@ export const benutzerdatenActions = createActionGroup({
         'LOAD_BENUTZERDATEN': emptyProps(),
         'BENUTZERDATEN_LOADED': props<{ benutzerdaten: Benutzerdaten }>(),
         'BENUTZERDATEN_AENDERN': props<{ benutzerdaten: Benutzerdaten }>(),
-        'BENUTZERDATEN_GEAENDERT': props<{ benutzerdaten: Benutzerdaten }>(),        
+        'BENUTZERDATEN_GEAENDERT': props<{ responseDto: ChangeBenutzerdatenResponseDto }>(),        
         'RESET_BENUTZERDATEN': emptyProps()
     }
 });

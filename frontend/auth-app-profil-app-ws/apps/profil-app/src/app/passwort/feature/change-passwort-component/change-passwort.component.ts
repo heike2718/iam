@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { initialPasswortPayload, PasswortPayload, ZweiPassworte } from "@ap-ws/common-model";
 import { ZweiPassworteComponent } from "@ap-ws/common-ui";
-import { forbiddenPasswordValidator, PASSWORT_ERLAUBTE_ZEICHEN, REG_EXP_PASSWORD } from '@ap-ws/common-utils';
+import { forbiddenPasswordValidator, PASSWORT_LOGIN_ERLAUBTE_ZEICHEN, REG_EXP_PASSWORD } from '@ap-ws/common-utils';
 import { MatIconModule } from "@angular/material/icon";
 import { PasswortFacade } from "@profil-app/passwort/api";
 import { Subscription } from "rxjs";
@@ -36,7 +36,7 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
 
   parentForm!: FormGroup;
 
-  passwortErlaubteZeichen = PASSWORT_ERLAUBTE_ZEICHEN;
+  passwortErlaubteZeichen = PASSWORT_LOGIN_ERLAUBTE_ZEICHEN;
 
   #router = inject(Router);
   #neuePasswoerterValid = false;
