@@ -31,7 +31,7 @@ import { ShellService } from "../shell/shell.service";
 
     ngOnInit(): void {
         this.imageSourceLogo = this.#config.assetsPath + '/mja_logo_2.svg';
-    }
+    }   
 
     gotoBenutzerdaten() {
         this.#router.navigateByUrl('benutzerdaten');
@@ -47,6 +47,10 @@ import { ShellService } from "../shell/shell.service";
 
     login() {
         this.authFacade.login();
+    }
+
+    logout() {
+        this.authFacade.logout();
     }
     
 }

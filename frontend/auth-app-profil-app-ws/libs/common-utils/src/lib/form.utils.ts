@@ -23,7 +23,6 @@ export function passwordsMatchValidator(): ValidatorFn {
     const passwortNeu = control.get('passwortNeu')?.value;
     const passwortNeuWdh = control.get('passwortNeuWdh')?.value;
 
-    // console.log('passwortNeu=' + passwortNeu + ', passwortNeuWdh=' + passwortNeuWdh);
     return passwortNeu && passwortNeuWdh && passwortNeu !== passwortNeuWdh
       ? { passwordsMismatch: true }
       : null;

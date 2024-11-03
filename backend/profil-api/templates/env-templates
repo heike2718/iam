@@ -10,6 +10,7 @@ PUBLIC-CLIENT-ID=T73...
 PUBLIC-CLIENT-SECRET=start123
 
 CSRF_ENABLED=false
+MOCK_KONTOLOESCHUNG = true
 
 
 #=================================================================#

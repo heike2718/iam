@@ -87,6 +87,9 @@ public class SessionService {
 				session.setExpiresAt(SessionUtils.getExpiresAt(sessionIdleTimeoutMinutes));
 			}
 
+			String xsrfToken = secureTokenService.createRandomToken();
+			session.setXsrfToken(xsrfToken);
+
 			sessions.put(session.getSessionId(), session);
 
 			LOGGER.info("Benutzer eingeloggt: {}", session.getUser().toString());

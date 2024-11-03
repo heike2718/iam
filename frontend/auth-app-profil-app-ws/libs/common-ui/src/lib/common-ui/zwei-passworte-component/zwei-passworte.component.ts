@@ -67,7 +67,6 @@ export class ZweiPassworteComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         const formIsValid = this.passwortForm.valid;
-        console.log('valid? ' + formIsValid)
         this.isValid.emit(formIsValid);
 
         if (formIsValid) {

@@ -81,7 +81,6 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
       ...this.#passwort,
       zweiPassworte: zweiPassworte
     }
-    console.log(JSON.stringify(this.#passwort));
   }
 
   handleNeuePasswoerterValidityChanges(isValid: boolean): void {

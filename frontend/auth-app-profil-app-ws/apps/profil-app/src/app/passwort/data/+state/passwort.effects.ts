@@ -28,7 +28,7 @@ export class PasswortEffects {
     passwortGeaendert$ = createEffect(() =>
         this.#actions.pipe(
             ofType(passwortActions.pASSWORT_GEAENDERT),
-            tap(() => this.#messageService.info(MESSAGE_PASSWORT_SUCCESS, true))
+            tap(() => this.#messageService.info(MESSAGE_PASSWORT_SUCCESS, true, 5000))
         ), { dispatch: false })
 
 }

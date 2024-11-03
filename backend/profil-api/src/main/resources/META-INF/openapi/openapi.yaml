@@ -239,7 +239,6 @@ components:
         data:
           description: daten die als JSON mitgegeben werden. Kann null sein
     Session:
-      description: session für F5-Robustheit
       type: object
       properties:
         sessionId:

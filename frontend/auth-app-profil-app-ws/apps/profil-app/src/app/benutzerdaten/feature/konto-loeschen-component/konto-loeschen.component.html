@@ -1,0 +1,21 @@
+@if(benutzerdatenFacade.benutzerdaten$ | async; as benutzerdaten) {
+<h2>Benutzerkonto löschen</h2>
+<p>Ihre Benutzerdaten werden vollständig gelöscht und sind anschließend nicht wiederherstellbar. Nach dem Löschen Ihres
+    Benutzerkontos können Sie keine der Anwendungen mehr nutzen, für die Sie
+    sich registriert hatten.</p>
+
+<mat-checkbox [(ngModel)]="confirmed" [ngModelOptions]="{standalone: true}">Ja, ich möchte mein
+    Benutzerkonto mit der Mailadresse {{benutzerdaten.email}} vollständig löschen.</mat-checkbox>
+
+<div class="button-container">
+    <button mat-raised-button color="warn" type="submit" [disabled]="!confirmed" (click)="deleteAccount()"><mat-icon
+            class="nav-icon">delete</mat-icon>Konto löschen</button>
+    <button mat-raised-button color="primary" type="submit" (click)="gotoStartseite()"><mat-icon
+            class="nav-item">home</mat-icon>Startseite</button>
+</div>
+} @else {
+<div class="button-container">
+    <button mat-raised-button color="primary" type="submit" (click)="gotoStartseite()"><mat-icon
+            class="nav-item">home</mat-icon>Startseite</button>
+</div>
+}

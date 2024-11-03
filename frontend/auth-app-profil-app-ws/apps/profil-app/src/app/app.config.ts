@@ -45,6 +45,10 @@ export const appConfig: ApplicationConfig = {
         metaReducers: allMetaReducers,
       }),
     provideEffects(LocalStorageEffects),
+    // provideHttpClient(withInterceptorsFromDi(), withXsrfConfiguration({
+    //   cookieName: 'XSRF-TOKEN',
+    //   headerName: 'X-XSRF-TOKEN',
+    // })),
     provideHttpClient(withInterceptorsFromDi()),
     authDataProvider,
     benutzerdatenDataProvider,

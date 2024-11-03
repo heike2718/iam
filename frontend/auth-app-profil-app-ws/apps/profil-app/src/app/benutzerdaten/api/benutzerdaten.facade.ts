@@ -24,10 +24,16 @@ export class BenutzerdatenFacade {
         this.#store.dispatch(benutzerdatenActions.bENUTZERDATEN_AENDERN({benutzerdaten}));
     }
 
+    public benutzerkontoLoeschen(): void {
+        this.#store.dispatch(benutzerdatenActions.kONTO_LOESCHEN());
+    }
+
     public handleLogout(): void {
 
         this.#store.dispatch(benutzerdatenActions.rESET_BENUTZERDATEN());
     }
+
+
 
 
 }

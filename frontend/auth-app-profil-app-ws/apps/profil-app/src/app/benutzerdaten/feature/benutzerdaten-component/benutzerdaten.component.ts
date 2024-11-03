@@ -56,7 +56,6 @@ export class BenutzerdatenComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.#subscriptions.unsubscribe();
-    console.log('BenutzerdatenComponent destroyed');
   }
 
   buttonSubmitDisabled(): boolean {
@@ -95,7 +94,7 @@ export class BenutzerdatenComponent implements OnInit, OnDestroy {
 
   gotoStartseite() {
     console.log('navigate home');
-    this.#router.navigateByUrl('/home');
+    this.#router.navigateByUrl('/');
     // this.#router.navigate(['/home'], { replaceUrl: true, queryParamsHandling: 'merge' });
   }
 

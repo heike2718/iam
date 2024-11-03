@@ -23,6 +23,9 @@ export const benutzerdatenFeature = createFeature({
         }),
         on(benutzerdatenActions.rESET_BENUTZERDATEN, (_state, _action) => {
             return initialState;
+        }),
+        on(benutzerdatenActions.kONTO_GELOESCHT, (_state, _action) => {
+            return initialState;
         })
     )
 })

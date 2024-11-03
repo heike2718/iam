@@ -25,11 +25,9 @@ export class MessageService {
         });
     }
 
-    info(text: string, isSecurityEvent: boolean) {
+    info(text: string, isSecurityEvent: boolean, timeoutMs: number) {
 
         const message: Message = { message: text, level: 'INFO', securityEvent: isSecurityEvent };
-
-        console.log(JSON.stringify(message));
 
         this.#add(message);
         setTimeout(() => {
@@ -37,7 +35,7 @@ export class MessageService {
                 this.#adjusting = true;
             }
             this.clearMessage();
-        }, 5000); // nach x Sekunden clearen
+        }, timeoutMs);
     }
 
     warn(text: string) {
@@ -51,7 +49,6 @@ export class MessageService {
     clearMessage() {
 
         if (this.#currentMessage && this.#currentMessage.securityEvent) {
-            console.log('sollte logout triggern');            
             this.#securityEvent.next(this.#currentMessage.securityEvent);
         }
         this.#adjusting = false;

@@ -10,12 +10,12 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import de.egladil.web.profil_api.domain.auth.config.AuthConstants;
 import de.egladil.web.profil_api.domain.auth.dto.AuthResult;
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.profil_api.domain.auth.login.AuthproviderUrlService;
 import de.egladil.web.profil_api.domain.auth.login.LoginLogoutService;
 import de.egladil.web.profil_api.domain.auth.session.Session;
-import de.egladil.web.profil_api.domain.auth.session.SessionUtils;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -93,7 +93,7 @@ public class SessionResource {
 			mediaType = "application/json",
 			schema = @Schema(implementation = MessagePayload.class)))
 	public Response logout(@CookieParam(
-		value = SessionUtils.SESSION_COOKIE_NAME) final String sessionId) {
+		value = AuthConstants.SESSION_COOKIE_NAME) final String sessionId) {
 
 		return loginLogoutService.logout(sessionId);
 	}

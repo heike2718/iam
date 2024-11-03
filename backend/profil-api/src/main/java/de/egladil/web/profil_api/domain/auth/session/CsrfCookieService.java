@@ -1,8 +1,8 @@
 // =====================================================
-// Project: mja-auth
+// Project: auth-admin-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.profil_api.domain.auth.util;
+package de.egladil.web.profil_api.domain.auth.session;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class CsrfCookieService {
 	 *
 	 * @return
 	 */
-	public NewCookie createCsrfTokenCookie() {
+	public NewCookie createCsrfTokenCookie(final String cookieValue) {
 
 		String csrfToken = csrfTokenService.createRandomToken().replaceAll("\"", "");
 

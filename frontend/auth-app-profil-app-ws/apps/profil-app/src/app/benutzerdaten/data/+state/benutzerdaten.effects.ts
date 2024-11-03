@@ -41,11 +41,29 @@ export class BenutzerdatenEffects {
             tap((responseDto) => {
                 const isSecurityRelevant = responseDto.responseDto.securityEvent;
                 if (isSecurityRelevant) {
-                    this.#messageService.info(MESSAGE_BENUTZERDATEN_SUCCESS_WITH_LOGOUT, responseDto.responseDto.securityEvent)
+                    this.#messageService.info(MESSAGE_BENUTZERDATEN_SUCCESS_WITH_LOGOUT, responseDto.responseDto.securityEvent, 5000)
                 } else {
-                    this.#messageService.info(MESSAGE_BENUTZERDATEN_SUCCESS, responseDto.responseDto.securityEvent)
+                    this.#messageService.info(MESSAGE_BENUTZERDATEN_SUCCESS, responseDto.responseDto.securityEvent, 3000)
                 }
 
+            })
+        ), { dispatch: false })
+
+    kontoLoeschen$ = createEffect(() => {
+
+        return this.#actions.pipe(
+            ofType(benutzerdatenActions.kONTO_LOESCHEN),
+            switchMap(() => this.#httpService.deleteBenutzer()),
+            map((message) => benutzerdatenActions.kONTO_GELOESCHT({ message }))
+        );
+    });
+
+    kontoGeloescht$ = createEffect(() =>
+        this.#actions.pipe(
+            ofType(benutzerdatenActions.kONTO_GELOESCHT),
+            tap((actionPayload) => {
+                // muss logout triggern, also isSecurityEvent = true
+                this.#messageService.info(actionPayload.message.message + ' Sie werden jetzt ausgeloggt.', true, 3000)
             })
         ), { dispatch: false })
 

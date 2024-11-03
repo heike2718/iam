@@ -1,9 +1,0 @@
-@if(authFacade.userIsLoggedIn$ | async){
-<p>Hier können Sie Ihr Benutzerkonto löschen.</p>
-<div class="button-container">
-    <button mat-raised-button color="primary" type="submit" (click)="gotoStartseite()"><mat-icon
-        class="nav-item">home</mat-icon>Startseite</button>
-</div>
-} @else {
-<p>Bitte loggen Sie sich ein, um Ihr Benutzerkonto zu löschen.</p>
-}

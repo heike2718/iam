@@ -19,7 +19,10 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/profil-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/profil-app/src/favicon.ico", "apps/profil-app/src/assets"],
+        "assets": [
+          "apps/profil-app/src/favicon.ico",
+          "apps/profil-app/src/assets"
+        ],
         "styles": [
           "apps/profil-app/src/styles.scss",
           "libs/styles/theme.scss",

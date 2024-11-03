@@ -17,7 +17,7 @@ export const localStorageReducer = (...featureStateNames: string[]) => {
     (state, action) => {
       if (isSyncLocalStorage(action)) {
 
-        console.log('syncronize local storage');
+        // console.log('syncronize local storage');
 
         const rehydratedFeatureState = rehydrateApplicationState(
           [action.featureState],

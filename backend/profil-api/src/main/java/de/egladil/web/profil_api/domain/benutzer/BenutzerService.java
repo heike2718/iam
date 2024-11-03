@@ -42,6 +42,9 @@ public class BenutzerService {
 	@ConfigProperty(name = "public-client-secret")
 	String clientSecret;
 
+	@ConfigProperty(name = "mock.kontoloeschung")
+	boolean mockDelete;
+
 	@Context
 	SecurityContext securityContext;
 
@@ -137,7 +140,7 @@ public class BenutzerService {
 
 			if (!expectedNonce.equals(nonce)) {
 
-				LOGGER.warn(LogmessagePrefixes.BOT + "angefragter Entdpoint hat das nonce geändert: expected={}, actual={}",
+				LOGGER.warn(LogmessagePrefixes.BOT + "angefragter Endpoint hat das nonce geändert: expected={}, actual={}",
 					expectedNonce, nonce);
 
 				throw new ProfilAPIRuntimeException("Der authprovider konnte nicht erreicht werden.");
@@ -171,6 +174,71 @@ public class BenutzerService {
 
 			credentials.clean();
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	public Response kontoLoeschen() {
+
+		String uuid = securityContext.getUserPrincipal().getName();
+
+		String expectedNonce = UUID.randomUUID().toString();
+		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
+			clientSecret, expectedNonce);
+
+		SelectProfilePayload selectPayload = SelectProfilePayload.create(credentials, uuid);
+
+		if (mockDelete) {
+
+			return this.mockTheKontoloeschung();
+		}
+
+		try (Response response = authproviderRestClient.deleteProfile(selectPayload)) {
+
+			LOGGER.debug("Response-Status={}", response.getStatus());
+
+			ResponsePayload responsePayload = response.readEntity(ResponsePayload.class);
+			String nonce = responsePayload.getData() == null ? null : responsePayload.getData().toString();
+
+			if (!expectedNonce.equals(nonce)) {
+
+				LOGGER.warn(LogmessagePrefixes.BOT + "angefragter Endpoint hat das nonce geändert: expected={}, actual={}",
+					expectedNonce, nonce);
+
+				throw new ProfilAPIRuntimeException(
+					"Statt authprovider wurde offenbar ein evil endpoint erreicht, der das nonce gefresen hat.");
+
+			}
+
+			MessagePayload messagePayload = MessagePayload.info("Ihr Benutzerkonto wurde erfolgreich gelöscht.");
+			return Response.ok(messagePayload).build();
+
+		} catch (CommunicationException e) {
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der ProfilAPIExceptionMapper dann
+			// umwandeln kann.
+
+			throw e.getExceptionToPropagate();
+		} catch (ProcessingException e) {
+
+			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
+			throw new ProfilAPIRuntimeException(
+				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
+		} catch (Exception e) {
+
+			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
+			throw new ProfilAPIRuntimeException(
+				"unerwarteter Fehler bei Kommunikation mit authprovider");
+		} finally {
+
+			credentials.clean();
+		}
+	}
+
+	private Response mockTheKontoloeschung() {
+
+		MessagePayload messagePayload = MessagePayload.info("Ihr Benutzerkonto wurde erfolgreich gelöscht.");
+		return Response.ok(messagePayload).build();
 	}
 
 	boolean isSecurityRelevant(final BenutzerDto alteDaten, final BenutzerDto neueDaten) {

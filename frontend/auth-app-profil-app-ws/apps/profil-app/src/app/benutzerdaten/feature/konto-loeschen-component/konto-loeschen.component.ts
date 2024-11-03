@@ -1,9 +1,11 @@
 import { AsyncPipe, CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { AuthFacade } from "@profil-app/auth/api";
 import { Router } from "@angular/router";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { FormsModule } from "@angular/forms";
+import { BenutzerdatenFacade } from "@profil-app/benutzerdaten/api";
 
 
 @Component({
@@ -15,14 +17,21 @@ import { MatIconModule } from "@angular/material/icon";
     CommonModule,
     MatButtonModule,
     MatIconModule,
+    MatCheckboxModule,
+    FormsModule,
     AsyncPipe
   ]
 })
 export class KontoLoeschenComponent {
 
-  authFacade = inject(AuthFacade);
+  benutzerdatenFacade = inject(BenutzerdatenFacade);
+  confirmed = false;
 
   #router = inject(Router);
+
+  deleteAccount() {
+    this.benutzerdatenFacade.benutzerkontoLoeschen();
+  }
 
   gotoStartseite() {
     this.#router.navigateByUrl('/home');

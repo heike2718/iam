@@ -21,6 +21,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.profil_api.domain.auth.config.AuthConstants;
 import de.egladil.web.profil_api.domain.exceptions.ProfilAPIRuntimeException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Cookie;
@@ -33,13 +34,9 @@ public final class SessionUtils {
 
 	public static final String ANONYME_UUID = "Anonym";
 
-	// Wichtig: der Name des SessionCookies muss mit JSESSIONID beginnen!!!
-	// Außerdem müssen die Requests vom frontend das Attribut withCredentials: true haben (Angular - Intercepror!)
-	public static final String SESSION_COOKIE_NAME = "JSESSIONID_PROFIL_API";
+	private static final String DEFAULT_ENCODING = "UTF-8";
 
 	private static final String SESSION_ID_HEADER = "X-SESSIONID";
-
-	private static final String DEFAULT_ENCODING = "UTF-8";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SessionUtils.class);
 
@@ -85,32 +82,16 @@ public final class SessionUtils {
 
 	}
 
-	public static NewCookie createSessionCookie(final String sessionId, final boolean cookiesSecure) {
+	public static NewCookie createCookie(final String cookieName, final String cookieValue, final boolean cookiesSecure, final boolean httpOnly) {
 
-		// @formatter:off
-		return new NewCookie.Builder(SESSION_COOKIE_NAME)
-			.value(sessionId)
+		return new NewCookie.Builder(cookieName)
+			.value(cookieValue)
 			.path("/")
 			.domain(null)
 			.comment(null)
 			.maxAge(360000) // maximum age of the cookie in seconds
-			.httpOnly(true)
+			.httpOnly(httpOnly)
 			.secure(cookiesSecure).build();
-		// @formatter:on
-	}
-
-	public static NewCookie createSessionInvalidatedCookie(final boolean cookiesSecure) {
-
-		long dateInThePast = LocalDateTime.now(ZoneId.systemDefault()).minus(10, ChronoUnit.YEARS).toEpochSecond(ZoneOffset.UTC);
-
-		// @formatter:off
-		return new NewCookie.Builder(SESSION_COOKIE_NAME)
-			.maxAge(0) // maximum age of the cookie in seconds
-			.expiry(new Date(dateInThePast))
-			.version(1)
-			.httpOnly(true)
-			.secure(cookiesSecure).build();
-			// @formatter:on
 	}
 
 	public static String getSessionId(final ContainerRequestContext requestContext, final String stage) {
@@ -159,7 +140,7 @@ public final class SessionUtils {
 
 		Map<String, Cookie> cookies = requestContext.getCookies();
 
-		Cookie sessionCookie = cookies.get(SESSION_COOKIE_NAME);
+		Cookie sessionCookie = cookies.get(AuthConstants.SESSION_COOKIE_NAME);
 
 		if (sessionCookie != null) {
 
@@ -167,8 +148,45 @@ public final class SessionUtils {
 		}
 
 		String path = requestContext.getUriInfo().getPath();
-		LOGGER.debug("{}: Request ohne {}-Cookie", path, SESSION_COOKIE_NAME);
+		LOGGER.debug("{}: Request ohne {}-Cookie", path, AuthConstants.SESSION_COOKIE_NAME);
 
 		return null;
+	}
+
+	/**
+	 * @param  requestContext
+	 * @param  clientPrefix
+	 * @return                String oder null
+	 */
+	public static String getXsrfTokenFromCookie(final ContainerRequestContext requestContext) {
+
+		Map<String, Cookie> cookies = requestContext.getCookies();
+
+		Cookie csrfTokenCookie = cookies.get(AuthConstants.CSRF_TOKEN_COOKIE_NAME);
+
+		if (csrfTokenCookie != null) {
+
+			return csrfTokenCookie.getValue();
+		}
+
+		String path = requestContext.getUriInfo().getPath();
+		LOGGER.debug("{}: Request ohne {}-Cookie", path, AuthConstants.CSRF_TOKEN_COOKIE_NAME);
+
+		return null;
+	}
+
+	public static NewCookie createInvalidatedCookie(final String cookieName, final boolean cookiesSecure) {
+
+		long dateInThePast = LocalDateTime.now(ZoneId.systemDefault()).minus(10, ChronoUnit.YEARS).toEpochSecond(ZoneOffset.UTC);
+
+		return new NewCookie.Builder(cookieName)
+			.value("")
+			.path("/")
+			.maxAge(0) // maximum age of the cookie in seconds
+			.expiry(new Date(dateInThePast))
+			.version(1)
+			.httpOnly(true)
+			.secure(cookiesSecure).build();
+
 	}
 }

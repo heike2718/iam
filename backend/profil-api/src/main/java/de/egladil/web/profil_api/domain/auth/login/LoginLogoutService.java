@@ -13,13 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.profil_api.domain.auth.clientauth.OAuthClientCredentialsProvider;
+import de.egladil.web.profil_api.domain.auth.config.AuthConstants;
 import de.egladil.web.profil_api.domain.auth.dto.AuthResult;
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.profil_api.domain.auth.dto.OAuthClientCredentials;
+import de.egladil.web.profil_api.domain.auth.session.CsrfCookieService;
 import de.egladil.web.profil_api.domain.auth.session.Session;
 import de.egladil.web.profil_api.domain.auth.session.SessionService;
 import de.egladil.web.profil_api.domain.auth.session.SessionUtils;
-import de.egladil.web.profil_api.domain.auth.util.CsrfCookieService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
@@ -87,7 +88,14 @@ public class LoginLogoutService {
 				.build();
 		}
 
-		NewCookie sessionCookie = SessionUtils.createSessionCookie(session.getSessionId(), cookiesSecure);
+		NewCookie sessionCookie = SessionUtils.createCookie(AuthConstants.SESSION_COOKIE_NAME, session.getSessionId(),
+			cookiesSecure, true);
+
+		// httpOnly mus hier nicht true sein, da das CSRF-Token in der Session gespeichert wird.
+		// Die andere Variante wäre, im Frontend withXsrfConfiguration zu verwenden und den CsrfTokenValidationFilter so zu
+		// implementieren, dass er nur den wert des XSRF-TOKEN.Cookies mit dem des X-XSRF-TOKEN-Headers vergleicht.
+		NewCookie xsrfTokenCookie = SessionUtils.createCookie(AuthConstants.CSRF_TOKEN_COOKIE_NAME, session.getXsrfToken(),
+			cookiesSecure, false);
 
 		if (!STAGE_DEV.equals(stage)) {
 
@@ -96,31 +104,21 @@ public class LoginLogoutService {
 
 		LOGGER.debug("session created for user {}", StringUtils.abbreviate(session.getUser().getName(), 11));
 
-		return Response.ok(session).cookie(csrfCookieService.createCsrfTokenCookie()).cookie(sessionCookie).build();
+		return Response.ok(session).cookie(xsrfTokenCookie).cookie(sessionCookie).build();
 	}
 
 	public Response logout(final String sessionId) {
 
 		this.sessionService.invalidateSession(sessionId);
 
-		NewCookie invalidatedSessionCookie = SessionUtils.createSessionInvalidatedCookie(cookiesSecure);
+		NewCookie invalidatedSessionCookie = SessionUtils.createInvalidatedCookie(AuthConstants.SESSION_COOKIE_NAME, cookiesSecure);
+		NewCookie invalidatedXsrfTokenCookie = SessionUtils.createInvalidatedCookie(AuthConstants.CSRF_TOKEN_COOKIE_NAME,
+			cookiesSecure);
 
-		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(csrfCookieService.createCsrfTokenCookie())
+		LOGGER.info("sessionCookieValue={}, xsrfTokenCookie={}", invalidatedSessionCookie.getValue(),
+			invalidatedXsrfTokenCookie.getValue());
+
+		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(invalidatedXsrfTokenCookie)
 			.cookie(invalidatedSessionCookie).build();
-	}
-
-	public Response logoutDev(final String sessionId) {
-
-		this.sessionService.invalidateSession(sessionId);
-
-		if (!STAGE_DEV.equals(stage)) {
-
-			LOGGER.warn("stage={}" + stage);
-			return Response.status(401)
-				.entity(MessagePayload.error("böse böse. Dieser Request wurde geloggt!"))
-				.cookie(SessionUtils.createSessionInvalidatedCookie(cookiesSecure)).build();
-		}
-
-		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).build();
 	}
 }

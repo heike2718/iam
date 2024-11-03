@@ -59,8 +59,12 @@ public class DeleteAccountService {
 
 			sendInfoMailQuietly(resourceOwner);
 
+			String nonce = selectProfilePayload.getClientCredentials().getNonce();
+
+			LOG.info(">>>>> nonce={}", nonce);
+
 			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.info("Benutzerkonto gelöscht"),
-				selectProfilePayload.getClientCredentials().getNonce());
+				nonce);
 
 			return Response.ok(responsePayload).build();
 		}

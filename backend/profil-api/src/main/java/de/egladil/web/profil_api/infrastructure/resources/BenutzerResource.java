@@ -47,7 +47,7 @@ public class BenutzerResource {
 	@Authenticated
 	public Response kontoLoeschen() {
 
-		return Response.ok().build();
+		return benutzerService.kontoLoeschen();
 	}
 
 }
