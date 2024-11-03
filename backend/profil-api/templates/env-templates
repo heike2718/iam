@@ -5,24 +5,28 @@ QUARKUS_HTTP_PORT=10600
 
 TARGET_ORIGIN=localhost:4300,localhost:4400,localhost:10600
 
-AUTH_APP_URL=http://heiketux:80/auth-app
 PUBLIC-CLIENT-ID=T73...
 PUBLIC-CLIENT-SECRET=start123
 
 CSRF_ENABLED=false
 MOCK_KONTOLOESCHUNG = true
 
-
 #=================================================================#
-#        Redirect URL                                             #
+#        auth-app und Redirect URLs                               #
 #=================================================================#
+#AUTH_APP_URL=http://localhost:4300
 #PUBLIC_REDIRECT_URL=http://localhost:4400
+
+AUTH_APP_URL=http://heiketux:80/auth-app
 PUBLIC_REDIRECT_URL=http://localhost:10600/profil-app
 
 #=================================================================#
 #        REST-Clients                                             #
 #=================================================================#
-QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000/authprovider
+QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000
+#QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:10000
+
+QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4300,http://localhost:4400,http://localhost:10600
 
 QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4300,http://localhost:4400,http://localhost:10600
 

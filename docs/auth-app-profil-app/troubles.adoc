@@ -1,1 +1,38 @@
 == troubles
+
+=== irgendwann hörte profil-app auf zu bauen
+
+Fehlermeldungen sahen irgendwie so aus:
+
+[src,cli]
+----
+Compiling TypeScript files for project "messages-ui"...
+libs/common-model/src/index.ts:1:15 - error TS6059: File '/home/heike/git/authenticationprovider/frontend/auth-app-profil-app-ws/libs/common-model/src/lib/common.model.ts' is not under 'rootDir' '/home/heike/git/authenticationprovider/frontend/auth-app-profil-app-ws/libs/messages/ui'. 'rootDir' is expected to contain all source files.
+----
+
+Das deutet immer darauf hin, dass mit den nx-config-Files etwas nicht in Ordnung ist.
+
+Ich habe also auf 2 verschiedenen Ebenen neue nx/js-Libraries generiert, um die config-files zu vergleichen:
+
+[src,cli]
+----
+npx nx generate @nx/js:library --name=common-foo --bundler=tsc --directory=libs/common-foo --importPath=@ap-ws/common-foo --tags=shared,type:utils --import-path=@ap-ws/foo/api --minimal=true --unitTestRunner=jest --projectNameAndRootFormat=as-provided --dry-run
+----
+
+[src,cli]
+----
+npx nx generate @nx/js:library --name=foo-api --bundler=tsc --directory=libs/foo/api --importPath=@ap-ws/foo/api --tags=shared,type:api --import-path=@ap-ws/foo/api --minimal=true --unitTestRunner=jest --projectNameAndRootFormat=as-provided --dry-run
+----
+
+In fast allen libs (außer dem mit dem angular-lib-schematic generierten) fehlte die package.json-Datei. Außerdem fehlte in den project.json-Files das build-target.
+
+Manuelles Anpassen der config-files hat geholfen, war aber sehr mühsam.
+
+**Hinweis**
+
+alle Options für npx nx generate @nx/js:library bekommt man ganz klassisch mittels
+
+[src,cli]
+----
+npx nx generate @nx/js:library --help
+----

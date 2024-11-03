@@ -2,19 +2,25 @@
   "name": "messages-ui",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/messages/ui/src",
-  "prefix": "auth",
   "projectType": "library",
   "tags": ["shared", "type:ui"],
   "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/messages/ui",
+        "main": "libs/messages/ui/src/index.ts",
+        "tsConfig": "libs/messages/ui/tsconfig.lib.json",
+        "assets": []
+      }
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "libs/messages/ui/jest.config.ts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }
