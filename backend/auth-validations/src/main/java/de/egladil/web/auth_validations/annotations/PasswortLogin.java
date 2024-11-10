@@ -32,7 +32,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = { PasswortLoginValidator.class })
 public @interface PasswortLogin {
 
-	String message() default "Das Passwort enthält ungültige Zeichen.";
+	String message() default "{de.egladil.constraints.passwort.login}";
 
 	Class<?>[] groups() default {};
 

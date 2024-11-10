@@ -14,6 +14,9 @@
         @if (benutzerForm.get('loginName')?.hasError('maxlength')) {
         <mat-error>Der Login-Name darf maximal 255 Zeichen lang sein.</mat-error>
         }
+        @if (benutzerForm.get('loginName')?.hasError('pattern')) {
+        <mat-error>Login-Name ungültig. {{validationErrorLoginName}}</mat-error>
+        }
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -41,6 +44,9 @@
         @if (benutzerForm.get('vorname')?.hasError('maxlength')) {
         <mat-error>Der Vorname darf maximal 100 Zeichen lang sein.</mat-error>
         }
+        @if (benutzerForm.get('vorname')?.hasError('pattern')) {
+        <mat-error>{{validationErrorNamen}}</mat-error>
+        }
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -52,6 +58,9 @@
         }
         @if (benutzerForm.get('nachname')?.hasError('maxlength')) {
         <mat-error>Der Nachname darf maximal 100 Zeichen lang sein.</mat-error>
+        }
+        @if (benutzerForm.get('nachname')?.hasError('pattern')) {
+        <mat-error>{{validationErrorNamen}}</mat-error>
         }
     </mat-form-field>
 

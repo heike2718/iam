@@ -10,10 +10,11 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import de.egladil.web.auth_validations.IValidationMessages;
 import de.egladil.web.auth_validations.annotations.InputSecured;
 import de.egladil.web.auth_validations.annotations.LoginName;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -24,26 +25,26 @@ public class BenutzerDto {
 
 	@JsonProperty
 	@LoginName
-	@NotNull
-	@Size(min = 1, max = 255)
+	@NotBlank(message = "Der Login-Name ist erforderlich.")
+	@Size(max = 255, message = "Der Login-Name ist zu lang (maximal {max} Zeichen).")
 	private String loginName;
 
 	@JsonProperty
 	@Email
-	@NotNull
-	@Size(min = 1, max = 255)
+	@NotBlank(message = "Die Mailadresse ist erforderlich.")
+	@Size(max = 255, message = "Die Maildresse ist zu lang (maximal {max} Zeichen).")
 	private String email;
 
 	@JsonProperty
-	@InputSecured
-	@NotNull
-	@Size(min = 1, max = 100)
+	@InputSecured(message = "Der Vorname enthält ungültige Zeichen. " + IValidationMessages.INPUT_SECURED_ERLAUBTE_ZEICHEN)
+	@NotBlank(message = "Der Vorname ist erforderlich.")
+	@Size(max = 100, message = "Der Vorname ist zu lang (maximal {max} Zeichen).")
 	private String vorname;
 
 	@JsonProperty
-	@InputSecured
-	@NotNull
-	@Size(min = 1, max = 100)
+	@InputSecured(message = "Der Nachname enthält ungültige Zeichen. " + IValidationMessages.INPUT_SECURED_ERLAUBTE_ZEICHEN)
+	@NotBlank(message = "Der Nachname ist erforderlich.")
+	@Size(max = 100, message = "Der Nachname ist zu lang (maximal {max} Zeichen).")
 	private String nachname;
 
 	/**

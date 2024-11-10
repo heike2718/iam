@@ -29,7 +29,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = { LoginNameValidator.class })
 public @interface LoginName {
 
-	String message() default "{de.egladil.constraints.username}";
+	String message() default "Der Login-Name enthält ungültige Zeichen. Erlaubt sind die Buchstaben A-Z und a-z, die Ziffern 0-9, Leerzeichen und die Sonderzeichen @ ! # $ % & ' * + - / = ? ^ _ . ` { | } ~ .";
 
 	Class<?>[] groups() default {};
 

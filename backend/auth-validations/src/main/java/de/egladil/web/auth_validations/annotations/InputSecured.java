@@ -15,6 +15,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import de.egladil.web.auth_validations.IValidationMessages;
 import de.egladil.web.auth_validations.InputSecuredValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -29,7 +30,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = { InputSecuredValidator.class })
 public @interface InputSecured {
 
-	String message() default "{de.egladil.constraints.invalidChars}";
+	String message() default "Eingabe ungültig. " + IValidationMessages.INPUT_SECURED_ERLAUBTE_ZEICHEN;
 
 	Class<?>[] groups() default {};
 

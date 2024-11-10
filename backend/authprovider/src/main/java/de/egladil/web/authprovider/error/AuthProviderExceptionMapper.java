@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.auth_validations.exceptions.InvalidInputException;
 import de.egladil.web.authprovider.dao.impl.PersistenceExceptionMapper;
 import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.commons_net.exception.SessionExpiredException;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.RollbackException;
@@ -50,28 +51,31 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 				LOGGER.warn(LogmessagePrefixes.BOT + exceptionMessage, exception);
 			}
 			return Response.status(Status.FORBIDDEN)
-				.entity(MessagePayload.error("Netter Versuch, klappt aber nicht.")).build();
+				.entity(ResponsePayload.messageOnly(MessagePayload.error("Netter Versuch, klappt aber nicht."))).build();
 		}
 
 		if (exception instanceof SessionExpiredException) {
 
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.warn(exceptionMessage));
 			return Response.status(908)
 				.header("X-Auth-Error", "SessionExpired")
-				.entity(MessagePayload.warn(exceptionMessage))
+				.entity(payload)
 				.build();
 		}
 
 		if (exception instanceof NotFoundException) {
 
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error("Not Found"));
 			return Response.status(404)
-				.entity(MessagePayload.error("Not Found"))
+				.entity(payload)
 				.build();
 		}
 
 		if (exception instanceof AccountDeactivatedException) {
 
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
 			return Response.status(401)
-				.entity(MessagePayload.error(exceptionMessage))
+				.entity(payload)
 				.build();
 		}
 
@@ -84,25 +88,28 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 				LOGGER.warn("Das client access token {} ist unterwegs verlorengegangen. redirectUrl={}",
 					ex.getClientCredentials().getAccessToken(), ex.getClientCredentials().getRedirectUrl());
 
+				ResponsePayload payload = new ResponsePayload(MessagePayload.error("Ups, da ist etwas schiefgegangen"),
+					ex.getClientCredentials().getRedirectUrl());
 				return Response.status(904)
-					.entity(MessagePayload
-						.error("Ups, da ist etwas schiefgegangen: redirectUrl=" + ex.getClientCredentials().getRedirectUrl()))
+					.entity(payload)
 					.build();
 			} else {
 
 				LOGGER.error(ex.getMessage());
+				ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error("Fehler beim Holen der ClientDaten"));
 				return Response.serverError()
 					.header("X-Auth-Error", "Serverfehler")
-					.entity(MessagePayload.error("Fehler beim Holen der ClientDaten"))
+					.entity(payload)
 					.build();
 			}
 		}
 
 		if (exception instanceof AuthException) {
 
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
 			LOGGER.warn("{}: {}", exception.getClass().getSimpleName(), exceptionMessage);
 			return Response.status(401)
-				.entity(MessagePayload.error(exceptionMessage))
+				.entity(payload)
 				.build();
 		}
 
@@ -134,11 +141,9 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof InvalidInputException) {
 
-			InvalidInputException invalidInputException = (InvalidInputException) exception;
-			// wurde schon geloggt.
 			return Response.status(400)
 				.header("X-Auth-Error", "ungültige Eingaben")
-				.entity(MessagePayload.error(invalidInputException.getMessage()))
+				.entity(ResponsePayload.messageOnly(MessagePayload.error(exception.getMessage())))
 				.build();
 		}
 
@@ -147,7 +152,8 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 			// wurde schon geloggt
 			return Response.serverError()
 				.header("X-Auth-Error", "Serverfehler")
-				.entity(MessagePayload.error(generalError))
+				.entity(ResponsePayload.messageOnly(MessagePayload
+					.error(generalError)))
 				.build();
 		}
 
@@ -155,46 +161,49 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 			// wurde schon geloggt.
 
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(generalError));
 			return Response.serverError()
 				.header("X-Auth-Error", generalError)
-				.entity(MessagePayload.error(generalError))
+				.entity(payload)
 				.build();
 		}
 
 		if (exception instanceof PropagationFailedException) {
 
 			// wurde schon geloggt
+			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
 			return Response.serverError()
 				.header("X-Auth-Error", exceptionMessage)
-				.entity(MessagePayload.error(exceptionMessage))
+				.entity(payload)
 				.build();
 
 		}
 
 		LOGGER.error(exceptionMessage, exception);
 
+		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(generalError));
 		return Response.serverError()
 			.header("X-Auth-Error", "Serverfehler")
-			.entity(MessagePayload.error(generalError))
+			.entity(payload)
 			.build();
 	}
 
 	private Response handleConcurrentUpdateException(final ConcurrentUpdateException e) {
 
+		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload
+			.error("Es ist ein Fehler aufgetreten. Bitte Klicken Sie 'abbrechen' und wiederholen Sie Ihre Änderungen."));
 		return Response.status(409)
 			.header("X-Auth-Error", "concurrent update please reload")
-			.entity(MessagePayload
-				.error("Es ist ein Fehler aufgetreten. Bitte Klicken Sie 'abbrechen' und wiederholen Sie Ihre Änderungen."))
+			.entity(payload)
 			.build();
 	}
 
 	private Response handleDuplicateEntityException(final DuplicateEntityException e) {
 
-		LOGGER.error("fangen die DuplicateEntityException mit message={}", e.getMessage());
-
+		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.warn(e.getMessage()));
 		return Response.status(412)
 			.header("X-Auth-Error", "resource exists")
-			.entity(MessagePayload.warn(e.getMessage()))
+			.entity(payload)
 			.build();
 	}
 }

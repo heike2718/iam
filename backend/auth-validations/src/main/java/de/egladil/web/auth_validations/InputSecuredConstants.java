@@ -69,13 +69,16 @@ public interface InputSecuredConstants {
 
 	String DIGITS = "0123456789";
 
-	/** nur inkritische Sonderzeichen */
-	String SPECIALS = " \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\^|~°";
+	String SPECIAL_CHARS_FOR_MESSAGE = "!#$%&()*+,-./:;=?@^_``{|}[]~°";
+
+	/** nur unkritische Sonderzeichen */
+	/** !#$%&)(*+,-./:;=?@\]\[\^ _`'{|}~° */
+	String SPECIALS_REGEXP = "!#$%&)(*+,-./:;=?@\\]\\[\\^ _`'{|}~°";
 
 	/**
 	 * Alle Buchstaben und diakritischen Zeichen aus StringLatin, alle Ziffern, Leerzeichen, Minus, Unterstrich, Punkt, Komma,
-	 * Apostrophe
+	 * Apostrophe, Leerzeichen, aber keine Zeilenumbrüche! Keine aufeinanderfolgenden Punkte, um ../ auszuschließen?
 	 */
-	String INPUT_SECURED_WHITELIST = "[" + LATIN + DIACRITICS + DIGITS + SPECIALS + "]*";
+	String INPUT_SECURED_WHITELIST = "^(?!.*\\.\\.)[" + LATIN + DIACRITICS + DIGITS + SPECIALS_REGEXP + " " + "]*$";
 
 }

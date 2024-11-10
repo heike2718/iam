@@ -7,6 +7,7 @@ import { Message } from "@ap-ws/common-model";
 import { Session } from "apps/profil-app/src/app/auth/model";
 import { Router } from '@angular/router';
 import { BenutzerdatenFacade } from "@profil-app/benutzerdaten/api";
+import { MessageService } from "@ap-ws/messages/api";
 
 
 @Injectable({
@@ -18,6 +19,7 @@ export class AuthEffects {
     #authHttpService = inject(AuthHttpService);
     #router = inject(Router);
     #benutzerdatenFacade = inject(BenutzerdatenFacade);
+    #messageService = inject(MessageService);
 
     requestLoginUrl$ = createEffect(() => {
 
@@ -65,6 +67,7 @@ export class AuthEffects {
             tap(() => {
                 this.#benutzerdatenFacade.handleLogout();
                 this.#router.navigateByUrl('/');
+                this.#messageService.clearMessage();
             })
         ), { dispatch: false });
 

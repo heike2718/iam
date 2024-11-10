@@ -167,19 +167,19 @@ components:
       properties:
         loginName:
           maxLength: 255
-          minLength: 1
+          pattern: \S
           type: string
         email:
           maxLength: 255
-          minLength: 1
+          pattern: \S
           type: string
         vorname:
           maxLength: 100
-          minLength: 1
+          pattern: \S
           type: string
         nachname:
           maxLength: 100
-          minLength: 1
+          pattern: \S
           type: string
     MessagePayload:
       description: eine kategorisierte Meldung

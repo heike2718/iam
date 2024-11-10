@@ -184,4 +184,8 @@ label {
         margin-right: 5px;
         grid-gap: 1rem;
     }
+
+    mat-form-field {
+        margin: 0 0 3em 0; /* Adds margin-bottom */
+    }
 }

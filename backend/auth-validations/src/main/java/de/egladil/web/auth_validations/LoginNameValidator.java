@@ -11,7 +11,7 @@ import de.egladil.web.auth_validations.annotations.LoginName;
  */
 public class LoginNameValidator extends AbstractWhitelistValidator<LoginName, String> {
 
-	private static final String REGEXP = "[\\w\\.\\-@ äöüÄÖÜß_!;,]*";
+	private static final String REGEXP = "^(?!.*\\.\\.)[a-zA-Z0-9.!#$%&'*+/=?\\^_`{|}~ @-]*$";
 
 	@Override
 	protected String getWhitelist() {
