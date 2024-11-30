@@ -7,3 +7,4 @@ log/
 ObjectStore/
 .env
 src/main/resources/META-INF/resources/profil-app/
+*.iml
