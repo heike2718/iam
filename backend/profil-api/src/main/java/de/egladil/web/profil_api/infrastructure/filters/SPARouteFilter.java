@@ -21,7 +21,7 @@ public class SPARouteFilter {
 
 	private static final Predicate<String> FILE_NAME_PREDICATE = Pattern.compile(".*[.][a-zA-Z\\d]+").asMatchPredicate();
 
-	private static final String API_PREFIX = "/profil-app/";
+	private static final String API_PREFIX = "/profil-api/";
 
 	private static final String APP_PLUS_API_PREFIX = "/profil-app" + API_PREFIX;
 
