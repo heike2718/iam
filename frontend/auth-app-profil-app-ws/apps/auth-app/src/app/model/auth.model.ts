@@ -52,8 +52,11 @@ export interface RegistrationCredentials {
 
 export interface TempPasswordCredentials {
     email: string;
-    clientCredentials: ClientCredentials;
     kleber: string;
+}
+
+export interface TempPasswordResponseDto {
+    readonly message: string;
 }
 
 export interface ChangeTempPasswordPayload {

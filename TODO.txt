@@ -1,3 +1,13 @@
+Stand 01.12.2024
+
+- auth-app: forgot-password-component ist erstmal fertig, aber noch mit der Standardmessage und ausblenden der form nachdem die response da ist. 
+- besser wäre, einen Dialog anzuzeigen und anschließend auf die startseite zu navigieren.
+
+- noch offen:
+  - change one time password
+  - subsription form
+
+
 Stand 23.09.2024
 
 - Sortierung der Mailversandaufträge springt: Sortierung ändern auf ERFASST_AM. Danach wird bereits sortiert, aber nur im backend. Im frontend muss für neue Versandauftraege entweder alles nochmal geladen werden, oder der neue muss an den Anfang der Schlange gesetzt werden, damit er ganz oben steht.

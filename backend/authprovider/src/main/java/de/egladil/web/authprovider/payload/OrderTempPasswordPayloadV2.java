@@ -4,25 +4,20 @@
 // =====================================================
 package de.egladil.web.authprovider.payload;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.egladil.web.auth_validations.annotations.Honeypot;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * OrderTempPasswordCredentials
+ * OrderTempPasswordPayloadV2
  */
-public class OrderTempPasswordPayload {
+public class OrderTempPasswordPayloadV2 {
 
 	@NotNull
 	@Email
 	@Size(min = 1, max = 255)
 	private String email;
-
-	@JsonProperty
-	private ClientCredentials clientCredentials;
 
 	@Honeypot(message = "")
 	private String kleber;
@@ -45,22 +40,6 @@ public class OrderTempPasswordPayload {
 	public void setKleber(final String kleber) {
 
 		this.kleber = kleber;
-	}
-
-	public ClientCredentials getClientCredentials() {
-
-		return clientCredentials;
-	}
-
-	public void setClientCredentials(final ClientCredentials clientCredentials) {
-
-		this.clientCredentials = clientCredentials;
-	}
-
-	@Override
-	public String toString() {
-
-		return "OrderTempPasswordPayload [email=" + email + ", clientCredentials=" + clientCredentials + "]";
 	}
 
 }

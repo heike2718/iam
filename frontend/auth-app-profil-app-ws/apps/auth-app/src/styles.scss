@@ -10,17 +10,19 @@ body {
     height: 100%;
 }
 
+/**
+* trick, um aus der Reihe tanzende components zu sehen - horizontaler scrollbar
+**/
+/*
+* {
+    outline: 1px solid red;
+}
+    */
+
+
 a,
 .link {
     color: #4e709a;
-    text-decoration: none;
-}
-
-a:focus {
-    text-decoration: none;
-    outline: none;
-    box-shadow: 0 0 3px 2px black;
-    padding: 5px;
 }
 
 .centered {
@@ -116,20 +118,35 @@ mat-icon .clickable {
     box-sizing: border-box;
 }
 
-mat-form-field+mat-form-field {
-    margin-left: 8px;
-}
-
+/* Container styles for the form using CSS Grid */
 form {
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Single-column layout; adjust for multi-column as needed */
+    gap: 16px;
+    /* Space between rows and columns */
+    max-width: 100%;
+    /* Ensures form fits within the viewport */
 }
 
-form>* {
-    margin: 12px 0;
+/* Default styling for mat-form-field elements */
+mat-form-field {
+    margin: 0;
+    /* Reset margin */
+    width: 100%;
+    /* Full width of the grid column */
+    box-sizing: border-box;
+    /* Ensures padding and border are included in width/height */
 }
 
 .mat-radio-button {
     margin: 0 12px;
+}
+
+.helper-text {
+    color: #747474;
+    /* Default color */
+    font-size: 0.9em;
 }
 
 .auth-form {
@@ -155,6 +172,10 @@ label {
     font-weight: bold;
 }
 
+.kleber {
+	position: fixed;
+	left: -1000px;
+}
 
 @media (max-width: 600px) {
 
@@ -164,7 +185,12 @@ label {
         grid-template-columns: 1fr;
         /* Stack buttons in a single column */
         align-items: center;
-        margin-left: 2rem;
-        grid-gap: 2rem;
+        margin-left: 5px;
+        margin-right: 5px;
+        grid-gap: 1rem;
+    }
+
+    mat-form-field {
+        margin: 0 0 3em 0; /* Adds margin-bottom */
     }
 }

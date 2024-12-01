@@ -9,10 +9,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.NotFoundException;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +24,9 @@ import de.egladil.web.authprovider.utils.AuthUtils;
 import de.egladil.web.commons_crypto.CryptoService;
 import de.egladil.web.commons_net.time.CommonTimeUtils;
 import de.egladil.web.commons_net.time.TimeInterval;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
 
 /**
  * TempPasswordService
@@ -65,6 +64,7 @@ public class CreateTempPasswordService {
 	 *                           OrderTempPasswordPayload
 	 * @throws NotFoundException
 	 */
+	@Deprecated(forRemoval = true)
 	public void orderTempPassword(final String email, final Client client) throws NotFoundException {
 
 		if (email == null) {
@@ -107,6 +107,62 @@ public class CreateTempPasswordService {
 		tempPassword.setTokenId(tokenId);
 		tempPassword.setResourceOwner(optUser.get());
 		tempPassword.setClient(client);
+
+		TempPassword persisted = tempPasswordDao.save(tempPassword);
+		mailService.versendeTempPasswordMail(email, persisted);
+
+		LOG.debug("temp password ordered for {}", optUser.get());
+	}
+
+	/**
+	 * Erzeugt eine TempPassword-Entity mit einem expireDate und versendet asynchron eine Mail an die gegebene
+	 * Mailadresse, sofern diese gültig ist.
+	 *
+	 * @param  payload
+	 *                           OrderTempPasswordPayload
+	 * @throws NotFoundException
+	 */
+	public void orderTempPasswordV2(final String email) throws NotFoundException {
+
+		if (email == null) {
+
+			throw new IllegalArgumentException("email null");
+		}
+
+		Optional<ResourceOwner> optUser = ressourceOwnerDao.findByEmail(email);
+
+		if (optUser.isEmpty()) {
+
+			LOG.warn("Anforderung temporäres Passwort ungekannte Mailadresse '{}'", email);
+
+			mailService.versendePasswortUnbekanntMail(email);
+
+			return;
+		}
+
+		ResourceOwner resourceOwner = optUser.get();
+
+		if (!resourceOwner.isAktiviert()) {
+
+			LOG.warn("Konto {} noch nicht aktiviert", resourceOwner);
+
+			throw new AccountDeactivatedException(applicationMessages.getString("CreateTempPwd.unknownOrDeactivated"));
+		}
+
+		String password = cryptoService.generateRandomString(passwordConfig.getRandomAlgorithm(),
+			passwordConfig.getTempPwdLength(), passwordConfig.getTempPwdCharPool().toCharArray());
+
+		String tokenId = AuthUtils.newTokenId();
+
+		int expirationMinutes = Integer.valueOf(tempPasswordExpireMinutes);
+		TimeInterval timeInterval = CommonTimeUtils.getInterval(CommonTimeUtils.now(), expirationMinutes,
+			ChronoUnit.MINUTES);
+
+		TempPassword tempPassword = new TempPassword();
+		tempPassword.setExpiresAt(timeInterval.getEndTime());
+		tempPassword.setPassword(password);
+		tempPassword.setTokenId(tokenId);
+		tempPassword.setResourceOwner(optUser.get());
 
 		TempPassword persisted = tempPasswordDao.save(tempPassword);
 		mailService.versendeTempPasswordMail(email, persisted);

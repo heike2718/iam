@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthAppConfiguration } from "../config/auth-app.configuration";
 import { Router } from "@angular/router";
-import { AuthFacade } from "@auth-app/auth/api";
 
 
 @Component({
@@ -20,7 +19,6 @@ export class HomeComponent {
 
     configuration = inject(AuthAppConfiguration);
     #router = inject(Router);
-    authFacade = inject(AuthFacade);
 
     redirectToProfilApp() {
 

@@ -57,6 +57,7 @@ public class TempPasswordResource {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@Deprecated(forRemoval = true)
 	public Response orderTempPassword(@Valid final OrderTempPasswordPayload payload) {
 
 		Client client = null;
