@@ -13,6 +13,7 @@ export class ForgotPasswordFacade {
 
     submittingForm$: Observable<boolean> = this.#store.select(fromForgotPassword.submittingForm);
     tempPasswordSuccess$: Observable<boolean> = this.#store.select(fromForgotPassword.tempPasswordSuccess);
+    tempPasswordSuccessMessage$: Observable<string | undefined> = this.#store.select(fromForgotPassword.tempPasswordSuccessMessage);
 
     public orderTempPassword(tempPasswordCredentials: TempPasswordCredentials): void {
 

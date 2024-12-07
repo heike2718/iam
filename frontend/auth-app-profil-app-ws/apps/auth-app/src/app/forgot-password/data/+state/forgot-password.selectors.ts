@@ -13,7 +13,13 @@ const tempPasswordSuccess = createSelector(
     (state) => state.tempPasswordSuccess
 )
 
+const tempPasswordSuccessMessage = createSelector(
+    selectForgotPasswordState,
+    (state) => state.tempPasswordSuccessMessage
+)
+
 export const fromForgotPassword = {
     submittingForm,
-    tempPasswordSuccess
+    tempPasswordSuccess,
+    tempPasswordSuccessMessage
 }

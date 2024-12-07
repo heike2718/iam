@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { MessageService } from '@ap-ws/messages/api';
+import { MatDialog } from "@angular/material/dialog";
+import { InfoDialogComponent } from '@ap-ws/common-ui';
 
 @Component({
   selector: 'auth-feature',
@@ -39,18 +41,23 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   kleber!: AbstractControl;
 
   #submittingForm = false;
-  // #submitSuccess = false;
 
   #subscriptions: Subscription = new Subscription();
 
-  constructor() {
+  constructor(public confirmDeleteDialog: MatDialog) {
     this.#createForm();
   }
 
   ngOnInit(): void {
 
     const submittingSubscription = this.forgotPasswordFacade.submittingForm$.subscribe((submitting) => this.#submittingForm = submitting);
+    const tempPasswordSuccessMessageSubscription = this.forgotPasswordFacade.tempPasswordSuccessMessage$.subscribe((message) => {
+      if (message) {
+        this.#showSuccessDialog(message);
+      }
+    })
     this.#subscriptions.add(submittingSubscription);
+    this.#subscriptions.add(tempPasswordSuccessMessageSubscription);
   }
 
   ngOnDestroy(): void {
@@ -79,6 +86,24 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     this.#router.navigateByUrl('/home');
   }
 
+  #showSuccessDialog(message: string) {
+
+    const dialogRef = this.confirmDeleteDialog.open(InfoDialogComponent, {
+      width: '500px',
+      disableClose: true,
+      data: {
+        title: 'Einmalpasswort versendet',
+        question: message
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.gotoStartseite();
+      }
+    });
+  }
+
   #createForm() {
     this.orderPwdForm = this.#formBuilder.group({
       email: ['', [Validators.required, Validators.maxLength(255), Validators.pattern(REG_EXP_EMAIL)]],
@@ -88,24 +113,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     this.email = this.orderPwdForm.controls['email'];
     this.kleber = this.orderPwdForm.controls['kleber'];
   }
-
-  #clearForm() {
-    setTimeout(() => {
-      console.log('Before reset:', this.orderPwdForm.get('email')?.errors);
-      this.orderPwdForm.reset();
-      console.log('After reset:', this.orderPwdForm.get('email')?.errors);
-      this.orderPwdForm.markAsPristine();
-      this.orderPwdForm.markAsUntouched();
-      // this.orderPwdForm.updateValueAndValidity();
-    }, 200);
-
-
-    // setTimeout(() => {
-    //   this.orderPwdForm.markAsPristine();
-    //   this.orderPwdForm.markAsUntouched();
-    //   this.orderPwdForm.updateValueAndValidity();
-    // }, 0);
-  };
 
   #trimAndReadFormValues(): TempPasswordCredentials {
     trimFormValues(this.orderPwdForm);

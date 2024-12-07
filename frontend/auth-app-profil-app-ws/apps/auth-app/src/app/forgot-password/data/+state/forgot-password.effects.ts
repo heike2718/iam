@@ -1,9 +1,8 @@
 import { inject, Injectable } from "@angular/core";
-import { MessageService } from "@ap-ws/messages/api";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ForgotPasswordHttpService } from "../forgot-password-http.service";
 import { forgotPasswordActions } from "./forgot-password.actions";
-import { map, switchMap, tap } from "rxjs";
+import { map, switchMap } from "rxjs";
 import { TempPasswordResponseDto } from "@auth-app/model";
 
 
@@ -14,7 +13,6 @@ export class ForgotPasswordEffects {
 
     #actions = inject(Actions);
     #httpService = inject(ForgotPasswordHttpService);
-    #messageService = inject(MessageService);
 
     loadBenutzerdaten$ = createEffect(() => {
 
@@ -24,14 +22,4 @@ export class ForgotPasswordEffects {
             map((payload: TempPasswordResponseDto) => forgotPasswordActions.tEMP_PASSWORD_SUCCESS({ payload }))
         );
     });
-
-    tempPasswordSuccess$ = createEffect(() =>
-        this.#actions.pipe(
-            ofType(forgotPasswordActions.tEMP_PASSWORD_SUCCESS),
-            tap((payload) => {
-                this.#messageService.info(payload.payload.message, false, 10000)
-
-            })
-        ), { dispatch: false })
-
 }
