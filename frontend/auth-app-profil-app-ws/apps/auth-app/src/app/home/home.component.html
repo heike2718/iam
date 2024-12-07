@@ -1,4 +1,21 @@
 <div>
+    <p>DSGVO- konformes Benutzerkonto für Angebote von "Mathe für
+        jung und alt":</p>
+
+    <ul class="info-list">
+        <li class="info-item">
+            <a href="https://mathe-jung-alt.de/mkv-app" target="_blank">Minikänguru-Anwendung - zur Organisation Ihres Minikänguru-Wettbewerbs</a>
+        </li>
+        <li class="info-item">
+            <a href="https://mathe-jung-alt.de/mja-app/" target="_blank">Anwendung "Mathe für jung und alt" mit Unterrichtsmaterial</a>
+        </li>
+    </ul>
+
+
+    <p>Informationen zum Datenschutz finden Sie hier: <a href="{{configuration.datenschutzUrl}}"
+            target="_blank">Datenschutz</a></p>
+
+
     <p>Zum Ändern Ihrer Kontodaten (Name, Vorname, Loginname, Email, Passwort) oder zum Löschen Ihres Benutzerkontos
         klicken Sie bitte auf "Kontodaten ändern". Sie werden dann in die Anwendung "Mathe-jung-alt - Benutzerprofil" umgeleitet.</p>
     <p>
@@ -8,8 +25,10 @@
     @if(configuration.production === false) {
     <p>URL Profil-App: {{configuration.profilUrl}}</p>
     }
-    <p>
+    <div class="button-container">
         <button mat-raised-button color="primary" matTooltip="Ich habe mein Passwort vergessen"
-            (click)="gotoOrderTempPassword()">Passwort vergessen</button>
-    </p>
+        (click)="gotoOrderTempPassword()">Passwort vergessen</button>
+    <a href="https://mathe-jung-alt.de/minikaenguru/anleitungen/passwort-vergessen.html" target="_blank">Anleitung
+            Passwort vergessen</a>
+    </div>
 </div>

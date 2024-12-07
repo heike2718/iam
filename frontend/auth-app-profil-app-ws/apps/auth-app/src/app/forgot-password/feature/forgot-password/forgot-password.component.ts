@@ -9,6 +9,8 @@ import { TempPasswordCredentials } from '@auth-app/model';
 import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
+import { MessageService } from '@ap-ws/messages/api';
 
 @Component({
   selector: 'auth-feature',
@@ -29,6 +31,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
   forgotPasswordFacade = inject(ForgotPasswordFacade)
   #formBuilder = inject(FormBuilder);
+  #router = inject(Router);
+  #messageService = inject(MessageService);
 
   orderPwdForm!: FormGroup;
   email!: AbstractControl;
@@ -46,10 +50,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     const submittingSubscription = this.forgotPasswordFacade.submittingForm$.subscribe((submitting) => this.#submittingForm = submitting);
-    // const tempPasswordSuccessSubscription = this.#forgotPasswordFacade.tempPasswordSuccess$.subscribe((success) => this.#submitSuccess = success);
-
     this.#subscriptions.add(submittingSubscription);
-    // this.#subscriptions.add(tempPasswordSuccessSubscription);
   }
 
   ngOnDestroy(): void {
@@ -70,12 +71,12 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
     if (this.orderPwdForm.valid) {
       const tempPasswordCredentials = this.#trimAndReadFormValues();
-      this.forgotPasswordFacade.orderTempPassword(tempPasswordCredentials);
+      this.forgotPasswordFacade.orderTempPassword(tempPasswordCredentials);       
     }
   }
 
-  cancel() {
-    this.#clearForm();
+  gotoStartseite() {
+    this.#router.navigateByUrl('/home');
   }
 
   #createForm() {

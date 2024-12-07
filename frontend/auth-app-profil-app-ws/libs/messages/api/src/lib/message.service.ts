@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Message } from "@ap-ws/common-model";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 
 @Injectable({
@@ -9,8 +9,8 @@ import { BehaviorSubject, Observable, of } from "rxjs";
 export class MessageService {
 
     #messageSubject = new BehaviorSubject<Message | undefined>(undefined);
-    #securityEvent = new BehaviorSubject<boolean>(false); 
-    
+    #securityEvent = new BehaviorSubject<boolean>(false);
+        
     message$: Observable<Message | undefined> = this.#messageSubject.asObservable();
     securityEvent$: Observable<boolean> = this.#securityEvent.asObservable();
     
