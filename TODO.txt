@@ -1,3 +1,8 @@
+Stabd 08.12.2024
+
+- forgot-passwort und change-temp-password fertig
+- login und registrieren noch offen
+
 Stand 01.12.2024
 
 - auth-app: forgot-password-component ist erstmal fertig, aber noch mit der Standardmessage und ausblenden der form nachdem die response da ist. 

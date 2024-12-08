@@ -7,11 +7,12 @@ import { environment } from '../environments/environment';
 import { AuthAppConfiguration } from './config/auth-app.configuration';
 import { provideStore } from '@ngrx/store';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { forgotPasswordDataProvider } from './forgot-password/api/forgot-password-data.provider';
+import { forgotPasswordDataProvider } from '@auth-app/forgot-password/api';
 import { LoadingInterceptor } from '@ap-ws/messages/api';
 import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
 import { ErrorHandlerService } from '@ap-ws/common-utils';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { changeTempPasswordDataProvider } from '@auth-app/change-temp-password/api';
 
 
 registerLocaleData(LOCALE_ID, 'de');
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({}),
     provideHttpClient(withInterceptorsFromDi()),
     forgotPasswordDataProvider,
+    changeTempPasswordDataProvider,
     environment.providers,
     {
       provide: AuthAppConfiguration,

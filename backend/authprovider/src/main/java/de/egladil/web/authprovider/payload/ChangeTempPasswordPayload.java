@@ -18,22 +18,22 @@ import jakarta.validation.constraints.Size;
  */
 public class ChangeTempPasswordPayload {
 
-	@NotNull
+	@NotNull(message = "tokenId ist erforderlich")
 	@UuidString
 	@Size(min = 1, max = 40)
 	private String tokenId;
 
-	@NotNull
-	@Email
+	@NotNull(message = "email ist erforderlich")
+	@Email(message = "keine gültige email")
 	@Size(min = 1, max = 255)
 	private String email;
 
-	@NotNull
+	@NotNull(message = "tempPassword ist erforderlich")
 	@UuidString
 	@Size(min = 1, max = 40)
 	private String tempPassword;
 
-	@NotNull
+	@NotNull(message = "zweiPassworte ist erforderlich")
 	@ValidPasswords
 	private ZweiPassworte zweiPassworte;
 

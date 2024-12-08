@@ -6,11 +6,6 @@ package de.egladil.web.authprovider.service.temppwd;
 
 import java.util.Optional;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.UriInfo;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +16,10 @@ import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.mail.TempPasswordUnknownMailaddressMailStrategy;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * TempPasswordMailService

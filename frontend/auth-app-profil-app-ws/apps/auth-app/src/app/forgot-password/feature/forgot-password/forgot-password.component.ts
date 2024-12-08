@@ -10,12 +10,11 @@ import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
-import { MessageService } from '@ap-ws/messages/api';
 import { MatDialog } from "@angular/material/dialog";
 import { InfoDialogComponent } from '@ap-ws/common-ui';
 
 @Component({
-  selector: 'auth-feature',
+  selector: 'auth-forgot-password',
   standalone: true,
   imports: [
     CommonModule,
@@ -34,7 +33,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   forgotPasswordFacade = inject(ForgotPasswordFacade)
   #formBuilder = inject(FormBuilder);
   #router = inject(Router);
-  #messageService = inject(MessageService);
 
   orderPwdForm!: FormGroup;
   email!: AbstractControl;

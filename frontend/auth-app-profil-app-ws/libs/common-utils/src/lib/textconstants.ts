@@ -12,6 +12,8 @@ export const REG_EXP_PASSWORT_NEU = /^(?!\s)(?=.*\d)(?=.*[a-zA-ZäÄöÖüÜß])
 
 export const REG_EXP_EMAIL = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
+export const REG_EXP_EINMALPASSWORT = /^[a-zA-Z0-9\-]*$/;
+
 export const REG_EXP_INPUT_SECURED = "^(?!.*\\.\\.)[!" + LETTERS_IN_RE + "0123456789 !#$%&\\)\\(*+,-./:;=?@\\[\\]^ _`'\\{\\|\\}~°]*$";
 
 export const REG_EXP_NACHNAME = REG_EXP_INPUT_SECURED;

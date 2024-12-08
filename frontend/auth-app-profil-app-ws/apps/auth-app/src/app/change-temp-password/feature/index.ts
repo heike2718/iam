@@ -1,0 +1,1 @@
+export { ChangeTempPasswordComponent } from './change-temp-password/change-temp-password.component';

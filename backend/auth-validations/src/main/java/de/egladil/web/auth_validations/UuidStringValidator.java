@@ -12,7 +12,7 @@ import de.egladil.web.auth_validations.annotations.UuidString;
  */
 public class UuidStringValidator extends AbstractWhitelistValidator<UuidString, String> {
 
-	private static final String REGEXP = "[a-zA-Z0-9\\-]*";
+	private static final String REGEXP = "^[a-zA-Z0-9\\-]*$";
 
 	@Override
 	protected String getWhitelist() {

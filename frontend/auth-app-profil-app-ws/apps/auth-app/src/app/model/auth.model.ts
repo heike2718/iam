@@ -1,3 +1,5 @@
+import { ZweiPassworte } from "@ap-ws/common-model";
+
 export const STORAGE_KEY_SESSION_EXPIRES_AT = 'auth_session_expires_at';
 export const STORAGE_KEY_DEV_SESSION_ID = 'auth_dev_session_id';
 export const HEADER_NAME_SESSION_ID = 'X-SESSIONID';
@@ -63,7 +65,7 @@ export interface ChangeTempPasswordPayload {
     tokenId: string;
     tempPassword: string;
     email: string;
-    twoPasswords: TwoPasswords;
+    zweiPassworte: ZweiPassworte;
 }
 
 export interface User {
