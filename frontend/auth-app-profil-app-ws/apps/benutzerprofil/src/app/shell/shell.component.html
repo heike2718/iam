@@ -1,0 +1,18 @@
+<auth-common-loader></auth-common-loader>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav role="navigation" [mode]="'over'">
+        <benutzerprofil-sidenav (sidenavClose)="sidenav.close()"></benutzerprofil-sidenav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <benutzerprofil-toolbar (sidenavToggle)="sidenav.toggle()"></benutzerprofil-toolbar>
+        <auth-common-message></auth-common-message>
+        <main>
+            <router-outlet></router-outlet>
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- wie das funktioniert: mittels #sidenav wird eine referenz auf das parent-Element mat-sidenav definiert, -->
+<!-- in dem benutzerprofil-sidenav und benutzerprofil-toolbar leben -->
+<!-- mittels EventEmitter in den child components wird die Methode zum Ein- und Ausblenden der sidenav getriggert -->
+<!-- funktioniert leider nicht vernünftig mit signals -->

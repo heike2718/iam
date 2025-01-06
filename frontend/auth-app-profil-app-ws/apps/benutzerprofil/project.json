@@ -1,0 +1,155 @@
+{
+  "name": "benutzerprofil",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "benutzerprofil",
+  "sourceRoot": "apps/benutzerprofil/src",
+  "tags": ["domain:profile", "type:app"],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/benutzerprofil",
+          "browser": ""
+        },
+        "index": "apps/benutzerprofil/src/index.html",
+        "browser": "apps/benutzerprofil/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/benutzerprofil/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/benutzerprofil/src/favicon.ico",
+          "apps/benutzerprofil/src/assets"
+        ],
+        "styles": [
+          "apps/benutzerprofil/src/styles.scss",
+          "libs/styles/theme.scss",
+          "node_modules/material-icons/iconfont/material-icons.scss"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/benutzerprofil/index.prod.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/benutzerprofil/src/environments/environment.ts",
+              "with": "build-env/benutzerprofil/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "heikeqs": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/benutzerprofil/index.heikeqs.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/benutzerprofil/src/environments/environment.ts",
+              "with": "build-env/benutzerprofil/environment.heikeqs.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "local": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/benutzerprofil/index.local.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/benutzerprofil/src/environments/environment.ts",
+              "with": "build-env/benutzerprofil/environment.local.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "benutzerprofil:build:production"
+        },
+        "development": {
+          "buildTarget": "benutzerprofil:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "benutzerprofil:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/benutzerprofil/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "benutzerprofil:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/benutzerprofil/browser",
+        "spa": true
+      }
+    }
+  }
+}

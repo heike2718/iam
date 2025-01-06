@@ -14,7 +14,7 @@ import de.egladil.web.authprovider.event.BotAttackEvent;
 import de.egladil.web.authprovider.event.BotAttackEventPayload;
 import de.egladil.web.authprovider.payload.ChangeTempPasswordPayload;
 import de.egladil.web.authprovider.payload.MessagePayload;
-import de.egladil.web.authprovider.payload.OrderTempPasswordPayloadV2;
+import de.egladil.web.authprovider.payload.OrderTempPasswordPayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.payload.TempPasswordV2ResponseDto;
 import de.egladil.web.authprovider.service.temppwd.ChangeTempPasswordService;
@@ -51,7 +51,7 @@ public class TempPasswordResource {
 	AuthproviderEventHandler eventHandler;
 
 	@POST
-	public Response orderTempPassword(@Valid final OrderTempPasswordPayloadV2 payload, @Context final UriInfo uriInfo) {
+	public Response orderTempPassword(@Valid final OrderTempPasswordPayload payload, @Context final UriInfo uriInfo) {
 
 		String kleber = payload.getKleber();
 

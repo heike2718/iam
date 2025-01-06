@@ -61,7 +61,6 @@ public class SignUpCredentials {
 	@NotNull(message = "clientCredentials ist erforderlich.")
 	private ClientCredentials clientCredentials;
 
-	// @Honeypot(message = "{general.badRequest}")
 	// keine Annotation, damit das geloggt wird!
 	private String kleber;
 

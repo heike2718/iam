@@ -1,0 +1,349 @@
+{
+  "openapi" : "3.0.3",
+  "info" : {
+    "title" : "profil-api",
+    "description" : "API für die Benutzerprofil-Anwendung",
+    "contact" : {
+      "name" : "Heike Winkelvoß",
+      "url" : "https://mathe-jung-alt.de",
+      "email" : "info@egladil.de"
+    },
+    "license" : {
+      "url" : "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "3.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:10600",
+    "description" : "Auto generated value"
+  }, {
+    "url" : "http://0.0.0.0:10600",
+    "description" : "Auto generated value"
+  } ],
+  "tags" : [ {
+    "name" : "SessionResource"
+  } ],
+  "paths" : {
+    "/api/benutzer" : {
+      "get" : {
+        "tags" : [ "Benutzer Resource" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Not Authorized"
+          },
+          "403" : {
+            "description" : "Not Allowed"
+          }
+        },
+        "security" : [ {
+          "SecurityScheme" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "Benutzer Resource" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BenutzerDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Not Authorized"
+          },
+          "403" : {
+            "description" : "Not Allowed"
+          }
+        },
+        "security" : [ {
+          "SecurityScheme" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Benutzer Resource" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Not Authorized"
+          },
+          "403" : {
+            "description" : "Not Allowed"
+          }
+        },
+        "security" : [ {
+          "SecurityScheme" : [ ]
+        } ]
+      }
+    },
+    "/api/passwort" : {
+      "put" : {
+        "tags" : [ "Passwort Resource" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PasswortPayload"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Not Authorized"
+          },
+          "403" : {
+            "description" : "Not Allowed"
+          }
+        },
+        "security" : [ {
+          "SecurityScheme" : [ ]
+        } ]
+      }
+    },
+    "/api/session/authurls/login" : {
+      "get" : {
+        "tags" : [ "SessionResource" ],
+        "summary" : "Gibt die Login-URL zurück, mit der eine Anwendung zum authprovider redirecten kann",
+        "operationId" : "getLoginUrl",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/session/login" : {
+      "post" : {
+        "tags" : [ "SessionResource" ],
+        "summary" : "Erzeugt eine Session anhand des per S2S-Kommunikation für das 'one time token' beim authprovider gekauften JWT und packt die SessionId in ein Cookie",
+        "operationId" : "login",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AuthResult"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Session"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/session/logout" : {
+      "delete" : {
+        "tags" : [ "SessionResource" ],
+        "summary" : "entfernt die Session",
+        "operationId" : "logout",
+        "parameters" : [ {
+          "name" : "JSESSIONID_PROFIL_API",
+          "in" : "cookie",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AuthResult" : {
+        "description" : "Ergebnis der Authentifizierung beim authprovider",
+        "required" : [ "nonce", "idToken" ],
+        "type" : "object",
+        "properties" : {
+          "expiresAt" : {
+            "format" : "int64",
+            "description" : "Gültigkeit des generierten Einmaltokens",
+            "type" : "integer"
+          },
+          "state" : {
+            "description" : "ein Kontext, also Login oder SignUp",
+            "type" : "string"
+          },
+          "nonce" : {
+            "description" : "für die Autorisierung generierter String, der vom authprovider unverändert zurückgegeben wird",
+            "pattern" : "\\S",
+            "type" : "string"
+          },
+          "idToken" : {
+            "description" : "Einmaltoken, mit dem sich der authprovider-Client das JWT holen kann",
+            "pattern" : "\\S",
+            "type" : "string"
+          }
+        }
+      },
+      "BenutzerDto" : {
+        "description" : "änderbare Daten eines Users",
+        "required" : [ "loginName", "email", "vorname", "nachname" ],
+        "type" : "object",
+        "properties" : {
+          "loginName" : {
+            "maxLength" : 255,
+            "pattern" : "\\S",
+            "type" : "string"
+          },
+          "email" : {
+            "maxLength" : 255,
+            "pattern" : "\\S",
+            "type" : "string"
+          },
+          "vorname" : {
+            "maxLength" : 100,
+            "pattern" : "\\S",
+            "type" : "string"
+          },
+          "nachname" : {
+            "maxLength" : 100,
+            "pattern" : "\\S",
+            "type" : "string"
+          }
+        }
+      },
+      "MessagePayload" : {
+        "description" : "eine kategorisierte Meldung",
+        "type" : "object",
+        "properties" : {
+          "level" : {
+            "description" : "Level der Message: INFO | WARN | ERROR",
+            "type" : "string"
+          },
+          "message" : {
+            "description" : "die message",
+            "type" : "string"
+          }
+        }
+      },
+      "OAuthClientCredentials" : {
+        "description" : "credentials des OAuth2-Clients beim authprovider",
+        "required" : [ "clientId", "clientSecret" ],
+        "type" : "object",
+        "properties" : {
+          "clientId" : {
+            "description" : "ID des authprovider-Clients",
+            "maxLength" : 50,
+            "pattern" : "[a-zA-Z0-9+=]*",
+            "type" : "string"
+          },
+          "clientSecret" : {
+            "description" : "secret des authprovider-Clients",
+            "maxLength" : 50,
+            "pattern" : "[a-zA-Z0-9+=]*",
+            "type" : "string"
+          },
+          "nonce" : {
+            "description" : "zur Authentifizierung des Clients generierter String, der vom authprovider unverändert zurückgegeben wird",
+            "maxLength" : 36,
+            "pattern" : "[a-zA-Z0-9\\-]*",
+            "type" : "string"
+          }
+        }
+      },
+      "PasswortPayload" : {
+        "required" : [ "passwort", "zweiPassworte" ],
+        "type" : "object",
+        "properties" : {
+          "passwort" : {
+            "maxLength" : 100,
+            "pattern" : "\\S",
+            "type" : "string"
+          },
+          "zweiPassworte" : {
+            "$ref" : "#/components/schemas/ZweiPassworte"
+          }
+        }
+      },
+      "ResponsePayload" : {
+        "description" : "generisches Response-Objekt, das ein MessagePayload und ggf. Daten enthält",
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "description" : "das MessagePayload",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MessagePayload"
+            } ]
+          },
+          "data" : {
+            "description" : "daten die als JSON mitgegeben werden. Kann null sein"
+          }
+        }
+      },
+      "Session" : {
+        "type" : "object",
+        "properties" : {
+          "sessionId" : {
+            "type" : "string"
+          },
+          "expiresAt" : {
+            "format" : "int64",
+            "type" : "integer"
+          }
+        }
+      },
+      "ZweiPassworte" : {
+        "required" : [ "passwort", "passwortWdh" ],
+        "type" : "object",
+        "properties" : {
+          "passwort" : {
+            "type" : "string"
+          },
+          "passwortWdh" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "SecurityScheme" : {
+        "type" : "http",
+        "description" : "Authentication",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}

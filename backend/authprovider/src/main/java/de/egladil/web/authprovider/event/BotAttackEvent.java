@@ -57,7 +57,7 @@ public class BotAttackEvent implements AuthproviderEvent {
 	@Override
 	public Object payload() {
 
-		return this.payload();
+		return this.payload;
 	}
 
 	@Override

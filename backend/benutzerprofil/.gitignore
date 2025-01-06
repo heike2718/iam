@@ -1,0 +1,10 @@
+target/
+.settings/
+.project
+.classpath
+/dependency-reduced-pom.xml
+log/
+ObjectStore/
+.env
+src/main/resources/META-INF/resources/benutzerprofil/
+*.iml

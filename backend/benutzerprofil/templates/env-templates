@@ -1,0 +1,38 @@
+ENV=dev
+STAGE=dev
+
+QUARKUS_HTTP_PORT=10600
+
+TARGET_ORIGIN=localhost:4300,localhost:4400,localhost:10600,localhost:10000
+
+PUBLIC-CLIENT-ID=T73...
+PUBLIC-CLIENT-SECRET=start123
+
+CSRF_ENABLED=true
+MOCK_KONTOLOESCHUNG=false
+
+#=================================================================#
+#        auth-app, Redirect URLs, REST-Client                     #
+#=================================================================#
+AUTH_APP_URL=http://localhost:4300
+PUBLIC_REDIRECT_URL=http://localhost:4400
+QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:10000
+
+#AUTH_APP_URL=http://heiketux:80/auth-app
+#PUBLIC_REDIRECT_URL=http://localhost:10600/benutzerprofil
+#QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000
+
+QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4300,http://localhost:4400,http://localhost:10600
+
+#=============================================================================================#
+#        Logging                                                                              #
+#=============================================================================================#
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_INFRASTRUCTURE_FILTERS_SPAROUTEFILTER__LEVEL=DEBUG
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_DOMAIN_AUTH_SESSION_SESSIONUTILS__LEVEL=WARN
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_INFRASTRUCTURE_CDI_AUTHENTICATIONCONTEXTIMPL__LEVEL=WARN
+
+QUARKUS_LOG_CATEGORY__ORG_JBOSS_RESTEASY_REACTIVE_CLIENT_LOGGING_DEFAULTCLIENTLOGGER__LEVEL=WARN
+
+
+QUARKUS_LOG_CATEGORY_DE_EGLADIL_WEB_PROFIL_SERVER_LEVEL=INFO
+

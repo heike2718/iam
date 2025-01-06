@@ -1,0 +1,33 @@
+@if(authFacade.userIsLoggedIn$ | async){
+<h2>Passwort ändern</h2>
+<form [formGroup]="parentForm">
+    <div class="helper-text">Erlaubte Zeichen sind {{passwortErlaubteZeichen}}</div>
+    <mat-form-field appearance="fill">
+        <mat-label>aktuelles Passwort</mat-label>
+        <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="passwort">
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()"
+            [attr.aria-label]="'zwischen Anzeige und Verstecken der Passwörter wechseln'"
+            [attr.aria-pressed]="showPassword" type="button"><mat-icon>{{ showPassword ? 'visibility_off' :
+                'visibility' }}</mat-icon>
+        </button>
+        @if(parentForm.get('passwort')?.hasError('required')){
+        <mat-error>Das aktuelle Passwort ist erforderlich</mat-error>
+        }
+        @if(parentForm.get('passwort')?.hasError('forbiddenPassword')){
+        <mat-error>Die Eingabe enthält ungültige Zeichen</mat-error>
+        }
+    </mat-form-field>
+
+    <auth-common-zwei-passworte [labelPasswort1]="'neues Passwort'" [labelPasswort2]="'neues Passwort wiederholen'"
+        (passwordChanges)="handlePasswordChanges($event)" (isValid)="handleNeuePasswoerterValidityChanges($event)">
+    </auth-common-zwei-passworte>
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="buttonSubmitDisabled()"
+            (click)="save()"><mat-icon class="nav-item">save</mat-icon>Passwort ändern</button>
+    </div>
+</form>
+
+} @else {
+<p>Bitte loggen Sie sich ein, um Ihr Passwort zu ändern.</p>
+}

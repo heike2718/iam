@@ -41,9 +41,6 @@ public class OrderTempPasswordPayloadTest {
 		// Arrange
 		OrderTempPasswordPayload payload = new OrderTempPasswordPayload();
 		payload.setEmail("zeze@egladil.de");
-		payload
-			.setClientCredentials(
-				ClientCredentials.createWithState("aJDGUQQhuHQUIWHDIQ", "localhost:4200", "guenni"));
 
 		// Act + Assert
 		System.out.println(new ObjectMapper().writeValueAsString(payload));
@@ -55,9 +52,6 @@ public class OrderTempPasswordPayloadTest {
 		// Arrange
 		OrderTempPasswordPayload payload = new OrderTempPasswordPayload();
 		payload.setEmail("zeze.egladil.de");
-		payload
-			.setClientCredentials(
-				ClientCredentials.createWithState("aJDGUQQhuHQUIWHDIQ", "localhost:4200", "guenni"));
 		payload.setKleber(" ");
 
 		// Act

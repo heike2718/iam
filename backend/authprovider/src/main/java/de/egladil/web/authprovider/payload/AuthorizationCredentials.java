@@ -4,7 +4,6 @@
 // =====================================================
 package de.egladil.web.authprovider.payload;
 
-import de.egladil.web.auth_validations.annotations.Honeypot;
 import de.egladil.web.auth_validations.annotations.LoginName;
 import de.egladil.web.auth_validations.annotations.PasswortLogin;
 import de.egladil.web.auth_validations.utils.SecUtils;
@@ -25,7 +24,7 @@ public class AuthorizationCredentials {
 	@PasswortLogin
 	private String passwort;
 
-	@Honeypot(message = "")
+	// keine Annotation, damit das geloggt wird
 	private String kleber;
 
 	/**

@@ -1,0 +1,73 @@
+<h2>Daten ändern</h2>
+<p>Die Angaben mit * sind erforderlich.</p>
+<p>Zum Login-Namen: Sie haben die Wahl zwischen Ihrer Mailadresse oder einem selbst gewählten Loginnamen. In der Regel
+    reicht die Mailadresse.</p>
+<p>Loginname und Mailadresse sind private Daten und werden in keiner Anwendung angezeigt.</p>
+<form [formGroup]="benutzerForm">
+    <mat-form-field appearance="fill">
+        <mat-label>Login-Name</mat-label>
+        <input matInput formControlName="loginName" type="text"
+            [ngClass]="{ 'invalid-field': benutzerForm.get('loginName')?.invalid && benutzerForm.get('loginName')?.touched }">
+        @if (benutzerForm.get('loginName')?.hasError('required')) {
+        <mat-error>Eine Login-Name ist erforderlich.</mat-error>
+        }
+        @if (benutzerForm.get('loginName')?.hasError('maxlength')) {
+        <mat-error>Der Login-Name darf maximal 255 Zeichen lang sein.</mat-error>
+        }
+        @if (benutzerForm.get('loginName')?.hasError('pattern')) {
+        <mat-error>Login-Name ungültig. {{validationErrorLoginName}}</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Mailadresse</mat-label>
+        <input matInput formControlName="email" type="email"
+            [ngClass]="{ 'invalid-field': benutzerForm.get('email')?.invalid && benutzerForm.get('email')?.touched }">
+        @if (benutzerForm.get('email')?.hasError('required')) {
+        <mat-error>Eine Mailadresse ist erforderlich.</mat-error>
+        }
+        @if (benutzerForm.get('email')?.hasError('email')) {
+        <mat-error>Bitte geben Sie eine gültige Mailadresse ein.</mat-error>
+        }
+        @if (benutzerForm.get('email')?.hasError('maxlength')) {
+        <mat-error>Die Mailadresse darf maximal 255 Zeichen lang sein.</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Vorname</mat-label>
+        <input matInput formControlName="vorname" type="text"
+            [ngClass]="{ 'invalid-field': benutzerForm.get('vorname')?.invalid && benutzerForm.get('vorname')?.touched }">
+        @if (benutzerForm.get('vorname')?.hasError('required')) {
+        <mat-error>Der Vorname ist erforderlich.</mat-error>
+        }
+        @if (benutzerForm.get('vorname')?.hasError('maxlength')) {
+        <mat-error>Der Vorname darf maximal 100 Zeichen lang sein.</mat-error>
+        }
+        @if (benutzerForm.get('vorname')?.hasError('pattern')) {
+        <mat-error>{{validationErrorNamen}}</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Nachname</mat-label>
+        <input matInput formControlName="nachname" type="text"
+            [ngClass]="{ 'invalid-field': benutzerForm.get('nachname')?.invalid && benutzerForm.get('nachname')?.touched }">
+        @if (benutzerForm.get('nachname')?.hasError('required')) {
+        <mat-error>Der Nachname ist erforderlich.</mat-error>
+        }
+        @if (benutzerForm.get('nachname')?.hasError('maxlength')) {
+        <mat-error>Der Nachname darf maximal 100 Zeichen lang sein.</mat-error>
+        }
+        @if (benutzerForm.get('nachname')?.hasError('pattern')) {
+        <mat-error>{{validationErrorNamen}}</mat-error>
+        }
+    </mat-form-field>
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="buttonSubmitDisabled()"
+            (click)="save()"><mat-icon class="nav-item">save</mat-icon>speichern</button>
+        <button mat-raised-button color="secondary" type="submit" [disabled]="buttonCancelDisabled()"
+            (click)="cancel()"><mat-icon class="nav-item">close</mat-icon>abbrechen</button>
+    </div>
+</form>

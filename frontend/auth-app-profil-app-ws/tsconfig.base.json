@@ -31,26 +31,27 @@
       "@auth-app/login-signup/feature": ["apps/auth-app/src/app/login-signup/feature/index.ts"],
       "@auth-app/login-signup/model": ["apps/auth-app/src/app/login-signup/model/index.ts"],
       "@auth-app/model": ["apps/auth-app/src/app/model/index.ts"],
-      "@profil-app/auth/api": ["apps/profil-app/src/app/auth/api/index.ts"],
-      "@profil-app/auth/data": ["apps/profil-app/src/app/auth/data/index.ts"],
-      "@profil-app/auth/model": ["apps/profil-app/src/app/auth/model/index.ts"],
-      "@profil-app/benutzerdaten/api": [
-        "apps/profil-app/src/app/benutzerdaten/api/index.ts"
+      "@benutzerprofil/auth/api": ["apps/benutzerprofil/src/app/auth/api/index.ts"],
+      "@benutzerprofil/auth/data": ["apps/benutzerprofil/src/app/auth/data/index.ts"],
+      "@benutzerprofil/auth/model": ["apps/benutzerprofil/src/app/auth/model/index.ts"],
+      "@benutzerprofil/benutzerdaten/api": [
+        "apps/benutzerprofil/src/app/benutzerdaten/api/index.ts"
       ],
-      "@profil-app/benutzerdaten/data": [
-        "apps/profil-app/src/app/benutzerdaten/data/index.ts"
+      "@benutzerprofil/benutzerdaten/data": [
+        "apps/benutzerprofil/src/app/benutzerdaten/data/index.ts"
       ],
-      "@profil-app/benutzerdaten/model": [
-        "apps/profil-app/src/app/benutzerdaten/model/index.ts"
+      "@benutzerprofil/benutzerdaten/model": [
+        "apps/benutzerprofil/src/app/benutzerdaten/model/index.ts"
       ],
-      "@profil-app/local-storage": [
-        "apps/profil-app/src/app/local-storage-data/index.ts"
+      "@benutzerprofil/configuration": ["apps/benutzerprofil/src/app/configuration/index.ts"],
+      "@benutzerprofil/local-storage": [
+        "apps/benutzerprofil/src/app/local-storage-data/index.ts"
       ],
-      "@profil-app/passwort/api": [
-        "apps/profil-app/src/app/passwort/api/index.ts"
+      "@benutzerprofil/passwort/api": [
+        "apps/benutzerprofil/src/app/passwort/api/index.ts"
       ],
-      "@profil-app/passwort/data": [
-        "apps/profil-app/src/app/passwort/data/index.ts"
+      "@benutzerprofil/passwort/data": [
+        "apps/benutzerprofil/src/app/passwort/data/index.ts"
       ]
     }
   },
