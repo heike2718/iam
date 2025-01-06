@@ -13,6 +13,7 @@ import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
 import { ErrorHandlerService } from '@ap-ws/common-utils';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { changeTempPasswordDataProvider } from '@auth-app/change-temp-password/api';
+import { loginSignupDataProvider } from '@auth-app/login-signup/api';
 
 
 registerLocaleData(LOCALE_ID, 'de');
@@ -26,6 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     forgotPasswordDataProvider,
     changeTempPasswordDataProvider,
+    loginSignupDataProvider,
     environment.providers,
     {
       provide: AuthAppConfiguration,

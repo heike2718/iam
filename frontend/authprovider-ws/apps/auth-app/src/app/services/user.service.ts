@@ -74,7 +74,7 @@ export class UserService {
 				this.sessionService.clearSession();
 				this.appData.updateRedirectUrl(redirectUrl + createHash(payload.data));
 			},
-			error => this.httpErrorService.handleError(error, 'registerUser', undefined),
+			error => this.httpErrorService.handleError(error, 'loginUser', undefined),
 			() => {
 				this.logger.debug('post call completed');
 			}

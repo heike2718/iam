@@ -28,3 +28,8 @@ Navigation zum Mailversandauftrag
 PRIO 1: Mailadresse eines Benutzers ändern (ist besonders gut für die QS, damit ich mehr Testdaten für den Mailversand bekomme).
 
 PRIO 2: Sammellöschungen von Benutzern
+
+
+=== undeletable users
+
+siehe 

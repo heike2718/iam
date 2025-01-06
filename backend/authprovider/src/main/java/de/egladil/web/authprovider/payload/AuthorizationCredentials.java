@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * AuthorizationCredentials sind die Daten, mit denen ein Benutzer eine Änderung an seinem Profil autoriisieren kann.
+ * AuthorizationCredentials sind die Daten, mit denen ein Benutzer eine Änderung an seinem Profil autorisieren kann.
  */
 public class AuthorizationCredentials {
 

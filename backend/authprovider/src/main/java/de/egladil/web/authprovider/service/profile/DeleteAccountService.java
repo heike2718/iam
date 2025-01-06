@@ -36,7 +36,7 @@ public class DeleteAccountService {
 	@ConfigProperty(name = "account.deleted.subject")
 	String mailSubject;
 
-	@ConfigProperty(name = "account.deleted.to")
+	@ConfigProperty(name = "monitoring.mail.to")
 	String mailTo;
 
 	@Inject

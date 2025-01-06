@@ -33,6 +33,9 @@ public class ChangeTempPasswordPayload {
 	@Size(min = 1, max = 40)
 	private String tempPassword;
 
+	// keine Annotation, damit das geloggt wird
+	private String kleber;
+
 	@NotNull(message = "zweiPassworte ist erforderlich")
 	@ValidPasswords
 	private ZweiPassworte zweiPassworte;
@@ -93,5 +96,15 @@ public class ChangeTempPasswordPayload {
 	public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
 
 		this.zweiPassworte = zweiPassworte;
+	}
+
+	public String getKleber() {
+
+		return kleber;
+	}
+
+	public void setKleber(final String kleber) {
+
+		this.kleber = kleber;
 	}
 }

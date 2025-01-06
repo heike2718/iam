@@ -91,7 +91,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         title: 'Einmalpasswort versendet',
-        question: message
+        text: message
       }
     });
 

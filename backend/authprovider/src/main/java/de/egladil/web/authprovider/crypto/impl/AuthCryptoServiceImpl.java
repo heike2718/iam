@@ -146,7 +146,7 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 	@Override
 	public boolean verifyClientSecret(final char[] password, final Client client) {
 
-		if ("prod".equalsIgnoreCase(stage) && checklistenappClientId.equals(client.getClientId())) {
+		if (stage.toLowerCase().startsWith("prod") && checklistenappClientId.equals(client.getClientId())) {
 
 			LOG.info("checklistenapp in PROD");
 

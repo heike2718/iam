@@ -1,0 +1,52 @@
+<h2>{{headline}}</h2>
+
+<form [formGroup]="loginForm">
+
+    <mat-form-field appearance="fill">
+        <mat-label>Mailadresse oder Loginname</mat-label>
+        <input matInput formControlName="loginName" type="text"
+            [ngClass]="{ 'invalid-field': loginForm.get('loginName')?.invalid && loginForm.get('loginName')?.touched }">
+        @if (loginForm.get('loginName')?.hasError('pattern')) {
+        <mat-error>Bitte geben Sie einen gültigen Login-Namen ein.</mat-error>
+        }
+        @if(loginForm.get('loginName')?.hasError('required')){
+        <mat-error>Mailadresse oder Loginname ist erforderlich</mat-error>
+        }
+        @if (loginForm.get('loginName')?.hasError('maxlength')) {
+        <mat-error>Der Login-Name darf maximal 255 Zeichen lang sein.</mat-error>
+        }
+    </mat-form-field>
+
+    <div class="helper-text">Erlaubte Zeichen sind {{passwortErlaubteZeichen}}</div>
+    <mat-form-field appearance="fill">
+        <mat-label>Passwort</mat-label>
+        <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="passwort">
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()"
+            [attr.aria-label]="'zwischen Anzeige und Verstecken der Passwörter wechseln'"
+            [attr.aria-pressed]="showPassword" type="button"><mat-icon>{{ showPassword ? 'visibility_off' :
+                'visibility' }}</mat-icon>
+        </button>
+        @if(loginForm.get('passwort')?.hasError('required')){
+        <mat-error>Passwort ist erforderlich</mat-error>
+        }
+        @if(loginForm.get('passwort')?.hasError('forbiddenPassword')){
+        <mat-error>Die Eingabe enthält ungültige Zeichen</mat-error>
+        }
+    </mat-form-field>
+
+    <div class="kleber">
+        <mat-form-field appearance="fill">
+            <mat-label></mat-label>
+            <input matInput formControlName="kleber" type="text">
+        </mat-form-field>
+    </div>
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="buttonSubmitDisabled()"
+            (click)="submit()"><mat-icon class="nav-item">save</mat-icon>einloggen</button>
+        <button mat-raised-button color="secondary" title="Einmalpasswort anfordern"
+            (click)="gotoOrderTempPassword()">Passwort vergessen</button>
+        <a href="https://mathe-jung-alt.de/minikaenguru/anleitungen/passwort-vergessen.html" target="_blank">Anleitung
+            Passwort vergessen</a>
+    </div>
+</form>

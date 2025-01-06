@@ -47,7 +47,7 @@ public class HeartbeatResource {
 
 			LOG.warn(LogmessagePrefixes.BOT + "Aufruf mit fehlerhaftem X-HEARTBEAT-ID-Header value " + heartbeatId);
 			return Response.status(401)
-				.entity(ResponsePayload.messageOnly(MessagePayload.error("keine Berechtigung für diese Resource"))).build();
+				.entity(MessagePayload.error("keine Berechtigung für diese Resource")).build();
 		}
 		ResponsePayload responsePayload = heartbeatService.update();
 

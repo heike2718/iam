@@ -5,7 +5,6 @@
 
 package de.egladil.web.authprovider.payload;
 
-import de.egladil.web.auth_validations.annotations.Honeypot;
 import de.egladil.web.auth_validations.annotations.InputSecured;
 import de.egladil.web.auth_validations.annotations.LoginName;
 import de.egladil.web.auth_validations.annotations.ValidPasswords;
@@ -33,25 +32,20 @@ public class SignUpCredentials {
 
 	@NotNull
 	@Email
-	@Size(min = 1, max = 255)
+	@Size(max = 255)
 	private String email;
 
-	@NotNull
 	@LoginName(message = "loginName enthält ungueltige Zeichen")
 	@Size(max = 255)
 	private String loginName;
 
 	@InputSecured(message = "vorname enthält ungültige Zeichen")
-	@Size(min = 1, max = 100)
+	@Size(max = 100)
 	private String vorname;
 
 	@InputSecured(message = "nachname enthält ungültige Zeichen")
-	@Size(min = 1, max = 100)
+	@Size(max = 100)
 	private String nachname;
-
-	@InputSecured(message = "groups enthält ungültige Zeichen")
-	@Size(max = 150)
-	private String groups;
 
 	@InputSecured(message = "nonce enthält ungültige Zeichen")
 	@Size(max = 60)
@@ -67,7 +61,8 @@ public class SignUpCredentials {
 	@NotNull(message = "clientCredentials ist erforderlich.")
 	private ClientCredentials clientCredentials;
 
-	@Honeypot(message = "")
+	// @Honeypot(message = "{general.badRequest}")
+	// keine Annotation, damit das geloggt wird!
 	private String kleber;
 
 	public String getEmail() {
@@ -153,16 +148,6 @@ public class SignUpCredentials {
 	public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
 
 		this.zweiPassworte = zweiPassworte;
-	}
-
-	public String getGroups() {
-
-		return groups;
-	}
-
-	public void setGroups(final String groups) {
-
-		this.groups = groups;
 	}
 
 	public void clean() {

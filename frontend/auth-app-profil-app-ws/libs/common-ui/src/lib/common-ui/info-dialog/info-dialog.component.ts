@@ -18,7 +18,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 export class InfoDialogComponent {
 
     constructor(public dialogRef: MatDialogRef<InfoDialogComponent>, @Inject
-        (MAT_DIALOG_DATA) public data: { title: string; question: string }) { }
+        (MAT_DIALOG_DATA) public data: { title: string; text: string }) { }
 
     onYesClick(): void {
         this.dialogRef.close(true);

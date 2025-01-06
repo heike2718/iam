@@ -38,7 +38,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	private static final Logger LOG = LoggerFactory.getLogger(AuthorizationFilter.class);
 
 	private static final List<String> AUTHORIZED_PATHS = Arrays
-		.asList(new String[] { "/auth/sessions", "/users/signup", "/temppwd", "/validators" });
+		.asList(new String[] { "/auth/sessions", "/users/signup", "/users/signup/v2", "/temppwd", "/validators" });
 
 	@Inject
 	ConfigService configService;

@@ -20,6 +20,7 @@ import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.restclient.MkGatewayRestClient;
 import de.egladil.web.authprovider.service.AuthMailService;
+import de.egladil.web.authprovider.service.mail.BotAttackEventMailStrategy;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie;
 import de.egladil.web.authprovider.service.mail.MinikaengurukontenInfoStrategie.MinikaengurukontenMailKontext;
 import de.egladil.web.commons_mailer.DefaultEmailDaten;
@@ -50,6 +51,9 @@ public class AuthproviderEventHandler {
 	@ConfigProperty(name = "stage")
 	String stage;
 
+	@ConfigProperty(name = "monitoring.mail.to")
+	String monitoringMailEmfaenger;
+
 	@ConfigProperty(name = "sync.infrastructure.available")
 	String syncInfrastructureAvailable;
 
@@ -73,27 +77,37 @@ public class AuthproviderEventHandler {
 
 				this.eventRepository.appendEvent(storedEvent);
 			}
-		}
 
-		if (event.propagateToListeners()) {
+			if (event.writeToServerLog()) {
 
-			if (!isSyncInfrastructureAvailable()) {
-
-				LOGGER.warn("Infrastruktur zum Synchronisieren nicht verfuegbar: Abbruch");
-
-				return;
+				LOGGER.warn("{}", event.eventType().getLabel(), event.serializePayload());
 			}
 
-			String syncToken = null;
+			if (event.eventType() == AuthproviderEventType.BOT_ATTACK) {
 
-			if (event.eventType() != AuthproviderEventType.LOGINVERSUCH_INAKTIVER_USER) {
+				this.sendeBotAttackMailQuietly((BotAttackEventPayload) event.payload());
 
-				syncToken = this.getSyncToken();
 			}
 
-			sendEventToListeners(event, syncToken);
-		}
+			if (event.propagateToListeners()) {
 
+				if (!isSyncInfrastructureAvailable()) {
+
+					LOGGER.warn("Infrastruktur zum Synchronisieren nicht verfuegbar: Abbruch");
+
+					return;
+				}
+
+				String syncToken = null;
+
+				if (event.eventType() != AuthproviderEventType.LOGINVERSUCH_INAKTIVER_USER) {
+
+					syncToken = this.getSyncToken();
+				}
+
+				sendEventToListeners(event, syncToken);
+			}
+		}
 	}
 
 	/**
@@ -123,6 +137,10 @@ public class AuthproviderEventHandler {
 			this.propagateUserChanged(event, syncToken);
 			break;
 
+		case BOT_ATTACK:
+			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.BOT_ATTACK, event.payload());
+			break;
+
 		default:
 			break;
 		}
@@ -135,8 +153,9 @@ public class AuthproviderEventHandler {
 
 			ResourceOwnerEventPayload resourceOwner = (ResourceOwnerEventPayload) payload;
 
-			DefaultEmailDaten maildaten = new MinikaengurukontenInfoStrategie(resourceOwner, kontext, stage)
-				.createEmailDaten(kontext.name());
+			DefaultEmailDaten maildaten = new MinikaengurukontenInfoStrategie(resourceOwner, kontext, stage,
+				monitoringMailEmfaenger)
+					.createEmailDaten(kontext.name());
 
 			if (maildaten != null) {
 
@@ -149,6 +168,27 @@ public class AuthproviderEventHandler {
 
 			LOGGER.error("Infomail an mich konnte nicht gesendet werden: " + e.getMessage(), e);
 		}
+	}
+
+	private void sendeBotAttackMailQuietly(final BotAttackEventPayload eventPayload) {
+
+		try {
+
+			DefaultEmailDaten maildaten = new BotAttackEventMailStrategy(eventPayload, stage, monitoringMailEmfaenger)
+				.createEmailDaten(UUID.randomUUID().toString());
+
+			if (maildaten != null) {
+
+				mailService.sendMail(maildaten);
+			}
+		} catch (ClassCastException e) {
+
+			LOGGER.error("Fehler beim Propagieren eines AuthproviderEvents: " + e.getMessage(), e);
+		} catch (Exception e) {
+
+			LOGGER.error("Infomail an mich konnte nicht gesendet werden: " + e.getMessage(), e);
+		}
+
 	}
 
 	/**

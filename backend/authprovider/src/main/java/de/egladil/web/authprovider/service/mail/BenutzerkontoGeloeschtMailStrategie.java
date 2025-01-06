@@ -32,9 +32,9 @@ public class BenutzerkontoGeloeschtMailStrategie implements CreateDefaultMailDat
 	private final LocalDateTime timestamp;
 
 	/**
-	 * @param stage
-	 * @param uuid
-	 * @param timestamp
+	 * @param subject
+	 * @param mailTo
+	 * @param resourceOwner
 	 */
 	public BenutzerkontoGeloeschtMailStrategie(final String subject, final String mailTo, final ResourceOwner resourceOwner) {
 

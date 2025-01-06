@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 })
 export class ChangeTempPasswordHttpService {
 
-    private url = '/temppwd/v2';
+    private url = '/temppwd';
     
     #http = inject(HttpClient);
 

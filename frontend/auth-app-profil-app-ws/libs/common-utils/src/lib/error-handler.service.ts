@@ -27,7 +27,7 @@ export class ErrorHandlerService implements ErrorHandler {
     #handleHttpError(httpErrorResponse: HttpErrorResponse, messageService: MessageService): void {
 
 
-        switch (httpErrorResponse.status) {
+        switch (httpErrorResponse.status) {            
             case 440: {
                 // this.injector.get(AuthFacade).handleSessionExpired();
                 break;

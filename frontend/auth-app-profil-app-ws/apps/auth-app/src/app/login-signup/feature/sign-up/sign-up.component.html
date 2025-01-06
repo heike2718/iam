@@ -1,0 +1,107 @@
+<h2>Benutzerkonto anlegen</h2>
+
+@if(true) {
+<p><strong>ACHTUNG! </strong> Da Sie von einer anderen Anwendung hierher gelangt sind, werden Sie mit diesem
+    Benutzerkonto
+    nicht am Minikänguru-Wettbewerb teilnehmen können.</p>
+<p>Wenn Sie am Minikänguru-Wettbewerb teilnehmen möchten, registrieren Sie sich bitte über die <a
+        href="https://mathe-jung-alt.de/mkv-app#/registrierung" target="_blank">Minikänguru-Anwendung</a>. Sie können
+    sich dann automatisch auch in die anderen Anwendungen von "Mathe für jung und alt" einloggen.</p>
+}
+
+<form [formGroup]="benutzerForm">
+
+    <div class="agb">
+        <mat-checkbox formControlName="agbGelesen">
+            Ich habe die Datenschutzerklärung gelesen und willige ein*
+        </mat-checkbox>
+        @if (benutzerForm.get('agbGelesen')?.hasError('required')) {
+        <mat-error>Bitte willigen Sie in die Datenschutzerklärung ein.</mat-error>
+        }
+        <a href="https://mathe-jung-alt.de/minikaenguru/datenschutz.html" target="_blank"
+            class="btn btn-link">Datenschutzerklärung</a>
+    </div>
+
+    @if(showVornameNachnameControl) {
+    <mat-form-field appearance="fill">
+        <mat-label>Vorname</mat-label>
+        <input matInput formControlName="vorname" type="text"
+            [ngClass]="{ 'invalid-field': benutzerForm.get('vorname')?.invalid && benutzerForm.get('vorname')?.touched }">
+        @if (benutzerForm.get('vorname')?.hasError('required')) {
+        <mat-error>Der Vorname ist erforderlich.</mat-error>
+        }
+        @if (benutzerForm.get('vorname')?.hasError('maxlength')) {
+        <mat-error>Der Vorname darf maximal 100 Zeichen lang sein.</mat-error>
+        }
+        @if (benutzerForm.get('vorname')?.hasError('pattern')) {
+        <mat-error>{{validationErrorNamen}}</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Nachname</mat-label>
+        <input matInput formControlName="nachname" type="text"
+            [ngClass]="{ 'invalid-field': benutzerForm.get('nachname')?.invalid && benutzerForm.get('nachname')?.touched }">
+        @if (benutzerForm.get('nachname')?.hasError('required')) {
+        <mat-error>Der Nachname ist erforderlich.</mat-error>
+        }
+        @if (benutzerForm.get('nachname')?.hasError('maxlength')) {
+        <mat-error>Der Nachname darf maximal 100 Zeichen lang sein.</mat-error>
+        }
+        @if (benutzerForm.get('nachname')?.hasError('pattern')) {
+        <mat-error>{{validationErrorNamen}}</mat-error>
+        }
+    </mat-form-field>
+    }
+
+
+    @if(showLoginNameControl) {
+    <mat-form-field appearance="fill">
+        <mat-label>Login-Name</mat-label>
+        <input matInput formControlName="loginName" type="text"
+            [ngClass]="{ 'invalid-field': benutzerForm.get('loginName')?.invalid && benutzerForm.get('loginName')?.touched }">
+        <mat-hint>
+            Falls Sie dieses Feld nicht ausfüllen, wird Ihre Mailadresse verwendet.
+        </mat-hint>
+        @if (benutzerForm.get('loginName')?.hasError('pattern')) {
+        <mat-error>Bitte geben Sie einen gültigen Login-Namen ein.</mat-error>
+        }
+        @if (benutzerForm.get('loginName')?.hasError('maxlength')) {
+        <mat-error>Der Login-Name darf maximal 255 Zeichen lang sein.</mat-error>
+        }
+    </mat-form-field>
+    }
+
+    <mat-form-field appearance="fill">
+        <mat-label>Mailadresse</mat-label>
+        <input matInput formControlName="email" type="email"
+            [ngClass]="{ 'invalid-field': benutzerForm.get('email')?.invalid && benutzerForm.get('email')?.touched }">
+        @if (benutzerForm.get('email')?.hasError('required')) {
+        <mat-error>Eine Mailadresse ist erforderlich.</mat-error>
+        }
+        @if (benutzerForm.get('email')?.hasError('email')) {
+        <mat-error>Bitte geben Sie eine gültige Mailadresse ein.</mat-error>
+        }
+        @if (benutzerForm.get('email')?.hasError('maxlength')) {
+        <mat-error>Die Mailadresse darf maximal 255 Zeichen lang sein.</mat-error>
+        }
+    </mat-form-field>
+
+    <div class="helper-text">Erlaubte Zeichen sind {{passwortErlaubteZeichen}}</div>
+
+    <auth-common-zwei-passworte [labelPasswort1]="'Passwort'" [labelPasswort2]="'Passwort wiederholen'"
+        (passwordChanges)="handlePasswordChanges($event)" (isValid)="handlePasswoerterValidityChanges($event)">
+    </auth-common-zwei-passworte>
+
+    <div class="kleber">
+        <mat-form-field appearance="fill">
+            <mat-label></mat-label>
+            <input matInput formControlName="kleber" type="text">
+        </mat-form-field>
+    </div>
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="buttonSubmitDisabled()"
+            (click)="submit()"><mat-icon class="nav-item">save</mat-icon>registrieren</button>
+    </div>
+</form>

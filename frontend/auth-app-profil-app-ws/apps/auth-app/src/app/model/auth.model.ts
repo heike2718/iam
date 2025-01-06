@@ -25,13 +25,12 @@ export interface ClientInformation {
 export interface AuthorizationCredentials {
     loginName: string;
     passwort: string;
-    kleber: string;
+    kleber?: string;
 }
 
 export interface LoginCredentials {
     authorizationCredentials: AuthorizationCredentials;
     clientCredentials: ClientCredentials;
-    nonce: string;
 }
 
 export interface TwoPasswords {
@@ -39,22 +38,9 @@ export interface TwoPasswords {
     passwortWdh: string;
 }
 
-export interface RegistrationCredentials {
-    email: string;
-    loginName: string;
-    vorname?: string;
-    nachname?: string;
-    groups?: string;
-    nonce?: string;
-    agbGelesen: boolean;
-    twoPasswords: TwoPasswords;
-    kleber: string;
-    clientCredentials: ClientCredentials;
-}
-
 export interface TempPasswordCredentials {
     email: string;
-    kleber: string;
+    kleber?: string;
 }
 
 export interface TempPasswordResponseDto {
@@ -65,7 +51,9 @@ export interface ChangeTempPasswordPayload {
     tokenId: string;
     tempPassword: string;
     email: string;
+    kleber?: string;
     zweiPassworte: ZweiPassworte;
+
 }
 
 export interface User {
@@ -81,7 +69,7 @@ export interface SignUpLogInResponseData {
 }
 
 
-export function createHash(data: SignUpLogInResponseData): string {
+export function createHashForRedirectUrl(data: SignUpLogInResponseData): string {
 
     const nonce = data.nonce ? data.nonce : '';
 

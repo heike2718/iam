@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from '@angular/material/input';
 import { Router } from "@angular/router";
-import { LOGINNAME_REGELN, NAME_REGELN, REG_EXP_INPUT_SECURED, REG_EXP_LOGIN_NAME, REG_EXP_NACHNAME, trimFormValues } from "@ap-ws/common-utils";
+import { LOGINNAME_REGELN, NAME_REGELN, REG_EXP_INPUT_SECURED, REG_EXP_LOGIN_NAME, trimFormValues } from "@ap-ws/common-utils";
 import { AuthFacade } from "@profil-app/auth/api";
 import { BenutzerdatenFacade } from "@profil-app/benutzerdaten/api";
 import { anonymeBenutzerdaten, benutzerAreEqual, Benutzerdaten } from "@profil-app/benutzerdaten/model";
@@ -48,7 +48,7 @@ export class BenutzerdatenComponent implements OnInit, OnDestroy {
       loginName: ['', [Validators.required, Validators.maxLength(255), Validators.pattern(REG_EXP_LOGIN_NAME)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
       vorname: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(REG_EXP_INPUT_SECURED)]],
-      nachname: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(REG_EXP_NACHNAME)]],
+      nachname: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(REG_EXP_INPUT_SECURED)]],
     });
 
     const benutzerSubscription = this.benutzerdatenFacade.benutzerdaten$.subscribe((benutzerdaten) => {

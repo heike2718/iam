@@ -128,7 +128,7 @@ public class ChangeTempPasswordService {
 				LOG.warn("Konto {} noch nicht aktiviert", resourceOwner);
 
 				return ResponsePayload
-					.messageOnly(MessagePayload.error(applicationMessages.getString("Benutzerkonto.deaktiviert")));
+					.messageOnly(MessagePayload.error(applicationMessages.getString("TempPassword.incorrectCredentials")));
 			}
 
 			Client client = tempPassword.getClient();

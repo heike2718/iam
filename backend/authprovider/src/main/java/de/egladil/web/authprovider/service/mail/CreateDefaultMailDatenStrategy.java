@@ -11,5 +11,9 @@ import de.egladil.web.commons_mailer.DefaultEmailDaten;
  */
 public interface CreateDefaultMailDatenStrategy {
 
-	DefaultEmailDaten createEmailDaten(String messageId);
+	/**
+	 * @param  betreff
+	 * @return
+	 */
+	DefaultEmailDaten createEmailDaten(String betreff);
 }

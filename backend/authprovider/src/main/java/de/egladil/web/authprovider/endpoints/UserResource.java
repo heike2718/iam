@@ -27,6 +27,9 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
+import de.egladil.web.authprovider.event.AuthproviderEventHandler;
+import de.egladil.web.authprovider.event.BotAttackEvent;
+import de.egladil.web.authprovider.event.BotAttackEventPayload;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponse;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
@@ -51,6 +54,7 @@ import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -73,6 +77,12 @@ public class UserResource {
 	@ConfigProperty(name = "admin.clientIds")
 	String adminClientIds;
 
+	@ConfigProperty(name = "signup.response.uri")
+	String signUpResponseUri;
+
+	@Context
+	ContainerRequestContext requestContext;
+
 	@Inject
 	ClientService clientService;
 
@@ -87,6 +97,9 @@ public class UserResource {
 
 	@Context
 	SecurityContext securityContext;
+
+	@Inject
+	AuthproviderEventHandler eventHandler;
 
 	/**
 	 * Gibt den User zurück. Die UUID ist im securityContext.
@@ -119,21 +132,30 @@ public class UserResource {
 	 * Endpoint, der einen neuen ResourceOwner anlegt. Der Response enthält im body ein JWT.
 	 *
 	 * @param  signUpCredentials
-	 *                           RegistrationCredentials
+	 *                           SignUpCredentials
 	 * @return                   Response
 	 */
 	@POST
 	@Path("/signup")
-	public Response signUp(@Valid final SignUpCredentials signUpCredentials, @Context final UriInfo uriInfo) {
+	public Response signUpV2(@Valid final SignUpCredentials signUpCredentials, @Context final UriInfo uriInfo) {
+
+		String kleber = signUpCredentials.getKleber();
+
+		if (StringUtils.isNotBlank(kleber)) {
+
+			BotAttackEventPayload payload = new BotAttackEventPayload()
+				.withPath(uriInfo.getPath())
+				.withKleber(kleber).withLoginName(signUpCredentials.getEmail())
+				.withPasswort(signUpCredentials.getZweiPassworte().getPasswort())
+				.withRedirectUrl(signUpCredentials.getClientCredentials().getRedirectUrl());
+
+			this.eventHandler.handleEvent(new BotAttackEvent(payload));
+
+			return Response.status(401).entity(MessagePayload
+				.error(applicationMessages.getString("general.badRequest"))).build();
+		}
 
 		try {
-
-			if (signUpCredentials.getGroups() != null && signUpCredentials.getGroups().toUpperCase().contains("ADMIN")) {
-
-				LOG.warn(LogmessagePrefixes.BOT + "jemand hat versucht, sich zum ADMIN zu machen: email="
-					+ signUpCredentials.getEmail());
-				throw new SecurityException();
-			}
 
 			Client client = clientService.findAndCheckClient(signUpCredentials.getClientCredentials());
 
@@ -142,11 +164,9 @@ public class UserResource {
 			SignUpLogInResponseData data = authJWTService.createAndStoreAuthorization(resourceOwner,
 				signUpCredentials.getClientCredentials(), signUpCredentials.getNonce());
 
-			ResponsePayload responsePayload = new ResponsePayload(
-				MessagePayload.info(applicationMessages.getString("Registration.success")), data);
-			URI uri = new URI("https://mathe-jung-alt.de/auth-app/users/" + data.getIdToken());
+			URI uri = new URI(signUpResponseUri + data.getIdToken());
 
-			return Response.created(uri).entity(responsePayload).build();
+			return Response.created(uri).entity(data).build();
 
 		} catch (InvalidMailAddressException e) {
 

@@ -9,6 +9,7 @@ package de.egladil.web.authprovider.event;
  */
 public enum AuthproviderEventType {
 
+	BOT_ATTACK("Bot-Attacke: kleber war gefüllt"),
 	LOGINVERSUCH_INAKTIVER_USER("LoginversuchInaktiverUser"),
 	REGISTRATION_CONFIRMATION_EXPIRED("RegistrationConfirmationExpired"),
 	USER_CREATED("UserCreated"),

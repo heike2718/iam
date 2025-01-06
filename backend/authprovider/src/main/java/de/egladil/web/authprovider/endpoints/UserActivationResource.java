@@ -8,6 +8,7 @@ package de.egladil.web.authprovider.endpoints;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +46,9 @@ public class UserActivationResource {
 	private static final String ACTIVATION_FAILED_RESOURCE = CONTENT_ROOT + "activationFailed.html";
 
 	private static final String ACTIVATION_DELETED_RESOURCE = CONTENT_ROOT + "activationDeleted.html";
+
+	@ConfigProperty(name = "monitoring.mail.to")
+	String monitoringMailEmpfaenger;
 
 	@Inject
 	ConfirmationService confirmationService;
@@ -99,7 +103,7 @@ public class UserActivationResource {
 
 			LOG.error(e.getMessage(), e);
 			return Response.serverError()
-				.entity("Leider ist ein Fehler aufgetreten. Bitte senden Sie eine Mail an info@egladil.de").build();
+				.entity("Leider ist ein Fehler aufgetreten. Bitte senden Sie eine Mail an " + monitoringMailEmpfaenger).build();
 		}
 	}
 }

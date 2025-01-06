@@ -5,6 +5,7 @@
 
 package de.egladil.web.authprovider.error;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,10 +31,13 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthProviderExceptionMapper.class);
 
+	@ConfigProperty(name = "monitoring.mail.to")
+	String monitoringMailEmpfaenger;
+
 	@Override
 	public Response toResponse(final Exception exception) {
 
-		String generalError = "Es ist ein Serverfehler aufgetreten. Bitte senden Sie eine Mail an info@egladil.de";
+		String generalError = "Es ist ein Serverfehler aufgetreten. Bitte senden Sie eine Mail an " + monitoringMailEmpfaenger;
 
 		LOGGER.debug("Exception {} gefangen", exception.getClass().getName(), exception);
 
@@ -73,9 +77,8 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof AccountDeactivatedException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
 			return Response.status(401)
-				.entity(payload)
+				.entity(MessagePayload.error(exceptionMessage))
 				.build();
 		}
 
@@ -106,10 +109,9 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof AuthException) {
 
-			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
 			LOGGER.warn("{}: {}", exception.getClass().getSimpleName(), exceptionMessage);
 			return Response.status(401)
-				.entity(payload)
+				.entity(MessagePayload.error(exceptionMessage))
 				.build();
 		}
 

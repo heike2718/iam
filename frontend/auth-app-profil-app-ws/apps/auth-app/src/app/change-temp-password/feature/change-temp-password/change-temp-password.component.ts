@@ -89,7 +89,7 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
   }
 
   handlePasswordChanges(zweiPassworte: ZweiPassworte): void {
-    console.log(JSON.stringify(zweiPassworte));    
+    console.log(JSON.stringify(zweiPassworte));
     this.#zweiPassworte = zweiPassworte;
   }
 
@@ -134,7 +134,7 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         title: title,
-        question: message
+        text: message
       }
     });
 
@@ -148,8 +148,8 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
   #createForm() {
     this.parentForm = this.#formBuilder.group({
       email: ['', [Validators.required, Validators.maxLength(255), Validators.pattern(REG_EXP_EMAIL)]],
-      tempPassword: ['', [Validators.required, Validators.maxLength(36), Validators.pattern(REG_EXP_EINMALPASSWORT)]]
-      
+      tempPassword: ['', [Validators.required, Validators.maxLength(36), Validators.pattern(REG_EXP_EINMALPASSWORT)]],
+      kleber: ['']
     });
 
     this.email = this.parentForm.controls['email'];
@@ -178,6 +178,6 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
       clearTimeout(this.#visibilityTimeout);
       this.#visibilityTimeout = null;
     }
-  }  
+  }
 }
 

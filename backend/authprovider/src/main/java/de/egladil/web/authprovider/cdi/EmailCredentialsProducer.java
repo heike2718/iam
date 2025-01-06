@@ -11,14 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import jakarta.enterprise.inject.Produces;
-import jakarta.inject.Singleton;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.commons_mailer.EmailServiceCredentials;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Singleton;
 
 /**
  * EmailCredentialsProducer
@@ -68,12 +67,12 @@ public class EmailCredentialsProducer {
 
 			if (!mailCredentials.isEmpty()) {
 
-				return EmailServiceCredentials.createInstance(mailCredentials, "noreply@egladil.de");
+				return EmailServiceCredentials.createInstance(mailCredentials, user);
 			}
 
 		}
 
-		return EmailServiceCredentials.createInstance(host, port, user, password.toCharArray(), "noreply@egladil.de");
+		return EmailServiceCredentials.createInstance(host, port, user, password.toCharArray(), user);
 	}
 
 	private void initCredentialsProperties() {

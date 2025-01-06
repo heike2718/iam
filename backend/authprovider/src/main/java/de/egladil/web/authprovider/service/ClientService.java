@@ -199,7 +199,7 @@ public class ClientService {
 		if (clientAccessToken == null) {
 
 			String msg = "Kein ClientAccessToken mit ID='" + accessTokenId
-				+ "' vorhanden. Sehr wahrscheinlich stimmt die Konfiguration des IniAccessTokenClients in der application.properties der aufrufenden Anwendung nicht. (className, url?)";
+				+ "' vorhanden. Sehr wahrscheinlich stimmt die Konfiguration des InitAccessTokenClients in der application.properties der aufrufenden Anwendung nicht. (className, url?)";
 			LOG.error(msg);
 			throw new SessionExpiredException("Das ClientAccessToken ist abgelaufen. Bitte aktualisieren Sie Ihren Browser.");
 		}

@@ -88,6 +88,11 @@ public class RegistrationService {
 			throw new AuthRuntimeException(msg);
 		}
 
+		if (signUpCredentials.getLoginName() == null) {
+
+			signUpCredentials.setLoginName(signUpCredentials.getEmail());
+		}
+
 		Optional<ResourceOwner> optRo = resourceOwnerService.checkExiststAndIsConsistent(signUpCredentials.getLoginName(),
 			signUpCredentials.getEmail());
 

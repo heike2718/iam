@@ -2,6 +2,8 @@
 
 /** Konstanten für Pattern-Validierung im Frontend. */
 
+export const SIGNUP_SUCCESS_DIALOG_TEXT = 'Ihr Benutzerkonto wurde angelegt. Es muss noch aktiviert werden. Hierfür wurde ein Aktivierungslink an Ihre Mailadresse gesendet. Bitte schauen Sie in Ihrem Postfach nach und prüfen Sie auch Ihren SPAM-Ordner. Der Aktivierungslink ist 24 Stunden gültig.';
+
 const DIACRITICAL_CHARS = "ÄäÀàÁáÂâÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčdÐðĎďĐđḊḋḐḑD̂d̂ÈèÉéÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəfḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮįİıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœPpṖṗŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚțṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒǮǯŹźŻżŽžẐẑẒẓ";
 
 const LETTERS_IN_RE = "a-zA-Z" + DIACRITICAL_CHARS;
@@ -15,8 +17,6 @@ export const REG_EXP_EMAIL = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`
 export const REG_EXP_EINMALPASSWORT = /^[a-zA-Z0-9\-]*$/;
 
 export const REG_EXP_INPUT_SECURED = "^(?!.*\\.\\.)[!" + LETTERS_IN_RE + "0123456789 !#$%&\\)\\(*+,-./:;=?@\\[\\]^ _`'\\{\\|\\}~°]*$";
-
-export const REG_EXP_NACHNAME = REG_EXP_INPUT_SECURED;
 
 export const REG_EXP_LOGIN_NAME = /^(?!.*\\.\\.)[a-zA-Z0-9.!#$%&'*+/=?\\^_`{|}@~ -]*$/;
 

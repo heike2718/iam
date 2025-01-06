@@ -24,10 +24,4 @@ export class HomeComponent {
 
 		window.location.href = this.configuration.profilUrl;
 	}
-
-    gotoOrderTempPassword() {
-
-        this.#router.navigateByUrl('password/temp/order');
-
-    }
 }

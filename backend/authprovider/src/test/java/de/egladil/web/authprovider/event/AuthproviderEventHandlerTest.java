@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Test;
 
@@ -47,6 +48,9 @@ public class AuthproviderEventHandlerTest {
 
 	@Inject
 	AuthproviderEventHandler handler;
+
+	@ConfigProperty(name = "monitoring.mail.to")
+	String monitoringMailEmpfaenger;
 
 	@Test
 	void should_handleEventHandleProperly_when_LoginvesrsuchInaktiverUser() {
@@ -143,6 +147,7 @@ public class AuthproviderEventHandlerTest {
 	private DefaultEmailDaten createEmailDaten(final MinikaengurukontenMailKontext kontext, final ResourceOwner resourceOwner) {
 
 		return new MinikaengurukontenInfoStrategie(
-			ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner), kontext, "DEV").createEmailDaten(kontext.name());
+			ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner), kontext, "DEV", monitoringMailEmpfaenger)
+				.createEmailDaten(kontext.name());
 	}
 }

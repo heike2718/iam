@@ -37,7 +37,7 @@ public class BenutzerTrefferlisteItem {
 	private String nachname;
 
 	@JsonProperty
-	@Schema(description = "email eines Users", example = "test@egladil.de")
+	@Schema(description = "email eines Users", example = "test@provider777.com")
 	@Pattern(regexp = "^[a-zA-Z0-9\\.!#$%&'*+/=\\?\\^_`{|}~\\-@]*$")
 	@Size(max = 255)
 	private String email;

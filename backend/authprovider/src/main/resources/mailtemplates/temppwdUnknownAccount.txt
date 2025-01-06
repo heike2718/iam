@@ -2,10 +2,12 @@ Guten Tag,
 
 haben Sie gerade ein Einmalpasswort für Ihr Benutzerkonto angefordert? Dann ist alles in Ordnung.
 
-Sie sind noch nicht im Besitz eines Minikänguru-Benutzerkontos. Daher kann kein Einmalpasswort generiert werden. Wenn Sie Zugang zur Minikänguru-
-Anwendung benötigen, legen Sie bitte ein Benutzerkonto an. Details finden Sie auf den Minikänguru-Seiten im Internet.
+Sie sind noch nicht im Besitz eines Minikänguru-Benutzerkontos oder Ihr Benutzerkonto ist noch nicht aktiviert. Daher kann kein Einmalpasswort generiert werden.
 
-Waren Sie es nicht, informieren Sie mich bitte umgehend per Mail an info@egladil.de.
+Falls Sie Ihr Benutzerkonto noch nicht aktiviert hatten und die Mail mit dem Aktivierungslink nicht mehr finden, senden Sie bitte eine Mail an info@egladil.de.
+
+Waren Sie es nicht, könnte jemand in den Besitz Ihres Mailkontos gelangt sein. Sicherheitshalber sollten Sie in diesem Fall das Passwort bei Ihrem Mailprovider ändern.
+Weitere Fragen senden Sie bitte per Mail an info@egladil.de.
 
 Mit freundlichen Grüßen,
 Heike Winkelvoß.

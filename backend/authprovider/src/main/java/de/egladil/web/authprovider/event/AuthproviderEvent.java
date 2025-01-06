@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
  */
 public interface AuthproviderEvent {
 
+	boolean writeToServerLog();
+
 	boolean writeToEventStore();
 
 	boolean propagateToListeners();

@@ -92,7 +92,7 @@ public class AuthenticationService {
 			LoginversuchInaktiverUser eventPayload = new LoginversuchInaktiverUser(resourceOwner);
 			new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
 
-			throw new AuthException(applicationMessages.getString("Benutzerkonto.deaktiviert"));
+			throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
 		}
 		authCryptoService.verifyPassword(authorizationCredentials.getPasswort().toCharArray(), resourceOwner);
 

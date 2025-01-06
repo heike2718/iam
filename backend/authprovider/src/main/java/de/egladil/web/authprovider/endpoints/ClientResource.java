@@ -83,6 +83,36 @@ public class ClientResource {
 		}
 	}
 
+	@GET
+	@Path("v2")
+	// @formatter:off
+	public Response getClientV2(
+		@NotBlank
+		@UuidString
+		@Size(max = 50) @QueryParam("accessToken") final String accessToken,
+		@NotBlank
+		@URL @QueryParam("redirectUrl") final String redirectUrl,
+		@InputSecured @Size(max = 150) @QueryParam("state") final String state) {
+		// @formatter:on
+
+		LOG.debug("accessToken={}", accessToken);
+		final ClientCredentials clientCredentials = ClientCredentials.createWithState(accessToken, redirectUrl, state);
+
+		try {
+
+			ClientInformation data = clientService.getClientInformation(clientCredentials);
+
+			LOG.debug("Client {} hat Daten geholt", data.getName());
+			return Response.ok().entity(data).build();
+		} catch (ClientAccessTokenNotFoundException e) {
+
+			LOG.warn(LogmessagePrefixes.BOT + ":Keine Daten mit accessToken {} vorhanden", accessToken);
+
+			throw new ClientAccessTokenRuntimeException(clientCredentials);
+
+		}
+	}
+
 	/**
 	 * Authentisiert den Client und erzeugt ein OAuthAccessTokenPayload, welches ein Client-AccessToken enthält.
 	 *

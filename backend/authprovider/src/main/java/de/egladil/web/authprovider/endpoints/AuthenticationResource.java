@@ -8,10 +8,14 @@ package de.egladil.web.authprovider.endpoints;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.event.AuthproviderEventHandler;
+import de.egladil.web.authprovider.event.BotAttackEvent;
+import de.egladil.web.authprovider.event.BotAttackEventPayload;
 import de.egladil.web.authprovider.payload.LoginCredentials;
 import de.egladil.web.authprovider.payload.MessagePayload;
-import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
 import de.egladil.web.authprovider.service.AuthJWTService;
 import de.egladil.web.authprovider.service.AuthenticationService;
@@ -22,8 +26,10 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * AuthenticationResource stellt REST-Endpoints zur Authentisierung von ResourceOwnern zur Verfügung.
@@ -42,8 +48,11 @@ public class AuthenticationResource {
 	@Inject
 	AuthJWTService authJWTService;
 
+	@Inject
+	AuthproviderEventHandler eventHandler;
+
 	/**
-	 * Authentisiert den Benutzer mit Loginname / Email und Paaswort. Gibt als SignUpLogInResponseData.idToken ein oneTimeToken
+	 * Authentifiziert den Benutzer mit Loginname / Email und Passwort. Gibt als SignUpLogInResponseData.idToken ein oneTimeToken
 	 * zurück, mit dem der Server des anfragenden Clients das JWT abholen kann.
 	 *
 	 * @param  credentials
@@ -51,46 +60,37 @@ public class AuthenticationResource {
 	 */
 	@POST
 	@Path("/sessions/auth-token-grant")
-	public Response authenticateUserWithTokenExchangeTypeAuthTokenGrant(@Valid final LoginCredentials credentials) {
+	public Response authenticateUserWithTokenExchangeTypeAuthTokenGrant(@Valid final LoginCredentials credentials, @Context final UriInfo uriInfo) {
 
 		try {
 
-			if (honeypot(credentials.getAuthorizationCredentials().getKleber())) {
+			String kleber = credentials.getAuthorizationCredentials().getKleber();
 
-				ResponsePayload responsePayload = ResponsePayload.messageOnly(
-					MessagePayload
-						.error(applicationMessages.getString("general.notAuthenticated")));
-				return Response.status(401).entity(responsePayload).build();
+			if (StringUtils.isNotBlank(kleber)) {
+
+				BotAttackEventPayload payload = new BotAttackEventPayload()
+					.withPath(uriInfo.getPath())
+					.withKleber(kleber).withLoginName(credentials.getAuthorizationCredentials().getLoginName())
+					.withPasswort(credentials.getAuthorizationCredentials().getPasswort())
+					.withRedirectUrl(credentials.getClientCredentials().getRedirectUrl());
+
+				this.eventHandler.handleEvent(new BotAttackEvent(payload));
+
+				return Response.status(401).entity(MessagePayload
+					.error(applicationMessages.getString("general.notAuthenticated"))).build();
 			}
 
 			ResourceOwner resourceOwner = authenticationService
 				.authenticateResourceOwner(credentials.getAuthorizationCredentials());
 
 			SignUpLogInResponseData data = authJWTService
-				.createAndStoreAuthorization(resourceOwner, credentials.getClientCredentials(), credentials.getNonce());
+				.createAndStoreAuthorization(resourceOwner, credentials.getClientCredentials(), null);
 
-			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.info("erfolgreich authentisiert"), data);
-
-			return Response.ok(responsePayload).build();
+			return Response.ok(data).build();
 
 		} finally {
 
 			credentials.getAuthorizationCredentials().clean();
 		}
 	}
-
-	private boolean honeypot(final String value) {
-
-		if (value == null) {
-
-			return false;
-		}
-
-		if (value.isEmpty()) {
-
-			return false;
-		}
-		return true;
-	}
-
 }

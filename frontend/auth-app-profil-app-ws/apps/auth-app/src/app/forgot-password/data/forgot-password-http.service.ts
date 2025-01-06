@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 })
 export class ForgotPasswordHttpService {
 
-    private url = '/temppwd/v2';
+    private url = '/temppwd';
     
     #http = inject(HttpClient);
 

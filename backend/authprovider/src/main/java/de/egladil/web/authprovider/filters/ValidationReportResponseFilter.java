@@ -42,8 +42,15 @@ public class ValidationReportResponseFilter implements ContainerResponseFilter {
 
 			if (entity instanceof MessagePayload) {
 
-				// alles gut
+				MessagePayload messagePayload = (MessagePayload) entity;
 
+				if (messagePayload.getMessage() == null) {
+
+					responseContext.setEntity(MessagePayload.error("Ein Validierungsfehler ist aufgetreten."));
+				} else {
+
+					// alles gut
+				}
 			} else {
 
 				if (entity instanceof ViolationReport) {

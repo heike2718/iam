@@ -22,11 +22,14 @@ import jakarta.validation.Payload;
 
 /**
  * Wert muss entweder null sein oder (ungetrimmt) die Länge 0 haben.
+ *
+ * @deprecated wenn man das zu zeitig abfängt, kann man es nicht ins event log schreiben.
  */
 @Documented
 @Retention(RUNTIME)
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Constraint(validatedBy = { HoneypotValidator.class })
+@Deprecated(forRemoval = true)
 public @interface Honeypot {
 
 	String message() default "{de.egladil.constraints.honeypot}";

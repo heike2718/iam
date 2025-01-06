@@ -69,4 +69,10 @@ public abstract class AbstractAuthproviderEvent implements AuthproviderEvent {
 
 		this.resourceOwner = resourceOwner;
 	}
+
+	@Override
+	public boolean writeToServerLog() {
+
+		return false;
+	}
 }

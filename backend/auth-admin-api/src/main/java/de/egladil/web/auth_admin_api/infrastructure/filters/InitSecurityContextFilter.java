@@ -98,7 +98,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 		try {
 
-			if (!STAGE_PROD.equals(stage) && mockSession) {
+			if (!stage.toLowerCase().startsWith(STAGE_PROD) && mockSession) {
 
 				LOGGER.warn("Achtung: mock-Session!!! check properties 'stage' und 'mock.session' [stage={}, mockSession=",
 					stage, mockSession);

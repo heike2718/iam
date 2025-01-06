@@ -4,7 +4,6 @@
 // =====================================================
 package de.egladil.web.authprovider.payload;
 
-import de.egladil.web.auth_validations.annotations.Honeypot;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,7 +18,8 @@ public class OrderTempPasswordPayloadV2 {
 	@Size(min = 1, max = 255)
 	private String email;
 
-	@Honeypot(message = "")
+	// @Honeypot(message = "")
+	// keine Annotation, damit das geloggt wird
 	private String kleber;
 
 	public String getEmail() {

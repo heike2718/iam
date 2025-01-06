@@ -24,14 +24,17 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 
 	private final String stage;
 
+	private final String mailTo;
+
 	/**
 	 * @param resourceOwner
 	 */
-	public MinikaengurukontenInfoStrategie(final ResourceOwnerEventPayload resourceOwner, final MinikaengurukontenMailKontext kontext, final String stage) {
+	public MinikaengurukontenInfoStrategie(final ResourceOwnerEventPayload resourceOwner, final MinikaengurukontenMailKontext kontext, final String stage, final String mailTo) {
 
 		this.resourceOwner = resourceOwner;
 		this.kontext = kontext;
 		this.stage = stage;
+		this.mailTo = mailTo;
 	}
 
 	@Override
@@ -69,7 +72,7 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 		}
 
 		DefaultEmailDaten maildaten = new DefaultEmailDaten();
-		maildaten.setEmpfaenger("info@egladil.de");
+		maildaten.setEmpfaenger(mailTo);
 		maildaten.setBetreff(betreff);
 		maildaten.setText(getText());
 		maildaten.setMessageId(messageId);
@@ -125,7 +128,9 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 		LOGIN_INAKTIV,
 		USER_CREATED,
 		USER_CHANGED,
-		SYNC_FAILED
+		SYNC_FAILED,
+		BOT_ATTACK
+
 	};
 
 }

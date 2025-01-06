@@ -29,7 +29,6 @@ import de.egladil.web.authprovider.payload.BenutzerSuchmodus;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItemBuilder;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
-import de.egladil.web.authprovider.utils.AuthUtils;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -40,6 +39,11 @@ import jakarta.transaction.Transactional.TxType;
  */
 @RequestScoped
 public class ResourceOwnerService {
+
+	/**
+	 *
+	 */
+	private static final String ROLE_STANDARD = "STANDARD";
 
 	private Logger LOG = LoggerFactory.getLogger(ResourceOwnerService.class);
 
@@ -330,7 +334,7 @@ public class ResourceOwnerService {
 		resourceOwner.setVorname(credentials.getVorname());
 		resourceOwner.setNachname(credentials.getNachname());
 
-		String normalizedRoles = AuthUtils.normalizeRoles(credentials.getGroups());
+		String normalizedRoles = ROLE_STANDARD;
 
 		resourceOwner.setRoles(normalizedRoles);
 		return resourceOwner;
