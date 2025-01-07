@@ -58,7 +58,7 @@ public class OrderTempPasswordPayloadTest {
 		final Set<ConstraintViolation<OrderTempPasswordPayload>> errors = validator.validate(payload);
 
 		// Assert
-		assertEquals(2, errors.size());
+		assertEquals(1, errors.size());
 	}
 
 }

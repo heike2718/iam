@@ -101,6 +101,31 @@
           ],
           "outputHashing": "all"
         },
+        "docker": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "index": {
+            "input": "build-env/auth-app/index.docker.html",
+            "output": "index.html"
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/auth-app/src/environments/environment.ts",
+              "with": "build-env/auth-app/environment.docker.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
         "development": {
           "optimization": false,
           "extractLicenses": false,

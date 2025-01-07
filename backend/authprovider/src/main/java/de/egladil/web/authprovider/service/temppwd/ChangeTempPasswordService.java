@@ -22,12 +22,12 @@ import de.egladil.web.authprovider.error.LogmessagePrefixes;
 import de.egladil.web.authprovider.payload.ChangeTempPasswordPayload;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
-import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.ChangeLoginSecretsDelegate;
+import de.egladil.web.authprovider.service.mail.AuthMailService;
 import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
 import de.egladil.web.authprovider.service.mail.TempPasswordChangedMailStrategy;
 import de.egladil.web.authprovider.service.profile.SendMailProfilChangedTask;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -96,9 +96,9 @@ public class ChangeTempPasswordService {
 
 			TempPassword tempPassword = optTempPassword.get();
 
-			LocalDateTime expiresAt = CommonTimeUtils.transformFromDate(tempPassword.getExpiresAt());
+			LocalDateTime expiresAt = AuthTimeUtils.transformFromDate(tempPassword.getExpiresAt());
 
-			if (CommonTimeUtils.now().isAfter(expiresAt)) {
+			if (AuthTimeUtils.now().isAfter(expiresAt)) {
 
 				this.deleteTempPasswordQuietly(tempPassword);
 

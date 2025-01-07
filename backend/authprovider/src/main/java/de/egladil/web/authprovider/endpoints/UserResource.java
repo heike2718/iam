@@ -27,6 +27,7 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
+import de.egladil.web.authprovider.error.MailversandException;
 import de.egladil.web.authprovider.event.AuthproviderEventHandler;
 import de.egladil.web.authprovider.event.BotAttackEvent;
 import de.egladil.web.authprovider.event.BotAttackEventPayload;
@@ -43,7 +44,6 @@ import de.egladil.web.authprovider.service.AuthJWTService;
 import de.egladil.web.authprovider.service.ClientService;
 import de.egladil.web.authprovider.service.RegistrationService;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
-import de.egladil.web.commons_mailer.exception.InvalidMailAddressException;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -168,7 +168,7 @@ public class UserResource {
 
 			return Response.created(uri).entity(data).build();
 
-		} catch (InvalidMailAddressException e) {
+		} catch (MailversandException e) {
 
 			this.resourceOwnerService.deleteResourceOwnerQuietly(signUpCredentials.getEmail());
 			throw new InvalidInputException(applicationMessages.getString("email.invalid"));

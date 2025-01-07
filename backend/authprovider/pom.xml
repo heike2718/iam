@@ -15,12 +15,13 @@
 
 	<properties>
 		<auth-validations.version>0.0.1</auth-validations.version>
-		<commons.version>2.0.2</commons.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-		<quarkus.platform.version>3.15.1</quarkus.platform.version>
+		<quarkus.platform.version>3.15.2</quarkus.platform.version>
+		<camel-quarkus-shiro.version>3.15.1</camel-quarkus-shiro.version>
+		<java-jwt.version>4.4.0</java-jwt.version>
 		<surefire-plugin.version>3.1.2</surefire-plugin.version>
-		<dependency-check.version>10.0.1</dependency-check.version>
+		<dependency-check.version>11.1.1</dependency-check.version>
 		<maven.compiler.release>17</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -36,14 +37,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
-			<dependency>
-				<groupId>de.egladil.web</groupId>
-				<artifactId>commons-bom</artifactId>
-				<version>${commons.version}</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -57,30 +50,38 @@
 		</dependency>
 
 		<dependency>
-			<groupId>de.egladil.web</groupId>
-			<artifactId>commons-crypto</artifactId>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${java-jwt.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
-			<groupId>de.egladil.web</groupId>
-			<artifactId>commons-mailer</artifactId>
+			<groupId>org.apache.shiro.crypto</groupId>
+			<artifactId>shiro-hashes-argon2</artifactId>
+			<version>2.0.2</version>
 		</dependency>
-
-		<dependency>
-			<groupId>de.egladil.web</groupId>
-			<artifactId>commons-net</artifactId>
-		</dependency>
-
 
 		<!-- Quarkus START -->
 		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-hibernate-orm</artifactId>
+			<groupId>org.apache.camel.quarkus</groupId>
+			<artifactId>camel-quarkus-shiro</artifactId>
+			<version>${camel-quarkus-shiro.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-agroal</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-reactive-routes</artifactId>
 		</dependency>
 
 		<dependency>
@@ -105,12 +106,23 @@
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-smallrye-fault-tolerance</artifactId>
+			<artifactId>quarkus-hibernate-validator</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-hibernate-validator</artifactId>
+			<artifactId>quarkus-mailer</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-hibernate-orm</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-fault-tolerance</artifactId>
 		</dependency>
 
 		<dependency>
@@ -128,19 +140,21 @@
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-arc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-jdbc-mariadb</artifactId>
 		</dependency>
 
 		<!-- Quarkus END -->
 
 		<dependency>
-			<groupId>jakarta.servlet</groupId>
-			<artifactId>jakarta.servlet-api</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>

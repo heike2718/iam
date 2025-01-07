@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import de.egladil.web.authprovider.crypto.impl.CryptoService;
 import de.egladil.web.authprovider.dao.ActivationCodeDao;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ActivationCode;
@@ -20,9 +20,10 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.event.AuthproviderEvent;
 import de.egladil.web.authprovider.event.AuthproviderEventType;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
-import de.egladil.web.commons_crypto.CryptoService;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 
 /**
  * ConfirmationServiceImplTest
@@ -30,26 +31,20 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 public class ConfirmationServiceImplTest {
 
+	@InjectMock
 	private ActivationCodeDao activationCodeDao;
 
+	@InjectMock
 	private ResourceOwnerDao resourceOwnerDao;
 
+	@InjectMock
 	private ResourceOwnerService resourceOwnerService;
 
+	@InjectMock
 	private CryptoService cryptoService;
 
+	@Inject
 	private ConfirmationServiceImpl service;
-
-	@BeforeEach
-	void setUp() {
-
-		activationCodeDao = Mockito.mock(ActivationCodeDao.class);
-		resourceOwnerDao = Mockito.mock(ResourceOwnerDao.class);
-		resourceOwnerService = Mockito.mock(ResourceOwnerService.class);
-		cryptoService = Mockito.mock(CryptoService.class);
-
-		service = ConfirmationServiceImpl.createForTest(activationCodeDao, resourceOwnerDao, resourceOwnerService, cryptoService);
-	}
 
 	@Test
 	void should_writeToEventLog_when_activationExpired() {
@@ -61,7 +56,7 @@ public class ConfirmationServiceImplTest {
 		ActivationCode activationCode = new ActivationCode();
 		activationCode.setConfirmationCode(confirmCode);
 		activationCode.setConfirmed(false);
-		activationCode.setExpirationTime(CommonTimeUtils.transformFromLocalDateTime(LocalDateTime.now().plusHours(-1)));
+		activationCode.setExpirationTime(AuthTimeUtils.transformFromLocalDateTime(LocalDateTime.now().plusHours(-1)));
 
 		ResourceOwner resourceOwner = new ResourceOwner();
 		resourceOwner.setAktiviert(false);

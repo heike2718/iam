@@ -10,11 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.domain.TempPassword;
-import de.egladil.web.authprovider.service.AuthMailService;
+import de.egladil.web.authprovider.error.MailversandException;
+import de.egladil.web.authprovider.service.mail.AuthMailService;
 import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
 import de.egladil.web.authprovider.service.mail.TempPasswordCreatedMailStrategy;
-import de.egladil.web.commons_mailer.exception.EmailException;
-import de.egladil.web.commons_mailer.exception.InvalidMailAddressException;
 
 /**
  * SendTempPasswordTask
@@ -57,11 +56,7 @@ public class SendTempPasswordTask implements Callable<Boolean> {
 			mailService.sendMail(mailStrategy.createEmailDaten("TempPassword"));
 
 			return Boolean.TRUE;
-		} catch (InvalidMailAddressException e) {
-
-			LOG.warn(e.getMessage());
-			return Boolean.FALSE;
-		} catch (EmailException e) {
+		} catch (MailversandException e) {
 
 			LOG.error(e.getMessage(), e);
 			return Boolean.FALSE;

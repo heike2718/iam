@@ -6,19 +6,18 @@
 package de.egladil.web.authprovider.service;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.crypto.hash.Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
+import de.egladil.web.authprovider.domain.CryptoAlgorithm;
 import de.egladil.web.authprovider.domain.LoginSecrets;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.domain.Salt;
@@ -342,16 +341,11 @@ public class ResourceOwnerService {
 
 	LoginSecrets createLoginSecrets(final SignUpCredentials credentials) {
 
-		Hash hash = authCryptoService.hashPassword(credentials.getZweiPassworte().getPasswort().toCharArray());
+		String hash = authCryptoService.hashPassword(credentials.getZweiPassworte().getPasswort().toCharArray());
 		LoginSecrets loginSecrets = new LoginSecrets();
-		loginSecrets.setPasswordhash(Base64.getEncoder().encodeToString(hash.getBytes()));
-
-		Salt salt = new Salt();
-		salt.setAlgorithmName(hash.getAlgorithmName());
-		salt.setIterations(hash.getIterations());
-		salt.setWert(hash.getSalt().toBase64());
-
-		loginSecrets.setSalt(salt);
+		loginSecrets.setPasswordhash(hash);
+		loginSecrets.setSalt(null);
+		loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
 
 		return loginSecrets;
 	}

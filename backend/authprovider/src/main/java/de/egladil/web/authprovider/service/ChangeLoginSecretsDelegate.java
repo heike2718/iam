@@ -4,17 +4,14 @@
 // =====================================================
 package de.egladil.web.authprovider.service;
 
-import java.util.Base64;
-
-import org.apache.shiro.crypto.hash.Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_validations.utils.SecUtils;
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.dao.LoginSecretsDao;
+import de.egladil.web.authprovider.domain.CryptoAlgorithm;
 import de.egladil.web.authprovider.domain.LoginSecrets;
-import de.egladil.web.authprovider.domain.Salt;
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;
@@ -46,13 +43,10 @@ public class ChangeLoginSecretsDelegate {
 
 		try {
 
-			Hash hash = authCryptoService.hashPassword(password);
-			loginSecrets.setPasswordhash(Base64.getEncoder().encodeToString(hash.getBytes()));
-
-			Salt salt = loginSecrets.getSalt();
-			salt.setAlgorithmName(hash.getAlgorithmName());
-			salt.setIterations(hash.getIterations());
-			salt.setWert(hash.getSalt().toBase64());
+			String passwordHash = authCryptoService.hashPassword(password);
+			loginSecrets.setPasswordhash(passwordHash);
+			loginSecrets.setSalt(null);
+			loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
 
 			LoginSecrets persisted = this.loginSecretsDao.save(loginSecrets);
 

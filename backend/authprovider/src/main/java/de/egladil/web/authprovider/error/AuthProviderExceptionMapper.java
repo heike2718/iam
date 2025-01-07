@@ -13,7 +13,6 @@ import de.egladil.web.auth_validations.exceptions.InvalidInputException;
 import de.egladil.web.authprovider.dao.impl.PersistenceExceptionMapper;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
-import de.egladil.web.commons_net.exception.SessionExpiredException;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.RollbackException;
 import jakarta.ws.rs.NotFoundException;

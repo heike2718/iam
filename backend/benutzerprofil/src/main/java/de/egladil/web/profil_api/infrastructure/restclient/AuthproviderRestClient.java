@@ -10,7 +10,7 @@ import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import de.egladil.web.profil_api.domain.auth.dto.OAuthClientCredentials;
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.profil_api.domain.benutzer.ChangeProfileDataPayload;
 import de.egladil.web.profil_api.domain.benutzer.SelectProfilePayload;
 import de.egladil.web.profil_api.domain.passwort.ChangeProfilePasswordPayload;

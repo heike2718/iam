@@ -30,11 +30,11 @@ import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.error.ClientAuthException;
 import de.egladil.web.authprovider.error.InvalidRedirectUrl;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
+import de.egladil.web.authprovider.error.SessionExpiredException;
 import de.egladil.web.authprovider.payload.ClientCredentials;
 import de.egladil.web.authprovider.payload.OAuthAccessTokenPayload;
 import de.egladil.web.authprovider.utils.AuthUtils;
-import de.egladil.web.commons_net.exception.SessionExpiredException;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
@@ -134,8 +134,8 @@ public class ClientService {
 
 			if (cat != null) {
 
-				LocalDateTime expireDateTime = CommonTimeUtils.transformFromDate(cat.getAccessTokenExpiresAt());
-				LocalDateTime nowMinusHours = CommonTimeUtils.now().minusHours(2);
+				LocalDateTime expireDateTime = AuthTimeUtils.transformFromDate(cat.getAccessTokenExpiresAt());
+				LocalDateTime nowMinusHours = AuthTimeUtils.now().minusHours(2);
 
 				if (expireDateTime.isBefore(nowMinusHours)) {
 
@@ -164,7 +164,7 @@ public class ClientService {
 		clientAccessToken.setAccessToken(accessTokenId);
 
 		clientAccessToken
-			.setAccessTokenExpiresAt(CommonTimeUtils.getInterval(CommonTimeUtils.now(), client.getAccessTokenExpirationMinutes(),
+			.setAccessTokenExpiresAt(AuthTimeUtils.getInterval(AuthTimeUtils.now(), client.getAccessTokenExpirationMinutes(),
 				ChronoUnit.MINUTES).getEndTime());
 
 		clientAccessToken.setClientId(client.getClientId());
@@ -204,8 +204,8 @@ public class ClientService {
 			throw new SessionExpiredException("Das ClientAccessToken ist abgelaufen. Bitte aktualisieren Sie Ihren Browser.");
 		}
 
-		LocalDateTime expireDateTime = CommonTimeUtils.transformFromDate(clientAccessToken.getAccessTokenExpiresAt());
-		LocalDateTime now = CommonTimeUtils.now();
+		LocalDateTime expireDateTime = AuthTimeUtils.transformFromDate(clientAccessToken.getAccessTokenExpiresAt());
+		LocalDateTime now = AuthTimeUtils.now();
 
 		if (now.isAfter(expireDateTime)) {
 

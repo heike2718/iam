@@ -15,8 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 
 /**
  * BenutzerkontoGeloeschtMailStrategie
@@ -63,7 +62,7 @@ public class BenutzerkontoGeloeschtMailStrategie implements CreateDefaultMailDat
 			IOUtils.copy(in, sw, "utf-8");
 			String text = sw.toString();
 
-			String wann = DateTimeFormatter.ofPattern(CommonTimeUtils.DEFAULT_DATE_TIME_FORMAT).format(timestamp);
+			String wann = DateTimeFormatter.ofPattern(AuthTimeUtils.DEFAULT_DATE_TIME_FORMAT).format(timestamp);
 
 			text = StringUtils.replace(text, "#1#", wann);
 			text = StringUtils.replace(text, "#2#", resourceOwner.toLogString());

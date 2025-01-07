@@ -20,8 +20,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 
-import de.egladil.web.commons_net.file.CommonFileUtils;
-
 /**
  * RSAKeyUtils
  */
@@ -48,7 +46,7 @@ public final class RSAKeyUtils {
 	 */
 	public static PublicKey getPublicKeyRSA(final String pathToKeyFile) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
-		byte[] keyBytes = CommonFileUtils.readBytes(new File(pathToKeyFile));
+		byte[] keyBytes = AuthFileUtils.readBytes(new File(pathToKeyFile));
 		return getPublicKeyRSA(keyBytes);
 	}
 

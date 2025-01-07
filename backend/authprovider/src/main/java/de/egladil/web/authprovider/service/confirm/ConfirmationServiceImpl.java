@@ -9,13 +9,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.event.Event;
-import jakarta.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.authprovider.crypto.impl.CryptoService;
 import de.egladil.web.authprovider.dao.ActivationCodeDao;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ActivationCode;
@@ -25,8 +22,10 @@ import de.egladil.web.authprovider.event.AuthproviderEvent;
 import de.egladil.web.authprovider.event.LoggableEventDelegate;
 import de.egladil.web.authprovider.event.RegistrationConfirmationExpired;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
-import de.egladil.web.commons_crypto.CryptoService;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
 
 /**
  * ConfirmationServiceImpl
@@ -52,23 +51,6 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 	Event<AuthproviderEvent> authproviderEvent;
 
 	private AuthproviderEvent eventPayload;
-
-	public static ConfirmationServiceImpl createForTest(final ActivationCodeDao activationCodeDao, final ResourceOwnerDao resourceOwnerDao, final ResourceOwnerService resourceOwnerService, final CryptoService cryptoService) {
-
-		ConfirmationServiceImpl result = new ConfirmationServiceImpl();
-		result.activationCodeDao = activationCodeDao;
-		result.resourceOwnerDao = resourceOwnerDao;
-		result.resourceOwnerService = resourceOwnerService;
-		result.cryptoService = cryptoService;
-		return result;
-	}
-
-	/**
-	 * Erzeugt eine Instanz von ConfirmationServiceImpl
-	 */
-	public ConfirmationServiceImpl() {
-
-	}
 
 	@Override
 	public ConfirmationStatus confirmCode(final String confirmationCode) {
@@ -106,9 +88,9 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 
 		if (!bereitsAktiviert) {
 
-			LocalDateTime expiresAt = CommonTimeUtils.transformFromDate(activationCode.getExpirationTime());
+			LocalDateTime expiresAt = AuthTimeUtils.transformFromDate(activationCode.getExpirationTime());
 
-			if (CommonTimeUtils.now().isAfter(expiresAt)) {
+			if (AuthTimeUtils.now().isAfter(expiresAt)) {
 
 				resourceOwnerService.deleteResourceOwner(resourceOwner);
 

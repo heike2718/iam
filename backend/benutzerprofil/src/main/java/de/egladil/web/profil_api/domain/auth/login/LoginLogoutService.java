@@ -12,11 +12,11 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.profil_api.domain.auth.clientauth.OAuthClientCredentialsProvider;
 import de.egladil.web.profil_api.domain.auth.config.AuthConstants;
 import de.egladil.web.profil_api.domain.auth.dto.AuthResult;
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
-import de.egladil.web.profil_api.domain.auth.dto.OAuthClientCredentials;
 import de.egladil.web.profil_api.domain.auth.session.CsrfCookieService;
 import de.egladil.web.profil_api.domain.auth.session.Session;
 import de.egladil.web.profil_api.domain.auth.session.SessionService;

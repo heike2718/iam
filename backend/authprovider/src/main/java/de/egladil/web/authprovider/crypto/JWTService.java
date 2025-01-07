@@ -19,8 +19,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.temporal.ChronoUnit;
 
-import jakarta.enterprise.context.RequestScoped;
-
 import org.apache.commons.io.IOUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.jwt.Claims;
@@ -33,11 +31,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import de.egladil.web.authprovider.domain.Client;
 import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.domain.TimeInterval;
 import de.egladil.web.authprovider.error.AuthConfigurationException;
 import de.egladil.web.authprovider.error.AuthCryptoException;
 import de.egladil.web.authprovider.payload.JWTPayload;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
-import de.egladil.web.commons_net.time.TimeInterval;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
+import jakarta.enterprise.context.RequestScoped;
 
 /**
  * JWTService
@@ -83,7 +82,7 @@ public class JWTService {
 
 		PrivateKey privateKey = getPrivateKey();
 
-		TimeInterval jwtInterval = CommonTimeUtils.getInterval(CommonTimeUtils.now(), client.getJwtExpirationMinutes(),
+		TimeInterval jwtInterval = AuthTimeUtils.getInterval(AuthTimeUtils.now(), client.getJwtExpirationMinutes(),
 			ChronoUnit.MINUTES);
 
 		Algorithm algorithm = Algorithm.RSA256(null, (RSAPrivateKey) privateKey);
@@ -125,7 +124,7 @@ public class JWTService {
 
 		PrivateKey privateKey = getPrivateKey();
 
-		TimeInterval jwtInterval = CommonTimeUtils.getInterval(CommonTimeUtils.now(), client.getJwtExpirationMinutes(),
+		TimeInterval jwtInterval = AuthTimeUtils.getInterval(AuthTimeUtils.now(), client.getJwtExpirationMinutes(),
 			ChronoUnit.MINUTES);
 
 		Algorithm algorithm = Algorithm.RSA256(null, (RSAPrivateKey) privateKey);

@@ -5,7 +5,6 @@
 package de.egladil.web.authprovider.service.mail;
 
 import de.egladil.web.authprovider.event.BotAttackEventPayload;
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
 
 /**
  * BotAttackEventMailStrategy

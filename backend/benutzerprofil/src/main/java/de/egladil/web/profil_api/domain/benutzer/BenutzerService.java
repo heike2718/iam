@@ -13,8 +13,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
-import de.egladil.web.profil_api.domain.auth.dto.OAuthClientCredentials;
 import de.egladil.web.profil_api.domain.auth.dto.ResponsePayload;
 import de.egladil.web.profil_api.domain.exceptions.CommunicationException;
 import de.egladil.web.profil_api.domain.exceptions.LogmessagePrefixes;

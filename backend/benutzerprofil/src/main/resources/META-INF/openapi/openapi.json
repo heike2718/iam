@@ -257,31 +257,6 @@
           }
         }
       },
-      "OAuthClientCredentials" : {
-        "description" : "credentials des OAuth2-Clients beim authprovider",
-        "required" : [ "clientId", "clientSecret" ],
-        "type" : "object",
-        "properties" : {
-          "clientId" : {
-            "description" : "ID des authprovider-Clients",
-            "maxLength" : 50,
-            "pattern" : "[a-zA-Z0-9+=]*",
-            "type" : "string"
-          },
-          "clientSecret" : {
-            "description" : "secret des authprovider-Clients",
-            "maxLength" : 50,
-            "pattern" : "[a-zA-Z0-9+=]*",
-            "type" : "string"
-          },
-          "nonce" : {
-            "description" : "zur Authentifizierung des Clients generierter String, der vom authprovider unverändert zurückgegeben wird",
-            "maxLength" : 36,
-            "pattern" : "[a-zA-Z0-9\\-]*",
-            "type" : "string"
-          }
-        }
-      },
       "PasswortPayload" : {
         "required" : [ "passwort", "zweiPassworte" ],
         "type" : "object",

@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.event.ResourceOwnerEventPayload;
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 
 /**
  * MinikaengurukontenInfoStrategie
@@ -85,7 +84,7 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 	private String getText() {
 
 		String textTemplate = "";
-		String zeitpunkt = CommonTimeUtils.format(LocalDateTime.now());
+		String zeitpunkt = AuthTimeUtils.format(LocalDateTime.now());
 		String resourceOwnerDetails = StringUtils.abbreviate(resourceOwner.getUuid(), 11) + " - " + resourceOwner.getVorname() + " "
 			+ resourceOwner.getNachname();
 

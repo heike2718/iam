@@ -25,7 +25,7 @@ public class TwoPasswordsValidator implements ConstraintValidator<ValidPasswords
 
 		if (value.getPasswort() != null && !value.getPasswort().equals(value.getPasswortWdh())) {
 
-			context.buildConstraintViolationWithTemplate("Die (neuen) Passwörter stimmen nicht überein. ").addBeanNode()
+			context.buildConstraintViolationWithTemplate("Die (neuen) Passwörter stimmen nicht überein.").addBeanNode()
 				.addConstraintViolation();
 			return false;
 

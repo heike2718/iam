@@ -15,8 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.domain.ActivationCode;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import jakarta.ws.rs.core.UriInfo;
 
 /**
@@ -67,8 +66,8 @@ public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy 
 			IOUtils.copy(in, sw, "utf-8");
 			String text = sw.toString();
 
-			LocalDateTime ldt = CommonTimeUtils.transformFromDate(activationCode.getExpirationTime());
-			String expiresAt = DateTimeFormatter.ofPattern(CommonTimeUtils.DEFAULT_DATE_TIME_FORMAT).format(ldt);
+			LocalDateTime ldt = AuthTimeUtils.transformFromDate(activationCode.getExpirationTime());
+			String expiresAt = DateTimeFormatter.ofPattern(AuthTimeUtils.DEFAULT_DATE_TIME_FORMAT).format(ldt);
 
 			text = StringUtils.replace(text, "#0#", expiresAt);
 			text = StringUtils.replace(text, "#1#", getLinkConfirmUrl());

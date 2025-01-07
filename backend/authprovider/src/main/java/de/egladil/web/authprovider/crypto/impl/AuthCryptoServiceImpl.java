@@ -9,9 +9,9 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.apache.shiro.crypto.hash.Hash;
-import org.apache.shiro.util.ByteSource;
-import org.apache.shiro.util.SimpleByteSource;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
+import org.apache.shiro.crypto.hash.DefaultHashService;
+import org.apache.shiro.crypto.support.hashes.argon2.Argon2HashProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,20 +19,18 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.auth_validations.utils.SecUtils;
 import de.egladil.web.authprovider.config.PasswordConfig;
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
+import de.egladil.web.authprovider.dao.LoginSecretsDao;
 import de.egladil.web.authprovider.domain.Client;
+import de.egladil.web.authprovider.domain.CryptoAlgorithm;
 import de.egladil.web.authprovider.domain.LoginSecrets;
 import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.authprovider.domain.Salt;
 import de.egladil.web.authprovider.error.AuthException;
-import de.egladil.web.authprovider.error.ClientAuthException;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
 import de.egladil.web.authprovider.utils.AuthUtils;
-import de.egladil.web.commons_crypto.CryptoService;
-import de.egladil.web.commons_crypto.PasswordAlgorithm;
-import de.egladil.web.commons_crypto.PasswordAlgorithmBuilder;
 import io.vertx.core.http.HttpServerRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 /**
  * AuthCryptoServiceImpl wrapper für CryptoService
@@ -47,6 +45,9 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 	private static final Logger LOG = LoggerFactory.getLogger(AuthCryptoServiceImpl.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+
+	@Inject
+	LoginSecretsDao loginSecretsDao;
 
 	@Inject
 	HttpServerRequest request;
@@ -66,38 +67,14 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 	@Inject
 	CryptoService cryptoService;
 
-	/**
-	 * Erzeugt eine Instanz von AuthCryptoServiceImpl
-	 */
-	public AuthCryptoServiceImpl() {
-
-	}
-
-	/**
-	 * Zu Testzwecken ohne CDI
-	 */
-	public AuthCryptoServiceImpl(final PasswordConfig passwordConfig, final CryptoService cryptoService) {
-
-		this.passwordConfig = passwordConfig;
-		this.cryptoService = cryptoService;
-	}
-
 	@Override
-	public Hash hashPassword(final char[] password) {
+	public String hashPassword(final char[] password) {
 
 		try {
 
-		// @formatter:off
-		PasswordAlgorithm passwordAlgorithm = PasswordAlgorithmBuilder.instance()
-			.withAlgorithmName(passwordConfig.getCryptoAlgorithm())
-			.withNumberIterations(passwordConfig.getIterations())
-			.withPepper(passwordConfig.getPepper())
-			.build();
-		// @formatter:on
-
-			final ByteSource salt = new SimpleByteSource(cryptoService.generateSalt(128));
-			final Hash hash = passwordAlgorithm.hashPassword(password, salt);
-			return hash;
+			DefaultPasswordService passwordService = createArgon2PasswordService();
+			String pepperedPassword = getPepperedPassword(password);
+			return passwordService.encryptPassword(pepperedPassword);
 		} finally {
 
 			SecUtils.wipe(password);
@@ -107,32 +84,28 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 	@Override
 	public boolean verifyPassword(final char[] password, final ResourceOwner resourceOwner) {
 
-		try {
+		LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
 
-			LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
-			final Salt salt = loginSecrets.getSalt();
+		boolean matches = this.verifyLoginSecrets(loginSecrets, password);
 
-		// @formatter:off
-		PasswordAlgorithm passwordAlgorithm =
-			PasswordAlgorithmBuilder.instance()
-			.withAlgorithmName(salt.getAlgorithmName())
-			.withNumberIterations(salt.getIterations())
-			.withPepper(passwordConfig.getPepper())
-			.build();
-		// @formatter:on
+		if (!matches) {
 
-			final boolean korrekt = passwordAlgorithm.verifyPassword(password, loginSecrets.getPasswordhash(), salt.getWert());
-
-			if (!korrekt) {
-
-				LOG.warn("ResourceOwner {} stimmt, passwort nicht", getFailedLoginDetails(resourceOwner));
-				throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
-			}
-			return true;
-		} finally {
-
-			SecUtils.wipe(password);
+			LOG.warn("ResourceOwner {} stimmt, passwort nicht", getFailedLoginDetails(resourceOwner));
+			throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
 		}
+
+		return matches;
+	}
+
+	@Transactional
+	void rehashAndStorePassword(final LoginSecrets loginSecrets, final char[] password) {
+
+		String rehashedPassword = this.hashPassword(password);
+		loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
+		loginSecrets.setPasswordhash(rehashedPassword);
+		loginSecrets.setSalt(null);
+
+		loginSecretsDao.save(loginSecrets);
 	}
 
 	private String getFailedLoginDetails(final ResourceOwner resourceOwner) {
@@ -153,35 +126,17 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 			return checklistenappClientSecret.equals(new String(password));
 		}
 
-		try {
+		LoginSecrets loginSecrets = client.getLoginSecrets();
 
-			LoginSecrets loginSecrets = client.getLoginSecrets();
+		boolean matches = this.verifyLoginSecrets(loginSecrets, password);
 
-			final Salt salt = loginSecrets.getSalt();
+		if (!matches) {
 
-		// @formatter:off
-		String pepper = passwordConfig.getPepper();
-		PasswordAlgorithm passwordAlgorithm =
-			PasswordAlgorithmBuilder.instance()
-			.withAlgorithmName(salt.getAlgorithmName())
-			.withNumberIterations(salt.getIterations())
-			.withPepper(pepper)
-			.build();
-		// @formatter:on
-
-			final boolean korrekt = passwordAlgorithm.verifyPassword(password, loginSecrets.getPasswordhash(), salt.getWert());
-
-			if (!korrekt) {
-
-				LOG.warn(LogmessagePrefixes.BOT + "Client {} stimmt, passwort nicht", client);
-				throw new ClientAuthException("Ungültige ClientCredentials");
-			}
-			return true;
-		} finally {
-
-			SecUtils.wipe(password);
+			LOG.warn(LogmessagePrefixes.BOT + "Client {} stimmt, passwort nicht", client);
+			throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
 		}
 
+		return matches;
 	}
 
 	@Override
@@ -199,4 +154,78 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 
 		return cryptoService.generateRandomString(passwordConfig.getRandomAlgorithm(), length, charpool.toCharArray());
 	}
+
+	void setStageForTest(final String stage) {
+
+		this.stage = stage;
+	}
+
+	/**
+	 * Verifiziert die LoginSecrets. Falls sie noch mit SHA-256 berechnet sind, werden sie umgehashed.
+	 *
+	 * @param  loginSecrets
+	 * @param  password
+	 * @return
+	 */
+	boolean verifyLoginSecrets(final LoginSecrets loginSecrets, final char[] password) {
+
+		boolean matches = false;
+
+		try {
+
+			if (CryptoAlgorithm.SHA_256 == loginSecrets.getCryptoAlgorithm()) {
+
+				matches = new LegacyPasswordService(passwordConfig).verifyPassword(password, loginSecrets.getPasswordhash(),
+					loginSecrets.getSalt().getWert());
+
+				// Umwandeln, damit die alten verschwinden.
+				if (matches) {
+
+					this.rehashAndStorePassword(loginSecrets, password);
+				}
+
+			} else {
+
+				DefaultPasswordService passwordService = createArgon2PasswordService();
+				String pepperedPassword = getPepperedPassword(password);
+				matches = passwordService.passwordsMatch(pepperedPassword, loginSecrets.getPasswordhash());
+			}
+
+			return matches;
+		} finally {
+
+			SecUtils.wipe(password);
+		}
+	}
+
+	DefaultPasswordService createArgon2PasswordService() {
+
+		DefaultHashService hashService = new DefaultHashService();
+		hashService.setDefaultAlgorithmName(Argon2HashProvider.Parameters.DEFAULT_ALGORITHM_NAME);
+
+		DefaultPasswordService passwordService = new DefaultPasswordService();
+		passwordService.setHashService(hashService);
+
+		return passwordService;
+	}
+
+	/**
+	 * @param  password
+	 * @return
+	 */
+	private String getPepperedPassword(final char[] password) {
+
+		return passwordConfig.getPepper() + new String(password);
+	}
+
+	void setCryptoService(final CryptoService cryptoService) {
+
+		this.cryptoService = cryptoService;
+	}
+
+	void setPasswordConfig(final PasswordConfig passwordConfig) {
+
+		this.passwordConfig = passwordConfig;
+	}
+
 }

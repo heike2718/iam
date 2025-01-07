@@ -6,7 +6,7 @@ package de.egladil.web.profil_api.domain.benutzer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import de.egladil.web.profil_api.domain.auth.dto.OAuthClientCredentials;
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 
 /**
  * ChangeProfileDataPayload

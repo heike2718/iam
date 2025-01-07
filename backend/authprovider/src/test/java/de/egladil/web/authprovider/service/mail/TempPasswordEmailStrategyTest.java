@@ -14,8 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import de.egladil.web.authprovider.domain.Client;
 import de.egladil.web.authprovider.domain.TempPassword;
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import io.quarkus.test.junit.QuarkusTest;
 
 /**
@@ -31,7 +30,7 @@ public class TempPasswordEmailStrategyTest {
 		TempPassword tempPassword = new TempPassword();
 		tempPassword.setTokenId("skahxa-ashqhoh");
 		tempPassword.setPassword("totalgeh31m");
-		tempPassword.setExpiresAt(CommonTimeUtils.transformFromLocalDateTime(CommonTimeUtils.now().plus(1, ChronoUnit.HOURS)));
+		tempPassword.setExpiresAt(AuthTimeUtils.transformFromLocalDateTime(AuthTimeUtils.now().plus(1, ChronoUnit.HOURS)));
 
 		// Act
 		DefaultEmailDaten emailDaten = new TempPasswordCreatedMailStrategy("heike@egladil.de", tempPassword,
@@ -57,7 +56,7 @@ public class TempPasswordEmailStrategyTest {
 		TempPassword tempPassword = new TempPassword();
 		tempPassword.setTokenId("skahxa-ashqhoh");
 		tempPassword.setPassword("totalgeh31m");
-		tempPassword.setExpiresAt(CommonTimeUtils.transformFromLocalDateTime(CommonTimeUtils.now().plus(1, ChronoUnit.HOURS)));
+		tempPassword.setExpiresAt(AuthTimeUtils.transformFromLocalDateTime(AuthTimeUtils.now().plus(1, ChronoUnit.HOURS)));
 
 		Client client = new Client();
 		client.setId(29l);

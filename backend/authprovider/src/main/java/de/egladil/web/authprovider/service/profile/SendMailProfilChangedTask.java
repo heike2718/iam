@@ -9,10 +9,9 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.authprovider.service.AuthMailService;
+import de.egladil.web.authprovider.error.MailversandException;
+import de.egladil.web.authprovider.service.mail.AuthMailService;
 import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
-import de.egladil.web.commons_mailer.exception.EmailException;
-import de.egladil.web.commons_mailer.exception.InvalidMailAddressException;
 
 /**
  * SendMailProfilChangedTask sendet eine Mail darüber, dass sich am Profil (Loginname, Vorname, Nachname, Mailadresse,
@@ -45,11 +44,7 @@ public class SendMailProfilChangedTask implements Callable<Boolean> {
 			mailService.sendMail(mailStrategy.createEmailDaten(""));
 
 			return Boolean.TRUE;
-		} catch (InvalidMailAddressException e) {
-
-			LOG.warn(e.getMessage());
-			return Boolean.FALSE;
-		} catch (EmailException e) {
+		} catch (MailversandException e) {
 
 			LOG.error(e.getMessage(), e);
 			return Boolean.FALSE;

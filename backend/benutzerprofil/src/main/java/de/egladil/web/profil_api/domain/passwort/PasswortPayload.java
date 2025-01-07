@@ -19,12 +19,12 @@ import jakarta.validation.constraints.Size;
  */
 public class PasswortPayload {
 
-	@NotBlank(message = "Das aktuelle Passwort ist erforderlich. ")
-	@PasswortLogin(message = "Das aktuelle Passwort enthält ungültige Zeichen. ")
-	@Size(max = 100, message = "Das aktuelle Passwort ist zu lang (max. {max} Zeichen. ")
+	@NotBlank(message = "Das aktuelle Passwort ist erforderlich.")
+	@PasswortLogin(message = "Das aktuelle Passwort enthält ungültige Zeichen.")
+	@Size(max = 100, message = "Das aktuelle Passwort ist zu lang (max. {max} Zeichen.")
 	private String passwort;
 
-	@NotNull(message = "Die neuen Passwörter sind erforderlich. ")
+	@NotNull(message = "Die neuen Passwörter sind erforderlich.")
 	@Valid
 	@JsonProperty
 	private ZweiPassworte zweiPassworte;

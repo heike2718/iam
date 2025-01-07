@@ -15,12 +15,12 @@ import jakarta.validation.constraints.NotNull;
 @ValidPasswords
 public class ZweiPassworte {
 
-	@NotNull(message = "Das (neue) Passwort ist erforderlich. ")
-	@PasswortNeu(message = "Das (neue) Passwort ist nicht regelkonform. ")
+	@NotNull(message = "Das (neue) Passwort ist erforderlich.")
+	@PasswortNeu(message = "Das (neue) Passwort ist nicht regelkonform.")
 	private String passwort;
 
-	@NotNull(message = "Das wiederholte Passwort ist erforderlich. ")
-	@PasswortNeu(message = "Das wiederholte Passwort ist nicht regelkonform. ")
+	@NotNull(message = "Das wiederholte Passwort ist erforderlich.")
+	@PasswortNeu(message = "Das wiederholte Passwort ist nicht regelkonform.")
 	private String passwortWdh;
 
 	/**

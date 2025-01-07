@@ -2,14 +2,18 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const environment = {
   version: '9.0.0',
-  envName: 'dev',
+  envName: 'docker',
   production: false,
   baseUrl: '',
-  loginRedirectUrl: 'http://localhost:/profil-app',
+  loginRedirectUrl: 'http://localhost:9600/benutzerprofil/',
   datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
-  assetsPath: '/profil-app/assets/',
+  assetsPath: '/benutzerprofil/assets/',
   providers: [
-    provideStoreDevtools({ maxAge: 25 , connectInZone: true})
+    provideStoreDevtools({
+      maxAge: 25,
+      autoPause: true,
+      connectInZone: true
+    }),
   ],
 };

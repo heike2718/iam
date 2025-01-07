@@ -4,8 +4,6 @@
 // =====================================================
 package de.egladil.web.authprovider.service.mail;
 
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
-
 /**
  * CreateDefaultMailDatenStrategy
  */

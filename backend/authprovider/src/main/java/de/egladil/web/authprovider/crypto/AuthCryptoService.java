@@ -5,8 +5,6 @@
 
 package de.egladil.web.authprovider.crypto;
 
-import org.apache.shiro.crypto.hash.Hash;
-
 import de.egladil.web.authprovider.domain.Client;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.ClientAuthException;
@@ -14,18 +12,11 @@ import de.egladil.web.authprovider.error.ClientAuthException;
 public interface AuthCryptoService {
 
 	/**
-	 * Das gegebene Passwort wird gesalzen und gehashed. Das Salz, der hash-Wert und alle Infos zum erneuten Prüfen mit
-	 * checkPassword() stehen im zurückgegenen Hash und müssen persistiert werden. Den Hashwert holt man mit getBytes(),
-	 * das Salz mit getSalt(). <br>
-	 * <br>
-	 * Das Salz und der Hash-Wert werden in der DB am besten mit der toBase64()-Methode von ByteSource gespeichert.
-	 * Rückkonvertierung dann mit java.util.Base64.
-	 *
 	 * @param  password
 	 *                  char[] der Aufrufer ist verantwortlich für das Löschen des char[]
-	 * @return          Hash
+	 * @return          String
 	 */
-	Hash hashPassword(char[] password);
+	String hashPassword(char[] password);
 
 	/**
 	 * Prüft, ob das gegebene Passwort zum gegebenen ResourceOwner gehört.

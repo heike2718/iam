@@ -8,20 +8,15 @@ package de.egladil.web.authprovider.crypto.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import org.apache.shiro.crypto.hash.Hash;
-import org.apache.shiro.util.SimpleByteSource;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import de.egladil.web.authprovider.config.PasswordConfig;
 import de.egladil.web.authprovider.domain.Client;
+import de.egladil.web.authprovider.domain.CryptoAlgorithm;
 import de.egladil.web.authprovider.domain.LoginSecrets;
 import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.authprovider.domain.Salt;
 import de.egladil.web.authprovider.error.AuthException;
-import de.egladil.web.commons_crypto.CryptoService;
-import de.egladil.web.commons_crypto.impl.CryptoServiceImpl;
 
 /**
  * AuthCryptoServiceImplTest
@@ -37,7 +32,7 @@ public class AuthCryptoServiceImplTest {
 	@BeforeEach
 	void setUp() {
 
-		this.cryptoService = new CryptoServiceImpl();
+		this.cryptoService = new CryptoService();
 
 		passwordConfig = new PasswordConfig();
 		passwordConfig.setCryptoAlgorithm("SHA-256");
@@ -47,7 +42,10 @@ public class AuthCryptoServiceImplTest {
 		passwordConfig.setTempPwdCharPool("abcdefghijklmnopqrstuvwxyz0123456789");
 		passwordConfig.setTempPwdLength(8);
 
-		authCryptoService = new AuthCryptoServiceImpl(passwordConfig, cryptoService);
+		authCryptoService = new AuthCryptoServiceImpl();
+		authCryptoService.setCryptoService(cryptoService);
+		authCryptoService.setPasswordConfig(passwordConfig);
+		authCryptoService.setStageForTest("qs");
 	}
 
 	@Test
@@ -63,7 +61,6 @@ public class AuthCryptoServiceImplTest {
 	}
 
 	@Test
-	@DisplayName("should hash print password and salt")
 	void hashAndVerifyClientSecret() {
 
 		System.out.println(passwordConfig.toString());
@@ -71,28 +68,19 @@ public class AuthCryptoServiceImplTest {
 		String str = "start123";
 		final char[] pwd = str.toCharArray();
 
-		final Hash computedHash = authCryptoService.hashPassword(pwd);
+		final String computedHash = authCryptoService.hashPassword(pwd);
 
 		for (char c : pwd) {
 
 			assertEquals(0x00, c);
 		}
 
-		final String persistableSalt = computedHash.getSalt().toBase64();
-		final String persistablePwd = new SimpleByteSource(computedHash.getBytes()).toBase64();
-
 		System.out.println("str = " + str);
-		System.out.println("persistablePwd = " + persistablePwd);
-		System.out.println("persistableSalt = " + persistableSalt);
-
-		Salt salt = new Salt();
-		salt.setIterations(passwordConfig.getIterations());
-		salt.setAlgorithmName(passwordConfig.getCryptoAlgorithm());
-		salt.setWert(persistableSalt);
+		System.out.println("persistablePwd = " + computedHash);
 
 		LoginSecrets loginSecrets = new LoginSecrets();
-		loginSecrets.setPasswordhash(persistablePwd);
-		loginSecrets.setSalt(salt);
+		loginSecrets.setPasswordhash(computedHash);
+		loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
 
 		Client client = new Client();
 		client.setClientId("GerMkzlT2moZq762D5zKAorpg8aUjumXzNQz2yOUd9zQ");
@@ -110,32 +98,22 @@ public class AuthCryptoServiceImplTest {
 	}
 
 	@Test
-	@DisplayName("should hash and verify password")
 	void hashAndVerifyPassword() {
 
 		final char[] pwd = "Gehe1m".toCharArray();
 
-		final Hash computedHash = authCryptoService.hashPassword(pwd);
+		final String computedHash = authCryptoService.hashPassword(pwd);
 
 		for (char c : pwd) {
 
 			assertEquals(0x00, c);
 		}
 
-		final String persistableSalt = computedHash.getSalt().toBase64();
-		final String persistablePwd = new SimpleByteSource(computedHash.getBytes()).toBase64();
-
-		System.out.println("persistablePwd = " + persistablePwd);
-		System.out.println("persistableSalt = " + persistableSalt);
-
-		Salt salt = new Salt();
-		salt.setIterations(passwordConfig.getIterations());
-		salt.setAlgorithmName(passwordConfig.getCryptoAlgorithm());
-		salt.setWert(persistableSalt);
+		System.out.println("computedHash = " + computedHash);
 
 		LoginSecrets loginSecrets = new LoginSecrets();
-		loginSecrets.setPasswordhash(persistablePwd);
-		loginSecrets.setSalt(salt);
+		loginSecrets.setPasswordhash(computedHash);
+		loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
 
 		ResourceOwner resourceOwner = new ResourceOwner();
 		resourceOwner.setAktiviert(true);
@@ -155,27 +133,15 @@ public class AuthCryptoServiceImplTest {
 	}
 
 	@Test
-	@DisplayName("should hash and verify password")
-	void atuthFailure() {
+	void test_authException() {
 
 		final char[] pwd = "Gehe1m".toCharArray();
 
-		final Hash computedHash = authCryptoService.hashPassword(pwd);
-
-		final String persistableSalt = computedHash.getSalt().toBase64();
-		final String persistablePwd = new SimpleByteSource(computedHash.getBytes()).toBase64();
-
-		System.out.println("persistablePwd = " + persistablePwd);
-		System.out.println("persistableSalt = " + persistableSalt);
-
-		Salt salt = new Salt();
-		salt.setIterations(passwordConfig.getIterations());
-		salt.setAlgorithmName(passwordConfig.getCryptoAlgorithm());
-		salt.setWert(persistableSalt);
+		final String computedHash = authCryptoService.hashPassword(pwd);
 
 		LoginSecrets loginSecrets = new LoginSecrets();
-		loginSecrets.setPasswordhash(persistablePwd);
-		loginSecrets.setSalt(salt);
+		loginSecrets.setPasswordhash(computedHash);
+		loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
 
 		ResourceOwner resourceOwner = new ResourceOwner();
 		resourceOwner.setAktiviert(true);
@@ -189,7 +155,9 @@ public class AuthCryptoServiceImplTest {
 			fail("keine AuthException");
 		} catch (AuthException e) {
 
-			assertEquals("Das hat leider nicht geklappt: falsche Loginname/Email - Passwort - Kombination", e.getMessage());
+			assertEquals(
+				"Das hat leider nicht geklappt: falsche Loginname/Email - Passwort - Kombination oder noch nicht aktiviertes Benutzerkonto. Bestehen die Probleme weiterhin, senden Sie bitte eine Mail.",
+				e.getMessage());
 		}
 	}
 

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.config.ConfigService;
 import de.egladil.web.authprovider.error.AuthException;
-import de.egladil.web.commons_net.utils.CommonHttpUtils;
+import de.egladil.web.authprovider.utils.AuthHttpUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -88,7 +88,7 @@ public class OriginReferrerFilter implements ContainerRequestFilter {
 
 	private void checkHeaderTarget(final String headerValue, final ContainerRequestContext requestContext) throws IOException {
 
-		final String extractedValue = CommonHttpUtils.extractOrigin(headerValue);
+		final String extractedValue = AuthHttpUtils.extractOrigin(headerValue);
 
 		if (extractedValue == null) {
 
@@ -113,7 +113,7 @@ public class OriginReferrerFilter implements ContainerRequestFilter {
 
 	private void logErrorAndThrow(final String details, final ContainerRequestContext requestContext) throws IOException {
 
-		final String dump = CommonHttpUtils.getRequestInfos(requestContext);
+		final String dump = AuthHttpUtils.getRequestInfos(requestContext);
 		LOG.warn("Possible CSRF-Attack: {} {}", details, dump);
 		throw new AuthException();
 	}

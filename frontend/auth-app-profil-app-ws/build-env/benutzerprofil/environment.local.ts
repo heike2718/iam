@@ -5,11 +5,15 @@ export const environment = {
   envName: 'dev',
   production: false,
   baseUrl: '',
-  loginRedirectUrl: 'http://localhost:/benutzerprofil',
+  loginRedirectUrl: 'http://localhost:9600/benutzerprofil/',
   datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
   assetsPath: '/benutzerprofil/assets/',
   providers: [
-    provideStoreDevtools({ maxAge: 25 , connectInZone: true})
+    provideStoreDevtools({
+      maxAge: 25,
+      autoPause: true,
+      connectInZone: true
+    }),
   ],
 };

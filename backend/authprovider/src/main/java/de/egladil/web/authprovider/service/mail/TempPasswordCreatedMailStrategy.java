@@ -15,8 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.domain.TempPassword;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 
 /**
  * TempPasswordMailStrategy
@@ -61,7 +60,7 @@ public class TempPasswordCreatedMailStrategy implements CreateDefaultMailDatenSt
 			IOUtils.copy(in, sw, "utf-8");
 			String text = sw.toString();
 
-			LocalDateTime ldt = CommonTimeUtils.transformFromDate(tempPassword.getExpiresAt());
+			LocalDateTime ldt = AuthTimeUtils.transformFromDate(tempPassword.getExpiresAt());
 			String expiresAt = DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss").format(ldt);
 
 			String link = url + tempPassword.getTokenId();

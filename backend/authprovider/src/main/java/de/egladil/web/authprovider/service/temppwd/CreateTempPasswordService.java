@@ -5,23 +5,21 @@
 package de.egladil.web.authprovider.service.temppwd;
 
 import java.time.temporal.ChronoUnit;
-import java.util.Locale;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.config.PasswordConfig;
+import de.egladil.web.authprovider.crypto.impl.CryptoService;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.dao.TempPasswordDao;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.domain.TempPassword;
+import de.egladil.web.authprovider.domain.TimeInterval;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import de.egladil.web.authprovider.utils.AuthUtils;
-import de.egladil.web.commons_crypto.CryptoService;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
-import de.egladil.web.commons_net.time.TimeInterval;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
@@ -33,8 +31,6 @@ import jakarta.ws.rs.NotFoundException;
 public class CreateTempPasswordService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CreateTempPasswordService.class);
-
-	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
 	@ConfigProperty(name = "tempPasswordExpireMinutes", defaultValue = "30")
 	int tempPasswordExpireMinutes;
@@ -97,7 +93,7 @@ public class CreateTempPasswordService {
 		String tokenId = AuthUtils.newTokenId();
 
 		int expirationMinutes = Integer.valueOf(tempPasswordExpireMinutes);
-		TimeInterval timeInterval = CommonTimeUtils.getInterval(CommonTimeUtils.now(), expirationMinutes,
+		TimeInterval timeInterval = AuthTimeUtils.getInterval(AuthTimeUtils.now(), expirationMinutes,
 			ChronoUnit.MINUTES);
 
 		TempPassword tempPassword = new TempPassword();

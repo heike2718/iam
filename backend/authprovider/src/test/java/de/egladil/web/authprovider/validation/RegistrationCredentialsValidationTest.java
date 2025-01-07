@@ -78,7 +78,7 @@ public class RegistrationCredentialsValidationTest {
 
 		List<String> messages = constraintViolations.stream().map(cv -> cv.getMessage()).toList();
 
-		assertTrue(messages.contains("Die Passwörter stimmen nicht überein"));
+		assertTrue(messages.contains("Die (neuen) Passwörter stimmen nicht überein."));
 		assertTrue(messages.contains("zweiPassworte ist nicht valid"));
 	}
 
@@ -94,13 +94,12 @@ public class RegistrationCredentialsValidationTest {
 		Set<ConstraintViolation<SignUpCredentials>> constraintViolations = validator.validate(credentials);
 
 		// Assert
-		assertEquals(3, constraintViolations.size());
+		assertEquals(2, constraintViolations.size());
 
 		List<String> messages = constraintViolations.stream().map(cv -> cv.getMessage()).toList();
 
-		assertTrue(messages.contains("Die Passwörter stimmen nicht überein"));
+		assertTrue(messages.contains("Die (neuen) Passwörter stimmen nicht überein."));
 		assertTrue(messages.contains("zweiPassworte ist nicht valid"));
-		assertTrue(messages.contains(""));
 	}
 
 	@Test

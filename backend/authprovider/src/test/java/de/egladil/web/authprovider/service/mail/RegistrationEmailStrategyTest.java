@@ -16,8 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import de.egladil.web.authprovider.domain.ActivationCode;
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.core.UriInfo;
 
@@ -38,7 +37,7 @@ public class RegistrationEmailStrategyTest {
 		ActivationCode activationCode = new ActivationCode();
 		activationCode.setConfirmationCode("skahxa-ashqhoh");
 		activationCode
-			.setExpirationTime(CommonTimeUtils.transformFromLocalDateTime(CommonTimeUtils.now().plus(2, ChronoUnit.HOURS)));
+			.setExpirationTime(AuthTimeUtils.transformFromLocalDateTime(AuthTimeUtils.now().plus(2, ChronoUnit.HOURS)));
 
 		// Act
 		DefaultEmailDaten emailDaten = new RegistrationMailStrategy("heike@egladil.de", "günni", activationCode, uriInfo)

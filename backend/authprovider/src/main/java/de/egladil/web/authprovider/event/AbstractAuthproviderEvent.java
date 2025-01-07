@@ -10,7 +10,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
 
 /**
  * AbstractAuthproviderEvent
@@ -23,7 +22,7 @@ public abstract class AbstractAuthproviderEvent implements AuthproviderEvent {
 
 	public AbstractAuthproviderEvent() {
 
-		this.occuredOn = CommonTimeUtils.now();
+		this.occuredOn = LocalDateTime.now();
 	}
 
 	public AbstractAuthproviderEvent(final ResourceOwner resourceOwner) {

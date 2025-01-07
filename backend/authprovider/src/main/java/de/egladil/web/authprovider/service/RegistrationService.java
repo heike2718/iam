@@ -25,18 +25,18 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
-import de.egladil.web.authprovider.error.PropagationFailedException;
+import de.egladil.web.authprovider.error.MailversandException;
 import de.egladil.web.authprovider.event.AuthproviderEvent;
 import de.egladil.web.authprovider.event.AuthproviderEventHandler;
 import de.egladil.web.authprovider.event.LoggableEventDelegate;
 import de.egladil.web.authprovider.event.ResourceOwnerEventPayload;
 import de.egladil.web.authprovider.event.UserCreated;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
+import de.egladil.web.authprovider.service.mail.AuthMailService;
+import de.egladil.web.authprovider.service.mail.DefaultEmailDaten;
 import de.egladil.web.authprovider.service.mail.RegistrationMailStrategy;
 import de.egladil.web.authprovider.utils.AuthUtils;
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
-import de.egladil.web.commons_mailer.exception.InvalidMailAddressException;
-import de.egladil.web.commons_net.time.CommonTimeUtils;
+import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
@@ -79,7 +79,7 @@ public class RegistrationService {
 	 * @param  credentials
 	 * @return             SignUpLogInResponseData
 	 */
-	public ResourceOwner createNewResourceOwner(final Client client, final SignUpCredentials signUpCredentials, final UriInfo uriInfo) throws InvalidMailAddressException {
+	public ResourceOwner createNewResourceOwner(final Client client, final SignUpCredentials signUpCredentials, final UriInfo uriInfo) throws MailversandException {
 
 		if (uriInfo == null) {
 
@@ -138,7 +138,7 @@ public class RegistrationService {
 
 			return resourceOwner;
 
-		} catch (InvalidMailAddressException | PropagationFailedException e) {
+		} catch (MailversandException e) {
 
 			throw e;
 
@@ -156,7 +156,7 @@ public class RegistrationService {
 		result.setConfirmationCode(code);
 
 		int hours = Integer.valueOf(registrationKeyExpireHours);
-		LocalDateTime now = CommonTimeUtils.now();
+		LocalDateTime now = AuthTimeUtils.now();
 		Date expiresAt = Date.from(now.plus(hours, ChronoUnit.HOURS).atZone(ZoneId.systemDefault()).toInstant());
 
 		result.setExpirationTime(expiresAt);

@@ -60,8 +60,8 @@ public class ZweiPassworteValidationTest {
 		bean.setPasswortWdh(missmatching);
 
 		List<String> expectedMessages = Arrays
-			.asList(new String[] { "Das (neue) Passwort ist nicht regelkonform. ",
-				"Das wiederholte Passwort ist nicht regelkonform. " });
+			.asList(new String[] { "Das (neue) Passwort ist nicht regelkonform.",
+				"Das wiederholte Passwort ist nicht regelkonform." });
 
 		// Act
 		Set<ConstraintViolation<ZweiPassworte>> constraintViolations = validator.validate(bean);
@@ -97,8 +97,8 @@ public class ZweiPassworteValidationTest {
 		bean.setPasswortWdh(missmatching);
 
 		List<String> expectedMessages = Arrays
-			.asList(new String[] { "Das (neue) Passwort ist nicht regelkonform. ",
-				"Das wiederholte Passwort ist nicht regelkonform. " });
+			.asList(new String[] { "Das (neue) Passwort ist nicht regelkonform.",
+				"Das wiederholte Passwort ist nicht regelkonform." });
 
 		// Act
 		Set<ConstraintViolation<ZweiPassworte>> constraintViolations = validator.validate(bean);
@@ -134,8 +134,8 @@ public class ZweiPassworteValidationTest {
 		bean.setPasswortWdh(missmatching);
 
 		List<String> expectedMessages = Arrays
-			.asList(new String[] { "Das (neue) Passwort ist nicht regelkonform. ",
-				"Das wiederholte Passwort ist nicht regelkonform. " });
+			.asList(new String[] { "Das (neue) Passwort ist nicht regelkonform.",
+				"Das wiederholte Passwort ist nicht regelkonform." });
 
 		// Act
 		Set<ConstraintViolation<ZweiPassworte>> constraintViolations = validator.validate(bean);
@@ -207,7 +207,7 @@ public class ZweiPassworteValidationTest {
 		bean.setPasswort(null);
 
 		List<String> expectedMessages = Arrays
-			.asList(new String[] { "Das (neue) Passwort ist erforderlich. " });
+			.asList(new String[] { "Das (neue) Passwort ist erforderlich." });
 
 		// Act
 		Set<ConstraintViolation<ZweiPassworte>> constraintViolations = validator.validate(bean);
@@ -246,7 +246,7 @@ public class ZweiPassworteValidationTest {
 
 		List<String> expectedMessages = Arrays
 			.asList(
-				new String[] { "Das wiederholte Passwort ist erforderlich. ", "Die (neuen) Passwörter stimmen nicht überein. " });
+				new String[] { "Das wiederholte Passwort ist erforderlich.", "Die (neuen) Passwörter stimmen nicht überein." });
 
 		// Act
 		Set<ConstraintViolation<ZweiPassworte>> constraintViolations = validator.validate(bean);

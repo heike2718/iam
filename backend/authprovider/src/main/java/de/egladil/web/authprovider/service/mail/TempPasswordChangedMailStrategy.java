@@ -11,7 +11,6 @@ import java.io.StringWriter;
 import org.apache.commons.io.IOUtils;
 
 import de.egladil.web.authprovider.error.AuthRuntimeException;
-import de.egladil.web.commons_mailer.DefaultEmailDaten;
 
 /**
  * TempPasswordChangedMailStrategy

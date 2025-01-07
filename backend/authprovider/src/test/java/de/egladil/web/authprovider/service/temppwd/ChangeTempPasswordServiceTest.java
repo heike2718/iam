@@ -7,7 +7,6 @@ package de.egladil.web.authprovider.service.temppwd;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,8 +22,8 @@ import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.domain.TempPassword;
 import de.egladil.web.authprovider.payload.ChangeTempPasswordPayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
-import de.egladil.web.authprovider.service.AuthMailService;
 import de.egladil.web.authprovider.service.ChangeLoginSecretsDelegate;
+import de.egladil.web.authprovider.service.mail.AuthMailService;
 import io.quarkus.test.junit.QuarkusTest;
 
 /**
@@ -70,20 +69,6 @@ public class ChangeTempPasswordServiceTest {
 		result.setTokenId(VALID_TOKENID);
 
 		return result;
-	}
-
-	@Test
-	void changeTempPasswordPayloadNull() {
-
-		try {
-
-			service.changeTempPassword(null);
-			fail("keine IllegalArgumentException");
-		} catch (IllegalArgumentException e) {
-
-			assertEquals("payload null", e.getMessage());
-		}
-
 	}
 
 	@Test
@@ -174,7 +159,8 @@ public class ChangeTempPasswordServiceTest {
 		// Assert
 		assertFalse(responsePayload.isOk());
 		assertEquals("ERROR", responsePayload.getMessage().getLevel());
-		assertEquals("Bitte überprüfen Sie die eingegebene Mailadresse und das Einmalpasswort.",
+		assertEquals(
+			"Das hat leider nicht geklappt. Bitte überprüfen Sie die eingegebene Mailadresse und das Einmalpasswort. Bestehen die Probleme weiterhin, senden Sie bitte eine Mail.",
 			responsePayload.getMessage().getMessage());
 
 		assertNull(payload.getZweiPassworte().getPasswort());
@@ -206,7 +192,8 @@ public class ChangeTempPasswordServiceTest {
 		// Assert
 		assertFalse(responsePayload.isOk());
 		assertEquals("ERROR", responsePayload.getMessage().getLevel());
-		assertEquals("Bitte überprüfen Sie die eingegebene Mailadresse und das Einmalpasswort.",
+		assertEquals(
+			"Das hat leider nicht geklappt. Bitte überprüfen Sie die eingegebene Mailadresse und das Einmalpasswort. Bestehen die Probleme weiterhin, senden Sie bitte eine Mail.",
 			responsePayload.getMessage().getMessage());
 
 		assertNull(payload.getZweiPassworte().getPasswort());
@@ -238,7 +225,7 @@ public class ChangeTempPasswordServiceTest {
 		// Assert
 		assertEquals("ERROR", responsePayload.getMessage().getLevel());
 		assertEquals(
-			"Das Benutzerkonto ist nicht aktiviert. Falls Sie die Mail mit dem Aktivierungslink nicht mehr haben, senden Sie eine Mail an 'info@egladil.de'.",
+			"Das hat leider nicht geklappt. Bitte überprüfen Sie die eingegebene Mailadresse und das Einmalpasswort. Bestehen die Probleme weiterhin, senden Sie bitte eine Mail.",
 			responsePayload.getMessage().getMessage());
 
 		assertNull(payload.getZweiPassworte().getPasswort());

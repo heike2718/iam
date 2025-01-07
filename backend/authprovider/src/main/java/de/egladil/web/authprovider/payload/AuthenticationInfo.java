@@ -5,7 +5,7 @@
 
 package de.egladil.web.authprovider.payload;
 
-import jakarta.json.bind.annotation.JsonbProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * AuthenticationInfo enthält die AuthenticationInfo des authproviders. Neben Verwaltungsinfos enthält sie das JWT als
@@ -13,16 +13,16 @@ import jakarta.json.bind.annotation.JsonbProperty;
  */
 public class AuthenticationInfo {
 
-	@JsonbProperty
+	@JsonProperty
 	private String accessToken;
 
-	@JsonbProperty
+	@JsonProperty
 	private int expiresInSeconds;
 
-	@JsonbProperty
+	@JsonProperty
 	private String tokenType;
 
-	@JsonbProperty
+	@JsonProperty
 	private String idToken;
 
 	public String getAccessToken() {

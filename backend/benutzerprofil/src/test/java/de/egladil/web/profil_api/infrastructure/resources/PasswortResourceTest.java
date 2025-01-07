@@ -50,7 +50,7 @@ public class PasswortResourceTest {
 		// Assert
 		assertEquals("ERROR", responsePayload.getLevel());
 		assertEquals(
-			"Die Passwörter stimmen nicht überein,passwort ist nicht regelkonform,passwortWdh ist erforderlich",
+			"Das (neue) Passwort ist nicht regelkonform. Das wiederholte Passwort ist erforderlich. Die (neuen) Passwörter stimmen nicht überein. Die Passwörter stimmen nicht überein",
 			responsePayload.getMessage());
 
 	}
