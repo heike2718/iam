@@ -23,7 +23,7 @@ import jakarta.ws.rs.core.Response;
  * umziehen.
  */
 @RequestScoped
-@Path("/dev")
+@Path("api/dev")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DevelopmentResource {

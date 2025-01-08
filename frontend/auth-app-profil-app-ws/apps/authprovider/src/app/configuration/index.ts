@@ -1,0 +1,1 @@
+export {  AuthproviderConfiguration } from './authprovider.configuration';

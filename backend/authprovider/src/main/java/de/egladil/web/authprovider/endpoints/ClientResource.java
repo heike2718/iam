@@ -42,7 +42,7 @@ import jakarta.ws.rs.core.Response;
  * abholen können, die über sie in der DB stehen. Zur Authentisierung dient die clientId und eine redirect-URL.
  */
 @RequestScoped
-@Path("/clients")
+@Path("api/clients")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ClientResource {
@@ -120,7 +120,7 @@ public class ClientResource {
 	 * @return                   Response mit OAuthAccessTokenPayload-Data
 	 */
 	@POST
-	@Path("/client/accesstoken")
+	@Path("client/accesstoken")
 	public Response authenticateClient(@Valid final OAuthClientCredentials clientCredentials) {
 
 		try {

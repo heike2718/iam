@@ -7,3 +7,4 @@ log/
 ObjectStore/
 .env
 *.iml
+src/main/resources/META-INF/resources/authprovider/

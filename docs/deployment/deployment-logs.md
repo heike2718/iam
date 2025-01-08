@@ -24,11 +24,11 @@ docker-volumes für server.log und access.log: Änderung: soll nach /opt/data/au
 
 __smoketest__
 
-http://localhost:9000/authprovider/dev
+http://localhost:9000/authprovider/api/dev
 
 oder 
 
-http://heiketux:9000/authprovider/dev
+http://heiketux:9000/authprovider/api/dev
 
 
 

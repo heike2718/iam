@@ -114,7 +114,7 @@ public class OriginReferrerFilter implements ContainerRequestFilter {
 	private void logErrorAndThrow(final String details, final ContainerRequestContext requestContext) throws IOException {
 
 		final String dump = AuthHttpUtils.getRequestInfos(requestContext);
-		LOG.warn("Possible CSRF-Attack: {} {}", details, dump);
+		LOG.warn("Possible Attack: {} {}", details, dump);
 		throw new AuthException();
 	}
 

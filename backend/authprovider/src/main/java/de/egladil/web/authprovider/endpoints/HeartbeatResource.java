@@ -27,7 +27,7 @@ import jakarta.ws.rs.core.Response;
  * HeartbeatResource
  */
 @RequestScoped
-@Path("/heartbeats")
+@Path("api/heartbeats")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class HeartbeatResource {

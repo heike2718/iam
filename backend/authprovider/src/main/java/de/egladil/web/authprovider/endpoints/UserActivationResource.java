@@ -30,7 +30,7 @@ import jakarta.ws.rs.core.Response;
  * UserActivationResource stellt REST- Endpoints Aktivieren eines neu angelegten ResourceOwner-Kontos zur Verfügung.
  */
 @RequestScoped
-@Path("/registration")
+@Path("api/registration")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.TEXT_HTML)
 public class UserActivationResource {

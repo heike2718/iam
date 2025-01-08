@@ -39,7 +39,7 @@ public class VersionResource {
 	@GET
 	public Response getVersion() {
 
-		String message = "AuthProviderApp running version " + version + " on stage " + stage + " and env " + env;
+		String message = "AuthproviderApplication running version " + version + " on stage " + stage + " and env " + env;
 
 		LOGGER.info(message);
 		return Response.ok(ResponsePayload.messageOnly(MessagePayload.info(message))).build();

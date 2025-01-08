@@ -45,7 +45,7 @@ import jakarta.ws.rs.core.Response;
  * BenutzerprofilResource ist der Endpoint, der vom profileservice verwendet wird, um die Daten eines Users zu ändern.
  */
 @RequestScoped
-@Path("/profiles")
+@Path("api/profiles")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BenutzerprofilResource {
@@ -78,7 +78,7 @@ public class BenutzerprofilResource {
 	 * @return         Response mit data User
 	 */
 	@PUT
-	@Path("/profile/password")
+	@Path("profile/password")
 	public Response changePassword(@Valid final ChangeProfilePasswordPayload payload) {
 
 		try {
@@ -112,7 +112,7 @@ public class BenutzerprofilResource {
 	 * @return
 	 */
 	@PUT
-	@Path("/profile/data")
+	@Path("profile/data")
 	public Response changeData(@Valid final ChangeProfileDataPayload payload) {
 
 		try {
@@ -145,7 +145,7 @@ public class BenutzerprofilResource {
 	 * @return
 	 */
 	@POST
-	@Path("/profile")
+	@Path("profile")
 	public Response getUserProfile(@Valid final SelectProfilePayload selectProfilePayload) {
 
 		try {
@@ -180,7 +180,7 @@ public class BenutzerprofilResource {
 	 * @return
 	 */
 	@DELETE
-	@Path("/profile")
+	@Path("profile")
 	public Response deleteUserProfile(@Valid final SelectProfilePayload selectProfilePayload) {
 
 		try {

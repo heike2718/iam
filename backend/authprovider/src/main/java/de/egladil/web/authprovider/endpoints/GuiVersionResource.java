@@ -19,7 +19,7 @@ import jakarta.ws.rs.core.Response;
  * GuiVersionResource
  */
 @RequestScoped
-@Path("guiversion")
+@Path("api/guiversion")
 @Produces(MediaType.APPLICATION_JSON)
 public class GuiVersionResource {
 

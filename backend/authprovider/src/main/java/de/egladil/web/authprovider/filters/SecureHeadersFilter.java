@@ -14,7 +14,7 @@ import jakarta.ws.rs.container.ContainerResponseFilter;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.Provider;
 
-import de.egladil.web.authprovider.AuthProviderApp;
+import de.egladil.web.authprovider.AuthproviderApplication;
 import de.egladil.web.authprovider.config.ConfigService;
 
 /**
@@ -68,7 +68,7 @@ public class SecureHeadersFilter implements ContainerResponseFilter {
 			responseContext.getHeaders().add(CONTENT_SECURITY_POLICY, "default-src 'self'; ");
 		}
 
-		if (!AuthProviderApp.STAGE_DEV.equals(configService.getStage()) && headers.get("Strict-Transport-Security") == null) {
+		if (!AuthproviderApplication.STAGE_DEV.equals(configService.getStage()) && headers.get("Strict-Transport-Security") == null) {
 
 			headers.add("Strict-Transport-Security", "max-age=63072000; includeSubdomains");
 

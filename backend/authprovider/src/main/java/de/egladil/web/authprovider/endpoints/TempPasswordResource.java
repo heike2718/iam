@@ -34,7 +34,7 @@ import jakarta.ws.rs.core.UriInfo;
 /**
  * TempPasswordResource
  */
-@Path("/temppwd")
+@Path("api/temppwd")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TempPasswordResource {

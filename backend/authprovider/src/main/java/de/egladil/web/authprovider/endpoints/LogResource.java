@@ -22,7 +22,7 @@ import jakarta.ws.rs.core.Response;
  * LogResource
  */
 @RequestScoped
-@Path("/log")
+@Path("api/log")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class LogResource {

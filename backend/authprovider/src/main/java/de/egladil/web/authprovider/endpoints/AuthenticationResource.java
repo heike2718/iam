@@ -35,7 +35,7 @@ import jakarta.ws.rs.core.UriInfo;
  * AuthenticationResource stellt REST-Endpoints zur Authentisierung von ResourceOwnern zur Verfügung.
  */
 @RequestScoped
-@Path("/auth")
+@Path("api/auth")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationResource {
@@ -59,7 +59,7 @@ public class AuthenticationResource {
 	 * @return             Resonse mit SignUpLogInResponseData
 	 */
 	@POST
-	@Path("/sessions/auth-token-grant")
+	@Path("sessions/auth-token-grant")
 	public Response authenticateUserWithTokenExchangeTypeAuthTokenGrant(@Valid final LoginCredentials credentials, @Context final UriInfo uriInfo) {
 
 		try {

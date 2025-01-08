@@ -29,7 +29,7 @@ import jakarta.ws.rs.core.Response;
  * TokenExchangeResource
  */
 @RequestScoped
-@Path("/token")
+@Path("api/token")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TokenExchangeResource {

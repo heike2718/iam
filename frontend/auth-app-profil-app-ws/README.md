@@ -11,19 +11,19 @@
 To run the dev server for your app, use:
 
 ```sh
-npx nx serve auth-app
+npx nx serve authprovider
 ```
 
 To create a production bundle:
 
 ```sh
-npx nx build auth-app
+npx nx build authprovider
 ```
 
 To see all available targets to run for a project, run:
 
 ```sh
-npx nx show project auth-app
+npx nx show project authprovider
 ```
         
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.

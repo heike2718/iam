@@ -65,7 +65,7 @@ import jakarta.ws.rs.core.UriInfo;
  * UserResource stellt REST-Endpoints für die Verwaltung von ResourceOwnern nur Verfügung.
  */
 @RequestScoped
-@Path("/users")
+@Path("api/users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
