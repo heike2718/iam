@@ -12,6 +12,7 @@ QUARKUS_REST_CLIENT_MK_GATEWAY_URL=http://localhost:9510/mk-gateway
 
 QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4200,http://localhost:4300,http://localhost:4400,http://localhost:10000
 
+MP_JWT_VERIFY_PUBLICKEY.LOCATION=home/heike/.keystore/public/authprov_public_key.pem
 PRIVATE_KEY_LOCATION=/home/heike/.keystore/private/authprov_private_key.pem
 PUBLIC_KEY_LOCATION=/home/heike/.keystore/public/authprov_public_key.pem
 

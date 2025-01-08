@@ -115,7 +115,7 @@ docker container run -v /home/heike/docker-volumes/authprovider/dev:/usr/local/b
 6) container entfernen
 7) docker-compose
 
-#########
+---
 
 ## Smoketest
 
@@ -128,8 +128,7 @@ curl -X 'GET' \
 
 ## Nach Spiegelung auf heikeqs CLIENTS.REDIRECT-URLs anpassen 
 
-[script,sql]
-----
+```
 UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/checklistenapp,heikeqs/checklistenapp/listen', BASE_URL = 'http://heikeqs/checklistenapp' WHERE NAME = 'Checklisten';
 
 UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/profil-app,heikeqs/profil-app/home,heikeqs/profil-app/profil', BASE_URL = 'http://heikeqs/profil-app' WHERE NAME = 'ProfilApp';
@@ -143,6 +142,11 @@ UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/mja-app', BASE_URL = 'http://heikeqs
 UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/mja-admin ', BASE_URL = 'http://heikeqs/mja-admin' WHERE NAME = 'Mja-Admin';
 
 UPDATE CLIENTS SET REDIRECT_URLS = 'heikeqs/bv-admin-app', BASE_URL = 'http://heikeqs/bv-admin-app/' WHERE NAME = 'BV Admin';
-
 ```
+
+
+## Link zur Anwendung Benutzerprofil
+
+localhost:9600/benutzerprofil/
+
 

@@ -36,3 +36,18 @@ alle Options für npx nx generate @nx/js:library bekommt man ganz klassisch mitt
 ----
 npx nx generate @nx/js:library --help
 ----
+
+
+=== npm run build-docker-auth-app erzeugt ein Unterverzeichnis browser
+
+in project.json muss man den output-path manipulieren:
+
+[src,json]
+----
+        "outputPath": {
+          "base": "dist/apps/auth-app",
+          "browser": ""
+        },
+        ...
+----
+
