@@ -61,6 +61,7 @@
 			</exclusions>
 		</dependency>
 
+		<!-- darf nicht entfernt werden, da sonst der Hash-Algorithmus Argon2 fehlt! -->
 		<dependency>
 			<groupId>org.apache.shiro.crypto</groupId>
 			<artifactId>shiro-hashes-argon2</artifactId>

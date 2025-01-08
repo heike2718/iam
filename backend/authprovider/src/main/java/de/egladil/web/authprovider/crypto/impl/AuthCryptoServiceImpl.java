@@ -40,6 +40,8 @@ import jakarta.transaction.Transactional;
 @ApplicationScoped
 public class AuthCryptoServiceImpl implements AuthCryptoService {
 
+	// private static final String DEFAULT_ALGORITHM = "argon2id";
+
 	private static final String MESSAGE_FORMAT_FAILED_LOGIN = "ipAddress={0}, userAgent={1}, ressourceOwner={2}";
 
 	private static final Logger LOG = LoggerFactory.getLogger(AuthCryptoServiceImpl.class);
@@ -200,8 +202,10 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 
 	DefaultPasswordService createArgon2PasswordService() {
 
+		// Der default heißt argon2, aber darüber kann der Argon2HashProvider nicht aufgelöst werden, da es dort argon2id heißt.
 		DefaultHashService hashService = new DefaultHashService();
 		hashService.setDefaultAlgorithmName(Argon2HashProvider.Parameters.DEFAULT_ALGORITHM_NAME);
+		// hashService.setDefaultAlgorithmName(DEFAULT_ALGORITHM);
 
 		DefaultPasswordService passwordService = new DefaultPasswordService();
 		passwordService.setHashService(hashService);

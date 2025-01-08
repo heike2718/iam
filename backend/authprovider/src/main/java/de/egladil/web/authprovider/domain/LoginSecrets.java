@@ -5,8 +5,6 @@
 
 package de.egladil.web.authprovider.domain;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -42,9 +40,6 @@ public class LoginSecrets implements AuthProviderEntity {
 	@Column(name = "PWHASH", length = 2000)
 	private String passwordhash;
 
-	@Column(name = "LAST_LOGIN_ATTEMPT")
-	private Date lastLoginAttempt;
-
 	@Column(name = "CRYPTO_ALGORITHM")
 	@Enumerated(EnumType.STRING)
 	private CryptoAlgorithm cryptoAlgorithm;
@@ -72,16 +67,6 @@ public class LoginSecrets implements AuthProviderEntity {
 	public void setPasswordhash(final String passwordhash) {
 
 		this.passwordhash = passwordhash;
-	}
-
-	public Date getLastLoginAttempt() {
-
-		return lastLoginAttempt;
-	}
-
-	public void setLastLoginAttempt(final Date lastLoginAttempt) {
-
-		this.lastLoginAttempt = lastLoginAttempt;
 	}
 
 	public int getVersion() {
