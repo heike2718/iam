@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { debounceTime, distinctUntilChanged, min, Subscription } from 'rxjs';
-import { forbiddenPasswordValidator, passwordsMatchValidator, PASSWORTREGELN, REG_EXP_PASSWORT_NEU } from '@ap-ws/common-utils';
+import { forbiddenPasswordValidator, passwordsMatchValidator, PASSWORT_NEU_ERLAUBTE_ZEICHEN, PASSWORTREGELN, REG_EXP_PASSWORT_NEU } from '@ap-ws/common-utils';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -40,6 +40,8 @@ export class ZweiPassworteComponent implements OnInit, OnDestroy {
   passwortForm!: FormGroup;
 
   passwortregeln = PASSWORTREGELN;
+
+  passwortErlaubteZeichen = PASSWORT_NEU_ERLAUBTE_ZEICHEN;
 
   showPasswords = false;
   

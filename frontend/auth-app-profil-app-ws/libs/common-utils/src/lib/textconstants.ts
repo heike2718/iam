@@ -22,16 +22,19 @@ export const REG_EXP_LOGIN_NAME = /^(?!.*\\.\\.)[a-zA-Z0-9.!#$%&'*+/=?\\^_`{|}@~
 
 export const SONDERZEICHEN_LOGIN = '!"#$%&)(*+,-./:;<=>?@\]\[^ _`\\\'{|}~';
 
-export const SONDERZEICHEN_NEU = "!#$%&\\)\\(*+,-./:;=?@\\[\\]^ _`'\\{\\|\\}~";
+export const SONDERZEICHEN_LOGIN_HILFETEXT = "! # $ % & ) ( * + , - . / : ; < = > ? @ ] [ ^ _ ` ' { | } ~";
+
+export const SONDERZEICHEN_NEU = "!#$%&\\)\\(*+,-./:;=?@\[\]^ _`'\{\|\}~";
+
+export const SONDERZEICHEN_NEU_HILFETEXT = " ! # $ % & ) ( * + , - . / : ; = ? @ [ ] ^   _ ` ' { | } ~";
 
 export const BUCHSTABEN = 'a-z, A-Z, ÄÖÜäöüß';
 
-export const PASSWORT_LOGIN_ERLAUBTE_ZEICHEN = BUCHSTABEN + ', 0-9, und die Sonderzeichen ' + SONDERZEICHEN_LOGIN + '. Leerzeichen am Anfang und am Ende werden abgeschnitten und können dazu führen, dass das übertragene Passwort falsch ist.';
+export const PASSWORT_LOGIN_ERLAUBTE_ZEICHEN = BUCHSTABEN + ', 0-9, Leerzeichen (außer am Anfang und am Ende) und die Sonderzeichen ' + SONDERZEICHEN_LOGIN_HILFETEXT + '.';
 
-export const PASSWORT_NEU_ERLAUBTE_ZEICHEN = BUCHSTABEN + ', 0-9, Leerzeichen und Sonderzeichen außer > " < und \\. Leerzeichen am Anfang und am Ende sind nicht erlaubt.';
+export const PASSWORT_NEU_ERLAUBTE_ZEICHEN = BUCHSTABEN + ', 0-9, Leerzeichen (außer am Anfang und am Ende) und die Sonderzeichen ' + SONDERZEICHEN_NEU_HILFETEXT + ' also nicht > " < und \\.';
 
-export const PASSWORTREGELN = 'Ihr Passwort muss mindestens einen Buchstaben und eine Ziffer enthalten.'
-    + ' Die Sonderzeichen > " < und \\ sind nicht erlaubt. Erlaubte Buchstaben sind ' + BUCHSTABEN + '. Leerzeichen am Anfang und am Ende sind nicht erlaubt. Mindestlänge 8 Zeichen.';
+export const PASSWORTREGELN = 'Ihr Passwort muss mindestens einen Buchstaben und eine Ziffer enthalten. Die Mindestlänge ist 8 Zeichen.';
 
 export const MESSAGE_BENUTZERDATEN_SUCCESS_WITH_LOGOUT = 'Ihre Benutzerdaten wurden erfolgreich geändert. Aus Sicherheitsgründen müssen sich erneut einloggen, wenn Sie auch Ihr Passwort ändern wollen.';
 

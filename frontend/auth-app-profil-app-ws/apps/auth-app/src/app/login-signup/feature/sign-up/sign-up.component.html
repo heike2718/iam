@@ -1,12 +1,14 @@
 <h2>Benutzerkonto anlegen</h2>
 
-@if(true) {
-<p><strong>ACHTUNG! </strong> Da Sie von einer anderen Anwendung hierher gelangt sind, werden Sie mit diesem
-    Benutzerkonto
-    nicht am Minikänguru-Wettbewerb teilnehmen können.</p>
-<p>Wenn Sie am Minikänguru-Wettbewerb teilnehmen möchten, registrieren Sie sich bitte über die <a
-        href="https://mathe-jung-alt.de/mkv-app#/registrierung" target="_blank">Minikänguru-Anwendung</a>. Sie können
-    sich dann automatisch auch in die anderen Anwendungen von "Mathe für jung und alt" einloggen.</p>
+@if(showWarningMinikaenguru) {
+<div class="bordered">
+    <p><strong>ACHTUNG! </strong> Da Sie von einer anderen Anwendung hierher gelangt sind, werden Sie mit diesem
+        Benutzerkonto
+        nicht am Minikänguru-Wettbewerb teilnehmen können.</p>
+    <p>Wenn Sie am Minikänguru-Wettbewerb teilnehmen möchten, registrieren Sie sich bitte über die <a
+            href="https://mathe-jung-alt.de/mkv-app#/registrierung" target="_blank">Minikänguru-Anwendung</a>. Sie können
+        sich dann automatisch auch in die anderen Anwendungen von "Mathe für jung und alt" einloggen.</p>
+</div>
 }
 
 <form [formGroup]="benutzerForm">
@@ -86,8 +88,6 @@
         <mat-error>Die Mailadresse darf maximal 255 Zeichen lang sein.</mat-error>
         }
     </mat-form-field>
-
-    <div class="helper-text">Erlaubte Zeichen sind {{passwortErlaubteZeichen}}</div>
 
     <auth-common-zwei-passworte [labelPasswort1]="'Passwort'" [labelPasswort2]="'Passwort wiederholen'"
         (passwordChanges)="handlePasswordChanges($event)" (isValid)="handlePasswoerterValidityChanges($event)">

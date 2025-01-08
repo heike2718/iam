@@ -10,7 +10,7 @@ import { MatInputModule } from "@angular/material/input";
 import { ActivatedRoute, Params } from "@angular/router";
 import { ZweiPassworte } from "@ap-ws/common-model";
 import { InfoDialogComponent, ZweiPassworteComponent } from "@ap-ws/common-ui";
-import { NAME_REGELN, PASSWORT_LOGIN_ERLAUBTE_ZEICHEN, REG_EXP_INPUT_SECURED, REG_EXP_LOGIN_NAME, SIGNUP_SUCCESS_DIALOG_TEXT, trimFormValues } from "@ap-ws/common-utils";
+import { NAME_REGELN, PASSWORT_LOGIN_ERLAUBTE_ZEICHEN, PASSWORT_NEU_ERLAUBTE_ZEICHEN, REG_EXP_INPUT_SECURED, REG_EXP_LOGIN_NAME, SIGNUP_SUCCESS_DIALOG_TEXT, trimFormValues } from "@ap-ws/common-utils";
 import { LoginSignupFacade } from "@auth-app/login-signup/api";
 import { SignUpFormModel, SignUpCredentials } from "@auth-app/login-signup/model";
 import { ClientCredentials, ClientInformation } from "@auth-app/model";
@@ -45,10 +45,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   benutzerForm!: FormGroup;
 
   validationErrorNamen: string = NAME_REGELN;
-  passwortErlaubteZeichen = PASSWORT_LOGIN_ERLAUBTE_ZEICHEN;
-
+  
   showLoginNameControl = false;
   showVornameNachnameControl = false;
+  showWarningMinikaenguru = false;
 
   #route = inject(ActivatedRoute);
 
@@ -78,6 +78,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
     const clientInformationSubscription = this.#loginSignupFacade.clientInformation$.subscribe((clientInformation) => {
       if (clientInformation) {
         this.#updateForm(clientInformation);
+        if (clientInformation.name.toLocaleLowerCase().indexOf('mini') < 0) {
+          this.showWarningMinikaenguru = true;
+        }
       }
     });
 

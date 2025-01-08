@@ -13,6 +13,8 @@
     {{passwortregeln}}
   </div>
 
+  <div class="helper-text">Erlaubte Zeichen für ein Passwort sind {{passwortErlaubteZeichen}}</div>
+
   <mat-form-field appearance="fill">
     <mat-label>{{labelPasswort1}}</mat-label>
     <input matInput [type]="showPasswords ? 'text' : 'password'" formControlName="passwortNeu">
@@ -20,7 +22,7 @@
       [attr.aria-label]="'zwischen Anzeige und Verstecken der Passwörter wechseln'" [attr.aria-pressed]="showPasswords"
       type="button"><mat-icon>{{ showPasswords ? 'visibility_off' : 'visibility' }}</mat-icon>
     </button>
-    @if("passwortForm.get('passwortNeu')?.hasError('forbiddenPassword')"){
+     @if("passwortForm.get('passwortNeu')?.hasError('forbiddenPassword')"){
     <mat-error>Das neue Passwort genügt den Regeln nicht oder enthält unerlaubte Zeichen.</mat-error>
     }
     @if("passwortForm.get('passwortNeu')?.hasError('required')"){
