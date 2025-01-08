@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.crypto.hash.DefaultHashService;
-import org.apache.shiro.crypto.support.hashes.argon2.Argon2HashProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,11 @@ import jakarta.transaction.Transactional;
 @ApplicationScoped
 public class AuthCryptoServiceImpl implements AuthCryptoService {
 
-	// private static final String DEFAULT_ALGORITHM = "argon2id";
+	/**
+	 * übernomemen aus org.apache.shiro.crypto.support.hashes.argon2.Argon2Hash. Muss bei updates von shiro immer mit getestet
+	 * werden!!!
+	 */
+	private static final String DEFAULT_ALGORITHM = "argon2id";
 
 	private static final String MESSAGE_FORMAT_FAILED_LOGIN = "ipAddress={0}, userAgent={1}, ressourceOwner={2}";
 
@@ -202,10 +205,8 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 
 	DefaultPasswordService createArgon2PasswordService() {
 
-		// Der default heißt argon2, aber darüber kann der Argon2HashProvider nicht aufgelöst werden, da es dort argon2id heißt.
 		DefaultHashService hashService = new DefaultHashService();
-		hashService.setDefaultAlgorithmName(Argon2HashProvider.Parameters.DEFAULT_ALGORITHM_NAME);
-		// hashService.setDefaultAlgorithmName(DEFAULT_ALGORITHM);
+		hashService.setDefaultAlgorithmName(DEFAULT_ALGORITHM);
 
 		DefaultPasswordService passwordService = new DefaultPasswordService();
 		passwordService.setHashService(hashService);

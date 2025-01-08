@@ -19,6 +19,7 @@
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
 		<quarkus.platform.version>3.15.2</quarkus.platform.version>
 		<camel-quarkus-shiro.version>3.15.1</camel-quarkus-shiro.version>
+		<apache.shiro.version>2.0.2</apache.shiro.version>
 		<java-jwt.version>4.4.0</java-jwt.version>
 		<surefire-plugin.version>3.1.2</surefire-plugin.version>
 		<dependency-check.version>11.1.1</dependency-check.version>
@@ -61,20 +62,19 @@
 			</exclusions>
 		</dependency>
 
-		<!-- darf nicht entfernt werden, da sonst der Hash-Algorithmus Argon2 fehlt! -->
 		<dependency>
-			<groupId>org.apache.shiro.crypto</groupId>
-			<artifactId>shiro-hashes-argon2</artifactId>
-			<version>2.0.2</version>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>${apache.shiro.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.shiro.crypto</groupId>
+					<artifactId>shiro-hashes-bcrypt</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Quarkus START -->
-		<dependency>
-			<groupId>org.apache.camel.quarkus</groupId>
-			<artifactId>camel-quarkus-shiro</artifactId>
-			<version>${camel-quarkus-shiro.version}</version>
-		</dependency>
-
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-agroal</artifactId>

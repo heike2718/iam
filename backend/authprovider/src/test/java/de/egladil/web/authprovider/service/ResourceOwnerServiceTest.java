@@ -24,6 +24,7 @@ import de.egladil.web.authprovider.crypto.impl.AuthCryptoServiceImpl;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
+import de.egladil.web.authprovider.payload.DuplicateAttributeType;
 import io.quarkus.test.junit.QuarkusTest;
 
 /**
@@ -324,7 +325,7 @@ public class ResourceOwnerServiceTest {
 				.thenReturn(Collections.emptyList());
 
 			// Act
-			String result = service.changeLoginNameAndEmailAllowed(LOGINNAME_UNBEKANNT, EMAIL_UNBEKANNT, UUID1);
+			DuplicateAttributeType result = service.changeLoginNameAndEmailAllowed(LOGINNAME_UNBEKANNT, EMAIL_UNBEKANNT, UUID1);
 
 			// Assert
 			assertNull(result);
@@ -344,10 +345,10 @@ public class ResourceOwnerServiceTest {
 				.thenReturn(Collections.emptyList());
 
 			// Act
-			String result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
+			DuplicateAttributeType result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
 
 			// Assert
-			assertEquals("ProfileResource.data.duplicate.email", result);
+			assertEquals("BenutzerprofilResource.data.duplicate.email", result.getApplicationMessagesKey());
 		}
 
 		@Test
@@ -364,10 +365,10 @@ public class ResourceOwnerServiceTest {
 				.thenReturn(Collections.singletonList(anderePerson));
 
 			// Act
-			String result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
+			DuplicateAttributeType result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
 
 			// Assert
-			assertEquals("ProfileResource.data.duplicate.loginName", result);
+			assertEquals("BenutzerprofilResource.data.duplicate.loginName", result.getApplicationMessagesKey());
 		}
 
 		@Test
@@ -385,11 +386,10 @@ public class ResourceOwnerServiceTest {
 				.thenReturn(Collections.singletonList(anderePerson));
 
 			// Act
-			String result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
+			DuplicateAttributeType result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
 
 			// Assert
-			assertEquals("ProfileResource.data.duplicate.emailAndLoginName", result);
+			assertEquals("BenutzerprofilResource.data.duplicate.emailAndLoginName", result.getApplicationMessagesKey());
 		}
-
 	}
 }

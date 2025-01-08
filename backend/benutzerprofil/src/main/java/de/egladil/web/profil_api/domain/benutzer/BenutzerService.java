@@ -4,12 +4,15 @@
 // =====================================================
 package de.egladil.web.profil_api.domain.benutzer;
 
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +20,8 @@ import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.profil_api.domain.auth.dto.ResponsePayload;
 import de.egladil.web.profil_api.domain.exceptions.CommunicationException;
+import de.egladil.web.profil_api.domain.exceptions.ConcurrentModificationException;
+import de.egladil.web.profil_api.domain.exceptions.DuplicateEntityException;
 import de.egladil.web.profil_api.domain.exceptions.LogmessagePrefixes;
 import de.egladil.web.profil_api.domain.exceptions.ProfilAPIRuntimeException;
 import de.egladil.web.profil_api.infrastructure.restclient.AuthproviderRestClient;
@@ -35,6 +40,8 @@ import jakarta.ws.rs.core.SecurityContext;
 public class BenutzerService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerService.class);
+
+	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
 	@ConfigProperty(name = "public-client-id")
 	String clientId;
@@ -87,7 +94,7 @@ public class BenutzerService {
 				"unerwarteter Fehler bei Kommunikation mit authprovider");
 
 		} catch (CommunicationException e) {
-			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der ProfilAPIExceptionMapper dann
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der BenutzerverwaltungExceptionMapper dann
 			// umwandeln kann.
 
 			throw e.getExceptionToPropagate();
@@ -96,6 +103,9 @@ public class BenutzerService {
 			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
 			throw new ProfilAPIRuntimeException(
 				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
+		} catch (ClientWebApplicationException e) {
+
+			throw e;
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
@@ -156,7 +166,7 @@ public class BenutzerService {
 			return new ChangeBenutzerdatenResponseDto().withBenutzer(benutzerDto).withSecurityEvent(isSecurityRelevant);
 
 		} catch (CommunicationException e) {
-			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der ProfilAPIExceptionMapper dann
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der BenutzerverwaltungExceptionMapper dann
 			// umwandeln kann.
 
 			throw e.getExceptionToPropagate();
@@ -165,6 +175,31 @@ public class BenutzerService {
 			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
 			throw new ProfilAPIRuntimeException(
 				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
+		} catch (ClientWebApplicationException e) {
+
+			if (e.getResponse().getStatus() == 409) {
+
+				throw new ConcurrentModificationException(applicationMessages.getString("conflict.notFound"));
+			}
+
+			if (e.getResponse().getStatus() >= 900) {
+
+				switch (e.getResponse().getStatus()) {
+
+				case 910:
+					throw new DuplicateEntityException(DuplicateAttributeType.EMAIL);
+
+				case 911:
+					throw new DuplicateEntityException(DuplicateAttributeType.LOGINNAME);
+
+				case 912:
+					throw new DuplicateEntityException(DuplicateAttributeType.EMAIL_AND_LOGINNAME);
+
+				default:
+					throw e;
+				}
+			}
+			throw e;
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
@@ -215,7 +250,7 @@ public class BenutzerService {
 			return Response.ok(messagePayload).build();
 
 		} catch (CommunicationException e) {
-			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der ProfilAPIExceptionMapper dann
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der BenutzerverwaltungExceptionMapper dann
 			// umwandeln kann.
 
 			throw e.getExceptionToPropagate();

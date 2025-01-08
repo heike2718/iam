@@ -9,6 +9,7 @@ import java.time.temporal.ChronoUnit;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.profil_api.domain.benutzer.ChangeProfileDataPayload;
@@ -60,13 +61,13 @@ public interface AuthproviderRestClient {
 
 	@PUT
 	@Path("profiles/profile/password")
-	@Retry(maxRetries = 3, delay = 1000)
+	@Retry(maxRetries = 3, delay = 1000, abortOn = ClientWebApplicationException.class)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	public Response changePassword(final ChangeProfilePasswordPayload payload);
 
 	@PUT
 	@Path("profiles/profile/data")
-	@Retry(maxRetries = 3, delay = 1000)
+	@Retry(maxRetries = 3, delay = 1000, abortOn = ClientWebApplicationException.class)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	public Response changeData(final ChangeProfileDataPayload payload);
 }

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * ResponsePayload
  */
+@Deprecated
 public class ResponsePayload {
 
 	@JsonProperty

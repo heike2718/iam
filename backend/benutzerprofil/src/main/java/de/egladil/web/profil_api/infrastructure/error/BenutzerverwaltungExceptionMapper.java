@@ -11,9 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
+import de.egladil.web.profil_api.domain.benutzer.DuplicateAttributeType;
 import de.egladil.web.profil_api.domain.exceptions.AuthRuntimeException;
 import de.egladil.web.profil_api.domain.exceptions.ConcurrentModificationException;
-import de.egladil.web.profil_api.domain.exceptions.ConflictException;
+import de.egladil.web.profil_api.domain.exceptions.DuplicateEntityException;
 import de.egladil.web.profil_api.domain.exceptions.ProfilAPIRuntimeException;
 import de.egladil.web.profil_api.domain.exceptions.SessionExpiredException;
 import jakarta.inject.Inject;
@@ -25,12 +26,12 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 /**
- * ProfilAPIExceptionMapper
+ * BenutzerverwaltungExceptionMapper
  */
 @Provider
-public class ProfilAPIExceptionMapper implements ExceptionMapper<Throwable> {
+public class BenutzerverwaltungExceptionMapper implements ExceptionMapper<Throwable> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ProfilAPIExceptionMapper.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerverwaltungExceptionMapper.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
@@ -75,16 +76,26 @@ public class ProfilAPIExceptionMapper implements ExceptionMapper<Throwable> {
 				.build();
 		}
 
-		if (exception instanceof ConflictException) {
+		if (exception instanceof DuplicateEntityException) {
 
-			return Response.status(409).entity(MessagePayload.warn(exception.getMessage()))
+			DuplicateEntityException dee = (DuplicateEntityException) exception;
+			DuplicateAttributeType duplicateAttributeType = dee.getDuplicateAttributeType();
+
+			if (duplicateAttributeType != null) {
+
+				return Response.status(dee.getDefaultStatuscode())
+					.entity(MessagePayload.warn(applicationMessages.getString(duplicateAttributeType.getApplicationMessagesKey())))
+					.build();
+			}
+
+			return Response.status(dee.getDefaultStatuscode()).entity(MessagePayload.warn(exception.getMessage()))
 				.build();
 		}
 
 		if (exception instanceof ConcurrentModificationException) {
 
-			return Response.status(412).entity(MessagePayload.warn(
-				"Ihr Benutzerkonto wurde zwischenzeitlich anscheinend gelöscht. Bitte kontaktieren Sie die Mailadresse im Impressum."))
+			return Response.status(((ConcurrentModificationException) exception).getDefaultStatuscode()).entity(MessagePayload.warn(
+				exception.getMessage()))
 				.build();
 		}
 

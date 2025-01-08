@@ -4,11 +4,14 @@
 // =====================================================
 package de.egladil.web.profil_api.domain.passwort;
 
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +19,8 @@ import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.profil_api.domain.auth.dto.MessagePayload;
 import de.egladil.web.profil_api.domain.auth.dto.ResponsePayload;
 import de.egladil.web.profil_api.domain.exceptions.CommunicationException;
+import de.egladil.web.profil_api.domain.exceptions.ConcurrentModificationException;
+import de.egladil.web.profil_api.domain.exceptions.DuplicateEntityException;
 import de.egladil.web.profil_api.domain.exceptions.LogmessagePrefixes;
 import de.egladil.web.profil_api.domain.exceptions.ProfilAPIRuntimeException;
 import de.egladil.web.profil_api.infrastructure.restclient.AuthproviderRestClient;
@@ -33,6 +38,8 @@ import jakarta.ws.rs.core.SecurityContext;
 public class PasswortService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PasswortService.class);
+
+	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
 	@ConfigProperty(name = "public-client-id")
 	String clientId;
@@ -83,7 +90,7 @@ public class PasswortService {
 			return messagePayload;
 
 		} catch (CommunicationException e) {
-			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der ProfilAPIExceptionMapper dann
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der BenutzerverwaltungExceptionMapper dann
 			// umwandeln kann.
 
 			throw e.getExceptionToPropagate();
@@ -92,6 +99,18 @@ public class PasswortService {
 			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
 			throw new ProfilAPIRuntimeException(
 				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
+		} catch (ClientWebApplicationException e) {
+
+			if (e.getResponse().getStatus() == 409) {
+
+				throw new ConcurrentModificationException(applicationMessages.getString("conflict.notFound"));
+			}
+
+			if (e.getResponse().getStatus() == 412) {
+
+				throw new DuplicateEntityException(applicationMessages.getString("conflict.duplicate"));
+			}
+			throw e;
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);

@@ -5,6 +5,8 @@
 
 package de.egladil.web.authprovider.error;
 
+import de.egladil.web.authprovider.payload.DuplicateAttributeType;
+
 /**
  * DuplicateEntityException
  */
@@ -12,6 +14,10 @@ public class DuplicateEntityException extends RuntimeException {
 
 	/* serialVersionUID */
 	private static final long serialVersionUID = 1L;
+
+	private final int defaultStatuscode = 412;
+
+	private DuplicateAttributeType duplicateEntityType;
 
 	/**
 	 * Erzeugt eine Instanz von DuplicateEntityException
@@ -27,6 +33,21 @@ public class DuplicateEntityException extends RuntimeException {
 	public DuplicateEntityException(final String arg0) {
 
 		super(arg0);
+	}
+
+	public int getDefaultStatuscode() {
+
+		return defaultStatuscode;
+	}
+
+	public DuplicateAttributeType getDuplicateEntityType() {
+
+		return duplicateEntityType;
+	}
+
+	public void setDuplicateEntityType(final DuplicateAttributeType duplicateEntityType) {
+
+		this.duplicateEntityType = duplicateEntityType;
 	}
 
 }

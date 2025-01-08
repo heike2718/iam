@@ -37,7 +37,7 @@ public class AuthproviderResponseExceptionMapper implements ResponseExceptionMap
 		case 401: {
 
 			String message = "401 bei Kommunikation mit dem authprovider: Konfiguration der Infrastruktur prüfen (client-id, client-secret, authprovider-rest-client-url,...";
-			// wird im ProfilAPIExceptionMapper geloggt
+			// wird im BenutzerverwaltungExceptionMapper geloggt
 			return new CommunicationException(new ProfilAPIRuntimeException(message));
 		}
 

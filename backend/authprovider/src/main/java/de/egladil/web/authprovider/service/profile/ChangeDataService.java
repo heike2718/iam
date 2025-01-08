@@ -20,6 +20,7 @@ import de.egladil.web.authprovider.event.AuthproviderEventHandler;
 import de.egladil.web.authprovider.event.LoggableEventDelegate;
 import de.egladil.web.authprovider.event.ResourceOwnerEventPayload;
 import de.egladil.web.authprovider.event.UserChanged;
+import de.egladil.web.authprovider.payload.DuplicateAttributeType;
 import de.egladil.web.authprovider.payload.User;
 import de.egladil.web.authprovider.payload.profile.ProfileDataPayload;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
@@ -61,14 +62,18 @@ public class ChangeDataService {
 	 */
 	public User changeData(final String uuid, final ProfileDataPayload payload) {
 
-		String checkOutcome = resourceOwnerService.changeLoginNameAndEmailAllowed(payload.getLoginName(), payload.getEmail(),
+		DuplicateAttributeType checkOutcome = resourceOwnerService.changeLoginNameAndEmailAllowed(payload.getLoginName(),
+			payload.getEmail(),
 			uuid);
 
 		if (checkOutcome != null) {
 
-			LOG.info(checkOutcome);
+			LOG.debug(checkOutcome.toString());
 
-			throw new DuplicateEntityException(applicationMessages.getString(checkOutcome));
+			DuplicateEntityException duplicateEntityException = new DuplicateEntityException(
+				applicationMessages.getString(checkOutcome.getApplicationMessagesKey()));
+			duplicateEntityException.setDuplicateEntityType(checkOutcome);
+			throw duplicateEntityException;
 		}
 
 		Optional<ResourceOwner> optRO = resourceOwnerDao.findByUUID(uuid);

@@ -48,6 +48,8 @@ public interface MkGatewayRestClient {
 
 	@Path("/veranstalter")
 	@PUT
+	@Retry(maxRetries = 3, delay = 1000)
+	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response propagateUserChanged(ChangeUserCommand command);
 
 	@Path("sync/ack")

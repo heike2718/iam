@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_validations.exceptions.InvalidInputException;
 import de.egladil.web.authprovider.dao.impl.PersistenceExceptionMapper;
+import de.egladil.web.authprovider.payload.DuplicateAttributeType;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
 import jakarta.persistence.PersistenceException;
@@ -201,10 +202,16 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 	private Response handleDuplicateEntityException(final DuplicateEntityException e) {
 
-		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.warn(e.getMessage()));
-		return Response.status(412)
+		DuplicateAttributeType duplicateEntityType = e.getDuplicateEntityType();
+
+		if (duplicateEntityType != null) {
+
+			return Response.status(duplicateEntityType.getDetailedStatuscode()).entity(MessagePayload.warn(e.getMessage())).build();
+		}
+
+		return Response.status(e.getDefaultStatuscode())
 			.header("X-Auth-Error", "resource exists")
-			.entity(payload)
+			.entity(MessagePayload.warn(e.getMessage()))
 			.build();
 	}
 }

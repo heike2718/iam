@@ -42,15 +42,15 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 /**
- * ProfileResource ist der Endpoint, der vom profileservice verwendet wird, um die Daten eines Users zu ändern.
+ * BenutzerprofilResource ist der Endpoint, der vom profileservice verwendet wird, um die Daten eines Users zu ändern.
  */
 @RequestScoped
 @Path("/profiles")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class ProfileResource {
+public class BenutzerprofilResource {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ProfileResource.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BenutzerprofilResource.class);
 
 	@ConfigProperty(name = "profilapp.client-id")
 	String permittedClientId;
@@ -105,6 +105,12 @@ public class ProfileResource {
 		}
 	}
 
+	/**
+	 * Falls Mailadresse vergeben, dann 910, Falls Loginname vergeben, dann 911, falls beides vergeben, dann 912
+	 *
+	 * @param  payload
+	 * @return
+	 */
 	@PUT
 	@Path("/profile/data")
 	public Response changeData(@Valid final ChangeProfileDataPayload payload) {
@@ -119,7 +125,7 @@ public class ProfileResource {
 			user.setNonce(payload.getClientCredentials().getNonce());
 
 			ResponsePayload responsePayload = new ResponsePayload(
-				MessagePayload.info(applicationMessages.getString("ProfileResource.data.success")), user);
+				MessagePayload.info(applicationMessages.getString("BenutzerprofilResource.data.success")), user);
 
 			responsePayload.setData(user);
 

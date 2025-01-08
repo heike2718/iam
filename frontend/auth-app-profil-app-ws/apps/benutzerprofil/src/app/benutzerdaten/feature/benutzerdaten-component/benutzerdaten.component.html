@@ -1,8 +1,15 @@
 <h2>Daten ändern</h2>
+
 <p>Die Angaben mit * sind erforderlich.</p>
-<p>Zum Login-Namen: Sie haben die Wahl zwischen Ihrer Mailadresse oder einem selbst gewählten Loginnamen. In der Regel
-    reicht die Mailadresse.</p>
+<p>Zum Login-Namen: Sie haben die Wahl zwischen Ihrer Mailadresse oder einem selbst gewählten Loginnamen. In der
+    Regel reicht die Mailadresse.</p>
 <p>Loginname und Mailadresse sind private Daten und werden in keiner Anwendung angezeigt.</p>
+
+<div class="bordered mb-2">
+    <p>Wenn Sie Loginname oder Mailadresse ändern, werden Sie aus Sicherheitsgründen ausgeloggt. Zum Ändern des
+        Passworts loggen Sie sich anschließend bitte erneut ein</p>
+</div>
+
 <form [formGroup]="benutzerForm">
     <mat-form-field appearance="fill">
         <mat-label>Login-Name</mat-label>

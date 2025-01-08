@@ -36,7 +36,7 @@ export const PASSWORT_NEU_ERLAUBTE_ZEICHEN = BUCHSTABEN + ', 0-9, Leerzeichen (a
 
 export const PASSWORTREGELN = 'Ihr Passwort muss mindestens einen Buchstaben und eine Ziffer enthalten. Die Mindestlänge ist 8 Zeichen.';
 
-export const MESSAGE_BENUTZERDATEN_SUCCESS_WITH_LOGOUT = 'Ihre Benutzerdaten wurden erfolgreich geändert. Aus Sicherheitsgründen müssen sich erneut einloggen, wenn Sie auch Ihr Passwort ändern wollen.';
+export const MESSAGE_BENUTZERDATEN_SUCCESS_WITH_LOGOUT = 'Änderung Erfolgreich. Da Sie Email oder Login-Name geändert haben, werden Sie aus Sicherheitsgründen jetzt abgemeldet. Zum Ändern des Passwort loggen Sie sich bitte erneut ein.';
 
 export const MESSAGE_BENUTZERDATEN_SUCCESS = 'Ihre Benutzerdaten wurden erfolgreich geändert.';
 

@@ -25,6 +25,7 @@ import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
 import de.egladil.web.authprovider.payload.BenutzerSuchmodus;
+import de.egladil.web.authprovider.payload.DuplicateAttributeType;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItemBuilder;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
@@ -294,7 +295,7 @@ public class ResourceOwnerService {
 	 *                   String die UUID des ReourceOwners, der seine Daten ändern möchte.
 	 * @return           String key zur Message in ApplicationMessages oder null
 	 */
-	public String changeLoginNameAndEmailAllowed(final String loginName, final String email, final String uuid) {
+	public DuplicateAttributeType changeLoginNameAndEmailAllowed(final String loginName, final String email, final String uuid) {
 
 		List<ResourceOwner> gleicherLoginName = resourceOwnerDao.findOtherUsersWithSameLoginName(loginName, uuid);
 		List<ResourceOwner> gleicheEmail = new ArrayList<>();
@@ -306,17 +307,17 @@ public class ResourceOwnerService {
 
 		if (gleicherLoginName.size() > 0 && gleicheEmail.size() > 0) {
 
-			return "ProfileResource.data.duplicate.emailAndLoginName";
+			return DuplicateAttributeType.EMAIL_AND_LOGINNAME;
 		}
 
 		if (gleicherLoginName.size() > 0) {
 
-			return "ProfileResource.data.duplicate.loginName";
+			return DuplicateAttributeType.LOGINNAME;
 		}
 
 		if (gleicheEmail.size() > 0) {
 
-			return "ProfileResource.data.duplicate.email";
+			return DuplicateAttributeType.EMAIL;
 		}
 
 		return null;
