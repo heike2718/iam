@@ -16,7 +16,8 @@ MP_JWT_VERIFY_PUBLICKEY.LOCATION=home/heike/.keystore/public/authprov_public_key
 PRIVATE_KEY_LOCATION=/home/heike/.keystore/private/authprov_private_key.pem
 PUBLIC_KEY_LOCATION=/home/heike/.keystore/public/authprov_public_key.pem
 
-EMAIL_CREDENTIALS_PATH=/home/heike/git/konfigurationen/commons-mailer/mailprovider.properties
+TEMP_PWD_URL=http://localhost:4300/password/temp/change?tokenId=
+ACCOUNT_ACTIVATION_URL=http://localhost:10000/api/registration/confirmation?code=
 
 MONITORING_MAIL_TO=hier die mailadresse
 

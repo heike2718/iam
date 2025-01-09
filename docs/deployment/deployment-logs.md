@@ -21,7 +21,7 @@ update CLIENTS set name = 'Benutzerprofil', zurueck_text = 'zurück zu Benutzerp
 ```
 
 
-### authprovider
+### authprovider (/)
 
 Standardkonfiguration gefixed.
 
@@ -33,6 +33,11 @@ TARGET_ORIGIN=localhost:9000
 
 QUARKUS.HTTP_CORS_ORIGINS=http://loclahost:9000,http://localhost:9600,http://localhost:4200
 ```
+
+Es gab noch ein issue mit der TEMP_PWD_URL in der .env!!! Da fehlte ein authprovider. 
+Wegen Unwägbarkeiten mit der baseURI : __neuer config-Parameter account.activation.url__
+
+
 
 Default-Dinge liegen jetzt unter /deployments bzw. /deployments/logs. 
 
@@ -56,7 +61,7 @@ http://heiketux:9000/authprovider/api/dev
 
 
 
-### benutzerprofil
+### benutzerprofil (/)
 
 __.env__
 
@@ -80,7 +85,7 @@ config/application.properties durch .env ersetzt
 docker-volumes für server.log und access.log: Änderung: soll nach /opt/data/benutzerprofil/logs gemounted werden. Auf dem host muss dieses Verzeichnis angelegt werden und dem user 1001 bzw. der Gruppe 1001 erlaubt werden. docker-compose.yaml muss angepasst werden!!!
 
 
-## bv-admin
+## bv-admin (/)
 
 ```
 update CLIENTS set name = 'BV-Admin', base_url = 'localhost:4200', redirect_urls='localhost:4200,localhost:9020/bv-admin', zurueck_text = 'zurück zu BV-Admin'  where id = 9;
@@ -99,10 +104,17 @@ Beim Anfordern des client access tokens gab es eine 400 vom authprovider unter d
 
 _Grund:_ die clientId erlaubt keine Minus und in .env stand noch was mit ueberschreiben-mit-...
 
+## Minikänguru
+
+## Mathe-jung-alt
+
+gleich mit umdrehen: mja und mja/api. Sollte dann auch umbenannt werden - also maven-Project und nx-workspace
+
+## Checklisten
+
 ### alle Clients von authprovider
 
 die login- bzw. signup- Urls vom Backend enthalten alle noch den # nach der auth-aüpp-URL, müssen also ebenfalls neu deployed werden :/
 
 + Checklistenserver
-+ BV-Admin-Server
 + mk-gateway

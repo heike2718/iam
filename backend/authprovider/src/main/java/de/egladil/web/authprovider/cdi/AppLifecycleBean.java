@@ -35,12 +35,20 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "quarkus.http.port")
 	String port;
 
+	@ConfigProperty(name = "temp-pwd.url")
+	String tempPwdUrl;
+
+	@ConfigProperty(name = "account.activation.url")
+	String accountActivationUrl;
+
 	void onStartup(@Observes final StartupEvent ev) {
 
 		LOGGER.info(" ===========>  stage={}", stage);
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  mkGatewayRoute={}", mkGatewayRoute);
 		LOGGER.info(" ===========>  jdbcURL={}", jdbcURL);
+		LOGGER.info(" ===========>  tempPwdUrl={}", tempPwdUrl);
+		LOGGER.info(" ===========>  accountActivationUrl={}", accountActivationUrl);
 		LOGGER.info(" ===========>  port={}", port);
 
 	}

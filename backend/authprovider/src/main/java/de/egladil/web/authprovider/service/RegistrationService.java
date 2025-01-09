@@ -35,8 +35,8 @@ import de.egladil.web.authprovider.payload.SignUpCredentials;
 import de.egladil.web.authprovider.service.mail.AuthMailService;
 import de.egladil.web.authprovider.service.mail.DefaultEmailDaten;
 import de.egladil.web.authprovider.service.mail.RegistrationMailStrategy;
-import de.egladil.web.authprovider.utils.AuthUtils;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
+import de.egladil.web.authprovider.utils.AuthUtils;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
@@ -54,6 +54,9 @@ public class RegistrationService {
 
 	@ConfigProperty(name = "registrationKeyExpireHours", defaultValue = "24")
 	int registrationKeyExpireHours;
+
+	@ConfigProperty(name = "account.activation.url")
+	String accountActivationUrl;
 
 	@Inject
 	AuthproviderEventHandler eventHandler;
@@ -115,7 +118,7 @@ public class RegistrationService {
 
 			DefaultEmailDaten maildaten = new RegistrationMailStrategy(signUpCredentials.getEmail(),
 				signUpCredentials.getLoginName(),
-				persistierter, uriInfo)
+				persistierter, accountActivationUrl)
 					.createEmailDaten("RegistrationService");
 
 			mailService.sendMail(maildaten);

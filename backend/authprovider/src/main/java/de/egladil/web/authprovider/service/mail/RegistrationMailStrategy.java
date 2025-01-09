@@ -16,14 +16,13 @@ import org.apache.commons.lang3.StringUtils;
 import de.egladil.web.authprovider.domain.ActivationCode;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
-import jakarta.ws.rs.core.UriInfo;
 
 /**
  * RegistrationMailStrategy
  */
 public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy {
 
-	private static final String LINK_PREFIX = "registration/confirmation?code=";
+	// private static final String LINK_PREFIX = "authprovider/registration/confirmation?code=";
 
 	private final String emailTo;
 
@@ -31,7 +30,9 @@ public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy 
 
 	private final ActivationCode activationCode;
 
-	private final UriInfo uriInfo;
+	// private final UriInfo uriInfo;
+
+	private final String accountConfirmationUrl;
 
 	/**
 	 * @param emailTo
@@ -39,12 +40,12 @@ public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy 
 	 * @param activationCode
 	 * @param uriInfo
 	 */
-	public RegistrationMailStrategy(final String emailTo, final String loginName, final ActivationCode activationCode, final UriInfo uriInfo) {
+	public RegistrationMailStrategy(final String emailTo, final String loginName, final ActivationCode activationCode, final String accountConfirmationUrl) {
 
 		this.emailTo = emailTo;
 		this.loginName = loginName;
 		this.activationCode = activationCode;
-		this.uriInfo = uriInfo;
+		this.accountConfirmationUrl = accountConfirmationUrl;
 	}
 
 	@Override
@@ -90,13 +91,15 @@ public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy 
 
 	private String getLinkConfirmUrl() {
 
-		String baseUrl = uriInfo.getBaseUri().toString();
+		// String baseUrl = uriInfo.getBaseUri().toString();
+		//
+		// if (accountConfirmationUrl.endsWith("/")) {
+		//
+		// return accountConfirmationUrl.substr + activationCode.getConfirmationCode();
+		// }
+		// return baseUrl + "/" + LINK_PREFIX + activationCode.getConfirmationCode();
 
-		if (baseUrl.endsWith("/")) {
-
-			return baseUrl + LINK_PREFIX + activationCode.getConfirmationCode();
-		}
-		return baseUrl + "/" + LINK_PREFIX + activationCode.getConfirmationCode();
+		return accountConfirmationUrl + activationCode.getConfirmationCode();
 
 	}
 
@@ -105,7 +108,7 @@ public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy 
 
 		return "RegistrationMailStrategy [emailTo=" + emailTo + ", loginName=" + loginName + ", activationCode="
 			+ StringUtils.abbreviate(activationCode.getConfirmationCode(), 11)
-			+ ", uriInfo=" + uriInfo + "]";
+			+ ", accountConfirmationUrl=" + accountConfirmationUrl + "]";
 	}
 
 }
