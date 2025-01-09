@@ -1,0 +1,7 @@
+::ng-deep .dialog-actions {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: end;
+    gap: 8px;
+    /* optional: adds space between buttons */
+}

@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @RequestScoped
-@Path("auth-admin-api/version")
+@Path("api/version")
 @Produces(MediaType.APPLICATION_JSON)
 public class VersionResource {
 

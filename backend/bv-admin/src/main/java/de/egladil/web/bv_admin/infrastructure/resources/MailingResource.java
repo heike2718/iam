@@ -24,7 +24,7 @@ import jakarta.ws.rs.core.Response;
 /**
  * MailingResource
  */
-@Path("auth-admin-api/mails")
+@Path("api/mails")
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 @Tag(name = "MailingResource")
 public class MailingResource {

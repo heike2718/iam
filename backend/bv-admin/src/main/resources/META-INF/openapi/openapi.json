@@ -32,7 +32,7 @@
     "name" : "VersandauftraegeResource"
   } ],
   "paths" : {
-    "/auth-admin-api/benutzer" : {
+    "/api/benutzer" : {
       "post" : {
         "tags" : [ "BenutzerResource" ],
         "summary" : "Gibt alle Benutzer zurück, die auf die gegebene Suchanfrage passen.",
@@ -96,7 +96,7 @@
         } ]
       }
     },
-    "/auth-admin-api/benutzer/loeschung" : {
+    "/api/benutzer/loeschung" : {
       "put" : {
         "tags" : [ "BenutzerResource" ],
         "summary" : "Löscht die durch die uuids definierten Benutzerkonten vollständig aus allen Anwendungen.",
@@ -163,7 +163,7 @@
         } ]
       }
     },
-    "/auth-admin-api/benutzer/{uuid}" : {
+    "/api/benutzer/{uuid}" : {
       "put" : {
         "tags" : [ "BenutzerResource" ],
         "summary" : "Setzt für den gegebenen Benutzer den neuen Aktivierungsstatus",
@@ -313,7 +313,7 @@
         } ]
       }
     },
-    "/auth-admin-api/infomails" : {
+    "/api/infomails" : {
       "get" : {
         "tags" : [ "InfomailsResource" ],
         "summary" : "Gibt alle gespeicherten Infomailtexte zurück.",
@@ -420,7 +420,7 @@
         } ]
       }
     },
-    "/auth-admin-api/infomails/{uuid}" : {
+    "/api/infomails/{uuid}" : {
       "put" : {
         "tags" : [ "InfomailsResource" ],
         "summary" : "Ändert eine Infomail an.",
@@ -502,7 +502,7 @@
         } ]
       }
     },
-    "/auth-admin-api/mails/testmail" : {
+    "/api/mails/testmail" : {
       "get" : {
         "tags" : [ "MailingResource" ],
         "summary" : "Endpoint zum Testen der Mailerkonfiguration.",
@@ -543,7 +543,7 @@
         } ]
       }
     },
-    "/auth-admin-api/session/authurls/login" : {
+    "/api/session/authurls/login" : {
       "get" : {
         "tags" : [ "SessionResource" ],
         "summary" : "Gibt die Login-URL zurück, mit der eine Anwendung zum authprovider redirecten kann",
@@ -562,7 +562,7 @@
         }
       }
     },
-    "/auth-admin-api/session/dev/logout/{sessionId}" : {
+    "/api/session/dev/logout/{sessionId}" : {
       "delete" : {
         "tags" : [ "SessionResource" ],
         "summary" : "entfernt die Session (nur Dev)",
@@ -590,7 +590,7 @@
         }
       }
     },
-    "/auth-admin-api/session/login" : {
+    "/api/session/login" : {
       "post" : {
         "tags" : [ "SessionResource" ],
         "summary" : "Erzeugt eine Session anhand des per S2S-Kommunikation für das 'one time token' beim authprovider gekauften JWT und packt die SessionId in ein Cookie",
@@ -618,7 +618,7 @@
         }
       }
     },
-    "/auth-admin-api/session/logout" : {
+    "/api/session/logout" : {
       "delete" : {
         "tags" : [ "SessionResource" ],
         "summary" : "entfernt die Session",
@@ -644,7 +644,7 @@
         }
       }
     },
-    "/auth-admin-api/versandauftraege" : {
+    "/api/versandauftraege" : {
       "get" : {
         "tags" : [ "VersandauftraegeResource" ],
         "summary" : "Gibt alle gespeicherten Mailversandaufträge zurück.",
@@ -761,7 +761,7 @@
         } ]
       }
     },
-    "/auth-admin-api/versandauftraege/gruppen/{uuid}" : {
+    "/api/versandauftraege/gruppen/{uuid}" : {
       "get" : {
         "tags" : [ "VersandauftraegeResource" ],
         "summary" : "Läd die Details der durch die uuid definierten Mainversandgruppe",
@@ -900,7 +900,7 @@
         } ]
       }
     },
-    "/auth-admin-api/versandauftraege/{uuid}" : {
+    "/api/versandauftraege/{uuid}" : {
       "get" : {
         "tags" : [ "VersandauftraegeResource" ],
         "summary" : "Läd die Details des durch die uuid definierten Mailversandauftrags",
@@ -1028,7 +1028,7 @@
         } ]
       }
     },
-    "/auth-admin-api/versandauftraege/{uuid}/cancellation" : {
+    "/api/versandauftraege/{uuid}/cancellation" : {
       "put" : {
         "tags" : [ "VersandauftraegeResource" ],
         "summary" : "Bricht den durch die uuid definierten Mailversandauftrag ab",
@@ -1095,7 +1095,7 @@
         } ]
       }
     },
-    "/auth-admin-api/versandauftraege/{uuid}/continuation" : {
+    "/api/versandauftraege/{uuid}/continuation" : {
       "put" : {
         "tags" : [ "VersandauftraegeResource" ],
         "summary" : "Setzt den durch die uuid definierten Mailversandauftrag fort",
@@ -1162,7 +1162,7 @@
         } ]
       }
     },
-    "/auth-admin-api/version" : {
+    "/api/version" : {
       "get" : {
         "tags" : [ "Version Resource" ],
         "responses" : {

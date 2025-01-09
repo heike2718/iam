@@ -22,7 +22,7 @@ tags:
 - name: SessionResource
 - name: VersandauftraegeResource
 paths:
-  /auth-admin-api/benutzer:
+  /api/benutzer:
     post:
       tags:
       - BenutzerResource
@@ -62,7 +62,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/benutzer/loeschung:
+  /api/benutzer/loeschung:
     put:
       tags:
       - BenutzerResource
@@ -105,7 +105,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/benutzer/{uuid}:
+  /api/benutzer/{uuid}:
     put:
       tags:
       - BenutzerResource
@@ -204,7 +204,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/infomails:
+  /api/infomails:
     get:
       tags:
       - InfomailsResource
@@ -272,7 +272,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/infomails/{uuid}:
+  /api/infomails/{uuid}:
     put:
       tags:
       - InfomailsResource
@@ -326,7 +326,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/mails/testmail:
+  /api/mails/testmail:
     get:
       tags:
       - MailingResource
@@ -354,7 +354,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/session/authurls/login:
+  /api/session/authurls/login:
     get:
       tags:
       - SessionResource
@@ -368,7 +368,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessagePayload"
-  /auth-admin-api/session/dev/logout/{sessionId}:
+  /api/session/dev/logout/{sessionId}:
     delete:
       tags:
       - SessionResource
@@ -388,7 +388,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessagePayload"
-  /auth-admin-api/session/login:
+  /api/session/login:
     post:
       tags:
       - SessionResource
@@ -408,7 +408,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessagePayload"
-  /auth-admin-api/session/logout:
+  /api/session/logout:
     delete:
       tags:
       - SessionResource
@@ -426,7 +426,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessagePayload"
-  /auth-admin-api/versandauftraege:
+  /api/versandauftraege:
     get:
       tags:
       - VersandauftraegeResource
@@ -501,7 +501,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/versandauftraege/gruppen/{uuid}:
+  /api/versandauftraege/gruppen/{uuid}:
     get:
       tags:
       - VersandauftraegeResource
@@ -593,7 +593,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/versandauftraege/{uuid}:
+  /api/versandauftraege/{uuid}:
     get:
       tags:
       - VersandauftraegeResource
@@ -678,7 +678,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/versandauftraege/{uuid}/cancellation:
+  /api/versandauftraege/{uuid}/cancellation:
     put:
       tags:
       - VersandauftraegeResource
@@ -723,7 +723,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/versandauftraege/{uuid}/continuation:
+  /api/versandauftraege/{uuid}/continuation:
     put:
       tags:
       - VersandauftraegeResource
@@ -768,7 +768,7 @@ paths:
                 $ref: "#/components/schemas/MessagePayload"
       security:
       - SecurityScheme: []
-  /auth-admin-api/version:
+  /api/version:
     get:
       tags:
       - Version Resource

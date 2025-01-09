@@ -1,0 +1,19 @@
+<main>
+    <bv-admin-loader></bv-admin-loader>
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav mode="push" opened="false" role="navigation">
+            <bv-admin-sidenav (sidenavClose)="sidenav.close()"></bv-admin-sidenav>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <bv-admin-header (sidenavToggle)="sidenav.toggle()"></bv-admin-header>
+            <bv-admin-message></bv-admin-message>
+            <main>                
+                <router-outlet></router-outlet>
+            </main>
+
+            <footer>
+                <bv-admin-benutzerbasket-status></bv-admin-benutzerbasket-status>
+              </footer>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</main>

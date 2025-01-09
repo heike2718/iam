@@ -42,7 +42,7 @@ import jakarta.ws.rs.core.Response;
  * InfomailsResource
  */
 @RequestScoped
-@Path("auth-admin-api/infomails")
+@Path("api/infomails")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 @Tag(name = "InfomailsResource")

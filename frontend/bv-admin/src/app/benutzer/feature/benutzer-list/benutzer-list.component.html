@@ -1,0 +1,182 @@
+<div class="centered mja-container">
+
+    <h1>Benutzersuche</h1>
+
+    <!-- Alternative zu einem Subjact of(this.paginator)-->
+    <!-- (page)="onPaginatorChanged($event)"-->
+    <mat-paginator [length]="benutzerFacade.anzahlTreffer$ | async" [pageSizeOptions]="[25,30,50]"
+        aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen." showFirstLastButtons
+        (page)="onPaginatorChanged($event)">
+    </mat-paginator>
+
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mt-2" matSort
+        (matSortChange)="sortData($event)" matSortDirection="asc">
+
+        <!-- Auswahl Benutzer column-->
+        <ng-container matColumnDef="auswahlBenutzer">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label title="Benutzer auswählen">check</label>
+                    <mat-checkbox (click)="toggleSelectAll($event)" [checked]="allRowsSelected"></mat-checkbox>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleRow(row)"
+                    [checked]="selectionModel.isSelected(row)"></mat-checkbox>
+            </mat-cell>>
+        </ng-container>
+
+
+        <!-- UUID -->
+        <ng-container matColumnDef="uuid">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label>
+                        UUID
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput placeholder="UUID" [(ngModel)]="uuidFilterValue">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.uuid.substring(0,8)}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Email -->
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label mat-sort-header>
+                        Email
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput placeholder="Email" [(ngModel)]="emailFilterValue">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.email}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Nachname -->
+        <ng-container matColumnDef="nachname">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label mat-sort-header>
+                        Nachname
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput placeholder="Nachname" [(ngModel)]="nachnameFilterValue">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.nachname}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Vorname -->
+        <ng-container matColumnDef="vorname">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label mat-sort-header>
+                        Vorname
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput placeholder="Vorname" [(ngModel)]="vornameFilterValue">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.vorname}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- aenderungsdatum -->
+        <ng-container matColumnDef="aenderungsdatum">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label mat-sort-header>
+                        geändert am
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput placeholder="Datum geändert" [(ngModel)]="aenderungsdatumFilterValue">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.aenderungsdatum}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Rolle -->
+        <ng-container matColumnDef="rolle">
+            <mat-header-cell *matHeaderCellDef>
+                <div class="grid-container-1">
+                    <label>
+                        Rolle
+                    </label>
+                    <mat-form-field floatLabel="always" appearance="outline">
+                        <input matInput placeholder="Rolle" [(ngModel)]="rolleFilterValue">
+                    </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                {{benutzer.rollen}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Action aktivieren/deaktivieren -->
+        <ng-container matColumnDef="toggleActivationState">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1" title="aktivieren/deaktiv">
+                    aktiv on/off
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                @if(benutzer.aktiviert){
+                    <button mat-icon-button (click)="changeActivationState(benutzer)"
+                    title="Konto deaktivieren">
+                    <mat-icon>person_off</mat-icon>
+                </button>
+                }
+                @else {
+                    <button mat-icon-button (click)="changeActivationState(benutzer)"
+                    title="Konto aktivieren">
+                    <mat-icon>person</mat-icon>
+                </button>
+                }
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Action Konto löschen -->
+        <ng-container matColumnDef="deleteAccount">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1" title="Benutzer löschen">
+                    weg
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let benutzer">
+                <button mat-icon-button color="warn" (click)="deleteBenutzer(benutzer)"
+                    title="Konto löschen">
+                    <mat-icon>person_remove</mat-icon>
+                </button>
+            </mat-cell>>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: getDisplayedColumns()" [ngClass]="{
+            'bg-beige': !row.aktiviert
+          }"></mat-row>
+    </mat-table>
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" class="action-button" (click)="findBenutzer()"
+            [disabled]="sucheDisabled()">suchen</button>
+        <button mat-raised-button color="accent" class="action-button" (click)="resetFilter()"
+            [disabled]="sucheDisabled()">Filter leeren</button>
+    </div>
+</div>

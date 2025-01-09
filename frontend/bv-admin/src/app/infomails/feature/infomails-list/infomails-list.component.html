@@ -1,0 +1,68 @@
+<div class="mja-container">
+    <h1 class="centered">Infomails</h1>
+
+    @if(infomailsFacade.infomails$ | async; as infomails) {
+
+    <mat-table [dataSource]="infomails" class="mat-elevation-z2 mt-2">
+
+        <!-- UUID -->
+        <ng-container matColumnDef="uuid">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    UUID
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let infomail">
+                {{infomail.uuid.substring(0,8)}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Betreff -->
+        <ng-container matColumnDef="betreff">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    Betreff
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let infomail">
+                {{infomail.betreff}}
+            </mat-cell>>
+        </ng-container>
+
+        <!-- Anzahl Versandaufträge -->
+        <ng-container matColumnDef="anzahlVersandauftraege">
+            <mat-header-cell *matHeaderCellDef>
+                <label class="ml-1">
+                    Versandauftraege
+                </label>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let infomail">
+                {{infomail.uuidsMailversandauftraege.length}}
+            </mat-cell>>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="selectInfomail(row)"></mat-row>
+    </mat-table>
+
+    <div class="button-container">
+        @if(selectedInfomail) {
+        <button mat-raised-button color="primary" class="action-button" (click)="deselectInfomail()">Auswahl
+            aufheben</button>
+        }
+        @if(!selectedInfomail) {
+        <button mat-raised-button color="accent" class="action-button" (click)="startEditNewInfomail()">neue
+            Infomailvorlage</button>
+        }
+    </div>
+
+    @if(selectedInfomail && !editMode) {
+    <bv-admin-infomail [infomail]="selectedInfomail"></bv-admin-infomail>
+    } @if(editMode) {
+    <bv-admin-infomail-edit [infomail]="selectedInfomail"></bv-admin-infomail-edit>
+    }
+
+
+
+    }
+</div>

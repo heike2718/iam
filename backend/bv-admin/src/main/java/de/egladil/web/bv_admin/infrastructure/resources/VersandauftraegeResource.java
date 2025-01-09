@@ -46,7 +46,7 @@ import jakarta.ws.rs.core.Response;
  * VersandauftraegeResource
  */
 @RequestScoped
-@Path("auth-admin-api/versandauftraege")
+@Path("api/versandauftraege")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 @Tag(name = "VersandauftraegeResource")

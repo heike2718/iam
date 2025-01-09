@@ -86,6 +86,18 @@ docker-volumes für server.log und access.log: Änderung: soll nach /opt/data/be
 update CLIENTS set name = 'BV-Admin', base_url = 'localhost:4200', redirect_urls='localhost:4200,localhost:9020/bv-admin', zurueck_text = 'zurück zu BV-Admin'  where id = 9;
 ```
 
+AuthProviderRestClient:
+
+@Path("authprovider/api")
+
+Beim Anfordern des client access tokens gab es eine 400 vom authprovider unter docker
+
+```
+2025-01-09 10:06:23,023 INFO (vert.x-eventloop-thread-13) clientId=, correlationId=, [de.egladil.web.authprovider.filters.OriginReferrerFilter:48] POST : /api/clients/client/accesstoken
+2025-01-09 10:06:23,026 ERROR (executor-thread-8) clientId=, correlationId=, [de.egladil.web.authprovider.filters.ValidationReportResponseFilter:67] MessagePayload [level=ERROR, message={de.egladil.constraints.invalidChars}]
+```
+
+_Grund:_ die clientId erlaubt keine Minus und in .env stand noch was mit ueberschreiben-mit-...
 
 ### alle Clients von authprovider
 

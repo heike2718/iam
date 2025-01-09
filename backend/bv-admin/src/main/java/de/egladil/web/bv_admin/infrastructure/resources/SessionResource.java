@@ -36,7 +36,7 @@ import jakarta.ws.rs.core.Response;
  * SessionResource
  */
 @RequestScoped
-@Path("auth-admin-api/session")
+@Path("api/session")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 @Tag(name = "SessionResource")

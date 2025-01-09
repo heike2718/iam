@@ -1,0 +1,39 @@
+<mat-card appearance="raised">
+    @if(infomail) {
+    <mat-card-header>
+        <mat-card-title>Mailtext und Betreff ändern</mat-card-title>
+        <mat-card-subtitle>{{infomail.uuid}}</mat-card-subtitle>
+    </mat-card-header>
+    } @else {
+    <mat-card-header>
+        <mat-card-title>Neue Infomailvorlage erfassen</mat-card-title>
+    </mat-card-header>
+    }
+    <mat-card-content>
+        <form [formGroup]="infomailForm" class="form-grid" novalidate>
+            <div class="form-row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Betreff</mat-label>
+                    <input matInput id="betreff" formControlName="betreff" (blur)="onBlur('betreff')" maxlength="100" />
+                    <mat-error *ngIf="infomailForm.get('betreff')?.invalid && infomailForm.get('betreff')?.touched">
+                        Betreff is required and must be less than 100 characters.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Mailtext</mat-label>
+                    <textarea matInput id="mailtext" formControlName="mailtext" (blur)="onBlur('mailtext')"
+                        rows="10"></textarea>
+                    <mat-error *ngIf="infomailForm.get('mailtext')?.invalid && infomailForm.get('mailtext')?.touched">
+                        Mailtext is required.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="save()" [disabled]="infomailForm.invalid">speichern</button>
+        <button mat-raised-button (click)="cancelEdit()">abbrechen</button>
+    </mat-card-actions>
+</mat-card>
