@@ -19,15 +19,17 @@ MOCK_KONTOLOESCHUNG=false
 # sollten sie aber u.U. vorhanden sein.                           #
 #                                                                 #
 #=================================================================#
-AUTH_APP_URL=http://localhost:4300
+# ---- lokale Entwicklung, wenn auch authprovider lokal läuft ----
+#AUTH_APP_URL=http://localhost:4300
+#PUBLIC_REDIRECT_URL=http://localhost:4400
+#QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:10000
+
+# ---- lokale Entwicklung, wenn authprovider in docker läuft ----
+AUTH_APP_URL=http://localhost:9000/authprovider/
 PUBLIC_REDIRECT_URL=http://localhost:4400
-QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:10000
+QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000
 
-#AUTH_APP_URL=http://localhost:9000/authprovider/
-#PUBLIC_REDIRECT_URL=http://localhost:10600/benutzerprofil/
-#QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000
-
-QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4300,http://localhost:4400,http://localhost:10600
+QUARKUS.HTTP_CORS_ORIGINS=http://localhost:4300,http://localhost:4400,http://localhost:10600
 
 #=============================================================================================#
 #        Logging                                                                              #

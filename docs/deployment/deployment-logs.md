@@ -14,8 +14,10 @@ __Achtung:__
 
 redirect_urls dürfen kein endendes / haben, da authprovider dieses vor dem Vergleich abschneidet.
 
+Für die lokale Entwicklung von benutzerprofil fehlt 'localhost:4400'. Für die lokale Entwicklung anderer Angular-Anwendungen fehlt localhost:4200
+
 ```
-update CLIENTS set name = 'Benutzerprofil', zurueck_text = 'zuück zu Benutzerprofil', REDIRECT_URLS = 'localhost:9600/benutzerprofil', base_url = 'http://localhost:9600/benutzerprofil/' where ID = 4;
+update CLIENTS set name = 'Benutzerprofil', zurueck_text = 'zurück zu Benutzerprofil', REDIRECT_URLS = 'localhost:9600/benutzerprofil,localhost:4200,localhost:4400', base_url = 'http://localhost:9600/benutzerprofil/' where ID = 4;
 ```
 
 
