@@ -1,1 +1,0 @@
-export { infomailsRoutes } from './infomails.routes';
