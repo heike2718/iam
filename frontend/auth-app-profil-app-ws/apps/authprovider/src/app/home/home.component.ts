@@ -2,7 +2,6 @@ import { Component, inject } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthproviderConfiguration } from "@authprovider/configuration";
-import { Router } from "@angular/router";
 
 
 @Component({
@@ -18,7 +17,6 @@ import { Router } from "@angular/router";
 export class HomeComponent {
 
     configuration = inject(AuthproviderConfiguration);
-    #router = inject(Router);
 
     redirectToProfilApp() {
 

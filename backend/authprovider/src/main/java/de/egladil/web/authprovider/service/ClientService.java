@@ -33,8 +33,8 @@ import de.egladil.web.authprovider.error.LogmessagePrefixes;
 import de.egladil.web.authprovider.error.SessionExpiredException;
 import de.egladil.web.authprovider.payload.ClientCredentials;
 import de.egladil.web.authprovider.payload.OAuthAccessTokenPayload;
-import de.egladil.web.authprovider.utils.AuthUtils;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
+import de.egladil.web.authprovider.utils.AuthUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
@@ -242,8 +242,9 @@ public class ClientService {
 
 		if (!optUrl.isPresent()) {
 
-			LOG.warn("Possible BOT Attack: redirect url '{}' fehlt in DB CLIENTS.REDIRECT_URLS (führendes http:// wird ignoriert)",
-				redirectUrl);
+			LOG.warn(
+				"Possible BOT Attack: redirect url '{}' fehlt in DB CLIENTS.REDIRECT_URLS (fuehrendes http:// wird ignoriert, endender / wird abgeschnitten!!)",
+				testString);
 			throw new InvalidRedirectUrl();
 		} else {
 

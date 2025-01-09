@@ -3,7 +3,7 @@ export const environment = {
   envName: 'heikeqs',
   production: false,
   baseUrl: '',
-  profilUrl: 'http://heikeqs/profil-app/',
+  profilUrl: 'http://heikeqs/benutzerprofil/',
   datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
   assetsPath: '/authprovider/public/',

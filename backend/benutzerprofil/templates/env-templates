@@ -12,14 +12,19 @@ CSRF_ENABLED=true
 MOCK_KONTOLOESCHUNG=false
 
 #=================================================================#
-#        auth-app, Redirect URLs, REST-Client                     #
+#    authprovider, Redirect URLs, REST-Client                     #
+#                                                                 #
+# PUBLIC_REDIRECT_URL muss ohne http:// und endenden / in         #
+# CLIENTS.REDIRECT_URLS vorkommen!! Für das korrekte redirect     #
+# sollten sie aber u.U. vorhanden sein.                           #
+#                                                                 #
 #=================================================================#
 AUTH_APP_URL=http://localhost:4300
 PUBLIC_REDIRECT_URL=http://localhost:4400
 QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:10000
 
-#AUTH_APP_URL=http://heiketux:80/auth-app
-#PUBLIC_REDIRECT_URL=http://localhost:10600/benutzerprofil
+#AUTH_APP_URL=http://localhost:9000/authprovider/
+#PUBLIC_REDIRECT_URL=http://localhost:10600/benutzerprofil/
 #QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000
 
 QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4300,http://localhost:4400,http://localhost:10600

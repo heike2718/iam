@@ -185,6 +185,7 @@ public class JWTService {
 
 		try {
 
+			LOGGER.info("privateKeyLocation={}", privateKeyLocation);
 			PemFile pemFile = new PemFile(privateKeyLocation);
 			KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
 
@@ -198,10 +199,10 @@ public class JWTService {
 			return privateKey;
 		} catch (IOException e) {
 
-			throw new AuthConfigurationException("Lesen des private keys: " + e.getMessage(), e);
+			throw new AuthConfigurationException("IOException beim Lesen des private keys: " + e.getMessage(), e);
 		} catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
 
-			throw new AuthCryptoException("Lesen des private keys" + e.getMessage(), e);
+			throw new AuthCryptoException(e.getClass().getSimpleName() + " beim Lesen des private keys: " + e.getMessage(), e);
 		}
 	}
 }

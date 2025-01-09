@@ -31,9 +31,6 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "quarkus.http.root-path")
 	String quarkusRootPath;
 
-	@ConfigProperty(name = "public-redirect-url")
-	String loginRedirectUrl;
-
 	@ConfigProperty(name = "quarkus.http.port")
 	String port;
 
@@ -59,7 +56,7 @@ public class AppLifecycleBean {
 	String clientId;
 
 	@ConfigProperty(name = "public-redirect-url")
-	String publicRedirectUrl;
+	String redirectUrl;
 
 	void onStartup(@Observes final StartupEvent ev) {
 
@@ -70,12 +67,11 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  authproviderRESTUrl={}", authproviderRESTUrl);
 		LOGGER.info(" ===========>  targetOrigin={}", targetOrigin);
-		LOGGER.info(" ===========>  loginRedirectUrl={}", loginRedirectUrl);
 		LOGGER.info(" ===========>  csrfEnabled={}", csrfEnabled);
 		LOGGER.info(" ===========>  mockSession={}", mockSession);
 		LOGGER.info(" ===========>  quarkusRootPath={}", quarkusRootPath);
 		LOGGER.info(" ===========>  port={}", port);
-		LOGGER.info(" ===========>  redirectUrl={}", publicRedirectUrl);
+		LOGGER.info(" ===========>  redirectUrl={}", redirectUrl);
 
 		if ("dev".equalsIgnoreCase(env)) {
 

@@ -5,7 +5,7 @@ export const environment = {
   envName: 'docker',
   production: false,
   baseUrl: '',
-  profilUrl: 'http://benutzerverwaltung:9600/benutzerverwaltung/',
+  profilUrl: 'http://localhost:9600/benutzerprofil/',
   datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
   assetsPath: '/authprovider/public/',

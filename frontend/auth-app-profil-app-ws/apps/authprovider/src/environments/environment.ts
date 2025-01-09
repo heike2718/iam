@@ -5,7 +5,7 @@ export const environment = {
     envName: 'dev',
     production: false,
     baseUrl: 'http://localhost:10000',
-    profilUrl: 'http://localhost:4400/benutzerprofil',
+    profilUrl: 'http://localhost:4400',
     datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
     withCredentials: true,
     assetsPath: '',
