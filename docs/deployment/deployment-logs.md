@@ -80,6 +80,13 @@ config/application.properties durch .env ersetzt
 docker-volumes für server.log und access.log: Änderung: soll nach /opt/data/benutzerprofil/logs gemounted werden. Auf dem host muss dieses Verzeichnis angelegt werden und dem user 1001 bzw. der Gruppe 1001 erlaubt werden. docker-compose.yaml muss angepasst werden!!!
 
 
+## bv-admin
+
+```
+update CLIENTS set name = 'BV-Admin', base_url = 'localhost:4200', redirect_urls='localhost:4200,localhost:9020/bv-admin', zurueck_text = 'zurück zu BV-Admin'  where id = 9;
+```
+
+
 ### alle Clients von authprovider
 
 die login- bzw. signup- Urls vom Backend enthalten alle noch den # nach der auth-aüpp-URL, müssen also ebenfalls neu deployed werden :/

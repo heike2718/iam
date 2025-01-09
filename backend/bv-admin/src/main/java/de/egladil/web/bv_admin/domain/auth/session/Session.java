@@ -2,7 +2,7 @@
 // Project: bv-admin
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.benutzerprofil.domain.auth.session;
+package de.egladil.web.bv_admin.domain.auth.session;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,13 +15,10 @@ public class Session {
 	@JsonProperty
 	private String sessionId;
 
-	@JsonIgnore
-	private String xsrfToken;
-
 	@JsonProperty
 	private long expiresAt;
 
-	@JsonIgnore
+	@JsonProperty
 	private AuthenticatedUser user;
 
 	public static Session createAnonymous(final String sessionId) {
@@ -131,15 +128,5 @@ public class Session {
 
 		this.user = user;
 		return this;
-	}
-
-	public String getXsrfToken() {
-
-		return xsrfToken;
-	}
-
-	public void setXsrfToken(final String xsrfToken) {
-
-		this.xsrfToken = xsrfToken;
 	}
 }

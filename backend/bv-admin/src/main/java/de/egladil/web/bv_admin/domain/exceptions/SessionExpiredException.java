@@ -2,7 +2,7 @@
 // Project: bv-admin
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.benutzerprofil.domain.exceptions;
+package de.egladil.web.bv_admin.domain.exceptions;
 
 /**
  * SessionExpiredException

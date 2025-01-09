@@ -1,0 +1,108 @@
+ENV=dev
+STAGE=dev
+
+EMAILS_GROUPSIZE=2
+EMAILS_STANDARDEMPFAENGER=minikaenguru@egladil.de
+
+MKV_APP_CLIENT_ID=k7AxUVYzr1FBAvD8e99orRqKqx4jBwcr7Dmgn5jdBf8J
+MKV_APP_CLIENT_SECRET=start123
+
+SYNC_INFRASTRUCTURE_AVAILABLE=false
+
+PUBLIC-CLIENT-ID=ueberschreiben-mit-bv-admin
+PUBLIC-CLIENT-SECRET=start123
+
+CSRF_ENABLED=false
+
+MOCK.BENUTZERID=20721575-8c45-4201-a025-7a9fece1f2aa
+MOCK.BENUTZER.FULLNAME=Moki Bulruk
+MOCK.ROLE=STANDARD
+
+TARGET_ORIGIN=localhost:4200,localhost:9020/bv-admin
+
+# alle 2 Minuten
+MAILVERSAND_CRON_EXPR=0 0/2 * 1/1 * ? *
+# zu Beginn jeder Stunde
+#MAILVERSAND_CRON_EXPR=0 0 * 1/1 * ? *
+
+QUARKUS_SWAGGER_UI_ALWAYS_INCLUDE=true
+QUARKUS_SWAGGER_UI_PATH=/swagger-ui
+
+#=================================================================#
+#        Database                                                 #
+#=================================================================#
+# falls die IP sich geändert hat, startet Quarkus nicht
+# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb-all
+QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://172.18.0.2:3306/authbv
+QUARKUS_DATASOURCE_PASSWORD=ueberschreiben
+# ---- man muss auch das MIN-Level auf TRACE setzen, wenn man das SQL von namedQueries sehen will ---
+QUARKUS_LOG_MIN_LEVEL=TRACE
+QUARKUS_HIBERNATE_ORM_LOG_BIND_PARAMETERS=true
+QUARKUS_HIBERNATE_ORM_LOG_SQL=true
+
+#=================================================================#
+#    authprovider, Redirect URLs, REST-Client, CORS               #
+#                                                                 #
+# PUBLIC_REDIRECT_URL muss ohne http:// und endenden / in         #
+# CLIENTS.REDIRECT_URLS vorkommen!! Für das korrekte redirect     #
+# sollten sie aber u.U. vorhanden sein.                           #
+#                                                                 #
+#=================================================================#
+# ---- lokale Entwicklung (authprovider in docker, bv-admin mit npm gestartet) ----
+#AUTH_APP_URL=http://localhost:9000/authprovider/
+#PUBLIC_REDIRECT_URL=http://localhost:4200
+#QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000
+#AUTHPROVIDER_URL=http://localhost:9000/authprovider
+
+# ---- lokale Entwicklung, wenn bv-admin im lokalen quarkus läuft und authprovider in docker ----
+#AUTH_APP_URL=http://localhost:9000/authprovider/
+#PUBLIC_REDIRECT_URL=http://localhost:9020/bv-admin/
+#QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:9000
+#AUTHPROVIDER_URL=http://localhost:9000/authprovider
+
+# ---- lokale Entwicklung (auch authprovider lokal mit npm gestartet, bv-admin mit npm gestartet) ----
+#AUTH_APP_URL=http://localhost:4300
+#PUBLIC_REDIRECT_URL=http://localhost:4200
+#QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:10000
+#AUTHPROVIDER_URL=http://localhost:10000/authprovider
+
+QUARKUS_HTTP_CORS_ORIGINS=http://localhost:9020,http://localhost:4200,http://localhost:9000,http://localhost:9510,https://fonts.googleapis.com
+QUARKUS_REST_CLIENT_MKGATEWAY_URL=http://localhost:9510/mk-gateway
+
+#=============================================================================================#
+#        Logging                                                                              #
+#=============================================================================================#
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_INFRASTRUCTURE_FILTERS_SPAROUTEFILTER__LEVEL=DEBUG
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_DOMAIN_AUTH_SESSION_SESSIONUTILS__LEVEL=WARN
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_AUTH_ADMIN_API_INFRASTRUCTURE_CDI_AUTHENTICATIONCONTEXTIMPL__LEVEL=WARN
+
+QUARKUS_LOG_CATEGORY__ORG_JBOSS_RESTEASY_REACTIVE_CLIENT_LOGGING_DEFAULTCLIENTLOGGER__LEVEL=WARN
+QUARKUS_LOG_CATEGORY__ORG_HIBERNATE_SQL__LEVEL=ERROR
+
+QUARKUS_LOG_FILE_ENABLE=false
+QUARKUS_HTTP_ACCESS_LOG_LOG_TO_FILE=false
+
+#=============================================================================================#
+#        Mail                                                                              #
+#=============================================================================================#
+QUARKUS_MAILER_FROM=ueberschreiben
+QUARKUS_MAILER_HOST=ueberschreiben
+QUARKUS_MAILER_PORT=000
+QUARKUS_MAILER_START_TLS=ueberschreiben
+QUARKUS_MAILER_USERNAME=ueberschreiben
+QUARKUS_MAILER_PASSWORD=ueberschreiben
+QUARKUS_MAILER_BOUNCE_ADDRESS=ueberschreiben
+QUARKUS_MAILER_MOCK=true
+
+#=============================================================================================#
+#        _TEST_                                                                               #
+#=============================================================================================#
+
+QUARKUS_HTTP_TEST_TIMEOUT=1m
+
+_AUTH-ADMIN-TEST_CSRF_ENABLED=false
+
+_AUTH-ADMIN-TEST_MOCK.BENUTZERID=20721575-8c45-4201-a025-7a9fece1f2aa
+_AUTH-ADMIN-TEST_MOCK.BENUTZER.FULLNAME=Moki Bulruk
+_AUTH-ADMIN-TEST_MOCK.ROLE=AUTH_ADMIN
+

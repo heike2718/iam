@@ -2,13 +2,13 @@
 // Project: bv-admin
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.benutzerprofil.domain.auth.session;
+package de.egladil.web.bv_admin.domain.auth.util;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.benutzerprofil.domain.auth.config.AuthConstants;
+import de.egladil.web.bv_admin.domain.auth.config.AuthConstants;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.NewCookie;;
@@ -32,7 +32,7 @@ public class CsrfCookieService {
 	 *
 	 * @return
 	 */
-	public NewCookie createCsrfTokenCookie(final String cookieValue) {
+	public NewCookie createCsrfTokenCookie() {
 
 		String csrfToken = csrfTokenService.createRandomToken().replaceAll("\"", "");
 
