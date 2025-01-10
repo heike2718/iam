@@ -40,6 +40,8 @@ npx nx generate @nx/js:library --help
 
 === npm run build-docker-auth-app erzeugt ein Unterverzeichnis browser
 
+**Achtung: ** erst ab Angular 18!
+
 in project.json muss man den output-path manipulieren:
 
 [src,json]

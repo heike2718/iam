@@ -104,17 +104,47 @@ Beim Anfordern des client access tokens gab es eine 400 vom authprovider unter d
 
 _Grund:_ die clientId erlaubt keine Minus und in .env stand noch was mit ueberschreiben-mit-...
 
-## Minikänguru
+## Minikänguru (/)
 
-## Mathe-jung-alt
+Änderungen hier:
 
-gleich mit umdrehen: mja und mja/api. Sollte dann auch umbenannt werden - also maven-Project und nx-workspace
+```
+ (benutzen Sie "git add <Datei>...", um die Änderungen zum Commit vorzumerken)
+  (benutzen Sie "git restore <Datei>...", um die Änderungen im Arbeitsverzeichnis zu verwerfen)
+	geändert:       minikaenguru-product/backend/mk-gateway/pom.xml
+	geändert:       minikaenguru-product/backend/mk-gateway/src/main/java/de/egladil/web/mk_gateway/domain/auth/urls/impl/UrlServiceDelegate.java
+	geändert:       minikaenguru-product/backend/mk-gateway/src/main/java/de/egladil/web/mk_gateway/domain/auth/urls/impl/VeranstalterUrlService.java
+	geändert:       minikaenguru-product/backend/mk-gateway/src/main/java/de/egladil/web/mk_gateway/infrastructure/cdi/AppLifecycleBean.java
+	geändert:       minikaenguru-product/backend/mk-gateway/src/main/resources/META-INF/openapi/openapi.json
+	geändert:       minikaenguru-product/backend/mk-gateway/src/main/resources/META-INF/openapi/openapi.yaml
+	geändert:       minikaenguru-product/backend/mk-kataloge/pom.xml
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/apps/mk-admin-app/src/environments/environment.prod.ts
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/apps/mk-admin-app/src/environments/environment.ts
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/apps/mk-admin-app/src/index.html
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/apps/mkv-app/src/environments/environment.prod.ts
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/apps/mkv-app/src/environments/environment.ts
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/apps/mkv-app/src/index.html
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/build-env/mk-admin-app/environment-heikeqs.ts
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/build-env/mkv-app/environment-heikeqs.ts
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/package-lock.json
+	geändert:       minikaenguru-product/frontend/minikaenguru-ws/package.json
+
+```
+
+Pfade zu logs geändert. => Dockerfile und docker-compose.yaml muss angepasst werden. Zielverzeichnis: /opt/data/mk-kataloge/logs bzw. /opt/data/mk-gateway/logs
+
 
 ## Checklisten
 
-### alle Clients von authprovider
+Nur den server. Das wird ein Blindspiel, weil die app sich nicht mehr bauen lässt.
 
-die login- bzw. signup- Urls vom Backend enthalten alle noch den # nach der auth-aüpp-URL, müssen also ebenfalls neu deployed werden :/
+Pfade zu logs geändert. => Dockerfile und docker-compose.yaml muss angepasst werden. Zielverzeichnis: /opt/data/checklisten/logs
 
-+ Checklistenserver
-+ mk-gateway
+## Mathe-jung-alt
+
+Pfade zu logs geändert. => Dockerfile und docker-compose.yaml muss angepasst werden. Zielverzeichnis: /opt/data/mathe-jung-alt/logs
+
+localhost:9210/mja-app fehlte in redirect_urls in docker-DB
+
+
+
