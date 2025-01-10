@@ -1,8 +1,10 @@
-# Deplpyment log für I0076 (komplettes Redisign der Architektur)
+# Deployment log für I0076 (komplettes Redisign der Architektur)
 
 ## Docker (lokale Entwicklung)
 
-### Datenbank
+### 1 authprovider und co
+
+#### 1.1 Datenbank
 
 2 Migrationen und zusätzlich wegen
 
@@ -21,7 +23,7 @@ update CLIENTS set name = 'Benutzerprofil', zurueck_text = 'zurück zu Benutzerp
 ```
 
 
-### authprovider (/)
+#### 1.2 authprovider (/)
 
 Standardkonfiguration gefixed.
 
@@ -37,8 +39,6 @@ QUARKUS.HTTP_CORS_ORIGINS=http://loclahost:9000,http://localhost:9600,http://loc
 Es gab noch ein issue mit der TEMP_PWD_URL in der .env!!! Da fehlte ein authprovider. 
 Wegen Unwägbarkeiten mit der baseURI : __neuer config-Parameter account.activation.url__
 
-
-
 Default-Dinge liegen jetzt unter /deployments bzw. /deployments/logs. 
 
 private- und public-key location werden ab jetzt bereits in application.properties auf /deployments gesetzt, müssen also nicht überschrieben werden!!!!
@@ -48,6 +48,17 @@ private- und public-key location werden ab jetzt bereits in application.properti
 config/application.properties durch .env ersetzt
 
 docker-volumes für server.log und access.log: Änderung: soll nach /opt/data/authprovider/logs gemounted werden. Auf dem host muss dieses Verzeichnis angelegt werden und dem user 1001 bzw. der Gruppe 1001 erlaubt werden. docker-compose.yaml muss angepasst werden!!!
+
+__Deployment:__ 
+
+1. app bauen
+2. nach src/main/resources/META-INF/resources kopieren
+3. authprovider packagen
+4. quarkus-apps nach /media/veracrypt1/ansible/docker/authprovider/authprovider kopieren
+5. .env prüfen
+6. Dockerfile prüfen (wegen /deployments/logs)
+7. docker-compose.yaml prüfen (wegen volume für /deployment/logs)
+8. image neu bauen: docker image build -t heik2718/authprovider ./authprovider
 
 
 
@@ -61,7 +72,7 @@ http://heiketux:9000/authprovider/api/dev
 
 
 
-### benutzerprofil (/)
+#### 1.3 benutzerprofil (/)
 
 __.env__
 
@@ -84,8 +95,18 @@ config/application.properties durch .env ersetzt
 
 docker-volumes für server.log und access.log: Änderung: soll nach /opt/data/benutzerprofil/logs gemounted werden. Auf dem host muss dieses Verzeichnis angelegt werden und dem user 1001 bzw. der Gruppe 1001 erlaubt werden. docker-compose.yaml muss angepasst werden!!!
 
+__Deployment:__ 
 
-## bv-admin (/)
+1. app bauen
+2. nach src/main/resources/META-INF/resources kopieren
+3. authprovider packagen
+4. quarkus-apps nach /media/veracrypt1/ansible/docker/authprovider/benutzerprofil kopieren
+5. .env prüfen
+6. Dockerfile prüfen (wegen /deployments/logs)
+7. docker-compose.yaml prüfen (wegen volume für /deployment/logs)
+6. image neu bauen: docker image build -t heik2718/benutzerprofil ./benutzerprofil
+
+#### 1.4 bv-admin (/)
 
 ```
 update CLIENTS set name = 'BV-Admin', base_url = 'localhost:4200', redirect_urls='localhost:4200,localhost:9020/bv-admin', zurueck_text = 'zurück zu BV-Admin'  where id = 9;
@@ -104,7 +125,11 @@ Beim Anfordern des client access tokens gab es eine 400 vom authprovider unter d
 
 _Grund:_ die clientId erlaubt keine Minus und in .env stand noch was mit ueberschreiben-mit-...
 
-## Minikänguru (/)
+__Deployment:__ 
+
+wird nicht auf lokalen docker deployed
+
+### 2 Minikänguru (/)
 
 Änderungen hier:
 
@@ -133,18 +158,41 @@ _Grund:_ die clientId erlaubt keine Minus und in .env stand noch was mit uebersc
 
 Pfade zu logs geändert. => Dockerfile und docker-compose.yaml muss angepasst werden. Zielverzeichnis: /opt/data/mk-kataloge/logs bzw. /opt/data/mk-gateway/logs
 
+#### 2.1 Docker container für mk-gateway und mk-kataloge für Lokale Entwicklung
 
-## Checklisten
+__dies wird auf später verschoben!!!__
+
+/media/veracrypt1/ansible/docker/minikaenguru
+
+Es werden nur die backendservices deployed
+
+__Deployment:__ 
+
+3. mk-gateway packagen
+4. quarkus-apps nach /media/veracrypt1/ansible/docker/minikaenguru/mk-gateway kopieren
+5. .env prüfen
+6. image bauen: docker image build -t heik2718/benutzerprofil ./benutzerprofil
+
+
+### 3 Checklisten
 
 Nur den server. Das wird ein Blindspiel, weil die app sich nicht mehr bauen lässt.
 
 Pfade zu logs geändert. => Dockerfile und docker-compose.yaml muss angepasst werden. Zielverzeichnis: /opt/data/checklisten/logs
 
-## Mathe-jung-alt
+__Deployment:__
+
+wird nicht auf lokalen docker deployed
+
+
+### 4 Mathe-jung-alt
 
 Pfade zu logs geändert. => Dockerfile und docker-compose.yaml muss angepasst werden. Zielverzeichnis: /opt/data/mathe-jung-alt/logs
 
 localhost:9210/mja-app fehlte in redirect_urls in docker-DB
 
+__Deployment:__
+
+wird nicht auf lokalen docker deployed
 
 

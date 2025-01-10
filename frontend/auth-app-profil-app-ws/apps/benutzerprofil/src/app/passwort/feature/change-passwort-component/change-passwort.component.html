@@ -1,5 +1,10 @@
 @if(authFacade.userIsLoggedIn$ | async){
 <h2>Passwort ändern</h2>
+<div class="bordered mb-2">
+    <p>Nachdem Sie Ihr Passwort geändert haben, werden Sie aus Sicherheitsgründen automatisch ausgeloggt. Zum Ändern Ihrer anderen Daten
+        loggen Sie sich anschließend bitte erneut ein</p>
+</div>
+
 <form [formGroup]="parentForm">
     <div class="helper-text">Erlaubte Zeichen sind {{passwortErlaubteZeichen}}</div>
     <mat-form-field appearance="fill">
