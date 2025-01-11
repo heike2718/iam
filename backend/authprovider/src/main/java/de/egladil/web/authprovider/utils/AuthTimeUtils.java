@@ -38,8 +38,8 @@ public final class AuthTimeUtils {
 	/**
 	 * Wandelt milliseconds in LocalDateTime in der system timezone um.
 	 *
-	 * @param  milliseconds
-	 * @return              LocalDateTime
+	 * @param milliseconds
+	 * @return LocalDateTime
 	 */
 	public static LocalDateTime transformFromMilliseconds(final long milliseconds) {
 
@@ -49,8 +49,8 @@ public final class AuthTimeUtils {
 	/**
 	 * Wandelt date in LocalDateTime in der system timezone um.
 	 *
-	 * @param  date
-	 * @return      LocalDateTime
+	 * @param date
+	 * @return LocalDateTime
 	 */
 	public static LocalDateTime transformFromDate(final Date date) {
 
@@ -65,7 +65,7 @@ public final class AuthTimeUtils {
 	/**
 	 * Wandelt ein LocalDateTime in ein Date um.
 	 *
-	 * @param  ldt
+	 * @param ldt
 	 * @return
 	 */
 	public static Date transformFromLocalDateTime(final LocalDateTime ldt) {
@@ -81,9 +81,8 @@ public final class AuthTimeUtils {
 	/**
 	 * Wandelt date in LocalDateTime in der system timezone um.
 	 *
-	 * @param  date
-	 *              Date darf null sein.
-	 * @return      LocalDate null bei null
+	 * @param date Date darf null sein.
+	 * @return LocalDate null bei null
 	 */
 	public static LocalDate transformToLocalDateFromDate(final Date date) {
 
@@ -94,9 +93,8 @@ public final class AuthTimeUtils {
 	/**
 	 * Wandelt ein LocalDateTime in ein Date um.
 	 *
-	 * @param  localDate
-	 *                   darf null sein
-	 * @return           Date oder null
+	 * @param localDate darf null sein
+	 * @return Date oder null
 	 */
 	public static Date transformFromLocalDate(final LocalDate localDate) {
 
@@ -106,13 +104,10 @@ public final class AuthTimeUtils {
 	/**
 	 * Erzeugt ein abgeschlossenes Zeitintervall.
 	 *
-	 * @param  startTime
-	 *                    Date
-	 * @param  amount
-	 *                    int Anzahl Zeiteinheiten muss >= 0 sein, 0 ist zulässig.
-	 * @param  chronoUnit
-	 *                    ChronoUnit
-	 * @return            TimeInterval
+	 * @param startTime Date
+	 * @param amount int Anzahl Zeiteinheiten muss >= 0 sein, 0 ist zulässig.
+	 * @param chronoUnit ChronoUnit
+	 * @return TimeInterval
 	 */
 	public static TimeInterval getInterval(final LocalDateTime startTime, final int amount, final ChronoUnit chronoUnit) {
 
@@ -158,7 +153,7 @@ public final class AuthTimeUtils {
 	/**
 	 * Formatiert ein LocalDate als dd.MM.yyyy.
 	 *
-	 * @param  localDate
+	 * @param localDate
 	 * @return
 	 */
 	public static String format(final LocalDate localDate) {
@@ -169,9 +164,8 @@ public final class AuthTimeUtils {
 	/**
 	 * Formatiert ein LocalDateTime als dd.MM.yyyy kk:mm:ss.
 	 *
-	 * @param  localDateTime
-	 *                       LocalDateTime darf null sein
-	 * @return               String oder null
+	 * @param localDateTime LocalDateTime darf null sein
+	 * @return String oder null
 	 */
 	public static String format(final LocalDateTime localDateTime) {
 
@@ -181,9 +175,8 @@ public final class AuthTimeUtils {
 	/**
 	 * Formatiert ein LocalDateTime als dd.MM.yyyy kk:mm.
 	 *
-	 * @param  localDateTime
-	 *                       LocalDateTime darf null sein
-	 * @return               String oder null
+	 * @param localDateTime LocalDateTime darf null sein
+	 * @return String oder null
 	 */
 	public static String formatToMinutes(final LocalDateTime localDateTime) {
 
@@ -193,9 +186,8 @@ public final class AuthTimeUtils {
 	/**
 	 * Wandelt einen String mit dem Format 'dd.MM.yyyy' in ein LocalDate um.
 	 *
-	 * @param  dateString
-	 *                    darf nicht null sein. Muss gültiges Datumsformat haben.
-	 * @return            LocalDate
+	 * @param dateString darf nicht null sein. Muss gültiges Datumsformat haben.
+	 * @return LocalDate
 	 */
 	public static LocalDate parseToLocalDate(final String dateString) throws IllegalArgumentException {
 
@@ -218,9 +210,8 @@ public final class AuthTimeUtils {
 	/**
 	 * Wandelt einen String mit dem Format 'dd.MM.yyyy hh:mm:ss' in ein LocalDate um.
 	 *
-	 * @param  dateString
-	 *                    darf nicht null sein. Muss gültiges Datumsformat haben.
-	 * @return            LocalDate
+	 * @param dateString darf nicht null sein. Muss gültiges Datumsformat haben.
+	 * @return LocalDate
 	 */
 	public static LocalDateTime parseToLocalDateTime(final String dateString) throws IllegalArgumentException {
 

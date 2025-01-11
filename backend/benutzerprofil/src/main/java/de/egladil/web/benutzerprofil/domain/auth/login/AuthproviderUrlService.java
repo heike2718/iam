@@ -45,8 +45,7 @@ public class AuthproviderUrlService {
 			return Response.serverError().entity("Fehler beim Authentisieren des Clients").build();
 		}
 
-		String redirectUrl = authAppUrl + "/login?accessToken=" + accessToken + "&state=login&redirectUrl="
-			+ publicRedirectUrl;
+		String redirectUrl = authAppUrl + "login?accessToken=" + accessToken + "&state=login&redirectUrl=" + publicRedirectUrl;
 
 		LOGGER.debug(redirectUrl);
 
@@ -64,8 +63,7 @@ public class AuthproviderUrlService {
 			return Response.serverError().entity("Fehler beim Authentisieren des Clients").build();
 		}
 
-		String redirectUrl = authAppUrl + "#/signup?accessToken=" + accessToken + "&state=signup&redirectUrl="
-			+ publicRedirectUrl;
+		String redirectUrl = authAppUrl + "#/signup?accessToken=" + accessToken + "&state=signup&redirectUrl=" + publicRedirectUrl;
 
 		LOGGER.debug(redirectUrl);
 

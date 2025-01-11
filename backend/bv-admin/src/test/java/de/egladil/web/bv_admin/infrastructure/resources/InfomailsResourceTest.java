@@ -49,14 +49,8 @@ public class InfomailsResourceTest {
 			.setMailtext("Dies ist der Text einer ersten Testmail, damit man in der GUI auch eine Treffermenge angezeigt bekommt");
 
 		// Act
-		InfomailResponseDto responsePayload = given()
-			.contentType(ContentType.JSON)
-			.body(requestPayload)
-			.post("")
-			.then()
-			.statusCode(201)
-			.extract()
-			.as(InfomailResponseDto.class);
+		InfomailResponseDto responsePayload = given().contentType(ContentType.JSON).body(requestPayload).post("").then()
+			.statusCode(201).extract().as(InfomailResponseDto.class);
 
 		// Assert
 		assertNotNull(responsePayload.getUuid());
@@ -75,19 +69,12 @@ public class InfomailsResourceTest {
 		String uuid = "e4084091-582a-4b84-b2e2-9f165f965a89";
 		InfomailRequestDto requestPayload = new InfomailRequestDto();
 		requestPayload.setBetreff("erster neuer Text für Versandtests geänderter Betreff!");
-		requestPayload
-			.setMailtext(
-				"Der Text wird jetzt geändert. Versandaufträge sollten damit nicht erzeugt werden, da sonst der size()-Test fehlschlägt. Mit freundlichen Grüßen.");
+		requestPayload.setMailtext(
+			"Der Text wird jetzt geändert. Versandaufträge sollten damit nicht erzeugt werden, da sonst der size()-Test fehlschlägt. Mit freundlichen Grüßen.");
 
 		// Act
-		UpdateInfomailResponseDto responsePayload = given()
-			.contentType(ContentType.JSON)
-			.body(requestPayload)
-			.put("/" + uuid)
-			.then()
-			.statusCode(200)
-			.extract()
-			.as(UpdateInfomailResponseDto.class);
+		UpdateInfomailResponseDto responsePayload = given().contentType(ContentType.JSON).body(requestPayload).put("/" + uuid)
+			.then().statusCode(200).extract().as(UpdateInfomailResponseDto.class);
 
 		// Assert
 		assertEquals(uuid, responsePayload.getUuid());
@@ -108,12 +95,7 @@ public class InfomailsResourceTest {
 		// Arrange
 		final String uuid = "81188afe-abfa-4870-ae27-98259fdf36aa";
 
-		InfomailResponseDto[] responsePayload = given()
-			.get("")
-			.then()
-			.statusCode(200)
-			.extract()
-			.as(InfomailResponseDto[].class);
+		InfomailResponseDto[] responsePayload = given().get("").then().statusCode(200).extract().as(InfomailResponseDto[].class);
 
 		// Assert
 		assertTrue(responsePayload.length >= 2);

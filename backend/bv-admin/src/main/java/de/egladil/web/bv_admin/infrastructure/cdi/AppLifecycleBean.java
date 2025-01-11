@@ -61,7 +61,8 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "mailversand.cron.expr")
 	String mailversandCronPattern;
 
-	void onStartup(@Observes final StartupEvent ev) {
+	void onStartup(@Observes
+	final StartupEvent ev) {
 
 		LOGGER.info(" ===========> Version {} of the application is starting with profiles {}", version,
 			StringUtils.join(ConfigUtils.getProfiles()));

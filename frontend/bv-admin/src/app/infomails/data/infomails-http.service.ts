@@ -9,7 +9,7 @@ import { Infomail } from "@bv-admin/shared/model";
 })
 export class InfomailsHttpService {
 
-    #url = '/api/infomails';
+    #url = '/bv-admin/api/infomails';
     #httpClient = inject(HttpClient);  
 
     public loadInfomailTexte(): Observable<Infomail[]> {

@@ -22,7 +22,8 @@ public class ChangeProfilePasswordPayload {
 	@JsonProperty
 	private String uuid;
 
-	public static ChangeProfilePasswordPayload create(final OAuthClientCredentials clientCredentials, final PasswortPayload passwordPayload, final String uuid) {
+	public static ChangeProfilePasswordPayload create(final OAuthClientCredentials clientCredentials,
+		final PasswortPayload passwordPayload, final String uuid) {
 
 		ChangeProfilePasswordPayload result = new ChangeProfilePasswordPayload();
 		result.clientCredentials = clientCredentials;

@@ -54,7 +54,7 @@ public final class AuthHttpUtils {
 	/**
 	 * Zu Logzwecken alle Headers dumpen.
 	 *
-	 * @param  requestContext
+	 * @param requestContext
 	 * @return
 	 */
 	public static String getRequestInfos(final ContainerRequestContext requestContext) {
@@ -86,12 +86,10 @@ public final class AuthHttpUtils {
 	 * <li>Sonst: Wert des Cookies mit dem Namen clientPrefix_SESSIONID
 	 * </ul>
 	 *
-	 * @param  requestContext
-	 *                        ContainerRequestContext
-	 * @param  stage
-	 *                        String Name der Umgebung, also dev oder nicht
-	 * @param  clientPrefix
-	 * @return                Stringf oder null
+	 * @param requestContext ContainerRequestContext
+	 * @param stage String Name der Umgebung, also dev oder nicht
+	 * @param clientPrefix
+	 * @return Stringf oder null
 	 */
 	public static String getSessionId(final ContainerRequestContext requestContext, final String stage, final String clientPrefix) {
 

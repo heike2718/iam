@@ -50,18 +50,15 @@ public class MailversandauftragDetails {
 	private Jobstatus status;
 
 	@JsonProperty
-	@Schema(
-		description = "wie üblich formatiertes Datum mit Uhrzeit, wann der Auftrag erfasst wurde", example = "09.07.2024 18:44:13")
+	@Schema(description = "wie üblich formatiertes Datum mit Uhrzeit, wann der Auftrag erfasst wurde", example = "09.07.2024 18:44:13")
 	private String erfasstAm;
 
 	@JsonProperty
-	@Schema(
-		description = "wie üblich formatiertes Datum mit Uhrzeit, wann der Versand begonnen hat", example = "09.07.2024 19:01:43")
+	@Schema(description = "wie üblich formatiertes Datum mit Uhrzeit, wann der Versand begonnen hat", example = "09.07.2024 19:01:43")
 	private String versandBegonnenAm;
 
 	@JsonProperty
-	@Schema(
-		description = "wie üblich formatiertes Datum mit Uhrzeit, wann der Versand beendet wurde", example = "09.07.2024 23:56:01")
+	@Schema(description = "wie üblich formatiertes Datum mit Uhrzeit, wann der Versand beendet wurde", example = "09.07.2024 23:56:01")
 	private String versandBeendetAm;
 
 	@JsonProperty

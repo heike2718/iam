@@ -41,13 +41,13 @@ public class HeartbeatResource {
 	String expectedHeartbeatId;
 
 	@GET
-	public Response check(@HeaderParam("X-HEARTBEAT-ID") final String heartbeatId) {
+	public Response check(@HeaderParam("X-HEARTBEAT-ID")
+	final String heartbeatId) {
 
 		if (!expectedHeartbeatId.equals(heartbeatId)) {
 
 			LOG.warn(LogmessagePrefixes.BOT + "Aufruf mit fehlerhaftem X-HEARTBEAT-ID-Header value " + heartbeatId);
-			return Response.status(401)
-				.entity(MessagePayload.error("keine Berechtigung für diese Resource")).build();
+			return Response.status(401).entity(MessagePayload.error("keine Berechtigung für diese Resource")).build();
 		}
 		ResponsePayload responsePayload = heartbeatService.update();
 

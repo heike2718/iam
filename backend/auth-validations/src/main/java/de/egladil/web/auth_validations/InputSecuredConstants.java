@@ -62,8 +62,7 @@ public interface InputSecuredConstants {
 
 	String Z = "ŹźŻżŽžẐẑẒẓ";
 
-	String DIACRITICS = A + B + C + D + E + F + G + H + I + J + K + L + M + N + O + P
-		+ R + S + T + TH + U + W + X + Y1 + Y2 + Z;
+	String DIACRITICS = A + B + C + D + E + F + G + H + I + J + K + L + M + N + O + P + R + S + T + TH + U + W + X + Y1 + Y2 + Z;
 
 	String LATIN = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -76,8 +75,9 @@ public interface InputSecuredConstants {
 	String SPECIALS_REGEXP = "!#$%&)(*+,-./:;=?@\\]\\[\\^ _`'{|}~°";
 
 	/**
-	 * Alle Buchstaben und diakritischen Zeichen aus StringLatin, alle Ziffern, Leerzeichen, Minus, Unterstrich, Punkt, Komma,
-	 * Apostrophe, Leerzeichen, aber keine Zeilenumbrüche! Keine aufeinanderfolgenden Punkte, um ../ auszuschließen?
+	 * Alle Buchstaben und diakritischen Zeichen aus StringLatin, alle Ziffern, Leerzeichen, Minus, Unterstrich, Punkt,
+	 * Komma, Apostrophe, Leerzeichen, aber keine Zeilenumbrüche! Keine aufeinanderfolgenden Punkte, um ../
+	 * auszuschließen?
 	 */
 	String INPUT_SECURED_WHITELIST = "^(?!.*\\.\\.)[" + LATIN + DIACRITICS + DIGITS + SPECIALS_REGEXP + " " + "]*$";
 

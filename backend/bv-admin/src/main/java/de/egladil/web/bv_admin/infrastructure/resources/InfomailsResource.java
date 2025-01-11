@@ -53,31 +53,11 @@ public class InfomailsResource {
 
 	@GET
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "loadInfomails", summary = "Gibt alle gespeicherten Infomailtexte zurück.")
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = InfomailResponseDto.class, type = SchemaType.ARRAY)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
+	@Operation(operationId = "loadInfomails", summary = "Gibt alle gespeicherten Infomailtexte zurück.")
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InfomailResponseDto.class, type = SchemaType.ARRAY)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
 	public Response loadInfomails() {
 
 		List<InfomailResponseDto> responsePayload = infomailService.loadInfomailTexte();
@@ -86,38 +66,14 @@ public class InfomailsResource {
 
 	@POST
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "infomailAnlegen", summary = "Legt eine Infomail an.")
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "201",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = InfomailResponseDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response infomailAnlegen(@Valid final InfomailRequestDto infomailRequestDto) {
+	@Operation(operationId = "infomailAnlegen", summary = "Legt eine Infomail an.")
+	@APIResponse(name = "OKResponse", responseCode = "201", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InfomailResponseDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response infomailAnlegen(@Valid
+	final InfomailRequestDto infomailRequestDto) {
 
 		InfomailResponseDto responsePayload = infomailService.infomailAnlegen(infomailRequestDto);
 		return Response.status(201).entity(responsePayload).build();
@@ -126,50 +82,20 @@ public class InfomailsResource {
 	@PUT
 	@Path("{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "infomailAendern", summary = "Ändert eine Infomail an.")
+	@Operation(operationId = "infomailAendern", summary = "Ändert eine Infomail an.")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID der Infomail, die geändert werden soll",
-			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = UpdateInfomailResponseDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "NotFound",
-		description = "wenn es die Entity mit der uuid gar nicht gibt",
-		responseCode = "404",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response infomailAendern(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
-		value = "uuid") final String uuid, @Valid final InfomailRequestDto infomailRequestDto) {
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID der Infomail, die geändert werden soll", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateInfomailResponseDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "NotFound", description = "wenn es die Entity mit der uuid gar nicht gibt", responseCode = "404", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response infomailAendern(@Pattern(regexp = "^[abcdef\\d\\-]*$")
+	@Size(max = 36)
+	@PathParam(value = "uuid")
+	final String uuid, @Valid
+	final InfomailRequestDto infomailRequestDto) {
 
 		UpdateInfomailResponseDto responsePayload = infomailService.infomailAendern(uuid, infomailRequestDto);
 		return Response.ok(responsePayload).build();

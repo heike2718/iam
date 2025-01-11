@@ -52,15 +52,17 @@ public class AuthenticationResource {
 	AuthproviderEventHandler eventHandler;
 
 	/**
-	 * Authentifiziert den Benutzer mit Loginname / Email und Passwort. Gibt als SignUpLogInResponseData.idToken ein oneTimeToken
-	 * zurück, mit dem der Server des anfragenden Clients das JWT abholen kann.
+	 * Authentifiziert den Benutzer mit Loginname / Email und Passwort. Gibt als SignUpLogInResponseData.idToken ein
+	 * oneTimeToken zurück, mit dem der Server des anfragenden Clients das JWT abholen kann.
 	 *
-	 * @param  credentials
-	 * @return             Resonse mit SignUpLogInResponseData
+	 * @param credentials
+	 * @return Resonse mit SignUpLogInResponseData
 	 */
 	@POST
 	@Path("sessions/auth-token-grant")
-	public Response authenticateUserWithTokenExchangeTypeAuthTokenGrant(@Valid final LoginCredentials credentials, @Context final UriInfo uriInfo) {
+	public Response authenticateUserWithTokenExchangeTypeAuthTokenGrant(@Valid
+	final LoginCredentials credentials, @Context
+	final UriInfo uriInfo) {
 
 		try {
 
@@ -68,23 +70,22 @@ public class AuthenticationResource {
 
 			if (StringUtils.isNotBlank(kleber)) {
 
-				BotAttackEventPayload payload = new BotAttackEventPayload()
-					.withPath(uriInfo.getPath())
-					.withKleber(kleber).withLoginName(credentials.getAuthorizationCredentials().getLoginName())
+				BotAttackEventPayload payload = new BotAttackEventPayload().withPath(uriInfo.getPath()).withKleber(kleber)
+					.withLoginName(credentials.getAuthorizationCredentials().getLoginName())
 					.withPasswort(credentials.getAuthorizationCredentials().getPasswort())
 					.withRedirectUrl(credentials.getClientCredentials().getRedirectUrl());
 
 				this.eventHandler.handleEvent(new BotAttackEvent(payload));
 
-				return Response.status(401).entity(MessagePayload
-					.error(applicationMessages.getString("general.notAuthenticated"))).build();
+				return Response.status(401).entity(MessagePayload.error(applicationMessages.getString("general.notAuthenticated")))
+					.build();
 			}
 
 			ResourceOwner resourceOwner = authenticationService
 				.authenticateResourceOwner(credentials.getAuthorizationCredentials());
 
-			SignUpLogInResponseData data = authJWTService
-				.createAndStoreAuthorization(resourceOwner, credentials.getClientCredentials(), null);
+			SignUpLogInResponseData data = authJWTService.createAndStoreAuthorization(resourceOwner,
+				credentials.getClientCredentials(), null);
 
 			return Response.ok(data).build();
 

@@ -21,6 +21,8 @@
     "description" : "Auto generated value"
   } ],
   "tags" : [ {
+    "name" : "AboutResource"
+  }, {
     "name" : "BenutzerResource"
   }, {
     "name" : "InfomailsResource"
@@ -32,6 +34,16 @@
     "name" : "VersandauftraegeResource"
   } ],
   "paths" : {
+    "/api/about" : {
+      "get" : {
+        "tags" : [ "AboutResource" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
     "/api/benutzer" : {
       "post" : {
         "tags" : [ "BenutzerResource" ],
@@ -1288,7 +1300,7 @@
           },
           "pageSize" : {
             "format" : "int32",
-            "description" : "Pagination: wievile Treffer werden abgefragt",
+            "description" : "Pagination: wievile Treffer werden abgefragt. Im Frontend haben wir 100, 150 und 200. Default ist trotzdem 25.",
             "default" : 25,
             "type" : "integer",
             "example" : 25

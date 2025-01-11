@@ -17,8 +17,8 @@ import io.quarkus.vertx.web.RouteFilter;
 import io.vertx.ext.web.RoutingContext;
 
 /**
- * SPARouteFilter. Das Backend served die Angular-Anwendung. Daher müssen statischen Webseiten woanders gesucht werden, als die
- * Quarkus-app.
+ * SPARouteFilter. Das Backend served die Angular-Anwendung. Daher müssen statischen Webseiten woanders gesucht werden,
+ * als die Quarkus-app.
  */
 public class SPARouteFilter {
 
@@ -97,8 +97,7 @@ public class SPARouteFilter {
 
 		if (FILE_NAME_PREDICATE.test(path)) {
 
-			LOGGER.debug(
-				"(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/authprovider/");
+			LOGGER.debug("(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/authprovider/");
 			return true;
 		}
 

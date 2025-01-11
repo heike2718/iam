@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.3",
   "info" : {
-    "title" : "profil-api",
+    "title" : "benutzerprofil",
     "description" : "API für die Benutzerprofil-Anwendung",
     "contact" : {
       "name" : "Heike Winkelvoß",
@@ -21,12 +21,28 @@
     "description" : "Auto generated value"
   } ],
   "tags" : [ {
+    "name" : "AboutResource"
+  }, {
+    "name" : "BenutzerResource"
+  }, {
+    "name" : "PasswortResource"
+  }, {
     "name" : "SessionResource"
   } ],
   "paths" : {
+    "/api/about" : {
+      "get" : {
+        "tags" : [ "AboutResource" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
     "/api/benutzer" : {
       "get" : {
-        "tags" : [ "Benutzer Resource" ],
+        "tags" : [ "BenutzerResource" ],
         "responses" : {
           "200" : {
             "description" : "OK"
@@ -43,7 +59,7 @@
         } ]
       },
       "put" : {
-        "tags" : [ "Benutzer Resource" ],
+        "tags" : [ "BenutzerResource" ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -69,7 +85,7 @@
         } ]
       },
       "delete" : {
-        "tags" : [ "Benutzer Resource" ],
+        "tags" : [ "BenutzerResource" ],
         "responses" : {
           "200" : {
             "description" : "OK"
@@ -88,7 +104,7 @@
     },
     "/api/passwort" : {
       "put" : {
-        "tags" : [ "Passwort Resource" ],
+        "tags" : [ "PasswortResource" ],
         "requestBody" : {
           "content" : {
             "application/json" : {

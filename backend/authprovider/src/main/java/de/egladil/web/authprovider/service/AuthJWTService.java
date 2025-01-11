@@ -60,11 +60,12 @@ public class AuthJWTService {
 	 * Erzeugt ein JWT. Der Vor-und Nachname wird nur für Clients verpackt, die diesen benötigen, sofern der
 	 * ResourceOwner einen hat.
 	 *
-	 * @param  resourceOwner
-	 * @param  client
-	 * @return               String
+	 * @param resourceOwner
+	 * @param client
+	 * @return String
 	 */
-	public SignUpLogInResponseData createAuthorization(final ResourceOwner resourceOwner, final ClientCredentials clientCredentials, final String nonce) {
+	public SignUpLogInResponseData createAuthorization(final ResourceOwner resourceOwner, final ClientCredentials clientCredentials,
+		final String nonce) {
 
 		try {
 
@@ -91,12 +92,13 @@ public class AuthJWTService {
 	/**
 	 * Erzeugt ein JWT mit uuid und email des ResourceOwners und hinterlegt sie mit einer UUID im OneTimeTokenJwtRepo.
 	 *
-	 * @param  resourceOwner
-	 * @param  clientCredentials
-	 * @param  nonce
-	 * @return                   SignUpLogInResponseData
+	 * @param resourceOwner
+	 * @param clientCredentials
+	 * @param nonce
+	 * @return SignUpLogInResponseData
 	 */
-	public SignUpLogInResponseData createAndStoreAuthorization(final ResourceOwner resourceOwner, final ClientCredentials clientCredentials, final String nonce) {
+	public SignUpLogInResponseData createAndStoreAuthorization(final ResourceOwner resourceOwner,
+		final ClientCredentials clientCredentials, final String nonce) {
 
 		try {
 
@@ -127,12 +129,12 @@ public class AuthJWTService {
 	/**
 	 * Tauscht das oneTimeToken gegen das JWT.
 	 *
-	 * @param  oneTimeToken
-	 * @param  client
-	 *                      Client
-	 * @return              String nicht null, das JWT
+	 * @param oneTimeToken
+	 * @param client Client
+	 * @return String nicht null, das JWT
 	 */
-	public String exchangeTheOneTimeToken(final String oneTimeToken, final Client client) throws AuthRuntimeException, SecurityException {
+	public String exchangeTheOneTimeToken(final String oneTimeToken, final Client client)
+		throws AuthRuntimeException, SecurityException {
 
 		Optional<OneTimeTokenJwtData> optData = oneTimeTokenJwtRepository.getAndRemoveWithOneTimeToken(oneTimeToken);
 
@@ -143,8 +145,7 @@ public class AuthJWTService {
 			if (!client.getClientId().equals(data.clientId())) {
 
 				String message = "[exchangeTheOneTimeToken]: data.clientId stimmt nicht: expected="
-					+ StringUtils.abbreviate(client.getClientId(), 11)
-					+ ", actual=" + data.clientId();
+					+ StringUtils.abbreviate(client.getClientId(), 11) + ", actual=" + data.clientId();
 
 				throw new SecurityException(message);
 			}

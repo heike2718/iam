@@ -21,8 +21,8 @@ public interface OneTimeTokenJwtRepository {
 	/**
 	 * Holt das Token ab und entfernt es aus dem Store.
 	 *
-	 * @param  oneTimeToken
-	 * @return              Optional
+	 * @param oneTimeToken
+	 * @return Optional
 	 */
 	Optional<OneTimeTokenJwtData> getAndRemoveWithOneTimeToken(String oneTimeToken);
 

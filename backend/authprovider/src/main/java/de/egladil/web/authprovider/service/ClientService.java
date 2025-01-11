@@ -74,12 +74,13 @@ public class ClientService {
 	}
 
 	/**
-	 * @param  clientId
+	 * @param clientId
 	 * @return
 	 * @throws ClientAccessTokenNotFoundException
 	 * @throws InvalidRedirectUrl
 	 */
-	public ClientInformation getClientInformation(final ClientCredentials clientCredentials) throws AuthRuntimeException, InvalidRedirectUrl, ClientAccessTokenNotFoundException {
+	public ClientInformation getClientInformation(final ClientCredentials clientCredentials)
+		throws AuthRuntimeException, InvalidRedirectUrl, ClientAccessTokenNotFoundException {
 
 		Client client = this.findAndCheckClient(clientCredentials);
 
@@ -92,10 +93,11 @@ public class ClientService {
 	/**
 	 * Authentisiert den Client.
 	 *
-	 * @param  clientCredentials
-	 * @return                   OAuthAccessTokenPayload
+	 * @param clientCredentials
+	 * @return OAuthAccessTokenPayload
 	 */
-	public OAuthAccessTokenPayload createClientAccessToken(final OAuthClientCredentials clientCredentials) throws ClientAuthException, PersistenceException {
+	public OAuthAccessTokenPayload createClientAccessToken(final OAuthClientCredentials clientCredentials)
+		throws ClientAuthException, PersistenceException {
 
 		LOG.debug("OAuthClientCredentials.clientId=" + clientCredentials.getClientId());
 
@@ -152,9 +154,8 @@ public class ClientService {
 	/**
 	 * Erzeugt für den gegebenen Client ein neues AccessToken und speichert dies in der DB.
 	 *
-	 * @param  client
-	 *                Client
-	 * @return        ClientAccessToken das gespeicherte Token
+	 * @param client Client
+	 * @return ClientAccessToken das gespeicherte Token
 	 */
 	private OAuthAccessTokenPayload createNewAccessToken(final Client client) {
 
@@ -163,9 +164,8 @@ public class ClientService {
 		String accessTokenId = AuthUtils.newTokenId();
 		clientAccessToken.setAccessToken(accessTokenId);
 
-		clientAccessToken
-			.setAccessTokenExpiresAt(AuthTimeUtils.getInterval(AuthTimeUtils.now(), client.getAccessTokenExpirationMinutes(),
-				ChronoUnit.MINUTES).getEndTime());
+		clientAccessToken.setAccessTokenExpiresAt(AuthTimeUtils
+			.getInterval(AuthTimeUtils.now(), client.getAccessTokenExpirationMinutes(), ChronoUnit.MINUTES).getEndTime());
 
 		clientAccessToken.setClientId(client.getClientId());
 
@@ -181,12 +181,13 @@ public class ClientService {
 	/**
 	 * Identifiziert den Client anhand seines accessTokens und validiert ihn.
 	 *
-	 * @param  clientCredentials
+	 * @param clientCredentials
 	 * @return
 	 * @throws AuthRuntimeException
 	 * @throws InvalidRedirectUrl
 	 */
-	public Client findAndCheckClient(final ClientCredentials clientCredentials) throws ClientAccessTokenNotFoundException, InvalidRedirectUrl {
+	public Client findAndCheckClient(final ClientCredentials clientCredentials)
+		throws ClientAccessTokenNotFoundException, InvalidRedirectUrl {
 
 		LOG.debug("{}", clientCredentials);
 

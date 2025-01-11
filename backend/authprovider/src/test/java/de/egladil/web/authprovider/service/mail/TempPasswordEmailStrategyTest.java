@@ -34,16 +34,14 @@ public class TempPasswordEmailStrategyTest {
 
 		// Act
 		DefaultEmailDaten emailDaten = new TempPasswordCreatedMailStrategy("heike@egladil.de", tempPassword,
-			"http://localhost:4300/password/temp/change?tokenId=")
-				.createEmailDaten("TempPassword");
+			"http://localhost:4300/password/temp/change?tokenId=").createEmailDaten("TempPassword");
 		String mailtext = emailDaten.getText();
 
 		System.out.println(mailtext);
 
 		// Assert
 		assertTrue(mailtext.startsWith("Guten Tag,"));
-		assertTrue(
-			mailtext.contains("http://localhost:4300/password/temp/change?tokenId=skahxa-ashqhoh"));
+		assertTrue(mailtext.contains("http://localhost:4300/password/temp/change?tokenId=skahxa-ashqhoh"));
 		assertTrue(mailtext.contains("totalgeh31m"));
 		assertEquals("heike@egladil.de", emailDaten.getEmpfaenger());
 		assertEquals("Minikänguru: Einmalpasswort", emailDaten.getBetreff());
@@ -66,17 +64,14 @@ public class TempPasswordEmailStrategyTest {
 
 		// Act
 		DefaultEmailDaten emailDaten = new TempPasswordCreatedMailStrategy("heike@egladil.de", tempPassword,
-			"http://localhost:4300/password/temp/change?tokenId=")
-				.createEmailDaten("TempPassword");
+			"http://localhost:4300/password/temp/change?tokenId=").createEmailDaten("TempPassword");
 		String mailtext = emailDaten.getText();
 
 		System.out.println(mailtext);
 
 		// Assert
 		assertTrue(mailtext.startsWith("Guten Tag,"));
-		assertTrue(
-			mailtext.contains(
-				"http://localhost:4300/password/temp/change?tokenId=skahxa-ashqhoh"));
+		assertTrue(mailtext.contains("http://localhost:4300/password/temp/change?tokenId=skahxa-ashqhoh"));
 		assertTrue(mailtext.contains("totalgeh31m"));
 		assertEquals("heike@egladil.de", emailDaten.getEmpfaenger());
 		assertEquals("Minikänguru: Einmalpasswort", emailDaten.getBetreff());

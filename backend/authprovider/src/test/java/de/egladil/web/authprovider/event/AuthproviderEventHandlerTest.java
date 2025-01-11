@@ -146,8 +146,7 @@ public class AuthproviderEventHandlerTest {
 
 	private DefaultEmailDaten createEmailDaten(final MinikaengurukontenMailKontext kontext, final ResourceOwner resourceOwner) {
 
-		return new MinikaengurukontenInfoStrategie(
-			ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner), kontext, "DEV", monitoringMailEmpfaenger)
-				.createEmailDaten(kontext.name());
+		return new MinikaengurukontenInfoStrategie(ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner), kontext, "DEV",
+			monitoringMailEmpfaenger).createEmailDaten(kontext.name());
 	}
 }

@@ -20,13 +20,10 @@ public class PeriodChecker {
 	/**
 	 * Vergleicht die Länge des Zeitintervalls zwischen startDate und endDate mit der erwarteten Zeitspanne.
 	 *
-	 * @param  startDate
-	 *                              Date
-	 * @param  endDate
-	 *                              Date
-	 * @param  expectedPeriodMillis
-	 *                              long Anzahl Millisekunden, die zwischen startDate und endDate liegen sollen.
-	 * @return                      boolean true, wenn kürzer oder gleich lang wie expectedLengthPeriod, false sonst.
+	 * @param startDate Date
+	 * @param endDate Date
+	 * @param expectedPeriodMillis long Anzahl Millisekunden, die zwischen startDate und endDate liegen sollen.
+	 * @return boolean true, wenn kürzer oder gleich lang wie expectedLengthPeriod, false sonst.
 	 */
 	public boolean isPeriodLessEqualExpectedPeriod(final Date startDate, final Date endDate, final long expectedPeriodMillis) {
 

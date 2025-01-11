@@ -51,15 +51,15 @@ public class TempPasswordResource {
 	AuthproviderEventHandler eventHandler;
 
 	@POST
-	public Response orderTempPassword(@Valid final OrderTempPasswordPayload payload, @Context final UriInfo uriInfo) {
+	public Response orderTempPassword(@Valid
+	final OrderTempPasswordPayload payload, @Context
+	final UriInfo uriInfo) {
 
 		String kleber = payload.getKleber();
 
 		if (StringUtils.isNotBlank(kleber)) {
 
-			BotAttackEventPayload eventPayload = new BotAttackEventPayload()
-				.withPath(uriInfo.getPath())
-				.withKleber(kleber)
+			BotAttackEventPayload eventPayload = new BotAttackEventPayload().withPath(uriInfo.getPath()).withKleber(kleber)
 				.withLoginName(payload.getEmail());
 
 			this.eventHandler.handleEvent(new BotAttackEvent(eventPayload));
@@ -74,22 +74,21 @@ public class TempPasswordResource {
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response changeTempPassword(@Valid final ChangeTempPasswordPayload payload, @Context final UriInfo uriInfo) {
+	public Response changeTempPassword(@Valid
+	final ChangeTempPasswordPayload payload, @Context
+	final UriInfo uriInfo) {
 
 		String kleber = payload.getKleber();
 
 		if (StringUtils.isNotBlank(kleber)) {
 
-			BotAttackEventPayload eventPayload = new BotAttackEventPayload()
-				.withPath(uriInfo.getPath())
-				.withKleber(kleber)
-				.withLoginName(payload.getEmail())
-				.withPasswort(payload.getZweiPassworte().getPasswort());
+			BotAttackEventPayload eventPayload = new BotAttackEventPayload().withPath(uriInfo.getPath()).withKleber(kleber)
+				.withLoginName(payload.getEmail()).withPasswort(payload.getZweiPassworte().getPasswort());
 
 			this.eventHandler.handleEvent(new BotAttackEvent(eventPayload));
 
-			return Response.status(401).entity(MessagePayload
-				.error(applicationMessages.getString("general.notAuthenticated"))).build();
+			return Response.status(401).entity(MessagePayload.error(applicationMessages.getString("general.notAuthenticated")))
+				.build();
 		}
 
 		ResponsePayload responsePayload = changeTempPasswordService.changeTempPassword(payload);

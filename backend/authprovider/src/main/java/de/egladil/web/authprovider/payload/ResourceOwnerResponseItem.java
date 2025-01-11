@@ -38,7 +38,9 @@ public class ResourceOwnerResponseItem {
 	@JsonProperty
 	private String roles;
 
-	public static ResourceOwnerResponseItem create(final String uuid, final boolean existend, final String vorname, final String nachname, final String fullName, final String loginName, final String email, final boolean aktiviert, final String roles) {
+	public static ResourceOwnerResponseItem create(final String uuid, final boolean existend, final String vorname,
+		final String nachname, final String fullName, final String loginName, final String email, final boolean aktiviert,
+		final String roles) {
 
 		ResourceOwnerResponseItem result = new ResourceOwnerResponseItem();
 		result.uuid = uuid;

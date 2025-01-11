@@ -44,8 +44,7 @@ public class RefreshAccessTokenPayload {
 		clientAccessToken.forEach(at -> sb.append(StringUtils.abbreviate(at, 11) + " "));
 
 		return "RefreshAccessTokenPayload [clientAccessToken=" + sb.toString() + ", userRefreshToken="
-			+ StringUtils.abbreviate(userRefreshToken, 11)
-			+ ", force=" + force + "]";
+			+ StringUtils.abbreviate(userRefreshToken, 11) + ", force=" + force + "]";
 	}
 
 	public List<String> getClientAccessToken() {

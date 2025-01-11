@@ -40,7 +40,8 @@ public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy 
 	 * @param activationCode
 	 * @param uriInfo
 	 */
-	public RegistrationMailStrategy(final String emailTo, final String loginName, final ActivationCode activationCode, final String accountConfirmationUrl) {
+	public RegistrationMailStrategy(final String emailTo, final String loginName, final ActivationCode activationCode,
+		final String accountConfirmationUrl) {
 
 		this.emailTo = emailTo;
 		this.loginName = loginName;
@@ -107,8 +108,8 @@ public class RegistrationMailStrategy implements CreateDefaultMailDatenStrategy 
 	public String toString() {
 
 		return "RegistrationMailStrategy [emailTo=" + emailTo + ", loginName=" + loginName + ", activationCode="
-			+ StringUtils.abbreviate(activationCode.getConfirmationCode(), 11)
-			+ ", accountConfirmationUrl=" + accountConfirmationUrl + "]";
+			+ StringUtils.abbreviate(activationCode.getConfirmationCode(), 11) + ", accountConfirmationUrl="
+			+ accountConfirmationUrl + "]";
 	}
 
 }

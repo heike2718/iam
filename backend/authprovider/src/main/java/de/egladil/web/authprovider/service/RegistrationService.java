@@ -79,10 +79,11 @@ public class RegistrationService {
 	/**
 	 * Erzeugt einen neuen ResourceOwner und ein Aktivierungstoken.
 	 *
-	 * @param  credentials
-	 * @return             SignUpLogInResponseData
+	 * @param credentials
+	 * @return SignUpLogInResponseData
 	 */
-	public ResourceOwner createNewResourceOwner(final Client client, final SignUpCredentials signUpCredentials, final UriInfo uriInfo) throws MailversandException {
+	public ResourceOwner createNewResourceOwner(final Client client, final SignUpCredentials signUpCredentials,
+		final UriInfo uriInfo) throws MailversandException {
 
 		if (uriInfo == null) {
 
@@ -117,9 +118,7 @@ public class RegistrationService {
 			ActivationCode persistierter = activationCodeDao.save(activationCode);
 
 			DefaultEmailDaten maildaten = new RegistrationMailStrategy(signUpCredentials.getEmail(),
-				signUpCredentials.getLoginName(),
-				persistierter, accountActivationUrl)
-					.createEmailDaten("RegistrationService");
+				signUpCredentials.getLoginName(), persistierter, accountActivationUrl).createEmailDaten("RegistrationService");
 
 			mailService.sendMail(maildaten);
 

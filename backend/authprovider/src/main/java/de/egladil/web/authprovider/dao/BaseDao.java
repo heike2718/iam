@@ -18,23 +18,20 @@ public interface BaseDao {
 	/**
 	 * Tja, was wohl.
 	 *
-	 * @param  entity
-	 *                                   T @return AuthProviderEntity
-	 * @throws DuplicateEntityException
-	 *                                   Die Message ist bei den bekannten UK-Constraints bereits menschenlesbar. Sonst
-	 *                                   generisch mit dem constraintName.
-	 * @throws ConcurrentUpdateException
-	 *                                   Die Message wird von der OptimisticLockException übernommen, muss also im
-	 *                                   Context noch sinnvoll übersetzt werden.
-	 * @throws AuthPersistenceException
-	 *                                   in diesem Fall wurde die Exception bereits geloggt.
+	 * @param entity T @return AuthProviderEntity
+	 * @throws DuplicateEntityException Die Message ist bei den bekannten UK-Constraints bereits menschenlesbar. Sonst
+	 * generisch mit dem constraintName.
+	 * @throws ConcurrentUpdateException Die Message wird von der OptimisticLockException übernommen, muss also im
+	 * Context noch sinnvoll übersetzt werden.
+	 * @throws AuthPersistenceException in diesem Fall wurde die Exception bereits geloggt.
 	 */
-	<T extends AuthProviderEntity> T save(final T entity) throws DuplicateEntityException, ConcurrentUpdateException, AuthPersistenceException;
+	<T extends AuthProviderEntity> T save(final T entity)
+		throws DuplicateEntityException, ConcurrentUpdateException, AuthPersistenceException;
 
 	/**
 	 * Tja, was wohl.
 	 *
-	 * @param  id
+	 * @param id
 	 * @return
 	 */
 	<T extends AuthProviderEntity> T findById(Class<T> clazz, Long id);
@@ -42,7 +39,7 @@ public interface BaseDao {
 	/**
 	 * select count(*)
 	 *
-	 * @param  clazz
+	 * @param clazz
 	 * @return
 	 */
 	<T extends AuthProviderEntity> int count(Class<T> clazz);
@@ -50,12 +47,12 @@ public interface BaseDao {
 	/**
 	 * Löscht die gegebene Entity.<br>
 	 * <br>
-	 * <strong>Achtung: </strong> Der Aufrufer muss die Transaction markieren!!!! Es wird nichts geloggt. Das sollte die aufrufende
-	 * Klasse tun.
+	 * <strong>Achtung: </strong> Der Aufrufer muss die Transaction markieren!!!! Es wird nichts geloggt. Das sollte die
+	 * aufrufende Klasse tun.
 	 *
-	 * @param  <T>
-	 * @param  entity
-	 * @return        boolean true, wenn gelöscht, sonst Exception zwecks Mockito
+	 * @param <T>
+	 * @param entity
+	 * @return boolean true, wenn gelöscht, sonst Exception zwecks Mockito
 	 */
 	<T extends AuthProviderEntity> boolean delete(final T entity);
 

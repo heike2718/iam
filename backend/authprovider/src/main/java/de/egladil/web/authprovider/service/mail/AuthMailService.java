@@ -32,7 +32,7 @@ public class AuthMailService {
 	/**
 	 * Versendet die gegebenen Maildaten.
 	 *
-	 * @param  emailDaten
+	 * @param emailDaten
 	 * @throws EmailException
 	 * @throws InvalidMailAddressException
 	 */

@@ -49,14 +49,8 @@ public class BenutzerResourceTest {
 		dto.setUuid("732b2ed8xy-732b2ed8-732b2ed8-732b2ed823");
 		dto.setVorname("Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Rainer Γεια σας Rainer Rainerja");
 
-		ValidationErrorResponseDto[] responsePayload = given()
-			.contentType(ContentType.JSON)
-			.body(dto)
-			.post("")
-			.then()
-			.statusCode(400)
-			.extract()
-			.as(ValidationErrorResponseDto[].class);
+		ValidationErrorResponseDto[] responsePayload = given().contentType(ContentType.JSON).body(dto).post("").then()
+			.statusCode(400).extract().as(ValidationErrorResponseDto[].class);
 
 		assertEquals(6, responsePayload.length);
 
@@ -72,14 +66,8 @@ public class BenutzerResourceTest {
 		dto.setPageIndex(2);
 		dto.setPageSize(11);
 
-		BenutzerSearchResult responsePayload = given()
-			.contentType(ContentType.JSON)
-			.body(dto)
-			.post("")
-			.then()
-			.statusCode(200)
-			.extract()
-			.as(BenutzerSearchResult.class);
+		BenutzerSearchResult responsePayload = given().contentType(ContentType.JSON).body(dto).post("").then().statusCode(200)
+			.extract().as(BenutzerSearchResult.class);
 
 		assertTrue(responsePayload.getAnzahlGesamt() > 11);
 		List<BenutzerTrefferlisteItem> items = responsePayload.getItems();
@@ -104,14 +92,8 @@ public class BenutzerResourceTest {
 		dto.setVorname("");
 		dto.setSortByLabelname(UsersSortColumn.DATE_MODIFIED_STRING.getLabel());
 
-		BenutzerSearchResult responsePayload = given()
-			.contentType(ContentType.JSON)
-			.body(dto)
-			.post("")
-			.then()
-			.statusCode(200)
-			.extract()
-			.as(BenutzerSearchResult.class);
+		BenutzerSearchResult responsePayload = given().contentType(ContentType.JSON).body(dto).post("").then().statusCode(200)
+			.extract().as(BenutzerSearchResult.class);
 
 		assertTrue(responsePayload.getAnzahlGesamt() > 25);
 		List<BenutzerTrefferlisteItem> items = responsePayload.getItems();
@@ -131,14 +113,8 @@ public class BenutzerResourceTest {
 		dto.setPageIndex(2);
 		dto.setPageSize(25);
 
-		BenutzerSearchResult responsePayload = given()
-			.contentType(ContentType.JSON)
-			.body(dto)
-			.post("")
-			.then()
-			.statusCode(200)
-			.extract()
-			.as(BenutzerSearchResult.class);
+		BenutzerSearchResult responsePayload = given().contentType(ContentType.JSON).body(dto).post("").then().statusCode(200)
+			.extract().as(BenutzerSearchResult.class);
 
 		assertEquals(232, responsePayload.getAnzahlGesamt());
 		List<BenutzerTrefferlisteItem> items = responsePayload.getItems();
@@ -169,14 +145,8 @@ public class BenutzerResourceTest {
 		dto.setPageIndex(1);
 		dto.setPageSize(50);
 
-		BenutzerSearchResult responsePayload = given()
-			.contentType(ContentType.JSON)
-			.body(dto)
-			.post("")
-			.then()
-			.statusCode(200)
-			.extract()
-			.as(BenutzerSearchResult.class);
+		BenutzerSearchResult responsePayload = given().contentType(ContentType.JSON).body(dto).post("").then().statusCode(200)
+			.extract().as(BenutzerSearchResult.class);
 
 		assertEquals(0, responsePayload.getAnzahlGesamt());
 		List<BenutzerTrefferlisteItem> items = responsePayload.getItems();

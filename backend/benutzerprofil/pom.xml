@@ -20,7 +20,6 @@
 		<maven.compiler.release>17</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<compiler-plugin.version>3.10.1</compiler-plugin.version>
 	</properties>
 
 
@@ -93,11 +92,6 @@
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-openapi</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-jdbc-mariadb</artifactId>
 		</dependency>
 		<!-- Quarkus END -->
 
@@ -192,7 +186,6 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler-plugin.version}</version>
 				<configuration>
 					<source>${maven.compiler.release}</source>
 					<target>${maven.compiler.relese}</target>

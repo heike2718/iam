@@ -52,8 +52,7 @@ public class ChangeUserCommand {
 	public String toString() {
 
 		return "ChangeUserCommand [uuid=" + StringUtils.abbreviate(uuid, 11) + ", vorname=" + vorname + ", nachname=" + nachname
-			+ ", email="
-			+ StringUtils.abbreviate(email, 8) + "]";
+			+ ", email=" + StringUtils.abbreviate(email, 8) + "]";
 	}
 
 	public ChangeUserCommand withSyncToken(final String syncToken) {

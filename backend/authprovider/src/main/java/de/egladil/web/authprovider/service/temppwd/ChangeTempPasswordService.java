@@ -65,7 +65,8 @@ public class ChangeTempPasswordService {
 	 * @param mailService
 	 * @param changeLoginSecretsDelegate
 	 */
-	ChangeTempPasswordService(final TempPasswordDao tempPasswordDao, final AuthMailService mailService, final ChangeLoginSecretsDelegate changeLoginSecretsDelegate) {
+	ChangeTempPasswordService(final TempPasswordDao tempPasswordDao, final AuthMailService mailService,
+		final ChangeLoginSecretsDelegate changeLoginSecretsDelegate) {
 
 		super();
 		this.tempPasswordDao = tempPasswordDao;
@@ -76,9 +77,8 @@ public class ChangeTempPasswordService {
 	/**
 	 * Wenn alles gut geht, wird das Passwort des Benutzerkontos geändert und das TempPasswort gelöscht.
 	 *
-	 * @param  payload
-	 *                 ChangeTempPasswordPayload
-	 * @return         ResponsePayload
+	 * @param payload ChangeTempPasswordPayload
+	 * @return ResponsePayload
 	 */
 	@Transactional(value = TxType.REQUIRED)
 	public ResponsePayload changeTempPassword(final ChangeTempPasswordPayload payload) {
@@ -135,8 +135,7 @@ public class ChangeTempPasswordService {
 
 			LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
 
-			changeLoginSecretsDelegate.updateLoginSecrets(loginSecrets,
-				payload.getZweiPassworte().getPasswort().toCharArray());
+			changeLoginSecretsDelegate.updateLoginSecrets(loginSecrets, payload.getZweiPassworte().getPasswort().toCharArray());
 
 			sendMail(payload.getEmail());
 
@@ -148,14 +147,12 @@ public class ChangeTempPasswordService {
 
 				ClientInformation data = ClientInformation.fromClient(client);
 
-				return new ResponsePayload(MessagePayload
-					.info(applicationMessages.getString("TempPassword.changed.success")), data);
+				return new ResponsePayload(MessagePayload.info(applicationMessages.getString("TempPassword.changed.success")),
+					data);
 
 			}
 
-			return ResponsePayload.messageOnly(
-				MessagePayload
-					.info(applicationMessages.getString("TempPassword.changed.success")));
+			return ResponsePayload.messageOnly(MessagePayload.info(applicationMessages.getString("TempPassword.changed.success")));
 		} finally {
 
 			payload.clean();

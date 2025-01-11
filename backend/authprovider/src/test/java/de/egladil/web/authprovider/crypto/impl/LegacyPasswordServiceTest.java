@@ -35,8 +35,7 @@ public class LegacyPasswordServiceTest {
 		LegacyPasswordService legacyPasswordService = new LegacyPasswordService(passwordConfig);
 
 		// act
-		boolean matches = legacyPasswordService.verifyPassword(password, persistedPasswordHash,
-			persistedSaltValue);
+		boolean matches = legacyPasswordService.verifyPassword(password, persistedPasswordHash, persistedSaltValue);
 
 		assertTrue(matches);
 

@@ -31,13 +31,11 @@ public class RegistrationEmailStrategyTest {
 
 		ActivationCode activationCode = new ActivationCode();
 		activationCode.setConfirmationCode("skahxa-ashqhoh");
-		activationCode
-			.setExpirationTime(AuthTimeUtils.transformFromLocalDateTime(AuthTimeUtils.now().plus(2, ChronoUnit.HOURS)));
+		activationCode.setExpirationTime(AuthTimeUtils.transformFromLocalDateTime(AuthTimeUtils.now().plus(2, ChronoUnit.HOURS)));
 
 		// Act
 		DefaultEmailDaten emailDaten = new RegistrationMailStrategy("heike@egladil.de", "günni", activationCode,
-			accountActivationUrl)
-				.createEmailDaten("RegistrationService");
+			accountActivationUrl).createEmailDaten("RegistrationService");
 		String mailtext = emailDaten.getText();
 
 		System.out.println(mailtext);

@@ -70,8 +70,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 
 		if (resourceOwner == null) {
 
-			LOG.warn(
-				LogmessagePrefixes.DATENMUELL + "zum confirmationCode '{}' gibt es keinen passenden Eintrag in Tabelle users.",
+			LOG.warn(LogmessagePrefixes.DATENMUELL + "zum confirmationCode '{}' gibt es keinen passenden Eintrag in Tabelle users.",
 				confirmationCode);
 			return ConfirmationStatus.deletedActivation;
 		}

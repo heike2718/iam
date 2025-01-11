@@ -19,7 +19,7 @@ public class InfomailvorlageMapper {
 	/**
 	 * Mapped PersistenterInfomailTextReadOnly zu einem Dto.
 	 *
-	 * @param  fromDB
+	 * @param fromDB
 	 * @return
 	 */
 	public static InfomailResponseDto mapFromDB(final PersistenterInfomailTextReadOnly fromDB) {

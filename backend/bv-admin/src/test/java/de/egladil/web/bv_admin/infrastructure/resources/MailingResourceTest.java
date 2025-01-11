@@ -48,36 +48,21 @@ public class MailingResourceTest {
 	@Test
 	void testWithoutRoles() {
 
-		given()
-			.when()
-			.queryParam("to", standardempfaenger)
-			.get("/testmail")
-			.then()
-			.statusCode(401);
+		given().when().queryParam("to", standardempfaenger).get("/testmail").then().statusCode(401);
 	}
 
 	@Test
 	@TestSecurity(user = "iche", roles = { "STANDARD", "ADMIN" })
 	void testRolesAllowed() {
 
-		given()
-			.when()
-			.queryParam("to", standardempfaenger)
-			.get("/testmail")
-			.then()
-			.statusCode(403);
+		given().when().queryParam("to", standardempfaenger).get("/testmail").then().statusCode(403);
 	}
 
 	@Test
 	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
 	void testTextMail() {
 
-		given()
-			.when()
-			.queryParam("to", standardempfaenger)
-			.get("/testmail")
-			.then()
-			.statusCode(202);
+		given().when().queryParam("to", standardempfaenger).get("/testmail").then().statusCode(202);
 
 		// Assert
 		List<String> expectedEmpfaenger = Arrays.asList(StringUtils.split(standardempfaenger, ","));

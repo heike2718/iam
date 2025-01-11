@@ -26,7 +26,8 @@ import jakarta.validation.Payload;
  * Erlaubte Sonderzeichen: !\"#$%&)(*+,-./:;<=>?@][^_'`'{|}~ Wenn der Wert null ist, wird er als gültig angesehen. Es
  * muss also zusätzlich eine NotNull-Anntotation angebracht werden.<br>
  * <br>
- * Erzwungen wird auch weiterhin nur eine Ziffer und ein Buchstabe, egal ob klein oder groß. Empfehlungen werden angezeigt.<br>
+ * Erzwungen wird auch weiterhin nur eine Ziffer und ein Buchstabe, egal ob klein oder groß. Empfehlungen werden
+ * angezeigt.<br>
  * <br>
  * <strong>Pattern:</strong><br>
  * ^(?!\s)(?=.*\d)(?=.*[a-zA-ZäÄöÖüÜß])[a-zA-ZäÄöÖüÜß \d!#$%&()*+,\-./:;=?@\[\]^_`'{|}~]{8,100}(?<!\s)

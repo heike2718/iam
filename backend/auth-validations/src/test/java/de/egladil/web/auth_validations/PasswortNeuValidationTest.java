@@ -185,9 +185,7 @@ public class PasswortNeuValidationTest {
 		// Assert
 		assertEquals(1, constraintViolations.size());
 		ConstraintViolation<PasswortNeuBean> cv = constraintViolations.iterator().next();
-		assertEquals(
-			INVALID_VALUE_MESSAGE,
-			cv.getMessage());
+		assertEquals(INVALID_VALUE_MESSAGE, cv.getMessage());
 
 	}
 
@@ -207,9 +205,7 @@ public class PasswortNeuValidationTest {
 		// Assert
 		assertEquals(1, constraintViolations.size());
 		ConstraintViolation<PasswortNeuBean> cv = constraintViolations.iterator().next();
-		assertEquals(
-			INVALID_VALUE_MESSAGE,
-			cv.getMessage());
+		assertEquals(INVALID_VALUE_MESSAGE, cv.getMessage());
 
 	}
 
@@ -217,8 +213,8 @@ public class PasswortNeuValidationTest {
 	void shouldNotPass_when_allCharClassesAndLeadingSpace() {
 
 		// Arrange
-		String passwort = " " + generateRandomString(
-			Arrays.asList(new String[] { KLEINBUCHSTABEN, GROSSBUCHSTABEN, ZIFFERN, SONDERZEICHEN }), 8);
+		String passwort = " "
+			+ generateRandomString(Arrays.asList(new String[] { KLEINBUCHSTABEN, GROSSBUCHSTABEN, ZIFFERN, SONDERZEICHEN }), 8);
 		PasswortNeuBean bean = new PasswortNeuBean(passwort);
 
 		System.out.println("length=" + passwort.length() + ", passwort=" + passwort);
@@ -229,9 +225,7 @@ public class PasswortNeuValidationTest {
 		// Assert
 		assertEquals(1, constraintViolations.size());
 		ConstraintViolation<PasswortNeuBean> cv = constraintViolations.iterator().next();
-		assertEquals(
-			INVALID_VALUE_MESSAGE,
-			cv.getMessage());
+		assertEquals(INVALID_VALUE_MESSAGE, cv.getMessage());
 
 	}
 
@@ -251,9 +245,7 @@ public class PasswortNeuValidationTest {
 		// Assert
 		assertEquals(1, constraintViolations.size());
 		ConstraintViolation<PasswortNeuBean> cv = constraintViolations.iterator().next();
-		assertEquals(
-			INVALID_VALUE_MESSAGE,
-			cv.getMessage());
+		assertEquals(INVALID_VALUE_MESSAGE, cv.getMessage());
 
 	}
 
@@ -273,9 +265,7 @@ public class PasswortNeuValidationTest {
 		// Assert
 		assertEquals(1, constraintViolations.size());
 		ConstraintViolation<PasswortNeuBean> cv = constraintViolations.iterator().next();
-		assertEquals(
-			INVALID_VALUE_MESSAGE,
-			cv.getMessage());
+		assertEquals(INVALID_VALUE_MESSAGE, cv.getMessage());
 
 	}
 
@@ -295,9 +285,7 @@ public class PasswortNeuValidationTest {
 		// Assert
 		assertEquals(1, constraintViolations.size());
 		ConstraintViolation<PasswortNeuBean> cv = constraintViolations.iterator().next();
-		assertEquals(
-			INVALID_VALUE_MESSAGE,
-			cv.getMessage());
+		assertEquals(INVALID_VALUE_MESSAGE, cv.getMessage());
 
 	}
 
@@ -317,9 +305,7 @@ public class PasswortNeuValidationTest {
 		// Assert
 		assertEquals(1, constraintViolations.size());
 		ConstraintViolation<PasswortNeuBean> cv = constraintViolations.iterator().next();
-		assertEquals(
-			INVALID_VALUE_MESSAGE,
-			cv.getMessage());
+		assertEquals(INVALID_VALUE_MESSAGE, cv.getMessage());
 
 	}
 
@@ -339,9 +325,7 @@ public class PasswortNeuValidationTest {
 		// Assert
 		assertEquals(1, constraintViolations.size());
 		ConstraintViolation<PasswortNeuBean> cv = constraintViolations.iterator().next();
-		assertEquals(
-			INVALID_VALUE_MESSAGE,
-			cv.getMessage());
+		assertEquals(INVALID_VALUE_MESSAGE, cv.getMessage());
 
 	}
 
@@ -361,9 +345,7 @@ public class PasswortNeuValidationTest {
 		// Assert
 		assertEquals(1, constraintViolations.size());
 		ConstraintViolation<PasswortNeuBean> cv = constraintViolations.iterator().next();
-		assertEquals(
-			INVALID_VALUE_MESSAGE,
-			cv.getMessage());
+		assertEquals(INVALID_VALUE_MESSAGE, cv.getMessage());
 
 	}
 
@@ -374,7 +356,8 @@ public class PasswortNeuValidationTest {
 		String passwort = KLEINBUCHSTABEN + GROSSBUCHSTABEN + ZIFFERN + SONDERZEICHEN;
 		// String passwort =
 		// "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜabcdefghijklmnopqrstuvwxyzäöüß0123456789!#$%&()*+,-./:;=?@[]^_`'{|}~";
-		// String passwort = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜabcdefghijklmnopqrstuvwxyzäöüß0123456789!#$%&()*+,-./:;=?@[]^_`'{|}~";
+		// String passwort =
+		// "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜabcdefghijklmnopqrstuvwxyzäöüß0123456789!#$%&()*+,-./:;=?@[]^_`'{|}~";
 
 		PasswortNeuBean bean = new PasswortNeuBean(passwort);
 

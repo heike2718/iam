@@ -40,8 +40,8 @@ import jakarta.transaction.Transactional;
 public class AuthCryptoServiceImpl implements AuthCryptoService {
 
 	/**
-	 * übernomemen aus org.apache.shiro.crypto.support.hashes.argon2.Argon2Hash. Muss bei updates von shiro immer mit getestet
-	 * werden!!!
+	 * übernomemen aus org.apache.shiro.crypto.support.hashes.argon2.Argon2Hash. Muss bei updates von shiro immer mit
+	 * getestet werden!!!
 	 */
 	private static final String DEFAULT_ALGORITHM = "argon2id";
 
@@ -168,8 +168,8 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 	/**
 	 * Verifiziert die LoginSecrets. Falls sie noch mit SHA-256 berechnet sind, werden sie umgehashed.
 	 *
-	 * @param  loginSecrets
-	 * @param  password
+	 * @param loginSecrets
+	 * @param password
 	 * @return
 	 */
 	boolean verifyLoginSecrets(final LoginSecrets loginSecrets, final char[] password) {
@@ -215,7 +215,7 @@ public class AuthCryptoServiceImpl implements AuthCryptoService {
 	}
 
 	/**
-	 * @param  password
+	 * @param password
 	 * @return
 	 */
 	private String getPepperedPassword(final char[] password) {

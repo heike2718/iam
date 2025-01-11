@@ -32,7 +32,7 @@ public class InitAccessTokenDelegate {
 	AuthproviderRestClient authproviderRestClient;
 
 	/**
-	 * @param  clientSecrets
+	 * @param clientSecrets
 	 * @return
 	 */
 	public ResponsePayload authenticateClient(final OAuthClientCredentials credentials) {

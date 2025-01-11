@@ -26,6 +26,7 @@ public class AuthAdminTestProfile implements QuarkusTestProfile {
 		configOverrides.put("quarkus.http.test.timeout", "600S");
 		configOverrides.put("quarkus.http.test.timeout", "600S");
 		configOverrides.put("quarkus.mailer.mock", "true");
+		configOverrides.put("emails.standardempfaenger", "empfaenger-1@gmx.de,empfaenger-2@gmx.de");
 
 		System.out.println("config overridden:");
 

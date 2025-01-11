@@ -4,7 +4,7 @@
 
     <!-- Alternative zu einem Subjact of(this.paginator)-->
     <!-- (page)="onPaginatorChanged($event)"-->
-    <mat-paginator [length]="benutzerFacade.anzahlTreffer$ | async" [pageSizeOptions]="[25,30,50]"
+    <mat-paginator [length]="benutzerFacade.anzahlTreffer$ | async" [pageSizeOptions]="[100,150,200]"
         aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen." showFirstLastButtons
         (page)="onPaginatorChanged($event)">
     </mat-paginator>

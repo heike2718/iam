@@ -5,8 +5,8 @@
 package de.egladil.web.authprovider.dao;
 
 /**
-* LoginSecretsDao
-*/
+ * LoginSecretsDao
+ */
 public interface LoginSecretsDao extends BaseDao {
 
 }

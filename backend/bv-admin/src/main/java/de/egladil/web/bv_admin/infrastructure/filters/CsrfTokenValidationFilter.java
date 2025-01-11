@@ -44,12 +44,11 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {
 
-		LOGGER.debug("entering filter");
+		LOGGER.info("entering filter");
 
 		if (!csrfEnabled) {
 
-			LOGGER.warn("Achtung: keine csrf protection: check property 'csrf.enabled' [csrfEnabled={}]",
-				csrfEnabled);
+			LOGGER.warn("Achtung: keine csrf protection: check property 'csrf.enabled' [csrfEnabled={}]", csrfEnabled);
 			return;
 		}
 

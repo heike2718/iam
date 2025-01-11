@@ -25,9 +25,8 @@ public final class AuthFileUtils {
 	/**
 	 * Liest die Daten aus dem File und gibt sie als bytes[] zurück.
 	 *
-	 * @param  file
-	 *                     File nicht null und lesbare Datei.
-	 * @return             byte[]
+	 * @param file File nicht null und lesbare Datei.
+	 * @return byte[]
 	 * @throws IOException
 	 */
 	public static final byte[] readBytes(final File file) throws IOException {

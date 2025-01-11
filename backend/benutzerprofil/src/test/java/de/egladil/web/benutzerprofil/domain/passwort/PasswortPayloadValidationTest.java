@@ -61,9 +61,8 @@ public class PasswortPayloadValidationTest {
 
 		bean.setZweiPassworte(invalidZweiPassworte);
 
-		List<String> expectedMessages = Arrays
-			.asList(new String[] { "Das (neue) Passwort ist nicht regelkonform.", "Das wiederholte Passwort ist erforderlich.",
-				"Die (neuen) Passwörter stimmen nicht überein." });
+		List<String> expectedMessages = Arrays.asList(new String[] { "Das (neue) Passwort ist nicht regelkonform.",
+			"Das wiederholte Passwort ist erforderlich.", "Die (neuen) Passwörter stimmen nicht überein." });
 
 		// Act
 		Set<ConstraintViolation<PasswortPayload>> constraintViolations = validator.validate(bean);
@@ -100,8 +99,7 @@ public class PasswortPayloadValidationTest {
 		PasswortPayload bean = createValidPayload();
 		bean.setPasswort("Qw<ert>z!");
 
-		List<String> expectedMessages = Arrays
-			.asList(new String[] { "Das aktuelle Passwort enthält ungültige Zeichen." });
+		List<String> expectedMessages = Arrays.asList(new String[] { "Das aktuelle Passwort enthält ungültige Zeichen." });
 
 		// Act
 		Set<ConstraintViolation<PasswortPayload>> constraintViolations = validator.validate(bean);

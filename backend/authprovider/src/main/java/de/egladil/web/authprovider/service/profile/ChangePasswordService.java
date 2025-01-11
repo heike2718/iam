@@ -54,10 +54,8 @@ public class ChangePasswordService {
 	/**
 	 * Das alte Passwort wird durch ein neues Passwort ersetzt.
 	 *
-	 * @param  userUUID
-	 *                  String - die UUID des Benutzers.
-	 * @param  payload
-	 *                  ProfilePasswordPayload
+	 * @param userUUID String - die UUID des Benutzers.
+	 * @param payload ProfilePasswordPayload
 	 * @return
 	 */
 	public ResponsePayload changePassword(final String userUUID, final ProfilePasswordPayload payload) {
@@ -79,8 +77,7 @@ public class ChangePasswordService {
 
 			authCryptoService.verifyPassword(payload.getPasswort().toCharArray(), resourceOwner);
 
-			changeLoginSecretsDelegate.updateLoginSecrets(loginSecrets,
-				payload.getZweiPassworte().getPasswort().toCharArray());
+			changeLoginSecretsDelegate.updateLoginSecrets(loginSecrets, payload.getZweiPassworte().getPasswort().toCharArray());
 
 			sendMail(resourceOwner.getEmail());
 
@@ -90,17 +87,14 @@ public class ChangePasswordService {
 
 			LOG.warn("ConcurrentUpdate beim Ändern des Passworts durch {}", userUUID);
 
-			return ResponsePayload
-				.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.error")));
+			return ResponsePayload.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.error")));
 		} catch (AuthPersistenceException e) {
 
-			return ResponsePayload
-				.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.error")));
+			return ResponsePayload.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.error")));
 		} catch (AuthException e) {
 
 			LOG.warn("Passwort ändern: altes Passwort stimmt nicht: {}", userUUID);
-			return ResponsePayload
-				.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.authFailure")));
+			return ResponsePayload.messageOnly(MessagePayload.error(applicationMessages.getString("Password.changed.authFailure")));
 		} finally {
 
 			payload.getZweiPassworte().clean();

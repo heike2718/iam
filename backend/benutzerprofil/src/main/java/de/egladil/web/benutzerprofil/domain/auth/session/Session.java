@@ -45,8 +45,8 @@ public class Session {
 	}
 
 	/**
-	 * In Prod, wo Cookies funktionieren, muss die sessionId im Response-Payload entfernt werden können, da sie über ein Cookie
-	 * übertragen wird.
+	 * In Prod, wo Cookies funktionieren, muss die sessionId im Response-Payload entfernt werden können, da sie über ein
+	 * Cookie übertragen wird.
 	 */
 	public void clearSessionIdInProd() {
 
@@ -62,8 +62,7 @@ public class Session {
 	}
 
 	/**
-	 * @param expiresAt
-	 *                  the expiresAt to set
+	 * @param expiresAt the expiresAt to set
 	 */
 	public void setExpiresAt(final long expiresAt) {
 

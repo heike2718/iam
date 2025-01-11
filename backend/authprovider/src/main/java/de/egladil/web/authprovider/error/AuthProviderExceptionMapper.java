@@ -61,25 +61,18 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 		if (exception instanceof SessionExpiredException) {
 
 			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.warn(exceptionMessage));
-			return Response.status(908)
-				.header("X-Auth-Error", "SessionExpired")
-				.entity(payload)
-				.build();
+			return Response.status(908).header("X-Auth-Error", "SessionExpired").entity(payload).build();
 		}
 
 		if (exception instanceof NotFoundException) {
 
 			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error("Not Found"));
-			return Response.status(404)
-				.entity(payload)
-				.build();
+			return Response.status(404).entity(payload).build();
 		}
 
 		if (exception instanceof AccountDeactivatedException) {
 
-			return Response.status(401)
-				.entity(MessagePayload.error(exceptionMessage))
-				.build();
+			return Response.status(401).entity(MessagePayload.error(exceptionMessage)).build();
 		}
 
 		if (exception instanceof ClientAccessTokenRuntimeException) {
@@ -93,26 +86,19 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 				ResponsePayload payload = new ResponsePayload(MessagePayload.error("Ups, da ist etwas schiefgegangen"),
 					ex.getClientCredentials().getRedirectUrl());
-				return Response.status(904)
-					.entity(payload)
-					.build();
+				return Response.status(904).entity(payload).build();
 			} else {
 
 				LOGGER.error(ex.getMessage());
 				ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error("Fehler beim Holen der ClientDaten"));
-				return Response.serverError()
-					.header("X-Auth-Error", "Serverfehler")
-					.entity(payload)
-					.build();
+				return Response.serverError().header("X-Auth-Error", "Serverfehler").entity(payload).build();
 			}
 		}
 
 		if (exception instanceof AuthException) {
 
 			LOGGER.warn("{}: {}", exception.getClass().getSimpleName(), exceptionMessage);
-			return Response.status(401)
-				.entity(MessagePayload.error(exceptionMessage))
-				.build();
+			return Response.status(401).entity(MessagePayload.error(exceptionMessage)).build();
 		}
 
 		if (exception instanceof RollbackException || exception instanceof PersistenceException) {
@@ -143,20 +129,15 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 
 		if (exception instanceof InvalidInputException) {
 
-			return Response.status(400)
-				.header("X-Auth-Error", "ungültige Eingaben")
-				.entity(ResponsePayload.messageOnly(MessagePayload.error(exception.getMessage())))
-				.build();
+			return Response.status(400).header("X-Auth-Error", "ungültige Eingaben")
+				.entity(ResponsePayload.messageOnly(MessagePayload.error(exception.getMessage()))).build();
 		}
 
 		if (exception instanceof InvalidRedirectUrl || exception instanceof AuthRuntimeException) {
 
 			// wurde schon geloggt
-			return Response.serverError()
-				.header("X-Auth-Error", "Serverfehler")
-				.entity(ResponsePayload.messageOnly(MessagePayload
-					.error(generalError)))
-				.build();
+			return Response.serverError().header("X-Auth-Error", "Serverfehler")
+				.entity(ResponsePayload.messageOnly(MessagePayload.error(generalError))).build();
 		}
 
 		if (exception instanceof AuthPersistenceException || exception instanceof ClientAuthException) {
@@ -164,40 +145,28 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 			// wurde schon geloggt.
 
 			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(generalError));
-			return Response.serverError()
-				.header("X-Auth-Error", generalError)
-				.entity(payload)
-				.build();
+			return Response.serverError().header("X-Auth-Error", generalError).entity(payload).build();
 		}
 
 		if (exception instanceof PropagationFailedException) {
 
 			// wurde schon geloggt
 			ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(exceptionMessage));
-			return Response.serverError()
-				.header("X-Auth-Error", exceptionMessage)
-				.entity(payload)
-				.build();
+			return Response.serverError().header("X-Auth-Error", exceptionMessage).entity(payload).build();
 
 		}
 
 		LOGGER.error(exceptionMessage, exception);
 
 		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload.error(generalError));
-		return Response.serverError()
-			.header("X-Auth-Error", "Serverfehler")
-			.entity(payload)
-			.build();
+		return Response.serverError().header("X-Auth-Error", "Serverfehler").entity(payload).build();
 	}
 
 	private Response handleConcurrentUpdateException(final ConcurrentUpdateException e) {
 
 		ResponsePayload payload = ResponsePayload.messageOnly(MessagePayload
 			.error("Es ist ein Fehler aufgetreten. Bitte Klicken Sie 'abbrechen' und wiederholen Sie Ihre Änderungen."));
-		return Response.status(409)
-			.header("X-Auth-Error", "concurrent update please reload")
-			.entity(payload)
-			.build();
+		return Response.status(409).header("X-Auth-Error", "concurrent update please reload").entity(payload).build();
 	}
 
 	private Response handleDuplicateEntityException(final DuplicateEntityException e) {
@@ -209,9 +178,7 @@ public class AuthProviderExceptionMapper implements ExceptionMapper<Exception> {
 			return Response.status(duplicateEntityType.getDetailedStatuscode()).entity(MessagePayload.warn(e.getMessage())).build();
 		}
 
-		return Response.status(e.getDefaultStatuscode())
-			.header("X-Auth-Error", "resource exists")
-			.entity(MessagePayload.warn(e.getMessage()))
-			.build();
+		return Response.status(e.getDefaultStatuscode()).header("X-Auth-Error", "resource exists")
+			.entity(MessagePayload.warn(e.getMessage())).build();
 	}
 }

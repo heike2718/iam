@@ -55,38 +55,14 @@ public class BenutzerResource {
 
 	@POST
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "findUsers", summary = "Gibt alle Benutzer zurück, die auf die gegebene Suchanfrage passen.")
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = BenutzerSearchResult.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response findUsers(@Valid final BenutzerSuchparameter userSerachDto) {
+	@Operation(operationId = "findUsers", summary = "Gibt alle Benutzer zurück, die auf die gegebene Suchanfrage passen.")
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BenutzerSearchResult.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response findUsers(@Valid
+	final BenutzerSuchparameter userSerachDto) {
 
 		BenutzerSearchResult responsePayload = benutzerService.findUsers(userSerachDto);
 		return Response.ok(responsePayload).build();
@@ -95,49 +71,19 @@ public class BenutzerResource {
 	@PUT
 	@Path("{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "aktivierungsstatusAendern", summary = "Setzt für den gegebenen Benutzer den neuen Aktivierungsstatus")
+	@Operation(operationId = "aktivierungsstatusAendern", summary = "Setzt für den gegebenen Benutzer den neuen Aktivierungsstatus")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der geändert werden soll",
-			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = UpdateBenutzerResponseDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-	@APIResponse(
-		name = "NotFound",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "404")
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response aktivierungsstatusAendern(@PathParam(value = "uuid") @Pattern(
-		regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
-			max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid, final Aktivierungsstatus aktivierungsstatus) {
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der geändert werden soll", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateBenutzerResponseDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "NotFound", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "404")
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response aktivierungsstatusAendern(@PathParam(value = "uuid")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
+	final String uuid, final Aktivierungsstatus aktivierungsstatus) {
 
 		UpdateBenutzerResponseDto responsePayload = benutzerService.updateAktivierungsstatus(uuid, aktivierungsstatus);
 
@@ -147,46 +93,20 @@ public class BenutzerResource {
 	@DELETE
 	@Path("{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "benutzerLoeschen",
-		summary = "Löscht das durch die uuid definierte Benutzerkonto vollständig aus allen Anwendungen.")
+	@Operation(operationId = "benutzerLoeschen", summary = "Löscht das durch die uuid definierte Benutzerkonto vollständig aus allen Anwendungen.")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der gelöscht werden soll",
-			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = DeleteBenutzerResponseDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response benutzerLoeschen(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(value = "uuid") @Pattern(
-		regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
-			max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der gelöscht werden soll", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeleteBenutzerResponseDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response benutzerLoeschen(@Pattern(regexp = "^[abcdef\\d\\-]*$")
+	@Size(max = 36)
+	@PathParam(value = "uuid")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
+	final String uuid) {
 
 		DeleteBenutzerResponseDto responsePayload = benutzerService.deleteUser(uuid);
 		return Response.ok().entity(responsePayload).build();
@@ -195,43 +115,14 @@ public class BenutzerResource {
 	@PUT
 	@Path("loeschung")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "batchDelete",
-		summary = "Löscht die durch die uuids definierten Benutzerkonten vollständig aus allen Anwendungen.")
+	@Operation(operationId = "batchDelete", summary = "Löscht die durch die uuids definierten Benutzerkonten vollständig aus allen Anwendungen.")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der gelöscht werden soll",
-			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = DeleteBenutzerResponseDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der gelöscht werden soll", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeleteBenutzerResponseDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
 	public Response batchDelete(final List<String> uuids) {
 
 		return Response.status(500).entity(MessagePayload.error("noch nicht implementiert")).build();

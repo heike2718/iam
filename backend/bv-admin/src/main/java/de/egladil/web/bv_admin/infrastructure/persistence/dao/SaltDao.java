@@ -21,8 +21,8 @@ public class SaltDao {
 	/**
 	 * Holt das Salt mit der gegebenen ID.
 	 *
-	 * @param  id
-	 * @return    Salt oder null
+	 * @param id
+	 * @return Salt oder null
 	 */
 	public Salt findSaltByID(final Long id) {
 

@@ -26,8 +26,7 @@ public class EventsService {
 	/**
 	 * Erzeugt einen neuen Eintrag in EVENTS
 	 *
-	 * @param event
-	 *              AuthAdminEvent
+	 * @param event AuthAdminEvent
 	 */
 	public void handleEvent(final AuthAdminEvent event) {
 

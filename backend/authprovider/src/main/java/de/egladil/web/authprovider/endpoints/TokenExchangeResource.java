@@ -45,17 +45,16 @@ public class TokenExchangeResource {
 	/**
 	 * Tauscht das OneTimeToken gegen das generierte JWT um.
 	 *
-	 * @param  oneTimeToken
-	 * @param  clientCredentials
-	 *                           OAuthClientCredentials
-	 * @return                   ExchangeTokenResponse mit dem JWT und dem gespiegelten nonce. Das JWT enthält die Daten des
-	 *                           ResourceOwners: also
-	 *                           UUID, Rolle, FullName und Email.
+	 * @param oneTimeToken
+	 * @param clientCredentials OAuthClientCredentials
+	 * @return ExchangeTokenResponse mit dem JWT und dem gespiegelten nonce. Das JWT enthält die Daten des
+	 * ResourceOwners: also UUID, Rolle, FullName und Email.
 	 */
 	@PUT
 	@Path("/exchange/{oneTimeToken}")
-	public Response exchangeOneTimeTokenWithJwt(@PathParam(
-		value = "oneTimeToken") @UuidString final String oneTimeToken, final OAuthClientCredentials clientCredentials) {
+	public Response exchangeOneTimeTokenWithJwt(@PathParam(value = "oneTimeToken")
+	@UuidString
+	final String oneTimeToken, final OAuthClientCredentials clientCredentials) {
 
 		try {
 

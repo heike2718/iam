@@ -25,7 +25,8 @@ public class ChangeProfileDataPayload {
 	@JsonProperty
 	private String uuid;
 
-	public static ChangeProfileDataPayload create(final OAuthClientCredentials clientCredentials, final BenutzerDto benutzerDto, final String uuid) {
+	public static ChangeProfileDataPayload create(final OAuthClientCredentials clientCredentials, final BenutzerDto benutzerDto,
+		final String uuid) {
 
 		ChangeProfileDataPayload result = new ChangeProfileDataPayload();
 		result.clientCredentials = clientCredentials;

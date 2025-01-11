@@ -11,7 +11,7 @@ import { AuthResult, Session } from "@bv-admin/shared/auth/model";
 })
 export class AuthHttpService {
 
-    #url = '/api';
+    #url = '/bv-admin/api';
     #httpClient = inject(HttpClient);
 
     getLoginUrl(): Observable<Message> {

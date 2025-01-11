@@ -31,8 +31,7 @@ public class OAuthClientCredentials {
 
 	@Pattern(regexp = "[a-zA-Z0-9\\-]*")
 	@Size(max = 36)
-	@Schema(
-		description = "zur Authentifizierung des Clients generierter String, der vom authprovider unverändert zurückgegeben wird")
+	@Schema(description = "zur Authentifizierung des Clients generierter String, der vom authprovider unverändert zurückgegeben wird")
 	private String nonce;
 
 	public static OAuthClientCredentials create(final String clientId, final String clientSecret, final String nonce) {

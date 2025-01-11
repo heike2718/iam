@@ -9,17 +9,20 @@
 	<artifactId>bv-admin</artifactId>
 	<version>1.2.0</version>
 
+	<name>bv-admin</name>
+	<url>https://github.com/heike2718/authprovider.git</url>
+	<description>Bnutzerverwaltung für Mathe-Jung-Alt</description>
+
 	<properties>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
 		<quarkus.platform.version>3.15.2</quarkus.platform.version>
+		<compiler-plugin.version>3.13.0</compiler-plugin.version>
+		<surefire-plugin.version>3.3.1</surefire-plugin.version>
 		<maven.compiler.release>17</maven.compiler.release>
-		<compiler-plugin.version>3.12.0</compiler-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<skipITs>true</skipITs>
-		<surefire-plugin.version>3.5.0</surefire-plugin.version>
-		<dependency-check.version>10.0.4</dependency-check.version>
+		<dependency-check.version>11.1.0</dependency-check.version>
 	</properties>
 
 	<dependencyManagement>
@@ -218,14 +221,12 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler-plugin.version}</version>
-				<configuration>
-					<compilerArgs>
-						<arg>-parameters</arg>
-					</compilerArgs>
-				</configuration>
-			</plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+                <configuration>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
 
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>

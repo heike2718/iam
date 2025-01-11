@@ -51,7 +51,8 @@ public class AuthenticationService {
 	@Inject
 	Event<AuthproviderEvent> authproviderEvent;
 
-	public static AuthenticationService createForTest(final ResourceOwnerService resourceOwnerService, final AuthCryptoService authCryptoService) {
+	public static AuthenticationService createForTest(final ResourceOwnerService resourceOwnerService,
+		final AuthCryptoService authCryptoService) {
 
 		AuthenticationService result = new AuthenticationService();
 		result.authCryptoService = authCryptoService;
@@ -62,11 +63,9 @@ public class AuthenticationService {
 	/**
 	 * Validiert die Credentials und erzeugt ein JWT verpackt in SignUpLogInResponseData.
 	 *
-	 * @param  authorizationCredentials
-	 *                                  AuthorizationCredentials
-	 * @param  client
-	 *                                  Client
-	 * @return                          SignUpLogInResponseData
+	 * @param authorizationCredentials AuthorizationCredentials
+	 * @param client Client
+	 * @return SignUpLogInResponseData
 	 */
 	public ResourceOwner authenticateResourceOwner(final AuthorizationCredentials authorizationCredentials) {
 
@@ -81,8 +80,7 @@ public class AuthenticationService {
 
 			String details = getFailedLoginDetails(authorizationCredentials.getLoginName());
 			LOG.warn("Login fehlgeschlagen - unbekannter loginName: {}", details);
-			throw new AuthException(
-				applicationMessages.getString("Authentication.incorrectCredentials"));
+			throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
 		}
 
 		ResourceOwner resourceOwner = optOwner.get();

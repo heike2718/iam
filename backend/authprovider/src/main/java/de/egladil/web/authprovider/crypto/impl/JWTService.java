@@ -31,7 +31,8 @@ import jakarta.enterprise.context.RequestScoped;
 @RequestScoped
 public class JWTService {
 
-	public DecodedJWT verify(final String token, final byte[] publicKeyData) throws JWTVerificationException, CommonCryptoException {
+	public DecodedJWT verify(final String token, final byte[] publicKeyData)
+		throws JWTVerificationException, CommonCryptoException {
 
 		try {
 

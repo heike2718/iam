@@ -26,10 +26,7 @@ import jakarta.persistence.Version;
 @Entity
 @Table(name = "MAILVERSAND_GRUPPEN")
 @NamedQueries({
-	@NamedQuery(
-		name = "PersistenteMailversandgruppe.FIND_BY_VERSANDAUFTAG",
-		query = "select g from PersistenteMailversandgruppe g where g.idVersandauftrag = :idVersandauftrag order by g.sortnr")
-})
+	@NamedQuery(name = "PersistenteMailversandgruppe.FIND_BY_VERSANDAUFTAG", query = "select g from PersistenteMailversandgruppe g where g.idVersandauftrag = :idVersandauftrag order by g.sortnr") })
 public class PersistenteMailversandgruppe {
 
 	public static final String FIND_BY_VERSANDAUFTAG = "PersistenteMailversandgruppe.FIND_BY_VERSANDAUFTAG";

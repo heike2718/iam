@@ -31,9 +31,8 @@ public class MailversandDao {
 	/**
 	 * Gibt den PersistenterInfomailTextReadOnly zur gegebenen uuid zurück oder null.
 	 *
-	 * @param  uuid
-	 *              String
-	 * @return      PersistenterInfomailTextReadOnly oder null
+	 * @param uuid String
+	 * @return PersistenterInfomailTextReadOnly oder null
 	 */
 	public PersistenterInfomailTextReadOnly findInfomailtextReadOnlyByID(final String uuid) {
 
@@ -43,14 +42,13 @@ public class MailversandDao {
 	/**
 	 * Läd alle aktivierten PersistenterUserReadOnly mit den gegebenen UUIDs.
 	 *
-	 * @param  uuids
-	 *               List von String
-	 * @return       List
+	 * @param uuids List von String
+	 * @return List
 	 */
 	public List<PersistenterUserReadOnly> findAktivierteUsersByUUIDs(final List<String> uuids) {
 
-		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_BY_A_UUID_LIST,
-			PersistenterUserReadOnly.class).setParameter("aktiviert", true).setParameter("uuids", uuids).getResultList();
+		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_BY_A_UUID_LIST, PersistenterUserReadOnly.class)
+			.setParameter("aktiviert", true).setParameter("uuids", uuids).getResultList();
 	}
 
 	/**
@@ -69,9 +67,8 @@ public class MailversandDao {
 	/**
 	 * Tut das, was der Name sagt.
 	 *
-	 * @param  entity
-	 *                PersistenterMailversandauftrag
-	 * @return        String
+	 * @param entity PersistenterMailversandauftrag
+	 * @return String
 	 */
 	public String insertMailversandauftrag(final PersistenterMailversandauftrag entity) {
 
@@ -84,9 +81,8 @@ public class MailversandDao {
 	/**
 	 * Tut das, was der Name sagt.
 	 *
-	 * @param  entity
-	 *                PersistenteMailversandgruppe
-	 * @return        String
+	 * @param entity PersistenteMailversandgruppe
+	 * @return String
 	 */
 	public String insertMailversandgruppe(final PersistenteMailversandgruppe entity) {
 
@@ -104,8 +100,7 @@ public class MailversandDao {
 
 		List<PersistenterMailversandauftrag> trefferliste = entityManager
 			.createNamedQuery(PersistenterMailversandauftrag.FIND_NOT_COMPLETED, PersistenterMailversandauftrag.class)
-			.setParameter("statusWaiting", Jobstatus.WAITING)
-			.setParameter("statusInProgress", Jobstatus.IN_PROGRESS)
+			.setParameter("statusWaiting", Jobstatus.WAITING).setParameter("statusInProgress", Jobstatus.IN_PROGRESS)
 			.getResultList();
 
 		return trefferliste.isEmpty() ? null : trefferliste.get(0);
@@ -114,8 +109,8 @@ public class MailversandDao {
 	/**
 	 * Mit UUID finden.
 	 *
-	 * @param  uuid
-	 * @return      PersistenterMailversandauftrag oder null
+	 * @param uuid
+	 * @return PersistenterMailversandauftrag oder null
 	 */
 	public PersistenterMailversandauftrag findMailversandauftragByUUID(final String uuid) {
 
@@ -125,8 +120,8 @@ public class MailversandDao {
 	/**
 	 * Mit UUID finden.
 	 *
-	 * @param  uuid
-	 * @return      PersistenteMailversandgruppe oder null
+	 * @param uuid
+	 * @return PersistenteMailversandgruppe oder null
 	 */
 	public PersistenteMailversandgruppe findMailversandgruppeByUUID(final String uuid) {
 
@@ -173,13 +168,12 @@ public class MailversandDao {
 		return true;
 	}
 
-	public List<PersistenterMailversandauftragReadOnly> findMailversandauftraegeWithInfomailtextAndJahrMonat(final String idInfomailtext, final String versandJahrMonat) {
+	public List<PersistenterMailversandauftragReadOnly> findMailversandauftraegeWithInfomailtextAndJahrMonat(
+		final String idInfomailtext, final String versandJahrMonat) {
 
 		return entityManager
 			.createNamedQuery(PersistenterMailversandauftragReadOnly.FIND_WITH_INFOMAILTEXT_AND_JAHR_MONAT,
 				PersistenterMailversandauftragReadOnly.class)
-			.setParameter("idInfomailtext", idInfomailtext)
-			.setParameter("versandJahrMonat", versandJahrMonat)
-			.getResultList();
+			.setParameter("idInfomailtext", idInfomailtext).setParameter("versandJahrMonat", versandJahrMonat).getResultList();
 	}
 }

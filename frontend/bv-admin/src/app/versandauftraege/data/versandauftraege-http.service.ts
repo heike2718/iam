@@ -2,14 +2,14 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { MailversandauftragRequestDto, SingleUuidDto } from "@bv-admin/shared/model";
 import { Observable } from "rxjs";
-import { MailversandauftragDetailsResponseDto, MailversandauftragOverview, Mailversandgruppe, MailversandgruppeDetails, MailversandgruppeDetailsResponseDto } from '@bv-admin/versandauftraege/model';
+import { MailversandauftragDetailsResponseDto, MailversandauftragOverview, MailversandgruppeDetails, MailversandgruppeDetailsResponseDto } from '@bv-admin/versandauftraege/model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class VersandauftraegeHttpService {
 
-    #url = '/api/versandauftraege';
+    #url = '/bv-admin/api/versandauftraege';
     #httpClient = inject(HttpClient);
 
     public loadVersandauftraege(): Observable<MailversandauftragOverview[]> {

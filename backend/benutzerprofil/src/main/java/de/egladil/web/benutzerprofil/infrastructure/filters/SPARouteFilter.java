@@ -17,8 +17,8 @@ import io.quarkus.vertx.web.RouteFilter;
 import io.vertx.ext.web.RoutingContext;
 
 /**
- * SPARouteFilter. Das Backend served die Angular-Anwendung. Daher müssen statischen Webseiten woanders gesucht werden, als die
- * Quarkus-app.
+ * SPARouteFilter. Das Backend served die Angular-Anwendung. Daher müssen statischen Webseiten woanders gesucht werden,
+ * als die Quarkus-app.
  */
 public class SPARouteFilter {
 
@@ -38,25 +38,25 @@ public class SPARouteFilter {
 	void apiFilter(final RoutingContext rc) {
 
 		final String path = rc.normalizedPath();
-		LOGGER.debug("Check reroute with path: " + path);
+		LOGGER.info("Check reroute with path: " + path);
 
 		if (path.startsWith(APP_PLUS_API_PREFIX)) {
 
 			// reroute to REST-API
 			String rerouted = path.replaceFirst(DEFAULT_APP, "/") + getQueryParameters(rc);
-			LOGGER.debug("(2) rc.reroute: " + rerouted);
+			LOGGER.info("(2) rc.reroute: " + rerouted);
 			rc.reroute(rerouted);
 		} else {
 
-			LOGGER.debug("(3)");
+			LOGGER.info("(3)");
 
 			if (this.doesNotNeedRedirect(path)) {
 
-				LOGGER.debug("(4)");
+				LOGGER.info("(4)");
 				rc.next();
 			} else {
 
-				LOGGER.debug("(5)");
+				LOGGER.info("(5)");
 
 				if (path.startsWith(DEFAULT_APP)) {
 
@@ -64,7 +64,7 @@ public class SPARouteFilter {
 					// (/benutzerprofil/) umgeleitet werden. Danach übernimmt wieder das Angular-Routing
 					// Jetzt funktionieren Bookmarking, Back-Button sowie F5 ohne dass es ein 404 gibt.
 					String[] tokens = path.split("/");
-					LOGGER.debug("(6) Anzahl token = {}", tokens.length);
+					LOGGER.info("(6) Anzahl token = {}", tokens.length);
 
 					if (tokens.length > 2) {
 
@@ -97,8 +97,7 @@ public class SPARouteFilter {
 
 		if (FILE_NAME_PREDICATE.test(path)) {
 
-			LOGGER.debug(
-				"(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/benutzerprofil/");
+			LOGGER.debug("(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/benutzerprofil/");
 			return true;
 		}
 

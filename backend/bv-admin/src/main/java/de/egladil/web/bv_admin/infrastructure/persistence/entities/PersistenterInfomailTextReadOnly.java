@@ -19,13 +19,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "VW_INFOMAIL_TEXTE")
 @NamedQueries({
-	@NamedQuery(
-		name = "PersistenterInfomailTextReadOnly.LOAD_ALL",
-		query = "select i from PersistenterInfomailTextReadOnly i order by i.betreff"),
-	@NamedQuery(
-		name = "PersistenterInfomailTextReadOnly.FIND_BY_UUID",
-		query = "select i from PersistenterInfomailTextReadOnly i where i.uuid = :uuid")
-})
+	@NamedQuery(name = "PersistenterInfomailTextReadOnly.LOAD_ALL", query = "select i from PersistenterInfomailTextReadOnly i order by i.betreff"),
+	@NamedQuery(name = "PersistenterInfomailTextReadOnly.FIND_BY_UUID", query = "select i from PersistenterInfomailTextReadOnly i where i.uuid = :uuid") })
 public class PersistenterInfomailTextReadOnly {
 
 	public static final String LOAD_ALL = "PersistenterInfomailTextReadOnly.LOAD_ALL";

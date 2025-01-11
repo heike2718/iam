@@ -57,31 +57,11 @@ public class VersandauftraegeResource {
 
 	@GET
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "loadVersandauftraege", summary = "Gibt alle gespeicherten Mailversandaufträge zurück.")
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MailversandauftragOverview.class, type = SchemaType.ARRAY)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
+	@Operation(operationId = "loadVersandauftraege", summary = "Gibt alle gespeicherten Mailversandaufträge zurück.")
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MailversandauftragOverview.class, type = SchemaType.ARRAY)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
 	public Response loadVersandauftraege() {
 
 		List<MailversandauftragOverview> responsePayload = versandauftragService.versandauftraegeLaden();
@@ -91,47 +71,20 @@ public class VersandauftraegeResource {
 	@GET
 	@Path("{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "getDetailsVersandauftrag",
-		summary = "Läd die Details des durch die uuid definierten Mailversandauftrags")
+	@Operation(operationId = "getDetailsVersandauftrag", summary = "Läd die Details des durch die uuid definierten Mailversandauftrags")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags",
-			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MailversandauftragDetailsResponseDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response getDetailsVersandauftrag(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
-		value = "uuid") @Pattern(
-			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
-				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MailversandauftragDetailsResponseDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response getDetailsVersandauftrag(@Pattern(regexp = "^[abcdef\\d\\-]*$")
+	@Size(max = 36)
+	@PathParam(value = "uuid")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
+	final String uuid) {
 
 		MailversandauftragDetailsResponseDto responsePayload = versandauftragService.detailsMailversandauftragLaden(uuid);
 
@@ -141,48 +94,20 @@ public class VersandauftraegeResource {
 	@GET
 	@Path("gruppen/{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "getDetailsMailversandgruppe",
-		summary = "Läd die Details der durch die uuid definierten Mainversandgruppe")
+	@Operation(operationId = "getDetailsMailversandgruppe", summary = "Läd die Details der durch die uuid definierten Mainversandgruppe")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID der Mailversandgruppe",
-			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MailversandgruppeDetailsResponseDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response getDetailsMailversandgruppe(@Pattern(
-		regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
-			value = "uuid") @Pattern(
-				regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
-					max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID der Mailversandgruppe", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MailversandgruppeDetailsResponseDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response getDetailsMailversandgruppe(@Pattern(regexp = "^[abcdef\\d\\-]*$")
+	@Size(max = 36)
+	@PathParam(value = "uuid")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
+	final String uuid) {
 
 		MailversandgruppeDetailsResponseDto responsePayload = versandauftragService.detailsMailversandgruppeLaden(uuid);
 
@@ -191,44 +116,15 @@ public class VersandauftraegeResource {
 
 	@POST
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "scheduleInfomailversand", summary = "Legt einen Mailversandauftrag an.")
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "201",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MailversandauftragOverview.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "PrecoditionFailed",
-		description = "eine Voraussetzung ist nicht erfüllt. Beispielsweise gibt es keinen Infomailtext mit der gegebenen UUID",
-		responseCode = "412", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response scheduleInfomailversand(@Valid final MailversandauftragRequestDto requestPayload) {
+	@Operation(operationId = "scheduleInfomailversand", summary = "Legt einen Mailversandauftrag an.")
+	@APIResponse(name = "OKResponse", responseCode = "201", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MailversandauftragOverview.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "PrecoditionFailed", description = "eine Voraussetzung ist nicht erfüllt. Beispielsweise gibt es keinen Infomailtext mit der gegebenen UUID", responseCode = "412", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response scheduleInfomailversand(@Valid
+	final MailversandauftragRequestDto requestPayload) {
 
 		MailversandauftragOverview responsePayload = versandauftragService.versandauftragAnlegen(requestPayload);
 		return Response.status(201).entity(responsePayload).build();
@@ -237,47 +133,18 @@ public class VersandauftraegeResource {
 	@PUT
 	@Path("{uuid}/continuation")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "versandauftragFortsetzen",
-		summary = "Setzt den durch die uuid definierten Mailversandauftrag fort")
+	@Operation(operationId = "versandauftragFortsetzen", summary = "Setzt den durch die uuid definierten Mailversandauftrag fort")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags, der fortgesetzt werden soll",
-			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = SingleUuidDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response versandauftragFortsetzen(@PathParam(
-		value = "uuid") @Pattern(
-			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
-				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags, der fortgesetzt werden soll", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SingleUuidDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response versandauftragFortsetzen(@PathParam(value = "uuid")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
+	final String uuid) {
 
 		SingleUuidDto responsePayload = versandauftragService.mailversandFortsetzen(uuid);
 		return Response.status(200).entity(responsePayload).build();
@@ -286,47 +153,20 @@ public class VersandauftraegeResource {
 	@DELETE
 	@Path("{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "versandauftragLoeschen",
-		summary = "Löscht den durch die uuid definierten Mailversandauftrag")
+	@Operation(operationId = "versandauftragLoeschen", summary = "Löscht den durch die uuid definierten Mailversandauftrag")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags, der gelöscht werden soll",
-			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = SingleUuidDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response versandauftragLoeschen(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) @PathParam(
-		value = "uuid") @Pattern(
-			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
-				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags, der gelöscht werden soll", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SingleUuidDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response versandauftragLoeschen(@Pattern(regexp = "^[abcdef\\d\\-]*$")
+	@Size(max = 36)
+	@PathParam(value = "uuid")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
+	final String uuid) {
 
 		SingleUuidDto responsePayload = versandauftragService.versandauftragLoeschen(uuid);
 		return Response.status(200).entity(responsePayload).build();
@@ -335,47 +175,18 @@ public class VersandauftraegeResource {
 	@PUT
 	@Path("{uuid}/cancellation")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "versandauftragAbbrechen",
-		summary = "Bricht den durch die uuid definierten Mailversandauftrag ab")
+	@Operation(operationId = "versandauftragAbbrechen", summary = "Bricht den durch die uuid definierten Mailversandauftrag ab")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags, der abgebrochen werden soll",
-			example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = SingleUuidDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response versandauftragAbbrechen(@PathParam(
-		value = "uuid") @Pattern(
-			regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
-				max = 36, message = "uuid zu lang (max. 36 Zeichen)") final String uuid) {
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID des Mailversandauftrags, der abgebrochen werden soll", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SingleUuidDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response versandauftragAbbrechen(@PathParam(value = "uuid")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
+	final String uuid) {
 
 		SingleUuidDto responsePayload = versandauftragService.mailversandAbbrechen(uuid);
 		return Response.status(200).entity(responsePayload).build();
@@ -384,50 +195,22 @@ public class VersandauftraegeResource {
 	@PUT
 	@Path("gruppen/{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "versandgruppeAendern",
-		summary = "Überschreibt die Daten der gegebenen Mailversandgruppe.")
+	@Operation(operationId = "versandgruppeAendern", summary = "Überschreibt die Daten der gegebenen Mailversandgruppe.")
 	@Parameters({
-		@Parameter(
-			in = ParameterIn.PATH, name = "uuid", description = "UUID der Mailversandgruppe",
-			example = "f8d11b4a-72df-4a05-ad76-ce3392a02438", required = true)
-	})
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "200",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MailversandgruppeDetailsResponseDto.class)))
-	@APIResponse(
-		name = "BadRequest",
-		responseCode = "400",
-		content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response versandgruppeAendern(@PathParam(value = "uuidAuftrag") @Pattern(
-		regexp = "^[abcdef\\d\\-]*$", message = "uuidAuftrag enthält ungültige Zeichen") @Size(
-			max = 36, message = "uuidAuftrag zu lang (max. 36 Zeichen)") final String uuidAuftrag, @PathParam(
-				value = "uuid") @Pattern(
-					regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen") @Size(
-						max = 36,
-						message = "uuid zu lang (max. 36 Zeichen)") final String uuidGruppe, @Valid final MailversandgruppeDetails gruppe) {
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID der Mailversandgruppe", example = "f8d11b4a-72df-4a05-ad76-ce3392a02438", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MailversandgruppeDetailsResponseDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response versandgruppeAendern(@PathParam(value = "uuidAuftrag")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuidAuftrag enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuidAuftrag zu lang (max. 36 Zeichen)")
+	final String uuidAuftrag, @PathParam(value = "uuid")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
+	final String uuidGruppe, @Valid
+	final MailversandgruppeDetails gruppe) {
 
 		MailversandgruppeDetailsResponseDto responsePayload = versandauftragService.mailversandgruppeAendern(gruppe);
 

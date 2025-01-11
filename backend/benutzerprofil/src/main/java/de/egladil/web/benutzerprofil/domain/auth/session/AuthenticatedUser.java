@@ -27,8 +27,7 @@ public class AuthenticatedUser extends QuarkusPrincipal {
 	}
 
 	/**
-	 * @param uuid
-	 *             String die UUID des Benutzerkontos.
+	 * @param uuid String die UUID des Benutzerkontos.
 	 */
 	public AuthenticatedUser(final String uuid) {
 

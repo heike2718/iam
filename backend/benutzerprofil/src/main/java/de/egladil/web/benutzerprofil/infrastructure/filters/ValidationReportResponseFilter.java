@@ -34,7 +34,8 @@ public class ValidationReportResponseFilter implements ContainerResponseFilter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationReportResponseFilter.class);
 
 	@Override
-	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext) throws IOException {
+	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext)
+		throws IOException {
 
 		if (responseContext.getStatus() == 400) {
 

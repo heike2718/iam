@@ -35,25 +35,25 @@ public class SPARouteFilter {
 	void apiFilter(final RoutingContext rc) {
 
 		final String path = rc.normalizedPath();
-		LOGGER.debug("Check reroute with path: " + path);
+		LOGGER.info("Check reroute with path: " + path);
 
 		if (path.startsWith(APP_PLUS_API_PREFIX)) {
 
 			// reroute to REST-API
 			String rerouted = path.replaceFirst(DEFAULT_APP, "/");
-			LOGGER.debug("(2) rc.reroute: " + rerouted);
+			LOGGER.info("(2) rc.reroute: " + rerouted);
 			rc.reroute(rerouted);
 		} else {
 
-			LOGGER.debug("(3)");
+			LOGGER.info("(3)");
 
 			if (this.doesNotNeedRedirect(path)) {
 
-				LOGGER.debug("(4)");
+				LOGGER.info("(4)");
 				rc.next();
 			} else {
 
-				LOGGER.debug("(5)");
+				LOGGER.info("(5)");
 
 				if (path.startsWith(DEFAULT_APP)) {
 
@@ -61,23 +61,23 @@ public class SPARouteFilter {
 					// (/bv-admin/) umgeleitet werden. Danach übernimmt wieder das Angular-Routing
 					// Jetzt funktionieren Bookmarking, Back-Button sowie F5 ohne dass es ein 404 gibt.
 					String[] tokens = path.split("/");
-					LOGGER.debug("(6) Anzahl token = {}", tokens.length);
+					LOGGER.info("(6) Anzahl token = {}", tokens.length);
 
 					if (tokens.length > 2) {
 
 						// /bv-admin-app/ => 2 tokens!
 						String rerouted = "/" + tokens[1] + "/";
-						LOGGER.debug("(7) Umleiten von deep Angular router links: {} nach {} ", path, rerouted);
+						LOGGER.info("(7) Umleiten von deep Angular router links: {} nach {} ", path, rerouted);
 						rc.reroute(rerouted);
 					} else {
 
-						LOGGER.debug("(8) kein Umleiten der SPA-Grund-URL {} ", path);
+						LOGGER.info("(8) kein Umleiten der SPA-Grund-URL {} ", path);
 						rc.next();
 					}
 
 				} else {
 
-					LOGGER.debug("(9) global else => rc.next()");
+					LOGGER.info("(9) global else => rc.next()");
 					rc.next();
 				}
 			}
@@ -88,24 +88,23 @@ public class SPARouteFilter {
 
 		if (path.equals("/")) {
 
-			LOGGER.debug("(3-1) kein Umleiten von /");
+			LOGGER.info("(3-1) kein Umleiten von /");
 			return true;
 		}
 
 		if (FILE_NAME_PREDICATE.test(path)) {
 
-			LOGGER.debug(
-				"(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/bv-admin-app/");
+			LOGGER.info("(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/bv-admin-app/");
 			return true;
 		}
 
 		if (Stream.of(PATH_PREFIXES).noneMatch(path::startsWith)) {
 
-			LOGGER.debug("(3-3) kein Umleiten von Pfaden, die nicht mit {} beginnen", DEFAULT_APP);
+			LOGGER.info("(3-3) kein Umleiten von Pfaden, die nicht mit {} beginnen", DEFAULT_APP);
 			return true;
 		}
 
-		LOGGER.debug("(3-4)");
+		LOGGER.info("(3-4)");
 		return false;
 	}
 }

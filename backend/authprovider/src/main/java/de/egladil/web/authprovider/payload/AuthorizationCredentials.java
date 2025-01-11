@@ -38,7 +38,10 @@ public class AuthorizationCredentials {
 	 * @param loginName
 	 * @param passwort
 	 */
-	public AuthorizationCredentials(@NotNull @Size(max = 255) final String loginName, @NotNull final String passwort) {
+	public AuthorizationCredentials(@NotNull
+	@Size(max = 255)
+	final String loginName, @NotNull
+	final String passwort) {
 
 		this.loginName = loginName;
 		this.passwort = passwort;

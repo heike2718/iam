@@ -9,7 +9,6 @@ import java.time.temporal.ChronoUnit;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
-import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 import de.egladil.web.bv_admin.domain.auth.dto.OAuthClientCredentials;
 import jakarta.ws.rs.Consumes;
@@ -18,6 +17,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -28,22 +28,22 @@ import jakarta.ws.rs.core.Response;
  * InitAccessTokenRestClient
  */
 @RegisterRestClient(configKey = "authprovider")
-@Path("authprovider/api")
+@Path("api")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface AuthproviderRestClient {
 
 	@POST
 	@Path("clients/client/accesstoken")
-	@Retry(maxRetries = 3, delay = 1000, abortOn = ClientWebApplicationException.class)
+	@Retry(maxRetries = 3, delay = 1000, abortOn = WebApplicationException.class)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response authenticateClient(OAuthClientCredentials clientSecrets);
 
 	@PUT
 	@Path("token/exchange/{oneTimeToken}")
-	@Retry(maxRetries = 3, delay = 1000, abortOn = ClientWebApplicationException.class)
+	@Retry(maxRetries = 3, delay = 1000, abortOn = WebApplicationException.class)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
-	public Response exchangeOneTimeTokenWithJwt(@PathParam(
-		value = "oneTimeToken") final String oneTimeToken, final OAuthClientCredentials clientCredentials);
+	public Response exchangeOneTimeTokenWithJwt(@PathParam(value = "oneTimeToken")
+	final String oneTimeToken, final OAuthClientCredentials clientCredentials);
 
 }

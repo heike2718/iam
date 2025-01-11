@@ -37,7 +37,6 @@ public class JWTPayload {
 
 	@Override
 	public String toString() {
-		return "JWTPayload [jwt=" + jwt.substring(0, 20) + "..., expiresAtSeconds=" + expiresAtSeconds
-			+ "]";
+		return "JWTPayload [jwt=" + jwt.substring(0, 20) + "..., expiresAtSeconds=" + expiresAtSeconds + "]";
 	}
 }

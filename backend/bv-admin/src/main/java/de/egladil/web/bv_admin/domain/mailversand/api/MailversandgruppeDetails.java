@@ -40,8 +40,7 @@ public class MailversandgruppeDetails {
 	private String aenderungsdatum;
 
 	@JsonProperty
-	@Schema(
-		description = "Benutzer, an die die Mail versendet wurde. Wenn sie inzwischen gelöscht sind, wird ein Platzhalter zurückgegeben")
+	@Schema(description = "Benutzer, an die die Mail versendet wurde. Wenn sie inzwischen gelöscht sind, wird ein Platzhalter zurückgegeben")
 	private List<BenutzerTrefferlisteItem> benutzer;
 
 	public String getUuid() {

@@ -29,7 +29,8 @@ public class CsrfTokenProviderFilter implements ContainerResponseFilter {
 	CsrfCookieService csrfCookieService;
 
 	@Override
-	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext) throws IOException {
+	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext)
+		throws IOException {
 
 		if (requestContext.getCookies().containsKey(AuthConstants.CSRF_TOKEN_COOKIE_NAME)) {
 

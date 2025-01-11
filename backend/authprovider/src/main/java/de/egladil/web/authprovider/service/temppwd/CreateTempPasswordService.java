@@ -54,8 +54,7 @@ public class CreateTempPasswordService {
 	 * Erzeugt eine TempPassword-Entity mit einem expireDate und versendet asynchron eine Mail an die gegebene
 	 * Mailadresse, sofern diese gültig ist.
 	 *
-	 * @param  payload
-	 *                           OrderTempPasswordPayload
+	 * @param payload OrderTempPasswordPayload
 	 * @throws NotFoundException
 	 */
 	public void orderTempPassword(final String email) throws NotFoundException {
@@ -87,14 +86,13 @@ public class CreateTempPasswordService {
 			return;
 		}
 
-		String password = cryptoService.generateRandomString(passwordConfig.getRandomAlgorithm(),
-			passwordConfig.getTempPwdLength(), passwordConfig.getTempPwdCharPool().toCharArray());
+		String password = cryptoService.generateRandomString(passwordConfig.getRandomAlgorithm(), passwordConfig.getTempPwdLength(),
+			passwordConfig.getTempPwdCharPool().toCharArray());
 
 		String tokenId = AuthUtils.newTokenId();
 
 		int expirationMinutes = Integer.valueOf(tempPasswordExpireMinutes);
-		TimeInterval timeInterval = AuthTimeUtils.getInterval(AuthTimeUtils.now(), expirationMinutes,
-			ChronoUnit.MINUTES);
+		TimeInterval timeInterval = AuthTimeUtils.getInterval(AuthTimeUtils.now(), expirationMinutes, ChronoUnit.MINUTES);
 
 		TempPassword tempPassword = new TempPassword();
 		tempPassword.setExpiresAt(timeInterval.getEndTime());

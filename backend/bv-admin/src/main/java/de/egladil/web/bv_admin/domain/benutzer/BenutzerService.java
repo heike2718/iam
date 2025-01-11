@@ -57,7 +57,7 @@ public class BenutzerService {
 	/**
 	 * Sucht die users.
 	 *
-	 * @param  userSearchDto
+	 * @param userSearchDto
 	 * @return
 	 */
 	public BenutzerSearchResult findUsers(final BenutzerSuchparameter userSearchDto) {
@@ -66,7 +66,8 @@ public class BenutzerService {
 		List<PersistenterUserReadOnly> trefferliste = benutzerDao.findUsers(userSearchDto);
 		List<BenutzerTrefferlisteItem> items = trefferliste.stream().map(this::mapFromDB).toList();
 
-		// Damit ich nicht versehentlich an meinem eigenen Benutzerkonto oder dem der anderen BV-Admins herumfingere, werden die mit
+		// Damit ich nicht versehentlich an meinem eigenen Benutzerkonto oder dem der anderen BV-Admins herumfingere,
+		// werden die mit
 		// der Rolle AUTH_ADMIN aus der Trefferliste entfernt.
 
 		BenutzerSearchResult result = new BenutzerSearchResult();
@@ -85,10 +86,9 @@ public class BenutzerService {
 	/**
 	 * Setzt das Attribut aktiviert.
 	 *
-	 * @param  uuid
-	 *                            String die UUID des zu ändernden Benutzers.
-	 * @param  aktivierungsstatus
-	 * @return                    UpdateBenutzerResponseDto
+	 * @param uuid String die UUID des zu ändernden Benutzers.
+	 * @param aktivierungsstatus
+	 * @return UpdateBenutzerResponseDto
 	 */
 	public UpdateBenutzerResponseDto updateAktivierungsstatus(final String uuid, final Aktivierungsstatus aktivierungsstatus) {
 

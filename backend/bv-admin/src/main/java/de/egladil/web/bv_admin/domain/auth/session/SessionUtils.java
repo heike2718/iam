@@ -71,9 +71,8 @@ public final class SessionUtils {
 	/**
 	 * Berechnet den expiresAt-Zeitpunkt mit dem gegebenen idle timout.
 	 *
-	 * @param  sessionIdleTimeoutMinutes
-	 *                                   int Anzahl Minuten, nach denen eine Session als idle weggeräumt wird.
-	 * @return                           long
+	 * @param sessionIdleTimeoutMinutes int Anzahl Minuten, nach denen eine Session als idle weggeräumt wird.
+	 * @return long
 	 */
 	public static long getExpiresAt(final int sessionIdleTimeoutMinutes) {
 
@@ -132,7 +131,7 @@ public final class SessionUtils {
 	}
 
 	/**
-	 * @param  requestContext
+	 * @param requestContext
 	 * @return
 	 */
 	private static String getSesssionIdFromHeader(final ContainerRequestContext requestContext) {
@@ -151,9 +150,9 @@ public final class SessionUtils {
 	}
 
 	/**
-	 * @param  requestContext
-	 * @param  clientPrefix
-	 * @return                String oder null
+	 * @param requestContext
+	 * @param clientPrefix
+	 * @return String oder null
 	 */
 	private static String getSessionIdFromCookie(final ContainerRequestContext requestContext) {
 

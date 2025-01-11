@@ -28,7 +28,8 @@ public class MinikaengurukontenInfoStrategie implements CreateDefaultMailDatenSt
 	/**
 	 * @param resourceOwner
 	 */
-	public MinikaengurukontenInfoStrategie(final ResourceOwnerEventPayload resourceOwner, final MinikaengurukontenMailKontext kontext, final String stage, final String mailTo) {
+	public MinikaengurukontenInfoStrategie(final ResourceOwnerEventPayload resourceOwner,
+		final MinikaengurukontenMailKontext kontext, final String stage, final String mailTo) {
 
 		this.resourceOwner = resourceOwner;
 		this.kontext = kontext;

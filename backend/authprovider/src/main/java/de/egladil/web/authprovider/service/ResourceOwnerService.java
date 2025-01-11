@@ -74,9 +74,8 @@ public class ResourceOwnerService {
 	 * <br>
 	 * <strong>Achtung: </strong> Nach dem Aufruf sind die Passwörter entfernt.
 	 *
-	 * @param  credentials
-	 *                     SignUpCredentials
-	 * @return             ResourceOwner
+	 * @param credentials SignUpCredentials
+	 * @return ResourceOwner
 	 */
 	public ResourceOwner createNewResourceOwner(final SignUpCredentials credentials) {
 
@@ -99,9 +98,8 @@ public class ResourceOwnerService {
 	/**
 	 * Löscht alle Benutzerkonten mit den gegebenen UUIDs aus der Datenbank
 	 *
-	 * @param  uuids
-	 *               String
-	 * @return       int Anzahl der tatsächlich gelöschten Accounts.
+	 * @param uuids String
+	 * @return int Anzahl der tatsächlich gelöschten Accounts.
 	 */
 	public int deleteResourceOwnersQuietly(final List<String> uuids) {
 
@@ -147,9 +145,8 @@ public class ResourceOwnerService {
 	/**
 	 * Löscht alle Daten in der Datenbank.
 	 *
-	 * @param  resourceOwner
-	 *                       ResourceOwner
-	 * @return               boolean ob gelöscht oder nicht.
+	 * @param resourceOwner ResourceOwner
+	 * @return boolean ob gelöscht oder nicht.
 	 */
 
 	@Transactional(value = TxType.REQUIRED)
@@ -169,8 +166,7 @@ public class ResourceOwnerService {
 
 		} catch (Exception e) {
 
-			LOG.error("ResourceOwner mit email='{}' konnte nicht gelöscht werden: {}", resourceOwner.getEmail(),
-				e.getMessage());
+			LOG.error("ResourceOwner mit email='{}' konnte nicht gelöscht werden: {}", resourceOwner.getEmail(), e.getMessage());
 			return false;
 		}
 	}
@@ -179,9 +175,8 @@ public class ResourceOwnerService {
 	 * Erhöht die Anzahl der Logins und speichert das. Eine PersistenceException wird nur geloggt, da das fürs Login
 	 * nicht unbedingt erforderlich ist.
 	 *
-	 * @param  resourceOwner
-	 *                       ResourceOwner
-	 * @return               ResourceOwner
+	 * @param resourceOwner ResourceOwner
+	 * @return ResourceOwner
 	 */
 	public ResourceOwner erfolgreichesLoginSpeichern(final ResourceOwner resourceOwner) {
 
@@ -204,9 +199,8 @@ public class ResourceOwnerService {
 	/**
 	 * Sucht zuerst nach dem Loginnamen und anchsließend nach email.
 	 *
-	 * @param  identifier
-	 *                    String email oder loginName
-	 * @return            Optional
+	 * @param identifier String email oder loginName
+	 * @return Optional
 	 */
 	public Optional<ResourceOwner> findByIdentifier(final String identifier) {
 
@@ -236,11 +230,9 @@ public class ResourceOwnerService {
 	 * nicht zur mailadresse passt, wird eine Warnung geloggt. Falls es einen ResourceOwner gibt, muss noch geprüft
 	 * werden, ob er aktiviert oder deaktiviert ist?
 	 *
-	 * @param  loginName
-	 *                   String
-	 * @param  email
-	 *                   String
-	 * @return           Optional
+	 * @param loginName String
+	 * @param email String
+	 * @return Optional
 	 */
 	public Optional<ResourceOwner> checkExiststAndIsConsistent(final String loginName, final String email) {
 
@@ -287,13 +279,10 @@ public class ResourceOwnerService {
 	/**
 	 * Prüft, ob Änderungen mit den als eindeutig erforderlichen Attributen möglich sind.
 	 *
-	 * @param  loginName
-	 *                   String der neue loginName
-	 * @param  email
-	 *                   String die neue Mailadresse
-	 * @param  uuid
-	 *                   String die UUID des ReourceOwners, der seine Daten ändern möchte.
-	 * @return           String key zur Message in ApplicationMessages oder null
+	 * @param loginName String der neue loginName
+	 * @param email String die neue Mailadresse
+	 * @param uuid String die UUID des ReourceOwners, der seine Daten ändern möchte.
+	 * @return String key zur Message in ApplicationMessages oder null
 	 */
 	public DuplicateAttributeType changeLoginNameAndEmailAllowed(final String loginName, final String email, final String uuid) {
 
@@ -354,9 +343,8 @@ public class ResourceOwnerService {
 	/**
 	 * Sucht den Eintrag in USERS mit der gegebenen UUID.
 	 *
-	 * @param  uuid
-	 *              String
-	 * @return      Optional
+	 * @param uuid String
+	 * @return Optional
 	 */
 	public Optional<ResourceOwner> findByUUID(final String uuid) {
 
@@ -366,8 +354,8 @@ public class ResourceOwnerService {
 	/**
 	 * Sucht alle ResourceOwner, auf die der Filter zutrifft.
 	 *
-	 * @param  queryTyp
-	 * @param  query
+	 * @param queryTyp
+	 * @param query
 	 * @return
 	 */
 	public List<ResourceOwnerResponseItem> findByFilterLike(final BenutzerSuchmodus queryTyp, final String query) {
@@ -402,11 +390,8 @@ public class ResourceOwnerService {
 
 			ResourceOwnerResponseItem item = null;
 			item = new ResourceOwnerResponseItemBuilder(ro.getUuid(), true, ro.getFullName(), ro.isAktiviert())
-				.withEmail(ro.getEmail())
-				.withLoginName(ro.getLoginName())
-				.withVorname(ro.getVorname())
-				.withNachname(ro.getNachname())
-				.withRoles(ro.getRoles()).build();
+				.withEmail(ro.getEmail()).withLoginName(ro.getLoginName()).withVorname(ro.getVorname())
+				.withNachname(ro.getNachname()).withRoles(ro.getRoles()).build();
 			result.add(item);
 		});
 
@@ -414,12 +399,11 @@ public class ResourceOwnerService {
 	}
 
 	/**
-	 * Läd die Namen der gegebenen User. Wenn es den User mit derUUID nicht gibt oder er anonymisiert oder nicht aktiviert ist, ist
-	 * fullName null.
+	 * Läd die Namen der gegebenen User. Wenn es den User mit derUUID nicht gibt oder er anonymisiert oder nicht
+	 * aktiviert ist, ist fullName null.
 	 *
-	 * @param  uuidPayload
-	 *                     UuidPayloadList
-	 * @return             List
+	 * @param uuidPayload UuidPayloadList
+	 * @return List
 	 */
 	public List<ResourceOwnerResponseItem> getUserNames(final List<String> uuids) {
 

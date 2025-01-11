@@ -63,8 +63,7 @@ public class DeleteAccountService {
 
 			LOG.info(">>>>> nonce={}", nonce);
 
-			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.info("Benutzerkonto gelöscht"),
-				nonce);
+			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.info("Benutzerkonto gelöscht"), nonce);
 
 			return Response.ok(responsePayload).build();
 		}

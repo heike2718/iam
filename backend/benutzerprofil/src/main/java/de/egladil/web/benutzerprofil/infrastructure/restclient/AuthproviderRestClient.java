@@ -29,7 +29,7 @@ import jakarta.ws.rs.core.Response;
  * AuthproviderRestClient
  */
 @RegisterRestClient(configKey = "authprovider")
-@Path("authprovider/api")
+@Path("api")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface AuthproviderRestClient {
@@ -44,8 +44,8 @@ public interface AuthproviderRestClient {
 	@Path("token/exchange/{oneTimeToken}")
 	@Retry(maxRetries = 3, delay = 1000)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
-	public Response exchangeOneTimeTokenWithJwt(@PathParam(
-		value = "oneTimeToken") final String oneTimeToken, final OAuthClientCredentials clientCredentials);
+	public Response exchangeOneTimeTokenWithJwt(@PathParam(value = "oneTimeToken")
+	final String oneTimeToken, final OAuthClientCredentials clientCredentials);
 
 	@POST // wegen sensibler Daten, die nur im Body übertragen werden können. Wäre sonst GET
 	@Path("profiles/profile")

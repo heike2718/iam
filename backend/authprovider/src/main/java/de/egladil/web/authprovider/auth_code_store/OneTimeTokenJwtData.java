@@ -11,7 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * OneTimeTokenJwtData enthält ein einmalig gültiges Token, die ClientId und das JWT für den Server-Server-Tausch gegen das JWT.
+ * OneTimeTokenJwtData enthält ein einmalig gültiges Token, die ClientId und das JWT für den Server-Server-Tausch gegen
+ * das JWT.
  */
 public class OneTimeTokenJwtData {
 

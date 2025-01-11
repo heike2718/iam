@@ -82,8 +82,7 @@ public class LoginLogoutService {
 			LOGGER.warn("anonyme sessions sind nicht erlaubt => 401");
 
 			session.clearSessionIdInProd();
-			return Response.status(Status.FORBIDDEN)
-				.entity(MessagePayload.error(applicationMessages.getString("not.authorized")))
+			return Response.status(Status.FORBIDDEN).entity(MessagePayload.error(applicationMessages.getString("not.authorized")))
 				.build();
 		}
 
@@ -116,8 +115,7 @@ public class LoginLogoutService {
 		if (!STAGE_DEV.equals(stage)) {
 
 			LOGGER.warn("stage={}" + stage);
-			return Response.status(401)
-				.entity(MessagePayload.error("böse böse. Dieser Request wurde geloggt!"))
+			return Response.status(401).entity(MessagePayload.error("böse böse. Dieser Request wurde geloggt!"))
 				.cookie(SessionUtils.createSessionInvalidatedCookie(cookiesSecure)).build();
 		}
 

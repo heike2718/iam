@@ -34,7 +34,7 @@ public class BenutzerDao {
 	/**
 	 * Zählt alle Treffer.
 	 *
-	 * @param  userSerachDto
+	 * @param userSerachDto
 	 * @return
 	 */
 	public int countTreffer(final BenutzerSuchparameter userSerachDto) {
@@ -50,11 +50,12 @@ public class BenutzerDao {
 	}
 
 	/**
-	 * Gibt den Teil der Treffer zurück, der mittels pagination-Parameter abgefragt wurde. Dabei werden alle user mit einer
-	 * ADMIN-Rolle ausgeschlossen. Wenn diese mal tatsächlich deaktiviert werden müssen, dann eben auf dem Server in der DB.
+	 * Gibt den Teil der Treffer zurück, der mittels pagination-Parameter abgefragt wurde. Dabei werden alle user mit
+	 * einer ADMIN-Rolle ausgeschlossen. Wenn diese mal tatsächlich deaktiviert werden müssen, dann eben auf dem Server
+	 * in der DB.
 	 *
-	 * @param  benutzerSuchparameter
-	 * @return                       List von PersistenterUserReadOnly
+	 * @param benutzerSuchparameter
+	 * @return List von PersistenterUserReadOnly
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PersistenterUserReadOnly> findUsers(final BenutzerSuchparameter benutzerSuchparameter) {
@@ -71,9 +72,8 @@ public class BenutzerDao {
 	}
 
 	/**
-	 * @param  uuid
-	 *              String der unique key (fachlicher Schlüssel)
-	 * @return      PersistenterUserReadOnly oder null
+	 * @param uuid String der unique key (fachlicher Schlüssel)
+	 * @return PersistenterUserReadOnly oder null
 	 */
 	public PersistenterUserReadOnly findUserReadonlyByUUID(final String uuid) {
 
@@ -86,32 +86,27 @@ public class BenutzerDao {
 	}
 
 	/**
-	 * @param  uuid
-	 *              String der unique key (fachlicher Schlüssel)
-	 * @return      PersistenterUser oder null
+	 * @param uuid String der unique key (fachlicher Schlüssel)
+	 * @return PersistenterUser oder null
 	 */
 	public PersistenterUser findUserByUUID(final String uuid) {
 
-		List<PersistenterUser> trefferliste = entityManager
-			.createNamedQuery(PersistenterUser.FIND_BY_UUID, PersistenterUser.class).setParameter("uuid", uuid)
-			.getResultList();
+		List<PersistenterUser> trefferliste = entityManager.createNamedQuery(PersistenterUser.FIND_BY_UUID, PersistenterUser.class)
+			.setParameter("uuid", uuid).getResultList();
 
 		return trefferliste.isEmpty() ? null : trefferliste.get(0);
 
 	}
 
 	/**
-	 * @param  uuid
-	 *              String der unique key (fachlicher Schlüssel)
-	 * @return      PersistenterUser oder null
+	 * @param uuid String der unique key (fachlicher Schlüssel)
+	 * @return PersistenterUser oder null
 	 */
 	public List<PersistenterUserReadOnly> findUsersByUUIDList(final List<String> uuids) {
 
 		List<PersistenterUserReadOnly> trefferliste = entityManager
 			.createNamedQuery(PersistenterUserReadOnly.FIND_BY_A_UUID_LIST, PersistenterUserReadOnly.class)
-			.setParameter("uuids", uuids)
-			.setParameter("aktiviert", true)
-			.getResultList();
+			.setParameter("uuids", uuids).setParameter("aktiviert", true).getResultList();
 
 		return trefferliste;
 
@@ -120,8 +115,7 @@ public class BenutzerDao {
 	/**
 	 * Speichert einen vorhandenen user.
 	 *
-	 * @param user
-	 *             PersistenterUser
+	 * @param user PersistenterUser
 	 */
 	public void updateUser(final PersistenterUser user) {
 
@@ -129,7 +123,8 @@ public class BenutzerDao {
 	}
 
 	@SuppressWarnings("rawtypes")
-	Query createQueryAndReplaceSuchparameter(final String stmt, final BenutzerSuchparameter userSearchDto, final Class clazz, final boolean forCount) {
+	Query createQueryAndReplaceSuchparameter(final String stmt, final BenutzerSuchparameter userSearchDto, final Class clazz,
+		final boolean forCount) {
 
 		List<String> conditions = new ArrayList<>();
 

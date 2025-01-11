@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.3
 info:
-  title: profil-api
+  title: benutzerprofil
   description: API für die Benutzerprofil-Anwendung
   contact:
     name: Heike Winkelvoß
@@ -16,12 +16,22 @@ servers:
 - url: http://0.0.0.0:10600
   description: Auto generated value
 tags:
+- name: AboutResource
+- name: BenutzerResource
+- name: PasswortResource
 - name: SessionResource
 paths:
+  /api/about:
+    get:
+      tags:
+      - AboutResource
+      responses:
+        "200":
+          description: OK
   /api/benutzer:
     get:
       tags:
-      - Benutzer Resource
+      - BenutzerResource
       responses:
         "200":
           description: OK
@@ -33,7 +43,7 @@ paths:
       - SecurityScheme: []
     put:
       tags:
-      - Benutzer Resource
+      - BenutzerResource
       requestBody:
         content:
           application/json:
@@ -50,7 +60,7 @@ paths:
       - SecurityScheme: []
     delete:
       tags:
-      - Benutzer Resource
+      - BenutzerResource
       responses:
         "200":
           description: OK
@@ -63,7 +73,7 @@ paths:
   /api/passwort:
     put:
       tags:
-      - Passwort Resource
+      - PasswortResource
       requestBody:
         content:
           application/json:

@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Response;
  * VersionResource
  */
 @RequestScoped
-@Path("/version")
+@Path("api/version")
 @Produces(MediaType.APPLICATION_JSON)
 public class VersionResource {
 

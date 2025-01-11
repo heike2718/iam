@@ -38,8 +38,7 @@ public class TempPasswordDaoImpl extends BaseDaoImpl implements TempPasswordDao 
 
 		try {
 			TempPassword result = getEm().createNamedQuery(TempPassword.FIND_BY_TOKEN_ID, TempPassword.class)
-				.setParameter("tokenId", tokenId)
-				.getSingleResult();
+				.setParameter("tokenId", tokenId).getSingleResult();
 
 			return Optional.of(result);
 

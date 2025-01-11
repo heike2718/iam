@@ -70,9 +70,8 @@ public final class SessionUtils {
 	/**
 	 * Berechnet den expiresAt-Zeitpunkt mit dem gegebenen idle timout.
 	 *
-	 * @param  sessionIdleTimeoutMinutes
-	 *                                   int Anzahl Minuten, nach denen eine Session als idle weggeräumt wird.
-	 * @return                           long
+	 * @param sessionIdleTimeoutMinutes int Anzahl Minuten, nach denen eine Session als idle weggeräumt wird.
+	 * @return long
 	 */
 	public static long getExpiresAt(final int sessionIdleTimeoutMinutes) {
 
@@ -82,16 +81,17 @@ public final class SessionUtils {
 
 	}
 
-	public static NewCookie createCookie(final String cookieName, final String cookieValue, final boolean cookiesSecure, final boolean httpOnly) {
+	public static NewCookie createCookie(final String cookieName, final String cookieValue, final boolean cookiesSecure,
+		final boolean httpOnly) {
 
-		return new NewCookie.Builder(cookieName)
-			.value(cookieValue)
-			.path("/")
-			.domain(null)
-			.comment(null)
-			.maxAge(360000) // maximum age of the cookie in seconds
-			.httpOnly(httpOnly)
-			.secure(cookiesSecure).build();
+		return new NewCookie.Builder(cookieName).value(cookieValue).path("/").domain(null).comment(null).maxAge(360000) // maximum
+																														// age
+																														// of
+																														// the
+																														// cookie
+																														// in
+																														// seconds
+			.httpOnly(httpOnly).secure(cookiesSecure).build();
 	}
 
 	public static String getSessionId(final ContainerRequestContext requestContext, final String stage) {
@@ -113,7 +113,7 @@ public final class SessionUtils {
 	}
 
 	/**
-	 * @param  requestContext
+	 * @param requestContext
 	 * @return
 	 */
 	private static String getSesssionIdFromHeader(final ContainerRequestContext requestContext) {
@@ -132,9 +132,9 @@ public final class SessionUtils {
 	}
 
 	/**
-	 * @param  requestContext
-	 * @param  clientPrefix
-	 * @return                String oder null
+	 * @param requestContext
+	 * @param clientPrefix
+	 * @return String oder null
 	 */
 	private static String getSessionIdFromCookie(final ContainerRequestContext requestContext) {
 
@@ -154,9 +154,9 @@ public final class SessionUtils {
 	}
 
 	/**
-	 * @param  requestContext
-	 * @param  clientPrefix
-	 * @return                String oder null
+	 * @param requestContext
+	 * @param clientPrefix
+	 * @return String oder null
 	 */
 	public static String getXsrfTokenFromCookie(final ContainerRequestContext requestContext) {
 
@@ -179,14 +179,8 @@ public final class SessionUtils {
 
 		long dateInThePast = LocalDateTime.now(ZoneId.systemDefault()).minus(10, ChronoUnit.YEARS).toEpochSecond(ZoneOffset.UTC);
 
-		return new NewCookie.Builder(cookieName)
-			.value("")
-			.path("/")
-			.maxAge(0) // maximum age of the cookie in seconds
-			.expiry(new Date(dateInThePast))
-			.version(1)
-			.httpOnly(true)
-			.secure(cookiesSecure).build();
+		return new NewCookie.Builder(cookieName).value("").path("/").maxAge(0) // maximum age of the cookie in seconds
+			.expiry(new Date(dateInThePast)).version(1).httpOnly(true).secure(cookiesSecure).build();
 
 	}
 }

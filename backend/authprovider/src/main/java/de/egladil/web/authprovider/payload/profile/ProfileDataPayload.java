@@ -80,8 +80,7 @@ public class ProfileDataPayload {
 	public String toString() {
 
 		return "ChangeProfileDataPayload [email=" + email + ", loginName=" + loginName + ", vorname=" + vorname + ", nachname="
-			+ nachname
-			+ "]";
+			+ nachname + "]";
 	}
 
 }

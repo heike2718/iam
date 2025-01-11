@@ -29,7 +29,9 @@ public class DeleteBenutzerResponseDto {
 
 	}
 
-	public DeleteBenutzerResponseDto(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) final String uuid) {
+	public DeleteBenutzerResponseDto(@Pattern(regexp = "^[abcdef\\d\\-]*$")
+	@Size(max = 36)
+	final String uuid) {
 
 		super();
 		this.uuid = uuid;

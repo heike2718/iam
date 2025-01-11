@@ -31,7 +31,8 @@ public class ResourceOwnerResponseItemBuilder {
 	 * @param uuid
 	 * @param fullName
 	 */
-	public ResourceOwnerResponseItemBuilder(final String uuid, final boolean existend, final String fullName, final boolean aktiviert) {
+	public ResourceOwnerResponseItemBuilder(final String uuid, final boolean existend, final String fullName,
+		final boolean aktiviert) {
 
 		this.uuid = uuid;
 		this.existend = existend;

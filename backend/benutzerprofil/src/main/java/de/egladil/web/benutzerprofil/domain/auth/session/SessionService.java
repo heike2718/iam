@@ -54,7 +54,7 @@ public class SessionService {
 	/**
 	 * Wenn das JWT sagt, ist kein Admin, dann wird eine anonyme Session angelegt.
 	 *
-	 * @param  jwt
+	 * @param jwt
 	 * @return
 	 */
 	public Session initSession(final String jwt) {
@@ -108,8 +108,8 @@ public class SessionService {
 	}
 
 	/**
-	 * @param  sessionId
-	 * @return           Session
+	 * @param sessionId
+	 * @return Session
 	 */
 	public Session getAndRefreshSessionIfValid(final String sessionId) {
 
@@ -120,8 +120,8 @@ public class SessionService {
 			return null;
 		}
 
-		LocalDateTime expireDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(session.getExpiresAt()),
-			ZoneId.systemDefault()).plusSeconds(5); // bissel Toleranz lassen, oder?
+		LocalDateTime expireDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(session.getExpiresAt()), ZoneId.systemDefault())
+			.plusSeconds(5); // bissel Toleranz lassen, oder?
 		LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
 
 		if (now.isAfter(expireDateTime)) {

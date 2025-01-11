@@ -35,29 +35,13 @@ public class MailingResource {
 	@GET
 	@Path("testmail")
 	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(
-		operationId = "sendTestMail", summary = "Endpoint zum Testen der Mailerkonfiguration.")
-	@APIResponse(
-		name = "OKResponse",
-		responseCode = "202")
-	@APIResponse(
-		name = "NotAuthorized",
-		responseCode = "401",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "Forbidden",
-		description = "kann auch vorkommen, wenn mod_security zuschlägt",
-		responseCode = "403",
-		content = @Content(
-			mediaType = "application/json"))
-	@APIResponse(
-		name = "ServerError",
-		description = "server error",
-		responseCode = "500", content = @Content(
-			mediaType = "application/json",
-			schema = @Schema(implementation = MessagePayload.class)))
-	public Response sendTestMail(@QueryParam(value = "to") final String empfaenger) {
+	@Operation(operationId = "sendTestMail", summary = "Endpoint zum Testen der Mailerkonfiguration.")
+	@APIResponse(name = "OKResponse", responseCode = "202")
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response sendTestMail(@QueryParam(value = "to")
+	final String empfaenger) {
 
 		this.mailservice.sendATestMail(empfaenger);
 		return Response.status(202).build();

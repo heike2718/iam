@@ -36,15 +36,15 @@ public final class RSAKeyUtils {
 	/**
 	 * Liest den PublicKey aus einem File.
 	 *
-	 * @param  pathToKeyFile
-	 *                                  String
-	 * @return                          PublicKey
+	 * @param pathToKeyFile String
+	 * @return PublicKey
 	 * @throws IOException
 	 * @throws InvalidKeySpecException
 	 * @throws NoSuchAlgorithmException
 	 * @throws Exception
 	 */
-	public static PublicKey getPublicKeyRSA(final String pathToKeyFile) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+	public static PublicKey getPublicKeyRSA(final String pathToKeyFile)
+		throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
 		byte[] keyBytes = AuthFileUtils.readBytes(new File(pathToKeyFile));
 		return getPublicKeyRSA(keyBytes);
@@ -53,13 +53,14 @@ public final class RSAKeyUtils {
 	/**
 	 * Wandelt die bytes in den PublicKey um.
 	 *
-	 * @param  keyBytes
+	 * @param keyBytes
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 * @throws InvalidKeySpecException
 	 * @throws IOException
 	 */
-	public static PublicKey getPublicKeyRSA(final byte[] keyBytes) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+	public static PublicKey getPublicKeyRSA(final byte[] keyBytes)
+		throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 
 		try (StringReader sr = new StringReader(new String(keyBytes)); PemReader pemReader = new PemReader(sr)) {
 

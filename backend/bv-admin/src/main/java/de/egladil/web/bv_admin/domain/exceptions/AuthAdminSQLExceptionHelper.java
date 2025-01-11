@@ -14,14 +14,14 @@ public class AuthAdminSQLExceptionHelper {
 	/**
 	 * Versucht, eine ConstraintViolationException zu finden.
 	 *
-	 * @param  th
-	 * @param  errorMessage
-	 *                                      String das, was in der Message der AuthAdminAPIRuntimeException stehen soll, wenn keine
-	 *                                      ConstraintViolationException gefunden werden konnte.
-	 * @return                              ConstraintViolationException
+	 * @param th
+	 * @param errorMessage String das, was in der Message der AuthAdminAPIRuntimeException stehen soll, wenn keine
+	 * ConstraintViolationException gefunden werden konnte.
+	 * @return ConstraintViolationException
 	 * @throws AuthAdminAPIRuntimeException
 	 */
-	public static ConstraintViolationException unwrappConstraintViolationException(final Throwable th, final String errorMessage) throws AuthAdminAPIRuntimeException {
+	public static ConstraintViolationException unwrappConstraintViolationException(final Throwable th, final String errorMessage)
+		throws AuthAdminAPIRuntimeException {
 
 		if (th instanceof ConstraintViolationException) {
 

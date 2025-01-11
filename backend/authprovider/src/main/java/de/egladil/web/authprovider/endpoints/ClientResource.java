@@ -116,12 +116,13 @@ public class ClientResource {
 	/**
 	 * Authentisiert den Client und erzeugt ein OAuthAccessTokenPayload, welches ein Client-AccessToken enthält.
 	 *
-	 * @param  clientCredentials
-	 * @return                   Response mit OAuthAccessTokenPayload-Data
+	 * @param clientCredentials
+	 * @return Response mit OAuthAccessTokenPayload-Data
 	 */
 	@POST
 	@Path("client/accesstoken")
-	public Response authenticateClient(@Valid final OAuthClientCredentials clientCredentials) {
+	public Response authenticateClient(@Valid
+	final OAuthClientCredentials clientCredentials) {
 
 		try {
 

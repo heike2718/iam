@@ -36,9 +36,8 @@ public class InfomailvorlagenDao {
 	/**
 	 * Gibt den PersistenterInfomailTextReadOnly zur gegebenen uuid zurück oder null.
 	 *
-	 * @param  uuid
-	 *              String
-	 * @return      PersistenterInfomailTextReadOnly oder null
+	 * @param uuid String
+	 * @return PersistenterInfomailTextReadOnly oder null
 	 */
 	public PersistenterInfomailTextReadOnly findInfomailtextReadOnlyByID(final String uuid) {
 
@@ -48,9 +47,8 @@ public class InfomailvorlagenDao {
 	/**
 	 * Gibt den PersistenterInfomailText zur gegebenen uuid zurück oder null.
 	 *
-	 * @param  uuid
-	 *              String
-	 * @return      PersistenterInfomailText oder null
+	 * @param uuid String
+	 * @return PersistenterInfomailText oder null
 	 */
 	public PersistenterInfomailText findInfomailtextByID(final String uuid) {
 
@@ -60,8 +58,8 @@ public class InfomailvorlagenDao {
 	/**
 	 * Speichert den gegebenen Infomailtext
 	 *
-	 * @param  persistenterInfomailText
-	 * @return                          String die uuid
+	 * @param persistenterInfomailText
+	 * @return String die uuid
 	 */
 	public String saveInfomailText(final PersistenterInfomailText persistenterInfomailText) {
 

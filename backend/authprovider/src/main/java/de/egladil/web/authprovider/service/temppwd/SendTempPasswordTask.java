@@ -36,7 +36,8 @@ public class SendTempPasswordTask implements Callable<Boolean> {
 	 * @param mailService
 	 * @param uriInfo
 	 */
-	public SendTempPasswordTask(final String email, final TempPassword tempPassword, final AuthMailService mailService, final String urlPrefix) {
+	public SendTempPasswordTask(final String email, final TempPassword tempPassword, final AuthMailService mailService,
+		final String urlPrefix) {
 
 		super();
 		this.email = email;
@@ -50,8 +51,7 @@ public class SendTempPasswordTask implements Callable<Boolean> {
 
 		try {
 
-			CreateDefaultMailDatenStrategy mailStrategy = new TempPasswordCreatedMailStrategy(email, tempPassword,
-				urlPrefix);
+			CreateDefaultMailDatenStrategy mailStrategy = new TempPasswordCreatedMailStrategy(email, tempPassword, urlPrefix);
 
 			mailService.sendMail(mailStrategy.createEmailDaten("TempPassword"));
 

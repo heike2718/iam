@@ -72,25 +72,15 @@ public class VersandauftraegeResourceTest {
 			// Arrange: von 8 IDs sind 5 bestätigt
 			MailversandauftragRequestDto requestPayload = new MailversandauftragRequestDto();
 			requestPayload.setIdInfomailtext(idInfomailtext);
-			requestPayload.setBenutzerUUIDs(Arrays.asList(new String[] {
-				"b2e4faab-c89d-4431-b3e9-6e45faded2c4",
-				"14a8fd8e-13d9-48bd-9f3f-e86be83ee871",
-				"0835e24f-d238-4c65-a1ac-92cc50d17646",
-				"a4395ae1-7de8-4a6e-8e8b-6d085025816f",
-				"5eaaf0ed-4949-4ccd-a9c3-2db9af3559c2",
-				"868d5890-d4d0-45ab-811d-4bfc081b48ec",
-				"02a76d60-0aa0-4097-a55e-2ed6d5823088",
-				"009fac43-1650-4a45-8ab8-30e646f935b3" }));
+			requestPayload.setBenutzerUUIDs(
+				Arrays.asList(new String[] { "b2e4faab-c89d-4431-b3e9-6e45faded2c4", "14a8fd8e-13d9-48bd-9f3f-e86be83ee871",
+					"0835e24f-d238-4c65-a1ac-92cc50d17646", "a4395ae1-7de8-4a6e-8e8b-6d085025816f",
+					"5eaaf0ed-4949-4ccd-a9c3-2db9af3559c2", "868d5890-d4d0-45ab-811d-4bfc081b48ec",
+					"02a76d60-0aa0-4097-a55e-2ed6d5823088", "009fac43-1650-4a45-8ab8-30e646f935b3" }));
 
 			// Act
-			MailversandauftragOverview responsePayload = given()
-				.contentType(ContentType.JSON)
-				.body(requestPayload)
-				.post()
-				.then()
-				.statusCode(201)
-				.extract()
-				.as(MailversandauftragOverview.class);
+			MailversandauftragOverview responsePayload = given().contentType(ContentType.JSON).body(requestPayload).post().then()
+				.statusCode(201).extract().as(MailversandauftragOverview.class);
 
 			// Assert
 			assertNotNull(responsePayload.getUuid());
@@ -109,25 +99,15 @@ public class VersandauftraegeResourceTest {
 			// Arrange: von 8 IDs sind 5 bestätigt
 			MailversandauftragRequestDto requestPayload = new MailversandauftragRequestDto();
 			requestPayload.setIdInfomailtext(idInfomailtext);
-			requestPayload.setBenutzerUUIDs(Arrays.asList(new String[] {
-				"b2e4faab-c89d-4431-b3e9-6e45faded2c4",
-				"14a8fd8e-13d9-48bd-9f3f-e86be83ee871",
-				"0835e24f-d238-4c65-a1ac-92cc50d17646",
-				"a4395ae1-7de8-4a6e-8e8b-6d085025816f",
-				"5eaaf0ed-4949-4ccd-a9c3-2db9af3559c2",
-				"868d5890-d4d0-45ab-811d-4bfc081b48ec",
-				"02a76d60-0aa0-4097-a55e-2ed6d5823088",
-				"009fac43-1650-4a45-8ab8-30e646f935b3" }));
+			requestPayload.setBenutzerUUIDs(
+				Arrays.asList(new String[] { "b2e4faab-c89d-4431-b3e9-6e45faded2c4", "14a8fd8e-13d9-48bd-9f3f-e86be83ee871",
+					"0835e24f-d238-4c65-a1ac-92cc50d17646", "a4395ae1-7de8-4a6e-8e8b-6d085025816f",
+					"5eaaf0ed-4949-4ccd-a9c3-2db9af3559c2", "868d5890-d4d0-45ab-811d-4bfc081b48ec",
+					"02a76d60-0aa0-4097-a55e-2ed6d5823088", "009fac43-1650-4a45-8ab8-30e646f935b3" }));
 
 			// Act
-			MessagePayload responsePayload = given()
-				.contentType(ContentType.JSON)
-				.body(requestPayload)
-				.post()
-				.then()
-				.statusCode(409)
-				.extract()
-				.as(MessagePayload.class);
+			MessagePayload responsePayload = given().contentType(ContentType.JSON).body(requestPayload).post().then()
+				.statusCode(409).extract().as(MessagePayload.class);
 
 			// Assert
 			assertEquals("WARN", responsePayload.getLevel());
@@ -144,12 +124,7 @@ public class VersandauftraegeResourceTest {
 	void testLoad() {
 
 		// Act
-		MailversandauftragOverview[] responsePayload = given()
-			.contentType(ContentType.JSON)
-			.get()
-			.then()
-			.statusCode(200)
-			.extract()
+		MailversandauftragOverview[] responsePayload = given().contentType(ContentType.JSON).get().then().statusCode(200).extract()
 			.as(MailversandauftragOverview[].class);
 
 		// Assert
@@ -162,12 +137,8 @@ public class VersandauftraegeResourceTest {
 	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
 	void testLoadMailversandgruppeDetails_when_exists() {
 
-		MailversandgruppeDetailsResponseDto responseDto = given()
-			.contentType(ContentType.JSON)
-			.get("gruppen/7c9403e3-f0b0-4e82-9e3d-335def4fdc70")
-			.then()
-			.statusCode(200)
-			.extract()
+		MailversandgruppeDetailsResponseDto responseDto = given().contentType(ContentType.JSON)
+			.get("gruppen/7c9403e3-f0b0-4e82-9e3d-335def4fdc70").then().statusCode(200).extract()
 			.as(MailversandgruppeDetailsResponseDto.class);
 
 		// Assert
@@ -203,12 +174,8 @@ public class VersandauftraegeResourceTest {
 	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
 	void testLoadMailversandgruppeDetails_when_notExists() {
 
-		MailversandgruppeDetailsResponseDto responseDto = given()
-			.contentType(ContentType.JSON)
-			.get("gruppen/a737db23-9ca2-4a05-a4bc-272c68bc783d")
-			.then()
-			.statusCode(200)
-			.extract()
+		MailversandgruppeDetailsResponseDto responseDto = given().contentType(ContentType.JSON)
+			.get("gruppen/a737db23-9ca2-4a05-a4bc-272c68bc783d").then().statusCode(200).extract()
 			.as(MailversandgruppeDetailsResponseDto.class);
 
 		// Assert

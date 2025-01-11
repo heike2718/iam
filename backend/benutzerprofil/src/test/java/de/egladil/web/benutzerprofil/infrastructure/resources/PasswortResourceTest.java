@@ -37,16 +37,8 @@ public class PasswortResourceTest {
 		bean.setPasswort("start123");
 
 		// Act
-		MessagePayload responsePayload = given()
-			.contentType(ContentType.JSON)
-			.body(bean)
-			.put("")
-			.then()
-			.statusCode(400)
-			.and()
-			.contentType(ContentType.JSON)
-			.extract()
-			.as(MessagePayload.class);
+		MessagePayload responsePayload = given().contentType(ContentType.JSON).body(bean).put("").then().statusCode(400).and()
+			.contentType(ContentType.JSON).extract().as(MessagePayload.class);
 
 		// Assert
 		assertEquals("ERROR", responsePayload.getLevel());

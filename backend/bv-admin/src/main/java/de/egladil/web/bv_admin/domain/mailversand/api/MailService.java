@@ -40,11 +40,11 @@ public class MailService {
 	/**
 	 * Versendet eine Mail.
 	 *
-	 * @param  betreff
-	 * @param  body
-	 * @param  empfaenger
-	 * @throws MailversandException
-	 *                              - alle Exceptions die hier gefangen werden, werden in eine MailversandException gewrapped.
+	 * @param betreff
+	 * @param body
+	 * @param empfaenger
+	 * @throws MailversandException - alle Exceptions die hier gefangen werden, werden in eine MailversandException
+	 * gewrapped.
 	 */
 	public void sendeMail(final AuthAdminMailDto mailDto) throws MailversandException {
 

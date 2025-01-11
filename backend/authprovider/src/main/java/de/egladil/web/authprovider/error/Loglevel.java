@@ -6,11 +6,14 @@
 package de.egladil.web.authprovider.error;
 
 /**
-* Loglevel
-*/
+ * Loglevel
+ */
 public enum Loglevel {
 
-	NULL, DEBUG, INFO, WARN, ERROR;
-
+	NULL,
+	DEBUG,
+	INFO,
+	WARN,
+	ERROR;
 
 }

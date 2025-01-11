@@ -79,8 +79,8 @@ public class VersandauftragService {
 	/**
 	 * Läd die Details eines Mailversandauftrags.
 	 *
-	 * @param  uuid
-	 * @return      MailversandauftragDetailsResponseDto
+	 * @param uuid
+	 * @return MailversandauftragDetailsResponseDto
 	 */
 	public MailversandauftragDetailsResponseDto detailsMailversandauftragLaden(final String uuid) {
 
@@ -107,8 +107,8 @@ public class VersandauftragService {
 	/**
 	 * Läd die Deteils einer Mailversandgruppe und die Liste der Benutzer, an die die Mail versendet wurde.
 	 *
-	 * @param  gruppeUuid
-	 * @return            MailversandgruppeDetailsResponseDto
+	 * @param gruppeUuid
+	 * @return MailversandgruppeDetailsResponseDto
 	 */
 	public MailversandgruppeDetailsResponseDto detailsMailversandgruppeLaden(final String gruppeUuid) {
 
@@ -160,8 +160,8 @@ public class VersandauftragService {
 	/**
 	 * Legt einen neuen Mailversandauftrag mit den zugehörigen Gruppen an.
 	 *
-	 * @param  requestDto
-	 * @return            MailversandauftragOverview
+	 * @param requestDto
+	 * @return MailversandauftragOverview
 	 */
 	public MailversandauftragOverview versandauftragAnlegen(final MailversandauftragRequestDto requestDto) {
 
@@ -212,7 +212,8 @@ public class VersandauftragService {
 	}
 
 	@Transactional
-	MailversandauftragOverview createNewVersandauftrag(final PersistenterInfomailTextReadOnly infomailtext, final List<List<String>> confirmedUUIDGroups, final String checksum) {
+	MailversandauftragOverview createNewVersandauftrag(final PersistenterInfomailTextReadOnly infomailtext,
+		final List<List<String>> confirmedUUIDGroups, final String checksum) {
 
 		long anzahlEmpfaenger = AuthAdminCollectionUtils.countElements(confirmedUUIDGroups);
 		Date geaendertAm = new Date();
@@ -259,7 +260,7 @@ public class VersandauftragService {
 	}
 
 	/**
-	 * @param  idGroups
+	 * @param idGroups
 	 * @return
 	 */
 	List<List<String>> extractConfirmedUUIDs(final List<List<String>> idGroups) {
@@ -389,9 +390,8 @@ public class VersandauftragService {
 	/**
 	 * Löscht den gegebenen Mailversandauftrag, falls er existiert.
 	 *
-	 * @param  uuid
-	 *              String
-	 * @return      SingleUuidDto
+	 * @param uuid String
+	 * @return SingleUuidDto
 	 */
 	public SingleUuidDto versandauftragLoeschen(final String uuid) {
 
@@ -451,9 +451,8 @@ public class VersandauftragService {
 	/**
 	 * Versetzt alle Mailversandgruppen mit Status CANCELLED zurück in WAITING
 	 *
-	 * @param  uuid
-	 *              String die uuid des Versandauftrags
-	 * @return      MailversandauftragOverview
+	 * @param uuid String die uuid des Versandauftrags
+	 * @return MailversandauftragOverview
 	 */
 	public SingleUuidDto mailversandFortsetzen(final String uuid) {
 
@@ -474,7 +473,8 @@ public class VersandauftragService {
 	}
 
 	@Transactional
-	void doResetVersandauftrag(final PersistenterMailversandauftrag versandauftrag, final List<PersistenteMailversandgruppe> versandgruppen) {
+	void doResetVersandauftrag(final PersistenterMailversandauftrag versandauftrag,
+		final List<PersistenteMailversandgruppe> versandgruppen) {
 
 		for (PersistenteMailversandgruppe gruppe : versandgruppen) {
 
@@ -493,8 +493,8 @@ public class VersandauftragService {
 	}
 
 	/**
-	 * @param  versandgruppe
-	 * @return               Mailversandgruppe
+	 * @param versandgruppe
+	 * @return Mailversandgruppe
 	 */
 	public MailversandgruppeDetailsResponseDto mailversandgruppeAendern(final MailversandgruppeDetails versandgruppe) {
 

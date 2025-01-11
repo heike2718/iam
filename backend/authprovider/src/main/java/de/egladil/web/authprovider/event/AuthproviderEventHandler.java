@@ -63,7 +63,8 @@ public class AuthproviderEventHandler {
 	@Inject
 	AuthMailService mailService;
 
-	public void handleEvent(@Observes final AuthproviderEvent event) {
+	public void handleEvent(@Observes
+	final AuthproviderEvent event) {
 
 		if (event != null) {
 
@@ -154,8 +155,7 @@ public class AuthproviderEventHandler {
 			ResourceOwnerEventPayload resourceOwner = (ResourceOwnerEventPayload) payload;
 
 			DefaultEmailDaten maildaten = new MinikaengurukontenInfoStrategie(resourceOwner, kontext, stage,
-				monitoringMailEmfaenger)
-					.createEmailDaten(kontext.name());
+				monitoringMailEmfaenger).createEmailDaten(kontext.name());
 
 			if (maildaten != null) {
 
@@ -256,16 +256,11 @@ public class AuthproviderEventHandler {
 
 		}
 
-		String fullName = StringUtils.isAllBlank(new String[] { resourceOwner.getVorname(), resourceOwner.getNachname() })
-			? null
+		String fullName = StringUtils.isAllBlank(new String[] { resourceOwner.getVorname(), resourceOwner.getNachname() }) ? null
 			: resourceOwner.getVorname() + " " + resourceOwner.getNachname();
 
-		command = new CreateUserCommand()
-			.withEmail(resourceOwner.getEmail())
-			.withFullName(fullName)
-			.withNonce(resourceOwner.getNonce())
-			.withSyncToken(syncToken)
-			.withUuid(resourceOwner.getUuid())
+		command = new CreateUserCommand().withEmail(resourceOwner.getEmail()).withFullName(fullName)
+			.withNonce(resourceOwner.getNonce()).withSyncToken(syncToken).withUuid(resourceOwner.getUuid())
 			.withClientId(resourceOwner.getClientId());
 
 		try (Response mkGatewayResponse = mkGateway.propagateUserCreated(command)) {
@@ -282,8 +277,7 @@ public class AuthproviderEventHandler {
 
 		} catch (ProcessingException e) {
 
-			LOGGER.error("ProcessingException beim Propagieren des CreateUserEvents ans mk-gateway: {}",
-				e.getMessage(), e);
+			LOGGER.error("ProcessingException beim Propagieren des CreateUserEvents ans mk-gateway: {}", e.getMessage(), e);
 
 			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
 
@@ -328,12 +322,8 @@ public class AuthproviderEventHandler {
 
 		}
 
-		command = new ChangeUserCommand()
-			.withEmail(resourceOwner.getEmail())
-			.withNachname(resourceOwner.getNachname())
-			.withSyncToken(syncToken)
-			.withUuid(resourceOwner.getUuid())
-			.withVorname(resourceOwner.getVorname());
+		command = new ChangeUserCommand().withEmail(resourceOwner.getEmail()).withNachname(resourceOwner.getNachname())
+			.withSyncToken(syncToken).withUuid(resourceOwner.getUuid()).withVorname(resourceOwner.getVorname());
 
 		try (Response mkGatewayResponse = mkGateway.propagateUserChanged(command)) {
 
@@ -349,8 +339,7 @@ public class AuthproviderEventHandler {
 
 		} catch (ProcessingException e) {
 
-			LOGGER.error("ProcessingException beim Propagieren des CreateUserEvents ans mk-gateway: {}",
-				e.getMessage(), e);
+			LOGGER.error("ProcessingException beim Propagieren des CreateUserEvents ans mk-gateway: {}", e.getMessage(), e);
 
 			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
 

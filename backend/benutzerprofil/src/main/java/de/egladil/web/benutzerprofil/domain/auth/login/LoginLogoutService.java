@@ -83,8 +83,7 @@ public class LoginLogoutService {
 			LOGGER.warn("anonyme sessions sind nicht erlaubt => 401");
 
 			session.clearSessionIdInProd();
-			return Response.status(Status.FORBIDDEN)
-				.entity(MessagePayload.error(applicationMessages.getString("not.authorized")))
+			return Response.status(Status.FORBIDDEN).entity(MessagePayload.error(applicationMessages.getString("not.authorized")))
 				.build();
 		}
 
@@ -92,7 +91,8 @@ public class LoginLogoutService {
 			cookiesSecure, true);
 
 		// httpOnly mus hier nicht true sein, da das CSRF-Token in der Session gespeichert wird.
-		// Die andere Variante wäre, im Frontend withXsrfConfiguration zu verwenden und den CsrfTokenValidationFilter so zu
+		// Die andere Variante wäre, im Frontend withXsrfConfiguration zu verwenden und den CsrfTokenValidationFilter so
+		// zu
 		// implementieren, dass er nur den wert des XSRF-TOKEN.Cookies mit dem des X-XSRF-TOKEN-Headers vergleicht.
 		NewCookie xsrfTokenCookie = SessionUtils.createCookie(AuthConstants.CSRF_TOKEN_COOKIE_NAME, session.getXsrfToken(),
 			cookiesSecure, false);

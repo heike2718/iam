@@ -9,10 +9,10 @@ import de.egladil.web.auth_validations.annotations.PasswortLogin;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
- * Pattern für das Login-Passwort. Das muss keinen Regeln genügen, darf nur keine ungültigen Zeichen enthalten. Aus Gründen der
- * Abwärtskompatibilität müssen die früher erlaubten Sonderzeichen lt, gt, double quote und back slash leider übernommen werden,
- * weil sich sonst vielleicht Menschen nicht mehr einloggen können. Bei neuen Passwörtern wird es nicht mehr möglich sein, diese
- * einzugeben.
+ * Pattern für das Login-Passwort. Das muss keinen Regeln genügen, darf nur keine ungültigen Zeichen enthalten. Aus
+ * Gründen der Abwärtskompatibilität müssen die früher erlaubten Sonderzeichen lt, gt, double quote und back slash
+ * leider übernommen werden, weil sich sonst vielleicht Menschen nicht mehr einloggen können. Bei neuen Passwörtern wird
+ * es nicht mehr möglich sein, diese einzugeben.
  */
 public class PasswortLoginValidator extends AbstractWhitelistValidator<PasswortLogin, String> {
 

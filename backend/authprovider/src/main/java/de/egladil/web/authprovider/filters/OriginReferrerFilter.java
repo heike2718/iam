@@ -104,8 +104,7 @@ public class OriginReferrerFilter implements ContainerRequestFilter {
 			if (!allowedOrigins.contains(extractedValue)) {
 
 				final String details = "targetOrigin != extractedOrigin: [targetOrigin=" + targetOrigin
-					+ ", extractedOriginOrReferer="
-					+ extractedValue + ", allowedOrigins=" + StringUtils.join(allowedOrigins) + "]";
+					+ ", extractedOriginOrReferer=" + extractedValue + ", allowedOrigins=" + StringUtils.join(allowedOrigins) + "]";
 				logErrorAndThrow(details, requestContext);
 			}
 		}

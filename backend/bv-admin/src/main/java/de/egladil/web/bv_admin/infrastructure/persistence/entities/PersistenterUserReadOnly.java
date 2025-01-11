@@ -17,13 +17,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "VW_USERS_SUCHE")
 @NamedQueries({
-	@NamedQuery(
-		name = "PersistenterUserReadOnly.FIND_BY_UUID",
-		query = "select u from PersistenterUserReadOnly u where u.uuid = :uuid"),
-	@NamedQuery(
-		name = "PersistenterUserReadOnly.FIND_BY_A_UUID_LIST",
-		query = "select u from PersistenterUserReadOnly u where u.aktiviert = :aktiviert and u.uuid in :uuids"),
-})
+	@NamedQuery(name = "PersistenterUserReadOnly.FIND_BY_UUID", query = "select u from PersistenterUserReadOnly u where u.uuid = :uuid"),
+	@NamedQuery(name = "PersistenterUserReadOnly.FIND_BY_A_UUID_LIST", query = "select u from PersistenterUserReadOnly u where u.aktiviert = :aktiviert and u.uuid in :uuids"), })
 public class PersistenterUserReadOnly {
 
 	public static final String FIND_BY_UUID = "PersistenterUserReadOnly.FIND_BY_UUID";

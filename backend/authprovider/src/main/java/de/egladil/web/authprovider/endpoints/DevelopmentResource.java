@@ -32,9 +32,8 @@ public class DevelopmentResource {
 	public Response sayHello() {
 
 		final Map<String, String> json = new HashMap<>();
-		json.put("greetings",
-			"Also Hallochen vom authprovider am  "
-				+ DateTimeFormatter.ofPattern(AuthTimeUtils.DEFAULT_DATE_TIME_FORMAT).format(AuthTimeUtils.now()));
+		json.put("greetings", "Also Hallochen vom authprovider am  "
+			+ DateTimeFormatter.ofPattern(AuthTimeUtils.DEFAULT_DATE_TIME_FORMAT).format(AuthTimeUtils.now()));
 
 		return Response.ok(json).build();
 	}

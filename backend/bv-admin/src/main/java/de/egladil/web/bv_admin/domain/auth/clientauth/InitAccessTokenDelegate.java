@@ -32,7 +32,7 @@ public class InitAccessTokenDelegate {
 	AuthproviderRestClient authproviderRestClient;
 
 	/**
-	 * @param  clientSecrets
+	 * @param clientSecrets
 	 * @return
 	 */
 	public ResponsePayload authenticateClient(final OAuthClientCredentials credentials) {
@@ -44,7 +44,7 @@ public class InitAccessTokenDelegate {
 			return responsePayload;
 		} catch (IllegalStateException | RestClientDefinitionException | WebApplicationException | ProcessingException e) {
 
-			String msg = "Unerwarteter Fehler beim Anfordern eines client-accessTokens: " + e.getMessage();
+			String msg = e.getClass().getSimpleName() + " beim Anfordern eines client-accessTokens: " + e.getMessage();
 			LOGGER.error(msg, e);
 			throw new AuthAdminAPIRuntimeException(msg, e);
 		}

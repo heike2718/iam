@@ -41,7 +41,8 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "account.activation.url")
 	String accountActivationUrl;
 
-	void onStartup(@Observes final StartupEvent ev) {
+	void onStartup(@Observes
+	final StartupEvent ev) {
 
 		LOGGER.info(" ===========>  stage={}", stage);
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);

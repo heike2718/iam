@@ -10,7 +10,7 @@ package de.egladil.web.authprovider.service.mail;
 public interface CreateDefaultMailDatenStrategy {
 
 	/**
-	 * @param  betreff
+	 * @param betreff
 	 * @return
 	 */
 	DefaultEmailDaten createEmailDaten(String betreff);

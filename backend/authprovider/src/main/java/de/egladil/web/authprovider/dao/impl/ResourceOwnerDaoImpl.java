@@ -45,8 +45,7 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 		}
 
 		List<ResourceOwner> trefferliste = em.createNamedQuery(ResourceOwner.FIND_BY_LOGINNAME, ResourceOwner.class)
-			.setParameter("loginName", loginName)
-			.getResultList();
+			.setParameter("loginName", loginName).getResultList();
 
 		if (trefferliste.isEmpty()) {
 
@@ -69,8 +68,7 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 		}
 
 		return em.createNamedQuery(ResourceOwner.FIND_BY_LOGINNAME_LIKE, ResourceOwner.class)
-			.setParameter("email", "%" + loginnameFragment.trim().toLowerCase() + "%")
-			.getResultList();
+			.setParameter("email", "%" + loginnameFragment.trim().toLowerCase() + "%").getResultList();
 	}
 
 	@Override
@@ -82,8 +80,7 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 		}
 
 		List<ResourceOwner> trefferliste = em.createNamedQuery(ResourceOwner.FIND_BY_EMAIL, ResourceOwner.class)
-			.setParameter("email", email.toLowerCase())
-			.getResultList();
+			.setParameter("email", email.toLowerCase()).getResultList();
 
 		if (trefferliste.isEmpty()) {
 
@@ -106,8 +103,7 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 		}
 
 		List<ResourceOwner> trefferliste = em.createNamedQuery(ResourceOwner.FIND_BY_UUID, ResourceOwner.class)
-			.setParameter("uuid", uuid)
-			.getResultList();
+			.setParameter("uuid", uuid).getResultList();
 
 		if (trefferliste.isEmpty()) {
 
@@ -130,8 +126,7 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 		}
 
 		return em.createNamedQuery(ResourceOwner.FIND_BY_EMAIL_LIKE, ResourceOwner.class)
-			.setParameter("email", "%" + emailfragment.trim().toLowerCase() + "%")
-			.getResultList();
+			.setParameter("email", "%" + emailfragment.trim().toLowerCase() + "%").getResultList();
 	}
 
 	@Override
@@ -163,16 +158,14 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 		}
 
 		return em.createNamedQuery(ResourceOwner.FIND_BY_UUID_LIKE, ResourceOwner.class)
-			.setParameter("email", "%" + uuidFragment.trim().toLowerCase() + "%")
-			.getResultList();
+			.setParameter("email", "%" + uuidFragment.trim().toLowerCase() + "%").getResultList();
 	}
 
 	@Override
 	public List<ResourceOwner> findOtherUsersWithSameLoginName(final String loginName, final String uuidOwner) {
 
 		List<ResourceOwner> resultList = em.createNamedQuery(ResourceOwner.FIND_OTHER_BY_LOGINNAME, ResourceOwner.class)
-			.setParameter("uuid", uuidOwner)
-			.setParameter("loginName", loginName.toLowerCase()).getResultList();
+			.setParameter("uuid", uuidOwner).setParameter("loginName", loginName.toLowerCase()).getResultList();
 
 		return resultList;
 	}
@@ -181,8 +174,7 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 	public List<ResourceOwner> findOtherUsersWithSameEmail(final String email, final String uuidOwner) {
 
 		List<ResourceOwner> resultList = em.createNamedQuery(ResourceOwner.FIND_OTHER_BY_EMAIL, ResourceOwner.class)
-			.setParameter("uuid", uuidOwner)
-			.setParameter("email", email.toLowerCase()).getResultList();
+			.setParameter("uuid", uuidOwner).setParameter("email", email.toLowerCase()).getResultList();
 
 		return resultList;
 	}

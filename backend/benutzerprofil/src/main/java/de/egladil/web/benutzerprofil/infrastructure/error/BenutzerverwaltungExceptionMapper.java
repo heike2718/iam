@@ -72,8 +72,7 @@ public class BenutzerverwaltungExceptionMapper implements ExceptionMapper<Throwa
 
 		if (exception instanceof SessionExpiredException) {
 
-			return Response.status(440).entity(MessagePayload.warn(exception.getMessage()))
-				.build();
+			return Response.status(440).entity(MessagePayload.warn(exception.getMessage())).build();
 		}
 
 		if (exception instanceof DuplicateEntityException) {
@@ -88,23 +87,20 @@ public class BenutzerverwaltungExceptionMapper implements ExceptionMapper<Throwa
 					.build();
 			}
 
-			return Response.status(dee.getDefaultStatuscode()).entity(MessagePayload.warn(exception.getMessage()))
-				.build();
+			return Response.status(dee.getDefaultStatuscode()).entity(MessagePayload.warn(exception.getMessage())).build();
 		}
 
 		if (exception instanceof ConcurrentModificationException) {
 
-			return Response.status(((ConcurrentModificationException) exception).getDefaultStatuscode()).entity(MessagePayload.warn(
-				exception.getMessage()))
-				.build();
+			return Response.status(((ConcurrentModificationException) exception).getDefaultStatuscode())
+				.entity(MessagePayload.warn(exception.getMessage())).build();
 		}
 
 		LOGGER.error(exception.getMessage(), exception);
 
 		if (exception instanceof ProfilAPIRuntimeException) {
 
-			return Response.status(500).entity(MessagePayload.error(exception.getMessage()))
-				.build();
+			return Response.status(500).entity(MessagePayload.error(exception.getMessage())).build();
 		}
 
 		return Response.status(500).entity(MessagePayload.error(applicationMessages.getString("general.internalServerError")))

@@ -28,15 +28,14 @@ public class VersandgruppenSource {
 	MailversandDao dao;
 
 	/**
-	 * Gibt die Mailversandgruppe in der Warteschlange zurück: die mit dem ältesten eingestellten Mailversandauftrag, der noch nicht
-	 * beendet ist sortiert nach sortnr.
+	 * Gibt die Mailversandgruppe in der Warteschlange zurück: die mit dem ältesten eingestellten Mailversandauftrag,
+	 * der noch nicht beendet ist sortiert nach sortnr.
 	 *
 	 * @return Mailversandgruppe oder null
 	 */
 	public Mailversandgruppe getNextMailversandgruppe(final String idVersandauftrag) {
 
-		List<PersistenteMailversandgruppe> gruppen = dao
-			.findAllMailversandgruppenWithVersandauftragUUID(idVersandauftrag);
+		List<PersistenteMailversandgruppe> gruppen = dao.findAllMailversandgruppenWithVersandauftragUUID(idVersandauftrag);
 
 		PersistenteMailversandgruppe naechsteGruppe = getNext(gruppen);
 
@@ -62,7 +61,7 @@ public class VersandgruppenSource {
 	}
 
 	/**
-	 * @param  gruppen
+	 * @param gruppen
 	 * @return
 	 */
 	private PersistenteMailversandgruppe getNext(final List<PersistenteMailversandgruppe> gruppen) {

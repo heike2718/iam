@@ -50,33 +50,23 @@ public class BenutzerSuchparameter {
 	private String rolle;
 
 	@JsonProperty
-	@Schema(
-		description = "Teil des Datums, an dem die Daten das letzte Mal geändert wurden - meist letztes Login Format '2019-09-14 18:40:06'",
-		example = "2021")
+	@Schema(description = "Teil des Datums, an dem die Daten das letzte Mal geändert wurden - meist letztes Login Format '2019-09-14 18:40:06'", example = "2021")
 	@Pattern(regexp = "^[\\d\\-.:]*$")
 	@Size(max = 19)
 	private String aenderungsdatum;
 
 	@JsonProperty
-	@Schema(
-		description = "Name des Feldes, nach dem sortiert werden soll. Der Name muss sich auf die enum UsersSortColumn abbilden lassen",
-		example = "vorname")
+	@Schema(description = "Name des Feldes, nach dem sortiert werden soll. Der Name muss sich auf die enum UsersSortColumn abbilden lassen", example = "vorname")
 	@Pattern(regexp = "^[A-Za-zäöüßÄÖÜ\\-_ ]*$")
 	@Size(max = 100)
 	private String sortByLabelname;
 
 	@JsonProperty
-	@Schema(
-		description = "Pagination: welche Seite wird abgefragt",
-		defaultValue = "0",
-		example = "2")
+	@Schema(description = "Pagination: welche Seite wird abgefragt", defaultValue = "0", example = "2")
 	private int pageIndex = 0;
 
 	@JsonProperty
-	@Schema(
-		description = "Pagination: wievile Treffer werden abgefragt",
-		defaultValue = "25",
-		example = "25")
+	@Schema(description = "Pagination: wievile Treffer werden abgefragt. Im Frontend haben wir 100, 150 und 200. Default ist trotzdem 25.", defaultValue = "25", example = "25")
 	private int pageSize = 25;
 
 	@JsonProperty

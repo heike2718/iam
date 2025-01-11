@@ -28,9 +28,7 @@ import jakarta.validation.constraints.Size;
  */
 @Entity
 @Table(name = "TEMPPWDS")
-@NamedQueries({
-	@NamedQuery(name = "FIND_BY_TOKEN_ID", query = "SELECT t from TempPassword t where t.tokenId = :tokenId")
-})
+@NamedQueries({ @NamedQuery(name = "FIND_BY_TOKEN_ID", query = "SELECT t from TempPassword t where t.tokenId = :tokenId") })
 public class TempPassword implements AuthProviderEntity {
 
 	private static final long serialVersionUID = 2L;

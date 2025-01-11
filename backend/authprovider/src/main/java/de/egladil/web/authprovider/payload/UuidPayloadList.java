@@ -31,7 +31,8 @@ public class UuidPayloadList {
 		return result;
 	}
 
-	public static UuidPayloadList createAdminPayload(final String adminUUID, final OAuthClientCredentials clientCredentials, final List<String> uuids) {
+	public static UuidPayloadList createAdminPayload(final String adminUUID, final OAuthClientCredentials clientCredentials,
+		final List<String> uuids) {
 
 		UuidPayloadList result = new UuidPayloadList();
 		result.adminUUID = adminUUID;

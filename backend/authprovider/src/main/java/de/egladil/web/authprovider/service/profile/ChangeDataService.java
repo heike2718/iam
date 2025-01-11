@@ -54,17 +54,14 @@ public class ChangeDataService {
 	/**
 	 * Ändert die Daten zu gegebenem ResourceOwner, falls es dadurch nicht zu Eindeutigkeitskonflikten kommt.
 	 *
-	 * @param  uuid
-	 *                 String die uuid des ResourceOwners
-	 * @param  payload
-	 *                 ChangeProfileDataPayload
-	 * @return         User Daten des geänderten ResourceOwner
+	 * @param uuid String die uuid des ResourceOwners
+	 * @param payload ChangeProfileDataPayload
+	 * @return User Daten des geänderten ResourceOwner
 	 */
 	public User changeData(final String uuid, final ProfileDataPayload payload) {
 
 		DuplicateAttributeType checkOutcome = resourceOwnerService.changeLoginNameAndEmailAllowed(payload.getLoginName(),
-			payload.getEmail(),
-			uuid);
+			payload.getEmail(), uuid);
 
 		if (checkOutcome != null) {
 

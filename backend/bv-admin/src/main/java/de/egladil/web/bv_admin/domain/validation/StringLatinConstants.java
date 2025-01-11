@@ -70,8 +70,8 @@ public interface StringLatinConstants {
 
 	String Z = "ŹźŻżŽžẐẑẒẓ";
 
-	String DIACRITICS = A1 + A2 + B + C + D + E + F + G + H + I1 + I2 + J + K + L + M + N + O1 + O2 + P
-		+ R + S + T + TH + U + W + X + Y1 + Y2 + Z;
+	String DIACRITICS = A1 + A2 + B + C + D + E + F + G + H + I1 + I2 + J + K + L + M + N + O1 + O2 + P + R + S + T + TH + U + W + X
+		+ Y1 + Y2 + Z;
 
 	// in der UI werden einige diakritische Zeichen nicht richtig dargestellt, da sie aus 2 UI-Zeichen zusammengesetzt
 	// sind.
@@ -96,8 +96,8 @@ public interface StringLatinConstants {
 	String SPECIALS = "\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\^|~°";
 
 	/**
-	 * Alle Buchstaben und diakritischen Zeichen aus StringLatin, alle Ziffern, Leerzeichen, Minus, Unterstrich, Punkt, Komma,
-	 * Apostrophe
+	 * Alle Buchstaben und diakritischen Zeichen aus StringLatin, alle Ziffern, Leerzeichen, Minus, Unterstrich, Punkt,
+	 * Komma, Apostrophe
 	 */
 	String WHITELIST_REGEXP = "^[" + LATIN + DIACRITICS + DIGITS + SPECIALS + "]*$";
 

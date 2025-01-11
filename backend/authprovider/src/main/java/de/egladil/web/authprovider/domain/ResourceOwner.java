@@ -42,19 +42,14 @@ import jakarta.validation.constraints.Size;
  */
 @Entity
 @Table(name = "USERS")
-@NamedQueries({
-	@NamedQuery(name = "FIND_BY_EMAIL", query = "select o from ResourceOwner o where lower(o.email) = :email"),
+@NamedQueries({ @NamedQuery(name = "FIND_BY_EMAIL", query = "select o from ResourceOwner o where lower(o.email) = :email"),
 	@NamedQuery(name = "FIND_BY_EMAIL_LIKE", query = "select o from ResourceOwner o where lower(o.email) like :email"),
 	@NamedQuery(name = "FIND_BY_LOGINNAME", query = "select o from ResourceOwner o where o.loginName = :loginName"),
 	@NamedQuery(name = "FIND_BY_LOGINNAME_LIKE", query = "select o from ResourceOwner o where lower(o.loginName) like :loginName"),
 	@NamedQuery(name = "FIND_BY_UUID", query = "select o from ResourceOwner o where o.uuid = :uuid"),
 	@NamedQuery(name = "FIND_BY_UUID_LIKE", query = "select o from ResourceOwner o where o.uuid LIKE :uuid"),
-	@NamedQuery(
-		name = "FIND_OTHER_BY_EMAIL", query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.email) = :email"),
-	@NamedQuery(
-		name = "FIND_OTHER_BY_LOGINNAME",
-		query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.loginName) = :loginName"),
-})
+	@NamedQuery(name = "FIND_OTHER_BY_EMAIL", query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.email) = :email"),
+	@NamedQuery(name = "FIND_OTHER_BY_LOGINNAME", query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.loginName) = :loginName"), })
 public class ResourceOwner implements AuthProviderEntity {
 
 	/* serialVersionUID */
@@ -343,14 +338,12 @@ public class ResourceOwner implements AuthProviderEntity {
 	public String toString() {
 
 		return "ResourceOwner [uuid=" + StringUtils.abbreviate(uuid, 11) + ", fullName=" + getFullName() + ", loginName="
-			+ loginName + ", email=" + email
-			+ "]";
+			+ loginName + ", email=" + email + "]";
 	}
 
 	public String toLogString() {
 
 		return "ResourceOwner [uuid=" + StringUtils.abbreviate(uuid, 11) + ", fullName=" + getFullName() + ", loginName="
-			+ loginName + ", email=" + StringUtils.abbreviate(email, 9)
-			+ "]";
+			+ loginName + ", email=" + StringUtils.abbreviate(email, 9) + "]";
 	}
 }

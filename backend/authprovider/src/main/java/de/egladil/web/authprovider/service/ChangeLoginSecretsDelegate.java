@@ -35,9 +35,9 @@ public class ChangeLoginSecretsDelegate {
 	/**
 	 * Hashed und salzt das neue Passwort und speichert die Änderungen in der DB.
 	 *
-	 * @param  loginSecrets
-	 * @param  password
-	 * @return              LoginSecrets
+	 * @param loginSecrets
+	 * @param password
+	 * @return LoginSecrets
 	 */
 	public LoginSecrets updateLoginSecrets(final LoginSecrets loginSecrets, final char[] password) throws AuthRuntimeException {
 

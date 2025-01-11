@@ -63,8 +63,7 @@ public class BenutzerService {
 
 		String uuid = securityContext.getUserPrincipal().getName();
 
-		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
-			clientSecret, null);
+		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId, clientSecret, null);
 
 		SelectProfilePayload selectPayload = SelectProfilePayload.create(credentials, uuid);
 
@@ -90,11 +89,11 @@ public class BenutzerService {
 			LOGGER.error(
 				"kein OK vom authprovider: USER {} existiert nicht mehr? Oder stimmt path beim AuthprovderRestClient.getUserProfile nicht?",
 				StringUtils.abbreviate(uuid, 11));
-			throw new ProfilAPIRuntimeException(
-				"unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 
 		} catch (CommunicationException e) {
-			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der BenutzerverwaltungExceptionMapper dann
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der
+			// BenutzerverwaltungExceptionMapper dann
 			// umwandeln kann.
 
 			throw e.getExceptionToPropagate();
@@ -109,8 +108,7 @@ public class BenutzerService {
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException(
-				"unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();
@@ -120,9 +118,8 @@ public class BenutzerService {
 	/**
 	 * Ändert die Benutzerdaten und gibt die geänderten zurück.
 	 *
-	 * @param  benutzerDto
-	 *                     BenutzerDto
-	 * @return             BenutzerDto
+	 * @param benutzerDto BenutzerDto
+	 * @return BenutzerDto
 	 */
 	@Transactional
 	public ChangeBenutzerdatenResponseDto benutzerdatenAendern(final BenutzerDto benutzerDto) {
@@ -134,8 +131,7 @@ public class BenutzerService {
 		boolean isSecurityRelevant = this.isSecurityRelevant(existing, benutzerDto);
 
 		String expectedNonce = UUID.randomUUID().toString();
-		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
-			clientSecret, expectedNonce);
+		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId, clientSecret, expectedNonce);
 
 		ChangeProfileDataPayload payload = ChangeProfileDataPayload.create(credentials, benutzerDto, uuid);
 
@@ -166,7 +162,8 @@ public class BenutzerService {
 			return new ChangeBenutzerdatenResponseDto().withBenutzer(benutzerDto).withSecurityEvent(isSecurityRelevant);
 
 		} catch (CommunicationException e) {
-			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der BenutzerverwaltungExceptionMapper dann
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der
+			// BenutzerverwaltungExceptionMapper dann
 			// umwandeln kann.
 
 			throw e.getExceptionToPropagate();
@@ -203,8 +200,7 @@ public class BenutzerService {
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException(
-				"unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();
@@ -219,8 +215,7 @@ public class BenutzerService {
 		String uuid = securityContext.getUserPrincipal().getName();
 
 		String expectedNonce = UUID.randomUUID().toString();
-		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
-			clientSecret, expectedNonce);
+		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId, clientSecret, expectedNonce);
 
 		SelectProfilePayload selectPayload = SelectProfilePayload.create(credentials, uuid);
 
@@ -250,7 +245,8 @@ public class BenutzerService {
 			return Response.ok(messagePayload).build();
 
 		} catch (CommunicationException e) {
-			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der BenutzerverwaltungExceptionMapper dann
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der
+			// BenutzerverwaltungExceptionMapper dann
 			// umwandeln kann.
 
 			throw e.getExceptionToPropagate();
@@ -262,8 +258,7 @@ public class BenutzerService {
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException(
-				"unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();

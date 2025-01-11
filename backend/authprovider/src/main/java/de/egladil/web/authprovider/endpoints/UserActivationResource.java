@@ -60,7 +60,9 @@ public class UserActivationResource {
 	 */
 	@GET
 	@Path("/confirmation")
-	public Response activateUser(@UuidString @QueryParam("code") final String confirmationCode) {
+	public Response activateUser(@UuidString
+	@QueryParam("code")
+	final String confirmationCode) {
 
 		String htmlResource = "";
 
@@ -89,10 +91,8 @@ public class UserActivationResource {
 			}
 		} catch (Exception e) {
 
-			LOG.error(
-				"Unerwartete Exception beim Aktivieren des Benutzerkontos mit confirmationCode '" + confirmationCode + "'': "
-					+ e.getMessage(),
-				e);
+			LOG.error("Unerwartete Exception beim Aktivieren des Benutzerkontos mit confirmationCode '" + confirmationCode + "'': "
+				+ e.getMessage(), e);
 			htmlResource = ACTIVATION_FAILED_RESOURCE;
 		}
 

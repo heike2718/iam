@@ -19,8 +19,8 @@ public interface AuthenticationContext {
 	AuthenticatedUser getUser();
 
 	/**
-	 * @param  role
-	 * @return      boolean
+	 * @param role
+	 * @return boolean
 	 */
 	boolean isUserInRole(String role);
 }

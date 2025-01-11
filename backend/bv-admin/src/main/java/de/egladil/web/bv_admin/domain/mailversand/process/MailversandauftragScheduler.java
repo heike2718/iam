@@ -18,9 +18,7 @@ public class MailversandauftragScheduler {
 	@Inject
 	MailversandProcessor processor;
 
-	@Scheduled(
-		cron = "{mailversand.cron.expr}", concurrentExecution = ConcurrentExecution.SKIP,
-		identity = "mailversand")
+	@Scheduled(cron = "{mailversand.cron.expr}", concurrentExecution = ConcurrentExecution.SKIP, identity = "mailversand")
 	void startJob() {
 
 		this.processor.processMailversandauftrag();

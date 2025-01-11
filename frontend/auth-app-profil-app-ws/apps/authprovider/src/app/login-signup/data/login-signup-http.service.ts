@@ -14,14 +14,14 @@ export class LoginSignupHttpService {
 
     loadClientInformation(clientCredentials: ClientCredentials): Observable<ClientInformation> {
 
-        const url = '/api/clients/v2/' + '?accessToken=' + clientCredentials.accessToken + '&redirectUrl=' + clientCredentials.redirectUrl + '&state=' + '';
+        const url = '/authprovider/api/clients/v2/' + '?accessToken=' + clientCredentials.accessToken + '&redirectUrl=' + clientCredentials.redirectUrl + '&state=' + '';
         return this.#httpClient.get<ClientInformation>(url);
 
     }
 
     signUp(signUpCredentials: SignUpCredentials): Observable<SignUpLogInResponseData> {
 
-        const url = '/api/users/signup';
+        const url = '/authprovider/api/users/signup';
 
         return this.#httpClient.post<SignUpLogInResponseData>(url, signUpCredentials);
         
@@ -29,7 +29,7 @@ export class LoginSignupHttpService {
 
     logIn(logInCredentials: LoginCredentials): Observable<SignUpLogInResponseData> {
 
-        const url = '/api/auth/sessions/auth-token-grant';
+        const url = '/authprovider//api/auth/sessions/auth-token-grant';
 
         return this.#httpClient.post<SignUpLogInResponseData>(url, logInCredentials);
     }

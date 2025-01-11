@@ -53,9 +53,7 @@ public class BenutzerTrefferlisteItem {
 	private boolean aktiviert;
 
 	@JsonProperty
-	@Schema(
-		description = "Datum, an dem die Daten das letzte Mal geändert wurden - meist letztes Login",
-		example = "2019-09-14 18:40:06")
+	@Schema(description = "Datum, an dem die Daten das letzte Mal geändert wurden - meist letztes Login", example = "2019-09-14 18:40:06")
 	@Pattern(regexp = "^[\\d.\\-:]*$")
 	@Size(max = 19)
 	private String aenderungsdatum;

@@ -23,9 +23,7 @@ import jakarta.persistence.Version;
 @Entity
 @Table(name = "INFOMAIL_TEXTE")
 @NamedQueries({
-	@NamedQuery(
-		name = "PersistenterInfomailText.FIND_BY_UUID", query = "select t from PersistenterInfomailText t where t.uuid = :uuid")
-})
+	@NamedQuery(name = "PersistenterInfomailText.FIND_BY_UUID", query = "select t from PersistenterInfomailText t where t.uuid = :uuid") })
 public class PersistenterInfomailText {
 
 	public static final String FIND_BY_UUID = "PersistenterInfomailText.FIND_BY_UUID";

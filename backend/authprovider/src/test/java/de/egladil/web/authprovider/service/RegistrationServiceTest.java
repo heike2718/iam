@@ -5,8 +5,8 @@
 package de.egladil.web.authprovider.service;
 
 /**
-* RegistrationServiceTest
-*/
+ * RegistrationServiceTest
+ */
 public class RegistrationServiceTest {
 
 }

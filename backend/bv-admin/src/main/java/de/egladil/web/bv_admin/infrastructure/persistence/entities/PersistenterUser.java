@@ -24,11 +24,8 @@ import jakarta.persistence.Version;
 @Entity
 @Table(name = "USERS")
 @NamedQueries({
-	@NamedQuery(
-		name = "PersistenterUser.FIND_BY_UUID",
-		query = "select b from PersistenterUser b where b.uuid = :uuid"),
-	@NamedQuery(name = "PersistenterUser.FIND_USERS_BY_UUIDS", query = "select b from PersistenterUser b where b.uuid in :uuids")
-})
+	@NamedQuery(name = "PersistenterUser.FIND_BY_UUID", query = "select b from PersistenterUser b where b.uuid = :uuid"),
+	@NamedQuery(name = "PersistenterUser.FIND_USERS_BY_UUIDS", query = "select b from PersistenterUser b where b.uuid in :uuids") })
 public class PersistenterUser {
 
 	public static final String FIND_BY_UUID = "PersistenterUser.FIND_BY_UUID";

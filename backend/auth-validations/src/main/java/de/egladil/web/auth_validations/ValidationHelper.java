@@ -22,8 +22,8 @@ import jakarta.validation.ConstraintViolation;
 public class ValidationHelper {
 
 	/**
-	 * @param  loggableObject
-	 * @param  errors
+	 * @param loggableObject
+	 * @param errors
 	 * @throws IllegalArgumentException
 	 * @throws InvalidInputException
 	 */

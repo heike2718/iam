@@ -318,8 +318,7 @@ public class ResourceOwnerServiceTest {
 		void should_returnNull_when_emailAndLoginNameUnbekant() {
 
 			// Arrange
-			Mockito.when(resourceOwnerDao.findOtherUsersWithSameEmail(EMAIL_UNBEKANNT, UUID1))
-				.thenReturn(Collections.emptyList());
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameEmail(EMAIL_UNBEKANNT, UUID1)).thenReturn(Collections.emptyList());
 
 			Mockito.when(resourceOwnerDao.findOtherUsersWithSameLoginName(LOGINNAME_UNBEKANNT, UUID1))
 				.thenReturn(Collections.emptyList());
@@ -341,8 +340,7 @@ public class ResourceOwnerServiceTest {
 			Mockito.when(resourceOwnerDao.findOtherUsersWithSameEmail(email, UUID1))
 				.thenReturn(Collections.singletonList(anderePerson));
 
-			Mockito.when(resourceOwnerDao.findOtherUsersWithSameLoginName(loginName, UUID1))
-				.thenReturn(Collections.emptyList());
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameLoginName(loginName, UUID1)).thenReturn(Collections.emptyList());
 
 			// Act
 			DuplicateAttributeType result = service.changeLoginNameAndEmailAllowed(loginName, email, UUID1);
@@ -358,8 +356,7 @@ public class ResourceOwnerServiceTest {
 			String loginName = "loginName";
 			String email = "email@provider.com";
 
-			Mockito.when(resourceOwnerDao.findOtherUsersWithSameEmail(email, UUID1))
-				.thenReturn(Collections.emptyList());
+			Mockito.when(resourceOwnerDao.findOtherUsersWithSameEmail(email, UUID1)).thenReturn(Collections.emptyList());
 
 			Mockito.when(resourceOwnerDao.findOtherUsersWithSameLoginName(loginName, UUID1))
 				.thenReturn(Collections.singletonList(anderePerson));

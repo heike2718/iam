@@ -56,8 +56,7 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 
 		if (!csrfEnabled) {
 
-			LOGGER.warn("Achtung: keine csrf protection: check property 'csrf.enabled' [csrfEnabled={}]",
-				csrfEnabled);
+			LOGGER.warn("Achtung: keine csrf protection: check property 'csrf.enabled' [csrfEnabled={}]", csrfEnabled);
 			return;
 		}
 

@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 })
 export class BenutzerHttpService {
 
-    #url = '/api/benutzer';
+    #url = '/bv-admin/api/benutzer';
     #httpClient = inject(HttpClient);   
 
 

@@ -42,8 +42,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(InitSecurityContextFilter.class);
 
-	private static List<String> OPEN_DATA_PATHS = Arrays
-		.asList(new String[] { "/auth-admin-api/version" });
+	private static List<String> OPEN_DATA_PATHS = Arrays.asList(new String[] { "/auth-admin-api/version" });
 
 	@ConfigProperty(name = "stage")
 	String stage;
@@ -84,10 +83,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 		boolean noSessionRequired = this.noSessionRequired(path);
 
-		LOGGER.debug("stage={}, mockSession={}, path={}, noSessionRequired={}", stage,
-			mockSession,
-			path,
-			noSessionRequired);
+		LOGGER.debug("stage={}, mockSession={}, path={}, noSessionRequired={}", stage, mockSession, path, noSessionRequired);
 
 		if (noSessionRequired) {
 
@@ -99,8 +95,8 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 			if (!stage.toLowerCase().startsWith(STAGE_PROD) && mockSession) {
 
-				LOGGER.warn("Achtung: mock-Session!!! check properties 'stage' und 'mock.session' [stage={}, mockSession=",
-					stage, mockSession);
+				LOGGER.warn("Achtung: mock-Session!!! check properties 'stage' und 'mock.session' [stage={}, mockSession=", stage,
+					mockSession);
 
 				initMockSecurityContext(requestContext);
 			} else {
@@ -182,8 +178,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 	private void initMockSecurityContext(final ContainerRequestContext requestContext) {
 
-		AuthenticatedUser user = new AuthenticatedUser(mockBenutzerid).withFullName(mockBenutzerFullName)
-			.withIdReference("bla");
+		AuthenticatedUser user = new AuthenticatedUser(mockBenutzerid).withFullName(mockBenutzerFullName).withIdReference("bla");
 
 		authCtx.setUser(user);
 		LOGGER.warn("config property 'mock.session' is true => authCtx with mocked user: ");

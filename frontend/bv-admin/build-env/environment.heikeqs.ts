@@ -1,5 +1,6 @@
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
+// TODO: das muss mit /bv-admin getestet werden!!
 export const environment = {
   production: false,
   baseUrl: '',

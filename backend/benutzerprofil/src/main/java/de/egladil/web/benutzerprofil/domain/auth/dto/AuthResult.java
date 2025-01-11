@@ -37,8 +37,7 @@ public class AuthResult {
 	}
 
 	/**
-	 * @param expiresAt
-	 *                  the expiresAt to set
+	 * @param expiresAt the expiresAt to set
 	 */
 	public void setExpiresAt(final long expiresAt) {
 
@@ -54,8 +53,7 @@ public class AuthResult {
 	}
 
 	/**
-	 * @param state
-	 *              the state to set
+	 * @param state the state to set
 	 */
 	public void setState(final String state) {
 
@@ -71,8 +69,7 @@ public class AuthResult {
 	}
 
 	/**
-	 * @param nonce
-	 *              the nonce to set
+	 * @param nonce the nonce to set
 	 */
 	public void setNonce(final String nonce) {
 
@@ -88,8 +85,7 @@ public class AuthResult {
 	}
 
 	/**
-	 * @param idToken
-	 *                the idToken to set
+	 * @param idToken the idToken to set
 	 */
 	public void setIdToken(final String idToken) {
 

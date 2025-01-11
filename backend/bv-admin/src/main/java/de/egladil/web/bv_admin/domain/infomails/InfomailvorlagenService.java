@@ -38,8 +38,8 @@ public class InfomailvorlagenService {
 	/**
 	 * Legt einen neuen InfomailText an.
 	 *
-	 * @param  requestPayload
-	 * @return                InfomailResponseDto
+	 * @param requestPayload
+	 * @return InfomailResponseDto
 	 */
 	public InfomailResponseDto infomailAnlegen(final InfomailRequestDto requestPayload) {
 
@@ -63,9 +63,9 @@ public class InfomailvorlagenService {
 	/**
 	 * Ändert einen vorhandenen Infomailtext.
 	 *
-	 * @param  uuid
-	 * @param  requestPayload
-	 * @return                UpdateInfomailResponseDto
+	 * @param uuid
+	 * @param requestPayload
+	 * @return UpdateInfomailResponseDto
 	 */
 	public UpdateInfomailResponseDto infomailAendern(final String uuid, final InfomailRequestDto requestPayload) {
 

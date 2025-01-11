@@ -73,13 +73,14 @@ public class BenutzerprofilResource {
 	DeleteAccountService deleteAccountService;
 
 	/**
-	 * @param  uuid
-	 * @param  payload
-	 * @return         Response mit data User
+	 * @param uuid
+	 * @param payload
+	 * @return Response mit data User
 	 */
 	@PUT
 	@Path("profile/password")
-	public Response changePassword(@Valid final ChangeProfilePasswordPayload payload) {
+	public Response changePassword(@Valid
+	final ChangeProfilePasswordPayload payload) {
 
 		try {
 
@@ -108,12 +109,13 @@ public class BenutzerprofilResource {
 	/**
 	 * Falls Mailadresse vergeben, dann 910, Falls Loginname vergeben, dann 911, falls beides vergeben, dann 912
 	 *
-	 * @param  payload
+	 * @param payload
 	 * @return
 	 */
 	@PUT
 	@Path("profile/data")
-	public Response changeData(@Valid final ChangeProfileDataPayload payload) {
+	public Response changeData(@Valid
+	final ChangeProfileDataPayload payload) {
 
 		try {
 
@@ -140,13 +142,14 @@ public class BenutzerprofilResource {
 	 * Gibt den User zurück. Die UUID ist im Container ist nicht mehr klar, was ich mit der USER_ID- Property im
 	 * ContainerRequestContext vorhatte.
 	 *
-	 * @param  crc
-	 * @param  userId
+	 * @param crc
+	 * @param userId
 	 * @return
 	 */
 	@POST
 	@Path("profile")
-	public Response getUserProfile(@Valid final SelectProfilePayload selectProfilePayload) {
+	public Response getUserProfile(@Valid
+	final SelectProfilePayload selectProfilePayload) {
 
 		try {
 
@@ -175,13 +178,14 @@ public class BenutzerprofilResource {
 	 * Gibt den User zurück. Die UUID ist im Container ist nicht mehr klar, was ich mit der USER_ID- Property im
 	 * ContainerRequestContext vorhatte.
 	 *
-	 * @param  crc
-	 * @param  userId
+	 * @param crc
+	 * @param userId
 	 * @return
 	 */
 	@DELETE
 	@Path("profile")
-	public Response deleteUserProfile(@Valid final SelectProfilePayload selectProfilePayload) {
+	public Response deleteUserProfile(@Valid
+	final SelectProfilePayload selectProfilePayload) {
 
 		try {
 
@@ -197,7 +201,8 @@ public class BenutzerprofilResource {
 		}
 	}
 
-	void verifyClientId(@Valid final OAuthClientCredentials clientCredentials) {
+	void verifyClientId(@Valid
+	final OAuthClientCredentials clientCredentials) {
 
 		if (!permittedClientId.equals(clientCredentials.getClientId())) {
 

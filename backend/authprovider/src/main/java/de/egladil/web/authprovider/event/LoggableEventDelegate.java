@@ -14,10 +14,8 @@ public class LoggableEventDelegate {
 	/**
 	 * Erzeugt ein AuthproviderEvent-Objekt und feuert, falls der EventBus zur Verfügung steht.
 	 *
-	 * @param eventPayload
-	 *                     AuthproviderEvent
-	 * @param event
-	 *                     CDI-Event
+	 * @param eventPayload AuthproviderEvent
+	 * @param event CDI-Event
 	 */
 	public void fireAuthProviderEvent(final AuthproviderEvent eventPayload, final Event<AuthproviderEvent> event) {
 

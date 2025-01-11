@@ -49,10 +49,8 @@ public class PropagateEventService {
 	/**
 	 * Propagiert das Löschen eines Benutzers an mk-gateway, damit der zugehörige Veranstalter gelöscht wird.
 	 *
-	 * @param  uuid
-	 *                                           String die UUID des USERS
-	 * @throws CommandPropagationFailedException
-	 *                                           wenn das nicht geklappt hat.
+	 * @param uuid String die UUID des USERS
+	 * @throws CommandPropagationFailedException wenn das nicht geklappt hat.
 	 */
 	public void propagateDeleteUserToMkGateway(final String uuid) throws CommandPropagationFailedException {
 

@@ -57,16 +57,15 @@ public class PasswortService {
 	/**
 	 * Sendet die Payload an die authprovider-API und bekommt von dort eine Message zurück.
 	 *
-	 * @param  payload
-	 * @return         MessagePayload
+	 * @param payload
+	 * @return MessagePayload
 	 */
 	public MessagePayload passwortAendern(final PasswortPayload passwortPayload) {
 
 		String uuid = securityContext.getUserPrincipal().getName();
 		String expectedNonce = UUID.randomUUID().toString();
 
-		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId,
-			clientSecret, expectedNonce);
+		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId, clientSecret, expectedNonce);
 
 		ChangeProfilePasswordPayload payload = ChangeProfilePasswordPayload.create(credentials, passwortPayload, uuid);
 
@@ -90,7 +89,8 @@ public class PasswortService {
 			return messagePayload;
 
 		} catch (CommunicationException e) {
-			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der BenutzerverwaltungExceptionMapper dann
+			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der
+			// BenutzerverwaltungExceptionMapper dann
 			// umwandeln kann.
 
 			throw e.getExceptionToPropagate();
@@ -114,8 +114,7 @@ public class PasswortService {
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException(
-				"unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();

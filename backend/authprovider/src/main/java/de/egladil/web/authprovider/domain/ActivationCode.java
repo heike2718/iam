@@ -33,9 +33,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "ACTIVATIONCODES")
 @NamedQueries({
-	@NamedQuery(
-		name = "findActivationCodeByConfirmationCode",
-		query = "SELECT a FROM ActivationCode a WHERE a.confirmationCode = :confirmationCode") })
+	@NamedQuery(name = "findActivationCodeByConfirmationCode", query = "SELECT a FROM ActivationCode a WHERE a.confirmationCode = :confirmationCode") })
 public class ActivationCode implements Serializable, AuthProviderEntity {
 
 	private static final long serialVersionUID = 2L;
@@ -98,7 +96,7 @@ public class ActivationCode implements Serializable, AuthProviderEntity {
 	/**
 	 * Zwischen jetzt und expiration gibt es eine Kulanzzeitspanne von 60s.
 	 *
-	 * @param  now
+	 * @param now
 	 * @return
 	 */
 	public boolean isExpired(final Date now) {

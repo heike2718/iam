@@ -43,8 +43,7 @@ public class AuthproviderResponseExceptionMapper implements ResponseExceptionMap
 
 		case 404: {
 
-			LOGGER.warn(
-				"Das Benutzerkonto wurde zwischenzeitlich vermutlich geloescht: auth-admin-api-log pruefen");
+			LOGGER.warn("Das Benutzerkonto wurde zwischenzeitlich vermutlich geloescht: auth-admin-api-log pruefen");
 
 			return new CommunicationException(new ConcurrentModificationException("404"));
 		}

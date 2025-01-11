@@ -29,7 +29,9 @@ public class SingleUuidDto {
 
 	}
 
-	public SingleUuidDto(@Pattern(regexp = "^[abcdef\\d\\-]*$") @Size(max = 36) final String uuid) {
+	public SingleUuidDto(@Pattern(regexp = "^[abcdef\\d\\-]*$")
+	@Size(max = 36)
+	final String uuid) {
 
 		super();
 		this.uuid = uuid;

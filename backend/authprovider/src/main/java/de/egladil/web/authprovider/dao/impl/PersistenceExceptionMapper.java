@@ -21,9 +21,8 @@ public class PersistenceExceptionMapper {
 	/**
 	 * Wandelt die PersistenceException in eine geeignete um.
 	 *
-	 * @param  exception
-	 *                   PersistenceException
-	 * @return           RuntimeException
+	 * @param exception PersistenceException
+	 * @return RuntimeException
 	 */
 	public static RuntimeException mapException(final Exception exception) {
 

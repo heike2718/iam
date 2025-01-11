@@ -32,7 +32,8 @@ public class LogResource {
 	private static final String CLIENT_ID = "auth-app";
 
 	@POST
-	public Response logError(@Valid final LogEntry logEntry) {
+	public Response logError(@Valid
+	final LogEntry logEntry) {
 
 		new LogDelegate().log(logEntry, LOG, CLIENT_ID);
 

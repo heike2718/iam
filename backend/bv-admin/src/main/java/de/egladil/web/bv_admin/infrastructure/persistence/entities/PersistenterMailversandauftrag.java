@@ -27,13 +27,8 @@ import jakarta.persistence.Version;
 @Entity
 @Table(name = "MAILVERSANDAUFTRAEGE")
 @NamedQueries({
-	@NamedQuery(
-		name = "PersistenterMailversandauftrag.FIND_BY_UUID",
-		query = "select v from PersistenterMailversandauftrag v where v.uuid = :uuid"),
-	@NamedQuery(
-		name = "PersistenterMailversandauftrag.FIND_NOT_COMPLETED",
-		query = "select v from PersistenterMailversandauftrag v where v.status = :statusWaiting or v.status = :statusInProgress order by v.erfasstAm")
-})
+	@NamedQuery(name = "PersistenterMailversandauftrag.FIND_BY_UUID", query = "select v from PersistenterMailversandauftrag v where v.uuid = :uuid"),
+	@NamedQuery(name = "PersistenterMailversandauftrag.FIND_NOT_COMPLETED", query = "select v from PersistenterMailversandauftrag v where v.status = :statusWaiting or v.status = :statusInProgress order by v.erfasstAm") })
 public class PersistenterMailversandauftrag {
 
 	public static final String FIND_BY_UUID = "PersistenterMailversandauftrag.FIND_BY_UUID";

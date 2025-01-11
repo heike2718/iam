@@ -24,12 +24,12 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 /**
- * AuthAdminAPIExceptionMapper
+ * BVAdminExceptionMapper
  */
 @Provider
-public class AuthAdminAPIExceptionMapper implements ExceptionMapper<Throwable> {
+public class BVAdminExceptionMapper implements ExceptionMapper<Throwable> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AuthAdminAPIExceptionMapper.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BVAdminExceptionMapper.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
@@ -39,7 +39,7 @@ public class AuthAdminAPIExceptionMapper implements ExceptionMapper<Throwable> {
 	@Override
 	public Response toResponse(final Throwable exception) {
 
-		LOGGER.debug(exception.getMessage(), exception);
+		LOGGER.info(exception.getMessage(), exception);
 
 		String path = containerRequestContext.getUriInfo().getPath();
 		String method = containerRequestContext.getMethod();
@@ -68,22 +68,19 @@ public class AuthAdminAPIExceptionMapper implements ExceptionMapper<Throwable> {
 
 		if (exception instanceof SessionExpiredException) {
 
-			return Response.status(440).entity(MessagePayload.warn(exception.getMessage()))
-				.build();
+			return Response.status(440).entity(MessagePayload.warn(exception.getMessage())).build();
 		}
 
 		if (exception instanceof ConflictException) {
 
-			return Response.status(409).entity(MessagePayload.warn(exception.getMessage()))
-				.build();
+			return Response.status(409).entity(MessagePayload.warn(exception.getMessage())).build();
 		}
 
 		LOGGER.error(exception.getMessage(), exception);
 
 		if (exception instanceof AuthAdminAPIRuntimeException) {
 
-			return Response.status(500).entity(MessagePayload.error(exception.getMessage()))
-				.build();
+			return Response.status(500).entity(MessagePayload.error(exception.getMessage())).build();
 		}
 
 		return Response.status(500).entity(MessagePayload.error(applicationMessages.getString("general.internalServerError")))

@@ -59,12 +59,16 @@ public class MailversandProcessor {
 
 			if (!persistenterMailversandAuftrag.getStatus().isCompleted()) {
 
-				// Es könnte sein, dass es gar keine Gruppe (mehr) gibt. Dann muss der Job auch beendet werden, da sonst ein Job
+				// Es könnte sein, dass es gar keine Gruppe (mehr) gibt. Dann muss der Job auch beendet werden, da sonst
+				// ein Job
 				// alle weiteren Aufträge blockiert
 
-				// normalerweise wird bereits nach dem Versenden geschaut, ob anzahlEmpfaenger == anzahlVersendet und dann beendet,
-				// aber zwischenzeitlich können sich USER in der DB verabschiedet haben und dann ist anzahlVersendet stets kleiner
-				// als anzahlEmpfaenger. Für diesen Fall dauert es noch einen Jobzyklus, um den Versandauftrag als beendet zu
+				// normalerweise wird bereits nach dem Versenden geschaut, ob anzahlEmpfaenger == anzahlVersendet und
+				// dann beendet,
+				// aber zwischenzeitlich können sich USER in der DB verabschiedet haben und dann ist anzahlVersendet
+				// stets kleiner
+				// als anzahlEmpfaenger. Für diesen Fall dauert es noch einen Jobzyklus, um den Versandauftrag als
+				// beendet zu
 				// markieren
 				markCompleted(persistenterMailversandAuftrag);
 			}
@@ -98,8 +102,7 @@ public class MailversandProcessor {
 				LOGGER.info("Keine aktiven Mailadressen mehr in Mailversandgruppe {}", nextMailversandgruppe.getUuid());
 			}
 			persistenterMailversandAuftrag = updateMailversandauftragUndGruppe(persistenterMailversandAuftrag,
-				persistenteMailversandGruppe,
-				nextMailversandgruppe.getEmpfaengerEmails().size(), Jobstatus.COMPLETED);
+				persistenteMailversandGruppe, nextMailversandgruppe.getEmpfaengerEmails().size(), Jobstatus.COMPLETED);
 
 			anzahlVersendet = persistenterMailversandAuftrag.getAnzahlVersendet();
 
@@ -108,8 +111,7 @@ public class MailversandProcessor {
 			LOGGER.error("Beim Mailversand an Gruppe {} ist ein Fehler aufgetreten: {}", persistenteMailversandGruppe.getUuid(),
 				e.getMessage(), e);
 			persistenterMailversandAuftrag = updateMailversandauftragUndGruppe(persistenterMailversandAuftrag,
-				persistenteMailversandGruppe,
-				nextMailversandgruppe.getEmpfaengerEmails().size(), Jobstatus.ERRORS);
+				persistenteMailversandGruppe, nextMailversandgruppe.getEmpfaengerEmails().size(), Jobstatus.ERRORS);
 
 			anzahlVersendet = persistenterMailversandAuftrag.getAnzahlVersendet();
 		} catch (Exception e) {
@@ -158,7 +160,9 @@ public class MailversandProcessor {
 
 	}
 
-	private PersistenterMailversandauftrag updateMailversandauftragUndGruppe(final PersistenterMailversandauftrag mailversandauftrag, final PersistenteMailversandgruppe gruppe, final long anzahlEmpfaenger, final Jobstatus statusGruppe) {
+	private PersistenterMailversandauftrag updateMailversandauftragUndGruppe(
+		final PersistenterMailversandauftrag mailversandauftrag, final PersistenteMailversandgruppe gruppe,
+		final long anzahlEmpfaenger, final Jobstatus statusGruppe) {
 
 		long anzahlVersendet = mailversandauftrag.getAnzahlVersendet() + anzahlEmpfaenger;
 

@@ -104,8 +104,8 @@ public class UserResource {
 	/**
 	 * Gibt den User zurück. Die UUID ist im securityContext.
 	 *
-	 * @param  crc
-	 * @param  userId
+	 * @param crc
+	 * @param userId
 	 * @return
 	 */
 	@GET
@@ -131,28 +131,26 @@ public class UserResource {
 	/**
 	 * Endpoint, der einen neuen ResourceOwner anlegt. Der Response enthält im body ein JWT.
 	 *
-	 * @param  signUpCredentials
-	 *                           SignUpCredentials
-	 * @return                   Response
+	 * @param signUpCredentials SignUpCredentials
+	 * @return Response
 	 */
 	@POST
 	@Path("/signup")
-	public Response signUpV2(@Valid final SignUpCredentials signUpCredentials, @Context final UriInfo uriInfo) {
+	public Response signUpV2(@Valid
+	final SignUpCredentials signUpCredentials, @Context
+	final UriInfo uriInfo) {
 
 		String kleber = signUpCredentials.getKleber();
 
 		if (StringUtils.isNotBlank(kleber)) {
 
-			BotAttackEventPayload payload = new BotAttackEventPayload()
-				.withPath(uriInfo.getPath())
-				.withKleber(kleber).withLoginName(signUpCredentials.getEmail())
-				.withPasswort(signUpCredentials.getZweiPassworte().getPasswort())
+			BotAttackEventPayload payload = new BotAttackEventPayload().withPath(uriInfo.getPath()).withKleber(kleber)
+				.withLoginName(signUpCredentials.getEmail()).withPasswort(signUpCredentials.getZweiPassworte().getPasswort())
 				.withRedirectUrl(signUpCredentials.getClientCredentials().getRedirectUrl());
 
 			this.eventHandler.handleEvent(new BotAttackEvent(payload));
 
-			return Response.status(401).entity(MessagePayload
-				.error(applicationMessages.getString("general.badRequest"))).build();
+			return Response.status(401).entity(MessagePayload.error(applicationMessages.getString("general.badRequest"))).build();
 		}
 
 		try {
@@ -184,7 +182,8 @@ public class UserResource {
 
 	@POST
 	@Path("/names")
-	public Response getUserNames(@Valid final UuidPayloadList uuids) {
+	public Response getUserNames(@Valid
+	final UuidPayloadList uuids) {
 
 		OAuthClientCredentials clientCredentials = uuids.getClientCredentials();
 
@@ -211,7 +210,8 @@ public class UserResource {
 
 	@POST
 	@Path("/details")
-	public Response getGeschuetzteKontodatenByQuery(@Valid final UserQueryParametersPayload requestPayload) {
+	public Response getGeschuetzteKontodatenByQuery(@Valid
+	final UserQueryParametersPayload requestPayload) {
 
 		OAuthClientCredentials clientCredentials = requestPayload.getClientCredentials();
 
@@ -275,7 +275,8 @@ public class UserResource {
 
 	@POST
 	@Path("/user/details")
-	public Response getOwnKontodaten(@Valid final UuidPayloadList requestPayload) {
+	public Response getOwnKontodaten(@Valid
+	final UuidPayloadList requestPayload) {
 
 		OAuthClientCredentials clientCredentials = requestPayload.getClientCredentials();
 
@@ -332,9 +333,8 @@ public class UserResource {
 				ResourceOwner resourceOwner = optRO.get();
 
 				ResourceOwnerResponseItem responseItem = ResourceOwnerResponseItem.create(uuid, true, resourceOwner.getVorname(),
-					resourceOwner.getNachname(),
-					resourceOwner.getFullName(), resourceOwner.getLoginName(), resourceOwner.getEmail(),
-					resourceOwner.isAktiviert(), resourceOwner.getRoles());
+					resourceOwner.getNachname(), resourceOwner.getFullName(), resourceOwner.getLoginName(),
+					resourceOwner.getEmail(), resourceOwner.isAktiviert(), resourceOwner.getRoles());
 
 				ResourceOwnerResponse response = new ResourceOwnerResponse(clientCredentials.getNonce(),
 					Arrays.asList(new ResourceOwnerResponseItem[] { responseItem }));

@@ -73,10 +73,10 @@ public class JWTService {
 	/**
 	 * Erzeugt für den User ein neues JWT und refreshed das ClintAccessToken.
 	 *
-	 * @param  resourceOwner
-	 * @param  client
-	 * @param  clientAccessToken
-	 * @return                   JWTPayload
+	 * @param resourceOwner
+	 * @param client
+	 * @param clientAccessToken
+	 * @return JWTPayload
 	 */
 	public JWTPayload createJWT(final ResourceOwner resourceOwner, final Client client) {
 
@@ -115,10 +115,10 @@ public class JWTService {
 	/**
 	 * Erzeugt für den User ein neues JWT und refreshed das ClintAccessToken.
 	 *
-	 * @param  resourceOwner
-	 * @param  client
-	 * @param  clientAccessToken
-	 * @return                   JWTPayload
+	 * @param resourceOwner
+	 * @param client
+	 * @param clientAccessToken
+	 * @return JWTPayload
 	 */
 	public JWTPayload createJWTWithEmail(final ResourceOwner resourceOwner, final Client client) {
 
@@ -159,8 +159,7 @@ public class JWTService {
 	 */
 	public String getPublicKey() {
 
-		try (InputStream in = new FileInputStream(new File(publicKeyLocation));
-			StringWriter sw = new StringWriter()) {
+		try (InputStream in = new FileInputStream(new File(publicKeyLocation)); StringWriter sw = new StringWriter()) {
 
 			IOUtils.copy(in, sw, "UTF-8");
 
@@ -176,8 +175,7 @@ public class JWTService {
 
 	private Builder createMinimal(final ResourceOwner resourceOwner, final TimeInterval jwtInterval) {
 
-		return JWT.create().withIssuer(ISSUER)
-			.withIssuedAt(jwtInterval.getStartTime()).withExpiresAt(jwtInterval.getEndTime())
+		return JWT.create().withIssuer(ISSUER).withIssuedAt(jwtInterval.getStartTime()).withExpiresAt(jwtInterval.getEndTime())
 			.withSubject(resourceOwner.getUuid());
 	}
 
