@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
 
 import de.egladil.web.authprovider.dao.BaseDao;
-import de.egladil.web.authprovider.domain.AuthProviderEntity;
+import de.egladil.web.authprovider.entities.AuthProviderEntity;
 
 /**
  * BaseDaoImpl

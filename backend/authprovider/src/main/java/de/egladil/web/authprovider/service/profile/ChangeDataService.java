@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
 import de.egladil.web.authprovider.event.AuthproviderEvent;

@@ -3,7 +3,7 @@
 // (c) Heike Winkelvoß
 // =====================================================
 
-package de.egladil.web.authprovider.domain;
+package de.egladil.web.authprovider.entities;
 
 import de.egladil.web.auth_validations.annotations.ClientId;
 import jakarta.persistence.CascadeType;

@@ -15,6 +15,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.authprovider.entities.StoredEvent;
 import de.egladil.web.authprovider.error.PropagationFailedException;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
@@ -135,7 +136,7 @@ public class AuthproviderEventHandler {
 
 		case USER_CHANGED:
 			this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.USER_CHANGED, event.payload());
-			this.propagateUserChanged(event, syncToken);
+			this.propagateUserChanged(event.payload(), syncToken);
 			break;
 
 		case BOT_ATTACK:

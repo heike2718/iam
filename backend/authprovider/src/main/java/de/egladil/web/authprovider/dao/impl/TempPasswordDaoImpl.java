@@ -12,7 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
 import de.egladil.web.authprovider.dao.TempPasswordDao;
-import de.egladil.web.authprovider.domain.TempPassword;
+import de.egladil.web.authprovider.entities.TempPassword;
 
 /**
  * TempPasswordDaoImpl

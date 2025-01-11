@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.config.PasswordConfig;
 import de.egladil.web.authprovider.dao.TempPasswordDao;
-import de.egladil.web.authprovider.domain.TempPassword;
+import de.egladil.web.authprovider.entities.TempPassword;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.service.mail.AuthMailService;
 import de.egladil.web.authprovider.service.mail.DefaultEmailDaten;

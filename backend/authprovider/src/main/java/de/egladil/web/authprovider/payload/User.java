@@ -6,7 +6,7 @@ package de.egladil.web.authprovider.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 
 /**
  * User enthält die öffentlichen Daten eines ResourceOwners.

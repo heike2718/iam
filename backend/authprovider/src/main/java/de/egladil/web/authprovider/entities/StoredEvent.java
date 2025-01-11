@@ -2,7 +2,7 @@
 // Project: profil-server
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.authprovider.event;
+package de.egladil.web.authprovider.entities;
 
 import java.time.LocalDateTime;
 

@@ -7,7 +7,7 @@ package de.egladil.web.authprovider.dao;
 
 import java.util.Optional;
 
-import de.egladil.web.authprovider.domain.TempPassword;
+import de.egladil.web.authprovider.entities.TempPassword;
 
 /**
  * TempPasswordDao

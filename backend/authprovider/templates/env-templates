@@ -8,7 +8,7 @@ TARGET_ORIGIN=http://localhost:4200,http://localhost:4300,http://localhost:4400
 ACCOUNT_DELETED_SUBJECT=DEV: Authprovider Benutzerkonto gel\u00f6scht
 
 SYNC_INFRASTRUCTURE_AVAILABLE=false
-QUARKUS_REST_CLIENT_MK_GATEWAY_URL=http://localhost:9510/mk-gateway
+QUARKUS_REST_CLIENT_MKGATEWAY_URL=http://localhost:9510/mk-gateway
 
 QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4200,http://localhost:4300,http://localhost:4400,http://localhost:10000
 
@@ -28,7 +28,13 @@ MONITORING_MAIL_TO=hier die mailadresse
 # docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb-all
 QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://172.18.0.2:3306/authbv
 QUARKUS_DATASOURCE_PASSWORD=hwinkel
+
+#=================================================================#
+#        Logging                                                  #
+#=================================================================#
 # man muss auch das MIN-Level auf TRACE setzen, wenn man das SQL von namedQueries sehen will
 QUARKUS_LOG_MIN_LEVEL=TRACE
 QUARKUS_HIBERNATE_ORM_LOG_BIND_PARAMETERS=true
 QUARKUS_HIBERNATE_ORM_LOG_SQL=true
+
+QUARKUS_LOG_CATEGORY__DE_EGLADIL_WEB_AUTHPROVIDER_FILTERS_LEVEL=WARN

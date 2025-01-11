@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.auth_validations.exceptions.InvalidInputException;
-import de.egladil.web.authprovider.domain.Client;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.Client;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;

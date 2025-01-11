@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 export class PasswortHttpService {
 
 
-    #url = '/api/passwort';
+    #url = '/benutzerprofil/api/passwort';
     #httpClient = inject(HttpClient);
 
 

@@ -12,10 +12,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.egladil.web.authprovider.config.PasswordConfig;
-import de.egladil.web.authprovider.domain.Client;
 import de.egladil.web.authprovider.domain.CryptoAlgorithm;
-import de.egladil.web.authprovider.domain.LoginSecrets;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.Client;
+import de.egladil.web.authprovider.entities.LoginSecrets;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 
 /**

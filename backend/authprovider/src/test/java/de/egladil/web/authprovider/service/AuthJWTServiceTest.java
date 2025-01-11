@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.crypto.JWTService;
-import de.egladil.web.authprovider.domain.Client;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.Client;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.payload.ClientCredentials;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseData;

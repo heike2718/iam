@@ -6,7 +6,7 @@ package de.egladil.web.authprovider.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 
 /**
  * ResourceOwnerEventPayload

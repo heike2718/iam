@@ -7,7 +7,7 @@ package de.egladil.web.authprovider.dao;
 
 import java.util.Optional;
 
-import de.egladil.web.authprovider.domain.ActivationCode;
+import de.egladil.web.authprovider.entities.ActivationCode;
 
 /**
  * ActivationCodeDaoImpl

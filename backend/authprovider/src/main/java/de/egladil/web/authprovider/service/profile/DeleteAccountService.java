@@ -11,7 +11,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.payload.profile.SelectProfilePayload;

@@ -13,7 +13,7 @@ import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
 
-import de.egladil.web.authprovider.domain.ActivationCode;
+import de.egladil.web.authprovider.entities.ActivationCode;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import io.quarkus.test.junit.QuarkusTest;
 

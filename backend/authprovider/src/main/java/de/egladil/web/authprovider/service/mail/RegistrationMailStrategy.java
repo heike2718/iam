@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import de.egladil.web.authprovider.domain.ActivationCode;
+import de.egladil.web.authprovider.entities.ActivationCode;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
 

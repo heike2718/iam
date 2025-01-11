@@ -5,7 +5,7 @@
 
 package de.egladil.web.authprovider.api;
 
-import de.egladil.web.authprovider.domain.Client;
+import de.egladil.web.authprovider.entities.Client;
 
 /**
  * ClientInformation sind die Attribute eines (AuthProvider-)Clients.

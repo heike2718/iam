@@ -29,9 +29,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
 import com.auth0.jwt.algorithms.Algorithm;
 
-import de.egladil.web.authprovider.domain.Client;
-import de.egladil.web.authprovider.domain.ResourceOwner;
 import de.egladil.web.authprovider.domain.TimeInterval;
+import de.egladil.web.authprovider.entities.Client;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthConfigurationException;
 import de.egladil.web.authprovider.error.AuthCryptoException;
 import de.egladil.web.authprovider.payload.JWTPayload;
@@ -164,7 +164,7 @@ public class JWTService {
 			IOUtils.copy(in, sw, "UTF-8");
 
 			String result = sw.toString();
-			LOGGER.info("public key = {}", result.substring(0, 30));
+			LOGGER.debug("public key = {}", result.substring(0, 30));
 
 			return result;
 		} catch (IOException e) {
@@ -183,7 +183,7 @@ public class JWTService {
 
 		try {
 
-			LOGGER.info("privateKeyLocation={}", privateKeyLocation);
+			LOGGER.debug("privateKeyLocation={}", privateKeyLocation);
 			PemFile pemFile = new PemFile(privateKeyLocation);
 			KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
 
@@ -192,7 +192,7 @@ public class JWTService {
 
 			final PrivateKey privateKey = factory.generatePrivate(privKeySpec);
 
-			LOGGER.info("private key gelesen");
+			LOGGER.debug("private key gelesen");
 
 			return privateKey;
 		} catch (IOException e) {

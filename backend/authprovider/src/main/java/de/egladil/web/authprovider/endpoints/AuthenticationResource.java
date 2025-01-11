@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.event.AuthproviderEventHandler;
 import de.egladil.web.authprovider.event.BotAttackEvent;
 import de.egladil.web.authprovider.event.BotAttackEventPayload;

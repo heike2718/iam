@@ -11,7 +11,7 @@ import de.egladil.web.auth_validations.utils.SecUtils;
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.dao.LoginSecretsDao;
 import de.egladil.web.authprovider.domain.CryptoAlgorithm;
-import de.egladil.web.authprovider.domain.LoginSecrets;
+import de.egladil.web.authprovider.entities.LoginSecrets;
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;

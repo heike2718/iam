@@ -3,7 +3,7 @@
 // (c) Heike Winkelvoß
 // =====================================================
 
-package de.egladil.web.authprovider.domain;
+package de.egladil.web.authprovider.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -13,7 +13,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 import de.egladil.web.authprovider.dao.ActivationCodeDao;
-import de.egladil.web.authprovider.domain.ActivationCode;
+import de.egladil.web.authprovider.entities.ActivationCode;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 
 /**

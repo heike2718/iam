@@ -18,8 +18,8 @@ import org.mockito.Mockito;
 
 import de.egladil.web.auth_validations.dto.ZweiPassworte;
 import de.egladil.web.authprovider.dao.TempPasswordDao;
-import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.authprovider.domain.TempPassword;
+import de.egladil.web.authprovider.entities.ResourceOwner;
+import de.egladil.web.authprovider.entities.TempPassword;
 import de.egladil.web.authprovider.payload.ChangeTempPasswordPayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.service.ChangeLoginSecretsDelegate;

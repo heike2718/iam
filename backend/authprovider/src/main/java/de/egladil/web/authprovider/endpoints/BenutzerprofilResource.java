@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_validations.dto.NoncePayload;
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;

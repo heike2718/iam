@@ -4,7 +4,7 @@
 // =====================================================
 package de.egladil.web.authprovider.event;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 
 /**
  * RegistrationConfirmationExpired

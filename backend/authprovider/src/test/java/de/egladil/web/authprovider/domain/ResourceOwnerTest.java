@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.egladil.web.authprovider.entities.LoginSecrets;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import io.quarkus.test.junit.QuarkusTest;
 
 /**

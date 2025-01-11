@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;

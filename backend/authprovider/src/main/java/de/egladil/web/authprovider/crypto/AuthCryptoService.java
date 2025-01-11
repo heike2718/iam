@@ -5,8 +5,8 @@
 
 package de.egladil.web.authprovider.crypto;
 
-import de.egladil.web.authprovider.domain.Client;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.Client;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.ClientAuthException;
 
 public interface AuthCryptoService {

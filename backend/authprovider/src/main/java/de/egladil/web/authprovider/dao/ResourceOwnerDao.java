@@ -8,7 +8,7 @@ package de.egladil.web.authprovider.dao;
 import java.util.List;
 import java.util.Optional;
 
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 
 /**
  * ResourceOwnerDao

@@ -22,7 +22,7 @@ import org.mockito.Mockito;
 
 import de.egladil.web.authprovider.crypto.impl.AuthCryptoServiceImpl;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
 import de.egladil.web.authprovider.payload.DuplicateAttributeType;
 import io.quarkus.test.junit.QuarkusTest;

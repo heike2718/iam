@@ -1,5 +1,5 @@
 // =====================================================
-// Project: profil-server
+// Project: bv-admin
 // (c) Heike Winkelvoß
 // =====================================================
 package de.egladil.web.bv_admin.infrastructure.restclient;

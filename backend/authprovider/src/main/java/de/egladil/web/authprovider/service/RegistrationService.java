@@ -19,9 +19,9 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.dao.ActivationCodeDao;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
-import de.egladil.web.authprovider.domain.ActivationCode;
-import de.egladil.web.authprovider.domain.Client;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.ActivationCode;
+import de.egladil.web.authprovider.entities.Client;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;

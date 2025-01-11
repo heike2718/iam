@@ -14,10 +14,10 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.api.ClientInformation;
 import de.egladil.web.authprovider.dao.TempPasswordDao;
-import de.egladil.web.authprovider.domain.Client;
-import de.egladil.web.authprovider.domain.LoginSecrets;
-import de.egladil.web.authprovider.domain.ResourceOwner;
-import de.egladil.web.authprovider.domain.TempPassword;
+import de.egladil.web.authprovider.entities.Client;
+import de.egladil.web.authprovider.entities.LoginSecrets;
+import de.egladil.web.authprovider.entities.ResourceOwner;
+import de.egladil.web.authprovider.entities.TempPassword;
 import de.egladil.web.authprovider.error.LogmessagePrefixes;
 import de.egladil.web.authprovider.payload.ChangeTempPasswordPayload;
 import de.egladil.web.authprovider.payload.MessagePayload;

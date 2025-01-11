@@ -196,6 +196,13 @@ Für alle 3 Anwendungen:
 7. docker-compose anpassen
 
 
+CLIENTS:
+
+```
+update CLIENTS set zurueck_text = 'zurück zu BV-Admin', base_url = 'http://heikeqs/bv-admin/', redirect_urls = 'heikeqs/bv-admin' where id = 14;
+```
+
+
 #### ansible-Tasks
 
 neue Task zum anlegen und permission setzen von 
@@ -245,5 +252,57 @@ curl -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -
   "nonce": "nonce-value-12345"
 }'
 ```
+
+#### Beim Synchronisieren gibt es noch unterschiedliches Verhalten
+
+
+Beim bv-admin klappt es: Das Löschen eines Benutzers funktioniert
+
+```
+2025-01-11 20:01:40,093 INFO (executor-thread-2) clientId=, correlationId=, [de.egladil.web.bv_admin.domain.auth.login.LoginLogoutService:71] idToken=fe032b0c...
+2025-01-11 20:01:40,396 INFO (executor-thread-2) clientId=, correlationId=, [de.egladil.web.bv_admin.domain.auth.session.SessionService:100] User eingeloggt: AuthenticatedUser [uuid=68be767f..., roles=[ADMIN, AUTH_ADMIN, AUTOR, STANDARD]]
+2025-01-11 20:01:59,904 INFO (executor-thread-2) clientId=, correlationId=, [de.egladil.web.bv_admin.domain.events.PropagateEventService:115] sync: mkGatewayResponse.status=200
+2025-01-11 20:01:59,930 INFO (executor-thread-2) clientId=, correlationId=, [de.egladil.web.bv_admin.domain.benutzer.BenutzerService:184] delete 281b5a28-c80e-41a4-a113-87d7492e0c9c synchronized with mk-gateway
+```
+
+Beim Ändern von Daten über Benutzerprofil wird dieses über authprovider an mk-gateway propagiert, aber das klappt nicht:
+
+```
+22025-01-11 17:14:53,507 INFO (executor-thread-1) clientId=, correlationId=, [de.egladil.web.authprovider.endpoints.TokenExchangeResource:68] OTT exchanged:INFO
+2025-01-11 17:15:02,831 INFO (executor-thread-1) clientId=, correlationId=, [de.egladil.web.authprovider.service.profile.ChangeDataService:95] ResourceOwner [uuid=68be767f..., fullName=Dr. Heike Winkelvoß, l
+oginName=ruth-68, email=public@egladil.de]: Daten geaendert
+2025-01-11 17:15:03,467 INFO (executor-thread-1) clientId=, correlationId=, [de.egladil.web.authprovider.event.AuthproviderEventHandler:316] sende UserChanged für ResourceOwnerEventPayload [uuid=68be767f-64d
+b-43a0-9437-43f197e80a58, vorname=Dr. Heike, nachname=Winkelvoß] an mk-gateway
+2025-01-11 17:15:06,488 ERROR (executor-thread-1) clientId=, correlationId=, [de.egladil.web.authprovider.event.AuthproviderEventHandler:351] WebApplicationException beim Propagieren des CreateUserEvents: st
+atus=404 - Received: 'Not Found, status code 404' when invoking REST Client method: 'de.egladil.web.authprovider.restclient.MkGatewayRestClient#propagateUserChanged': org.jboss.resteasy.reactive.ClientWebApp
+licationException: Received: 'Not Found, status code 404' when invoking REST Client method: 'de.egladil.web.authprovider.restclient.MkGatewayRestClient#propagateUserChanged'
+	at org.jboss.resteasy.reactive.client.impl.RestClientRequestContext.unwrapException(RestClientRequestContext.java:205)
+	at org.jboss.resteasy.reactive.common.core.AbstractResteasyReactiveContext.handleException(AbstractResteasyReactiveContext.java:331)
+	at org.jboss.resteasy.reactive.common.core.AbstractResteasyReactiveContext.run(AbstractResteasyReactiveContext.java:175)
+	at org.jboss.resteasy.reactive.client.impl.RestClientRequestContext$1.lambda$execute$0(RestClientRequestContext.java:324)
+	at io.vertx.core.impl.ContextInternal.dispatch(ContextInternal.java:270)
+	at io.vertx.core.impl.ContextInternal.dispatch(ContextInternal.java:252)
+	at io.vertx.core.impl.ContextInternal.lambda$runOnContext$0(ContextInternal.java:50)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:469)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:566)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:994)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: jakarta.ws.rs.WebApplicationException: Not Found, status code 404
+	at io.quarkus.arc.impl.AroundInvokeInvocationContext.proceed(AroundInvokeInvocationContext.java:73)
+	at io.quarkus.arc.impl.AroundInvokeInvocationContext.proceed(AroundInvokeInvocationContext.java:62)
+	at io.smallrye.faulttolerance.FaultToleranceInterceptor.lambda$syncFlow$3(FaultToleranceInterceptor.java:267)
+	at io.smallrye.faulttolerance.core.InvocationContext.call(InvocationContext.java:19)
+
+```
+
+#### Das Loggen in authprovider ist noch krumplig
+
+es werden sämtliche SQL-Statements geloggt nebst bind variables. Möglicherweise ist aber nur das console.log im container betroffen, denn im server.log findet man keine SQLs und bind variables.
+
+Muss ich nichmal schauen, wenn ich nicht mehr ganz so müde bin.
 
 

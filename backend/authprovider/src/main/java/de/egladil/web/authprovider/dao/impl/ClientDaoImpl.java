@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.dao.ClientDao;
-import de.egladil.web.authprovider.domain.Client;
+import de.egladil.web.authprovider.entities.Client;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 
 /**

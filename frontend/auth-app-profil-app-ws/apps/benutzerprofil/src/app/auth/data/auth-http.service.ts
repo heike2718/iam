@@ -12,7 +12,7 @@ import { Message } from "@ap-ws/common-model";
 export class AuthHttpService {
 
     #httpClient = inject(HttpClient);
-    #url = '/api/session';
+    #url = '/benutzerprofil/api/session';
 
 
     public getLoginUrl(): Observable<Message> {

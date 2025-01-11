@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.auth_validations.annotations.UuidString;
 import de.egladil.web.auth_validations.dto.ExchangeTokenResponse;
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
-import de.egladil.web.authprovider.domain.Client;
+import de.egladil.web.authprovider.entities.Client;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.service.AuthJWTService;

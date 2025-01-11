@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
-import de.egladil.web.authprovider.domain.LoginSecrets;
-import de.egladil.web.authprovider.domain.ResourceOwner;
+import de.egladil.web.authprovider.entities.LoginSecrets;
+import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;

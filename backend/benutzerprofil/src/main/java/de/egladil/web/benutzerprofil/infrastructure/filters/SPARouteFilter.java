@@ -70,17 +70,17 @@ public class SPARouteFilter {
 
 						// /profil-app/ => 2 tokens!
 						String rerouted = "/" + tokens[1] + "/";
-						LOGGER.debug("(7) Umleiten von deep Angular router links: {} nach {} ", path, rerouted);
+						LOGGER.info("(7) Umleiten von deep Angular router links: {} nach {} ", path, rerouted);
 						rc.reroute(rerouted);
 					} else {
 
-						LOGGER.debug("(8) kein Umleiten der SPA-Grund-URL {} ", path);
+						LOGGER.info("(8) kein Umleiten der SPA-Grund-URL {} ", path);
 						rc.next();
 					}
 
 				} else {
 
-					LOGGER.debug("(9) global else => rc.next()");
+					LOGGER.info("(9) global else => rc.next()");
 					rc.next();
 				}
 			}
@@ -91,23 +91,23 @@ public class SPARouteFilter {
 
 		if (path.equals("/")) {
 
-			LOGGER.debug("(3-1) kein Umleiten von /");
+			LOGGER.info("(3-1) kein Umleiten von /");
 			return true;
 		}
 
 		if (FILE_NAME_PREDICATE.test(path)) {
 
-			LOGGER.debug("(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/benutzerprofil/");
+			LOGGER.info("(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/benutzerprofil/");
 			return true;
 		}
 
 		if (Stream.of(PATH_PREFIXES).noneMatch(path::startsWith)) {
 
-			LOGGER.debug("(3-3) kein Umleiten von Pfaden, die nicht mit {} beginnen", DEFAULT_APP);
+			LOGGER.info("(3-3) kein Umleiten von Pfaden, die nicht mit {} beginnen", DEFAULT_APP);
 			return true;
 		}
 
-		LOGGER.debug("(3-4)");
+		LOGGER.info("(3-4)");
 		return false;
 	}
 

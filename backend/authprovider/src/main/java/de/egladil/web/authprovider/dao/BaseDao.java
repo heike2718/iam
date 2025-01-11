@@ -5,7 +5,7 @@
 
 package de.egladil.web.authprovider.dao;
 
-import de.egladil.web.authprovider.domain.AuthProviderEntity;
+import de.egladil.web.authprovider.entities.AuthProviderEntity;
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;

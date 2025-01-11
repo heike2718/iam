@@ -11,7 +11,7 @@ import { Message } from "@ap-ws/common-model";
 export class BenutzerdatenHttpService {
 
     #httpClient = inject(HttpClient);
-    #url = '/api/benutzer';
+    #url = '/benutzerprofil/api/benutzer';
 
     public loadBenutzerdaten(): Observable<Benutzerdaten> {
 
