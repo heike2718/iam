@@ -20,7 +20,7 @@ MOCK_KONTOLOESCHUNG=false
 #                                                                 #
 #=================================================================#
 # ---- lokale Entwicklung, wenn auch authprovider lokal läuft ----
-#AUTH_APP_URL=http://localhost:4300
+#AUTH_APP_URL=http://localhost:4300/
 #PUBLIC_REDIRECT_URL=http://localhost:4400
 #QUARKUS_REST_CLIENT_AUTHPROVIDER_URL=http://localhost:10000
 

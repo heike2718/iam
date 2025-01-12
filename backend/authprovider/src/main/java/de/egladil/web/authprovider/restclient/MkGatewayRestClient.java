@@ -9,6 +9,7 @@ import java.time.temporal.ChronoUnit;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 import de.egladil.web.authprovider.event.ChangeUserCommand;
 import de.egladil.web.authprovider.event.CreateUserCommand;
@@ -28,33 +29,33 @@ import jakarta.ws.rs.core.Response;
  * MkGatewayRestClient
  */
 @RegisterRestClient(configKey = "mkgateway")
-@Path("/")
+@Path("sync")
 @ApplicationScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface MkGatewayRestClient {
 
-	@Path("sync/veranstalter")
+	@Path("veranstalter")
 	@DELETE
-	@Retry(maxRetries = 3, delay = 1000)
+	@Retry(maxRetries = 3, delay = 1000, abortOn = ClientWebApplicationException.class)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response propagateUserDeleted(DeleteUserCommand command);
 
-	@Path("sync/veranstalter")
+	@Path("veranstalter")
 	@POST
-	@Retry(maxRetries = 3, delay = 1000)
+	@Retry(maxRetries = 3, delay = 1000, abortOn = ClientWebApplicationException.class)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response propagateUserCreated(CreateUserCommand command);
 
-	@Path("/veranstalter")
+	@Path("veranstalter")
 	@PUT
-	@Retry(maxRetries = 3, delay = 1000)
+	@Retry(maxRetries = 3, delay = 1000, abortOn = ClientWebApplicationException.class)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response propagateUserChanged(ChangeUserCommand command);
 
-	@Path("sync/ack")
+	@Path("ack")
 	@POST
-	@Retry(maxRetries = 3, delay = 1000)
+	@Retry(maxRetries = 3, delay = 1000, abortOn = ClientWebApplicationException.class)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response getSyncToken(SyncHandshake handshake);
 }

@@ -46,6 +46,23 @@ docker network create -d bridge auth-network
 
 ## Database
 
+### Die Test-DB für bv-admin-tests
+
+```
+cd ~/git/mariadb/latest
+mysqldump --databases authbv --dump-date --add-drop-database -h 172.25.0.2  -u root -p  > quarkus-test__auth-admin_complete_dump.sql
+```
+
+Ergebnis nach /media/veracrypt1/ansible/docker/authbv-test-db/docker/dumps kopieren. Dann 
+
+```
+cd /media/veracrypt1/ansible/docker/authbv-test-db
+docker image build -t heik2718/authbv-test-db-10-11 ./docker
+docker compose up -d
+```
+
+Vor jedem mvn package von bv-admin in den container execen und die source quarkus-test__auth-admin_complete_dump.sql einspielen
+
 ### Migration der mariadb-all-Datenbank
 
 Die Migrationen liegen hier:

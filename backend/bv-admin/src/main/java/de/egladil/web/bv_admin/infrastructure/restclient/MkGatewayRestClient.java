@@ -23,18 +23,18 @@ import jakarta.ws.rs.core.Response;
  * MkGatewayRestClient
  */
 @RegisterRestClient(configKey = "mkgateway")
-@Path("/")
+@Path("sync")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface MkGatewayRestClient {
 
-	@Path("sync/veranstalter")
+	@Path("veranstalter")
 	@DELETE
 	@Retry(maxRetries = 3, delay = 1000)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)
 	Response propagateUserDeleted(DeleteUserCommand command);
 
-	@Path("sync/ack")
+	@Path("ack")
 	@POST
 	@Retry(maxRetries = 3, delay = 1000)
 	@Timeout(value = 10, unit = ChronoUnit.SECONDS)

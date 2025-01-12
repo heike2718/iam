@@ -6,6 +6,7 @@
 package de.egladil.web.authprovider.filters;
 
 import java.io.IOException;
+import java.net.URI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class LoggingClientRequestFilter implements ClientRequestFilter {
 	@Override
 	public void filter(final ClientRequestContext requestContext) throws IOException {
 
-		LOGGER.info(">>>>> Request URL: {} <<<<<", requestContext.getUri());
+		URI uri = requestContext.getUri();
+		LOGGER.info(">>>>> Request URL: {} <<<<<", uri);
 	}
 }

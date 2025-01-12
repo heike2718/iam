@@ -967,6 +967,13 @@ components:
           pattern: "^[\\d.\\-:]*$"
           type: string
           example: 2019-09-14 18:40:06
+        cryptoAlgorithm:
+          $ref: "#/components/schemas/CryptoAlgorithm"
+    CryptoAlgorithm:
+      enum:
+      - SHA_256
+      - ARGON2
+      type: string
     DeleteBenutzerResponseDto:
       description: Response-Objekt für das Löschen eines Benutzers
       type: object

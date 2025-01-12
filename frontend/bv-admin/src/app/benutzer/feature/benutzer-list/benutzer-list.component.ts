@@ -3,6 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild, inje
 import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin/benutzer/api';
 import { BenutzersucheFilterAndSortValues, initialBenutzersucheFilterAndSortValues, isFilterAndSortEmpty } from '@bv-admin/benutzer/model';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatInputModule } from '@angular/material/input';
@@ -24,7 +25,7 @@ const VORNAME = 'vorname';
 const AENDERUNGSDATUM = 'aenderungsdatum';
 const ROLLE = 'rolle';
 const DELETE_BENUTZER_ACTION = "deleteAccount";
-const TOGGLE_ACTIVATION_STATE_ACTION = "toggleActivationState"
+const TOGGLE_ACTIVATION_STATE_ACTION = "toggleActivationState";
 
 @Component({
   selector: 'bv-admin-benutzer',
@@ -35,6 +36,7 @@ const TOGGLE_ACTIVATION_STATE_ACTION = "toggleActivationState"
     NgFor,
     AsyncPipe,
     FormsModule,
+    MatBadgeModule,
     MatCheckboxModule,
     MatTableModule,
     MatSortModule,

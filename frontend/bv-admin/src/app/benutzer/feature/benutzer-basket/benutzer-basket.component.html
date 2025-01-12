@@ -18,7 +18,11 @@
                 </label>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
-                {{benutzer.uuid.substring(0,8)}}
+                <div [ngClass]="{
+                    'badge-green': benutzer.cryptoAlgorithm === 'ARGON2',
+                    'badge-orange': benutzer.cryptoAlgorithm === 'SHA_256'
+                }">
+                {{benutzer.uuid.substring(0,8)}}</div>
             </mat-cell>>
         </ng-container>
 

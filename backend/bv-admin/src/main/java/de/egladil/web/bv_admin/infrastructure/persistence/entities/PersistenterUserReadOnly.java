@@ -4,8 +4,11 @@
 // =====================================================
 package de.egladil.web.bv_admin.infrastructure.persistence.entities;
 
+import de.egladil.web.bv_admin.domain.benutzer.CryptoAlgorithm;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -46,6 +49,10 @@ public class PersistenterUserReadOnly {
 
 	@Column(name = "ROLLEN")
 	public String rollen;
+
+	@Column(name = "CRYPTO_ALGORITHM")
+	@Enumerated(EnumType.STRING)
+	public CryptoAlgorithm cryptoAlgorithm;
 
 	@Column(name = "DATE_MODIFIED_STRING")
 	public String aenderungsdatum;

@@ -58,6 +58,9 @@ public class BenutzerTrefferlisteItem {
 	@Size(max = 19)
 	private String aenderungsdatum;
 
+	@JsonProperty
+	private CryptoAlgorithm cryptoAlgorithm;
+
 	public String getUuid() {
 
 		return uuid;
@@ -126,6 +129,14 @@ public class BenutzerTrefferlisteItem {
 	public void setAenderungsdatum(final String dateModified) {
 
 		this.aenderungsdatum = dateModified;
+	}
+
+	public CryptoAlgorithm getCryptoAlgorithm() {
+		return cryptoAlgorithm;
+	}
+
+	public void setCryptoAlgorithm(final CryptoAlgorithm cryptoAlgorithm) {
+		this.cryptoAlgorithm = cryptoAlgorithm;
 	}
 
 }

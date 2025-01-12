@@ -1,5 +1,6 @@
 import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
 import { Component, inject } from "@angular/core";
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
@@ -23,6 +24,7 @@ const REMOVE_BENUTZER_ACTION = "remove"
         NgIf,
         NgFor,
         AsyncPipe,
+        MatBadgeModule,
         MatTableModule,
         MatButtonModule,
         MatIconModule

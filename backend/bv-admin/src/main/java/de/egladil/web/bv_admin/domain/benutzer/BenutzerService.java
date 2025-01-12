@@ -149,6 +149,7 @@ public class BenutzerService {
 		result.setRollen(fromDB.rollen);
 		result.setUuid(fromDB.uuid);
 		result.setVorname(fromDB.vorname);
+		result.setCryptoAlgorithm(fromDB.cryptoAlgorithm);
 		return result;
 	}
 

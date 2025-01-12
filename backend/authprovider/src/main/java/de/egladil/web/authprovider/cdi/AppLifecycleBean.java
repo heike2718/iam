@@ -20,6 +20,24 @@ public class AppLifecycleBean {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AppLifecycleBean.class);
 
+	@ConfigProperty(name = "quarkus.hibernate-orm.log.sql")
+	boolean logSql;
+
+	@ConfigProperty(name = "quarkus.hibernate-orm.log.bind-parameters")
+	boolean logBindParameters;
+
+	@ConfigProperty(name = "quarkus.log.console.level")
+	String consoleLogLevel;
+
+	@ConfigProperty(name = "quarkus.log.file.level")
+	String fileLogLevel;
+
+	@ConfigProperty(name = "quarkus.log.level")
+	String logLevel;
+
+	@ConfigProperty(name = "quarkus.log.min-level")
+	String logMinLevel;
+
 	@ConfigProperty(name = "quarkus.datasource.jdbc.url")
 	String jdbcURL;
 
@@ -44,6 +62,12 @@ public class AppLifecycleBean {
 	void onStartup(@Observes
 	final StartupEvent ev) {
 
+		LOGGER.info(" ===========>  logSql={}", logSql);
+		LOGGER.info(" ===========>  logBindParameters={}", logBindParameters);
+		LOGGER.info(" ===========>  logLevel={}", logLevel);
+		LOGGER.info(" ===========>  logMinLevel={}", logMinLevel);
+		LOGGER.info(" ===========>  consoleLogLevel={}", consoleLogLevel);
+		LOGGER.info(" ===========>  fileLogLevel={}", fileLogLevel);
 		LOGGER.info(" ===========>  stage={}", stage);
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  mkGatewayRoute={}", mkGatewayRoute);

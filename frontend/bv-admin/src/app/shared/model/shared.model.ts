@@ -41,6 +41,7 @@ export interface Benutzer {
     readonly rollen: string;
     readonly aktiviert: boolean;
     readonly aenderungsdatum: string;
+    readonly cryptoAlgorithm: string;
 }
 
 export interface Infomail {
