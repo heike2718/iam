@@ -181,7 +181,7 @@ Die Files liegen jetzt hier:
 cd /media/veracrypt1/ansible/vserver/roles/x300-heikeqs/files/iam
 ```
 
-2 DB-Migrationsskripte müssen nach iam/datenbank/dumps
+2 DB-Migrationsskripte müssen nach /iam/datenbank/dumps
 
 Daher müssen auch alle tasks umgezogen und die dortigen Pfade angepasst werden.
 
@@ -267,3 +267,59 @@ sudo chown -R 1001 checklisten
 sudo chgrp -R 1001 checklisten
 ```
 
+### Minikänguru
+
+war bereits auf .env in Docker-Container umgestellt
+
+Anpassungen an authprovider-URLs in .env
+
+/opt/data für die logs (neues ansible-playbook)
+
+von mk-gateway und mk-kataloge: alles deployen wegen eines patches uf quarkus-3.15.2
+
+mk-admin-app neu bauen und deployen
+mkv-app neu bauen und deployen
+
+quarkus-version bumped to 3.15.3 => führt zu Inpompatibilität mit DB-Version:
+
+
+```
+Persistence unit '<default>' was configured to run with a database version of at least '10.6.0', but the actual version is '10.4.0'. Consider upgrading your database. Alternatively, rebuild your application with 'quarkus.datasource.db-version=10.4.0' (but this may disable some features and/or impact performance negatively). As a last resort, if you are certain your application will work correctly even though the database version is incorrect, disable the check with 'quarkus.hibernate-orm.database.version-check.enabled=false'.
+```
+
+=> neueres Mariadb-Image 10.11 
+
++ Dockerfiles in den DB-Verzeichnissen geändert
++ db-image muss neu gebaut werden auf dem server. Hierzu die v1-02-init-xxx_database.yml um einen step zum aktualisieren des images erweitern
++ ansible-init-db-tasks erneut ausgeführt.
+
+
+#### Konfigurationstests
+
+auf dem server:
+
+```
+curl -X GET -i http://localhost:9510/mk-gateway/guiversion
+
+curl -X GET -i http://localhost:9530/mk-kataloge/version
+
+curl -X GET -i http://localhost:9510//mk-gateway/veranstalter/session/authurls/login
+```
+
+
+### mja-app
+
+SPARouteFilter bleibt erst einmal so, d.h. die app heißt mja-app, die api heißt mja-api. Die URLs zum authprovider und die log-location werden angepasst.
+
+# Langfristige Ziele 
+
++ checklistenapp neu machen und umkrempeln: also backend served Angular => 1 reverese proxy einsparen
++ mkbiza-app: umkrempeln: also backend served Angular => 1 reverese proxy einsparen
++ mja-app und api umkrempeln und umbenennen. Neuer Name Rätselarchiv
++ module federation für mkv-app, mkbiza-app und raetselarchiv
+
+mkbiza-app und mja-app sollten gleichzeitig produktiv gehen.
+
+wenn mja-api umbenannt wird, muss auch mkv-app/mk-gateway angepasst werden.
+
+__Zieltermin daher__ : Wettbewerbspause 2025 Q3/Q4
