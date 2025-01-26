@@ -311,11 +311,18 @@ curl -X GET -i http://localhost:9510//mk-gateway/veranstalter/session/authurls/l
 
 SPARouteFilter bleibt erst einmal so, d.h. die app heißt mja-app, die api heißt mja-api. Die URLs zum authprovider und die log-location werden angepasst.
 
+
+
+## PROD
+
+Verzeichnis /authprovider zieht um nach /iam => Filesystem-Skripts müssen alle laufen
+
+
 # Langfristige Ziele 
 
 + checklistenapp neu machen und umkrempeln: also backend served Angular => 1 reverese proxy einsparen
 + mkbiza-app: umkrempeln: also backend served Angular => 1 reverese proxy einsparen
-+ mja-app und api umkrempeln und umbenennen. Neuer Name Rätselarchiv
++ mja-app und api umkrempeln und umbenennen. Neuer Name Rätselarchiv  (dafür mit quarkus.http.root.path aufpassen. Diese config braucht man nicht mehr)
 + module federation für mkv-app, mkbiza-app und raetselarchiv
 
 mkbiza-app und mja-app sollten gleichzeitig produktiv gehen.
