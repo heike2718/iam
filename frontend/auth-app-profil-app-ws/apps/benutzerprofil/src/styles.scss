@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+@use 'theme.scss' as theme;
+
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 1.0rem;
@@ -8,6 +11,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
+    background-color: #fafafa;
 }
 
 /**
@@ -22,7 +26,7 @@ body {
 
 a,
 .link {
-    color: #4e709a;
+    color: mat.m2-get-color-from-palette(theme.$primary-palette, 700);
 }
 
 .centered {
@@ -51,6 +55,15 @@ mat-icon .clickable {
     cursor: pointer;
 }
 
+button.mat-mdc-raised-button[color="primary"] .mdc-button__label,
+button.mat-mdc-outlined-button[color="primary"] .mdc-button__label,
+button.mat-mdc-button[color="primary"] .mdc-button__label,
+button.mat-mdc-raised-button[color="primary"] mat-icon,
+button.mat-mdc-outlined-button[color="primary"] mat-icon,
+button.mat-mdc-button[color="primary"] mat-icon {
+    color: mat.m2-get-contrast-color-from-palette(theme.$primary-palette, 500);
+}
+
 .block {
     display: block;
 }
@@ -62,7 +75,7 @@ mat-icon .clickable {
 
 .hint {
     font-size: small;
-    color: #467096;
+    color: mat.m2-get-color-from-palette(theme.$primary-palette, 700);
 }
 
 .hint-red {
@@ -144,7 +157,7 @@ mat-form-field {
 }
 
 .helper-text {
-    color: #747474;
+    color: mat.m2-get-color-from-palette(theme.$secondary-palette, 500);
     /* Default color */
     font-size: 0.9em;
 }

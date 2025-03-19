@@ -30,7 +30,8 @@ import { ShellService } from "../shell/shell.service";
     #router = inject(Router);
 
     ngOnInit(): void {
-        this.imageSourceLogo = this.#config.assetsPath + '/mja_logo_2.svg';
+        //this.imageSourceLogo = this.#config.assetsPath + '/mja_logo_2.svg';
+         this.imageSourceLogo = this.#config.assetsPath + '/mja_logo_2-grau.svg';
     }   
 
     gotoBenutzerdaten() {

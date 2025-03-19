@@ -1,0 +1,90 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+// Manuell definierte Farbwerte für Weinrot
+$primary-palette: mat.m2-define-palette((
+  50: #fcebea,
+  100: #f6c8c4,
+  200: #f0a39d,
+  300: #ea7f76,
+  400: #e4655a,
+  500: #c73d36, // Haupt-Weinrot
+  600: #b63530,
+  700: #9e2c2a,
+  800: #862424,
+  900: #661816,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white
+  )
+));
+
+// Grau-Skala für die Sekundärfarbe
+$secondary-palette: mat.m2-define-palette((
+  50: #f0f0f0,
+  100: #dcdcdc,
+  200: #c8c8c8,
+  300: #b4b4b4,
+  400: #a1a1a1,
+  500: #8e8e8e, // Haupt-Grau
+  600: #7b7b7b,
+  700: #6b6b6b,
+  800: #5c5c5c,
+  900: #3a3a3a,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white
+  )
+));
+
+$warn-palette: (
+  50: #ffebef,
+  100: #ffcdc5,
+  200: #f0999f,
+  300: #e77179,
+  400: #f24e58,
+  500: #f83a40,
+  600: #e9313e,
+  700: #d72638,
+  800: #ca1e30,
+  900: #bb0d24,
+  contrast: (50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+// Theme mit M2-API definieren
+$my-theme: mat.m2-define-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $secondary-palette,
+    warn: mat.m2-define-palette(mat.$red-palette)
+  )
+));
+
+// Wende das Theme auf alle Komponenten an
+@include mat.all-component-themes($my-theme);

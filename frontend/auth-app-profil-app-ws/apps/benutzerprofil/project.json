@@ -25,7 +25,6 @@
         ],
         "styles": [
           "apps/benutzerprofil/src/styles.scss",
-          "libs/styles/theme.scss",
           "node_modules/material-icons/iconfont/material-icons.scss"
         ],
         "scripts": []

@@ -25,7 +25,9 @@
             "input": "apps/authprovider/src/assets"
           }
         ],
-        "styles": ["libs/styles/theme.scss", "apps/authprovider/src/styles.scss"],
+        "styles": [
+          "apps/authprovider/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {

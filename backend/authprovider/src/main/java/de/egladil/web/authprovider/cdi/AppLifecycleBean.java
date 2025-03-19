@@ -74,6 +74,7 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  jdbcURL={}", jdbcURL);
 		LOGGER.info(" ===========>  tempPwdUrl={}", tempPwdUrl);
 		LOGGER.info(" ===========>  accountActivationUrl={}", accountActivationUrl);
+		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  port={}", port);
 
 	}

@@ -1,9 +1,6 @@
 <div class="centered">
-        <h1>Mein Benutzerkonto für "Minikänguru" und "Mathe für jung und alt"</h1>
-
         <img src={{imageSourceLogo}} alt="" aria-role="mathe-jung-alt-Logo" />
-
-
+        <h1>Benutzerkonto für den Minikänguru-Wettbewerb und den Knobelbaukasten</h1>
 </div>
 
 @if(authFacade.userIsLoggedOut$ | async) {
@@ -42,13 +39,10 @@
 }
 
 <ng-template #erklaertext>
-        <p>Hier können Sie die Daten Ihres Benutzerkontos für den <a href="https://mathe-jung-alt.de/minikaenguru"
-                        target="blank">Minikänguru-Wettbewerb</a> oder die neue Anwendung <a
-                        href="https://mathe-jung-alt.de/mja-app/" target="_blank">Mathe für jung und alt</a>
-                ändern oder Ihr
-                Benutzerkonto löschen, wenn Sie es nicht mehr benötigen.</p>
-
+        <p>Hier können Sie Ihre Benutzerdaten ändern oder Ihr Konto löschen, falls Sie es nicht mehr benötigen.</p>
+        <p>Dies betrifft Ihr Konto für den Minikänguru-Wettbewerb sowie den Knobelbaukasten (ehemals "Mathe für jung und
+                alt").</p>
         <p>Ein Konto anlegen können Sie in der <a href="https://mathe-jung-alt.de/minikaenguru"
                         target="blank">Minikänguru-Anwendung</a> oder in der Anwendung <a
-                        href="https://mathe-jung-alt.de/mja-app/" target="_blank">Mathe für jung und alt</a>.</p>
+                        href="https://mathe-jung-alt.de/mja-app/" target="_blank">Knobelbaukasten</a>.</p>
 </ng-template>

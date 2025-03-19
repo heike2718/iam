@@ -1,7 +1,10 @@
+@use '@angular/material' as mat;
+@use '../../../theme.scss' as theme;
+
 /* Base styling for toolbar and items */
 mat-toolbar {
-    background-color: #133d6b;
-    color: white;
+    background-color: mat.m2-get-color-from-palette(theme.$primary-palette, 700);
+    color: mat.m2-get-contrast-color-from-palette(theme.$primary-palette, 700);
     display: flex;
     align-items: center;
 }
@@ -11,15 +14,17 @@ mat-toolbar a {
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    color: white;
+    color: mat.m2-get-color-from-palette(theme.$primary-palette, 700);
+    background-color: mat.m2-get-contrast-color-from-palette(theme.$primary-palette, 700);
     text-decoration: none;
     transition: background-color 0.3s, color 0.3s;
+    margin-right: 1em;
 }
 
 /* Hover effect for menu items */
 mat-toolbar a:hover, mat-toolbar a:active{
-    background-color: white;
-    color: #133d6b;
+    color: mat.m2-get-color-from-palette(theme.$primary-palette, 700);
+    background-color: mat.m2-get-contrast-color-from-palette(theme.$primary-palette, 700);
     border-radius: 8px;
 }
 
