@@ -1,2 +1,10 @@
-/target/
+target/
+.settings/
+.project
+.classpath
+/dependency-reduced-pom.xml
+log/
+ObjectStore/
+.env
 *.iml
+src/main/resources/META-INF/resources/authprovider/
