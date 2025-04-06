@@ -8,4 +8,6 @@ ObjectStore/
 .env
 src/main/resources/META-INF/resources/benutzerprofil/
 *.iml
+/src/main/resources/META-INF/resources/open-api/openapi.json
+/src/main/resources/META-INF/resources/open-api/openapi.yaml
 
