@@ -13,7 +13,7 @@
 		<auth-validations.version>1.0.0</auth-validations.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-		<quarkus.platform.version>3.21.0</quarkus.platform.version>
+		<quarkus.platform.version>3.21.1</quarkus.platform.version>
 		<java-jwt.version>4.5.0</java-jwt.version>
 		<surefire-plugin.version>3.1.2</surefire-plugin.version>
 		<dependency-check.version>12.1.0</dependency-check.version>
