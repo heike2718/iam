@@ -44,3 +44,5 @@ nb-configuration.xml
 
 # generated
 /src/main/resources/META-INF/resources/bv-admin/
+/src/main/resources/META-INF/resources/open-api/openapi.json
+/src/main/resources/META-INF/resources/open-api/openapi.yaml
