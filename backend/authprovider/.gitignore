@@ -8,5 +8,5 @@ ObjectStore/
 .env
 *.iml
 src/main/resources/META-INF/resources/authprovider/
-/src/main/resources/META-INF/resources/open-api/openapi.json
-/src/main/resources/META-INF/resources/open-api/openapi.yaml
+/src/main/resources/META-INF/resources/openapi/openapi.json
+/src/main/resources/META-INF/resources/openapi/openapi.yaml

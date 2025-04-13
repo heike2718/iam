@@ -2,14 +2,14 @@
 // Project: mja-api
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.bv_admin.infrastructure.filters;
+package de.egladil.web.benutzerprofil.infrastructure.filters;
 
 import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.bv_admin.domain.auth.util.CsrfCookieService;
+import de.egladil.web.benutzerprofil.domain.auth.session.CsrfCookieService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
@@ -31,7 +31,7 @@ public class CsrfTokenProviderFilter implements ContainerResponseFilter {
 	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext)
 		throws IOException {
 
-		LOGGER.debug("==> Set-Cookie");
+		LOGGER.info("==> Set-Cookie");
 		responseContext.getHeaders().add("Set-Cookie", csrfCookieService.createCsrfTokenCookie());
 	}
 }

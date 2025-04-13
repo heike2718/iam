@@ -1,8 +1,8 @@
 // =====================================================
-// Project: mja-api
+// Project: authprovider
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.benutzerprofil.infrastructure.filters;
+package de.egladil.web.authprovider.filters;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,24 +12,19 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.benutzerprofil.domain.auth.config.AuthConstants;
-import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
-import de.egladil.web.benutzerprofil.domain.auth.session.SessionService;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
+import de.egladil.web.authprovider.config.CsrfConstants;
+import de.egladil.web.authprovider.payload.MessagePayload;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
-import jakarta.ws.rs.container.PreMatching;
 import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.ext.Provider;
 
 /**
  * CsrfTokenValidationFilter
  */
-@ApplicationScoped
-@Provider
-@PreMatching
+//@ApplicationScoped
+//@Provider
+//@PreMatching
 public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CsrfTokenValidationFilter.class);
@@ -38,16 +33,13 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 
 	private static final List<String> SECURE_HTTP_METHODS = Arrays.asList(new String[] { "OPTIONS", "GET", "HEAD" });
 
-	private static final List<String> SECURE_PATHS = Arrays.asList(new String[] { "/", "/session/logout" });
+	private static final List<String> SECURE_PATHS = Arrays.asList(new String[] { "/", "/api/clients/client/accesstoken" });
 
 	@ConfigProperty(name = "stage")
 	String stage;
 
 	@ConfigProperty(name = "csrf.enabled")
 	boolean csrfEnabled;
-
-	@Inject
-	SessionService sessionservice;
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {
@@ -68,13 +60,13 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 			return;
 		}
 
-		Cookie csrfTokenCookie = requestContext.getCookies().get(AuthConstants.CSRF_TOKEN_COOKIE_NAME);
+		Cookie csrfTokenCookie = requestContext.getCookies().get(CsrfConstants.CSRF_TOKEN_COOKIE_NAME);
 
 		if (csrfTokenCookie != null) {
 
 			LOGGER.debug("{} {}", method, path);
 
-			List<String> csrfTokenHeader = requestContext.getHeaders().get(AuthConstants.CSRF_TOKEN_HEADER_NAME);
+			List<String> csrfTokenHeader = requestContext.getHeaders().get(CsrfConstants.CSRF_TOKEN_HEADER_NAME);
 
 			if (csrfTokenHeader != null && !csrfTokenHeader.isEmpty()) {
 

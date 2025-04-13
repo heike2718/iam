@@ -19,7 +19,6 @@ import de.egladil.web.bv_admin.domain.auth.dto.OAuthClientCredentials;
 import de.egladil.web.bv_admin.domain.auth.session.Session;
 import de.egladil.web.bv_admin.domain.auth.session.SessionService;
 import de.egladil.web.bv_admin.domain.auth.session.SessionUtils;
-import de.egladil.web.bv_admin.domain.auth.util.CsrfCookieService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
@@ -53,9 +52,6 @@ public class LoginLogoutService {
 
 	@Inject
 	TokenExchangeService tokenExchangeService;
-
-	@Inject
-	CsrfCookieService csrfCookieService;
 
 	public Response login(final AuthResult authResult) {
 
@@ -95,7 +91,7 @@ public class LoginLogoutService {
 
 		LOGGER.debug("session created for user {}", session.getUser().getFullName());
 
-		return Response.ok(session).cookie(csrfCookieService.createCsrfTokenCookie()).cookie(sessionCookie).build();
+		return Response.ok(session).cookie(sessionCookie).build();
 	}
 
 	public Response logout(final String sessionId) {
@@ -103,9 +99,7 @@ public class LoginLogoutService {
 		this.sessionService.invalidateSession(sessionId);
 
 		NewCookie invalidatedSessionCookie = SessionUtils.createSessionInvalidatedCookie(cookiesSecure);
-
-		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(csrfCookieService.createCsrfTokenCookie())
-			.cookie(invalidatedSessionCookie).build();
+		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(invalidatedSessionCookie).build();
 	}
 
 	public Response logoutDev(final String sessionId) {

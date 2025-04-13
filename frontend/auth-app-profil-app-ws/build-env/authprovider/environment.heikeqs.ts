@@ -6,6 +6,6 @@ export const environment = {
   profilUrl: 'http://heikeqs/benutzerprofil/',
   datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
   withCredentials: true,
-  assetsPath: '/authprovider/public/',
+  assetsPath: '/authprovider/assets/',
   providers: [],
 };

@@ -3,9 +3,9 @@ export const environment = {
     envName: 'prod',
 	production: true,
 	datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
-	baseUrl: 'https://mathe-jung-alt.de/authprovider',
+	baseUrl: '',
 	profilUrl: 'https://mathe-jung-alt.de/benutzerprofil/',
-	assetsPath: 'authprovider/assets',
+	assetsPath: '/authprovider/assets/',
 	withCredentials: true,
 	providers: [],
 };

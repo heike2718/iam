@@ -31,7 +31,7 @@ import { ShellService } from "../shell/shell.service";
 
     ngOnInit(): void {
         //this.imageSourceLogo = this.#config.assetsPath + '/mja_logo_2.svg';
-         this.imageSourceLogo = this.#config.assetsPath + '/mja_logo_2-grau.svg';
+         this.imageSourceLogo = this.#config.assetsPath + 'mja_logo_2-grau.svg';
     }   
 
     gotoBenutzerdaten() {

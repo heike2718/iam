@@ -1,0 +1,1387 @@
+---
+openapi: 3.1.0
+components:
+  schemas:
+    Aktivierungsstatus:
+      description: DTO für den neuen Benutzerstatus
+      type: object
+      properties:
+        aktiviert:
+          type: boolean
+    AuthResult:
+      description: Ergebnis der Authentifizierung beim authprovider
+      type: object
+      properties:
+        expiresAt:
+          type: integer
+          format: int64
+          description: Gültigkeit des generierten Einmaltokens
+        state:
+          type: string
+          description: "ein Kontext, also Login oder SignUp"
+        nonce:
+          type: string
+          description: "für die Autorisierung generierter String, der vom authprovider\
+            \ unverändert zurückgegeben wird"
+          pattern: \S
+        idToken:
+          type: string
+          description: "Einmaltoken, mit dem sich der authprovider-Client das JWT\
+            \ holen kann"
+          pattern: \S
+      required:
+      - nonce
+      - idToken
+    BenutzerSearchResult:
+      description: Ergebnis der Suche
+      type: object
+      properties:
+        anzahlGesamt:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/BenutzerTrefferlisteItem"
+    BenutzerSuchparameter:
+      description: BenutzerSuchparameter. Gesucht wird mit und-Verknüpfung und like
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: Teil der UUID eines Users
+          example: 732b2ed8
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+        vorname:
+          type: string
+          description: Teil des Vornamens eines Users
+          example: Rainer
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          maxLength: 100
+        nachname:
+          type: string
+          description: Teil des Nachnamens eines Users
+          example: Honig
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          maxLength: 100
+        email:
+          type: string
+          description: Teil der email eines Users
+          example: egladil
+          pattern: "^[a-zA-Z0-9\\.!#$%&'*+/=\\?\\^_`{|}~\\-@]*$"
+          maxLength: 255
+        rolle:
+          type: string
+          description: Teil der Rolle eines Users.
+          example: STANDARD
+          pattern: "^[A-Za-z_,]*$"
+          maxLength: 150
+        aenderungsdatum:
+          type: string
+          description: "Teil des Datums, an dem die Daten das letzte Mal geändert\
+            \ wurden - meist letztes Login Format '2019-09-14 18:40:06'"
+          example: "2021"
+          pattern: "^[\\d\\-.:]*$"
+          maxLength: 19
+        sortByLabelname:
+          type: string
+          description: "Name des Feldes, nach dem sortiert werden soll. Der Name muss\
+            \ sich auf die enum UsersSortColumn abbilden lassen"
+          example: vorname
+          pattern: "^[A-Za-zäöüßÄÖÜ\\-_ ]*$"
+          maxLength: 100
+        pageIndex:
+          type: integer
+          format: int32
+          description: "Pagination: welche Seite wird abgefragt"
+          example: 2
+          default: 0
+        pageSize:
+          type: integer
+          format: int32
+          description: "Pagination: wievile Treffer werden abgefragt. Im Frontend\
+            \ haben wir 100, 150 und 200. Default ist trotzdem 25."
+          example: 25
+          default: 25
+        sortDirection:
+          description: Sortierreihenfolge (asc oder desc)
+          type: string
+          example: asc
+          $ref: "#/components/schemas/SortDirection"
+    BenutzerTrefferlisteItem:
+      type: object
+      description: "Ein Elememt der Trefferliste. Es sind die Attribute, nach denen\
+        \ auch gesucht werden kann."
+      properties:
+        uuid:
+          type: string
+          description: UUID des Users
+          example: 732b2ed8-b9b7-4800-8685-38fd09d330cf
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+        vorname:
+          type: string
+          description: Vorname eines Users
+          example: Rainer
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          maxLength: 100
+        nachname:
+          type: string
+          description: ' Nachname eines Users'
+          example: Honig
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          maxLength: 100
+        email:
+          type: string
+          description: email eines Users
+          example: test@provider777.com
+          pattern: "^[a-zA-Z0-9\\.!#$%&'*+/=\\?\\^_`{|}~\\-@]*$"
+          maxLength: 255
+        rollen:
+          type: string
+          description: Rollen eines Users.
+          example: STANDARD
+          pattern: "^[A-Z_,]*$"
+          maxLength: 150
+        aktiviert:
+          type: boolean
+          description: "Flag ,ob der user aktiviert ist"
+          example: false
+        aenderungsdatum:
+          type: string
+          description: "Datum, an dem die Daten das letzte Mal geändert wurden - meist\
+            \ letztes Login"
+          example: 2019-09-14 18:40:06
+          pattern: "^[\\d.\\-:]*$"
+          maxLength: 19
+        cryptoAlgorithm:
+          $ref: "#/components/schemas/CryptoAlgorithm"
+    CryptoAlgorithm:
+      type: string
+      enum:
+      - SHA_256
+      - ARGON2
+    DeleteBenutzerResponseDto:
+      description: Response-Objekt für das Löschen eines Benutzers
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID des Users
+          example: 732b2ed8-b9b7-4800-8685-38fd09d330cf
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+    InfomailRequestDto:
+      description: Betreff und Text für eine Infomail
+      type: object
+      required:
+      - betreff
+      - mailtext
+      properties:
+        betreff:
+          type: string
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          maxLength: 100
+        mailtext:
+          type: string
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°\\s]*$"
+          maxLength: 65535
+    InfomailResponseDto:
+      description: eine Infomail
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID des Infomailtextes
+          example: 5eaaf0ed-4949-4ccd-a9c3-2db9af3559c2
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+        betreff:
+          type: string
+          description: "Betreff der Mail, die versendet weren wird"
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          maxLength: 100
+        mailtext:
+          type: string
+          description: "Text der Mail, die versendet werden wird"
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          maxLength: 65535
+        uuidsMailversandauftraege:
+          type: array
+          items:
+            type: string
+          description: UUIDs der Versandaufträge mit diesem oder einem angepassten
+            Mailtext
+    Jobstatus:
+      type: string
+      enum:
+      - WAITING
+      - IN_PROGRESS
+      - CANCELLED
+      - COMPLETED
+      - ERRORS
+    MailversandauftragDetails:
+      description: Auftrag für einen Sammelmailversand zur Anzeige in der GUI
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: die technische ID
+          example: 78573dc4-06d7-43f1-9b85-ae79f36c92b7
+        idInfomailtext:
+          type: string
+          description: ID des gespeicherten Mailtexts und Betreffs
+          example: 663d1c4e-46b7-4b41-a3cc-c753b8f7148c
+        betreff:
+          type: string
+          description: "Betreff der Mail, die versendet weren wird"
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          maxLength: 100
+        mailtext:
+          type: string
+          description: "Text der Mail, die versendet werden wird"
+          pattern: "^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÄäÀàÁáÂâ\
+            ÃãĀāÅåĂăĄąǍǎǞǟǺǻẠạẪẫẬẢảẤấẦầẮắªẰằẲẳẴẵẶặÆæǼǽḂḃÇçĆćĊċČčÐðĎďĐđḊḋḐḑD̂d̂ÈèÉé\
+            ÊêËëĒēĔĕĖėĘęĚěẼẽỄễẸẹẺẻỀềẾếỆệƏəḞḟĞğĠġĢģǤǥǦǧǴǵḠḡĦħȞȟḤḥḦḧÌìÍíÎîÏïĨĩĪīĬĭĮį\
+            İıǏǐỊịỈỉĴĵǰJ̌ĶķǨǩḰḱĸĹĺĻļĽľĿŀŁłL̂l̂M̂m̂ṀṁN̂n̂ÑñŃńŅņŇňŊŋṄṅŉÖöÒòÓóÔôÕõŌōŎ\
+            ŏŐőƠơǑǒǪǫǬǭǾǿȪȫȮȯȰȱỌọỎỏỖỗºỒồỐốỘộỜờỚớØøŒœṖṗŔŕŖŗŘřŚśŞşŠšȘșṠṡṢṣßẞŢţŤťŦŧȚț\
+            ṪṫÞþÜüÙùÚúÛûŨũŪūŮůŰűŲųƯưǓǔỤụỦủỨứỪừỬửỮữỰựŴŵẀẁẂẃẄẅẌẍÝýŸÿŶŷȲȳẎẏỲỳỸỹỴỵỶỷƷʒ\
+            ǮǯŹźŻżŽžẐẑẒẓ0123456789\" \\-_\\.,'`'\\@()/‘+:;=\\[\\]{}!#$§%&\\*\\?\\\\\
+            ^|~°]*$"
+          maxLength: 65535
+        versandJahrMonat:
+          type: string
+          description: Jahr und Monat des Versands im Format YYYY-MM
+        status:
+          description: Status des Auftrags
+          type: string
+          example: IN_PROGRESS
+          $ref: "#/components/schemas/Jobstatus"
+        erfasstAm:
+          type: string
+          description: "wie üblich formatiertes Datum mit Uhrzeit, wann der Auftrag\
+            \ erfasst wurde"
+          example: 09.07.2024 18:44:13
+        versandBegonnenAm:
+          type: string
+          description: "wie üblich formatiertes Datum mit Uhrzeit, wann der Versand\
+            \ begonnen hat"
+          example: 09.07.2024 19:01:43
+        versandBeendetAm:
+          type: string
+          description: "wie üblich formatiertes Datum mit Uhrzeit, wann der Versand\
+            \ beendet wurde"
+          example: 09.07.2024 23:56:01
+        anzahlEmpfaenger:
+          type: integer
+          format: int64
+          description: "Anzahl der Benutzer, an die die Infomail gesendet wir bzw.\
+            \ wurde"
+          example: 4352
+        anzahlVersendet:
+          type: integer
+          format: int64
+          description: Anzahl bereits versendeter Mails
+          example: 2524
+        versandMitFehlern:
+          type: boolean
+          description: "true, wenn eine der Sammelmails nicht fehlerfrei versendet\
+            \ werden konnte, sonst false"
+        mailversandgruppen:
+          type: array
+          items:
+            $ref: "#/components/schemas/Mailversandgruppe"
+          description: "Die Gruppen von Mailempfängern, an die die Mail jeweils als\
+            \ Sammelmail versendet wird / wurde"
+    MailversandauftragDetailsResponseDto:
+      description: Kombiniert uuid mit dem MailversandauftragDetailsDto.
+      type: object
+      properties:
+        uuid:
+          type: string
+        versandauftrag:
+          $ref: "#/components/schemas/MailversandauftragDetails"
+    MailversandauftragOverview:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: die technische ID
+          example: 78573dc4-06d7-43f1-9b85-ae79f36c92b7
+        idInfomailtext:
+          type: string
+          description: ID des gespeicherten Mailtexts und Betreffs
+          example: 663d1c4e-46b7-4b41-a3cc-c753b8f7148c
+        betreff:
+          type: string
+          description: Mailbetreff
+          example: Aktivierung Ihres Benutzerkontos erforderlich
+        erfasstAm:
+          type: string
+          description: Erfasungsdatum
+          example: 16.07.2024 11:55:22
+        status:
+          description: Status des Auftrags
+          type: string
+          example: COMPLETED
+          $ref: "#/components/schemas/Jobstatus"
+        anzahlEmpfaenger:
+          type: integer
+          format: int64
+          description: "Anzahl der Benutzer, an die die Infomail gesendet werden sollte"
+          example: 4352
+        anzahlGruppen:
+          type: integer
+          format: int64
+          description: Anzahl der Mailversandgruppen
+          example: 28
+    MailversandauftragRequestDto:
+      description: Auftrag für einen Sammelmailversand zum Anlegen / Ändern
+      type: object
+      properties:
+        idInfomailtext:
+          type: string
+          description: ID des gespeicherten Mailtexts und Betreffs
+          example: 663d1c4e-46b7-4b41-a3cc-c753b8f7148c
+        benutzerUUIDs:
+          type: array
+          items:
+            type: string
+          description: "die UUIDs der ausgewählten Benutzer, an die die Mails versendet\
+            \ werden sollen"
+    Mailversandgruppe:
+      type: object
+      description: "Gruppe, an die eine Sammelmail gesendet wurde"
+      properties:
+        uuid:
+          type: string
+          description: die technische ID
+          example: 78573dc4-06d7-43f1-9b85-ae79f36c92b7
+        idMailversandauftrag:
+          type: string
+          description: ID des Meilversandauftrags
+          example: 663d1c4e-46b7-4b41-a3cc-c753b8f7148c
+        sortnr:
+          type: integer
+          format: int32
+          description: fortlaufende Nummer zur Sortierung
+        status:
+          description: der Status des Versands dieser Mail
+          type: string
+          example: WAITING
+          $ref: "#/components/schemas/Jobstatus"
+        empfaengerUUIDs:
+          type: array
+          items:
+            type: string
+          description: die UUIDs der Benutzer
+        aenderungsdatum:
+          type: string
+          description: Datum der letzten Änderung
+    MailversandgruppeDetails:
+      description: Deteils einer Mailversandgruppe
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: die technische ID
+          example: 78573dc4-06d7-43f1-9b85-ae79f36c92b7
+        idInfomailtext:
+          type: string
+          description: ID des gespeicherten Mailtexts und Betreffs
+          example: 663d1c4e-46b7-4b41-a3cc-c753b8f7148c
+        sortnr:
+          type: integer
+          format: int32
+          description: fortlaufende Nummer zur Sortierung
+        status:
+          description: der Status des Versands dieser Mail
+          type: string
+          example: WAITING
+          $ref: "#/components/schemas/Jobstatus"
+        aenderungsdatum:
+          type: string
+          description: Datum der letzten Änderung
+        benutzer:
+          type: array
+          items:
+            $ref: "#/components/schemas/BenutzerTrefferlisteItem"
+          description: "Benutzer, an die die Mail versendet wurde. Wenn sie inzwischen\
+            \ gelöscht sind, wird ein Platzhalter zurückgegeben"
+    MailversandgruppeDetailsResponseDto:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: die technische ID
+          example: 78573dc4-06d7-43f1-9b85-ae79f36c92b7
+        mailversandgruppe:
+          description: "falls noch vorhanden, die Details der Mailversandgruppe, sonst\
+            \ null"
+          type: object
+          $ref: "#/components/schemas/MailversandgruppeDetails"
+    MessagePayload:
+      description: eine kategorisierte Meldung
+      type: object
+      properties:
+        level:
+          type: string
+          description: "Level der Message: INFO | WARN | ERROR"
+        message:
+          type: string
+          description: die message
+    OAuthClientCredentials:
+      description: credentials des OAuth2-Clients beim authprovider
+      type: object
+      required:
+      - clientId
+      - clientSecret
+      properties:
+        clientId:
+          type: string
+          description: ID des authprovider-Clients
+          pattern: "[a-zA-Z0-9+=]*"
+          maxLength: 50
+        clientSecret:
+          type: string
+          description: secret des authprovider-Clients
+          pattern: "[a-zA-Z0-9+=]*"
+          maxLength: 50
+        nonce:
+          type: string
+          description: "zur Authentifizierung des Clients generierter String, der\
+            \ vom authprovider unverändert zurückgegeben wird"
+          pattern: "[a-zA-Z0-9\\-]*"
+          maxLength: 36
+    ResponsePayload:
+      description: "generisches Response-Objekt, das ein MessagePayload und ggf. Daten\
+        \ enthält"
+      type: object
+      properties:
+        message:
+          description: das MessagePayload
+          type: object
+          $ref: "#/components/schemas/MessagePayload"
+        data:
+          description: daten die als JSON mitgegeben werden. Kann null sein
+    SingleUuidDto:
+      description: Response-Objekt für das Löschen eines Benutzers
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID des Mailversandauftrags
+          example: 732b2ed8-b9b7-4800-8685-38fd09d330cf
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+    SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+    UpdateBenutzerResponseDto:
+      description: "Ergebnis nach dem Ändern des Benutzers. Attribut benutzer wird\
+        \ null sein, wenn statusCode != 200"
+      type: object
+      properties:
+        uuid:
+          type: string
+        benuzer:
+          $ref: "#/components/schemas/BenutzerTrefferlisteItem"
+    UpdateInfomailResponseDto:
+      description: "Ergebnis nach dem Ändern des InfomailTexts. Attribut infomail\
+        \ wird null sein, wenn statusCode != 200"
+      type: object
+      properties:
+        uuid:
+          type: string
+        infomail:
+          $ref: "#/components/schemas/InfomailResponseDto"
+    ValidationErrorResponseDto:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Authentication
+tags:
+- name: AboutResource
+- name: BenutzerResource
+- name: InfomailsResource
+- name: MailingResource
+- name: SessionResource
+- name: VersandauftraegeResource
+paths:
+  /api/about:
+    get:
+      tags:
+      - AboutResource
+      responses:
+        "200":
+          description: OK
+      summary: Get About Info
+  /api/benutzer:
+    post:
+      summary: "Gibt alle Benutzer zurück, die auf die gegebene Suchanfrage passen."
+      operationId: findUsers
+      tags:
+      - BenutzerResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BenutzerSuchparameter"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BenutzerSearchResult"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/benutzer/loeschung:
+    put:
+      summary: Löscht die durch die uuids definierten Benutzerkonten vollständig aus
+        allen Anwendungen.
+      operationId: batchDelete
+      tags:
+      - BenutzerResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteBenutzerResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/benutzer/{uuid}:
+    delete:
+      summary: Löscht das durch die uuid definierte Benutzerkonto vollständig aus
+        allen Anwendungen.
+      operationId: benutzerLoeschen
+      tags:
+      - BenutzerResource
+      parameters:
+      - description: "UUID des Benutzers, der gelöscht werden soll"
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+        in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteBenutzerResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+    put:
+      summary: Setzt für den gegebenen Benutzer den neuen Aktivierungsstatus
+      operationId: aktivierungsstatusAendern
+      tags:
+      - BenutzerResource
+      parameters:
+      - description: "UUID des Benutzers, der geändert werden soll"
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+        in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Aktivierungsstatus"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateBenutzerResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+        "404":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/infomails:
+    get:
+      summary: Gibt alle gespeicherten Infomailtexte zurück.
+      operationId: loadInfomails
+      tags:
+      - InfomailsResource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InfomailResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+    post:
+      summary: Legt eine Infomail an.
+      operationId: infomailAnlegen
+      tags:
+      - InfomailsResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InfomailRequestDto"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfomailResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/infomails/{uuid}:
+    put:
+      summary: Ändert eine Infomail an.
+      operationId: infomailAendern
+      tags:
+      - InfomailsResource
+      parameters:
+      - description: "UUID der Infomail, die geändert werden soll"
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+        in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InfomailRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateInfomailResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "404":
+          description: wenn es die Entity mit der uuid gar nicht gibt
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/mails/testmail:
+    get:
+      summary: Endpoint zum Testen der Mailerkonfiguration.
+      operationId: sendTestMail
+      tags:
+      - MailingResource
+      parameters:
+      - name: to
+        in: query
+        schema:
+          type: string
+      responses:
+        "202": {}
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/session/authurls/login:
+    get:
+      summary: "Gibt die Login-URL zurück, mit der eine Anwendung zum authprovider\
+        \ redirecten kann"
+      operationId: getLoginUrl
+      tags:
+      - SessionResource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+  /api/session/dev/logout/{sessionId}:
+    delete:
+      summary: entfernt die Session (nur Dev)
+      operationId: logoutDev
+      tags:
+      - SessionResource
+      parameters:
+      - description: id der Session
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+  /api/session/login:
+    post:
+      summary: Erzeugt eine Session anhand des per S2S-Kommunikation für das 'one
+        time token' beim authprovider gekauften JWT und packt die SessionId in ein
+        Cookie
+      operationId: login
+      tags:
+      - SessionResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthResult"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+        "400":
+          description: Bad Request
+  /api/session/logout:
+    delete:
+      summary: entfernt die Session
+      operationId: logout
+      tags:
+      - SessionResource
+      parameters:
+      - name: JSESSIONID
+        in: cookie
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+  /api/versandauftraege:
+    post:
+      summary: Legt einen Mailversandauftrag an.
+      operationId: scheduleInfomailversand
+      tags:
+      - VersandauftraegeResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MailversandauftragRequestDto"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MailversandauftragOverview"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "412":
+          description: eine Voraussetzung ist nicht erfüllt. Beispielsweise gibt es
+            keinen Infomailtext mit der gegebenen UUID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+    get:
+      summary: Gibt alle gespeicherten Mailversandaufträge zurück.
+      operationId: loadVersandauftraege
+      tags:
+      - VersandauftraegeResource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MailversandauftragOverview"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/versandauftraege/gruppen/{uuid}:
+    put:
+      summary: Überschreibt die Daten der gegebenen Mailversandgruppe.
+      operationId: versandgruppeAendern
+      tags:
+      - VersandauftraegeResource
+      parameters:
+      - description: UUID der Mailversandgruppe
+        example: f8d11b4a-72df-4a05-ad76-ce3392a02438
+        in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MailversandgruppeDetails"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MailversandgruppeDetailsResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+    get:
+      summary: Läd die Details der durch die uuid definierten Mainversandgruppe
+      operationId: getDetailsMailversandgruppe
+      tags:
+      - VersandauftraegeResource
+      parameters:
+      - description: UUID der Mailversandgruppe
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+        in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MailversandgruppeDetailsResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/versandauftraege/{uuid}:
+    delete:
+      summary: Löscht den durch die uuid definierten Mailversandauftrag
+      operationId: versandauftragLoeschen
+      tags:
+      - VersandauftraegeResource
+      parameters:
+      - description: "UUID des Mailversandauftrags, der gelöscht werden soll"
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+        in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleUuidDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+    get:
+      summary: Läd die Details des durch die uuid definierten Mailversandauftrags
+      operationId: getDetailsVersandauftrag
+      tags:
+      - VersandauftraegeResource
+      parameters:
+      - description: UUID des Mailversandauftrags
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+        in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MailversandauftragDetailsResponseDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/versandauftraege/{uuid}/cancellation:
+    put:
+      summary: Bricht den durch die uuid definierten Mailversandauftrag ab
+      operationId: versandauftragAbbrechen
+      tags:
+      - VersandauftraegeResource
+      parameters:
+      - description: "UUID des Mailversandauftrags, der abgebrochen werden soll"
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+        in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleUuidDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/versandauftraege/{uuid}/continuation:
+    put:
+      summary: Setzt den durch die uuid definierten Mailversandauftrag fort
+      operationId: versandauftragFortsetzen
+      tags:
+      - VersandauftraegeResource
+      parameters:
+      - description: "UUID des Mailversandauftrags, der fortgesetzt werden soll"
+        example: a4c4d45e-4a81-4bde-a6a3-54464801716d
+        in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: "^[abcdef\\d\\-]*$"
+          maxLength: 36
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleUuidDto"
+        "400":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationErrorResponseDto"
+        "401":
+          content:
+            application/json: {}
+        "403":
+          description: "kann auch vorkommen, wenn mod_security zuschlägt"
+          content:
+            application/json: {}
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+      security:
+      - SecurityScheme:
+        - AUTH_ADMIN
+  /api/version:
+    get:
+      responses:
+        "200":
+          description: OK
+      summary: Get Version
+      tags:
+      - Version Resource
+info:
+  title: mja-api
+  version: 3.0.0
+  description: API für meine Benutzerverwaltung
+  contact:
+    name: Heike Winkelvoß
+    email: info@egladil.de
+    url: https://mathe-jung-alt.de
+  license:
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: http://localhost:9020
+  description: Auto generated value
+- url: http://0.0.0.0:9020
+  description: Auto generated value

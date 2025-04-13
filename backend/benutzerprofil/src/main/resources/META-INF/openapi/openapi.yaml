@@ -1,0 +1,264 @@
+---
+openapi: 3.1.0
+components:
+  schemas:
+    AuthResult:
+      description: Ergebnis der Authentifizierung beim authprovider
+      type: object
+      properties:
+        expiresAt:
+          type: integer
+          format: int64
+          description: Gültigkeit des generierten Einmaltokens
+        state:
+          type: string
+          description: "ein Kontext, also Login oder SignUp"
+        nonce:
+          type: string
+          description: "für die Autorisierung generierter String, der vom authprovider\
+            \ unverändert zurückgegeben wird"
+          pattern: \S
+        idToken:
+          type: string
+          description: "Einmaltoken, mit dem sich der authprovider-Client das JWT\
+            \ holen kann"
+          pattern: \S
+      required:
+      - nonce
+      - idToken
+    BenutzerDto:
+      description: änderbare Daten eines Users
+      type: object
+      required:
+      - loginName
+      - email
+      - vorname
+      - nachname
+      properties:
+        loginName:
+          type: string
+          pattern: \S
+          maxLength: 255
+        email:
+          type: string
+          pattern: \S
+          maxLength: 255
+        vorname:
+          type: string
+          pattern: \S
+          maxLength: 100
+        nachname:
+          type: string
+          pattern: \S
+          maxLength: 100
+    MessagePayload:
+      description: eine kategorisierte Meldung
+      type: object
+      properties:
+        level:
+          type: string
+          description: "Level der Message: INFO | WARN | ERROR"
+        message:
+          type: string
+          description: die message
+    PasswortPayload:
+      type: object
+      required:
+      - passwort
+      - zweiPassworte
+      properties:
+        passwort:
+          type: string
+          pattern: \S
+          maxLength: 100
+        zweiPassworte:
+          $ref: "#/components/schemas/ZweiPassworte"
+    ResponsePayload:
+      description: "generisches Response-Objekt, das ein MessagePayload und ggf. Daten\
+        \ enthält"
+      type: object
+      properties:
+        message:
+          description: das MessagePayload
+          type: object
+          $ref: "#/components/schemas/MessagePayload"
+        data:
+          description: daten die als JSON mitgegeben werden. Kann null sein
+    Session:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        expiresAt:
+          type: integer
+          format: int64
+    ZweiPassworte:
+      type: object
+      required:
+      - passwort
+      - passwortWdh
+      properties:
+        passwort:
+          type: string
+        passwortWdh:
+          type: string
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Authentication
+tags:
+- name: AboutResource
+- name: BenutzerResource
+- name: PasswortResource
+- name: SessionResource
+paths:
+  /api/about:
+    get:
+      tags:
+      - AboutResource
+      responses:
+        "200":
+          description: OK
+      summary: Get About Info
+  /api/benutzer:
+    delete:
+      tags:
+      - BenutzerResource
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      summary: Konto Loeschen
+      security:
+      - SecurityScheme: []
+    get:
+      tags:
+      - BenutzerResource
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      summary: Benutzerdaten Laden
+      security:
+      - SecurityScheme: []
+    put:
+      tags:
+      - BenutzerResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BenutzerDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+        "400":
+          description: Bad Request
+      summary: Benutzerdaten Aendern
+      security:
+      - SecurityScheme: []
+  /api/passwort:
+    put:
+      tags:
+      - PasswortResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswortPayload"
+        required: true
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+        "400":
+          description: Bad Request
+      summary: Passwort Aendern
+      security:
+      - SecurityScheme: []
+  /api/session/authurls/login:
+    get:
+      summary: "Gibt die Login-URL zurück, mit der eine Anwendung zum authprovider\
+        \ redirecten kann"
+      operationId: getLoginUrl
+      tags:
+      - SessionResource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+  /api/session/login:
+    post:
+      summary: Erzeugt eine Session anhand des per S2S-Kommunikation für das 'one
+        time token' beim authprovider gekauften JWT und packt die SessionId in ein
+        Cookie
+      operationId: login
+      tags:
+      - SessionResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthResult"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+        "400":
+          description: Bad Request
+  /api/session/logout:
+    delete:
+      summary: entfernt die Session
+      operationId: logout
+      tags:
+      - SessionResource
+      parameters:
+      - name: JSESSIONID
+        in: cookie
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessagePayload"
+info:
+  title: benutzerprofil
+  version: 3.0.0
+  description: API für die Benutzerprofil-Anwendung
+  contact:
+    name: Heike Winkelvoß
+    email: info@egladil.de
+    url: https://mathe-jung-alt.de
+  license:
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: http://localhost:10600
+  description: Auto generated value
+- url: http://0.0.0.0:10600
+  description: Auto generated value

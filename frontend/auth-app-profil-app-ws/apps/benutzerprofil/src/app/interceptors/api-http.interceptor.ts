@@ -41,7 +41,7 @@ export class APIHttpInterceptor implements HttpInterceptor {
             req.clone({
                 headers: headers,
                 url: url,
-                withCredentials: true
+                withCredentials: this.#config.withCredentials
             })
         ).pipe(
             catchError((error: HttpErrorResponse) => {

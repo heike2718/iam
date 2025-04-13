@@ -15,9 +15,6 @@ public class Session {
 	@JsonProperty
 	private String sessionId;
 
-	@JsonIgnore
-	private String xsrfToken;
-
 	@JsonProperty
 	private long expiresAt;
 
@@ -130,15 +127,5 @@ public class Session {
 
 		this.user = user;
 		return this;
-	}
-
-	public String getXsrfToken() {
-
-		return xsrfToken;
-	}
-
-	public void setXsrfToken(final String xsrfToken) {
-
-		this.xsrfToken = xsrfToken;
 	}
 }

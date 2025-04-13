@@ -59,6 +59,9 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "account.activation.url")
 	String accountActivationUrl;
 
+	@ConfigProperty(name = "csrf.enabled")
+	boolean csrfEnabled;
+
 	void onStartup(@Observes
 	final StartupEvent ev) {
 
@@ -69,6 +72,7 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  consoleLogLevel={}", consoleLogLevel);
 		LOGGER.info(" ===========>  fileLogLevel={}", fileLogLevel);
 		LOGGER.info(" ===========>  stage={}", stage);
+		LOGGER.info(" ===========>  csrfEnabled={}", csrfEnabled);
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  mkGatewayRoute={}", mkGatewayRoute);
 		LOGGER.info(" ===========>  jdbcURL={}", jdbcURL);

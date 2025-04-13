@@ -184,7 +184,9 @@ public class BenutzerService {
 
 			LOGGER.info("delete {} synchronized with mk-gateway", user.uuid);
 
-			saltDao.deleteSaltAndCascade(user.saltId);
+			if (user.saltId != null) {
+				saltDao.deleteSaltAndCascade(user.saltId);
+			}
 
 			AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
 				.withTarget(user.uuid);

@@ -1,0 +1,846 @@
+{
+  "openapi" : "3.1.0",
+  "tags" : [ {
+    "name" : "AboutResource"
+  } ],
+  "paths" : {
+    "/api/about" : {
+      "get" : {
+        "tags" : [ "AboutResource" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Get About Info"
+      }
+    },
+    "/api/auth/sessions/auth-token-grant" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoginCredentials"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Authenticate User With Token Exchange Type Auth Token Grant",
+        "tags" : [ "Authentication Resource" ]
+      }
+    },
+    "/api/clients" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "accessToken",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "pattern" : "\\S",
+            "maxLength" : 50
+          },
+          "required" : true
+        }, {
+          "name" : "redirectUrl",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "pattern" : ""
+          },
+          "required" : true
+        }, {
+          "name" : "state",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "maxLength" : 150
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Get Client",
+        "tags" : [ "Client Resource" ]
+      }
+    },
+    "/api/clients/client/accesstoken" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OAuthClientCredentials"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Authenticate Client",
+        "tags" : [ "Client Resource" ]
+      }
+    },
+    "/api/clients/v2" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "accessToken",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "pattern" : "\\S",
+            "maxLength" : 50
+          },
+          "required" : true
+        }, {
+          "name" : "redirectUrl",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "pattern" : ""
+          },
+          "required" : true
+        }, {
+          "name" : "state",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "maxLength" : 150
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Get Client V 2",
+        "tags" : [ "Client Resource" ]
+      }
+    },
+    "/api/dev" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Say Hello",
+        "tags" : [ "Development Resource" ]
+      }
+    },
+    "/api/guiversion" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Get Excpected Gui Version",
+        "tags" : [ "Gui Version Resource" ]
+      }
+    },
+    "/api/heartbeats" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "X-HEARTBEAT-ID",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Check",
+        "tags" : [ "Heartbeat Resource" ]
+      }
+    },
+    "/api/log" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LogEntry"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Log Error",
+        "tags" : [ "Log Resource" ]
+      }
+    },
+    "/api/profiles/profile" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SelectProfilePayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Get User Profile",
+        "tags" : [ "Benutzerprofil Resource" ]
+      },
+      "delete" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SelectProfilePayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Delete User Profile",
+        "tags" : [ "Benutzerprofil Resource" ]
+      }
+    },
+    "/api/profiles/profile/data" : {
+      "put" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChangeProfileDataPayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Change Data",
+        "tags" : [ "Benutzerprofil Resource" ]
+      }
+    },
+    "/api/profiles/profile/password" : {
+      "put" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChangeProfilePasswordPayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Change Password",
+        "tags" : [ "Benutzerprofil Resource" ]
+      }
+    },
+    "/api/registration/confirmation" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "code",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Activate User",
+        "tags" : [ "User Activation Resource" ]
+      }
+    },
+    "/api/temppwd" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OrderTempPasswordPayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Order Temp Password",
+        "tags" : [ "Temp Password Resource" ]
+      },
+      "put" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChangeTempPasswordPayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Change Temp Password",
+        "tags" : [ "Temp Password Resource" ]
+      }
+    },
+    "/api/token/exchange/{oneTimeToken}" : {
+      "put" : {
+        "parameters" : [ {
+          "name" : "oneTimeToken",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OAuthClientCredentials"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Exchange One Time Token With Jwt",
+        "tags" : [ "Token Exchange Resource" ]
+      }
+    },
+    "/api/users/details" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserQueryParametersPayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Get Geschuetzte Kontodaten By Query",
+        "tags" : [ "User Resource" ]
+      }
+    },
+    "/api/users/names" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UuidPayloadList"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Get User Names",
+        "tags" : [ "User Resource" ]
+      }
+    },
+    "/api/users/signup" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SignUpCredentials"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Sign Up V 2",
+        "tags" : [ "User Resource" ]
+      }
+    },
+    "/api/users/user" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Not Authorized"
+          },
+          "403" : {
+            "description" : "Not Allowed"
+          }
+        },
+        "summary" : "Get User Profile",
+        "tags" : [ "User Resource" ],
+        "security" : [ {
+          "SecurityScheme" : [ "STANDARD" ]
+        } ]
+      }
+    },
+    "/api/users/user/details" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UuidPayloadList"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Get Own Kontodaten",
+        "tags" : [ "User Resource" ]
+      }
+    },
+    "/api/version" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Get Version",
+        "tags" : [ "Version Resource" ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AuthorizationCredentials" : {
+        "type" : "object",
+        "required" : [ "loginName", "passwort" ],
+        "properties" : {
+          "loginName" : {
+            "type" : "string",
+            "maxLength" : 255
+          },
+          "passwort" : {
+            "type" : "string"
+          },
+          "kleber" : {
+            "type" : "string"
+          }
+        }
+      },
+      "BenutzerSuchmodus" : {
+        "type" : "string",
+        "enum" : [ "EMAIL", "LOGINNAME", "NAME", "UUID" ]
+      },
+      "ChangeProfileDataPayload" : {
+        "type" : "object",
+        "required" : [ "clientCredentials", "profileData", "uuid" ],
+        "properties" : {
+          "clientCredentials" : {
+            "$ref" : "#/components/schemas/OAuthClientCredentials"
+          },
+          "profileData" : {
+            "$ref" : "#/components/schemas/ProfileDataPayload"
+          },
+          "uuid" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ChangeProfilePasswordPayload" : {
+        "type" : "object",
+        "required" : [ "clientCredentials", "passwordPayload", "uuid" ],
+        "properties" : {
+          "clientCredentials" : {
+            "$ref" : "#/components/schemas/OAuthClientCredentials"
+          },
+          "passwordPayload" : {
+            "$ref" : "#/components/schemas/ProfilePasswordPayload"
+          },
+          "uuid" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ChangeTempPasswordPayload" : {
+        "type" : "object",
+        "required" : [ "tokenId", "email", "tempPassword", "zweiPassworte" ],
+        "properties" : {
+          "tokenId" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 40
+          },
+          "email" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 255
+          },
+          "tempPassword" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 40
+          },
+          "kleber" : {
+            "type" : "string"
+          },
+          "zweiPassworte" : {
+            "$ref" : "#/components/schemas/ZweiPassworte"
+          }
+        }
+      },
+      "ClientCredentials" : {
+        "type" : "object",
+        "required" : [ "accessToken", "redirectUrl" ],
+        "properties" : {
+          "accessToken" : {
+            "type" : "string",
+            "pattern" : "\\S",
+            "maxLength" : 50
+          },
+          "redirectUrl" : {
+            "type" : "string",
+            "pattern" : ""
+          },
+          "state" : {
+            "type" : "string",
+            "maxLength" : 150
+          }
+        }
+      },
+      "LogEntry" : {
+        "type" : "object",
+        "properties" : {
+          "timestamp" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "level" : {
+            "$ref" : "#/components/schemas/TSLogLevel"
+          }
+        }
+      },
+      "LoginCredentials" : {
+        "type" : "object",
+        "required" : [ "authorizationCredentials", "clientCredentials" ],
+        "properties" : {
+          "authorizationCredentials" : {
+            "$ref" : "#/components/schemas/AuthorizationCredentials"
+          },
+          "clientCredentials" : {
+            "$ref" : "#/components/schemas/ClientCredentials"
+          }
+        }
+      },
+      "OAuthClientCredentials" : {
+        "type" : "object",
+        "required" : [ "clientId", "clientSecret" ],
+        "properties" : {
+          "clientId" : {
+            "type" : "string",
+            "pattern" : "\\S",
+            "maxLength" : 50
+          },
+          "clientSecret" : {
+            "type" : "string",
+            "pattern" : "\\S",
+            "maxLength" : 50
+          },
+          "nonce" : {
+            "type" : "string",
+            "maxLength" : 36
+          }
+        }
+      },
+      "OrderTempPasswordPayload" : {
+        "type" : "object",
+        "required" : [ "email" ],
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 255
+          },
+          "kleber" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ProfileDataPayload" : {
+        "type" : "object",
+        "required" : [ "email", "loginName" ],
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 255
+          },
+          "loginName" : {
+            "type" : "string",
+            "maxLength" : 255
+          },
+          "vorname" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 100
+          },
+          "nachname" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 100
+          }
+        }
+      },
+      "ProfilePasswordPayload" : {
+        "type" : "object",
+        "required" : [ "passwort", "zweiPassworte" ],
+        "properties" : {
+          "passwort" : {
+            "type" : "string"
+          },
+          "zweiPassworte" : {
+            "$ref" : "#/components/schemas/ZweiPassworte"
+          }
+        }
+      },
+      "SelectProfilePayload" : {
+        "type" : "object",
+        "required" : [ "clientCredentials", "uuid" ],
+        "properties" : {
+          "clientCredentials" : {
+            "$ref" : "#/components/schemas/OAuthClientCredentials"
+          },
+          "uuid" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SignUpCredentials" : {
+        "type" : "object",
+        "required" : [ "email", "zweiPassworte", "clientCredentials" ],
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "maxLength" : 255
+          },
+          "loginName" : {
+            "type" : "string",
+            "maxLength" : 255
+          },
+          "vorname" : {
+            "type" : "string",
+            "maxLength" : 100
+          },
+          "nachname" : {
+            "type" : "string",
+            "maxLength" : 100
+          },
+          "nonce" : {
+            "type" : "string",
+            "maxLength" : 60
+          },
+          "zweiPassworte" : {
+            "$ref" : "#/components/schemas/ZweiPassworte"
+          },
+          "agbGelesen" : {
+            "type" : "boolean"
+          },
+          "clientCredentials" : {
+            "$ref" : "#/components/schemas/ClientCredentials"
+          },
+          "kleber" : {
+            "type" : "string"
+          }
+        }
+      },
+      "TSLogLevel" : {
+        "type" : "string",
+        "enum" : [ "All", "Debug", "Info", "Warn", "Error", "Fatal", "Off" ]
+      },
+      "UserQueryParametersPayload" : {
+        "type" : "object",
+        "properties" : {
+          "adminUUID" : {
+            "type" : "string"
+          },
+          "clientCredentials" : {
+            "$ref" : "#/components/schemas/OAuthClientCredentials"
+          },
+          "parameterTyp" : {
+            "$ref" : "#/components/schemas/BenutzerSuchmodus"
+          },
+          "query" : {
+            "type" : "string",
+            "pattern" : "\\S"
+          }
+        },
+        "required" : [ "clientCredentials", "parameterTyp", "query" ]
+      },
+      "UuidPayloadList" : {
+        "type" : "object",
+        "properties" : {
+          "adminUUID" : {
+            "type" : "string"
+          },
+          "clientCredentials" : {
+            "$ref" : "#/components/schemas/OAuthClientCredentials"
+          },
+          "uuids" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "required" : [ "clientCredentials" ]
+      },
+      "ZweiPassworte" : {
+        "type" : "object",
+        "required" : [ "passwort", "passwortWdh" ],
+        "properties" : {
+          "passwort" : {
+            "type" : "string"
+          },
+          "passwortWdh" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "SecurityScheme" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT",
+        "description" : "Authentication"
+      }
+    }
+  },
+  "info" : {
+    "title" : "authprovider",
+    "version" : "3.0.0",
+    "description" : "API für mathe-jung-alt-iam",
+    "contact" : {
+      "name" : "Heike Winkelvoß",
+      "email" : "info@egladil.de",
+      "url" : "https://mathe-jung-alt.de"
+    },
+    "license" : {
+      "url" : "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers" : [ {
+    "url" : "http://localhost:10000",
+    "description" : "Auto generated value"
+  }, {
+    "url" : "http://0.0.0.0:10000",
+    "description" : "Auto generated value"
+  } ]
+}

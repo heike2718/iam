@@ -26,14 +26,18 @@ export class APIHttpInterceptor implements HttpInterceptor {
 
         const url = this.#config.baseUrl + req.url;
 
+        console.log('>>>>> call ' + url);
+
         const headers: HttpHeaders = req.headers
             .append('X-CLIENT-ID', this.#config.clientId)
             .append('Accept', 'application/json');
 
+        // withCredentials muss true sein, damit der X-XSRF-Token-Header gesetzt wird.
         return next.handle(
             req.clone({
                 headers: headers,
-                url: url
+                url: url,
+                withCredentials: this.#config.withCredentials
             })
         ).pipe(
             catchError((error: HttpErrorResponse) => {

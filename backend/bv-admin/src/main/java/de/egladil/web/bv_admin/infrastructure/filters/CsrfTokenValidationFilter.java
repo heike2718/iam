@@ -44,7 +44,7 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {
 
-		LOGGER.info("entering filter");
+		LOGGER.debug("entering filter");
 
 		if (!csrfEnabled) {
 

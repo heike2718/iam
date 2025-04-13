@@ -32,13 +32,13 @@ public class CsrfCookieService {
 	 *
 	 * @return
 	 */
-	public NewCookie createCsrfTokenCookie(final String cookieValue) {
+	public NewCookie createCsrfTokenCookie() {
 
 		String csrfToken = csrfTokenService.createRandomToken().replaceAll("\"", "");
 
 		LOGGER.debug("csrfToken={}", csrfToken);
 
-		return new NewCookie.Builder(AuthConstants.CSRF_TOKEN_COOKIE_NAME).path("/").comment("csrf").maxAge(-1).httpOnly(false)
+		return new NewCookie.Builder(AuthConstants.CSRF_TOKEN_COOKIE_NAME).value(csrfToken).path(AuthConstants.COOKIE_PATH).comment("csrf").maxAge(-1).httpOnly(false)
 			.secure(cookiesSecure).build();
 	}
 }

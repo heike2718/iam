@@ -17,7 +17,6 @@ import de.egladil.web.benutzerprofil.domain.auth.clientauth.OAuthClientCredentia
 import de.egladil.web.benutzerprofil.domain.auth.config.AuthConstants;
 import de.egladil.web.benutzerprofil.domain.auth.dto.AuthResult;
 import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
-import de.egladil.web.benutzerprofil.domain.auth.session.CsrfCookieService;
 import de.egladil.web.benutzerprofil.domain.auth.session.Session;
 import de.egladil.web.benutzerprofil.domain.auth.session.SessionService;
 import de.egladil.web.benutzerprofil.domain.auth.session.SessionUtils;
@@ -55,9 +54,6 @@ public class LoginLogoutService {
 	@Inject
 	TokenExchangeService tokenExchangeService;
 
-	@Inject
-	CsrfCookieService csrfCookieService;
-
 	public Response login(final AuthResult authResult) {
 
 		if (authResult == null) {
@@ -88,14 +84,7 @@ public class LoginLogoutService {
 		}
 
 		NewCookie sessionCookie = SessionUtils.createCookie(AuthConstants.SESSION_COOKIE_NAME, session.getSessionId(),
-			cookiesSecure, true);
-
-		// httpOnly mus hier nicht true sein, da das CSRF-Token in der Session gespeichert wird.
-		// Die andere Variante wäre, im Frontend withXsrfConfiguration zu verwenden und den CsrfTokenValidationFilter so
-		// zu
-		// implementieren, dass er nur den wert des XSRF-TOKEN.Cookies mit dem des X-XSRF-TOKEN-Headers vergleicht.
-		NewCookie xsrfTokenCookie = SessionUtils.createCookie(AuthConstants.CSRF_TOKEN_COOKIE_NAME, session.getXsrfToken(),
-			cookiesSecure, false);
+			AuthConstants.COOKIE_PATH, cookiesSecure, true);
 
 		if (!STAGE_DEV.equals(stage)) {
 
@@ -104,7 +93,7 @@ public class LoginLogoutService {
 
 		LOGGER.debug("session created for user {}", StringUtils.abbreviate(session.getUser().getName(), 11));
 
-		return Response.ok(session).cookie(xsrfTokenCookie).cookie(sessionCookie).build();
+		return Response.ok(session).cookie(sessionCookie).build();
 	}
 
 	public Response logout(final String sessionId) {
@@ -112,13 +101,13 @@ public class LoginLogoutService {
 		this.sessionService.invalidateSession(sessionId);
 
 		NewCookie invalidatedSessionCookie = SessionUtils.createInvalidatedCookie(AuthConstants.SESSION_COOKIE_NAME, cookiesSecure);
-		NewCookie invalidatedXsrfTokenCookie = SessionUtils.createInvalidatedCookie(AuthConstants.CSRF_TOKEN_COOKIE_NAME,
-			cookiesSecure);
+		// NewCookie invalidatedXsrfTokenCookie =
+		// SessionUtils.createInvalidatedCookie(AuthConstants.CSRF_TOKEN_COOKIE_NAME,
+		// cookiesSecure);
 
-		LOGGER.info("sessionCookieValue={}, xsrfTokenCookie={}", invalidatedSessionCookie.getValue(),
-			invalidatedXsrfTokenCookie.getValue());
+		// LOGGER.info("sessionCookieValue={}, xsrfTokenCookie={}", invalidatedSessionCookie.getValue(),
+		// invalidatedXsrfTokenCookie.getValue());
 
-		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(invalidatedXsrfTokenCookie)
-			.cookie(invalidatedSessionCookie).build();
+		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(invalidatedSessionCookie).build();
 	}
 }

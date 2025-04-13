@@ -9,7 +9,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouterStore } from '@ngrx/router-store';
 import { provideStore } from '@ngrx/store';
 import { authDataProvider } from '@benutzerprofil/auth/api';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration } from '@angular/common/http';
 import { LoadingInterceptor } from '@ap-ws/messages/api';
 import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
 import { ErrorHandlerService } from '@ap-ws/common-utils';
@@ -45,11 +45,11 @@ export const appConfig: ApplicationConfig = {
         metaReducers: allMetaReducers,
       }),
     provideEffects(LocalStorageEffects),
-    // provideHttpClient(withInterceptorsFromDi(), withXsrfConfiguration({
-    //   cookieName: 'XSRF-TOKEN',
-    //   headerName: 'X-XSRF-TOKEN',
-    // })),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptorsFromDi(), withXsrfConfiguration({
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-TOKEN',
+    })),
+    // provideHttpClient(withInterceptorsFromDi()),
     authDataProvider,
     benutzerdatenDataProvider,
     passwortDataProvider,

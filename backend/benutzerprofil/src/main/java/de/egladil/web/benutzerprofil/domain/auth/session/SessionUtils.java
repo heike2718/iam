@@ -81,10 +81,10 @@ public final class SessionUtils {
 
 	}
 
-	public static NewCookie createCookie(final String cookieName, final String cookieValue, final boolean cookiesSecure,
+	public static NewCookie createCookie(final String cookieName, final String cookieValue, final String path, final boolean cookiesSecure,
 		final boolean httpOnly) {
 
-		return new NewCookie.Builder(cookieName).value(cookieValue).path("/").domain(null).comment(null).maxAge(360000) // maximum
+		return new NewCookie.Builder(cookieName).value(cookieValue).path(path).domain(null).comment(null).maxAge(360000) // maximum
 																														// age
 																														// of
 																														// the
@@ -179,7 +179,7 @@ public final class SessionUtils {
 
 		long dateInThePast = LocalDateTime.now(ZoneId.systemDefault()).minus(10, ChronoUnit.YEARS).toEpochSecond(ZoneOffset.UTC);
 
-		return new NewCookie.Builder(cookieName).value("").path("/").maxAge(0) // maximum age of the cookie in seconds
+		return new NewCookie.Builder(cookieName).value("").path(AuthConstants.COOKIE_PATH).maxAge(0) // maximum age of the cookie in seconds
 			.expiry(new Date(dateInThePast)).version(1).httpOnly(true).secure(cookiesSecure).build();
 
 	}

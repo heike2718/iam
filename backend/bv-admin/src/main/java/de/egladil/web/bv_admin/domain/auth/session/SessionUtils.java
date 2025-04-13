@@ -21,6 +21,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.bv_admin.domain.auth.config.AuthConstants;
 import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Cookie;
@@ -30,12 +31,6 @@ import jakarta.ws.rs.core.NewCookie;
  * SessionUtils
  */
 public final class SessionUtils {
-
-	// Wichtig: der Name des SessionCookies muss mit JSESSIONID beginnen!!!
-	// Außerdem müssen die Requests vom frontend das Attribut withCredentials: true haben (Angular - Intercepror!)
-	public static final String SESSION_COOKIE_NAME = "JSESSIONID_AUTH_ADMIN_API";
-
-	private static final String SESSION_ID_HEADER = "X-SESSIONID";
 
 	private static final String DEFAULT_ENCODING = "UTF-8";
 
@@ -85,7 +80,7 @@ public final class SessionUtils {
 	public static NewCookie createSessionCookie(final String sessionId, final boolean cookiesSecure) {
 
 		// @formatter:off
-		return new NewCookie.Builder(SESSION_COOKIE_NAME)
+		return new NewCookie.Builder(AuthConstants.SESSION_COOKIE_NAME)
 			.value(sessionId)
 			.path("/")
 			.domain(null)
@@ -101,7 +96,7 @@ public final class SessionUtils {
 		long dateInThePast = LocalDateTime.now(ZoneId.systemDefault()).minus(10, ChronoUnit.YEARS).toEpochSecond(ZoneOffset.UTC);
 
 		// @formatter:off
-		return new NewCookie.Builder(SESSION_COOKIE_NAME)
+		return new NewCookie.Builder(AuthConstants.SESSION_COOKIE_NAME)
 			.value("")
 			.path("/")
 			.maxAge(0) // maximum age of the cookie in seconds
@@ -136,7 +131,7 @@ public final class SessionUtils {
 	 */
 	private static String getSesssionIdFromHeader(final ContainerRequestContext requestContext) {
 
-		String sessionIdHeader = requestContext.getHeaderString(SESSION_ID_HEADER);
+		String sessionIdHeader = requestContext.getHeaderString(AuthConstants.SESSION_ID_HEADER);
 
 		if (sessionIdHeader == null) {
 
@@ -158,7 +153,7 @@ public final class SessionUtils {
 
 		Map<String, Cookie> cookies = requestContext.getCookies();
 
-		Cookie sessionCookie = cookies.get(SESSION_COOKIE_NAME);
+		Cookie sessionCookie = cookies.get(AuthConstants.SESSION_COOKIE_NAME);
 
 		if (sessionCookie != null) {
 
@@ -166,7 +161,7 @@ public final class SessionUtils {
 		}
 
 		String path = requestContext.getUriInfo().getPath();
-		LOGGER.debug("{}: Request ohne {}-Cookie", path, SESSION_COOKIE_NAME);
+		LOGGER.debug("{}: Request ohne {}-Cookie", path, AuthConstants.SESSION_COOKIE_NAME);
 
 		return null;
 	}

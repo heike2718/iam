@@ -24,6 +24,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideRouter(appRoutes),
     provideStore({}),
+    // provideHttpClient(withInterceptorsFromDi(), withXsrfConfiguration({
+    //   cookieName: 'XSRF-TOKEN',
+    //   headerName: 'X-XSRF-TOKEN',
+    // })),
     provideHttpClient(withInterceptorsFromDi()),
     forgotPasswordDataProvider,
     changeTempPasswordDataProvider,

@@ -15,7 +15,7 @@ import { AuthFacade } from '@benutzerprofil/auth/api';
 export class AppComponent implements OnInit {
 
   configuration = inject(BenutzerprofilConfiguration);
-  imageSourceLogo = this.configuration.assetsPath + 'mja_logo_2.svg';
+  imageSourceLogo = this.configuration.assetsPath + '/mja_logo_2.svg';
 
 
   #authService = inject(AuthFacade)

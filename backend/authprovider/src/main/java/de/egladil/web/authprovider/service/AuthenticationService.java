@@ -26,6 +26,7 @@ import io.vertx.core.http.HttpServerRequest;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 /**
  * AuthenticationService
@@ -67,7 +68,10 @@ public class AuthenticationService {
 	 * @param client Client
 	 * @return SignUpLogInResponseData
 	 */
+	@Transactional
 	public ResourceOwner authenticateResourceOwner(final AuthorizationCredentials authorizationCredentials) {
+
+		LOG.info(">>>>> start");
 
 		if (authorizationCredentials == null) {
 

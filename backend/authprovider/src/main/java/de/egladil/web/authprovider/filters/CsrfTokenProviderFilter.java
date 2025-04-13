@@ -1,25 +1,24 @@
 // =====================================================
-// Project: mja-api
+// Project: authprovider
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.bv_admin.infrastructure.filters;
+package de.egladil.web.authprovider.filters;
 
 import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.bv_admin.domain.auth.util.CsrfCookieService;
+import de.egladil.web.authprovider.service.CsrfCookieService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
 import jakarta.ws.rs.container.ContainerResponseFilter;
-import jakarta.ws.rs.ext.Provider;
 
 /**
  * CsrfTokenProviderFilter
  */
-@Provider
+//@Provider
 public class CsrfTokenProviderFilter implements ContainerResponseFilter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CsrfTokenProviderFilter.class);

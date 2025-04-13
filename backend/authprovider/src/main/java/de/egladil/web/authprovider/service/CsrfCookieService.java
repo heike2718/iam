@@ -2,13 +2,13 @@
 // Project: bv-admin
 // (c) Heike Winkelvoß
 // =====================================================
-package de.egladil.web.bv_admin.domain.auth.util;
+package de.egladil.web.authprovider.service;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.bv_admin.domain.auth.config.AuthConstants;
+import de.egladil.web.authprovider.config.CsrfConstants;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.NewCookie;;
@@ -25,7 +25,7 @@ public class CsrfCookieService {
 	boolean cookiesSecure;
 
 	@Inject
-	SecureTokenService csrfTokenService;
+	SecureCsrfTokenService csrfTokenService;
 
 	/**
 	 * Erzeugt ein neues CsrfToken.
@@ -38,9 +38,7 @@ public class CsrfCookieService {
 
 		LOGGER.debug("csrfToken={}", csrfToken);
 
-		// httpOnly muss hier nicht false sein, damit das Frontend den Wert in den X-XSRF-TOKEN-Header setzen kann.Dazu
-		// muss im Frontend withXsrfConfiguration verwendet werden!
-		return new NewCookie.Builder(AuthConstants.CSRF_TOKEN_COOKIE_NAME).value(csrfToken).path(AuthConstants.COOKIE_PATH)
+		return new NewCookie.Builder(CsrfConstants.CSRF_TOKEN_COOKIE_NAME).value(csrfToken).path(CsrfConstants.COOKIE_PATH)
 			.comment("csrf").maxAge(-1).httpOnly(false).secure(cookiesSecure).build();
 	}
 }

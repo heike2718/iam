@@ -51,6 +51,7 @@ public class SessionService {
 	@Inject
 	SecureTokenService secureTokenService;
 
+
 	/**
 	 * Wenn das JWT sagt, ist kein Admin, dann wird eine anonyme Session angelegt.
 	 *
@@ -86,9 +87,6 @@ public class SessionService {
 
 				session.setExpiresAt(SessionUtils.getExpiresAt(sessionIdleTimeoutMinutes));
 			}
-
-			String xsrfToken = secureTokenService.createRandomToken();
-			session.setXsrfToken(xsrfToken);
 
 			sessions.put(session.getSessionId(), session);
 
