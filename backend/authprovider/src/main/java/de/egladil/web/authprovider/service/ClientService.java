@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,10 @@ import de.egladil.web.authprovider.api.ClientInformation;
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.dao.ClientDao;
 import de.egladil.web.authprovider.domain.ClientAccessToken;
+import de.egladil.web.authprovider.domain.CryptoAlgorithm;
 import de.egladil.web.authprovider.entities.Client;
+import de.egladil.web.authprovider.entities.LoginSecrets;
+import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.error.AuthRuntimeException;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.error.ClientAuthException;
@@ -48,6 +52,9 @@ public class ClientService {
 	private static final Logger LOG = LoggerFactory.getLogger(ClientService.class);
 
 	private Map<String, ClientAccessToken> clientAccessTokens = new ConcurrentHashMap<>();
+
+	@ConfigProperty(name = "stage")
+	String stage;
 
 	@Inject
 	ClientDao clientDao;
@@ -263,5 +270,25 @@ public class ClientService {
 			testString = testString.substring(0, testString.length() - 1);
 		}
 		return testString;
+	}
+
+	void resetClientSecret(String clientId, String clientSecret) {
+
+		if (!"dev".equalsIgnoreCase(stage)) {
+			throw new AuthException("Das machst Du bitte nur auf dev!!!");
+		}
+
+		Client client = clientDao.findByClientId(clientId);
+		if (client != null) {
+
+			LoginSecrets loginSecrets = client.getLoginSecrets();
+			String passwordHash = authCryptoService.hashPassword(clientSecret.toCharArray());
+			loginSecrets.setPasswordhash(passwordHash);
+			loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
+			loginSecrets.setSalt(null);
+
+			clientDao.save(client);
+		}
+
 	}
 }

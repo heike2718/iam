@@ -29,6 +29,8 @@ public class AuthCryptoServiceImplTest {
 
 	private PasswordConfig passwordConfig;
 
+
+
 	@BeforeEach
 	void setUp() {
 
@@ -83,7 +85,8 @@ public class AuthCryptoServiceImplTest {
 		loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
 
 		Client client = new Client();
-		client.setClientId("GerMkzlT2moZq762D5zKAorpg8aUjumXzNQz2yOUd9zQ");
+//		client.setClientId("GerMkzlT2moZq762D5zKAorpg8aUjumXzNQz2yOUd9zQ");
+		client.setClientId("N7SsGenun4znNUdQzyLD0wzOfRHOmc9XN35TOGfbBcvA");
 		client.setLoginSecrets(loginSecrets);
 
 		// Act + Assert (wenn korrekt, keine Exception)

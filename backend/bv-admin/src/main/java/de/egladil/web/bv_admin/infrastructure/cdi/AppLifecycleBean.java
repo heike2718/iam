@@ -22,6 +22,9 @@ public class AppLifecycleBean {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AppLifecycleBean.class);
 
+	@ConfigProperty(name = "env")
+	String env;
+
 	@ConfigProperty(name = "quarkus.datasource.jdbc.url")
 	String jdbcUrl;
 
@@ -61,6 +64,12 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "mailversand.cron.expr")
 	String mailversandCronPattern;
 
+	@ConfigProperty(name = "public-client-id")
+	String publicClientId;
+
+	@ConfigProperty(name = "public-client-secret")
+	String publicClientSecret;
+
 	void onStartup(@Observes
 	final StartupEvent ev) {
 
@@ -79,6 +88,13 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  mockSession={}", mockSession);
 		LOGGER.info(" ===========>  quarkusRootPath={}", quarkusRootPath);
 		LOGGER.info(" ===========>  port={}", port);
+
+		if ("dev".equalsIgnoreCase(env)) {
+			LOGGER.info(" ===========>  publicClientId={}", publicClientId);
+			LOGGER.info(" ===========>  publicClientSecret={}", publicClientSecret);
+		}
+
+
 	}
 
 }

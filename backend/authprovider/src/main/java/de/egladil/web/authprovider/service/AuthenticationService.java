@@ -11,10 +11,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
+import de.egladil.web.authprovider.domain.CryptoAlgorithm;
+import de.egladil.web.authprovider.entities.Client;
+import de.egladil.web.authprovider.entities.LoginSecrets;
 import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.event.AuthproviderEvent;
@@ -39,6 +43,9 @@ public class AuthenticationService {
 	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationService.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+
+	@ConfigProperty(name = "stage")
+	String stage;
 
 	@Inject
 	HttpServerRequest request;
@@ -109,6 +116,28 @@ public class AuthenticationService {
 		String userAgent = AuthUtils.getUserAgent(request);
 		return MessageFormat.format(MESSAGE_FORMAT_FAILED_LOGIN,
 			new Object[] { ipAddress, userAgent, StringUtils.abbreviate(loginname, 11) });
+	}
+
+	void resetPassword(String uuid) {
+
+		if (!"dev".equalsIgnoreCase(stage)) {
+			throw new AuthException("Das machst Du bitte nur auf dev!!!");
+		}
+
+		Optional<ResourceOwner> opt = resourceOwnerService.findByUUID(uuid);
+		if (opt.isPresent()) {
+
+			ResourceOwner resourceOwner = opt.get();
+
+			LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
+			String passwordHash = authCryptoService.hashPassword("start123".toCharArray());
+			loginSecrets.setPasswordhash(passwordHash);
+			loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
+			loginSecrets.setSalt(null);
+
+			resourceOwnerService.aendern(resourceOwner);
+		}
+
 	}
 
 }

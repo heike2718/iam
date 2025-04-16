@@ -428,4 +428,10 @@ public class ResourceOwnerService {
 
 		return result;
 	}
+
+	public void aendern(ResourceOwner resourceOwner) {
+
+		this.resourceOwnerDao.save(resourceOwner);
+
+	}
 }

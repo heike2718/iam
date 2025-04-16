@@ -7,6 +7,7 @@ package de.egladil.web.authprovider.dao.impl;
 
 import java.math.BigInteger;
 
+import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -59,6 +60,7 @@ public abstract class BaseDaoImpl implements BaseDao {
 
 	@Override
 	@Transactional(value = TxType.REQUIRED)
+	@ActivateRequestContext
 	public <T extends AuthProviderEntity> T save(final T entity) {
 
 		T persisted;
