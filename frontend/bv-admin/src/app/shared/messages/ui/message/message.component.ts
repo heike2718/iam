@@ -6,11 +6,10 @@ import { debounceTime, Subscription, tap } from 'rxjs';
 
 
 @Component({
-  selector: 'bv-admin-message',
-  standalone: true,
-  imports: [CommonModule, MatIconModule],
-  templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss'],
+    selector: 'bv-admin-message',
+    imports: [CommonModule, MatIconModule],
+    templateUrl: './message.component.html',
+    styleUrls: ['./message.component.scss']
 })
 export class MessageComponent implements OnInit, OnDestroy {
 

@@ -14,21 +14,20 @@ const BETREFF = 'betreff';
 const ANZAHL_VERSANDAUFTRAEGE = "anzahlVersandauftraege"
 
 @Component({
-  selector: 'bv-admin-infomails',
-  standalone: true,
-  imports: [
-    CommonModule,
-    InfomailsDetailsComponent,
-    InfomailEditComponent,
-    NgIf,
-    NgFor,
-    AsyncPipe,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
-  templateUrl: './infomails-list.component.html',
-  styleUrls: ['./infomails-list.component.scss'],
+    selector: 'bv-admin-infomails',
+    imports: [
+        CommonModule,
+        InfomailsDetailsComponent,
+        InfomailEditComponent,
+        NgIf,
+        NgFor,
+        AsyncPipe,
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+    ],
+    templateUrl: './infomails-list.component.html',
+    styleUrls: ['./infomails-list.component.scss']
 })
 export class InfomailsListComponent implements OnDestroy, AfterViewInit {
 

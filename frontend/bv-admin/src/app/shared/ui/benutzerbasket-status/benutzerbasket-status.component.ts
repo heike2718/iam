@@ -9,7 +9,6 @@ import { AuthFacade } from "@bv-admin/shared/auth/api";
 
 @Component({
     selector: 'bv-admin-benutzerbasket-status',
-    standalone: true,
     imports: [
         CommonModule,
         NgIf,
@@ -17,7 +16,7 @@ import { AuthFacade } from "@bv-admin/shared/auth/api";
         MatIconModule
     ],
     templateUrl: './benutzerbasket-status.component.html',
-    styleUrls: ['./benutzerbasket-status.component.scss'],
+    styleUrls: ['./benutzerbasket-status.component.scss']
 })
 export class BenutzerBasketStatusComponent {
 

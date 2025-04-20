@@ -5,13 +5,11 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 
 @Component({
     selector: 'bv-admin-confirmation-dialog',
-    standalone: true,
     imports: [
         CommonModule,
         MatButtonModule,
         MatDialogModule
-      ],
-    
+    ],
     templateUrl: './confirmation-dialog.component.html',
     styleUrls: ['./confirmation-dialog.component.scss']
 })

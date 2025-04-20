@@ -18,7 +18,6 @@ const REMOVE_BENUTZER_ACTION = "remove"
 
 @Component({
     selector: 'bv-users',
-    standalone: true,
     imports: [
         CommonModule,
         NgIf,
@@ -30,7 +29,7 @@ const REMOVE_BENUTZER_ACTION = "remove"
         MatIconModule
     ],
     templateUrl: './benutzer-basket.component.html',
-    styleUrls: ['./benutzer-basket.component.scss'],
+    styleUrls: ['./benutzer-basket.component.scss']
 })
 export class BenutzerBasketComponent {
 

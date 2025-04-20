@@ -11,21 +11,20 @@ import { BenutzerListComponent } from '@bv-admin/benutzer/feature';
 import { BenutzerBasketStatusComponent } from '@bv-admin/shared/ui/benutzerbasket-status';
 
 @Component({
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatSidenavModule,
-    NavbarComponent,
-    SidenavComponent,
-    MessageComponent,
-    BenutzerListComponent,
-    LoadingIndicatorComponent,
-    RouterModule,
-    BenutzerBasketStatusComponent
-  ],
-  selector: 'bv-admin-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+    imports: [
+        MatToolbarModule,
+        MatSidenavModule,
+        NavbarComponent,
+        SidenavComponent,
+        MessageComponent,
+        BenutzerListComponent,
+        LoadingIndicatorComponent,
+        RouterModule,
+        BenutzerBasketStatusComponent
+    ],
+    selector: 'bv-admin-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
 

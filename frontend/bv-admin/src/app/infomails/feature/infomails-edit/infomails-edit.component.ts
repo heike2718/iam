@@ -11,7 +11,6 @@ import { Infomail } from "@bv-admin/shared/model";
 
 @Component({
     selector: 'bv-admin-infomail-edit',
-    standalone: true,
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -20,7 +19,7 @@ import { Infomail } from "@bv-admin/shared/model";
         MatCardModule
     ],
     templateUrl: './infomails-edit.component.html',
-    styleUrls: ['./infomails-edit.component.scss'],
+    styleUrls: ['./infomails-edit.component.scss']
 })
 export class InfomailEditComponent implements OnInit {
 

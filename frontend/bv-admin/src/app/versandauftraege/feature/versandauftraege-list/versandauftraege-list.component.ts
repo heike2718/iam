@@ -20,20 +20,19 @@ const CANCEL_ACTION = 'cancel';
 const DELETE_ACTION = 'delete'
 
 @Component({
-  selector: 'bv-admin-versandauftraege',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgIf,
-    NgFor,
-    AsyncPipe,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDialogModule
-  ],
-  templateUrl: './versandauftraege-list.component.html',
-  styleUrls: ['./versandauftraege-list.component.scss'],
+    selector: 'bv-admin-versandauftraege',
+    imports: [
+        CommonModule,
+        NgIf,
+        NgFor,
+        AsyncPipe,
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+        MatDialogModule
+    ],
+    templateUrl: './versandauftraege-list.component.html',
+    styleUrls: ['./versandauftraege-list.component.scss']
 })
 export class VersandauftraegeListComponent implements AfterViewInit, OnDestroy {
 

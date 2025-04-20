@@ -12,21 +12,20 @@ import { AuthFacade } from '@bv-admin/shared/auth/api';
 import { User } from '@bv-admin/shared/auth/model';
 
 @Component({
-  selector: 'bv-admin-header',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatMenuModule,
-    MatIconModule,
-    MatListModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    NgIf,
-    AsyncPipe,
-    RouterLinkWithHref
-  ],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss',
+    selector: 'bv-admin-header',
+    imports: [
+        CommonModule,
+        MatMenuModule,
+        MatIconModule,
+        MatListModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        NgIf,
+        AsyncPipe,
+        RouterLinkWithHref
+    ],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 

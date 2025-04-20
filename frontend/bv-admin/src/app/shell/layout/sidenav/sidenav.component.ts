@@ -6,17 +6,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
-  selector: 'bv-admin-sidenav',
-  standalone: true,
-  imports: [
-    MatIconModule,
-    MatListModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    RouterLinkWithHref
-  ],
-  templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.scss',
+    selector: 'bv-admin-sidenav',
+    imports: [
+        MatIconModule,
+        MatListModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        RouterLinkWithHref
+    ],
+    templateUrl: './sidenav.component.html',
+    styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent {
 

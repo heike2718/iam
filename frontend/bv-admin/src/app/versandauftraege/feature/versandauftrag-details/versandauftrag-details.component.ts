@@ -10,7 +10,6 @@ import { MailversandauftragDetails, Mailversandgruppe } from "@bv-admin/versanda
 
 @Component({
     selector: 'bv-admin-versandauftrag',
-    standalone: true,
     imports: [
         CommonModule,
         NgIf,
@@ -22,7 +21,7 @@ import { MailversandauftragDetails, Mailversandgruppe } from "@bv-admin/versanda
         MatDialogModule
     ],
     templateUrl: './versandauftrag-details.component.html',
-    styleUrls: ['./versandauftrag-details.component.scss'],
+    styleUrls: ['./versandauftrag-details.component.scss']
 })
 export class VersandauftragDetailsComponent {
 

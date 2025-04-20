@@ -4,11 +4,10 @@ import { LoadingService } from '@bv-admin/shared/messages/api';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @Component({
-  selector: 'bv-admin-loader',
-  standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule],
-  templateUrl: './loading-indicator.component.html',
-  styleUrls: ['./loading-indicator.component.scss'],
+    selector: 'bv-admin-loader',
+    imports: [CommonModule, MatProgressSpinnerModule],
+    templateUrl: './loading-indicator.component.html',
+    styleUrls: ['./loading-indicator.component.scss']
 })
 export class LoadingIndicatorComponent {
 

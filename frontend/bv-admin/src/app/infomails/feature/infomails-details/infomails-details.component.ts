@@ -10,7 +10,6 @@ import { Subscription } from "rxjs";
 
 @Component({
     selector: 'bv-admin-infomail',
-    standalone: true,
     imports: [
         CommonModule,
         NgFor,
@@ -19,7 +18,7 @@ import { Subscription } from "rxjs";
         MatCardModule
     ],
     templateUrl: './infomails-details.component.html',
-    styleUrls: ['./infomails-details.component.scss'],
+    styleUrls: ['./infomails-details.component.scss']
 })
 export class InfomailsDetailsComponent implements OnInit, OnDestroy {
 

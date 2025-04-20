@@ -18,7 +18,6 @@ const REMOVE_FROM_GROUPR = 'removeFromGroup';
 
 @Component({
     selector: 'bv-admin-versandgruppe',
-    standalone: true,
     imports: [
         CommonModule,
         NgIf,
@@ -29,7 +28,7 @@ const REMOVE_FROM_GROUPR = 'removeFromGroup';
         MatIconModule
     ],
     templateUrl: './versandgruppe-details.component.html',
-    styleUrls: ['./versandgruppe-details.component.scss'],
+    styleUrls: ['./versandgruppe-details.component.scss']
 })
 export class VersandgruppeDetailsComponent {
 

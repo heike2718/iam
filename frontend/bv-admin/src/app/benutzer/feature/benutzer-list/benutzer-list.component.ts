@@ -28,25 +28,24 @@ const DELETE_BENUTZER_ACTION = "deleteAccount";
 const TOGGLE_ACTIVATION_STATE_ACTION = "toggleActivationState";
 
 @Component({
-  selector: 'bv-admin-benutzer',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgIf,
-    NgFor,
-    AsyncPipe,
-    FormsModule,
-    MatBadgeModule,
-    MatCheckboxModule,
-    MatTableModule,
-    MatSortModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatIconModule
-  ],
-  templateUrl: './benutzer-list.component.html',
-  styleUrls: ['./benutzer-list.component.scss'],
+    selector: 'bv-admin-benutzer',
+    imports: [
+        CommonModule,
+        NgIf,
+        NgFor,
+        AsyncPipe,
+        FormsModule,
+        MatBadgeModule,
+        MatCheckboxModule,
+        MatTableModule,
+        MatSortModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatButtonModule,
+        MatIconModule
+    ],
+    templateUrl: './benutzer-list.component.html',
+    styleUrls: ['./benutzer-list.component.scss']
 })
 export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
