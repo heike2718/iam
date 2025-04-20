@@ -22,16 +22,16 @@
       [attr.aria-label]="'zwischen Anzeige und Verstecken der Passwörter wechseln'" [attr.aria-pressed]="showPasswords"
       type="button"><mat-icon>{{ showPasswords ? 'visibility_off' : 'visibility' }}</mat-icon>
     </button>
-     @if("passwortForm.get('passwortNeu')?.hasError('forbiddenPassword')"){
+     @if(passwortForm.get('passwortNeu')?.hasError('forbiddenPassword')){
     <mat-error>Das neue Passwort genügt den Regeln nicht oder enthält unerlaubte Zeichen.</mat-error>
     }
-    @if("passwortForm.get('passwortNeu')?.hasError('required')"){
+    @if(passwortForm.get('passwortNeu')?.hasError('required')){
     <mat-error>Diese Eingabe ist erforderlich.</mat-error>
     }
-    @if("passwortForm.get('passwortNeu')?.hasError('min')"){
+    @if(passwortForm.get('passwortNeu')?.hasError('min')){
     <mat-error>mindestens 8 Zeichen</mat-error>
     }
-    @if("passwortForm.get('passwortNeu')?.hasError('max')"){
+    @if(passwortForm.get('passwortNeu')?.hasError('max')){
     <mat-error>höchstens 8 Zeichen</mat-error>
     }
   </mat-form-field>
@@ -42,7 +42,7 @@
       [attr.aria-label]="'zwischen Anzeige und Verstecken der Passwörter wechseln'" [attr.aria-pressed]="showPasswords"
       type="button"><mat-icon>{{ showPasswords ? 'visibility_off' : 'visibility' }}</mat-icon>
     </button>
-    @if("passwortForm.get('passwortNeuWdh')?.hasError('required')"){
+    @if(passwortForm.get('passwortNeuWdh')?.hasError('required')){
     <mat-error>Bitte wiederholen Sie die Eingabe.</mat-error>
     }
   </mat-form-field>
