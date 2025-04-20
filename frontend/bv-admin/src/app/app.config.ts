@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { LoadingInterceptor } from '@bv-admin/shared/messages/api';
 import { AuthAdminAPIHttpInterceptor } from '@bv-admin/shared/http';
-import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration } from '@angular/common/http';
 import { ErrorHandlerService } from './shell/services/error-handler.service';
 import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from '@bv-admin/shared/local-storage-data';
 import { provideRouterStore } from '@ngrx/router-store';
@@ -68,13 +68,10 @@ export const appConfig: ApplicationConfig = {
     benutzerDataProvider,
     infomailsDataProvider,
     versandauftraegeDataProvider,
-    importProvidersFrom(
-      HttpClientModule,
-      HttpClientXsrfModule.withOptions({
-        cookieName: 'XSRF-TOKEN',
-        headerName: 'X-XSRF-TOKEN',
-      })
-    ),
+    provideHttpClient(withInterceptorsFromDi(), withXsrfConfiguration({
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-TOKEN',
+    })),
     { provide: HTTP_INTERCEPTORS, multi: true, useClass: LoadingInterceptor },
     { provide: HTTP_INTERCEPTORS, multi: true, useClass: AuthAdminAPIHttpInterceptor },
     { provide: ErrorHandler, useClass: ErrorHandlerService },

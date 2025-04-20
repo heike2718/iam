@@ -14,30 +14,44 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@bv-admin/benutzer/api": ["src/app/benutzer/api/index.ts"],
+      "@bv-admin/benutzer/data": ["src/app/benutzer/data/index.ts"],
+      "@bv-admin/benutzer/feature": ["src/app/benutzer/feature/index.ts"],
+      "@bv-admin/benutzer/model": ["src/app/benutzer/model/index.ts"],
+      "@bv-admin/infomails/api": ["src/app/infomails/api/index.ts"],
+      "@bv-admin/infomails/data": ["src/app/infomails/data/index.ts"],
+      "@bv-admin/infomails/feature": ["src/app/infomails/feature/index.ts"],
+      "@bv-admin/infomails/model": ["src/app/infomails/model/index.ts"],
+      "@bv-admin/shared/auth/api": ["src/app/shared/auth/api/index.ts"],
+      "@bv-admin/shared/auth/data": ["src/app/shared/auth/data/index.ts"],
+      "@bv-admin/shared/auth/model": ["src/app/shared/auth/model/index.ts"],
       "@bv-admin/shared/config": ["src/app/shared/config/index.ts"],
-      "@bv-admin/shared/model": ["src/app/shared/model/index.ts"],
       "@bv-admin/shared/http": ["src/app/shared/http/index.ts"],
+      "@bv-admin/shared/local-storage-data": [
+        "src/app/shared/local-storage-data/index.ts"
+      ],
       "@bv-admin/shared/messages/api": ["src/app/shared/messages/api/index.ts"],
       "@bv-admin/shared/messages/ui": ["src/app/shared/messages/ui/index.ts"],
-      "@bv-admin/shared/auth/api": ["src/app/shared/auth/api/index.ts"],
-      "@bv-admin/shared/auth/model": ["src/app/shared/auth/model/index.ts"],
-      "@bv-admin/shared/auth/data": ["src/app/shared/auth/data/index.ts"],
-      "@bv-admin/shared/ui/benutzerbasket-status": ["src/app/shared/ui/benutzerbasket-status/index.ts"],
-      "@bv-admin/shared/ui/components": ["src/app/shared/ui/components/index.ts"],
+      "@bv-admin/shared/model": ["src/app/shared/model/index.ts"],
+      "@bv-admin/shared/ui/benutzerbasket-status": [
+        "src/app/shared/ui/benutzerbasket-status/index.ts"
+      ],
+      "@bv-admin/shared/ui/components": [
+        "src/app/shared/ui/components/index.ts"
+      ],
       "@bv-admin/shared/util": ["src/app/shared/util/index.ts"],
-      "@bv-admin/shared/local-storage-data": ["src/app/shared/local-storage-data/index.ts"],
-      "@bv-admin/benutzer/api": ["src/app/benutzer/api/index.ts"],
-      "@bv-admin/benutzer/feature": ["src/app/benutzer/feature/index.ts"],
-      "@bv-admin/benutzer/data": ["src/app/benutzer/data/index.ts"],
-      "@bv-admin/benutzer/model": ["src/app/benutzer/model/index.ts"],
-      "@bv-admin/infomails/model": ["src/app/infomails/model/index.ts"],
-      "@bv-admin/infomails/data": ["src/app/infomails/data/index.ts"],
-      "@bv-admin/infomails/api": ["src/app/infomails/api/index.ts"],
-      "@bv-admin/infomails/feature": ["src/app/infomails/feature/index.ts"],
-      "@bv-admin/versandauftraege/model": ["src/app/versandauftraege/model/index.ts"],
-      "@bv-admin/versandauftraege/data": ["src/app/versandauftraege/data/index.ts"],
-      "@bv-admin/versandauftraege/api": ["src/app/versandauftraege/api/index.ts"],
-      "@bv-admin/versandauftraege/feature": ["src/app/versandauftraege/feature/index.ts"]
+      "@bv-admin/versandauftraege/api": [
+        "src/app/versandauftraege/api/index.ts"
+      ],
+      "@bv-admin/versandauftraege/data": [
+        "src/app/versandauftraege/data/index.ts"
+      ],
+      "@bv-admin/versandauftraege/feature": [
+        "src/app/versandauftraege/feature/index.ts"
+      ],
+      "@bv-admin/versandauftraege/model": [
+        "src/app/versandauftraege/model/index.ts"
+      ]
     },
     "useDefineForClassFields": false,
     "esModuleInterop": true,

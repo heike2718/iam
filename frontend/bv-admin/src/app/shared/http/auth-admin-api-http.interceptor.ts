@@ -1,11 +1,4 @@
-import {
-    HttpErrorResponse,
-    HttpEvent,
-    HttpHandler,
-    HttpHeaders,
-    HttpInterceptor,
-    HttpRequest,
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Configuration } from '@bv-admin/shared/config';
