@@ -1,5 +1,5 @@
 // =====================================================
-// Project: mkbiza-api
+// Project: auth-validations
 // (c) Heike Winkelvoß
 // =====================================================
 package de.egladil.web.auth_validations.dto;

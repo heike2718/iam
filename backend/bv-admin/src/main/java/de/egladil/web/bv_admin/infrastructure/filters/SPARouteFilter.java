@@ -4,8 +4,10 @@
 // =====================================================
 package de.egladil.web.bv_admin.infrastructure.filters;
 
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -40,7 +42,7 @@ public class SPARouteFilter {
 		if (path.startsWith(APP_PLUS_API_PREFIX)) {
 
 			// reroute to REST-API
-			String rerouted = path.replaceFirst(DEFAULT_APP, "/");
+			String rerouted = path.replaceFirst(DEFAULT_APP, "/") + getQueryParameters(rc);
 			LOGGER.info("(2) rc.reroute: " + rerouted);
 			rc.reroute(rerouted);
 		} else {
@@ -94,7 +96,7 @@ public class SPARouteFilter {
 
 		if (FILE_NAME_PREDICATE.test(path)) {
 
-			LOGGER.info("(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/bv-admin-app/");
+			LOGGER.info("(3-2) kein Umleiten von statischen files aus src/main/resources/META-INF/resources/bv_admin/");
 			return true;
 		}
 
@@ -106,5 +108,24 @@ public class SPARouteFilter {
 
 		LOGGER.info("(3-4)");
 		return false;
+	}
+
+	String getQueryParameters(final RoutingContext rc) {
+
+		Map<String, String> queryParams = rc.queryParams().entries().stream()
+			.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+		if (queryParams.isEmpty()) {
+
+			return "";
+		}
+
+		StringBuffer sb = new StringBuffer("?");
+		queryParams.forEach((key, value) -> sb.append(key).append("=").append(value).append("&"));
+
+		sb.deleteCharAt(sb.length() - 1);
+
+		return sb.toString();
+
 	}
 }
