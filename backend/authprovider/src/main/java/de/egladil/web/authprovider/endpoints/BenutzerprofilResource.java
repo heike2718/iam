@@ -10,6 +10,10 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +23,7 @@ import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
+import de.egladil.web.authprovider.payload.TempPasswordV2ResponseDto;
 import de.egladil.web.authprovider.payload.User;
 import de.egladil.web.authprovider.payload.profile.ChangeProfileDataPayload;
 import de.egladil.web.authprovider.payload.profile.ChangeProfilePasswordPayload;
@@ -79,6 +84,11 @@ public class BenutzerprofilResource {
 	 */
 	@PUT
 	@Path("profile/password")
+	@Operation(operationId = "changePassword", summary = "ändert das Passwort.")
+	@APIResponse(name = "OKResponse", responseCode = "200", description = "data des ResponsePayload ist ein NoncePayload", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
+	@APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", description = "Benutzer konnte nicht authentifiziert werden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
 	public Response changePassword(@Valid
 	final ChangeProfilePasswordPayload payload) {
 
@@ -114,6 +124,11 @@ public class BenutzerprofilResource {
 	 */
 	@PUT
 	@Path("profile/data")
+	@Operation(operationId = "changeData", summary = "ändert Daten des Benutzers")
+	@APIResponse(name = "OKResponse", responseCode = "200", description = "data des ResponsePayload ist ein User", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
+	@APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", description = "Benutzer konnte nicht authentifiziert werden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
 	public Response changeData(@Valid
 	final ChangeProfileDataPayload payload) {
 
@@ -148,6 +163,11 @@ public class BenutzerprofilResource {
 	 */
 	@POST
 	@Path("profile")
+	@Operation(operationId = "getUserProfile", summary = "gibt die Daten des Benutzers zurück")
+	@APIResponse(name = "OKResponse", responseCode = "200", description = "data des ResponsePayload ist ein User", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
+	@APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", description = "Benutzer konnte nicht authentifiziert werden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
 	public Response getUserProfile(@Valid
 	final SelectProfilePayload selectProfilePayload) {
 
@@ -184,7 +204,12 @@ public class BenutzerprofilResource {
 	 */
 	@DELETE
 	@Path("profile")
-	public Response deleteUserProfile(@Valid
+	@Operation(operationId = "deleteUser", summary = "löscht das Benutzerkonto")
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
+	@APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", description = "Benutzer konnte nicht authentifiziert werden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
+	public Response deleteUser(@Valid
 	final SelectProfilePayload selectProfilePayload) {
 
 		try {

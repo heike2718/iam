@@ -8,6 +8,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import de.egladil.web.authprovider.event.AuthproviderEventHandler;
 import de.egladil.web.authprovider.event.BotAttackEvent;
@@ -16,6 +20,7 @@ import de.egladil.web.authprovider.payload.ChangeTempPasswordPayload;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.OrderTempPasswordPayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
+import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
 import de.egladil.web.authprovider.payload.TempPasswordV2ResponseDto;
 import de.egladil.web.authprovider.service.temppwd.ChangeTempPasswordService;
 import de.egladil.web.authprovider.service.temppwd.CreateTempPasswordService;
@@ -51,6 +56,10 @@ public class TempPasswordResource {
 	AuthproviderEventHandler eventHandler;
 
 	@POST
+	@Operation(operationId = "orderTempPassword", summary = "Erzeugt ein temporäres Passwort, mit dem man sein Passwort zurücksetzen kann.")
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = TempPasswordV2ResponseDto.class)))
+	@APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
 	public Response orderTempPassword(@Valid
 	final OrderTempPasswordPayload payload, @Context
 	final UriInfo uriInfo) {
@@ -73,8 +82,12 @@ public class TempPasswordResource {
 	}
 
 	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response changeTempPassword(@Valid
+	@Operation(operationId = "changeTempPassword", summary = "Ändert das eigene Passwort.")
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
+	@APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", description = "Das temporäre Passwort stimmt nicht", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
+		public Response changeTempPassword(@Valid
 	final ChangeTempPasswordPayload payload, @Context
 	final UriInfo uriInfo) {
 

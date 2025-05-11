@@ -201,7 +201,9 @@ public class ResourceOwnerService {
 	 *
 	 * @param identifier String email oder loginName
 	 * @return Optional
+	 * @deprecated wird nicht verwendet, also weg
 	 */
+	@Deprecated(forRemoval = true)
 	public Optional<ResourceOwner> findByIdentifier(final String identifier) {
 
 		Optional<ResourceOwner> opt = this.findResourceOwnerByLoginName(identifier);
@@ -392,37 +394,6 @@ public class ResourceOwnerService {
 			item = new ResourceOwnerResponseItemBuilder(ro.getUuid(), true, ro.getFullName(), ro.isAktiviert())
 				.withEmail(ro.getEmail()).withLoginName(ro.getLoginName()).withVorname(ro.getVorname())
 				.withNachname(ro.getNachname()).withRoles(ro.getRoles()).build();
-			result.add(item);
-		});
-
-		return result;
-	}
-
-	/**
-	 * Läd die Namen der gegebenen User. Wenn es den User mit derUUID nicht gibt oder er anonymisiert oder nicht
-	 * aktiviert ist, ist fullName null.
-	 *
-	 * @param uuidPayload UuidPayloadList
-	 * @return List
-	 */
-	public List<ResourceOwnerResponseItem> getUserNames(final List<String> uuids) {
-
-		final List<ResourceOwnerResponseItem> result = new ArrayList<>();
-
-		uuids.forEach(uuid -> {
-
-			ResourceOwnerResponseItem item = null;
-			Optional<ResourceOwner> optRo = resourceOwnerDao.findByUUID(uuid);
-
-			if (optRo.isPresent()) {
-
-				ResourceOwner ro = optRo.get();
-
-				item = new ResourceOwnerResponseItemBuilder(uuid, true, ro.getFullName(), ro.isAktiviert()).build();
-			} else {
-
-				item = new ResourceOwnerResponseItemBuilder(uuid, false, null, false).build();
-			}
 			result.add(item);
 		});
 

@@ -4,11 +4,17 @@
 // =====================================================
 package de.egladil.web.authprovider.endpoints;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.log.LogDelegate;
 import de.egladil.web.authprovider.log.LogEntry;
+import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -32,6 +38,9 @@ public class LogResource {
 	private static final String CLIENT_ID = "auth-app";
 
 	@POST
+	@Operation(operationId = "logError", summary = "Schreibt etwas ins server.log.")
+	@APIResponse(name = "OKResponse", responseCode = "200")
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
 	public Response logError(@Valid
 	final LogEntry logEntry) {
 

@@ -29,7 +29,7 @@ export class LoginSignupHttpService {
 
     logIn(logInCredentials: LoginCredentials): Observable<SignUpLogInResponseData> {
 
-        const url = '/authprovider//api/auth/sessions/auth-token-grant';
+        const url = '/authprovider/api/auth/sessions/auth-token-grant';
 
         return this.#httpClient.post<SignUpLogInResponseData>(url, logInCredentials);
     }

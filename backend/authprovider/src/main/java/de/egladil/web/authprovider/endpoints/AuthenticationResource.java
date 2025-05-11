@@ -9,6 +9,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.event.AuthproviderEventHandler;
@@ -16,6 +23,8 @@ import de.egladil.web.authprovider.event.BotAttackEvent;
 import de.egladil.web.authprovider.event.BotAttackEventPayload;
 import de.egladil.web.authprovider.payload.LoginCredentials;
 import de.egladil.web.authprovider.payload.MessagePayload;
+import de.egladil.web.authprovider.payload.OAuthAccessTokenPayload;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
 import de.egladil.web.authprovider.service.AuthJWTService;
 import de.egladil.web.authprovider.service.AuthenticationService;
@@ -60,6 +69,13 @@ public class AuthenticationResource {
 	 */
 	@POST
 	@Path("sessions/auth-token-grant")
+	@Operation(operationId = "authenticateUserWithTokenExchangeTypeAuthTokenGrant", summary = "Authentifiziert den Benutzer	")
+	@Parameters({
+		@Parameter(in = ParameterIn.QUERY, name = "accessToken", description = "Authentifiziert den Benutzer mit Loginname / Email und Passwort. Gibt als SignUpLogInResponseData.idToken ein oneTimeToken zurück, mit dem der Server des anfragenden Clients das JWT abholen kann."), })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SignUpLogInResponseData.class)))
+	@APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", description = "Client credentials stimmen nicht", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
 	public Response authenticateUserWithTokenExchangeTypeAuthTokenGrant(@Valid
 	final LoginCredentials credentials, @Context
 	final UriInfo uriInfo) {

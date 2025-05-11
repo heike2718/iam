@@ -4,6 +4,13 @@
 // =====================================================
 package de.egladil.web.authprovider.endpoints;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +59,13 @@ public class TokenExchangeResource {
 	 */
 	@PUT
 	@Path("/exchange/{oneTimeToken}")
+	@Operation(operationId = "exchangeOneTimeTokenWithJwt", summary = "Gibt das JWT gegen ein einmaltoken zurück.")
+	@Parameters({ @Parameter(in = ParameterIn.PATH, name = "oneTimeToken", description = "secure String"), })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
+	@APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung")
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "NotFound", responseCode = "404", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
 	public Response exchangeOneTimeTokenWithJwt(@PathParam(value = "oneTimeToken")
 	@UuidString
 	final String oneTimeToken, final OAuthClientCredentials clientCredentials) {

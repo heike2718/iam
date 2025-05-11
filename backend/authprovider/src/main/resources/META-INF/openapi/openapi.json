@@ -3,519 +3,25 @@
   "tags" : [ {
     "name" : "AboutResource"
   } ],
-  "paths" : {
-    "/api/about" : {
-      "get" : {
-        "tags" : [ "AboutResource" ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "summary" : "Get About Info"
-      }
-    },
-    "/api/auth/sessions/auth-token-grant" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/LoginCredentials"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Authenticate User With Token Exchange Type Auth Token Grant",
-        "tags" : [ "Authentication Resource" ]
-      }
-    },
-    "/api/clients" : {
-      "get" : {
-        "parameters" : [ {
-          "name" : "accessToken",
-          "in" : "query",
-          "schema" : {
-            "type" : "string",
-            "pattern" : "\\S",
-            "maxLength" : 50
-          },
-          "required" : true
-        }, {
-          "name" : "redirectUrl",
-          "in" : "query",
-          "schema" : {
-            "type" : "string",
-            "pattern" : ""
-          },
-          "required" : true
-        }, {
-          "name" : "state",
-          "in" : "query",
-          "schema" : {
-            "type" : "string",
-            "maxLength" : 150
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "summary" : "Get Client",
-        "tags" : [ "Client Resource" ]
-      }
-    },
-    "/api/clients/client/accesstoken" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/OAuthClientCredentials"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Authenticate Client",
-        "tags" : [ "Client Resource" ]
-      }
-    },
-    "/api/clients/v2" : {
-      "get" : {
-        "parameters" : [ {
-          "name" : "accessToken",
-          "in" : "query",
-          "schema" : {
-            "type" : "string",
-            "pattern" : "\\S",
-            "maxLength" : 50
-          },
-          "required" : true
-        }, {
-          "name" : "redirectUrl",
-          "in" : "query",
-          "schema" : {
-            "type" : "string",
-            "pattern" : ""
-          },
-          "required" : true
-        }, {
-          "name" : "state",
-          "in" : "query",
-          "schema" : {
-            "type" : "string",
-            "maxLength" : 150
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "summary" : "Get Client V 2",
-        "tags" : [ "Client Resource" ]
-      }
-    },
-    "/api/dev" : {
-      "get" : {
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "summary" : "Say Hello",
-        "tags" : [ "Development Resource" ]
-      }
-    },
-    "/api/guiversion" : {
-      "get" : {
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "summary" : "Get Excpected Gui Version",
-        "tags" : [ "Gui Version Resource" ]
-      }
-    },
-    "/api/heartbeats" : {
-      "get" : {
-        "parameters" : [ {
-          "name" : "X-HEARTBEAT-ID",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "summary" : "Check",
-        "tags" : [ "Heartbeat Resource" ]
-      }
-    },
-    "/api/log" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/LogEntry"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Log Error",
-        "tags" : [ "Log Resource" ]
-      }
-    },
-    "/api/profiles/profile" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SelectProfilePayload"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Get User Profile",
-        "tags" : [ "Benutzerprofil Resource" ]
-      },
-      "delete" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SelectProfilePayload"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "summary" : "Delete User Profile",
-        "tags" : [ "Benutzerprofil Resource" ]
-      }
-    },
-    "/api/profiles/profile/data" : {
-      "put" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ChangeProfileDataPayload"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Change Data",
-        "tags" : [ "Benutzerprofil Resource" ]
-      }
-    },
-    "/api/profiles/profile/password" : {
-      "put" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ChangeProfilePasswordPayload"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Change Password",
-        "tags" : [ "Benutzerprofil Resource" ]
-      }
-    },
-    "/api/registration/confirmation" : {
-      "get" : {
-        "parameters" : [ {
-          "name" : "code",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "summary" : "Activate User",
-        "tags" : [ "User Activation Resource" ]
-      }
-    },
-    "/api/temppwd" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/OrderTempPasswordPayload"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Order Temp Password",
-        "tags" : [ "Temp Password Resource" ]
-      },
-      "put" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ChangeTempPasswordPayload"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Change Temp Password",
-        "tags" : [ "Temp Password Resource" ]
-      }
-    },
-    "/api/token/exchange/{oneTimeToken}" : {
-      "put" : {
-        "parameters" : [ {
-          "name" : "oneTimeToken",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/OAuthClientCredentials"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Exchange One Time Token With Jwt",
-        "tags" : [ "Token Exchange Resource" ]
-      }
-    },
-    "/api/users/details" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/UserQueryParametersPayload"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Get Geschuetzte Kontodaten By Query",
-        "tags" : [ "User Resource" ]
-      }
-    },
-    "/api/users/names" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/UuidPayloadList"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Get User Names",
-        "tags" : [ "User Resource" ]
-      }
-    },
-    "/api/users/signup" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SignUpCredentials"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Sign Up V 2",
-        "tags" : [ "User Resource" ]
-      }
-    },
-    "/api/users/user" : {
-      "get" : {
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "401" : {
-            "description" : "Not Authorized"
-          },
-          "403" : {
-            "description" : "Not Allowed"
-          }
-        },
-        "summary" : "Get User Profile",
-        "tags" : [ "User Resource" ],
-        "security" : [ {
-          "SecurityScheme" : [ "STANDARD" ]
-        } ]
-      }
-    },
-    "/api/users/user/details" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/UuidPayloadList"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Get Own Kontodaten",
-        "tags" : [ "User Resource" ]
-      }
-    },
-    "/api/version" : {
-      "get" : {
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "summary" : "Get Version",
-        "tags" : [ "Version Resource" ]
-      }
-    }
-  },
   "components" : {
     "schemas" : {
+      "AboutDto" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "env" : {
+            "type" : "string"
+          },
+          "stage" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "string"
+          }
+        }
+      },
       "AuthorizationCredentials" : {
         "type" : "object",
         "required" : [ "loginName", "passwort" ],
@@ -531,10 +37,6 @@
             "type" : "string"
           }
         }
-      },
-      "BenutzerSuchmodus" : {
-        "type" : "string",
-        "enum" : [ "EMAIL", "LOGINNAME", "NAME", "UUID" ]
       },
       "ChangeProfileDataPayload" : {
         "type" : "object",
@@ -612,6 +114,32 @@
           }
         }
       },
+      "ClientInformation" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "zurueckText" : {
+            "type" : "string"
+          },
+          "agbUrl" : {
+            "type" : "string"
+          },
+          "loginnameSupported" : {
+            "type" : "boolean"
+          },
+          "namenRequired" : {
+            "type" : "boolean"
+          },
+          "baseUrl" : {
+            "type" : "string"
+          },
+          "state" : {
+            "type" : "string"
+          }
+        }
+      },
       "LogEntry" : {
         "type" : "object",
         "properties" : {
@@ -639,6 +167,32 @@
           }
         }
       },
+      "MessagePayload" : {
+        "type" : "object",
+        "properties" : {
+          "level" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "OAuthAccessTokenPayload" : {
+        "type" : "object",
+        "properties" : {
+          "accessToken" : {
+            "type" : "string"
+          },
+          "expiresAt" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "nonce" : {
+            "type" : "string"
+          }
+        }
+      },
       "OAuthClientCredentials" : {
         "type" : "object",
         "required" : [ "clientId", "clientSecret" ],
@@ -658,6 +212,10 @@
             "maxLength" : 36
           }
         }
+      },
+      "OAuthFlowType" : {
+        "type" : "string",
+        "enum" : [ "IMPLICITE_FLOW", "AUTHORIZATION_TOKEN_GRANT" ]
       },
       "OrderTempPasswordPayload" : {
         "type" : "object",
@@ -710,6 +268,16 @@
           }
         }
       },
+      "ResponsePayload" : {
+        "deprecated" : true,
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "$ref" : "#/components/schemas/MessagePayload"
+          },
+          "data" : { }
+        }
+      },
       "SelectProfilePayload" : {
         "type" : "object",
         "required" : [ "clientCredentials", "uuid" ],
@@ -760,46 +328,37 @@
           }
         }
       },
+      "SignUpLogInResponseData" : {
+        "type" : "object",
+        "properties" : {
+          "state" : {
+            "type" : "string"
+          },
+          "idToken" : {
+            "type" : "string"
+          },
+          "nonce" : {
+            "type" : "string"
+          },
+          "oauthFlowType" : {
+            "$ref" : "#/components/schemas/OAuthFlowType"
+          },
+          "tokenExchangeType" : {
+            "$ref" : "#/components/schemas/OAuthFlowType"
+          }
+        }
+      },
       "TSLogLevel" : {
         "type" : "string",
         "enum" : [ "All", "Debug", "Info", "Warn", "Error", "Fatal", "Off" ]
       },
-      "UserQueryParametersPayload" : {
+      "TempPasswordV2ResponseDto" : {
         "type" : "object",
         "properties" : {
-          "adminUUID" : {
+          "message" : {
             "type" : "string"
-          },
-          "clientCredentials" : {
-            "$ref" : "#/components/schemas/OAuthClientCredentials"
-          },
-          "parameterTyp" : {
-            "$ref" : "#/components/schemas/BenutzerSuchmodus"
-          },
-          "query" : {
-            "type" : "string",
-            "pattern" : "\\S"
           }
-        },
-        "required" : [ "clientCredentials", "parameterTyp", "query" ]
-      },
-      "UuidPayloadList" : {
-        "type" : "object",
-        "properties" : {
-          "adminUUID" : {
-            "type" : "string"
-          },
-          "clientCredentials" : {
-            "$ref" : "#/components/schemas/OAuthClientCredentials"
-          },
-          "uuids" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          }
-        },
-        "required" : [ "clientCredentials" ]
+        }
       },
       "ZweiPassworte" : {
         "type" : "object",
@@ -820,6 +379,822 @@
         "scheme" : "bearer",
         "bearerFormat" : "JWT",
         "description" : "Authentication"
+      }
+    }
+  },
+  "paths" : {
+    "/api/about" : {
+      "get" : {
+        "summary" : "Über authprovider. Zum Smoketest sinnvoll.",
+        "operationId" : "getAboutInfo",
+        "tags" : [ "AboutResource" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AboutDto"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/sessions/auth-token-grant" : {
+      "post" : {
+        "summary" : "Authentifiziert den Benutzer\t",
+        "operationId" : "authenticateUserWithTokenExchangeTypeAuthTokenGrant",
+        "parameters" : [ {
+          "description" : "Authentifiziert den Benutzer mit Loginname / Email und Passwort. Gibt als SignUpLogInResponseData.idToken ein oneTimeToken zurück, mit dem der Server des anfragenden Clients das JWT abholen kann.",
+          "in" : "query",
+          "name" : "accessToken"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoginCredentials"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SignUpLogInResponseData"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Client credentials stimmen nicht",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Authentication Resource" ]
+      }
+    },
+    "/api/clients/client/accesstoken" : {
+      "post" : {
+        "summary" : "Authentifiziert den Client",
+        "operationId" : "authenticateClient",
+        "parameters" : [ {
+          "description" : "Ein zuvor über POST authprovider/api/clients/client/accesstoken angefordertes OTT.",
+          "in" : "query",
+          "name" : "accessToken"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OAuthClientCredentials"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OAuthAccessTokenPayload"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Client credentials stimmen nicht",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Client Resource" ]
+      }
+    },
+    "/api/clients/v2" : {
+      "get" : {
+        "summary" : "Läd die Infos über den Client für die Loginmaske. ",
+        "operationId" : "getClientInformation",
+        "parameters" : [ {
+          "description" : "Ein zuvor über POST authprovider/api/clients/client/accesstoken angefordertes OTT.",
+          "in" : "query",
+          "name" : "accessToken",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "pattern" : "\\S",
+            "maxLength" : 50
+          }
+        }, {
+          "description" : "Die Redirect-URL für den anfragenden Client. Ist das Secret in der Kommunikation.",
+          "in" : "query",
+          "name" : "redirectUrl",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "pattern" : ""
+          }
+        }, {
+          "description" : "hat seine Bedeutung irgendwie verloren, hängt aber in allen Client-Anwendungen drin.",
+          "in" : "query",
+          "name" : "state",
+          "schema" : {
+            "type" : "string",
+            "maxLength" : 150
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClientInformation"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "908" : {
+            "description" : "Das accessToken hat eine Zeitbegrenzung und die ist abgelaufen.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Client Resource" ]
+      }
+    },
+    "/api/guiversion" : {
+      "get" : {
+        "summary" : "Gibt die erwartete GUI-Version zurück. Stammt noch aus der Zeit, als der Brwoser die Angular-Anwendung ungebührlich gecached hat.",
+        "operationId" : "getExcpectedGuiVersion",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Gui Version Resource" ]
+      }
+    },
+    "/api/heartbeats" : {
+      "get" : {
+        "summary" : "ping, ob autprovider da ist.",
+        "operationId" : "check liveliness",
+        "parameters" : [ {
+          "description" : "ein secret",
+          "in" : "header",
+          "name" : "X-HEARTBEAT-ID",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Heartbeat Resource" ]
+      }
+    },
+    "/api/log" : {
+      "post" : {
+        "summary" : "Schreibt etwas ins server.log.",
+        "operationId" : "logError",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LogEntry"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "tags" : [ "Log Resource" ]
+      }
+    },
+    "/api/profiles/profile" : {
+      "post" : {
+        "summary" : "gibt die Daten des Benutzers zurück",
+        "operationId" : "getUserProfile",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SelectProfilePayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "data des ResponsePayload ist ein User",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Benutzer konnte nicht authentifiziert werden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Benutzerprofil Resource" ]
+      },
+      "delete" : {
+        "summary" : "löscht das Benutzerkonto",
+        "operationId" : "deleteUser",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SelectProfilePayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Benutzer konnte nicht authentifiziert werden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Benutzerprofil Resource" ]
+      }
+    },
+    "/api/profiles/profile/data" : {
+      "put" : {
+        "summary" : "ändert Daten des Benutzers",
+        "operationId" : "changeData",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChangeProfileDataPayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "data des ResponsePayload ist ein User",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Benutzer konnte nicht authentifiziert werden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Benutzerprofil Resource" ]
+      }
+    },
+    "/api/profiles/profile/password" : {
+      "put" : {
+        "summary" : "ändert das Passwort.",
+        "operationId" : "changePassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChangeProfilePasswordPayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "data des ResponsePayload ist ein NoncePayload",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Benutzer konnte nicht authentifiziert werden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Benutzerprofil Resource" ]
+      }
+    },
+    "/api/registration/confirmation" : {
+      "get" : {
+        "summary" : "aktiviert das Konto des Benutzers.",
+        "operationId" : "activateUser",
+        "parameters" : [ {
+          "description" : "Ein beim Anlegen des Kontos generierter String, der miz der UUID persistiert ist und als Query-Parameter im Link mit der Mail versendet wird.",
+          "in" : "query",
+          "name" : "code",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "User Activation Resource" ]
+      }
+    },
+    "/api/temppwd" : {
+      "post" : {
+        "summary" : "Erzeugt ein temporäres Passwort, mit dem man sein Passwort zurücksetzen kann.",
+        "operationId" : "orderTempPassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OrderTempPasswordPayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TempPasswordV2ResponseDto"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Temp Password Resource" ]
+      },
+      "put" : {
+        "summary" : "Ändert das eigene Passwort.",
+        "operationId" : "changeTempPassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChangeTempPasswordPayload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Das temporäre Passwort stimmt nicht",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Temp Password Resource" ]
+      }
+    },
+    "/api/token/exchange/{oneTimeToken}" : {
+      "put" : {
+        "summary" : "Gibt das JWT gegen ein einmaltoken zurück.",
+        "operationId" : "exchangeOneTimeTokenWithJwt",
+        "parameters" : [ {
+          "description" : "secure String",
+          "in" : "path",
+          "name" : "oneTimeToken",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OAuthClientCredentials"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : { }
+            }
+          },
+          "404" : {
+            "content" : {
+              "application/json" : { }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Token Exchange Resource" ]
+      }
+    },
+    "/api/users/signup" : {
+      "post" : {
+        "summary" : "Legt ein neues Benutzerkonto an",
+        "operationId" : "signUp",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SignUpCredentials"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SignUpLogInResponseData"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "fehlgeschlagene Input-Validierung",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessagePayload"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResponsePayload"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "User Resource" ]
       }
     }
   },

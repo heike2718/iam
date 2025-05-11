@@ -9,6 +9,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +22,6 @@ import de.egladil.web.authprovider.service.confirm.ConfirmationService;
 import de.egladil.web.authprovider.service.confirm.ConfirmationStatus;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -31,8 +34,6 @@ import jakarta.ws.rs.core.Response;
  */
 @RequestScoped
 @Path("api/registration")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.TEXT_HTML)
 public class UserActivationResource {
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserActivationResource.class);
@@ -60,6 +61,10 @@ public class UserActivationResource {
 	 */
 	@GET
 	@Path("/confirmation")
+	@Produces(MediaType.TEXT_HTML)
+	@Operation(operationId = "activateUser", summary = "aktiviert das Konto des Benutzers.")
+	@Parameters({
+		@Parameter(in = ParameterIn.QUERY, name = "code", description = "Ein beim Anlegen des Kontos generierter String, der miz der UUID persistiert ist und als Query-Parameter im Link mit der Mail versendet wird."), })
 	public Response activateUser(@UuidString
 	@QueryParam("code")
 	final String confirmationCode) {

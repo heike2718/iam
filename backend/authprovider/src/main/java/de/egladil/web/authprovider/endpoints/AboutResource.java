@@ -4,9 +4,15 @@
 // =====================================================
 package de.egladil.web.authprovider.endpoints;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import de.egladil.web.authprovider.about.AboutDto;
 import de.egladil.web.authprovider.about.AboutService;
+import de.egladil.web.authprovider.payload.ResponsePayload;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -28,6 +34,9 @@ public class AboutResource {
 	AboutService aboutService;
 
 	@GET
+	@Operation(operationId = "getAboutInfo", summary = "Über authprovider. Zum Smoketest sinnvoll.")
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AboutDto.class)))
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
 	public Response getAboutInfo() {
 
 		return Response.ok(aboutService.getAboutDto()).build();
