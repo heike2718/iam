@@ -20,7 +20,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import de.egladil.web.bv_admin.domain.infomails.InfomailRequestDto;
 import de.egladil.web.bv_admin.domain.infomails.InfomailResponseDto;
 import de.egladil.web.bv_admin.domain.infomails.UpdateInfomailResponseDto;
-import de.egladil.web.bv_admin.infrastructure.resources.InfomailsResource;
 import de.egladil.web.bv_admin.profiles.AuthAdminTestProfile;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;

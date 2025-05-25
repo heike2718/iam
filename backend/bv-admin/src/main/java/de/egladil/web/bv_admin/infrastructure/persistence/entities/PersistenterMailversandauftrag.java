@@ -20,10 +20,18 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * PersistenterMailversandauftrag
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "MAILVERSANDAUFTRAEGE")
 @NamedQueries({
@@ -83,145 +91,5 @@ public class PersistenterMailversandauftrag {
 	@Version
 	@Column(name = "VERSION")
 	private int version;
-
-	public String getIdInfomailtext() {
-
-		return idInfomailtext;
-	}
-
-	public void setIdInfomailtext(final String idInfomailtext) {
-
-		this.idInfomailtext = idInfomailtext;
-	}
-
-	public String getChecksumEmpfaengerIDs() {
-
-		return checksumEmpfaengerIDs;
-	}
-
-	public void setChecksumEmpfaengerIDs(final String checksumEmpfaengerIDs) {
-
-		this.checksumEmpfaengerIDs = checksumEmpfaengerIDs;
-	}
-
-	public String getVersandJahrMonat() {
-
-		return versandJahrMonat;
-	}
-
-	public void setVersandJahrMonat(final String versandJahrMonat) {
-
-		this.versandJahrMonat = versandJahrMonat;
-	}
-
-	public Jobstatus getStatus() {
-
-		return status;
-	}
-
-	public void setStatus(final Jobstatus status) {
-
-		this.status = status;
-	}
-
-	public LocalDateTime getErfasstAm() {
-
-		return erfasstAm;
-	}
-
-	public void setErfasstAm(final LocalDateTime erfasstAm) {
-
-		this.erfasstAm = erfasstAm;
-	}
-
-	public LocalDateTime getVersandBegonnenAm() {
-
-		return versandBegonnenAm;
-	}
-
-	public void setVersandBegonnenAm(final LocalDateTime versandBegonnenAm) {
-
-		this.versandBegonnenAm = versandBegonnenAm;
-	}
-
-	public LocalDateTime getVersandBeendetAm() {
-
-		return versandBeendetAm;
-	}
-
-	public void setVersandBeendetAm(final LocalDateTime versandBeendetAm) {
-
-		this.versandBeendetAm = versandBeendetAm;
-	}
-
-	public boolean isVersandMitFehlern() {
-
-		return versandMitFehlern;
-	}
-
-	public void setVersandMitFehlern(final boolean versandMitFehlern) {
-
-		this.versandMitFehlern = versandMitFehlern;
-	}
-
-	public Date getGeaendertAm() {
-
-		return geaendertAm;
-	}
-
-	public void setGeaendertAm(final Date geaendertAm) {
-
-		this.geaendertAm = geaendertAm;
-	}
-
-	public String getUuid() {
-
-		return uuid;
-	}
-
-	public void setUuid(final String uuid) {
-
-		this.uuid = uuid;
-	}
-
-	public long getAnzahlEmpfaenger() {
-
-		return anzahlEmpfaenger;
-	}
-
-	public void setAnzahlEmpfaenger(final long anzahlEmpfaenger) {
-
-		this.anzahlEmpfaenger = anzahlEmpfaenger;
-	}
-
-	public long getAnzahlVersendet() {
-
-		return anzahlVersendet;
-	}
-
-	public void setAnzahlVersendet(final long anzahlVersendet) {
-
-		this.anzahlVersendet = anzahlVersendet;
-	}
-
-	public String getBetreff() {
-
-		return betreff;
-	}
-
-	public void setBetreff(final String betreff) {
-
-		this.betreff = betreff;
-	}
-
-	public String getMailtext() {
-
-		return mailtext;
-	}
-
-	public void setMailtext(final String mailtext) {
-
-		this.mailtext = mailtext;
-	}
 
 }

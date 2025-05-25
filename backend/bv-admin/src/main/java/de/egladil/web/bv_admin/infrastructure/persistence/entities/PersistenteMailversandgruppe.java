@@ -19,10 +19,18 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * PersistenteMailversandgruppe
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "MAILVERSAND_GRUPPEN")
 @NamedQueries({
@@ -55,60 +63,5 @@ public class PersistenteMailversandgruppe {
 	@Version
 	@Column(name = "VERSION")
 	private int version;
-
-	public String getIdVersandauftrag() {
-
-		return idVersandauftrag;
-	}
-
-	public void setIdVersandauftrag(final String idVersandauftrag) {
-
-		this.idVersandauftrag = idVersandauftrag;
-	}
-
-	public String getEmpfaengerUUIDs() {
-
-		return empfaengerUUIDs;
-	}
-
-	public void setEmpfaengerUUIDs(final String empfaengerEmails) {
-
-		this.empfaengerUUIDs = empfaengerEmails;
-	}
-
-	public Jobstatus getStatus() {
-
-		return status;
-	}
-
-	public void setStatus(final Jobstatus status) {
-
-		this.status = status;
-	}
-
-	public int getSortnr() {
-
-		return sortnr;
-	}
-
-	public void setSortnr(final int sortnr) {
-
-		this.sortnr = sortnr;
-	}
-
-	public LocalDateTime getGeaendertAm() {
-
-		return geaendertAm;
-	}
-
-	public void setGeaendertAm(final LocalDateTime geaendertAm) {
-
-		this.geaendertAm = geaendertAm;
-	}
-
-	public String getUuid() {
-
-		return uuid;
-	}
 
 }

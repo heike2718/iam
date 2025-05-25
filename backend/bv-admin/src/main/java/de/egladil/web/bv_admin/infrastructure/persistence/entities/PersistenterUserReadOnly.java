@@ -13,10 +13,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * PersistenterUserReadOnly
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "VW_USERS_SUCHE")
 @NamedQueries({
@@ -30,33 +38,42 @@ public class PersistenterUserReadOnly {
 
 	@Id
 	@Column(name = "ID")
-	public Long id;
+	private Long id;
 
 	@Column(name = "UUID")
-	public String uuid;
+	private String uuid;
 
 	@Column(name = "VORNAME")
-	public String vorname;
+	private String vorname;
 
 	@Column(name = "NACHNAME")
-	public String nachname;
+	private String nachname;
 
 	@Column(name = "EMAIL")
-	public String email;
+	private String email;
 
 	@Column(name = "AKTIVIERT")
-	public boolean aktiviert;
+	private boolean aktiviert;
 
 	@Column(name = "ROLLEN")
-	public String rollen;
+	private String rollen;
 
 	@Column(name = "CRYPTO_ALGORITHM")
 	@Enumerated(EnumType.STRING)
-	public CryptoAlgorithm cryptoAlgorithm;
+	private CryptoAlgorithm cryptoAlgorithm;
 
 	@Column(name = "DATE_MODIFIED_STRING")
-	public String aenderungsdatum;
+	private String aenderungsdatum;
 
 	@Column(name = "SLZ_ID")
-	public Long saltId;
+	private Long saltId;
+
+	@Column(name = "ANZAHL_LOGINS")
+	private int anzahlLOgins;
+
+	@Column(name = "BANNED_FOR_MAILS")
+	private boolean bannedForMails;
+
+	@Column(name = "PERMANENT")
+	private boolean darfNichtGeloeschtWerden;
 }

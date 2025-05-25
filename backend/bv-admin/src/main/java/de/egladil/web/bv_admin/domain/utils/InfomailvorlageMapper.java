@@ -25,13 +25,13 @@ public class InfomailvorlageMapper {
 	public static InfomailResponseDto mapFromDB(final PersistenterInfomailTextReadOnly fromDB) {
 
 		InfomailResponseDto result = new InfomailResponseDto();
-		result.setUuid(fromDB.uuid);
-		result.setBetreff(fromDB.betreff);
-		result.setMailtext(fromDB.mailtext);
+		result.setUuid(fromDB.getUuid());
+		result.setBetreff(fromDB.getBetreff());
+		result.setMailtext(fromDB.getMailtext());
 
-		if (fromDB.uuidsMailversandauftraege != null) {
+		if (fromDB.getUuidsMailversandauftraege() != null) {
 
-			result.setUuidsMailversandauftraege(Arrays.asList(StringUtils.split(fromDB.uuidsMailversandauftraege, ",")));
+			result.setUuidsMailversandauftraege(Arrays.asList(StringUtils.split(fromDB.getUuidsMailversandauftraege(), ",")));
 		}
 
 		return result;

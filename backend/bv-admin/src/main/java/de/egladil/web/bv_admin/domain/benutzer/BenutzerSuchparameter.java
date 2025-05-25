@@ -12,10 +12,18 @@ import de.egladil.web.bv_admin.domain.SortDirection;
 import de.egladil.web.bv_admin.domain.validation.StringLatinConstants;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * BenutzerSuchparameter
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(description = "BenutzerSuchparameter. Gesucht wird mit und-Verknüpfung und like")
 public class BenutzerSuchparameter {
 
@@ -72,104 +80,4 @@ public class BenutzerSuchparameter {
 	@JsonProperty
 	@Schema(description = "Sortierreihenfolge (asc oder desc)", example = "asc")
 	private SortDirection sortDirection;
-
-	public String getUuid() {
-
-		return uuid;
-	}
-
-	public void setUuid(final String uuid) {
-
-		this.uuid = uuid;
-	}
-
-	public String getVorname() {
-
-		return vorname;
-	}
-
-	public void setVorname(final String vorname) {
-
-		this.vorname = vorname;
-	}
-
-	public String getNachname() {
-
-		return nachname;
-	}
-
-	public void setNachname(final String nachname) {
-
-		this.nachname = nachname;
-	}
-
-	public String getEmail() {
-
-		return email;
-	}
-
-	public void setEmail(final String email) {
-
-		this.email = email;
-	}
-
-	public String getRolle() {
-
-		return rolle;
-	}
-
-	public void setRolle(final String rollen) {
-
-		this.rolle = rollen;
-	}
-
-	public String getAenderungsdatum() {
-
-		return aenderungsdatum;
-	}
-
-	public void setAenderungsdatum(final String dateModified) {
-
-		this.aenderungsdatum = dateModified;
-	}
-
-	public String getSortByLabelname() {
-
-		return sortByLabelname;
-	}
-
-	public void setSortByLabelname(final String sortByLabelname) {
-
-		this.sortByLabelname = sortByLabelname;
-	}
-
-	public int getPageIndex() {
-
-		return pageIndex;
-	}
-
-	public void setPageIndex(final int pageIndex) {
-
-		this.pageIndex = pageIndex;
-	}
-
-	public int getPageSize() {
-
-		return pageSize;
-	}
-
-	public void setPageSize(final int pageSize) {
-
-		this.pageSize = pageSize;
-	}
-
-	public SortDirection getSortDirection() {
-
-		return sortDirection;
-	}
-
-	public void setSortDirection(final SortDirection sortDirection) {
-
-		this.sortDirection = sortDirection;
-	}
 }

@@ -47,7 +47,7 @@ public class VersandgruppenSource {
 		List<String> uuids = Arrays.asList(StringUtils.split(naechsteGruppe.getEmpfaengerUUIDs(), ","));
 
 		List<PersistenterUserReadOnly> users = dao.findAktivierteUsersByUUIDs(uuids);
-		List<String> emails = users.stream().map(u -> u.email).toList();
+		List<String> emails = users.stream().map(u -> u.getEmail()).toList();
 
 		Mailversandgruppe result = new Mailversandgruppe();
 		result.setEmpfaengerEmails(emails);

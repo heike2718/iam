@@ -142,14 +142,14 @@ public class BenutzerService {
 	BenutzerTrefferlisteItem mapFromDB(final PersistenterUserReadOnly fromDB) {
 
 		BenutzerTrefferlisteItem result = new BenutzerTrefferlisteItem();
-		result.setAktiviert(fromDB.aktiviert);
-		result.setAenderungsdatum(fromDB.aenderungsdatum);
-		result.setEmail(fromDB.email);
-		result.setNachname(fromDB.nachname);
-		result.setRollen(fromDB.rollen);
-		result.setUuid(fromDB.uuid);
-		result.setVorname(fromDB.vorname);
-		result.setCryptoAlgorithm(fromDB.cryptoAlgorithm);
+		result.setAktiviert(fromDB.isAktiviert());
+		result.setAenderungsdatum(fromDB.getAenderungsdatum());
+		result.setEmail(fromDB.getEmail());
+		result.setNachname(fromDB.getNachname());
+		result.setRollen(fromDB.getRollen());
+		result.setUuid(fromDB.getUuid());
+		result.setVorname(fromDB.getVorname());
+		result.setCryptoAlgorithm(fromDB.getCryptoAlgorithm());
 		return result;
 	}
 
@@ -180,22 +180,22 @@ public class BenutzerService {
 
 		try {
 
-			propagateEventService.propagateDeleteUserToMkGateway(user.uuid);
+			propagateEventService.propagateDeleteUserToMkGateway(user.getUuid());
 
-			LOGGER.info("delete {} synchronized with mk-gateway", user.uuid);
+			LOGGER.info("delete {} synchronized with mk-gateway", user.getUuid());
 
-			if (user.saltId != null) {
-				saltDao.deleteSaltAndCascade(user.saltId);
+			if (user.getSaltId() != null) {
+				saltDao.deleteSaltAndCascade(user.getSaltId());
 			}
 
 			AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
-				.withTarget(user.uuid);
+				.withTarget(user.getUuid());
 
 			eventsService.handleEvent(new UserDeletedEvent(eventPayload));
 
 		} catch (CommandPropagationFailedException e) {
 
-			LOGGER.error("CommandPropagationFailed: Löschen des Benutzerkontos {} wird abgebrochen: {}", user.uuid, e.getMessage(),
+			LOGGER.error("CommandPropagationFailed: Löschen des Benutzerkontos {} wird abgebrochen: {}", user.getUuid(), e.getMessage(),
 				e);
 			throw new AuthAdminAPIRuntimeException(e.getMessage(), e);
 

@@ -1,0 +1,16 @@
+== Was sich entwicklungsseitig so tut
+
+=== 25.05.2025
+
+- Anzahl Logins ins frontend aufnehmen
+
+
+=== 18.05.2025
+
+Erweiterung Datenmodell: /home/heike/git/konfigurationen/flyway/authbv/sql/V29__USERS_new_cols.sql
+
+2 neue Spalten: 
+
+- BANNED_FOR_MAILS (damit werden Mailadressen markiert, die egladi.de rejecten)
+- BANNED_FOR_MAILS (damit werden Benutzerkonten markiert, die über bv-admin niemals gelöscht werden dürfen)
+

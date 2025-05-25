@@ -196,7 +196,7 @@ public class VersandauftragService {
 			ConstraintViolationException cve = AuthAdminSQLExceptionHelper.unwrappConstraintViolationException(e,
 				"Beim Anlegen eines Mailversandauftrags ist etwas schiefgegaben");
 
-			LOGGER.error("infomailtext={}, checksum={}: {}", infomailtext.uuid, checksum, cve.getMessage());
+			LOGGER.error("infomailtext={}, checksum={}: {}", infomailtext.getUuid(), checksum, cve.getMessage());
 
 			throw new ConflictException("An diesen Benutzerkreis wurde in diesem Monat bereits eine Mail versendet.");
 		}
@@ -225,9 +225,9 @@ public class VersandauftragService {
 		persistenterVersandauftrag.setErfasstAm(now);
 		persistenterVersandauftrag.setGeaendertAm(geaendertAm);
 		persistenterVersandauftrag.setVersandJahrMonat(DATE_TIME_FORMATTER_JAHR_MONAT.format(now));
-		persistenterVersandauftrag.setIdInfomailtext(infomailtext.uuid);
-		persistenterVersandauftrag.setBetreff(infomailtext.betreff);
-		persistenterVersandauftrag.setMailtext(infomailtext.mailtext);
+		persistenterVersandauftrag.setIdInfomailtext(infomailtext.getUuid());
+		persistenterVersandauftrag.setBetreff(infomailtext.getBetreff());
+		persistenterVersandauftrag.setMailtext(infomailtext.getMailtext());
 		persistenterVersandauftrag.setStatus(Jobstatus.WAITING);
 
 		String versandauftragUuid = mailversandDao.insertMailversandauftrag(persistenterVersandauftrag);
@@ -250,10 +250,10 @@ public class VersandauftragService {
 		MailversandauftragOverview result = new MailversandauftragOverview();
 		result.setAnzahlEmpfaenger(anzahlEmpfaenger);
 		result.setAnzahlGruppen(confirmedUUIDGroups.size());
-		result.setBetreff(infomailtext.betreff);
+		result.setBetreff(infomailtext.getBetreff());
 		result.setStatus(persistenterVersandauftrag.getStatus());
 		result.setUuid(versandauftragUuid);
-		result.setIdInfomailtext(infomailtext.uuid);
+		result.setIdInfomailtext(infomailtext.getUuid());
 
 		return result;
 
@@ -282,7 +282,7 @@ public class VersandauftragService {
 	private List<String> loadAllUsersAktiviert(final List<String> benutzerIDs) {
 
 		List<PersistenterUserReadOnly> users = mailversandDao.findAktivierteUsersByUUIDs(benutzerIDs);
-		return users.stream().map(u -> u.uuid).toList();
+		return users.stream().map(u -> u.getUuid()).toList();
 	}
 
 	String calculateChecksum(final List<String> uuids) {
@@ -315,13 +315,13 @@ public class VersandauftragService {
 	MailversandauftragOverview mapFromDBToOverview(final PersistenterMailversandauftragReadOnly fromDB) {
 
 		MailversandauftragOverview result = new MailversandauftragOverview();
-		result.setAnzahlEmpfaenger(fromDB.anzahlEmpfaenger);
-		result.setAnzahlGruppen(fromDB.anzahlGruppen);
-		result.setBetreff(fromDB.betreff);
-		result.setIdInfomailtext(fromDB.idInfomailtext);
-		result.setStatus(fromDB.status);
-		result.setUuid(fromDB.uuid);
-		result.setErfasstAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.erfasstAm));
+		result.setAnzahlEmpfaenger(fromDB.getAnzahlEmpfaenger());
+		result.setAnzahlGruppen(fromDB.getAnzahlGruppen());
+		result.setBetreff(fromDB.getBetreff());
+		result.setIdInfomailtext(fromDB.getIdInfomailtext());
+		result.setStatus(fromDB.getStatus());
+		result.setUuid(fromDB.getUuid());
+		result.setErfasstAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getErfasstAm()));
 
 		return result;
 

@@ -32,7 +32,6 @@ import de.egladil.web.bv_admin.domain.mailversand.api.MailversandgruppeDetails;
 import de.egladil.web.bv_admin.domain.mailversand.api.MailversandgruppeDetailsResponseDto;
 import de.egladil.web.bv_admin.infrastructure.persistence.dao.MailversandDao;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterMailversandauftragReadOnly;
-import de.egladil.web.bv_admin.infrastructure.resources.VersandauftraegeResource;
 import de.egladil.web.bv_admin.profiles.AuthAdminTestProfile;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;

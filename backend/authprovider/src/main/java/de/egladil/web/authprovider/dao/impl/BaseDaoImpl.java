@@ -29,6 +29,7 @@ public abstract class BaseDaoImpl implements BaseDao {
 	 * Erzeugt eine Instanz von BaseDaoImpl
 	 */
 	public BaseDaoImpl() {
+		System.err.println();
 
 	}
 

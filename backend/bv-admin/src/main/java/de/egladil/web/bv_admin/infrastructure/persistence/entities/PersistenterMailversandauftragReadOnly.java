@@ -15,10 +15,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * PersistenterMailversandauftragReadOnly
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "VW_MAILVERSANDAUFTRAEGE")
 @NamedQueries({
@@ -32,30 +40,30 @@ public class PersistenterMailversandauftragReadOnly {
 
 	@Id
 	@Column
-	public String uuid;
+	private String uuid;
 
 	@Column(name = "UUID_INFOMAIL_TEXT")
-	public String idInfomailtext;
+	private String idInfomailtext;
 
 	@Column(name = "BETREFF")
-	public String betreff;
+	private String betreff;
 
 	@Column(name = "MAILTEXT")
-	public String mailtext;
+	private String mailtext;
 
 	@Column(name = "STATUS")
 	@Enumerated(EnumType.STRING)
-	public Jobstatus status;
+	private Jobstatus status;
 
 	@Column(name = "ANZAHL_EMPFAENGER")
-	public long anzahlEmpfaenger;
+	private long anzahlEmpfaenger;
 
 	@Column(name = "ANZAHL_GRUPPEN")
-	public long anzahlGruppen;
+	private long anzahlGruppen;
 
 	@Column(name = "ERFASST_AM")
-	public LocalDateTime erfasstAm;
+	private LocalDateTime erfasstAm;
 
 	@Column(name = "VERSAND_JAHR_MONAT")
-	public String versandJahrMonat;
+	private String versandJahrMonat;
 }

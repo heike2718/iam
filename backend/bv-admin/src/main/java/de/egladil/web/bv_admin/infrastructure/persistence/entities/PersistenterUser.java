@@ -17,10 +17,18 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * PersistenterUser
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "USERS")
 @NamedQueries({
@@ -66,128 +74,14 @@ public class PersistenterUser {
 	@Column(name = "DATE_MODIFIED")
 	private Date datumGeaendert;
 
+	@Column(name = "BANNED_FOR_MAILS")
+	private boolean bannedForMails;
+
+	@Column(name = "PERMANENT")
+	private boolean darfNichtGeloeschtWerden;
+
 	@Version
 	@Column(name = "VERSION")
 	private int version;
-
-	public Long getId() {
-
-		return id;
-	}
-
-	public void setId(final Long id) {
-
-		this.id = id;
-	}
-
-	public String getUuid() {
-
-		return uuid;
-	}
-
-	public void setUuid(final String uuid) {
-
-		this.uuid = uuid;
-	}
-
-	public String getLoginName() {
-
-		return loginName;
-	}
-
-	public void setLoginName(final String loginName) {
-
-		this.loginName = loginName;
-	}
-
-	public String getVorname() {
-
-		return vorname;
-	}
-
-	public void setVorname(final String vorname) {
-
-		this.vorname = vorname;
-	}
-
-	public String getNachname() {
-
-		return nachname;
-	}
-
-	public void setNachname(final String nachname) {
-
-		this.nachname = nachname;
-	}
-
-	public String getEmail() {
-
-		return email;
-	}
-
-	public void setEmail(final String email) {
-
-		this.email = email;
-	}
-
-	public boolean isAktiviert() {
-
-		return aktiviert;
-	}
-
-	public void setAktiviert(final boolean aktiviert) {
-
-		this.aktiviert = aktiviert;
-	}
-
-	public boolean isAnonym() {
-
-		return anonym;
-	}
-
-	public void setAnonym(final boolean anonym) {
-
-		this.anonym = anonym;
-	}
-
-	public int getAnzahlLogins() {
-
-		return anzahlLogins;
-	}
-
-	public void setAnzahlLogins(final int anzahlLogins) {
-
-		this.anzahlLogins = anzahlLogins;
-	}
-
-	public String getRollen() {
-
-		return rollen;
-	}
-
-	public void setRollen(final String roles) {
-
-		this.rollen = roles;
-	}
-
-	public Date getDatumGeaendert() {
-
-		return datumGeaendert;
-	}
-
-	public void setDatumGeaendert(final Date datumGeaendert) {
-
-		this.datumGeaendert = datumGeaendert;
-	}
-
-	public int getVersion() {
-
-		return version;
-	}
-
-	public void setVersion(final int version) {
-
-		this.version = version;
-	}
 
 }

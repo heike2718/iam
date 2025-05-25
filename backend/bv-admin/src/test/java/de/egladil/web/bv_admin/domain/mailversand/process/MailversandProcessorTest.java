@@ -21,11 +21,8 @@ import de.egladil.web.bv_admin.domain.exceptions.MailversandException;
 import de.egladil.web.bv_admin.domain.mailversand.api.AuthAdminMailDto;
 import de.egladil.web.bv_admin.domain.mailversand.api.MailService;
 import de.egladil.web.bv_admin.domain.mailversand.api.Mailversandgruppe;
-import de.egladil.web.bv_admin.domain.mailversand.process.MailversandProcessor;
-import de.egladil.web.bv_admin.domain.mailversand.process.VersandgruppenSource;
 import de.egladil.web.bv_admin.infrastructure.persistence.dao.MailversandDao;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenteMailversandgruppe;
-import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterMailversandauftrag;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
@@ -176,11 +173,6 @@ public class MailversandProcessorTest {
 		auftrag.setUuid(uuid);
 		auftrag.setIdInfomailtext(idInfomailtext);
 
-		PersistenterInfomailTextReadOnly infomailtext = new PersistenterInfomailTextReadOnly();
-		infomailtext.betreff = "Ja hallo auch";
-		infomailtext.mailtext = "Mein Name ist Hase";
-		infomailtext.uuid = idInfomailtext;
-
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
 		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
@@ -226,11 +218,6 @@ public class MailversandProcessorTest {
 		auftrag.setUuid(uuid);
 		auftrag.setIdInfomailtext(idInfomailtext);
 		auftrag.setAnzahlEmpfaenger(gruppe.getEmpfaengerEmails().size());
-
-		PersistenterInfomailTextReadOnly infomailtext = new PersistenterInfomailTextReadOnly();
-		infomailtext.betreff = "Ja hallo auch";
-		infomailtext.mailtext = "Mein Name ist Hase";
-		infomailtext.uuid = idInfomailtext;
 
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
@@ -278,11 +265,6 @@ public class MailversandProcessorTest {
 		auftrag.setIdInfomailtext(idInfomailtext);
 		auftrag.setAnzahlEmpfaenger(gruppe.getEmpfaengerEmails().size() + 1);
 
-		PersistenterInfomailTextReadOnly infomailtext = new PersistenterInfomailTextReadOnly();
-		infomailtext.betreff = "Ja hallo auch";
-		infomailtext.mailtext = "Mein Name ist Hase";
-		infomailtext.uuid = idInfomailtext;
-
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
 		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
@@ -328,11 +310,6 @@ public class MailversandProcessorTest {
 		auftrag.setUuid(uuid);
 		auftrag.setIdInfomailtext(idInfomailtext);
 		auftrag.setAnzahlEmpfaenger(gruppe.getEmpfaengerEmails().size() + 1);
-
-		PersistenterInfomailTextReadOnly infomailtext = new PersistenterInfomailTextReadOnly();
-		infomailtext.betreff = "Ja hallo auch";
-		infomailtext.mailtext = "Mein Name ist Hase";
-		infomailtext.uuid = idInfomailtext;
 
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
@@ -382,11 +359,6 @@ public class MailversandProcessorTest {
 		auftrag.setIdInfomailtext(idInfomailtext);
 		auftrag.setAnzahlEmpfaenger(gruppe.getEmpfaengerEmails().size() + 1);
 
-		PersistenterInfomailTextReadOnly infomailtext = new PersistenterInfomailTextReadOnly();
-		infomailtext.betreff = "Ja hallo auch";
-		infomailtext.mailtext = "Mein Name ist Hase";
-		infomailtext.uuid = idInfomailtext;
-
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);
 		when(dao.findMailversandgruppeByUUID(uuidMailgruppe)).thenReturn(persistenteMailversandgruppe);
@@ -432,11 +404,6 @@ public class MailversandProcessorTest {
 		auftrag.setUuid(uuid);
 		auftrag.setIdInfomailtext(idInfomailtext);
 		auftrag.setAnzahlEmpfaenger(10);
-
-		PersistenterInfomailTextReadOnly infomailtext = new PersistenterInfomailTextReadOnly();
-		infomailtext.betreff = "Ja hallo auch";
-		infomailtext.mailtext = "Mein Name ist Hase";
-		infomailtext.uuid = idInfomailtext;
 
 		when(dao.findOldestNotCompletedMailversandauftrag()).thenReturn(auftrag);
 		when(versandgruppenSource.getNextMailversandgruppe(uuid)).thenReturn(gruppe);

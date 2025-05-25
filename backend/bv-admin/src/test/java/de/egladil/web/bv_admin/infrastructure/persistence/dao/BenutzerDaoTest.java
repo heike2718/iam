@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-import de.egladil.web.bv_admin.infrastructure.persistence.dao.BenutzerDao;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterUser;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterUserReadOnly;
 import io.quarkus.test.junit.QuarkusTest;
@@ -36,8 +35,8 @@ public class BenutzerDaoTest {
 
 		// Assert
 		assertNotNull(user);
-		assertEquals(758L, user.saltId);
-		assertEquals("Bilbo", user.vorname);
+		assertEquals(758L, user.getSaltId());
+		assertEquals("Bilbo", user.getVorname());
 
 	}
 

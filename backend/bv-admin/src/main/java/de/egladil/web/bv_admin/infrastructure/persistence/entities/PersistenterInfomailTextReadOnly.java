@@ -12,10 +12,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * PersistenterInfomailTextReadOnly
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "VW_INFOMAIL_TEXTE")
 @NamedQueries({
@@ -29,18 +37,18 @@ public class PersistenterInfomailTextReadOnly {
 
 	@Id
 	@Column(name = "UUID")
-	public String uuid;
+	private String uuid;
 
 	@Column(name = "BETREFF")
-	public String betreff;
+	private String betreff;
 
 	@Column(name = "MAILTEXT")
-	public String mailtext;
+	private String mailtext;
 
 	@Column(name = "DATE_MODIFIED")
-	public Date geaendertAm;
+	private Date geaendertAm;
 
 	@Column(name = "UUIDS_MAILVERSANDAUFTRAEGE")
-	public String uuidsMailversandauftraege;
+	private String uuidsMailversandauftraege;
 
 }

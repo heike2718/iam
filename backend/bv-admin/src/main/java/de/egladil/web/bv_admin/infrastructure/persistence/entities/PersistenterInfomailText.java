@@ -16,10 +16,18 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * PersistenterInfomailText
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "INFOMAIL_TEXTE")
 @NamedQueries({
@@ -45,45 +53,5 @@ public class PersistenterInfomailText {
 	@Version
 	@Column(name = "VERSION")
 	private int version;
-
-	public String getUuid() {
-
-		return uuid;
-	}
-
-	public void setUuid(final String uuid) {
-
-		this.uuid = uuid;
-	}
-
-	public String getBetreff() {
-
-		return betreff;
-	}
-
-	public void setBetreff(final String betreff) {
-
-		this.betreff = betreff;
-	}
-
-	public String getMailtext() {
-
-		return mailtext;
-	}
-
-	public void setMailtext(final String text) {
-
-		this.mailtext = text;
-	}
-
-	public Date getGeaendertAm() {
-
-		return geaendertAm;
-	}
-
-	public void setGeaendertAm(final Date geaendertAm) {
-
-		this.geaendertAm = geaendertAm;
-	}
 
 }

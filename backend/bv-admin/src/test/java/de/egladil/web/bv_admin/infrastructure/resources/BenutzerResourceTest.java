@@ -18,7 +18,6 @@ import de.egladil.web.bv_admin.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerTrefferlisteItem;
 import de.egladil.web.bv_admin.domain.benutzer.UsersSortColumn;
 import de.egladil.web.bv_admin.domain.validation.ValidationErrorResponseDto;
-import de.egladil.web.bv_admin.infrastructure.resources.BenutzerResource;
 import de.egladil.web.bv_admin.profiles.AuthAdminTestProfile;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
