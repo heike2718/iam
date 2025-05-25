@@ -27,7 +27,7 @@ export class BenutzerHttpService {
 
     updateBenutzerStatus(uuid: string, aktivierungsstatue: Aktivierungsstatus): Observable<UpdateBenutzerResponseDto> {
 
-        return this.#httpClient.put<UpdateBenutzerResponseDto>(this.#url + '/' + uuid, aktivierungsstatue, { headers: new HttpHeaders() });
+        return this.#httpClient.put<UpdateBenutzerResponseDto>(this.#url + '/' + uuid + '/v1', aktivierungsstatue, { headers: new HttpHeaders() });
     }
 
 }

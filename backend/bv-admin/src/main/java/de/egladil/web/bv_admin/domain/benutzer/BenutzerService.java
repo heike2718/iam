@@ -120,6 +120,59 @@ public class BenutzerService {
 		return responseDto;
 	}
 
+	/**
+	 * Aktualisiert die gesetzten Flags.
+	 *
+	 * @param uuid String die UUID des zu ändernden Benutzers.
+	 * @param flags FlagsDto
+	 * @return UpdateBenutzerResponseDto
+	 */
+	public UpdateBenutzerResponseDto updateFlags(final String uuid, final FlagsDto flags) {
+
+		PersistenterUser user = benutzerDao.findUserByUUID(uuid);
+
+		if (user == null) {
+
+			LOGGER.warn("USER {} existiert nicht oder nicht mehr");
+			UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
+			responseDto.setUuid(uuid);
+			return responseDto;
+		}
+
+		this.doUpdate(user, flags);
+
+		PersistenterUserReadOnly result = benutzerDao.findUserReadonlyByUUID(uuid);
+
+		if (result == null) {
+
+			LOGGER.warn("echt jetzt? Genau in dieser Nanosekunde wurde USER {} von anderswoher geloescht?");
+			UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
+			responseDto.setUuid(uuid);
+			return responseDto;
+		}
+
+		UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
+		responseDto.setUuid(uuid);
+		responseDto.setBenuzer(this.mapFromDB(result));
+		return responseDto;
+	}
+
+	@Transactional
+	void doUpdate(final PersistenterUser user, FlagsDto flags) {
+
+		user.setAktiviert(flags.getAktiviert());
+		user.setBannedForMails(flags.getBannedForMail());
+		user.setDarfNichtGeloeschtWerden(flags.getDarfNichtGeloeschtWerden());
+
+		benutzerDao.updateUser(user);
+
+		if (user.isAktiviert() && !flags.getAktiviert()) {
+			this.fireActivationEvent(user, flags.getAktiviert());
+		}
+
+	}
+
+	@Deprecated(forRemoval = true)
 	@Transactional
 	void doUpdate(final PersistenterUser user, final boolean aktiviert) {
 
@@ -137,6 +190,19 @@ public class BenutzerService {
 			eventsService.handleEvent(new UserDeactivatedEvent(eventPayload));
 		}
 
+	}
+
+	void fireActivationEvent(final PersistenterUser user, final boolean aktiviert) {
+		AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
+			.withTarget(user.getUuid());
+
+		if (aktiviert) {
+
+			eventsService.handleEvent(new UserActivatedEvent(eventPayload));
+		} else {
+
+			eventsService.handleEvent(new UserDeactivatedEvent(eventPayload));
+		}
 	}
 
 	BenutzerTrefferlisteItem mapFromDB(final PersistenterUserReadOnly fromDB) {
@@ -171,6 +237,14 @@ public class BenutzerService {
 
 			Response response = Response.status(Status.NOT_FOUND)
 				.entity(MessagePayload.warn("Benutzer existiert nicht oder nicht mehr")).build();
+
+			throw new WebApplicationException(response);
+		}
+
+		if (user.isDarfNichtGeloeschtWerden()) {
+
+			Response response = Response.status(Status.FORBIDDEN)
+				.entity(MessagePayload.warn("Dieser Benutzer darf nicht gelöscht werden.")).build();
 
 			throw new WebApplicationException(response);
 		}

@@ -10,6 +10,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
  * Aktivierungsstatus
  */
 @Schema(description = "DTO für den neuen Benutzerstatus")
+@Deprecated(forRemoval = true)
 public class Aktivierungsstatus {
 
 	private boolean aktiviert;

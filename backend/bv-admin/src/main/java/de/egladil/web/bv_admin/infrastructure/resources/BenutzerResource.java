@@ -22,6 +22,7 @@ import de.egladil.web.bv_admin.domain.benutzer.BenutzerSearchResult;
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerService;
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.bv_admin.domain.benutzer.DeleteBenutzerResponseDto;
+import de.egladil.web.bv_admin.domain.benutzer.FlagsDto;
 import de.egladil.web.bv_admin.domain.benutzer.UpdateBenutzerResponseDto;
 import de.egladil.web.bv_admin.domain.validation.ValidationErrorResponseDto;
 import jakarta.annotation.security.RolesAllowed;
@@ -69,7 +70,7 @@ public class BenutzerResource {
 	}
 
 	@PUT
-	@Path("{uuid}")
+	@Path("{uuid}/v1")
 	@RolesAllowed({ "AUTH_ADMIN" })
 	@Operation(operationId = "aktivierungsstatusAendern", summary = "Setzt für den gegebenen Benutzer den neuen Aktivierungsstatus")
 	@Parameters({
@@ -90,6 +91,28 @@ public class BenutzerResource {
 		return Response.ok(responsePayload).build();
 	}
 
+	@PUT
+	@Path("{uuid}")
+	@RolesAllowed({ "AUTH_ADMIN" })
+	@Operation(operationId = "flags eines Benutzers ändern", summary = "Setzt für den gegebenen Benutzer die neuen Flags")
+	@Parameters({
+		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der geändert werden soll", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
+	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateBenutzerResponseDto.class)))
+	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
+	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	@APIResponse(name = "NotFound", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "404")
+	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+	public Response updateFlags(@PathParam(value = "uuid")
+	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
+	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
+	final String uuid, @Valid final FlagsDto flags) {
+
+		UpdateBenutzerResponseDto responsePayload = benutzerService.updateFlags(uuid, flags);
+
+		return Response.ok(responsePayload).build();
+	}
+
 	@DELETE
 	@Path("{uuid}")
 	@RolesAllowed({ "AUTH_ADMIN" })
@@ -99,6 +122,7 @@ public class BenutzerResource {
 	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeleteBenutzerResponseDto.class)))
 	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
 	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+	@APIResponse(name = "Forbiddeb", responseCode = "403", description = "einige Benutzerkonten dürfen nicht gelöscht werden.", content = @Content(mediaType = "application/json"))
 	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json"))
 	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
 	public Response benutzerLoeschen(@Pattern(regexp = "^[abcdef\\d\\-]*$")
