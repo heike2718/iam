@@ -44,7 +44,7 @@
                     'badge-green': benutzer.cryptoAlgorithm === 'ARGON2',
                     'badge-orange': benutzer.cryptoAlgorithm === 'SHA_256'
                 }">
-                {{benutzer.uuid.substring(0,8)}}</div>
+                    {{benutzer.uuid.substring(0,8)}}</div>
             </mat-cell>>
         </ng-container>
 
@@ -61,8 +61,11 @@
                 </div>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
-                {{benutzer.email}}
-            </mat-cell>>
+                <span [matBadge]="benutzer.anzahlLogins" matBadgeOverlap="false" matBadgePosition="after"
+                    matBadgeColor="accent">
+                    {{ benutzer.email }}
+                </span>
+            </mat-cell>
         </ng-container>
 
         <!-- Nachname -->
@@ -142,14 +145,12 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 @if(benutzer.aktiviert){
-                    <button mat-icon-button (click)="changeActivationState(benutzer)"
-                    title="Konto deaktivieren">
+                <button mat-icon-button (click)="changeActivationState(benutzer)" title="Konto deaktivieren">
                     <mat-icon>person_off</mat-icon>
                 </button>
                 }
                 @else {
-                    <button mat-icon-button (click)="changeActivationState(benutzer)"
-                    title="Konto aktivieren">
+                <button mat-icon-button (click)="changeActivationState(benutzer)" title="Konto aktivieren">
                     <mat-icon>person</mat-icon>
                 </button>
                 }
@@ -164,10 +165,8 @@
                 </label>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
-                <button mat-icon-button color="warn"
-                    [disabled]="benutzer.darfNichtGeloeschtWerden"
-                    (click)="deleteBenutzer(benutzer)"
-                    title="Konto löschen">
+                <button mat-icon-button color="warn" [disabled]="benutzer.darfNichtGeloeschtWerden"
+                    (click)="deleteBenutzer(benutzer)" title="Konto löschen">
                     <mat-icon>person_remove</mat-icon>
                 </button>
             </mat-cell>>
