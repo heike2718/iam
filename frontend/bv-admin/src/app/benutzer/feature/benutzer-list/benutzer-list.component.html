@@ -164,7 +164,9 @@
                 </label>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
-                <button mat-icon-button color="warn" (click)="deleteBenutzer(benutzer)"
+                <button mat-icon-button color="warn"
+                    [disabled]="benutzer.darfNichtGeloeschtWerden"
+                    (click)="deleteBenutzer(benutzer)"
                     title="Konto löschen">
                     <mat-icon>person_remove</mat-icon>
                 </button>

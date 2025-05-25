@@ -33,6 +33,9 @@ export interface SingleUuidDto {
     readonly uuid: string;
 }
 
+// aus BenutzerTrefferlisteItem.
+// Die Attribute aktiviert, darfNichtGeloeschtWerden und bannedForMails können über bv-admin geändert werden.
+// alle anderen Attribute sind readonly
 export interface Benutzer {
     readonly uuid: string;
     readonly vorname: string;
@@ -42,6 +45,9 @@ export interface Benutzer {
     readonly aktiviert: boolean;
     readonly aenderungsdatum: string;
     readonly cryptoAlgorithm: string;
+    readonly anzahlLogins: number;
+    readonly darfNichtGeloeschtWerden: boolean;
+    readonly bannedForMails: boolean;
 }
 
 export interface Infomail {

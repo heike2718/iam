@@ -141,16 +141,21 @@ public class BenutzerService {
 
 	BenutzerTrefferlisteItem mapFromDB(final PersistenterUserReadOnly fromDB) {
 
-		BenutzerTrefferlisteItem result = new BenutzerTrefferlisteItem();
-		result.setAktiviert(fromDB.isAktiviert());
-		result.setAenderungsdatum(fromDB.getAenderungsdatum());
-		result.setEmail(fromDB.getEmail());
-		result.setNachname(fromDB.getNachname());
-		result.setRollen(fromDB.getRollen());
-		result.setUuid(fromDB.getUuid());
-		result.setVorname(fromDB.getVorname());
-		result.setCryptoAlgorithm(fromDB.getCryptoAlgorithm());
-		return result;
+		// @formatter:off
+		return BenutzerTrefferlisteItem.builder()
+			.aktiviert(fromDB.isAktiviert())
+			.aenderungsdatum(fromDB.getAenderungsdatum())
+			.anzahlLogins(fromDB.getAnzahlLogins())
+			.bannedForMails(fromDB.isBannedForMails())
+			.cryptoAlgorithm(fromDB.getCryptoAlgorithm())
+			.darfNichtGeloeschtWerden(fromDB.isDarfNichtGeloeschtWerden())
+			.email(fromDB.getEmail())
+			.nachname(fromDB.getNachname())
+			.rollen(fromDB.getRollen())
+			.uuid(fromDB.getUuid())
+			.vorname(fromDB.getVorname())
+			.build();
+		// @formatter:on
 	}
 
 	/**

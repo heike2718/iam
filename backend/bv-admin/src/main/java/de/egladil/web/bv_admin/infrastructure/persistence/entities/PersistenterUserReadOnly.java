@@ -69,7 +69,7 @@ public class PersistenterUserReadOnly {
 	private Long saltId;
 
 	@Column(name = "ANZAHL_LOGINS")
-	private int anzahlLOgins;
+	private int anzahlLogins;
 
 	@Column(name = "BANNED_FOR_MAILS")
 	private boolean bannedForMails;

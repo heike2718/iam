@@ -77,7 +77,7 @@ cd ~/git/mariadb/latest
 Dump sichern 
 
 ```
-mysqldump --databases authbv --dump-date --add-drop-database -h 172.18.0.2  -u root -p  > V24__authbv_complete_dump.sql
+mysqldump --databases authbv --dump-date --add-drop-database -h 172.18.0.2  -u root -p  > V28__authbv_complete_dump.sql
 ```
 
 Prüfen, ob in der flyway.conf die IP-Adresse stimmt:
@@ -92,14 +92,34 @@ Dann migrieren:
 sudo /opt/flyway-5.2.4/flyway  -configFile=/home/heike/git/konfigurationen/flyway/authbv/conf/flyway.conf migrate
 ```
 
+neuen Dump sichern 
+
+```
+mysqldump --databases authbv --dump-date --add-drop-database -h 172.18.0.2  -u root -p  > V30__authbv_complete_dump.sql
+```
 
 ### Dockerimage
 
+Migrationsskripte nach /media/veracrypt1/ansible/docker/authprovider/database/dumps kopieren
+
+```
+cd /media/veracrypt1/ansible/docker/authprovider/database
 docker image build -t heik2718/auth-mariadb .
+```
 
 docker container run -v /home/heike/docker-volumes/auth-database:/var/lib/mysql --name auth-database --network auth-network -e MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-root-pwd -e MYSQL_DATABASE_FILE=/run/secrets/mysql-database -e MYSQL_USER_FILE=/run/secrets/mysql-user -e MYSQL_PASSWORD_FILE=/run/secrets/mysql-user-pwd -d --rm heik2718/auth-mariadb
 
 docker container exec -it auth-database bash
+
+Falls migrationsskripte dazukamen, liegen sie jetzt in /tmp. Von dort können sie mittels
+
+```
+mysql -u root -p
+
+source /tmp/xxx.sql
+```
+
+ausgeführt werden.
 
 anderen container im selben network laufen lassen
 docker container run -it --network auth-network alpine
@@ -115,6 +135,10 @@ IP-Adresse einer als Docker container laufenden DB anzeigen:
 ```
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' authbv-test-db
 ```
+
+Migrationen einspielen:
+
+
 
 ## Server
 docker image build -t heik2718/authprovider .

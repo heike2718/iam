@@ -45,3 +45,62 @@ Einige Cookies verwenden das empfohlene "SameSite"-Attribut inkorrekt. 4
 Das Cookie "XSRF-TOKEN" verfügt über keinen gültigen Wert für das "SameSite"-Attribut. Bald werden Cookies ohne das "SameSite"-Attribut oder mit einem ungültigen Wert dafür als "Lax" behandelt. Dadurch wird das Cookie nicht länger an Kontexte gesendet, die zu einem Drittanbieter gehören. Falls Ihre Anwendung das Cookie in diesen Kontexten benötigt, fügen Sie bitte das Attribut "SameSite=None" zu ihm hinzu. Weitere Informationen zum "SameSite"-Attribut finden Sie unter https://developer.mozilla.org/docs/Web/HTTP/Headers/Set-Cookie/SameSite. login
 
 Das Cookie "JSESSIONID_AUTH_ADMIN_API" verfügt über keinen gültigen Wert für das "SameSite"-Attribut. Bald werden Cookies ohne das "SameSite"-Attribut oder mit einem ungültigen Wert dafür als "Lax" behandelt. Dadurch wird das Cookie nicht länger an Kontexte gesendet, die zu einem Drittanbieter gehören. Falls Ihre Anwendung das Cookie in diesen Kontexten benötigt, fügen Sie bitte das Attribut "SameSite=None" zu ihm hinzu. Weitere Informationen zum "SameSite"-Attribut finden Sie unter https://developer.mozilla.org/docs/Web/HTTP/Headers/Set-Cookie/SameSite.
+
+
+=== plötzlich klappt der npm run build:authprovider:local nicht mehr
+
+[scr,sh]
+----
+> @auth-app-profil-app-ws/source@9.0.0 build:authprovider:local
+> npx nx build authprovider -c local --output-hashing=all --base-href /authprovider/ --skip-nx-cache
+
+
+ NX   Failed to process project graph.
+
+An error occurred while processing files for the @nx/eslint/plugin plugin (Defined at nx.json#plugins[1])
+.
+  - apps/authprovider/eslint.config.js: Cannot find module '../../eslint.config.js'
+Require stack:
+- /home/heike/git/authenticationprovider/frontend/auth-app-profil-app-ws/apps/authprovider/eslint.config.js
+----
+
+Mit einem branch-Wechsel sprang die verwendete node-Version wieder zurück auf v23.0.0, die mit der aktuellen nx-Version probleme hat.
+
+*Das half:* 
+
+[scr,sh]
+----
+nvm ls-remote
+
+nvm install v20.19.2
+
+nvm use v20.19.2
+----
+
+Außerdem: eine .nvmrc-Datei ins root-Verzeichnis des nx-workspaces und in der .bashrc:
+
+[src,sh source-file=.nvmrc]
+----
+v20.19.2
+----
+
+sowie 
+
+[src,sh source-file=.bashrc]
+----
+# Auto-use nvm based on .nvmrc when changing directories
+cd() {
+  builtin cd "$@" || return
+  if [ -f .nvmrc ]; then
+    nvm use
+  fi
+}
+
+----
+
+Danach vermisste der build nur noch ein npm-package, weil nx die dependencies nun nicht mehr per default auflöst
+
+[src,sh]
+----
+npm install --save-dev eslint-plugin-playwright
+----

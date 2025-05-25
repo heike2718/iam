@@ -184,7 +184,19 @@ components:
           pattern: "^[\\d.\\-:]*$"
           maxLength: 19
         cryptoAlgorithm:
+          description: der verwendete Crypto-Algorithmus
+          type: string
           $ref: "#/components/schemas/CryptoAlgorithm"
+        anzahlLogins:
+          type: integer
+          format: int32
+          description: Anzahl der Logins in irgendeine unterstützte Anwendung
+        darfNichtGeloeschtWerden:
+          type: boolean
+          description: "Flag, das anzeigt, ob dieser User über bv-admin gelöscht werden\
+            \ darf, um versehentliches Löschen der ADMINs zu verhindern"
+        bannedForMails:
+          type: boolean
     CryptoAlgorithm:
       type: string
       enum:

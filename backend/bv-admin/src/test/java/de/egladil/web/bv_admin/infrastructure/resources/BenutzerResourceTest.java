@@ -5,6 +5,7 @@
 package de.egladil.web.bv_admin.infrastructure.resources;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -137,7 +138,7 @@ public class BenutzerResourceTest {
 
 	@Test
 	@TestSecurity(user = "iche", roles = { "AUTH_ADMIN" })
-	void should_excludeAdminsFromResultList() {
+	void should_NotExcludeAdminsFromResultList_anyMore() {
 
 		BenutzerSuchparameter dto = new BenutzerSuchparameter();
 		dto.setVorname("checki");
@@ -147,8 +148,9 @@ public class BenutzerResourceTest {
 		BenutzerSearchResult responsePayload = given().contentType(ContentType.JSON).body(dto).post("").then().statusCode(200)
 			.extract().as(BenutzerSearchResult.class);
 
-		assertEquals(0, responsePayload.getAnzahlGesamt());
+		assertEquals(1, responsePayload.getAnzahlGesamt());
 		List<BenutzerTrefferlisteItem> items = responsePayload.getItems();
-		assertEquals(0, items.size());
+		assertEquals(1, items.size());
+
 	}
 }

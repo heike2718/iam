@@ -9,6 +9,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.egladil.web.bv_admin.domain.validation.StringLatinConstants;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -67,6 +68,18 @@ public class BenutzerTrefferlisteItem {
 	private String aenderungsdatum;
 
 	@JsonProperty
+	@Schema(description = "der verwendete Crypto-Algorithmus")
 	private CryptoAlgorithm cryptoAlgorithm;
+
+	@JsonProperty
+	@Schema(description = "Anzahl der Logins in irgendeine unterstützte Anwendung")
+	private int anzahlLogins;
+
+	@JsonProperty
+	@Schema(description = "Flag, das anzeigt, ob dieser User über bv-admin gelöscht werden darf, um versehentliches Löschen der ADMINs zu verhindern")
+	private boolean darfNichtGeloeschtWerden;
+
+	@Column(name = "BANNED_FOR_MAILS")
+	private boolean bannedForMails;
 
 }

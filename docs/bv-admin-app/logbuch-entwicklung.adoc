@@ -7,7 +7,10 @@
 
 === 18.05.2025
 
-Erweiterung Datenmodell: /home/heike/git/konfigurationen/flyway/authbv/sql/V29__USERS_new_cols.sql
+Erweiterung Datenmodell: 
+
+- /home/heike/git/konfigurationen/flyway/authbv/sql/V29__USERS_new_cols.sql
+- /home/heike/git/konfigurationen/flyway/authbv/sql/V30__view_VW_USERS_SUCHE_new_cols.sql
 
 2 neue Spalten: 
 
