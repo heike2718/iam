@@ -1,4 +1,4 @@
-import { CommonModule, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
@@ -11,7 +11,6 @@ import { AuthFacade } from "@bv-admin/shared/auth/api";
     selector: 'bv-admin-benutzerbasket-status',
     imports: [
         CommonModule,
-        NgIf,
         MatButtonModule,
         MatIconModule
     ],

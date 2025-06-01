@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, CommonModule } from "@angular/common";
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BenutzerDataSource, BenutzerFacade } from '@bv-admin/benutzer/api';
@@ -17,7 +17,6 @@ import { Benutzer, FlagsDto, PageDefinition, PaginationState, SortDefinition, in
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "@bv-admin/shared/ui/components";
-import { F } from "@angular/cdk/a11y-module.d-9e4162d8";
 
 const AUSWAHL_BENUTZER = 'auswahlBenutzer';
 const UUID = 'uuid';
@@ -32,8 +31,6 @@ const ACTION_MENU = "actionMenu"
   selector: 'bv-admin-benutzer',
   imports: [
     CommonModule,
-    NgIf,
-    NgFor,
     AsyncPipe,
     FormsModule,
     MatBadgeModule,

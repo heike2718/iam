@@ -7,7 +7,6 @@ import { LoadingIndicatorComponent, MessageComponent } from './shared/messages/u
 import { NavbarComponent } from './shell/layout/navbar/navbar.component';
 import { SidenavComponent } from './shell/layout/sidenav/sidenav.component';
 import { AuthFacade } from '@bv-admin/shared/auth/api';
-import { BenutzerListComponent } from '@bv-admin/benutzer/feature';
 import { BenutzerBasketStatusComponent } from '@bv-admin/shared/ui/benutzerbasket-status';
 
 @Component({
@@ -17,7 +16,6 @@ import { BenutzerBasketStatusComponent } from '@bv-admin/shared/ui/benutzerbaske
         NavbarComponent,
         SidenavComponent,
         MessageComponent,
-        BenutzerListComponent,
         LoadingIndicatorComponent,
         RouterModule,
         BenutzerBasketStatusComponent

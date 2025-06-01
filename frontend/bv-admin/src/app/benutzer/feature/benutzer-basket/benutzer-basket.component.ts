@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from "@angular/material/button";
@@ -20,8 +20,6 @@ const REMOVE_BENUTZER_ACTION = "remove"
     selector: 'bv-users',
     imports: [
         CommonModule,
-        NgIf,
-        NgFor,
         AsyncPipe,
         MatBadgeModule,
         MatTableModule,

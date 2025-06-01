@@ -1,4 +1,4 @@
-import { CommonModule, NgFor, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { Component, inject, Input, OnDestroy, OnInit } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from '@angular/material/card';
@@ -12,8 +12,6 @@ import { Subscription } from "rxjs";
     selector: 'bv-admin-infomail',
     imports: [
         CommonModule,
-        NgFor,
-        NgIf,
         MatButtonModule,
         MatCardModule
     ],

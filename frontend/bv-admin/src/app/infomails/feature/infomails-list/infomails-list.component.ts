@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, CommonModule } from "@angular/common";
 import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
@@ -19,8 +19,6 @@ const ANZAHL_VERSANDAUFTRAEGE = "anzahlVersandauftraege"
         CommonModule,
         InfomailsDetailsComponent,
         InfomailEditComponent,
-        NgIf,
-        NgFor,
         AsyncPipe,
         MatTableModule,
         MatButtonModule,

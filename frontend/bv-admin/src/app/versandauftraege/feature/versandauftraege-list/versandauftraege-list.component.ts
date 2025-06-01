@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, CommonModule } from "@angular/common";
 import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
@@ -23,8 +23,6 @@ const DELETE_ACTION = 'delete'
     selector: 'bv-admin-versandauftraege',
     imports: [
         CommonModule,
-        NgIf,
-        NgFor,
         AsyncPipe,
         MatTableModule,
         MatButtonModule,

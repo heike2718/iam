@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
@@ -20,8 +20,6 @@ const REMOVE_FROM_GROUPR = 'removeFromGroup';
     selector: 'bv-admin-versandgruppe',
     imports: [
         CommonModule,
-        NgIf,
-        NgFor,
         AsyncPipe,
         MatButtonModule,
         MatTableModule,

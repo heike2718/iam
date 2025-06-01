@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, NgIf } from "@angular/common";
+import { AsyncPipe, CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { AuthFacade } from "@bv-admin/shared/auth/api";
 
@@ -7,7 +7,6 @@ import { AuthFacade } from "@bv-admin/shared/auth/api";
     selector: 'bv-admin-home',
     imports: [
         CommonModule,
-        NgIf,
         AsyncPipe
     ],
     templateUrl: './home.component.html'
