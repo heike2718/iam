@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.bv_admin.domain.auth.dto.MessagePayload;
 import de.egladil.web.bv_admin.domain.events.AuthAdminEventPayload;
 import de.egladil.web.bv_admin.domain.events.EventsService;
+import de.egladil.web.bv_admin.domain.events.MailaddressBannedEvent;
+import de.egladil.web.bv_admin.domain.events.MailaddressUnbannedEvent;
 import de.egladil.web.bv_admin.domain.events.PropagateEventService;
 import de.egladil.web.bv_admin.domain.events.UserActivatedEvent;
 import de.egladil.web.bv_admin.domain.events.UserDeactivatedEvent;
@@ -84,43 +86,6 @@ public class BenutzerService {
 	}
 
 	/**
-	 * Setzt das Attribut aktiviert.
-	 *
-	 * @param uuid String die UUID des zu ändernden Benutzers.
-	 * @param aktivierungsstatus
-	 * @return UpdateBenutzerResponseDto
-	 */
-	public UpdateBenutzerResponseDto updateAktivierungsstatus(final String uuid, final Aktivierungsstatus aktivierungsstatus) {
-
-		PersistenterUser user = benutzerDao.findUserByUUID(uuid);
-
-		if (user == null) {
-
-			LOGGER.warn("USER {} existiert nicht oder nicht mehr");
-			UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
-			responseDto.setUuid(uuid);
-			return responseDto;
-		}
-
-		this.doUpdate(user, aktivierungsstatus.isAktiviert());
-
-		PersistenterUserReadOnly result = benutzerDao.findUserReadonlyByUUID(uuid);
-
-		if (result == null) {
-
-			LOGGER.warn("echt jetzt? Genau in dieser Nanosekunde wurde USER {} von anderswoher geloescht?");
-			UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
-			responseDto.setUuid(uuid);
-			return responseDto;
-		}
-
-		UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
-		responseDto.setUuid(uuid);
-		responseDto.setBenuzer(this.mapFromDB(result));
-		return responseDto;
-	}
-
-	/**
 	 * Aktualisiert die gesetzten Flags.
 	 *
 	 * @param uuid String die UUID des zu ändernden Benutzers.
@@ -170,6 +135,9 @@ public class BenutzerService {
 			this.fireActivationEvent(user, flags.getAktiviert());
 		}
 
+		if (user.isBannedForMails() && !flags.getBannedForMail()) {
+			this.fireMailadressEvent(user, flags.getBannedForMail());
+		}
 	}
 
 	@Deprecated(forRemoval = true)
@@ -193,6 +161,7 @@ public class BenutzerService {
 	}
 
 	void fireActivationEvent(final PersistenterUser user, final boolean aktiviert) {
+
 		AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
 			.withTarget(user.getUuid());
 
@@ -202,6 +171,17 @@ public class BenutzerService {
 		} else {
 
 			eventsService.handleEvent(new UserDeactivatedEvent(eventPayload));
+		}
+	}
+
+	void fireMailadressEvent(final PersistenterUser user, final boolean banned) {
+		AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
+			.withTarget(user.getUuid());
+
+		if (banned) {
+			eventsService.handleEvent(new MailaddressBannedEvent(eventPayload));
+		} else {
+			eventsService.handleEvent(new MailaddressUnbannedEvent(eventPayload));
 		}
 	}
 

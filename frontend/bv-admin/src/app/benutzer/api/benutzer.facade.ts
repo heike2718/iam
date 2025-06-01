@@ -3,7 +3,7 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { Aktivierungsstatus, BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from "@bv-admin/benutzer/model";
 import { fromBenutzer, benutzerActions } from "@bv-admin/benutzer/data";
-import { Benutzer, PageDefinition, PaginationState, SortDefinition } from '@bv-admin/shared/model'
+import { Benutzer, FlagsDto, PageDefinition, PaginationState, SortDefinition } from '@bv-admin/shared/model'
 
 
 @Injectable({
@@ -44,10 +44,9 @@ export class BenutzerFacade {
         this.#store.dispatch(benutzerActions.dELETE_SINGLE_BENUTZER({ benutzer }));
     }
 
-    updateBenutzerAktivierungsstatue(benutzer: Benutzer, aktiviert: boolean): void {
+    updateBenutzerFlags(benutzer: Benutzer, flagsDto: FlagsDto) {
 
-        const neuerAktivierungsstatus: Aktivierungsstatus = { aktiviert };
-        this.#store.dispatch(benutzerActions.uPDATE_BENUTZER_ACTIVATION_STATE({ uuid: benutzer.uuid, aktivierungsstatus: neuerAktivierungsstatus }));
+        this.#store.dispatch(benutzerActions.uPDATE_BENUTZER_FLAGS({uuid: benutzer.uuid, flagsDto: flagsDto}));
 
     }
 

@@ -14,6 +14,8 @@ public enum EventType {
 	USER_CREATED("UserCreated"),
 	USER_ACTIVATED("UserActivated"),
 	USER_DEACTIVATED("UserDeactivated"),
+	MAILADRESS_BANNED("MailadressBanned"),
+	MAILADRESS_UNBANNED("MailadressUnbanned"),
 	USER_CHANGED("UserChanged"),
 	USER_DELETED("UserDeleted");
 

@@ -21,7 +21,7 @@
                 </div>
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleRow(row)"
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleBenutzerAusgewaehlt(row)"
                     [checked]="selectionModel.isSelected(row)"></mat-checkbox>
             </mat-cell>>
         </ng-container>
@@ -40,6 +40,7 @@
                 </div>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
+                <mat-icon>{{ benutzer.darfNichtGeloeschtWerden ? 'remove_circle_outline' : 'remove_circle' }}</mat-icon>
                 <div [ngClass]="{
                     'badge-green': benutzer.cryptoAlgorithm === 'ARGON2',
                     'badge-orange': benutzer.cryptoAlgorithm === 'SHA_256'
@@ -61,6 +62,7 @@
                 </div>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
+                <mat-icon>{{ benutzer.bannedForMails ? 'mail_outline' : 'email' }}</mat-icon>
                 <span [matBadge]="benutzer.anzahlLogins" matBadgeOverlap="false" matBadgePosition="after"
                     matBadgeColor="accent">
                     {{ benutzer.email }}
@@ -81,7 +83,7 @@
                 </div>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
-                {{benutzer.nachname}}
+                <span>{{benutzer.nachname}}</span>
             </mat-cell>>
         </ng-container>
 
@@ -136,40 +138,33 @@
             </mat-cell>>
         </ng-container>
 
-        <!-- Action aktivieren/deaktivieren -->
-        <ng-container matColumnDef="toggleActivationState">
-            <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1" title="aktivieren/deaktiv">
-                    aktiv on/off
-                </label>
-            </mat-header-cell>
+        <!-- action-menu -->
+        <ng-container matColumnDef="actionMenu">
+            <mat-header-cell *matHeaderCellDef>Aktionen</mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
-                @if(benutzer.aktiviert){
-                <button mat-icon-button (click)="changeActivationState(benutzer)" title="Konto deaktivieren">
-                    <mat-icon>person_off</mat-icon>
+                <button mat-icon-button [matMenuTriggerFor]="rowMenu" aria-label="mehr Aktionen">
+                    <mat-icon>more_vert</mat-icon>
                 </button>
-                }
-                @else {
-                <button mat-icon-button (click)="changeActivationState(benutzer)" title="Konto aktivieren">
-                    <mat-icon>person</mat-icon>
-                </button>
-                }
-            </mat-cell>>
-        </ng-container>
 
-        <!-- Action Konto löschen -->
-        <ng-container matColumnDef="deleteAccount">
-            <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1" title="Benutzer löschen">
-                    weg
-                </label>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let benutzer">
-                <button mat-icon-button color="warn" [disabled]="benutzer.darfNichtGeloeschtWerden"
-                    (click)="deleteBenutzer(benutzer)" title="Konto löschen">
-                    <mat-icon>person_remove</mat-icon>
-                </button>
-            </mat-cell>>
+                <mat-menu #rowMenu="matMenu">
+                    <button mat-menu-item (click)="changeActivationState(benutzer)" [disabled]="benutzer.darfNichtGeloeschtWerden">
+                        <mat-icon>{{ benutzer.aktiviert ? 'toggle_off' : 'toggle_on' }}</mat-icon>
+                        <span>{{ benutzer.aktiviert ? 'Deaktivieren' : 'Aktivieren' }}</span>
+                    </button>
+                    <button mat-menu-item (click)="deleteBenutzer(benutzer)" [disabled]="benutzer.darfNichtGeloeschtWerden">
+                        <mat-icon>person_remove</mat-icon>
+                        <span>Konto löschen</span>
+                    </button>
+                    <button mat-menu-item (click)="changeMailBanned(benutzer)" [disabled]="!benutzer.aktiviert">
+                        <mat-icon>{{ benutzer.bannedForMails ? 'mail_outline' : 'email' }}</mat-icon>
+                        <span>{{ benutzer.bannedForMails ? 'Mailversand an' : 'Mailversand aus' }}</span>                     
+                    </button>
+                    <button mat-menu-item (click)="changeBenutzerPermanent(benutzer)" [disabled]="!benutzer.aktiviert">
+                        <mat-icon>{{ benutzer.darfNichtGeloeschtWerden ? 'remove_circle' : 'remove_circle_outline' }}</mat-icon>
+                        <span>{{ benutzer.darfNichtGeloeschtWerden ? 'permanent aus' : 'permanent an' }}</span>                     
+                    </button>
+                </mat-menu>
+            </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>

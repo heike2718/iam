@@ -5,7 +5,7 @@ import { Aktivierungsstatus
     , BenutzersucheFilterAndSortValues
     , DeleteBenutzerResponseDto
     , UpdateBenutzerResponseDto } from "@bv-admin/benutzer/model";
-import { Benutzer, PageDefinition } from '@bv-admin/shared/model'
+import { Benutzer, FlagsDto, PageDefinition } from '@bv-admin/shared/model'
 
 export const benutzerActions = createActionGroup({
     source: 'benutzer',
@@ -20,8 +20,8 @@ export const benutzerActions = createActionGroup({
         'RESET_FILTER': emptyProps(),
         'DELETE_SINGLE_BENUTZER': props<{ benutzer: Benutzer }>(),
         'SINGLE_BENUTZER_DELETED': props<{ responsePayload: DeleteBenutzerResponseDto }>(),
-        'UPDATE_BENUTZER_ACTIVATION_STATE': props<{ uuid: string, aktivierungsstatus: Aktivierungsstatus }>(),
-        'BENUTZER_ACTIVATION_STATE_UPDATED': props<{ result: UpdateBenutzerResponseDto }>()
+        'UPDATE_BENUTZER_FLAGS': props<{ uuid: string, flagsDto: FlagsDto }>(),
+        'BENUTZERFLAGS_UPDATED': props<{ result: UpdateBenutzerResponseDto }>()
     }
 });
 

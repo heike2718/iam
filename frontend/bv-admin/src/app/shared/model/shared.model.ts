@@ -50,6 +50,12 @@ export interface Benutzer {
     readonly bannedForMails: boolean;
 }
 
+export interface FlagsDto {
+    aktiviert: boolean;
+    bannedForMail: boolean;
+    darfNichtGeloeschtWerden: boolean;
+}
+
 export interface Infomail {
     readonly uuid: string;
     readonly betreff: string;

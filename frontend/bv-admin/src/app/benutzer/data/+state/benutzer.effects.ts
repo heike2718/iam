@@ -40,18 +40,18 @@ export class BenutzerEffects {
             }),
         ), { dispatch: false });
 
-    updateAktivierungsstatus$ = createEffect(() => {
+    updateBenutzerflags$ = createEffect(() => {
         return this.#actions.pipe(
-            ofType(benutzerActions.uPDATE_BENUTZER_ACTIVATION_STATE),
-            switchMap((action) => this.#httpService.updateBenutzerStatus(action.uuid, action.aktivierungsstatus)),
-            map((result) => benutzerActions.bENUTZER_ACTIVATION_STATE_UPDATED({ result }))
+            ofType(benutzerActions.uPDATE_BENUTZER_FLAGS),
+            switchMap((action) => this.#httpService.updateBenutzerFlags(action.uuid, action.flagsDto)),
+            map((result) => benutzerActions.bENUTZERFLAGS_UPDATED({ result }))
         );
     });
 
-    benutzerActivationStateUpdated$ = createEffect(() =>
+    benutzerFlagsUpdated$ = createEffect(() =>
 
         this.#actions.pipe(
-            ofType(benutzerActions.bENUTZER_ACTIVATION_STATE_UPDATED),
+            ofType(benutzerActions.bENUTZERFLAGS_UPDATED),
             tap((action) => {
                 if (action.result.benuzer) {
                     this.#messageService.info('Benutzer erfolgreich geändert');

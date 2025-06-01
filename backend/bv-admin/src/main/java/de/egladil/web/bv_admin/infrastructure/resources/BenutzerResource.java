@@ -17,7 +17,6 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import de.egladil.web.bv_admin.domain.auth.dto.MessagePayload;
-import de.egladil.web.bv_admin.domain.benutzer.Aktivierungsstatus;
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerSearchResult;
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerService;
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerSuchparameter;
@@ -66,28 +65,6 @@ public class BenutzerResource {
 	final BenutzerSuchparameter userSerachDto) {
 
 		BenutzerSearchResult responsePayload = benutzerService.findUsers(userSerachDto);
-		return Response.ok(responsePayload).build();
-	}
-
-	@PUT
-	@Path("{uuid}/v1")
-	@RolesAllowed({ "AUTH_ADMIN" })
-	@Operation(operationId = "aktivierungsstatusAendern", summary = "Setzt für den gegebenen Benutzer den neuen Aktivierungsstatus")
-	@Parameters({
-		@Parameter(in = ParameterIn.PATH, name = "uuid", description = "UUID des Benutzers, der geändert werden soll", example = "a4c4d45e-4a81-4bde-a6a3-54464801716d", required = true) })
-	@APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateBenutzerResponseDto.class)))
-	@APIResponse(name = "BadRequest", responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
-	@APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-	@APIResponse(name = "Forbidden", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "403", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-	@APIResponse(name = "NotFound", description = "kann auch vorkommen, wenn mod_security zuschlägt", responseCode = "404")
-	@APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-	public Response aktivierungsstatusAendern(@PathParam(value = "uuid")
-	@Pattern(regexp = "^[abcdef\\d\\-]*$", message = "uuid enthält ungültige Zeichen")
-	@Size(max = 36, message = "uuid zu lang (max. 36 Zeichen)")
-	final String uuid, final Aktivierungsstatus aktivierungsstatus) {
-
-		UpdateBenutzerResponseDto responsePayload = benutzerService.updateAktivierungsstatus(uuid, aktivierungsstatus);
-
 		return Response.ok(responsePayload).build();
 	}
 

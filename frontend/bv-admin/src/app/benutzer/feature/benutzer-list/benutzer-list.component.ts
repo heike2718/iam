@@ -10,12 +10,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatMenuModule } from '@angular/material/menu';
 import { Subscription, combineLatest } from "rxjs";
 import { SelectionModel } from "@angular/cdk/collections";
-import { Benutzer, PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin/shared/model";
+import { Benutzer, FlagsDto, PageDefinition, PaginationState, SortDefinition, initialPaginationState } from "@bv-admin/shared/model";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "@bv-admin/shared/ui/components";
+import { F } from "@angular/cdk/a11y-module.d-9e4162d8";
 
 const AUSWAHL_BENUTZER = 'auswahlBenutzer';
 const UUID = 'uuid';
@@ -24,28 +26,28 @@ const NACHNAME = 'nachname';
 const VORNAME = 'vorname';
 const AENDERUNGSDATUM = 'aenderungsdatum';
 const ROLLE = 'rolle';
-const DELETE_BENUTZER_ACTION = "deleteAccount";
-const TOGGLE_ACTIVATION_STATE_ACTION = "toggleActivationState";
+const ACTION_MENU = "actionMenu"
 
 @Component({
-    selector: 'bv-admin-benutzer',
-    imports: [
-        CommonModule,
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        FormsModule,
-        MatBadgeModule,
-        MatCheckboxModule,
-        MatTableModule,
-        MatSortModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatButtonModule,
-        MatIconModule
-    ],
-    templateUrl: './benutzer-list.component.html',
-    styleUrls: ['./benutzer-list.component.scss']
+  selector: 'bv-admin-benutzer',
+  imports: [
+    CommonModule,
+    NgIf,
+    NgFor,
+    AsyncPipe,
+    FormsModule,
+    MatBadgeModule,
+    MatCheckboxModule,
+    MatTableModule,
+    MatSortModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule
+  ],
+  templateUrl: './benutzer-list.component.html',
+  styleUrls: ['./benutzer-list.component.scss']
 })
 export class BenutzerListComponent implements OnDestroy, AfterViewInit {
 
@@ -128,14 +130,42 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   changeActivationState(benutzer: Benutzer): void {
-    if (benutzer.aktiviert) {
-      this.benutzerFacade.updateBenutzerAktivierungsstatue(benutzer, false);
-    } else {
-      this.benutzerFacade.updateBenutzerAktivierungsstatue(benutzer, true);
-    }
+
+    const flagsDto: FlagsDto = {
+      aktiviert: !benutzer.aktiviert,
+      bannedForMail: benutzer.bannedForMails,
+      darfNichtGeloeschtWerden: benutzer.darfNichtGeloeschtWerden
+    };
+
+    this.#changeBeutzerFlags(benutzer, flagsDto);
   }
 
-  toggleRow(row: Benutzer) {
+  changeMailBanned(benutzer: Benutzer): void {
+    const flagsDto: FlagsDto = {
+      aktiviert: benutzer.aktiviert,
+      bannedForMail: !benutzer.bannedForMails,
+      darfNichtGeloeschtWerden: benutzer.darfNichtGeloeschtWerden
+    };
+
+    this.#changeBeutzerFlags(benutzer, flagsDto);
+  }
+
+  changeBenutzerPermanent(benutzer: Benutzer): void {
+    const flagsDto: FlagsDto = {
+      aktiviert: benutzer.aktiviert,
+      bannedForMail: benutzer.bannedForMails,
+      darfNichtGeloeschtWerden: !benutzer.darfNichtGeloeschtWerden
+    };
+
+    this.#changeBeutzerFlags(benutzer, flagsDto);
+  }
+
+  #changeBeutzerFlags(benutzer: Benutzer, flagsDto: FlagsDto): void {
+
+    this.benutzerFacade.updateBenutzerFlags(benutzer, flagsDto);
+  }
+
+  toggleBenutzerAusgewaehlt(row: Benutzer) {
 
     if (this.#adjusting) {
       return;
@@ -165,7 +195,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   getDisplayedColumns(): string[] {
-    return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, AENDERUNGSDATUM, ROLLE, TOGGLE_ACTIVATION_STATE_ACTION, DELETE_BENUTZER_ACTION];
+    return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, AENDERUNGSDATUM, ROLLE, ACTION_MENU];
   }
 
   onPaginatorChanged(_event: PageEvent): void {
@@ -342,7 +372,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   #createActualFilterAndSort(): BenutzersucheFilterAndSortValues {
 
     if (this.sort) {
-      const matSortDirection = this.sort.direction;      
+      const matSortDirection = this.sort.direction;
       let sortByLabel = '';
 
       if (matSortDirection === "") {

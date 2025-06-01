@@ -83,7 +83,7 @@ export const benutzerFeature = createFeature({
                 benutzerBasket: newBasket
             }
         }),
-        on(benutzerActions.bENUTZER_ACTIVATION_STATE_UPDATED, (state, action) => {
+        on(benutzerActions.bENUTZERFLAGS_UPDATED, (state, action) => {
 
             if (action.result.benuzer) {
 
