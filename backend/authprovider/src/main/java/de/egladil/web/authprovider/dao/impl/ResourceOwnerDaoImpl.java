@@ -178,4 +178,10 @@ public class ResourceOwnerDaoImpl extends BaseDaoImpl implements ResourceOwnerDa
 
 		return resultList;
 	}
+
+	@Override
+	public List<ResourceOwner> findUsersWithActivationAndBannedState(boolean activated, boolean bannedForMails) {
+		return em.createNamedQuery(ResourceOwner.FIND_BY_ACTIVATION_AND_BANNED_STATE, ResourceOwner.class)
+			.setParameter("aktiviert", activated).setParameter("bannedForMails", bannedForMails).getResultList();
+	}
 }

@@ -405,4 +405,16 @@ public class ResourceOwnerService {
 		this.resourceOwnerDao.save(resourceOwner);
 
 	}
+
+	/**
+	 * Gibt die UUIDs aller USER zurück, die aktiviert sind und die für Mailbenachichtigungen gebannt wurden.
+	 *
+	 * @return List die gebannten Mailadressen.
+	 */
+	public List<String> getBannedEmails() {
+
+		List<ResourceOwner> bannedUsers = resourceOwnerDao.findUsersWithActivationAndBannedState(true, true);
+
+		return bannedUsers.stream().map(u -> u.getEmail()).toList();
+	}
 }

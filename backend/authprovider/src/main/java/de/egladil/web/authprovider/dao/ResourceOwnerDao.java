@@ -80,4 +80,12 @@ public interface ResourceOwnerDao extends BaseDao {
 	 * @return List
 	 */
 	List<ResourceOwner> findByLoginnameLike(String loginnameFragment);
+
+	/**
+	 * Sucht alle RessourceOwner, bei denen das aktiviert-Flad und das bannedForMails-Flag die angegebenen Werte hat.
+	 * @param activated boolean
+	 * @param bannedForMails boolean
+	 * @return List
+	 */
+	List<ResourceOwner> findUsersWithActivationAndBannedState(boolean activated, boolean bannedForMails);
 }

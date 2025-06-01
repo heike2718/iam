@@ -42,42 +42,47 @@ import jakarta.validation.constraints.Size;
  */
 @Entity
 @Table(name = "USERS")
-@NamedQueries({ @NamedQuery(name = "FIND_BY_EMAIL", query = "select o from ResourceOwner o where lower(o.email) = :email"),
-	@NamedQuery(name = "FIND_BY_EMAIL_LIKE", query = "select o from ResourceOwner o where lower(o.email) like :email"),
-	@NamedQuery(name = "FIND_BY_LOGINNAME", query = "select o from ResourceOwner o where o.loginName = :loginName"),
-	@NamedQuery(name = "FIND_BY_LOGINNAME_LIKE", query = "select o from ResourceOwner o where lower(o.loginName) like :loginName"),
-	@NamedQuery(name = "FIND_BY_UUID", query = "select o from ResourceOwner o where o.uuid = :uuid"),
-	@NamedQuery(name = "FIND_BY_UUID_LIKE", query = "select o from ResourceOwner o where o.uuid LIKE :uuid"),
-	@NamedQuery(name = "FIND_OTHER_BY_EMAIL", query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.email) = :email"),
-	@NamedQuery(name = "FIND_OTHER_BY_LOGINNAME", query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.loginName) = :loginName"), })
+@NamedQueries({
+	@NamedQuery(name = ResourceOwner.FIND_BY_EMAIL, query = "select o from ResourceOwner o where lower(o.email) = :email"),
+	@NamedQuery(name = ResourceOwner.FIND_BY_EMAIL_LIKE, query = "select o from ResourceOwner o where lower(o.email) like :email"),
+	@NamedQuery(name = ResourceOwner.FIND_BY_LOGINNAME, query = "select o from ResourceOwner o where o.loginName = :loginName"),
+	@NamedQuery(name = ResourceOwner.FIND_BY_LOGINNAME_LIKE, query = "select o from ResourceOwner o where lower(o.loginName) like :loginName"),
+	@NamedQuery(name = ResourceOwner.FIND_BY_UUID, query = "select o from ResourceOwner o where o.uuid = :uuid"),
+	@NamedQuery(name = ResourceOwner.FIND_BY_UUID_LIKE, query = "select o from ResourceOwner o where o.uuid LIKE :uuid"),
+	@NamedQuery(name = ResourceOwner.FIND_OTHER_BY_EMAIL, query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.email) = :email"),
+	@NamedQuery(name = ResourceOwner.FIND_OTHER_BY_LOGINNAME, query = "select o from ResourceOwner o where o.uuid != :uuid and lower(o.loginName) = :loginName"),
+	@NamedQuery(name = ResourceOwner.FIND_BY_ACTIVATION_AND_BANNED_STATE, query = "select o from ResourceOwner o where o.aktiviert != :aktiviert and o.bannedForMails = :bannedForMails"), })
 public class ResourceOwner implements AuthProviderEntity {
 
 	/* serialVersionUID */
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
-	public static final String FIND_BY_EMAIL = "FIND_BY_EMAIL";
+	public static final String FIND_BY_EMAIL = "ResourceOwner.FIND_BY_EMAIL";
 
 	@JsonIgnore
-	public static final String FIND_BY_EMAIL_LIKE = "FIND_BY_EMAIL_LIKE";
+	public static final String FIND_BY_EMAIL_LIKE = "ResourceOwner.FIND_BY_EMAIL_LIKE";
 
 	@JsonIgnore
-	public static final String FIND_BY_LOGINNAME = "FIND_BY_LOGINNAME";
+	public static final String FIND_BY_LOGINNAME = "ResourceOwner.FIND_BY_LOGINNAME";
 
 	@JsonIgnore
-	public static final String FIND_BY_UUID = "FIND_BY_UUID";
+	public static final String FIND_BY_UUID = "ResourceOwner.FIND_BY_UUID";
 
 	@JsonIgnore
-	public static final String FIND_BY_LOGINNAME_LIKE = "FIND_BY_LOGINNAME_LIKE";
+	public static final String FIND_BY_LOGINNAME_LIKE = "ResourceOwner.FIND_BY_LOGINNAME_LIKE";
 
 	@JsonIgnore
-	public static final String FIND_BY_UUID_LIKE = "FIND_BY_UUID_LIKE";
+	public static final String FIND_BY_UUID_LIKE = "ResourceOwner.FIND_BY_UUID_LIKE";
 
 	@JsonIgnore
-	public static final String FIND_OTHER_BY_EMAIL = "FIND_OTHER_BY_EMAIL";
+	public static final String FIND_OTHER_BY_EMAIL = "ResourceOwner.FIND_OTHER_BY_EMAIL";
 
 	@JsonIgnore
-	public static final String FIND_OTHER_BY_LOGINNAME = "FIND_OTHER_BY_LOGINNAME";
+	public static final String FIND_OTHER_BY_LOGINNAME = "ResourceOwner.FIND_OTHER_BY_LOGINNAME";
+
+	@JsonIgnore
+	public static final String FIND_BY_ACTIVATION_AND_BANNED_STATE = "ResourceOwner.FIND_BY_ACTIVATION_AND_BANNED_STATE";
 
 	public static ResourceOwner createAktiviert(final String uuid, final String loginName, final String email) {
 
@@ -147,6 +152,10 @@ public class ResourceOwner implements AuthProviderEntity {
 	@Column(name = "ANZAHL_LOGINS")
 	@JsonIgnore
 	private int anzahlLogins;
+
+	@Column(name = "BANNED_FOR_MAILS")
+	@JsonIgnore
+	private boolean bannedForMails;
 
 	@Column(name = "ROLLEN")
 	@JsonProperty
@@ -345,5 +354,13 @@ public class ResourceOwner implements AuthProviderEntity {
 
 		return "ResourceOwner [uuid=" + StringUtils.abbreviate(uuid, 11) + ", fullName=" + getFullName() + ", loginName="
 			+ loginName + ", email=" + StringUtils.abbreviate(email, 9) + "]";
+	}
+
+	public boolean isBannedForMails() {
+		return bannedForMails;
+	}
+
+	public void setBannedForMails(boolean bannedForMails) {
+		this.bannedForMails = bannedForMails;
 	}
 }

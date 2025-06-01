@@ -1,7 +1,7 @@
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const environment = {
-  version: '9.0.0',
+  version: '9.1.0',
   envName: 'dev',
   production: false,
   baseUrl: 'http://localhost:10600',
