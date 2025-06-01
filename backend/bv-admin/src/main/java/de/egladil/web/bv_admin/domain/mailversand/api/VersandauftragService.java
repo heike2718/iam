@@ -281,7 +281,7 @@ public class VersandauftragService {
 
 	private List<String> loadAllUsersAktiviert(final List<String> benutzerIDs) {
 
-		List<PersistenterUserReadOnly> users = mailversandDao.findAktivierteUsersByUUIDs(benutzerIDs);
+		List<PersistenterUserReadOnly> users = mailversandDao.findActivatedAndNotBannedUsersByUUIDs(benutzerIDs);
 		return users.stream().map(u -> u.getUuid()).toList();
 	}
 

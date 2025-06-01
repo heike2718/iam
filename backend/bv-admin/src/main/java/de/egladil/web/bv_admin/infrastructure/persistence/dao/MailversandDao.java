@@ -40,16 +40,18 @@ public class MailversandDao {
 	}
 
 	/**
-	 * Läd alle aktivierten PersistenterUserReadOnly mit den gegebenen UUIDs.
+	 * Läd alle aktivierten PersistenterUserReadOnly mit den gegebenen UUIDs, deren Mailadresse nicht gebannt ist.
 	 *
 	 * @param uuids List von String
 	 * @return List
 	 */
-	public List<PersistenterUserReadOnly> findAktivierteUsersByUUIDs(final List<String> uuids) {
+	public List<PersistenterUserReadOnly> findActivatedAndNotBannedUsersByUUIDs(final List<String> uuids) {
 
-		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_BY_A_UUID_LIST, PersistenterUserReadOnly.class)
-			.setParameter("aktiviert", true).setParameter("uuids", uuids).getResultList();
+		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID_LIST_WITH_FLAGS_ACTIVATED_AND_BANNED, PersistenterUserReadOnly.class)
+			.setParameter("aktiviert", true).setParameter("bannedForMails", false).setParameter("uuids", uuids).getResultList();
 	}
+
+
 
 	/**
 	 * Läd alle Versandaufträge für die Übersicht, also nicht alle Attribute.

@@ -46,7 +46,9 @@ public class VersandgruppenSource {
 
 		List<String> uuids = Arrays.asList(StringUtils.split(naechsteGruppe.getEmpfaengerUUIDs(), ","));
 
-		List<PersistenterUserReadOnly> users = dao.findAktivierteUsersByUUIDs(uuids);
+		// hier werden die inzwischen deaktivierten und gelöschten user und die mit gebannten Mailadressen übersprungen.
+		// Es können jetzt also weniger sein.
+		List<PersistenterUserReadOnly> users = dao.findActivatedAndNotBannedUsersByUUIDs(uuids);
 		List<String> emails = users.stream().map(u -> u.getEmail()).toList();
 
 		Mailversandgruppe result = new Mailversandgruppe();
