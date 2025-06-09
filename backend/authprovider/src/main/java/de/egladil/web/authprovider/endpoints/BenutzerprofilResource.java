@@ -23,7 +23,6 @@ import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
-import de.egladil.web.authprovider.payload.TempPasswordV2ResponseDto;
 import de.egladil.web.authprovider.payload.User;
 import de.egladil.web.authprovider.payload.profile.ChangeProfileDataPayload;
 import de.egladil.web.authprovider.payload.profile.ChangeProfilePasswordPayload;

@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,6 +84,10 @@ public class ChangeDataService {
 
 		ResourceOwner resourceOwner = optRO.get();
 
+		if (getResetBanFlag(resourceOwner, payload.getEmail())) {
+			resourceOwner.setBannedForMails(false);
+		}
+
 		resourceOwner.setLoginName(payload.getLoginName());
 		resourceOwner.setEmail(payload.getEmail());
 		resourceOwner.setNachname(payload.getNachname() != null ? payload.getNachname().trim() : null);
@@ -114,5 +119,41 @@ public class ChangeDataService {
 			throw new AuthRuntimeException("Benutzerdaten konnten nicht geändert werden: " + e.getMessage(), e);
 
 		}
+	}
+
+	/**
+	 * Einfache Heuristik: wenn resourceOwner eine banned Mailadresse hat sich die neue Mailadresse nach dem letzten @
+	 * von dem Teil der alten Mailadresse nach dem letzten @ unterscheidet, hat sich die Domain geändert und man kann
+	 * das Entbannen versuchen.
+	 *
+	 * @param resourceOwner ResourceOwner
+	 * @param email String
+	 * @return boolean
+	 */
+	boolean getResetBanFlag(ResourceOwner resourceOwner, String email) {
+
+		if (!resourceOwner.isBannedForMails()) {
+			return false;
+		}
+
+		if (resourceOwner.getEmail().trim().equalsIgnoreCase(email.trim())) {
+			return false;
+		}
+
+		String oldEmail = resourceOwner.getEmail();
+		String[] oldEmailTokens = StringUtils.splitPreserveAllTokens(oldEmail, "@");
+		String[] newEmailTokens = StringUtils.splitPreserveAllTokens(email, "@");
+
+		String oldDomain = oldEmailTokens[oldEmailTokens.length - 1].trim();
+		String newDomain = newEmailTokens[newEmailTokens.length - 1].trim();
+
+		if (oldDomain.equalsIgnoreCase(newDomain)) {
+			return false;
+		}
+
+		LOG.info("USER {}: oldDomain={}, newDomain={} => reset the ban flag", StringUtils.abbreviate(resourceOwner.getUuid(), 11),
+			oldDomain, newDomain);
+
+		return true;
 	}
 }
