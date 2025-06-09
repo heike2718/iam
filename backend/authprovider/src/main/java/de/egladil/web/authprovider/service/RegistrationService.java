@@ -32,9 +32,6 @@ import de.egladil.web.authprovider.event.LoggableEventDelegate;
 import de.egladil.web.authprovider.event.ResourceOwnerEventPayload;
 import de.egladil.web.authprovider.event.UserCreated;
 import de.egladil.web.authprovider.payload.SignUpCredentials;
-import de.egladil.web.authprovider.service.mail.AuthMailService;
-import de.egladil.web.authprovider.service.mail.DefaultEmailDaten;
-import de.egladil.web.authprovider.service.mail.RegistrationMailStrategy;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import de.egladil.web.authprovider.utils.AuthUtils;
 import jakarta.enterprise.context.RequestScoped;
@@ -69,9 +66,6 @@ public class RegistrationService {
 
 	@Inject
 	ResourceOwnerDao resourceOwnerDao;
-
-	@Inject
-	AuthMailService mailService;
 
 	@Inject
 	Event<AuthproviderEvent> authproviderEvent;
@@ -115,14 +109,8 @@ public class RegistrationService {
 
 			ActivationCode activationCode = createActivationCode(
 				resourceOwnerDao.findById(ResourceOwner.class, resourceOwner.getId()));
-			ActivationCode persistierter = activationCodeDao.save(activationCode);
+			activationCodeDao.save(activationCode);
 
-			DefaultEmailDaten maildaten = new RegistrationMailStrategy(signUpCredentials.getEmail(),
-				signUpCredentials.getLoginName(), persistierter, accountActivationUrl).createEmailDaten("RegistrationService");
-
-			mailService.sendMail(maildaten);
-
-			LOG.debug("Mail mit Aktivierungscode versendet");
 			LOG.info("{} angelegt", resourceOwner.toString());
 
 			ResourceOwnerEventPayload roPayload = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner)
