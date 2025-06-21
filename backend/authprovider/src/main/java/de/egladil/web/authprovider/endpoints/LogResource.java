@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.authprovider.log.LogDelegate;
 import de.egladil.web.authprovider.log.LogEntry;
-import de.egladil.web.authprovider.payload.MessagePayload;
 import de.egladil.web.authprovider.payload.ResponsePayload;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.validation.Valid;
