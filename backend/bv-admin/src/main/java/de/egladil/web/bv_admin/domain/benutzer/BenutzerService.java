@@ -229,33 +229,40 @@ public class BenutzerService {
 			throw new WebApplicationException(response);
 		}
 
-		doDelete(user);
+		doDelete(uuid);
+
+		LOGGER.debug("delete {} committed", user.getUuid());
+
+		AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
+			.withTarget(uuid);
+
+		eventsService.handleEvent(new UserDeletedEvent(eventPayload));
+
 		return new DeleteBenutzerResponseDto(uuid);
 
 	}
 
 	@Transactional
-	void doDelete(final PersistenterUserReadOnly user) throws AuthAdminAPIRuntimeException {
+	void doDelete(String uuid) throws AuthAdminAPIRuntimeException {
+
+		final PersistenterUser user = benutzerDao.findUserByUUID(uuid);
 
 		try {
 
-			propagateEventService.propagateDeleteUserToMkGateway(user.getUuid());
+			propagateEventService.propagateDeleteUserToMkGateway(uuid);
 
-			LOGGER.info("delete {} synchronized with mk-gateway", user.getUuid());
+			LOGGER.info("delete {} synchronized with mk-gateway", uuid);
 
-			if (user.getSaltId() != null) {
-				saltDao.deleteSaltAndCascade(user.getSaltId());
-			}
+//			if (user.getSaltId() != null) {
+//				saltDao.deleteSaltAndCascade(user.getSaltId());
+//			}
 
-			AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
-				.withTarget(user.getUuid());
-
-			eventsService.handleEvent(new UserDeletedEvent(eventPayload));
+			benutzerDao.deleteUser(user);
 
 		} catch (CommandPropagationFailedException e) {
 
-			LOGGER.error("CommandPropagationFailed: Löschen des Benutzerkontos {} wird abgebrochen: {}", user.getUuid(), e.getMessage(),
-				e);
+			LOGGER.error("CommandPropagationFailed: Löschen des Benutzerkontos {} wird abgebrochen: {}", uuid,
+				e.getMessage(), e);
 			throw new AuthAdminAPIRuntimeException(e.getMessage(), e);
 
 		}

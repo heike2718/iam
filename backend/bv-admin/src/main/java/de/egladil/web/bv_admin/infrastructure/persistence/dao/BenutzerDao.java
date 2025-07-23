@@ -105,7 +105,8 @@ public class BenutzerDao {
 	public List<PersistenterUserReadOnly> findUsersByUUIDList(final List<String> uuids) {
 
 		List<PersistenterUserReadOnly> trefferliste = entityManager
-			.createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID_LIST_WITH_FLAGS_ACTIVATED_AND_BANNED, PersistenterUserReadOnly.class)
+			.createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID_LIST_WITH_FLAGS_ACTIVATED_AND_BANNED,
+				PersistenterUserReadOnly.class)
 			.setParameter("uuids", uuids).setParameter("aktiviert", true).getResultList();
 
 		return trefferliste;
@@ -120,6 +121,15 @@ public class BenutzerDao {
 	public void updateUser(final PersistenterUser user) {
 
 		this.entityManager.merge(user);
+	}
+
+	/**
+	 * Löscht den user hoffentlich mitsamt seinem Objektgraph.
+	 *
+	 * @param user PersistenterUser
+	 */
+	public void deleteUser(PersistenterUser user) {
+		this.entityManager.remove(user);
 	}
 
 	@SuppressWarnings("rawtypes")
