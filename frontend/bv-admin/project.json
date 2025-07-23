@@ -1,6 +1,7 @@
 {
   "name": "bv-admin",
   "$schema": "node_modules/nx/schemas/project-schema.json",
+  "includedScripts": [],
   "projectType": "application",
   "prefix": "bv-admin",
   "sourceRoot": "./src",
@@ -121,7 +122,8 @@
           "buildTarget": "bv-admin:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

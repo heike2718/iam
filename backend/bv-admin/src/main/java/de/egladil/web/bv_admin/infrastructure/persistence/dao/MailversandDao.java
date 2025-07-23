@@ -47,7 +47,7 @@ public class MailversandDao {
 	 */
 	public List<PersistenterUserReadOnly> findActivatedAndNotBannedUsersByUUIDs(final List<String> uuids) {
 
-		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID_LIST_WITH_FLAGS_ACTIVATED_AND_BANNED, PersistenterUserReadOnly.class)
+		return entityManager.createNamedQuery(PersistenterUserReadOnly.FIND_FOR_MAILVERSAND_BY_UUID_LIST, PersistenterUserReadOnly.class)
 			.setParameter("aktiviert", true).setParameter("bannedForMails", false).setParameter("uuids", uuids).getResultList();
 	}
 

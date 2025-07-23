@@ -154,7 +154,7 @@ public class MailversandProcessor {
 
 		dao.updateMailversandauftrag(versandauftrag);
 
-		LOGGER.info("Mailversandauftrag {} als als beendet markiert: status={}, anzahlEmpfaenger={}, anzahlVersendet={}",
+		LOGGER.info("Mailversandauftrag {} als beendet markiert: status={}, anzahlEmpfaenger={}, anzahlVersendet={}",
 			StringUtils.abbreviate(versandauftrag.getUuid(), 11), status, versandauftrag.getAnzahlEmpfaenger(),
 			versandauftrag.getAnzahlVersendet());
 

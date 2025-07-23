@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+
 import { Component, inject, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
@@ -12,12 +12,11 @@ import { Infomail } from "@bv-admin/shared/model";
 @Component({
     selector: 'bv-admin-infomail-edit',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatButtonModule,
-        MatCardModule
-    ],
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule
+],
     templateUrl: './infomails-edit.component.html',
     styleUrls: ['./infomails-edit.component.scss']
 })

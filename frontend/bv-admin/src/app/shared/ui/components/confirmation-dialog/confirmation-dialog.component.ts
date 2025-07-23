@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -6,10 +6,9 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 @Component({
     selector: 'bv-admin-confirmation-dialog',
     imports: [
-        CommonModule,
-        MatButtonModule,
-        MatDialogModule
-    ],
+    MatButtonModule,
+    MatDialogModule
+],
     templateUrl: './confirmation-dialog.component.html',
     styleUrls: ['./confirmation-dialog.component.scss']
 })
