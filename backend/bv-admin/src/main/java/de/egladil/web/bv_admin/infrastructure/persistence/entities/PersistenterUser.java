@@ -6,13 +6,19 @@ package de.egladil.web.bv_admin.infrastructure.persistence.entities;
 
 import java.util.Date;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -79,6 +85,11 @@ public class PersistenterUser {
 
 	@Column(name = "PERMANENT")
 	private boolean darfNichtGeloeschtWerden;
+
+	@OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "pid", referencedColumnName = "id")
+	@Fetch(FetchMode.JOIN)
+	private PersistentesPassword password;
 
 	@Version
 	@Column(name = "VERSION")

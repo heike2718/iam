@@ -28,41 +28,41 @@ import lombok.NoArgsConstructor;
 public class BenutzerTrefferlisteItem {
 
 	@JsonProperty
-	@Schema(description = "UUID des Users", example = "732b2ed8-b9b7-4800-8685-38fd09d330cf")
+	@Schema(description = "UUID des Users", examples = "732b2ed8-b9b7-4800-8685-38fd09d330cf")
 	@Pattern(regexp = "^[abcdef\\d\\-]*$")
 	@Size(max = 36)
 	private String uuid;
 
 	@JsonProperty
-	@Schema(description = "Vorname eines Users", example = "Rainer")
+	@Schema(description = "Vorname eines Users", examples = "Rainer")
 	@Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP)
 	@Size(max = 100)
 	private String vorname;
 
 	@JsonProperty
-	@Schema(description = " Nachname eines Users", example = "Honig")
+	@Schema(description = " Nachname eines Users", examples = "Honig")
 	@Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP)
 	@Size(max = 100)
 	private String nachname;
 
 	@JsonProperty
-	@Schema(description = "email eines Users", example = "test@provider777.com")
+	@Schema(description = "email eines Users", examples = "test@provider777.com")
 	@Pattern(regexp = "^[a-zA-Z0-9\\.!#$%&'*+/=\\?\\^_`{|}~\\-@]*$")
 	@Size(max = 255)
 	private String email;
 
 	@JsonProperty
-	@Schema(description = "Rollen eines Users.", example = "STANDARD")
+	@Schema(description = "Rollen eines Users.", examples = "STANDARD")
 	@Pattern(regexp = "^[A-Z_,]*$")
 	@Size(max = 150)
 	private String rollen;
 
 	@JsonProperty
-	@Schema(description = "Flag ,ob der user aktiviert ist", example = "false")
+	@Schema(description = "Flag ,ob der user aktiviert ist", examples = "false")
 	private boolean aktiviert;
 
 	@JsonProperty
-	@Schema(description = "Datum, an dem die Daten das letzte Mal geändert wurden - meist letztes Login", example = "2019-09-14 18:40:06")
+	@Schema(description = "Datum, an dem die Daten das letzte Mal geändert wurden - meist letztes Login", examples = "2019-09-14 18:40:06")
 	@Pattern(regexp = "^[\\d.\\-:]*$")
 	@Size(max = 19)
 	private String aenderungsdatum;
