@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from '@angular/material/button';
@@ -21,8 +21,7 @@ import { Subscription } from "rxjs";
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
-    MatIconModule,
-    AsyncPipe
+    MatIconModule
   ]
 })
 export class BenutzerdatenComponent implements OnInit, OnDestroy {

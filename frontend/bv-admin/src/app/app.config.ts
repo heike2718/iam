@@ -18,11 +18,13 @@ import { authDataProvider } from '@bv-admin/shared/auth/api';
 import { benutzerDataProvider } from '@bv-admin/benutzer/api';
 import { infomailsDataProvider } from './infomails/api';
 import { versandauftraegeDataProvider } from './versandauftraege/api';
+import { AUTH_FEATURE_KEY } from '@bv-admin/shared/auth/model';
 
 
 const localStorageMetaReducer = localStorageReducer(
-  'bvAuth'
+  AUTH_FEATURE_KEY
 ); // <-- synchronisiert diese Slices des Store mit localStorage wegen F5.
+// siehe auth.reducer.ts for the slice name
 
 const clearStoreMetaReducer = loggedOutMetaReducer;
 

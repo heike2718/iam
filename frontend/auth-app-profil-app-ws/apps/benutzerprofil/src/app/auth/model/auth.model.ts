@@ -1,3 +1,4 @@
+export const AUTH_FEATURE_KEY = 'benutzerdatenAuth';
 
 export interface AuthResult {
     expiresAt: number | undefined;

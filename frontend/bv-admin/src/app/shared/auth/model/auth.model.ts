@@ -1,4 +1,6 @@
 
+export const AUTH_FEATURE_KEY = 'bvAuth';
+
 export interface AuthResult {
     expiresAt: number | undefined;
     state: string | undefined;

@@ -17,13 +17,13 @@ import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from '
 import { provideEffects } from '@ngrx/effects';
 import { benutzerdatenDataProvider } from '@benutzerprofil/benutzerdaten/api';
 import { passwortDataProvider } from '@benutzerprofil/passwort/api';
-
+import { AUTH_FEATURE_KEY } from "@benutzerprofil/auth/model";
 
 
 const localStorageMetaReducer = localStorageReducer(
-  'profilAuth'
+  AUTH_FEATURE_KEY
 ); // <-- synchronisiert diese Slices des Store mit localStorage wegen F5.
-// auth = auth.reducer.ts/profilAuth
+// siehe auth.reducer.ts for the slice name
 
 const clearStoreMetaReducer = loggedOutMetaReducer;
 
