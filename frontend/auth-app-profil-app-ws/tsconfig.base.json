@@ -20,21 +20,49 @@
       "@ap-ws/common-utils": ["libs/common-utils/src/index.ts"],
       "@ap-ws/messages/api": ["libs/messages/api/src/index.ts"],
       "@ap-ws/messages/ui": ["libs/messages/ui/src/index.ts"],
-      "@authprovider/configuration": ["apps/authprovider/src/app/configuration/index.ts"],
-      "@authprovider/change-temp-password/api": ["apps/authprovider/src/app/change-temp-password/api/index.ts"],
-      "@authprovider/change-temp-password/data": ["apps/authprovider/src/app/change-temp-password/data/index.ts"],
-      "@authprovider/change-temp-password/feature": ["apps/authprovider/src/app/change-temp-password/feature/index.ts"],
-      "@authprovider/forgot-password/api": ["apps/authprovider/src/app/forgot-password/api/index.ts"],
-      "@authprovider/forgot-password/data": ["apps/authprovider/src/app/forgot-password/data/index.ts"],
-      "@authprovider/forgot-password/feature": ["apps/authprovider/src/app/forgot-password/feature/index.ts"],
-      "@authprovider/login-signup/api": ["apps/authprovider/src/app/login-signup/api/index.ts"],
-      "@authprovider/login-signup/data": ["apps/authprovider/src/app/login-signup/data/index.ts"],
-      "@authprovider/login-signup/feature": ["apps/authprovider/src/app/login-signup/feature/index.ts"],
-      "@authprovider/login-signup/model": ["apps/authprovider/src/app/login-signup/model/index.ts"],
+      "@authprovider/change-temp-password/api": [
+        "apps/authprovider/src/app/change-temp-password/api/index.ts"
+      ],
+      "@authprovider/change-temp-password/data": [
+        "apps/authprovider/src/app/change-temp-password/data/index.ts"
+      ],
+      "@authprovider/change-temp-password/feature": [
+        "apps/authprovider/src/app/change-temp-password/feature/index.ts"
+      ],
+      "@authprovider/configuration": [
+        "apps/authprovider/src/app/configuration/index.ts"
+      ],
+      "@authprovider/forgot-password/api": [
+        "apps/authprovider/src/app/forgot-password/api/index.ts"
+      ],
+      "@authprovider/forgot-password/data": [
+        "apps/authprovider/src/app/forgot-password/data/index.ts"
+      ],
+      "@authprovider/forgot-password/feature": [
+        "apps/authprovider/src/app/forgot-password/feature/index.ts"
+      ],
+      "@authprovider/login-signup/api": [
+        "apps/authprovider/src/app/login-signup/api/index.ts"
+      ],
+      "@authprovider/login-signup/data": [
+        "apps/authprovider/src/app/login-signup/data/index.ts"
+      ],
+      "@authprovider/login-signup/feature": [
+        "apps/authprovider/src/app/login-signup/feature/index.ts"
+      ],
+      "@authprovider/login-signup/model": [
+        "apps/authprovider/src/app/login-signup/model/index.ts"
+      ],
       "@authprovider/model": ["apps/authprovider/src/app/model/index.ts"],
-      "@benutzerprofil/auth/api": ["apps/benutzerprofil/src/app/auth/api/index.ts"],
-      "@benutzerprofil/auth/data": ["apps/benutzerprofil/src/app/auth/data/index.ts"],
-      "@benutzerprofil/auth/model": ["apps/benutzerprofil/src/app/auth/model/index.ts"],
+      "@benutzerprofil/auth/api": [
+        "apps/benutzerprofil/src/app/auth/api/index.ts"
+      ],
+      "@benutzerprofil/auth/data": [
+        "apps/benutzerprofil/src/app/auth/data/index.ts"
+      ],
+      "@benutzerprofil/auth/model": [
+        "apps/benutzerprofil/src/app/auth/model/index.ts"
+      ],
       "@benutzerprofil/benutzerdaten/api": [
         "apps/benutzerprofil/src/app/benutzerdaten/api/index.ts"
       ],
@@ -44,7 +72,9 @@
       "@benutzerprofil/benutzerdaten/model": [
         "apps/benutzerprofil/src/app/benutzerdaten/model/index.ts"
       ],
-      "@benutzerprofil/configuration": ["apps/benutzerprofil/src/app/configuration/index.ts"],
+      "@benutzerprofil/configuration": [
+        "apps/benutzerprofil/src/app/configuration/index.ts"
+      ],
       "@benutzerprofil/local-storage": [
         "apps/benutzerprofil/src/app/local-storage-data/index.ts"
       ],

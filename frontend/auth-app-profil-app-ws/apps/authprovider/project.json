@@ -23,9 +23,7 @@
           "apps/authprovider/src/favicon.ico",
           "apps/authprovider/src/assets"
         ],
-        "styles": [
-          "apps/authprovider/src/styles.scss"
-        ],
+        "styles": ["apps/authprovider/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -147,7 +145,8 @@
           "buildTarget": "authprovider:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

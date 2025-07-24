@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection, importProvidersFrom, ErrorHandler } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection, importProvidersFrom, ErrorHandler, inject } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -13,10 +13,12 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXsrfC
 import { LoadingInterceptor } from '@ap-ws/messages/api';
 import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
 import { ErrorHandlerService } from '@ap-ws/common-utils';
-import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from './local-storage-data';
+import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from '@benutzerprofil/local-storage';
 import { provideEffects } from '@ngrx/effects';
 import { benutzerdatenDataProvider } from '@benutzerprofil/benutzerdaten/api';
 import { passwortDataProvider } from '@benutzerprofil/passwort/api';
+
+
 
 const localStorageMetaReducer = localStorageReducer(
   'profilAuth'

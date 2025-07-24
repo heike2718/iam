@@ -4,7 +4,8 @@
 
 @use 'sass:map';
 @use '@angular/material' as mat;
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 // Define 700 as your fixed dark color
 $primary-700: #a21225;

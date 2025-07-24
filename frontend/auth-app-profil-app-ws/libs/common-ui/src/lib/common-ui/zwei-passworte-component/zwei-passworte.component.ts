@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ZweiPassworte } from '@ap-ws/common-model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,12 +12,11 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'auth-common-zwei-passworte',
   standalone: true,
   imports: [
-    CommonModule,
     MatButtonModule,
     MatInputModule,
     MatIconModule,
     ReactiveFormsModule
-  ],
+],
   templateUrl: './zwei-passworte.component.html',
   styleUrl: './zwei-passworte.component.scss',
 })

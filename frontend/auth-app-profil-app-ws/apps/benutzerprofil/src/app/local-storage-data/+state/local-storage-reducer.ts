@@ -1,23 +1,12 @@
 import { ActionReducer } from '@ngrx/store';
-import {
-  localStorageSync,
-  rehydrateApplicationState,
-} from 'ngrx-store-localstorage';
-import { isSyncLocalStorage } from '../local-storage.utils';
-
+import { isSyncLocalStorage, rehydrateApplicationState, localStorageSync } from '../local-storage.utils';
 
 export const localStorageReducer = (...featureStateNames: string[]) => {
-  
-  const syncerFn = localStorageSync({
-    keys: featureStateNames,
-    rehydrate: true,
-  });
 
   return <S>(reducer: ActionReducer<S>): ActionReducer<S> =>
     (state, action) => {
       if (isSyncLocalStorage(action)) {
-
-        // console.log('syncronize local storage');
+        console.log('Hydration-Action erkannt:', action);
 
         const rehydratedFeatureState = rehydrateApplicationState(
           [action.featureState],
@@ -25,9 +14,12 @@ export const localStorageReducer = (...featureStateNames: string[]) => {
           (value) => value,
           true
         );
-        return { ...state, ...rehydratedFeatureState };
+        console.log('Rehydrated State:', rehydratedFeatureState);
+        return { ...state, ...rehydratedFeatureState } as S;
+      } else {
+        console.log('andere Action:', action);
       }
-      return syncerFn(reducer)(state, action);
+      return localStorageSync({ keys: featureStateNames, rehydrate: true })(reducer)(state, action);
     };
 }
 
