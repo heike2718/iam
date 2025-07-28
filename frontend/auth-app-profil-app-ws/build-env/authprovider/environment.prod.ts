@@ -1,5 +1,5 @@
 export const environment = {
-    version: '9.1.0',
+    version: '9.1.1',
     envName: 'prod',
 	production: true,
 	datenschutzUrl: 'https://mathe-jung-alt.de/minikaenguru/datenschutz.html',
