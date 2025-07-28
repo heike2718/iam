@@ -34,6 +34,8 @@ QUARKUS.HTTP_CORS_ORIGINS=http://localhost:4300,http://localhost:4400,http://loc
 #=============================================================================================#
 #        Logging                                                                              #
 #=============================================================================================#
+QUARKUS_LOG_FILE_ENABLE=false
+QUARKUS_HTTP_ACCESS_LOG_LOG_TO_FILE=false
 QUARKUS_LOG_CATEGORY__DE_EGLADIL_WEB_BENUTZERPROFIL_INFRASTRUCTURE_FILTERS__LEVEL=WARN
 QUARKUS_LOG_CATEGORY__DE_EGLADIL_BENUTZERPROFIL_DOMAIN_AUTH_SESSION_SESSIONUTILS__LEVEL=WARN
 QUARKUS_LOG_CATEGORY__DE_EGLADIL_BENUTZERPROFIL_INFRASTRUCTURE_CDI_AUTHENTICATIONCONTEXTIMPL__LEVEL=WARN
