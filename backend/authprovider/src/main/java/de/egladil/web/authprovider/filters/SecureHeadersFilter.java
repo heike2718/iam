@@ -6,7 +6,6 @@
 package de.egladil.web.authprovider.filters;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +23,7 @@ import jakarta.ws.rs.ext.Provider;
  * SecureHeadersFilter
  */
 @Provider
+//@Priority(value = Priorities.APPLICATION)
 public class SecureHeadersFilter implements ContainerResponseFilter {
 
 	private static final String CONTENT_SECURITY_POLICY = "Content-Security-Policy";
@@ -96,15 +96,6 @@ public class SecureHeadersFilter implements ContainerResponseFilter {
 		if (headers.get("X-Frame-Options") == null) {
 
 			headers.add("X-Frame-Options", "deny");
-		}
-
-
-		List<Object> headerValue = headers.get("access-control-allow-credentials");
-		LOGGER.debug(">>>>> access-control-allow-credentials={}", headerValue);
-
-		if (headerValue == null) {
-			headers.add("access-control-allow-credentials", "true");
-			LOGGER.debug(">>>>> access-control-allow-credentials true gesetzt");
 		}
 
 		LOGGER.debug(">>>>> done");

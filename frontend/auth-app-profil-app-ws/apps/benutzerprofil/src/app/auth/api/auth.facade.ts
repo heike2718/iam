@@ -104,6 +104,7 @@ export class AuthFacade {
 				this.logout();
 			} else {
 				this.#benutzerdatenFacade.benutzerdatenLaden();
+				console.debug('benutzerdatenLoaded');
 			}
 		}
 	}

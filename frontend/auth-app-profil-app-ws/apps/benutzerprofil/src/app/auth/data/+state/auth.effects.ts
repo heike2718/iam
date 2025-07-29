@@ -74,7 +74,10 @@ export class AuthEffects {
     sessionCreated$ = createEffect(() =>
         this.#actions.pipe(
             ofType(authActions.sESSION_CREATED),
-            tap(() => this.#benutzerdatenFacade.benutzerdatenLaden())
+            tap(() => {
+                this.#benutzerdatenFacade.benutzerdatenLaden();
+                console
+            })
         ), { dispatch: false });
 
 }

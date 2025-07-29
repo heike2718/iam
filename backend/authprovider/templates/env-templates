@@ -10,7 +10,7 @@ ACCOUNT_DELETED_SUBJECT=DEV: Authprovider Benutzerkonto gel\u00f6scht
 SYNC_INFRASTRUCTURE_AVAILABLE=false
 QUARKUS_REST_CLIENT_MKGATEWAY_URL=http://localhost:9510/mk-gateway
 
-QUARKUS.HTTP_CORS_ORIGINS = http://localhost:4200,http://localhost:4300,http://localhost:4400,http://localhost:10000,http://localhost:10600
+QUARKUS_HTTP_CORS_ORIGINS = http://localhost:4200,http://localhost:4300,http://localhost:4400,http://localhost:10000,http://localhost:10600
 
 MP_JWT_VERIFY_PUBLICKEY.LOCATION=home/heike/.keystore/public/authprov_public_key.pem
 PRIVATE_KEY_LOCATION=/home/heike/.keystore/private/authprov_private_key.pem

@@ -19,11 +19,11 @@ export interface ChangeBenutzerdatenResponseDto {
 
 export function isAnonymerBenutzer(benutzerdaten: Benutzerdaten): boolean {
 
-    return benutzerdaten.nachname === 'Anonym' && benutzerdaten.vorname === 'Gast';
+    return benutzerdaten.nachname.length === 0 &&
+        benutzerdaten.vorname.length === 0;
 }
 
 export function fullName(benutzerdaten: Benutzerdaten): string {
-
     return benutzerdaten.vorname + ' ' + benutzerdaten.nachname;
 
 }
@@ -36,8 +36,8 @@ export function fullName(benutzerdaten: Benutzerdaten): string {
  */
 export function benutzerAreEqual(benutzer1: Benutzerdaten, benutzer2: Benutzerdaten): boolean {
 
-   return (
-    
+    return (
+
         benutzer1.loginName.trim() === benutzer2.loginName.trim() &&
         benutzer1.email.trim() === benutzer2.email.trim() &&
         benutzer1.vorname.trim() === benutzer2.vorname.trim() &&

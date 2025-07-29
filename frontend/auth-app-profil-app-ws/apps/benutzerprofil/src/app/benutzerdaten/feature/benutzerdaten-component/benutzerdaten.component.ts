@@ -101,7 +101,7 @@ export class BenutzerdatenComponent implements OnInit, OnDestroy {
     this.benutzerForm.setValue(benutzerdaten);
   }
 
-  
+
   #trimAndReadFormValues(): Benutzerdaten {
     trimFormValues(this.benutzerForm);
     return this.benutzerForm.value;
