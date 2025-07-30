@@ -41,12 +41,6 @@ public class ConfigService {
 	@ConfigProperty(name = "quarkus.http.cors.exposed-headers")
 	String exposedHeaders;
 
-	@ConfigProperty(name = "mock.session")
-	boolean mockSession = false;
-
-	@ConfigProperty(name = "csrf.enabled")
-	boolean csrfEnabled = true;
-
 	/**
 	 * @return the blockOnMissingOriginReferer
 	 */
@@ -102,15 +96,4 @@ public class ConfigService {
 
 		return exposedHeaders;
 	}
-
-	public boolean isMockSession() {
-
-		return mockSession;
-	}
-
-	public boolean isCsrfEnabled() {
-
-		return csrfEnabled;
-	}
-
 }

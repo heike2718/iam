@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
       this.#showDialog('Warnhinweis', this.#localStorageMessage);
     }
 
+
     this.#authService.initClearOrRestoreSession();
   }
 

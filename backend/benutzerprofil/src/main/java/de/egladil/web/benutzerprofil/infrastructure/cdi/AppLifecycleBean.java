@@ -9,10 +9,13 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.benutzerprofil.domain.auth.config.CsrfCookieConfig;
+import de.egladil.web.benutzerprofil.domain.auth.config.SessionCookieConfig;
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.runtime.configuration.ConfigUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 
 /**
  * AppLifecycleBean
@@ -40,12 +43,6 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "session.idle.timeout")
 	int sessionIdleTimeoutMinutes = 120;
 
-	@ConfigProperty(name = "csrf.enabled")
-	String csrfEnabled;
-
-	@ConfigProperty(name = "mock.session")
-	String mockSession;
-
 	@ConfigProperty(name = "target.origin")
 	String targetOrigin;
 
@@ -58,6 +55,12 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "public-redirect-url")
 	String redirectUrl;
 
+	@Inject
+	SessionCookieConfig sessionCookieConfig;
+
+	@Inject
+	CsrfCookieConfig csrfCookieConfig;
+
 	void onStartup(@Observes
 	final StartupEvent ev) {
 
@@ -68,11 +71,11 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  authproviderRESTUrl={}", authproviderRESTUrl);
 		LOGGER.info(" ===========>  targetOrigin={}", targetOrigin);
-		LOGGER.info(" ===========>  csrfEnabled={}", csrfEnabled);
-		LOGGER.info(" ===========>  mockSession={}", mockSession);
 		LOGGER.info(" ===========>  quarkusRootPath={}", quarkusRootPath);
 		LOGGER.info(" ===========>  port={}", port);
 		LOGGER.info(" ===========>  redirectUrl={}", redirectUrl);
+		LOGGER.info(" ===========>  {}", sessionCookieConfig.toLog());
+		LOGGER.info(" ===========>  {}", csrfCookieConfig.toLog());
 
 		if ("dev".equalsIgnoreCase(env)) {
 

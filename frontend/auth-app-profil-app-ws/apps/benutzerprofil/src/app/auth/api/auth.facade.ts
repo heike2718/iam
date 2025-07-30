@@ -16,7 +16,7 @@ export class AuthFacade {
 	#currentSession: Session = anonymousSession;
 	#messageService = inject(MessageService);
 
-	readonly userIsLoggedIn$: Observable<boolean> = this.#store.select(fromAuth.session).pipe(switchMap((session) => of(session.sessionId !== undefined))
+	readonly userIsLoggedIn$: Observable<boolean> = this.#store.select(fromAuth.session).pipe(switchMap((session) => of(session.sessionActive === true))
 	);
 
 	readonly userIsLoggedOut$: Observable<boolean> = this.userIsLoggedIn$.pipe(
@@ -24,7 +24,7 @@ export class AuthFacade {
 	);
 
 	constructor() {
-		this.#store.select(fromAuth.session).subscribe((session) => this.#currentSession = {...session});
+		this.#store.select(fromAuth.session).subscribe((session) => this.#currentSession = { ...session });
 
 		this.#messageService.securityEvent$.subscribe((secEvent) => {
 			if (secEvent) {
@@ -99,12 +99,12 @@ export class AuthFacade {
 	}
 
 	#reloadSession() {
-		if (this.#currentSession.sessionId) {
+		if (this.#currentSession.sessionActive) {
 			if (Date.now() > this.#currentSession.expiresAt) {
 				this.logout();
 			} else {
+				console.warn('Reloading benutzerdaten, current session is still valid:', this.#currentSession);
 				this.#benutzerdatenFacade.benutzerdatenLaden();
-				console.debug('benutzerdatenLoaded');
 			}
 		}
 	}

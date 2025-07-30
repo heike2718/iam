@@ -12,7 +12,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.benutzerprofil.domain.auth.config.AuthConstants;
+import de.egladil.web.benutzerprofil.domain.auth.config.CsrfCookieConfig;
 import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
 import de.egladil.web.benutzerprofil.domain.auth.session.SessionService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -40,11 +40,13 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 
 	private static final List<String> SECURE_PATHS = Arrays.asList(new String[] { "/", "/session/logout" });
 
+	private static final String CSRF_TOKEN_HEADER_NAME = "X-XSRF-TOKEN";
+
 	@ConfigProperty(name = "stage")
 	String stage;
 
-	@ConfigProperty(name = "csrf.enabled")
-	boolean csrfEnabled;
+	@Inject
+	CsrfCookieConfig csrfCookieConfig;
 
 	@Inject
 	SessionService sessionservice;
@@ -54,12 +56,6 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 
 		LOGGER.debug("entering filter");
 
-		if (!csrfEnabled) {
-
-			LOGGER.warn("Achtung: keine csrf protection: check property 'csrf.enabled' [csrfEnabled={}]", csrfEnabled);
-			return;
-		}
-
 		String path = requestContext.getUriInfo().getPath();
 		String method = requestContext.getMethod();
 
@@ -68,13 +64,13 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 			return;
 		}
 
-		Cookie csrfTokenCookie = requestContext.getCookies().get(AuthConstants.CSRF_TOKEN_COOKIE_NAME);
+		Cookie csrfTokenCookie = requestContext.getCookies().get(csrfCookieConfig.name());
 
 		if (csrfTokenCookie != null) {
 
 			LOGGER.debug("{} {}", method, path);
 
-			List<String> csrfTokenHeader = requestContext.getHeaders().get(AuthConstants.CSRF_TOKEN_HEADER_NAME);
+			List<String> csrfTokenHeader = requestContext.getHeaders().get(CSRF_TOKEN_HEADER_NAME);
 
 			if (csrfTokenHeader != null && !csrfTokenHeader.isEmpty()) {
 

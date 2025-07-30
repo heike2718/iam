@@ -8,8 +8,20 @@ TARGET_ORIGIN=localhost:4300,localhost:4400,localhost:10600,localhost:10000
 PUBLIC-CLIENT-ID=T73pF0WTZLuFTv0nbXgqIiXAxyl935c4WCBNwq32uvfQ
 PUBLIC-CLIENT-SECRET=start123
 
-CSRF_ENABLED=true
 MOCK_KONTOLOESCHUNG=false
+
+# SAME_SITE: STRICT, LAX, NONE
+# es reicht, path zuz überschreiben.
+# mittels Angular-CLI-Proxy kommen alle requests von localhost, so dass immer same-side=Strict funktioniert, auch während der Entwicklung
+# es könnte sein, dass es im lokalen Docker nicht klappt, aber das müssen wir testen
+SESSION_COOKIE_SAME_SITE=NONE
+SESSION_COOKIE_SECURE=false
+SESSION_COOKIE_HTTP_ONLY=false
+SESSION_COOKIE_PATH=/
+
+CSRF_COOKIE_SAME_SITE=NONE
+CSRF_COOKIE_SECURE=false
+CSRF_COOKIE_PATH=/
 
 #=================================================================#
 #    authprovider, Redirect URLs, REST-Client                     #

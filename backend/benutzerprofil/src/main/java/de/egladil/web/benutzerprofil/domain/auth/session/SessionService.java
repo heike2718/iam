@@ -88,6 +88,7 @@ public class SessionService {
 				session.setExpiresAt(SessionUtils.getExpiresAt(sessionIdleTimeoutMinutes));
 			}
 
+			session.setSessionActive(true);
 			sessions.put(session.getSessionId(), session);
 
 			LOGGER.info("Benutzer eingeloggt: {}", session.getUser().toString());

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.benutzerprofil.domain.auth.clientauth.OAuthClientCredentialsProvider;
-import de.egladil.web.benutzerprofil.domain.auth.config.AuthConstants;
+import de.egladil.web.benutzerprofil.domain.auth.config.SessionCookieConfig;
 import de.egladil.web.benutzerprofil.domain.auth.dto.AuthResult;
 import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
 import de.egladil.web.benutzerprofil.domain.auth.session.Session;
@@ -33,8 +33,6 @@ import jakarta.ws.rs.core.Response.Status;
 @RequestScoped
 public class LoginLogoutService {
 
-	private static final String STAGE_DEV = "dev";
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginLogoutService.class);
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
@@ -42,8 +40,8 @@ public class LoginLogoutService {
 	@ConfigProperty(name = "stage")
 	String stage;
 
-	@ConfigProperty(name = "cookies.secure")
-	boolean cookiesSecure;
+	@Inject
+	SessionCookieConfig sessionConfig;
 
 	@Inject
 	OAuthClientCredentialsProvider clientCredentialsProvider;
@@ -78,18 +76,11 @@ public class LoginLogoutService {
 
 			LOGGER.warn("anonyme sessions sind nicht erlaubt => 401");
 
-			session.clearSessionIdInProd();
 			return Response.status(Status.FORBIDDEN).entity(MessagePayload.error(applicationMessages.getString("not.authorized")))
 				.build();
 		}
 
-		NewCookie sessionCookie = SessionUtils.createCookie(AuthConstants.SESSION_COOKIE_NAME, session.getSessionId(),
-			AuthConstants.COOKIE_PATH, cookiesSecure, true);
-
-		if (!STAGE_DEV.equals(stage)) {
-
-			session.clearSessionIdInProd();
-		}
+		NewCookie sessionCookie = SessionUtils.createSessionCookie(sessionConfig, session.getSessionId());
 
 		LOGGER.debug("session created for user {}", StringUtils.abbreviate(session.getUser().getName(), 11));
 
@@ -100,14 +91,7 @@ public class LoginLogoutService {
 
 		this.sessionService.invalidateSession(sessionId);
 
-		NewCookie invalidatedSessionCookie = SessionUtils.createInvalidatedCookie(AuthConstants.SESSION_COOKIE_NAME, cookiesSecure);
-		// NewCookie invalidatedXsrfTokenCookie =
-		// SessionUtils.createInvalidatedCookie(AuthConstants.CSRF_TOKEN_COOKIE_NAME,
-		// cookiesSecure);
-
-		// LOGGER.info("sessionCookieValue={}, xsrfTokenCookie={}", invalidatedSessionCookie.getValue(),
-		// invalidatedXsrfTokenCookie.getValue());
-
+		NewCookie invalidatedSessionCookie = SessionUtils.createInvalidatedSessionCookie(sessionConfig);
 		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(invalidatedSessionCookie).build();
 	}
 }

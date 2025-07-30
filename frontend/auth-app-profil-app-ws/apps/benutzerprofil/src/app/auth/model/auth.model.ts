@@ -8,11 +8,11 @@ export interface AuthResult {
 }
 
 export interface Session {
-    readonly sessionId: string | undefined;
+    readonly sessionActive: boolean; // true = Session existiert, false = ausgeloggt/abgelaufen
     readonly expiresAt: number;
 }
 
 export const anonymousSession: Session = {
-    sessionId: undefined,
+    sessionActive: false,
     expiresAt: 0
 }
