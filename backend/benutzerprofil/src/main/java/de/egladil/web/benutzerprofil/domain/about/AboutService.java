@@ -14,18 +14,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class AboutService {
 
-	@ConfigProperty(name = "env")
-	String env;
-
-	@ConfigProperty(name = "stage")
-	String stage;
-
 	@ConfigProperty(name = "quarkus.application.version")
 	String version;
 
 	public AboutDto getAboutDto() {
 
-		return new AboutDto().withEnv(env).withStage(stage).withVersion(version);
+		return new AboutDto().withVersion(version);
 	}
 
 }

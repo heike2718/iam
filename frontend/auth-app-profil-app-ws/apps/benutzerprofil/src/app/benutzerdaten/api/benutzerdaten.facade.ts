@@ -16,7 +16,6 @@ export class BenutzerdatenFacade {
 
     public benutzerdatenLaden(): void {
         this.#store.dispatch(benutzerdatenActions.lOAD_BENUTZERDATEN());
-        console.warn('benutzerdatenLaden called');
     }
 
     public benutzerdatenAendern(benutzerdaten: Benutzerdaten): void {

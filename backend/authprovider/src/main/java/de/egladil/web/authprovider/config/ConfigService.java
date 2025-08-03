@@ -12,6 +12,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
  * ConfigService
  */
 @ApplicationScoped
+@Deprecated
 public class ConfigService {
 
 	@ConfigProperty(name = "block.on.missing.origin.referer", defaultValue = "false")
@@ -19,12 +20,6 @@ public class ConfigService {
 
 	@ConfigProperty(name = "target.origin")
 	String targetOrigin;
-
-	@ConfigProperty(name = "stage")
-	String stage;
-
-	@ConfigProperty(name = "allowedOrigin", defaultValue = "https://opa-wetterwachs.de")
-	String allowedOrigin;
 
 	public boolean isBlockOnMissingOriginReferer() {
 
@@ -35,15 +30,4 @@ public class ConfigService {
 
 		return targetOrigin;
 	}
-
-	public String getStage() {
-
-		return stage;
-	}
-
-	public String getAllowedOrigin() {
-
-		return allowedOrigin;
-	}
-
 }

@@ -26,9 +26,6 @@ public class ConfigService {
 	@ConfigProperty(name = "target.origin")
 	String targetOrigin;
 
-	@ConfigProperty(name = "stage")
-	String stage;
-
 	@ConfigProperty(name = "quarkus.http.cors.origins")
 	String allowedOrigin;
 
@@ -55,14 +52,6 @@ public class ConfigService {
 	public String getTargetOrigin() {
 
 		return targetOrigin;
-	}
-
-	/**
-	 * @return the stage
-	 */
-	public String getStage() {
-
-		return stage;
 	}
 
 	/**

@@ -48,6 +48,7 @@ public class AuthCryptoServiceImplTest {
 		authCryptoService.setCryptoService(cryptoService);
 		authCryptoService.setPasswordConfig(passwordConfig);
 		authCryptoService.setStageForTest("qs");
+		authCryptoService.setChecklistenappClientIdForTest("WLJLH4vsldWapZrMZi2U5HKRBVpgyUiRTWwX7aiJd8nX");
 	}
 
 	@Test

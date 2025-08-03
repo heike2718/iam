@@ -15,7 +15,6 @@ export class AuthHttpService {
     #httpClient = inject(HttpClient);
 
     getLoginUrl(): Observable<Message> {
-
         return this.#httpClient.get<Message>(this.#url + '/session/authurls/login');
     }
 

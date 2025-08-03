@@ -89,7 +89,6 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
   }
 
   handlePasswordChanges(zweiPassworte: ZweiPassworte): void {
-    console.log(JSON.stringify(zweiPassworte));
     this.#zweiPassworte = zweiPassworte;
   }
 
@@ -167,8 +166,6 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
       tokenId: this.tokenId === null ? 'noop' : this.tokenId,
       zweiPassworte: this.#zweiPassworte
     }
-
-    console.log('auslesen form: ' + JSON.stringify(result));
 
     return result;
   }

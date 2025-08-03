@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "nx",
-    "start": "NX_DAEMON=false nx serve",
+    "start": "NX_DAEMON=false nx serve --proxy-config=proxy.conf.json",
     "build:local": "NX_DAEMON=false npx nx build bv-admin -c local --verbose --output-hashing=all --base-href /bv-admin/ --skip-nx-cache",
     "build:heikeqs": "NX_DAEMON=false npx nx build bv-admin -c heikeqs --verbose --output-hashing=all --base-href /bv-admin/ --skip-nx-cache",
     "build:prod": "NX_DAEMON=false npx nx run bv-admin:build:production --verbose --output-hashing=all --base-href /bv-admin/ --skip-nx-cache",

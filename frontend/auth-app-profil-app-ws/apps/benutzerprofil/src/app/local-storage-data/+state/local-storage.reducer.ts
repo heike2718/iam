@@ -7,7 +7,7 @@ import { isSyncLocalStorage } from '../local-storage.utils';
 
 
 export const localStorageReducer = (...featureStateNames: string[]) => {
-  
+
   const syncerFn = localStorageSync({
     keys: featureStateNames,
     rehydrate: true,
@@ -16,8 +16,6 @@ export const localStorageReducer = (...featureStateNames: string[]) => {
   return <S>(reducer: ActionReducer<S>): ActionReducer<S> =>
     (state, action) => {
       if (isSyncLocalStorage(action)) {
-
-        console.log('syncronize local storage');
 
         const rehydratedFeatureState = rehydrateApplicationState(
           [action.featureState],

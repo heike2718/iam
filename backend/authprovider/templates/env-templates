@@ -21,13 +21,19 @@ ACCOUNT_ACTIVATION_URL=http://localhost:10000/api/registration/confirmation?code
 
 MONITORING_MAIL_TO=hier die mailadresse
 
+# Deaktiviert HSTS sofort
+QUARKUS_HTTP_HEADER__STRICT_TRANSPORT_SECURITY__VALUE="max-age=0"
+
 #=================================================================#
 #        Database                                                 #
 #=================================================================#
 # falls die IP sich geändert hat, startet Quarkus nicht
 # docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb-all
 QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://172.18.0.2:3306/authbv
-QUARKUS_DATASOURCE_PASSWORD=hwinkel
+
+## für verify
+# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' authbv-test-db
+#QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://172.25.0.2:3306/authbv
 
 #=================================================================#
 #        Logging                                                  #
@@ -38,3 +44,6 @@ QUARKUS_HIBERNATE_ORM_LOG_BIND_PARAMETERS=true
 QUARKUS_HIBERNATE_ORM_LOG_SQL=true
 
 QUARKUS_LOG_CATEGORY__DE_EGLADIL_WEB_AUTHPROVIDER_FILTERS_LEVEL=WARN
+
+QUARKUS_LOG_FILE_ENABLE=false
+QUARKUS_HTTP_ACCESS_LOG_LOG_TO_FILE=false

@@ -103,7 +103,6 @@ export class AuthFacade {
 			if (Date.now() > this.#currentSession.expiresAt) {
 				this.logout();
 			} else {
-				console.warn('Reloading benutzerdaten, current session is still valid:', this.#currentSession);
 				this.#benutzerdatenFacade.benutzerdatenLaden();
 			}
 		}

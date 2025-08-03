@@ -48,7 +48,6 @@
 			<version>${commons-lang3.version}</version>
 		</dependency>
 
-
 		<!-- Test START -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

@@ -69,7 +69,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   onToggleSidenav(): void {
-    // console.log('onToggleSidenav');
     this.sidenavToggle.emit();
   }
 

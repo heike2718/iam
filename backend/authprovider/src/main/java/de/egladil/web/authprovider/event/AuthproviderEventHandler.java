@@ -393,7 +393,7 @@ public class AuthproviderEventHandler {
 
 				HandshakeAck ack = HandshakeAck.fromResponse(data);
 
-				if (!"dev".equals(stage) && !nonce.equals(ack.nonce())) {
+				if (!nonce.equals(ack.nonce())) {
 
 					LOGGER.error("Nonce wurde geändert");
 					return null;

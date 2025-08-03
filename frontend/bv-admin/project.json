@@ -9,7 +9,12 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "security": {
+        "autoCsp": true
+      },
       "options": {
         "outputPath": {
           "base": "dist/bv-admin",
@@ -17,31 +22,39 @@
         },
         "index": "./src/index.html",
         "browser": "./src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "./tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["./src/favicon.ico", "./src/assets"],
+        "assets": [
+          "./src/favicon.ico",
+          "./src/assets"
+        ],
         "styles": [
           "src/app/shell/layout/theme.scss",
           "src/styles.scss",
           "node_modules/material-icons/iconfont/material-icons.scss"
         ],
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "1.2mb",
+            "maximumError": "1.3mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "2kb",
+            "maximumError": "4kb"
+          }
+        ],
         "scripts": []
       },
       "configurations": {
         "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "1.2mb",
-              "maximumError": "1.3mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
+          "security": {
+            "autoCsp": true
+          },
           "index": {
             "input": "build-env/index.prod.html",
             "output": "index.html"
@@ -55,18 +68,6 @@
           "outputHashing": "all"
         },
         "local": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "1.2mb",
-              "maximumError": "1.3mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
           "index": {
             "input": "build-env/index.local.html",
             "output": "index.html"
@@ -80,18 +81,9 @@
           "outputHashing": "all"
         },
         "heikeqs": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "1.2mb",
-              "maximumError": "1.3mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
+          "security": {
+            "autoCsp": true
+          },
           "index": {
             "input": "build-env/index.heikeqs.html",
             "output": "index.html"
@@ -134,12 +126,16 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["./src"]
+        "lintFilePatterns": [
+          "./src"
+        ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectName}"
+      ],
       "options": {
         "jestConfig": "jest.config.ts"
       }

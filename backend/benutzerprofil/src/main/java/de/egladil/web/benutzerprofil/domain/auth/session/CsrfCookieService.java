@@ -6,7 +6,6 @@ package de.egladil.web.benutzerprofil.domain.auth.session;
 
 import java.util.Map;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +14,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Cookie;
-import jakarta.ws.rs.core.NewCookie;;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.NewCookie.SameSite;;
 
 /**
  * CsrfCookieService
@@ -43,7 +43,8 @@ public class CsrfCookieService {
 		LOGGER.debug("csrfToken={}", csrfToken);
 
 		return new NewCookie.Builder(csrfCookieConfig.name()).value(csrfToken).path(csrfCookieConfig.path()).comment("csrf")
-			.maxAge(-1).httpOnly(false).secure(csrfCookieConfig.secure()).build();
+			.sameSite(SameSite.valueOf(csrfCookieConfig.sameSite())).maxAge(-1).httpOnly(false).secure(csrfCookieConfig.secure())
+			.build();
 	}
 
 	/**

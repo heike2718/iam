@@ -8,7 +8,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,11 +36,8 @@ public class LoginLogoutService {
 
 	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
-	@ConfigProperty(name = "stage")
-	String stage;
-
 	@Inject
-	SessionCookieConfig sessionConfig;
+	SessionCookieConfig sessionCookieConfig;
 
 	@Inject
 	OAuthClientCredentialsProvider clientCredentialsProvider;
@@ -80,7 +76,7 @@ public class LoginLogoutService {
 				.build();
 		}
 
-		NewCookie sessionCookie = SessionUtils.createSessionCookie(sessionConfig, session.getSessionId());
+		NewCookie sessionCookie = SessionUtils.createSessionCookie(sessionCookieConfig, session.getSessionId());
 
 		LOGGER.debug("session created for user {}", StringUtils.abbreviate(session.getUser().getName(), 11));
 
@@ -91,7 +87,7 @@ public class LoginLogoutService {
 
 		this.sessionService.invalidateSession(sessionId);
 
-		NewCookie invalidatedSessionCookie = SessionUtils.createInvalidatedSessionCookie(sessionConfig);
+		NewCookie invalidatedSessionCookie = SessionUtils.createInvalidatedSessionCookie(sessionCookieConfig);
 		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(invalidatedSessionCookie).build();
 	}
 }

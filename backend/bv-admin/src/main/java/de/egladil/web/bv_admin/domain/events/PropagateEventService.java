@@ -37,10 +37,10 @@ public class PropagateEventService {
 	boolean syncInfrastructureAvailable;
 
 	@ConfigProperty(name = "mkv-app.client-id")
-	private String mkGatewayClientId;
+	String mkGatewayClientId;
 
 	@ConfigProperty(name = "stage")
-	private String stage;
+	String stage;
 
 	@Inject
 	@RestClient

@@ -31,7 +31,10 @@ public class CsrfTokenProviderFilter implements ContainerResponseFilter {
 	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext)
 		throws IOException {
 
-		LOGGER.debug("==> Set-Cookie");
+		String method = requestContext.getMethod();
+		String path = requestContext.getUriInfo().getPath();
+
+		LOGGER.debug("====> Set-CSRF-Cookie: {} {}", method, path);
 		responseContext.getHeaders().add("Set-Cookie", csrfCookieService.createCsrfTokenCookie());
 	}
 }

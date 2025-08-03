@@ -3,8 +3,8 @@
   "version": "9.1.1",
   "license": "MIT",
   "scripts": {
-    "auth": "npx nx serve authprovider --proxy-config=apps/authprovider/proxy.conf.json --port 4300",
-    "profil": "npx nx serve benutzerprofil --proxy-config=apps/benutzerprofil/proxy.conf.json --port 4400",
+    "auth": "npx nx serve authprovider --proxy-config=proxy.conf.authprovider.json --port 4300",
+    "profil": "npx nx serve benutzerprofil --proxy-config=proxy.conf.benutzerprofil.json --port 4400",
     "build:authprovider:local": "npx nx build authprovider -c local --output-hashing=all --base-href /authprovider/ --skip-nx-cache",
     "build:authprovider:docker": "npx nx build authprovider -c docker --output-hashing=all --base-href /authprovider/ --skip-nx-cache",
     "build:authprovider:qs": "npx nx build authprovider -c heikeqs --output-hashing=all --base-href /authprovider/ --skip-nx-cache",

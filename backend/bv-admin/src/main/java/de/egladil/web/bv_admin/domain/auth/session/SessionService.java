@@ -18,6 +18,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import de.egladil.web.bv_admin.domain.auth.config.SessionCookieConfig;
 import de.egladil.web.bv_admin.domain.auth.jwt.DecodedJWTReader;
 import de.egladil.web.bv_admin.domain.auth.jwt.JWTService;
 import de.egladil.web.bv_admin.domain.auth.util.SecureTokenService;
@@ -41,6 +42,9 @@ public class SessionService {
 
 	@Context
 	ContainerRequestContext requestContext;
+
+	@Inject
+	SessionCookieConfig sessionCookieConfig;
 
 	@Inject
 	AuthenticationContext authCtx;
@@ -95,6 +99,7 @@ public class SessionService {
 				session.setExpiresAt(SessionUtils.getExpiresAt(sessionIdleTimeoutMinutes));
 			}
 
+			session.setSessionActive(true);
 			sessions.put(session.getSessionId(), session);
 
 			LOGGER.info("User eingeloggt: {}", session.getUser().toString());
@@ -145,7 +150,9 @@ public class SessionService {
 		return sessionId == null ? null : sessions.get(sessionId);
 	}
 
-	public void invalidateSession(final String sessionId) {
+	public void invalidateSession() {
+
+		String sessionId = SessionUtils.getSessionId(requestContext, sessionCookieConfig);
 
 		if (sessionId == null) {
 

@@ -244,7 +244,7 @@ public class ClientService {
 
 		String theRedirectUrls = Arrays.stream(allowedRedirectUrls).collect(Collectors.joining(","));
 
-		LOG.info("suchen redirectUrls mit testString={}, redirectUrls={}", testString, theRedirectUrls);
+		LOG.debug("suchen redirectUrls mit testString={}, redirectUrls={}", testString, theRedirectUrls);
 
 		Optional<String> optUrl = Arrays.stream(allowedRedirectUrls).filter(url -> url.equals(testString)).findFirst();
 

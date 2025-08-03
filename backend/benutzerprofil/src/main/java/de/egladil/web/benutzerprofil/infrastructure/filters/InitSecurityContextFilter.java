@@ -9,7 +9,6 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +42,6 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 	private static List<String> OPEN_DATA_PATHS = Arrays.asList(new String[] { "/auth-admin-api/version" });
 
-	@ConfigProperty(name = "stage")
-	String stage;
-
 	@Inject
 	SessionCookieConfig sessionCookieConfig;
 
@@ -73,7 +69,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 		boolean noSessionRequired = this.noSessionRequired(path);
 
-		LOGGER.debug("stage={}, path={}, noSessionRequired={}", stage, path, noSessionRequired);
+		LOGGER.debug("path={}, noSessionRequired={}", path, noSessionRequired);
 
 		if (noSessionRequired) {
 

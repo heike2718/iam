@@ -25,9 +25,6 @@ public class AppLifecycleBean {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AppLifecycleBean.class);
 
-	@ConfigProperty(name = "env")
-	String env;
-
 	@ConfigProperty(name = "quarkus.rest-client.authprovider.url")
 	String authproviderRESTUrl;
 
@@ -52,14 +49,22 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "public-client-id")
 	String clientId;
 
+	@ConfigProperty(name = "public-client-secret")
+	String clientSecret;
+
 	@ConfigProperty(name = "public-redirect-url")
 	String redirectUrl;
+
+	@ConfigProperty(name = "csrf-header-name")
+	String csrfHeaderName;
 
 	@Inject
 	SessionCookieConfig sessionCookieConfig;
 
 	@Inject
 	CsrfCookieConfig csrfCookieConfig;
+
+
 
 	void onStartup(@Observes
 	final StartupEvent ev) {
@@ -72,15 +77,12 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  authproviderRESTUrl={}", authproviderRESTUrl);
 		LOGGER.info(" ===========>  targetOrigin={}", targetOrigin);
 		LOGGER.info(" ===========>  quarkusRootPath={}", quarkusRootPath);
-		LOGGER.info(" ===========>  port={}", port);
 		LOGGER.info(" ===========>  redirectUrl={}", redirectUrl);
+		LOGGER.info(" ===========>  csrfHeaderName={}", csrfHeaderName);
 		LOGGER.info(" ===========>  {}", sessionCookieConfig.toLog());
 		LOGGER.info(" ===========>  {}", csrfCookieConfig.toLog());
-
-		if ("dev".equalsIgnoreCase(env)) {
-
-			LOGGER.info(" ===========>  clientId={}", clientId);
-		}
+		LOGGER.info(" ===========>  clientId={}", StringUtils.abbreviate(clientId, 11));
+		LOGGER.info(" ===========>  clientSecret={}", StringUtils.abbreviate(clientSecret, 6));
+		LOGGER.info(" ===========>  port={}", port);
 	}
-
 }

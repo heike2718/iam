@@ -4,13 +4,16 @@
 // =====================================================
 package de.egladil.web.bv_admin.domain.auth.util;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.bv_admin.domain.auth.config.AuthConstants;
+import de.egladil.web.bv_admin.domain.auth.config.CsrfCookieConfig;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.NewCookie;;
 
 /**
@@ -21,8 +24,8 @@ public class CsrfCookieService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CsrfCookieService.class);
 
-	@ConfigProperty(name = "cookies.secure")
-	boolean cookiesSecure;
+	@Inject
+	CsrfCookieConfig csrfCookieConfig;
 
 	@Inject
 	SecureTokenService csrfTokenService;
@@ -38,9 +41,29 @@ public class CsrfCookieService {
 
 		LOGGER.debug("csrfToken={}", csrfToken);
 
-		// httpOnly muss hier nicht false sein, damit das Frontend den Wert in den X-XSRF-TOKEN-Header setzen kann.Dazu
-		// muss im Frontend withXsrfConfiguration verwendet werden!
-		return new NewCookie.Builder(AuthConstants.CSRF_TOKEN_COOKIE_NAME).value(csrfToken).path(AuthConstants.COOKIE_PATH)
-			.comment("csrf").maxAge(-1).httpOnly(false).secure(cookiesSecure).build();
+		return new NewCookie.Builder(csrfCookieConfig.name()).value(csrfToken).path(csrfCookieConfig.path()).comment("csrf")
+			.maxAge(-1).httpOnly(false).secure(csrfCookieConfig.secure()).build();
+	}
+
+	/**
+	 * @param requestContext
+	 * @param clientPrefix
+	 * @return String oder null
+	 */
+	public String getXsrfTokenFromCookie(final ContainerRequestContext requestContext) {
+
+		Map<String, Cookie> cookies = requestContext.getCookies();
+
+		Cookie csrfTokenCookie = cookies.get(csrfCookieConfig.name());
+
+		if (csrfTokenCookie != null) {
+
+			return csrfTokenCookie.getValue();
+		}
+
+		String path = requestContext.getUriInfo().getPath();
+		LOGGER.debug("{}: Request ohne {}-Cookie", path, csrfCookieConfig.name());
+
+		return null;
 	}
 }

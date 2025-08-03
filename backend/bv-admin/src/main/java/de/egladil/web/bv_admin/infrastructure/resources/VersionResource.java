@@ -26,16 +26,13 @@ public class VersionResource {
 	@ConfigProperty(name = "quarkus.application.version", defaultValue = "")
 	String version;
 
-	@ConfigProperty(name = "env")
-	String env;
-
 	@ConfigProperty(name = "stage")
 	String stage;
 
 	@GET
 	public Response getVersion() {
 
-		String message = "auth-admin-api running with version " + version + " on stage " + stage + " and env " + env;
+		String message = "auth-admin-api running with version " + version + " on stage " + stage;
 
 		LOGGER.info(message);
 		return Response.ok(MessagePayload.info(message)).build();

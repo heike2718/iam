@@ -26,9 +26,6 @@ export class APIHttpInterceptor implements HttpInterceptor {
 
         const url = this.#config.baseUrl + req.url;
 
-        // console.log(url);
-        // const headers = new HttpHeaders();
-
         const headers: HttpHeaders = req.headers
             .append('X-CLIENT-ID', this.#config.clientId)
             .append('Accept', 'application/json');

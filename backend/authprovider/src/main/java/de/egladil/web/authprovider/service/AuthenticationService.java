@@ -137,7 +137,5 @@ public class AuthenticationService {
 
 			resourceOwnerService.aendern(resourceOwner);
 		}
-
 	}
-
 }
