@@ -1,4 +1,6 @@
 
+export const AUTH_FEATURE_KEY = 'bvAuth';
+
 export interface AuthResult {
     expiresAt: number | undefined;
     state: string | undefined;
@@ -13,7 +15,7 @@ export interface User {
 }
 
 export interface Session {
-    readonly sessionId: string | undefined;
+    readonly sessionActive: boolean; // true = Session existiert, false = ausgeloggt/abgelaufen
     readonly expiresAt: number;
     readonly user: User;
 }
@@ -26,7 +28,7 @@ const anonymousUser: User = {
 }
 
 export const anonymousSession: Session = {
-    sessionId: undefined,
+    sessionActive: false,
     expiresAt: 0,
     user: anonymousUser
 }

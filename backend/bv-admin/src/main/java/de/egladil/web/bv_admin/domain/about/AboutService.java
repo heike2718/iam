@@ -14,9 +14,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class AboutService {
 
-	@ConfigProperty(name = "env")
-	String env;
-
 	@ConfigProperty(name = "stage")
 	String stage;
 
@@ -25,7 +22,7 @@ public class AboutService {
 
 	public AboutDto getAboutDto() {
 
-		return new AboutDto().withEnv(env).withStage(stage).withVersion(version);
+		return new AboutDto().withStage(stage).withVersion(version);
 	}
 
 }

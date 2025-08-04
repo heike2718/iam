@@ -1,5 +1,5 @@
 // =====================================================
-// Project: mja-api
+// Project: benutzerprofil
 // (c) Heike Winkelvoß
 // =====================================================
 package de.egladil.web.benutzerprofil.infrastructure.filters;
@@ -12,15 +12,14 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.benutzerprofil.domain.auth.config.AuthConstants;
 import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
+import de.egladil.web.benutzerprofil.domain.auth.session.CsrfCookieService;
 import de.egladil.web.benutzerprofil.domain.auth.session.SessionService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.container.PreMatching;
-import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 
@@ -40,25 +39,19 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 
 	private static final List<String> SECURE_PATHS = Arrays.asList(new String[] { "/", "/session/logout" });
 
-	@ConfigProperty(name = "stage")
-	String stage;
-
-	@ConfigProperty(name = "csrf.enabled")
-	boolean csrfEnabled;
+	@ConfigProperty(name = "csrf-header-name")
+	String csrfHeaderName;
 
 	@Inject
 	SessionService sessionservice;
+
+	@Inject
+	CsrfCookieService csrfCookieService;
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {
 
 		LOGGER.debug("entering filter");
-
-		if (!csrfEnabled) {
-
-			LOGGER.warn("Achtung: keine csrf protection: check property 'csrf.enabled' [csrfEnabled={}]", csrfEnabled);
-			return;
-		}
 
 		String path = requestContext.getUriInfo().getPath();
 		String method = requestContext.getMethod();
@@ -68,22 +61,21 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 			return;
 		}
 
-		Cookie csrfTokenCookie = requestContext.getCookies().get(AuthConstants.CSRF_TOKEN_COOKIE_NAME);
+		String csrfCookieValue = csrfCookieService.getXsrfTokenFromCookie(requestContext);
 
-		if (csrfTokenCookie != null) {
+		if (csrfCookieValue != null) {
 
 			LOGGER.debug("{} {}", method, path);
 
-			List<String> csrfTokenHeader = requestContext.getHeaders().get(AuthConstants.CSRF_TOKEN_HEADER_NAME);
+			List<String> csrfTokenHeader = requestContext.getHeaders().get(csrfHeaderName);
 
 			if (csrfTokenHeader != null && !csrfTokenHeader.isEmpty()) {
 
 				String headerValue = csrfTokenHeader.get(0);
-				String cookieValue = csrfTokenCookie.getValue();
 
-				if (!identifyAsEquals(headerValue, cookieValue)) {
+				if (!identifyAsEquals(headerValue, csrfCookieValue)) {
 
-					LOGGER.warn("cookieValue != headerValue: [headerValue={}, cookieValue={}, path={}", headerValue, cookieValue,
+					LOGGER.warn("cookieValue != headerValue: [headerValue={}, cookieValue={}, path={}", headerValue, csrfCookieValue,
 						path);
 					requestContext
 						.abortWith(Response.status(400).entity(MessagePayload.error(INVALID_CSRF_RESPONSE_PAYLOD)).build());

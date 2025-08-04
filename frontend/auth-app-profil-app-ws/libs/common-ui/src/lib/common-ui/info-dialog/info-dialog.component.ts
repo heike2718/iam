@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -7,10 +7,9 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
     selector: 'auth-common-info-dialog',
     standalone: true,
     imports: [
-        CommonModule,
-        MatButtonModule,
-        MatDialogModule
-      ],
+    MatButtonModule,
+    MatDialogModule
+],
     
     templateUrl: './info-dialog.component.html',
     styleUrls: ['./info-dialog.component.scss']

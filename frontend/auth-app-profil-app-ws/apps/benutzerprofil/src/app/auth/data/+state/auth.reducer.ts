@@ -1,7 +1,6 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
-import { anonymousSession, Session } from "@benutzerprofil/auth/model";
+import { anonymousSession, Session, AUTH_FEATURE_KEY } from "@benutzerprofil/auth/model";
 import { authActions } from "./auth.actions";
-
 
 export interface AuthState {
   readonly session: Session;
@@ -12,7 +11,7 @@ const initialState: AuthState = {
 }
 
 export const authFeature = createFeature({
-  name: 'benutzerdatenAuth',
+  name: AUTH_FEATURE_KEY,
   reducer: createReducer<AuthState>(
     initialState,
     on(

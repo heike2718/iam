@@ -9,10 +9,13 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.benutzerprofil.domain.auth.config.CsrfCookieConfig;
+import de.egladil.web.benutzerprofil.domain.auth.config.SessionCookieConfig;
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.runtime.configuration.ConfigUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 
 /**
  * AppLifecycleBean
@@ -21,9 +24,6 @@ import jakarta.enterprise.event.Observes;
 public class AppLifecycleBean {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AppLifecycleBean.class);
-
-	@ConfigProperty(name = "env")
-	String env;
 
 	@ConfigProperty(name = "quarkus.rest-client.authprovider.url")
 	String authproviderRESTUrl;
@@ -40,12 +40,6 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "session.idle.timeout")
 	int sessionIdleTimeoutMinutes = 120;
 
-	@ConfigProperty(name = "csrf.enabled")
-	String csrfEnabled;
-
-	@ConfigProperty(name = "mock.session")
-	String mockSession;
-
 	@ConfigProperty(name = "target.origin")
 	String targetOrigin;
 
@@ -55,8 +49,22 @@ public class AppLifecycleBean {
 	@ConfigProperty(name = "public-client-id")
 	String clientId;
 
+	@ConfigProperty(name = "public-client-secret")
+	String clientSecret;
+
 	@ConfigProperty(name = "public-redirect-url")
 	String redirectUrl;
+
+	@ConfigProperty(name = "csrf-header-name")
+	String csrfHeaderName;
+
+	@Inject
+	SessionCookieConfig sessionCookieConfig;
+
+	@Inject
+	CsrfCookieConfig csrfCookieConfig;
+
+
 
 	void onStartup(@Observes
 	final StartupEvent ev) {
@@ -68,16 +76,13 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  quarkus.http.cors.origins={}", corsAllowedOrigins);
 		LOGGER.info(" ===========>  authproviderRESTUrl={}", authproviderRESTUrl);
 		LOGGER.info(" ===========>  targetOrigin={}", targetOrigin);
-		LOGGER.info(" ===========>  csrfEnabled={}", csrfEnabled);
-		LOGGER.info(" ===========>  mockSession={}", mockSession);
 		LOGGER.info(" ===========>  quarkusRootPath={}", quarkusRootPath);
-		LOGGER.info(" ===========>  port={}", port);
 		LOGGER.info(" ===========>  redirectUrl={}", redirectUrl);
-
-		if ("dev".equalsIgnoreCase(env)) {
-
-			LOGGER.info(" ===========>  clientId={}", clientId);
-		}
+		LOGGER.info(" ===========>  csrfHeaderName={}", csrfHeaderName);
+		LOGGER.info(" ===========>  {}", sessionCookieConfig.toLog());
+		LOGGER.info(" ===========>  {}", csrfCookieConfig.toLog());
+		LOGGER.info(" ===========>  clientId={}", StringUtils.abbreviate(clientId, 11));
+		LOGGER.info(" ===========>  clientSecret={}", StringUtils.abbreviate(clientSecret, 6));
+		LOGGER.info(" ===========>  port={}", port);
 	}
-
 }

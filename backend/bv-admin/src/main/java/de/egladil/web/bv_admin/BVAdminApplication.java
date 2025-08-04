@@ -11,8 +11,8 @@ import jakarta.ws.rs.core.Application;
  */
 public class BVAdminApplication extends Application {
 
-	public static final String STAGE_DEV = "dev";
-
-	public static final String STAGE_PROD = "prod";
+//	public static final String STAGE_DEV = "dev";
+//
+//	public static final String STAGE_PROD = "prod";
 
 }

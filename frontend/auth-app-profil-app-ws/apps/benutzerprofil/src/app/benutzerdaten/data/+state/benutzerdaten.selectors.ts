@@ -10,12 +10,18 @@ const benutzerdaten = createSelector(
     (state) => state.benutzerdaten
 )
 
+const isBenutzerLoaded = createSelector(
+    selectBenutzerdatenState,
+    (state) => isAnonymerBenutzer(state.benutzerdaten) === false
+)
+
 const isExistierenderBenutzer = createSelector(
-    benutzerdaten,
-    (benutzerdaten) => !isAnonymerBenutzer(benutzerdaten)
+    isBenutzerLoaded,
+    (loaded) => !loaded
 )
 
 export const fromBenutzerdaten = {
     benutzerdaten,
-    isExistierenderBenutzer
+    isExistierenderBenutzer,
+    isBenutzerLoaded
 }

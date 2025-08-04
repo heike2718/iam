@@ -21,11 +21,12 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.bv_admin.domain.auth.config.AuthConstants;
+import de.egladil.web.bv_admin.domain.auth.config.SessionCookieConfig;
 import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.NewCookie.SameSite;
 
 /**
  * SessionUtils
@@ -77,48 +78,45 @@ public final class SessionUtils {
 
 	}
 
-	public static NewCookie createSessionCookie(final String sessionId, final boolean cookiesSecure) {
+	/**
+	 *
+	 * @param cookieConfig SessionCookieConfig
+	 * @param value String
+	 * @return NewCookie
+	 */
+	public static NewCookie createSessionCookie(SessionCookieConfig cookieConfig, final String value) {
 
 		// @formatter:off
-		return new NewCookie.Builder(AuthConstants.SESSION_COOKIE_NAME)
-			.value(sessionId)
-			.path("/")
-			.domain(null)
-			.comment(null)
-			.maxAge(360000) // maximum age of the cookie in seconds
+		return new NewCookie.Builder(cookieConfig.name())
+			.path(cookieConfig.path())
+			.sameSite(SameSite.valueOf(cookieConfig.sameSite()))
 			.httpOnly(true)
-			.secure(cookiesSecure).build();
+			.secure(cookieConfig.secure())
+			.value(value)
+			.build();
 		// @formatter:on
 	}
 
-	public static NewCookie createSessionInvalidatedCookie(final boolean cookiesSecure) {
+	public static NewCookie createInvalidatedSessionCookie(SessionCookieConfig cookieConfig) {
 
 		long dateInThePast = LocalDateTime.now(ZoneId.systemDefault()).minus(10, ChronoUnit.YEARS).toEpochSecond(ZoneOffset.UTC);
 
 		// @formatter:off
-		return new NewCookie.Builder(AuthConstants.SESSION_COOKIE_NAME)
-			.value("")
-			.path("/")
-			.maxAge(0) // maximum age of the cookie in seconds
-			.expiry(new Date(dateInThePast))
-			.version(1)
+		return new NewCookie.Builder(cookieConfig.name())
+			.path(cookieConfig.path())
+			.maxAge(0)
+			.sameSite(SameSite.valueOf(cookieConfig.sameSite()))
 			.httpOnly(true)
-			.secure(cookiesSecure).build();
-			// @formatter:on
+			.secure(cookieConfig.secure())
+			.expiry(new Date(dateInThePast))
+			.value("")
+			.build();
+		// @formatter:on
+
 	}
 
-	public static String getSessionId(final ContainerRequestContext requestContext, final String stage) {
-
-		String sessionIdFromHeader = getSesssionIdFromHeader(requestContext);
-
-		if (sessionIdFromHeader != null) {
-
-			LOGGER.debug("sessionIdFromHeader={}", sessionIdFromHeader);
-			return sessionIdFromHeader;
-		}
-
-		LOGGER.debug("sessionIdFromHeader was null, try to get SessionId from Cookie");
-		String sessionIdFromCookie = getSessionIdFromCookie(requestContext);
+	public static String getSessionId(final ContainerRequestContext requestContext, SessionCookieConfig cookieConfig) {
+		String sessionIdFromCookie = getSessionIdFromCookie(requestContext, cookieConfig);
 		LOGGER.debug("sessionIdFromCookie={}", sessionIdFromCookie);
 
 		return sessionIdFromCookie;
@@ -127,33 +125,14 @@ public final class SessionUtils {
 
 	/**
 	 * @param requestContext
-	 * @return
-	 */
-	private static String getSesssionIdFromHeader(final ContainerRequestContext requestContext) {
-
-		String sessionIdHeader = requestContext.getHeaderString(AuthConstants.SESSION_ID_HEADER);
-
-		if (sessionIdHeader == null) {
-
-			LOGGER.debug("{} dev: Request ohne SessonID-Header", requestContext.getUriInfo());
-
-			return null;
-		}
-
-		LOGGER.debug("sessionId={}", sessionIdHeader);
-		return sessionIdHeader;
-	}
-
-	/**
-	 * @param requestContext
 	 * @param clientPrefix
 	 * @return String oder null
 	 */
-	private static String getSessionIdFromCookie(final ContainerRequestContext requestContext) {
+	private static String getSessionIdFromCookie(final ContainerRequestContext requestContext, SessionCookieConfig cookieConfig) {
 
 		Map<String, Cookie> cookies = requestContext.getCookies();
 
-		Cookie sessionCookie = cookies.get(AuthConstants.SESSION_COOKIE_NAME);
+		Cookie sessionCookie = cookies.get(cookieConfig.name());
 
 		if (sessionCookie != null) {
 
@@ -161,7 +140,7 @@ public final class SessionUtils {
 		}
 
 		String path = requestContext.getUriInfo().getPath();
-		LOGGER.debug("{}: Request ohne {}-Cookie", path, AuthConstants.SESSION_COOKIE_NAME);
+		LOGGER.debug("{}: Request ohne {}-Cookie", path, cookieConfig.name());
 
 		return null;
 	}

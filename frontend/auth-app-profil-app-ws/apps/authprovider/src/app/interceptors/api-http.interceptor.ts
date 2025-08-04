@@ -24,9 +24,7 @@ export class APIHttpInterceptor implements HttpInterceptor {
         next: HttpHandler
     ): Observable<HttpEvent<unknown>> {
 
-        const url = this.#config.baseUrl + req.url;
-
-        console.log('>>>>> call ' + url);
+        const url = this.#config.baseUrl + req.url;        
 
         const headers: HttpHeaders = req.headers
             .append('X-CLIENT-ID', this.#config.clientId)

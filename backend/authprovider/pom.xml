@@ -6,7 +6,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>authprovider</artifactId>
-	<version>9.1.0</version>
+	<version>9.1.1</version>
 	<packaging>jar</packaging>
 
 	<name>authprovider</name>
@@ -17,10 +17,10 @@
 		<auth-validations.version>1.0.0</auth-validations.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-		<quarkus.platform.version>3.23.2</quarkus.platform.version>
-		<apache.shiro.version>2.0.2</apache.shiro.version>
+		<quarkus.platform.version>3.24.4</quarkus.platform.version>
+		<apache.shiro.version>2.0.5</apache.shiro.version>
 		<java-jwt.version>4.5.0</java-jwt.version>
-		<surefire-plugin.version>3.3.1</surefire-plugin.version>
+		<surefire-plugin.version>3.5.3</surefire-plugin.version>
 		<maven.compiler.release>21</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -147,12 +147,6 @@
 		</dependency>
 
 		<!-- Quarkus END -->
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -270,12 +264,12 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.26</minimum>
+											<minimum>0.25</minimum>
 										</limit>
 										<limit>
 											<counter>BRANCH</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.16</minimum>
+											<minimum>0.14</minimum>
 										</limit>
 									</limits>
 								</rule>

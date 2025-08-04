@@ -9,10 +9,10 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.benutzerprofil.domain.auth.config.SessionCookieConfig;
 import de.egladil.web.benutzerprofil.domain.auth.session.AuthenticatedUser;
 import de.egladil.web.benutzerprofil.domain.auth.session.Session;
 import de.egladil.web.benutzerprofil.domain.auth.session.SessionService;
@@ -38,26 +38,12 @@ import jakarta.ws.rs.ext.Provider;
 @Priority(Priorities.AUTHORIZATION)
 public class InitSecurityContextFilter implements ContainerRequestFilter {
 
-	private static final String STAGE_PROD = "prod";
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(InitSecurityContextFilter.class);
 
 	private static List<String> OPEN_DATA_PATHS = Arrays.asList(new String[] { "/auth-admin-api/version" });
 
-	@ConfigProperty(name = "stage")
-	String stage;
-
-	@ConfigProperty(name = "mock.session")
-	boolean mockSession;
-
-	@ConfigProperty(name = "mock.benutzerid")
-	String mockBenutzerid;
-
-	@ConfigProperty(name = "mock.benutzer.fullname")
-	String mockBenutzerFullName;
-
-	@ConfigProperty(name = "mock.role")
-	String mockRole;
+	@Inject
+	SessionCookieConfig sessionCookieConfig;
 
 	@Inject
 	SessionService sessionService;
@@ -83,7 +69,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 		boolean noSessionRequired = this.noSessionRequired(path);
 
-		LOGGER.debug("stage={}, mockSession={}, path={}, noSessionRequired={}", stage, mockSession, path, noSessionRequired);
+		LOGGER.debug("path={}, noSessionRequired={}", path, noSessionRequired);
 
 		if (noSessionRequired) {
 
@@ -93,35 +79,26 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 		try {
 
-			if (!stage.toLowerCase().startsWith(STAGE_PROD) && mockSession) {
+			String sessionId = SessionUtils.getSessionId(requestContext, sessionCookieConfig);
 
-				LOGGER.warn("Achtung: mock-Session!!! check properties 'stage' und 'mock.session' [stage={}, mockSession=", stage,
-					mockSession);
+			LOGGER.debug("path={}, sessionId={}", path, sessionId);
 
-				initMockSecurityContext(requestContext);
-			} else {
+			if (sessionId != null) {
 
-				String sessionId = SessionUtils.getSessionId(requestContext, stage);
+				Session session = sessionService.getAndRefreshSessionIfValid(sessionId);
 
-				LOGGER.debug("path={}, sessionId={}", path, sessionId);
+				if (session != null) {
 
-				if (sessionId != null) {
+					AuthenticatedUser user = session.getUser();
 
-					Session session = sessionService.getAndRefreshSessionIfValid(sessionId);
+					if (user != null) {
 
-					if (session != null) {
+						addUserToAuthAndSecurityContext(user, requestContext);
+					} else {
 
-						AuthenticatedUser user = session.getUser();
-
-						if (user != null) {
-
-							addUserToAuthAndSecurityContext(user, requestContext);
-						} else {
-
-							LOGGER.warn("path={}, user ist null, die Anwendung wird nicht funktionieren!", path);
-						}
-
+						LOGGER.warn("path={}, user ist null, die Anwendung wird nicht funktionieren!", path);
 					}
+
 				}
 			}
 		} catch (Exception e) {
@@ -174,15 +151,6 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 		LOGGER.debug("admin {} added to AuthenticationContext and SecurityContext", user);
 
-	}
-
-	private void initMockSecurityContext(final ContainerRequestContext requestContext) {
-
-		AuthenticatedUser user = new AuthenticatedUser(mockBenutzerid).withFullName(mockBenutzerFullName).withIdReference("bla");
-
-		authCtx.setUser(user);
-		LOGGER.warn("config property 'mock.session' is true => authCtx with mocked user: ");
-		LOGGER.info("====> user={}", user);
 	}
 
 	boolean noSessionRequired(final String path) {

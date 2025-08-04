@@ -25,7 +25,6 @@ export class SidenavComponent {
   sidenavClose = new EventEmitter();
 
   public onSidenavClose = () => {
-    // console.log('onSidenavClose');
     this.sidenavClose.emit();
   }
 

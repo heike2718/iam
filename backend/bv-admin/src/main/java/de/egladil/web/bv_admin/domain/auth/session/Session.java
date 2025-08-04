@@ -12,11 +12,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Session {
 
-	@JsonProperty
+	@JsonIgnore
 	private String sessionId;
 
 	@JsonProperty
 	private long expiresAt;
+
+	@JsonProperty
+	private boolean sessionActive;
 
 	@JsonProperty
 	private AuthenticatedUser user;
@@ -25,6 +28,7 @@ public class Session {
 
 		Session session = new Session();
 		session.sessionId = sessionId;
+		session.sessionActive = false;
 		return session;
 
 	}
@@ -127,5 +131,13 @@ public class Session {
 
 		this.user = user;
 		return this;
+	}
+
+	public boolean isSessionActive() {
+		return sessionActive;
+	}
+
+	public void setSessionActive(boolean sessionActive) {
+		this.sessionActive = sessionActive;
 	}
 }

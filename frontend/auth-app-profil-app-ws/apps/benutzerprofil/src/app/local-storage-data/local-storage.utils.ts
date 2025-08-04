@@ -1,8 +1,6 @@
 import { Action } from '@ngrx/store';
 import { createAction, props } from '@ngrx/store';
 
-
-
 export const syncLocalStorage = createAction(
   '[benutzerdaten] Sync Local Store',
   props<{ featureState: string }>()

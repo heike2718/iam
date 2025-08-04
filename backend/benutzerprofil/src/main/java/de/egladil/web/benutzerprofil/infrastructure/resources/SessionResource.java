@@ -10,7 +10,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import de.egladil.web.benutzerprofil.domain.auth.config.AuthConstants;
 import de.egladil.web.benutzerprofil.domain.auth.dto.AuthResult;
 import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
 import de.egladil.web.benutzerprofil.domain.auth.login.AuthproviderUrlService;
@@ -71,7 +70,7 @@ public class SessionResource {
 	@PermitAll
 	@Operation(operationId = "logout", summary = "entfernt die Session")
 	@APIResponse(name = "GetLoginUrlOKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-	public Response logout(@CookieParam(value = AuthConstants.SESSION_COOKIE_NAME)
+	public Response logout(@CookieParam(value = "JSESSIONID")
 	final String sessionId) {
 
 		return loginLogoutService.logout(sessionId);

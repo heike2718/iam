@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, of, switchMap } from 'rxjs';
 import { fromAuth, authActions } from '@bv-admin/shared/auth/data';
 import { MessageService } from '@bv-admin/shared/messages/api';
-import { AuthResult, User } from '@bv-admin/shared/auth/model';
+import { anonymousSession, AuthResult, User } from '@bv-admin/shared/auth/model';
 import { filterDefined } from '@bv-admin/shared/util';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class AuthFacade {
 
   #store = inject(Store);
   #messageService = inject(MessageService);
+  #currentSession = anonymousSession
 
   readonly user$: Observable<User> = this.#store.select(fromAuth.user).pipe(filterDefined);
 
@@ -22,6 +23,12 @@ export class AuthFacade {
   readonly userIsLoggedOut$: Observable<boolean> = this.userIsLoggedIn$.pipe(
     switchMap((li) => of(!li))
   );
+
+  constructor() {
+    this.#store.select(fromAuth.session).subscribe((session) => {
+      this.#currentSession = { ...session };
+    });
+  }
 
   login(): void {
     // Dies triggert einen SideEffect (siehe auth.effects.ts)
@@ -34,15 +41,10 @@ export class AuthFacade {
 
     if (hash && hash.indexOf('idToken') > 0) {
 
-      const authResult: AuthResult = this.#parseHash(hash);
+      this.#initSession(hash);
+    } else {
 
-      if (authResult.state) {
-        if (authResult.state === 'login') {
-          this.#store.dispatch(authActions.iNIT_SESSION({ authResult }));          
-        }
-      } else {
-        window.location.hash = '';
-      }
+      this.#reloadSession();
     }
   }
 
@@ -83,5 +85,25 @@ export class AuthFacade {
     }
     window.location.hash = '';
     return result;
-  }  
+  }
+
+  #initSession(hash: string) {
+    const authResult: AuthResult = this.#parseHash(hash);
+
+    if (authResult.state) {
+      if (authResult.state === 'login') {
+        this.#store.dispatch(authActions.iNIT_SESSION({ authResult }));
+      }
+    } else {
+      window.location.hash = '';
+    }
+  }
+
+  #reloadSession() {
+    if (this.#currentSession.sessionActive) {
+      if (Date.now() > this.#currentSession.expiresAt) {
+        this.logout();
+      }
+    }
+  }
 }

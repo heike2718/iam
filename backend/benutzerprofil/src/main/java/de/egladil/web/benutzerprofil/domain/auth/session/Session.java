@@ -12,11 +12,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Session {
 
-	@JsonProperty
+	@JsonIgnore
 	private String sessionId;
 
 	@JsonProperty
 	private long expiresAt;
+
+	@JsonProperty
+	private boolean sessionActive;
 
 	@JsonIgnore
 	private AuthenticatedUser user;
@@ -25,6 +28,7 @@ public class Session {
 
 		Session session = new Session();
 		session.sessionId = sessionId;
+		session.sessionActive = false;
 		return session;
 
 	}
@@ -39,15 +43,6 @@ public class Session {
 	public boolean isAnonym() {
 
 		return user == null;
-	}
-
-	/**
-	 * In Prod, wo Cookies funktionieren, muss die sessionId im Response-Payload entfernt werden können, da sie über ein
-	 * Cookie übertragen wird.
-	 */
-	public void clearSessionIdInProd() {
-
-		this.sessionId = null;
 	}
 
 	/**
@@ -127,5 +122,13 @@ public class Session {
 
 		this.user = user;
 		return this;
+	}
+
+	public boolean isSessionActive() {
+		return sessionActive;
+	}
+
+	public void setSessionActive(boolean sessionActive) {
+		this.sessionActive = sessionActive;
 	}
 }

@@ -4,11 +4,19 @@
   "projectType": "application",
   "prefix": "authprovider",
   "sourceRoot": "apps/authprovider/src",
-  "tags": ["domain:auth", "type:app"],
+  "tags": [
+    "domain:auth",
+    "type:app"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "security": {
+        "autoCsp": true
+      },
       "options": {
         "outputPath": {
           "base": "dist/apps/authprovider",
@@ -16,7 +24,9 @@
         },
         "index": "apps/authprovider/src/index.html",
         "browser": "apps/authprovider/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/authprovider/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -26,22 +36,25 @@
         "styles": [
           "apps/authprovider/src/styles.scss"
         ],
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "500kb",
+            "maximumError": "1mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "2kb",
+            "maximumError": "4kb"
+          }
+        ],
         "scripts": []
       },
       "configurations": {
         "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
+          "security": {
+            "autoCsp": true
+          },
           "index": {
             "input": "build-env/authprovider/index.prod.html",
             "output": "index.html"
@@ -55,18 +68,9 @@
           "outputHashing": "all"
         },
         "heikeqs": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
+          "security": {
+            "autoCsp": true
+          },
           "index": {
             "input": "build-env/authprovider/index.heikeqs.html",
             "output": "index.html"
@@ -80,18 +84,6 @@
           "outputHashing": "all"
         },
         "local": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
           "index": {
             "input": "build-env/authprovider/index.local.html",
             "output": "index.html"
@@ -105,18 +97,9 @@
           "outputHashing": "all"
         },
         "docker": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
+          "security": {
+            "autoCsp": true
+          },
           "index": {
             "input": "build-env/authprovider/index.docker.html",
             "output": "index.html"
@@ -147,7 +130,8 @@
           "buildTarget": "authprovider:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -160,7 +144,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/authprovider/jest.config.ts"
       }

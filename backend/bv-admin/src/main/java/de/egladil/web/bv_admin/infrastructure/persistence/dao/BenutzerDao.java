@@ -105,9 +105,9 @@ public class BenutzerDao {
 	public List<PersistenterUserReadOnly> findUsersByUUIDList(final List<String> uuids) {
 
 		List<PersistenterUserReadOnly> trefferliste = entityManager
-			.createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID_LIST_WITH_FLAGS_ACTIVATED_AND_BANNED,
+			.createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID_LIST,
 				PersistenterUserReadOnly.class)
-			.setParameter("uuids", uuids).setParameter("aktiviert", true).getResultList();
+			.setParameter("uuids", uuids).getResultList();
 
 		return trefferliste;
 

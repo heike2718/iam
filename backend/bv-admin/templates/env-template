@@ -1,4 +1,3 @@
-ENV=dev
 STAGE=dev
 
 EMAILS_GROUPSIZE=2
@@ -12,11 +11,20 @@ SYNC_INFRASTRUCTURE_AVAILABLE=false
 PUBLIC-CLIENT-ID=ueberschreiben-mit-bv-admin
 PUBLIC-CLIENT-SECRET=start123
 
-CSRF_ENABLED=false
+# SAME_SITE: STRICT, LAX, NONE
+# es reicht, path zu überschreiben.
+# mittels Angular-CLI-Proxy kommen alle requests von localhost, so dass immer same-side=Strict funktioniert, auch während der Entwicklung
+# es könnte sein, dass es im lokalen Docker nicht klappt, aber das müssen wir testen
+SESSION_COOKIE_SAME_SITE=NONE
+SESSION_COOKIE_SECURE=false
+SESSION_COOKIE_PATH=/
 
-MOCK.BENUTZERID=20721575-8c45-4201-a025-7a9fece1f2aa
-MOCK.BENUTZER.FULLNAME=Moki Bulruk
-MOCK.ROLE=STANDARD
+CSRF_COOKIE_SAME_SITE=NONE
+CSRF_COOKIE_SECURE=false
+CSRF_COOKIE_PATH=/
+
+# Deaktiviert HSTS sofort
+QUARKUS_HTTP_HEADER__STRICT_TRANSPORT_SECURITY__VALUE="max-age=0"
 
 TARGET_ORIGIN=localhost:4200,localhost:9020/bv-admin
 
@@ -72,6 +80,9 @@ QUARKUS_REST_CLIENT_MKGATEWAY_URL=http://localhost:9510/mk-gateway
 #=============================================================================================#
 #        Logging                                                                              #
 #=============================================================================================#
+QUARKUS_LOG_FILE_ENABLE=false
+QUARKUS_HTTP_ACCESS_LOG_LOG_TO_FILE=false
+
 QUARKUS_LOG_CATEGORY__DE_EGLADIL_WEB_BV_ADMIN_INFRASTRUCTURE_FILTERS__LEVEL=WARN
 QUARKUS_LOG_CATEGORY__DE_EGLADIL_BV_ADMIN_DOMAIN_AUTH_SESSION_SESSIONUTILS__LEVEL=WARN
 QUARKUS_LOG_CATEGORY__DE_EGLADIL_BV_ADMIN_INFRASTRUCTURE_CDI_AUTHENTICATIONCONTEXTIMPL__LEVEL=WARN
@@ -80,8 +91,8 @@ QUARKUS_LOG_CATEGORY__ORG_JBOSS_RESTEASY_REACTIVE_CLIENT_LOGGING_DEFAULTCLIENTLO
 #QUARKUS_LOG_CATEGORY__ORG_HIBERNATE_ENGINE_JDBC_SPI_SQLEXCEPTIONHELPER__LEVEL=ERROR
 #QUARKUS_LOG_CATEGORY__ORG_HIBERNATE_EXCEPTION_CONSTRAINTVIOLATIONEXCEPTION__LEVEL=ERROR
 
-QUARKUS_LOG_FILE_ENABLE=false
-QUARKUS_HTTP_ACCESS_LOG_LOG_TO_FILE=false
+## sudo tcpdump -i lo 'tcp port 9020'
+
 
 #=============================================================================================#
 #        Mail                                                                              #

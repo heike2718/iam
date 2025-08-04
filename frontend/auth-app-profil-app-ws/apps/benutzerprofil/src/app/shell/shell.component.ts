@@ -3,7 +3,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { MessageComponent, LoadingIndicatorComponent } from '@ap-ws/messages/ui';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { CommonModule } from '@angular/common';
+
 import { SidenavComponent } from '../navigation/sidenav/sidenav.component';
 import { ToolbarComponent } from '../navigation/toolbar/toolbar.component';
 import { Subscription, tap } from 'rxjs';
@@ -17,16 +17,15 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
     standalone: true,
     styleUrl: './shell.component.scss',
     imports: [
-        CommonModule,
-        RouterModule,
-        RouterOutlet,
-        MessageComponent,
-        LoadingIndicatorComponent,
-        SidenavComponent,
-        ToolbarComponent,
-        MatSidenavModule,
-        MatToolbarModule
-    ]
+    RouterModule,
+    RouterOutlet,
+    MessageComponent,
+    LoadingIndicatorComponent,
+    SidenavComponent,
+    ToolbarComponent,
+    MatSidenavModule,
+    MatToolbarModule
+]
 })
 export class ShellComponent implements OnInit, OnDestroy {
 

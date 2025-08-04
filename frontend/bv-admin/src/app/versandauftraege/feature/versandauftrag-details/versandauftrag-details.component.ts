@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
@@ -11,15 +11,13 @@ import { MailversandauftragDetails, Mailversandgruppe } from "@bv-admin/versanda
 @Component({
     selector: 'bv-admin-versandauftrag',
     imports: [
-        CommonModule,
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule,
-        MatDialogModule
-    ],
+    CommonModule,
+    AsyncPipe,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule
+],
     templateUrl: './versandauftrag-details.component.html',
     styleUrls: ['./versandauftrag-details.component.scss']
 })

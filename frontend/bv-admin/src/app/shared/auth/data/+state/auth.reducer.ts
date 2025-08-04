@@ -2,7 +2,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { authActions } from './auth.actions';
 import { swallowEmptyArgument } from '@bv-admin/shared/util';
-import { Session, anonymousSession } from '@bv-admin/shared/auth/model';
+import { AUTH_FEATURE_KEY, Session, anonymousSession } from '@bv-admin/shared/auth/model';
 
 export interface AuthState {
     readonly session: Session;
@@ -15,7 +15,7 @@ export const initialState: AuthState = {
 }
 
 export const authFeature = createFeature({
-    name: 'bvAuth',
+    name: AUTH_FEATURE_KEY,
     reducer: createReducer<AuthState>(
         initialState,
         on(

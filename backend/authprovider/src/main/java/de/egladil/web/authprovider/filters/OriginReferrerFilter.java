@@ -9,14 +9,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.authprovider.config.ConfigService;
 import de.egladil.web.authprovider.error.AuthException;
 import de.egladil.web.authprovider.utils.AuthHttpUtils;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.container.PreMatching;
@@ -36,8 +35,14 @@ public class OriginReferrerFilter implements ContainerRequestFilter {
 
 	private static final List<String> NO_CONTENT_PATHS = Arrays.asList(new String[] { "/favicon.ico" });
 
-	@Inject
-	ConfigService configService;
+	@ConfigProperty(name = "block.on.missing.origin.referer", defaultValue = "false")
+	boolean blockOnMissingOriginReferer;
+
+	@ConfigProperty(name = "target.origin")
+	String targetOrigin;
+
+//	@Inject
+//	ConfigService configService;
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {
@@ -69,7 +74,11 @@ public class OriginReferrerFilter implements ContainerRequestFilter {
 
 			final String details = "Header Origin UND Referer fehlen";
 
-			if (configService.isBlockOnMissingOriginReferer()) {
+//			if (configService.isBlockOnMissingOriginReferer()) {
+//
+//				logErrorAndThrow(details, requestContext);
+//			}
+			if (this.blockOnMissingOriginReferer) {
 
 				logErrorAndThrow(details, requestContext);
 			}
@@ -95,7 +104,7 @@ public class OriginReferrerFilter implements ContainerRequestFilter {
 			return;
 		}
 
-		final String targetOrigin = configService.getTargetOrigin();
+//		final String targetOrigin = configService.getTargetOrigin();
 
 		if (targetOrigin != null) {
 

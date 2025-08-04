@@ -4,14 +4,18 @@
 // =====================================================
 package de.egladil.web.benutzerprofil.domain.auth.session;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.benutzerprofil.domain.auth.config.AuthConstants;
+import de.egladil.web.benutzerprofil.domain.auth.config.CsrfCookieConfig;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.NewCookie;;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.NewCookie.SameSite;;
 
 /**
  * CsrfCookieService
@@ -21,11 +25,11 @@ public class CsrfCookieService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CsrfCookieService.class);
 
-	@ConfigProperty(name = "cookies.secure")
-	boolean cookiesSecure;
-
 	@Inject
 	SecureTokenService csrfTokenService;
+
+	@Inject
+	CsrfCookieConfig csrfCookieConfig;
 
 	/**
 	 * Erzeugt ein neues CsrfToken.
@@ -38,7 +42,30 @@ public class CsrfCookieService {
 
 		LOGGER.debug("csrfToken={}", csrfToken);
 
-		return new NewCookie.Builder(AuthConstants.CSRF_TOKEN_COOKIE_NAME).value(csrfToken).path(AuthConstants.COOKIE_PATH).comment("csrf").maxAge(-1).httpOnly(false)
-			.secure(cookiesSecure).build();
+		return new NewCookie.Builder(csrfCookieConfig.name()).value(csrfToken).path(csrfCookieConfig.path()).comment("csrf")
+			.sameSite(SameSite.valueOf(csrfCookieConfig.sameSite())).maxAge(-1).httpOnly(false).secure(csrfCookieConfig.secure())
+			.build();
+	}
+
+	/**
+	 * @param requestContext
+	 * @param clientPrefix
+	 * @return String oder null
+	 */
+	public String getXsrfTokenFromCookie(final ContainerRequestContext requestContext) {
+
+		Map<String, Cookie> cookies = requestContext.getCookies();
+
+		Cookie csrfTokenCookie = cookies.get(csrfCookieConfig.name());
+
+		if (csrfTokenCookie != null) {
+
+			return csrfTokenCookie.getValue();
+		}
+
+		String path = requestContext.getUriInfo().getPath();
+		LOGGER.debug("{}: Request ohne {}-Cookie", path, csrfCookieConfig.name());
+
+		return null;
 	}
 }

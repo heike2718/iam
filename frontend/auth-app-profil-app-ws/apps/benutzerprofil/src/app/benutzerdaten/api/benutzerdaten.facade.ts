@@ -10,12 +10,11 @@ import { Benutzerdaten } from "../model";
 export class BenutzerdatenFacade {
 
     #store = inject(Store);
-
     benutzerdaten$: Observable<Benutzerdaten> = this.#store.select(fromBenutzerdaten.benutzerdaten);
     isExistierenderBenutzer$: Observable<boolean> = this.#store.select(fromBenutzerdaten.isExistierenderBenutzer);
+    isBenutzerLoaded$: Observable<boolean> = this.#store.select(fromBenutzerdaten.isBenutzerLoaded);
 
     public benutzerdatenLaden(): void {
-        
         this.#store.dispatch(benutzerdatenActions.lOAD_BENUTZERDATEN());
     }
 

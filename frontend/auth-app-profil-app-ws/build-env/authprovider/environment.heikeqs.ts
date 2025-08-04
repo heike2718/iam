@@ -1,5 +1,5 @@
 export const environment = {
-  version: '9.1.0',
+  version: '9.1.1',
   envName: 'heikeqs',
   production: false,
   baseUrl: '',
