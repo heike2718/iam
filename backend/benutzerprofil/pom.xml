@@ -10,7 +10,7 @@
 
 
 	<properties>
-	    <egladil-rest-csrf.version>0.0.2</egladil-rest-csrf.version>
+	    <egladil-secure-tokens.version>1.0.0</egladil-secure-tokens.version>
 		<auth-validations.version>1.0.0</auth-validations.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
@@ -40,8 +40,8 @@
 
 	    <dependency>
 	    	<groupId>de.egladil.web</groupId>
-    		<artifactId>egladil-rest-csrf</artifactId>
-    		<version>${egladil-rest-csrf.version}</version>
+    		<artifactId>egladil-secure-tokens</artifactId>
+    		<version>${egladil-secure-tokens.version}</version>
 	    </dependency>
 
 		<dependency>

@@ -24,7 +24,7 @@ import de.egladil.web.bv_admin.domain.auth.jwt.JWTService;
 import de.egladil.web.bv_admin.domain.exceptions.AuthException;
 import de.egladil.web.bv_admin.domain.exceptions.SessionExpiredException;
 import de.egladil.web.bv_admin.infrastructure.cdi.AuthenticationContext;
-import de.egladil.web.egladil_rest_csrf.SecureRandomGenerator;
+import de.egladil.web.egladil_secure_tokens.SecureRandomGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
