@@ -23,7 +23,7 @@ import de.egladil.web.benutzerprofil.domain.auth.jwt.impl.DecodedJWTReader;
 import de.egladil.web.benutzerprofil.domain.exceptions.AuthRuntimeException;
 import de.egladil.web.benutzerprofil.domain.exceptions.SessionExpiredException;
 import de.egladil.web.benutzerprofil.infrastructure.cdi.AuthenticationContext;
-import de.egladil.web.egladil_rest_csrf.SecureRandomGenerator;
+import de.egladil.web.egladil_secure_tokens.SecureRandomGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;

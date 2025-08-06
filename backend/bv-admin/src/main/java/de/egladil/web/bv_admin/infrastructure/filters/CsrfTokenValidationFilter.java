@@ -17,7 +17,7 @@ import de.egladil.web.bv_admin.domain.auth.csrf.CsrfCookieService;
 import de.egladil.web.bv_admin.domain.auth.dto.MessagePayload;
 import de.egladil.web.bv_admin.domain.auth.session.SessionService;
 import de.egladil.web.bv_admin.domain.auth.session.SessionUtils;
-import de.egladil.web.egladil_rest_csrf.TimeconstantStringComparator;
+import de.egladil.web.egladil_secure_tokens.TimeconstantStringComparator;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;

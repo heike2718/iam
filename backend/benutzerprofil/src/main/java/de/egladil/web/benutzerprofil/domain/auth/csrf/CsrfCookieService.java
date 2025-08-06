@@ -16,9 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.benutzerprofil.domain.auth.config.CsrfCookieConfig;
-import de.egladil.web.egladil_rest_csrf.SignedTokenGenerator;
-import de.egladil.web.egladil_rest_csrf.SignedTokenValidationFailedException;
-import de.egladil.web.egladil_rest_csrf.SignedTokenValidator;
+import de.egladil.web.egladil_secure_tokens.SignedTokenGenerator;
+import de.egladil.web.egladil_secure_tokens.SignedTokenValidationFailedException;
+import de.egladil.web.egladil_secure_tokens.SignedTokenValidator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
