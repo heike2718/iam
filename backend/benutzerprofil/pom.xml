@@ -10,10 +10,11 @@
 
 
 	<properties>
+	    <egladil-rest-csrf.version>0.0.2</egladil-rest-csrf.version>
 		<auth-validations.version>1.0.0</auth-validations.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-		<quarkus.platform.version>3.24.4</quarkus.platform.version>
+		<quarkus.platform.version>3.25.0</quarkus.platform.version>
 		<java-jwt.version>4.5.0</java-jwt.version>
 		<surefire-plugin.version>3.5.3</surefire-plugin.version>
 		<dependency-check.version>12.1.3</dependency-check.version>
@@ -36,6 +37,12 @@
 	</dependencyManagement>
 
 	<dependencies>
+
+	    <dependency>
+	    	<groupId>de.egladil.web</groupId>
+    		<artifactId>egladil-rest-csrf</artifactId>
+    		<version>${egladil-rest-csrf.version}</version>
+	    </dependency>
 
 		<dependency>
 			<groupId>de.egladil.web</groupId>

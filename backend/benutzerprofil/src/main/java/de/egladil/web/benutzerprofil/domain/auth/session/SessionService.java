@@ -20,10 +20,10 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import de.egladil.web.benutzerprofil.domain.auth.jwt.JWTService;
 import de.egladil.web.benutzerprofil.domain.auth.jwt.impl.DecodedJWTReader;
-import de.egladil.web.benutzerprofil.domain.auth.util.SecureTokenService;
 import de.egladil.web.benutzerprofil.domain.exceptions.AuthRuntimeException;
 import de.egladil.web.benutzerprofil.domain.exceptions.SessionExpiredException;
 import de.egladil.web.benutzerprofil.infrastructure.cdi.AuthenticationContext;
+import de.egladil.web.egladil_rest_csrf.SecureRandomGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -48,9 +48,7 @@ public class SessionService {
 	@Inject
 	JWTService jwtService;
 
-	@Inject
-	SecureTokenService secureTokenService;
-
+	private final SecureRandomGenerator secureRandomGenerator = new SecureRandomGenerator();
 
 	/**
 	 * Wenn das JWT sagt, ist kein Admin, dann wird eine anonyme Session angelegt.
@@ -72,7 +70,7 @@ public class SessionService {
 
 			String fullName = jwtReader.getFullName();
 
-			String userIdReference = uuid.substring(0, 8) + "_" + secureTokenService.createRandomToken();
+			String userIdReference = uuid.substring(0, 8) + "_" + secureRandomGenerator.generateSecureRandomHex(32);
 
 			AuthenticatedUser authenticatedUser = new AuthenticatedUser(uuid).withFullName(fullName)
 				.withIdReference(userIdReference).withUuid(decodedJWT.getSubject());
@@ -157,7 +155,7 @@ public class SessionService {
 
 	private Session internalCreateAnonymousSession() {
 
-		String sessionId = secureTokenService.createRandomToken();
+		String sessionId = secureRandomGenerator.generateSecureRandomHex(32);
 		return Session.createAnonymous(sessionId);
 	}
 }

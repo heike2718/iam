@@ -13,6 +13,12 @@ MOCK_KONTOLOESCHUNG=false
 # es könnte sein, dass es im lokalen Docker nicht klappt, aber das müssen wir testen
 SESSION_COOKIE_PATH=/
 CSRF_COOKIE_PATH=/
+SESSION_COOKIE_SECURE=false
+CSRF_COOKIE_SECURE=false
+
+# Generierung signature-key: (base64 encoded)
+## openssl rand -base64 64 | tr -d '\n'
+CSRF_COOKIE_SIGNATURE_KEY=generieren-und-eintragen
 
 # Deaktiviert HSTS sofort
 QUARKUS_HTTP_HEADER__STRICT_TRANSPORT_SECURITY__VALUE="max-age=0"

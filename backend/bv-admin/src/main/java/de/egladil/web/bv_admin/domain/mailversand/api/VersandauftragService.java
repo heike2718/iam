@@ -25,8 +25,8 @@ import de.egladil.web.bv_admin.domain.Jobstatus;
 import de.egladil.web.bv_admin.domain.auth.dto.MessagePayload;
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerService;
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerTrefferlisteItem;
-import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
-import de.egladil.web.bv_admin.domain.exceptions.AuthAdminSQLExceptionHelper;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminAPIRuntimeException;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminSQLExceptionHelper;
 import de.egladil.web.bv_admin.domain.exceptions.ConflictException;
 import de.egladil.web.bv_admin.domain.utils.AuthAdminCollectionUtils;
 import de.egladil.web.bv_admin.infrastructure.persistence.dao.MailversandDao;
@@ -193,7 +193,7 @@ public class VersandauftragService {
 			return createNewVersandauftrag(infomailtext, confirmedUUIDGroups, checksum);
 		} catch (Exception e) {
 
-			ConstraintViolationException cve = AuthAdminSQLExceptionHelper.unwrappConstraintViolationException(e,
+			ConstraintViolationException cve = BVAdminSQLExceptionHelper.unwrappConstraintViolationException(e,
 				"Beim Anlegen eines Mailversandauftrags ist etwas schiefgegaben");
 
 			LOGGER.error("infomailtext={}, checksum={}: {}", infomailtext.getUuid(), checksum, cve.getMessage());
@@ -307,7 +307,7 @@ public class VersandauftragService {
 		} catch (NoSuchAlgorithmException e) {
 
 			LOGGER.error("Exception beim Berechnen der Checksumme der Benutzer-UUIDs: {}", e.getMessage(), e);
-			throw new AuthAdminAPIRuntimeException("Exception beim Berechnen der Checksumme der Benutzer-UUIDs");
+			throw new BVAdminAPIRuntimeException("Exception beim Berechnen der Checksumme der Benutzer-UUIDs");
 		}
 
 	}

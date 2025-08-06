@@ -5,10 +5,9 @@
 package de.egladil.web.benutzerprofil.domain.exceptions;
 
 /**
- * ProfilAPIRuntimeException
+ * BenutzerprofilRuntimeException
  */
-// FIXME umbenennen
-public class ProfilAPIRuntimeException extends RuntimeException {
+public class BenutzerprofilRuntimeException extends RuntimeException {
 
 	/**
 	 *
@@ -19,7 +18,7 @@ public class ProfilAPIRuntimeException extends RuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public ProfilAPIRuntimeException(final String message, final Throwable cause) {
+	public BenutzerprofilRuntimeException(final String message, final Throwable cause) {
 
 		super(message, cause);
 	}
@@ -27,7 +26,7 @@ public class ProfilAPIRuntimeException extends RuntimeException {
 	/**
 	 * @param message
 	 */
-	public ProfilAPIRuntimeException(final String message) {
+	public BenutzerprofilRuntimeException(final String message) {
 
 		super(message);
 	}

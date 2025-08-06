@@ -17,7 +17,7 @@
 		<auth-validations.version>1.0.0</auth-validations.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-		<quarkus.platform.version>3.24.4</quarkus.platform.version>
+		<quarkus.platform.version>3.25.0</quarkus.platform.version>
 		<apache.shiro.version>2.0.5</apache.shiro.version>
 		<java-jwt.version>4.5.0</java-jwt.version>
 		<surefire-plugin.version>3.5.3</surefire-plugin.version>

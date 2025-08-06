@@ -7,21 +7,21 @@ package de.egladil.web.bv_admin.domain.exceptions;
 import org.hibernate.exception.ConstraintViolationException;
 
 /**
- * AuthAdminSQLExceptionHelper
+ * BVAdminSQLExceptionHelper
  */
-public class AuthAdminSQLExceptionHelper {
+public class BVAdminSQLExceptionHelper {
 
 	/**
 	 * Versucht, eine ConstraintViolationException zu finden.
 	 *
 	 * @param th
-	 * @param errorMessage String das, was in der Message der AuthAdminAPIRuntimeException stehen soll, wenn keine
+	 * @param errorMessage String das, was in der Message der BVAdminAPIRuntimeException stehen soll, wenn keine
 	 * ConstraintViolationException gefunden werden konnte.
 	 * @return ConstraintViolationException
-	 * @throws AuthAdminAPIRuntimeException
+	 * @throws BVAdminAPIRuntimeException
 	 */
 	public static ConstraintViolationException unwrappConstraintViolationException(final Throwable th, final String errorMessage)
-		throws AuthAdminAPIRuntimeException {
+		throws BVAdminAPIRuntimeException {
 
 		if (th instanceof ConstraintViolationException) {
 
@@ -42,6 +42,6 @@ public class AuthAdminSQLExceptionHelper {
 			cause = throwable.getCause();
 		}
 
-		throw new AuthAdminAPIRuntimeException(errorMessage, th);
+		throw new BVAdminAPIRuntimeException(errorMessage, th);
 	}
 }

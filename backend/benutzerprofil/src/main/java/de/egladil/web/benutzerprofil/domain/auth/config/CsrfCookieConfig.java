@@ -4,6 +4,8 @@
 //=====================================================
 package de.egladil.web.benutzerprofil.domain.auth.config;
 
+import org.apache.commons.lang3.StringUtils;
+
 import io.smallrye.config.ConfigMapping;
 
 /**
@@ -20,9 +22,16 @@ public interface CsrfCookieConfig {
 
 	String path();
 
+	/**
+	 * Base64 encoded. Muss also decoded werden.
+	 * @return
+	 */
+	String signatureKey();
+
 	default String toLog() {
 
-		return "CsrfCookieConfig=[name=" + name() + ", path=" + path() + ", sameSite=" + sameSite() + ", secure=" + secure() + "]";
+		return "CsrfCookieConfig=[name=" + name() + ", path=" + path() + ", sameSite=" + sameSite() + ", secure=" + secure()
+			+ ", secretKey=" + StringUtils.abbreviate(signatureKey(), 6) + "]";
 
 	}
 

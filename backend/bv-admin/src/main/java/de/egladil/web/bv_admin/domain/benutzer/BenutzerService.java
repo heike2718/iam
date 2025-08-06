@@ -18,7 +18,7 @@ import de.egladil.web.bv_admin.domain.events.PropagateEventService;
 import de.egladil.web.bv_admin.domain.events.UserActivatedEvent;
 import de.egladil.web.bv_admin.domain.events.UserDeactivatedEvent;
 import de.egladil.web.bv_admin.domain.events.UserDeletedEvent;
-import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminAPIRuntimeException;
 import de.egladil.web.bv_admin.domain.exceptions.CommandPropagationFailedException;
 import de.egladil.web.bv_admin.infrastructure.cdi.AuthenticationContext;
 import de.egladil.web.bv_admin.infrastructure.persistence.dao.BenutzerDao;
@@ -243,7 +243,7 @@ public class BenutzerService {
 	}
 
 	@Transactional
-	void doDelete(String uuid) throws AuthAdminAPIRuntimeException {
+	void doDelete(String uuid) throws BVAdminAPIRuntimeException {
 
 		final PersistenterUser user = benutzerDao.findUserByUUID(uuid);
 
@@ -263,7 +263,7 @@ public class BenutzerService {
 
 			LOGGER.error("CommandPropagationFailed: Löschen des Benutzerkontos {} wird abgebrochen: {}", uuid,
 				e.getMessage(), e);
-			throw new AuthAdminAPIRuntimeException(e.getMessage(), e);
+			throw new BVAdminAPIRuntimeException(e.getMessage(), e);
 
 		}
 	}

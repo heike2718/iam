@@ -13,9 +13,10 @@
 	<description>Bnutzerverwaltung für Mathe-Jung-Alt</description>
 
 	<properties>
+		<egladil-rest-csrf.version>0.0.2</egladil-rest-csrf.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-		<quarkus.platform.version>3.24.4</quarkus.platform.version>
+		<quarkus.platform.version>3.25.0</quarkus.platform.version>
 		<java-jwt.version>4.5.0</java-jwt.version>
 		<surefire-plugin.version>3.5.3</surefire-plugin.version>
 		<maven.compiler.release>21</maven.compiler.release>
@@ -37,6 +38,12 @@
 	</dependencyManagement>
 
 	<dependencies>
+
+	    <dependency>
+	    	<groupId>de.egladil.web</groupId>
+    		<artifactId>egladil-rest-csrf</artifactId>
+    		<version>${egladil-rest-csrf.version}</version>
+	    </dependency>
 
 		<dependency>
 			<groupId>io.quarkus</groupId>

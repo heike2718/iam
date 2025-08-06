@@ -22,7 +22,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
-import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminAPIRuntimeException;
 import jakarta.enterprise.context.RequestScoped;
 
 /**
@@ -48,7 +48,7 @@ public class JWTService {
 
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException | IOException e) {
 
-			throw new AuthAdminAPIRuntimeException("Fehler beim Verifizieren eines JWT: " + e.getMessage(), e);
+			throw new BVAdminAPIRuntimeException("Fehler beim Verifizieren eines JWT: " + e.getMessage(), e);
 
 		}
 	}

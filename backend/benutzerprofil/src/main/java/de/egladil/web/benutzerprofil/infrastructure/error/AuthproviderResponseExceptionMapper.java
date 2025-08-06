@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
 import de.egladil.web.benutzerprofil.domain.exceptions.CommunicationException;
 import de.egladil.web.benutzerprofil.domain.exceptions.ConcurrentModificationException;
-import de.egladil.web.benutzerprofil.domain.exceptions.ProfilAPIRuntimeException;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
@@ -38,7 +38,7 @@ public class AuthproviderResponseExceptionMapper implements ResponseExceptionMap
 
 			String message = "401 bei Kommunikation mit dem authprovider: Konfiguration der Infrastruktur prüfen (client-id, client-secret, authprovider-rest-client-url,...";
 			// wird im BenutzerverwaltungExceptionMapper geloggt
-			return new CommunicationException(new ProfilAPIRuntimeException(message));
+			return new CommunicationException(new BenutzerprofilRuntimeException(message));
 		}
 
 		case 404: {
@@ -54,13 +54,13 @@ public class AuthproviderResponseExceptionMapper implements ResponseExceptionMap
 			});
 			String message = "BadRequest-Response vom authprovider. Input-Validierung: " + errorEntity.getMessage();
 			LOGGER.error(message);
-			return new CommunicationException(new ProfilAPIRuntimeException(message));
+			return new CommunicationException(new BenutzerprofilRuntimeException(message));
 		}
 
 		default:
 			String message = "Unerwarteter http-Status vom authprovider: status=" + status;
 			LOGGER.error(message);
-			return new CommunicationException(new ProfilAPIRuntimeException(message));
+			return new CommunicationException(new BenutzerprofilRuntimeException(message));
 		}
 	}
 }

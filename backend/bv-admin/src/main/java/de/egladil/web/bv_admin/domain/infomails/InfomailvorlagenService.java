@@ -9,7 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminAPIRuntimeException;
 import de.egladil.web.bv_admin.domain.utils.InfomailvorlageMapper;
 import de.egladil.web.bv_admin.infrastructure.persistence.dao.InfomailvorlagenDao;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterInfomailText;
@@ -54,7 +54,7 @@ public class InfomailvorlagenService {
 		if (result == null) {
 
 			LOGGER.error("extrem unwahrscheinlich: gerade erst angelegt und schon nicht mehr gefunden: uuid={}", uuid);
-			throw new AuthAdminAPIRuntimeException("extrem unwahrscheinlich: gerade erst angelegt und schon nicht mehr gefunden");
+			throw new BVAdminAPIRuntimeException("extrem unwahrscheinlich: gerade erst angelegt und schon nicht mehr gefunden");
 		}
 
 		return InfomailvorlageMapper.mapFromDB(result);
@@ -87,7 +87,7 @@ public class InfomailvorlagenService {
 		if (result == null) {
 
 			LOGGER.error("extrem unwahrscheinlich: gerade erst geaendert und schon nicht mehr gefunden: uuid={}", uuid);
-			throw new AuthAdminAPIRuntimeException("extrem unwahrscheinlich: gerade erst geaendert und schon nicht mehr gefunden");
+			throw new BVAdminAPIRuntimeException("extrem unwahrscheinlich: gerade erst geaendert und schon nicht mehr gefunden");
 		}
 
 		return new UpdateInfomailResponseDto().withUuid(uuid).withInfomail(InfomailvorlageMapper.mapFromDB(result));

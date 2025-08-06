@@ -23,7 +23,7 @@ import de.egladil.web.benutzerprofil.domain.exceptions.CommunicationException;
 import de.egladil.web.benutzerprofil.domain.exceptions.ConcurrentModificationException;
 import de.egladil.web.benutzerprofil.domain.exceptions.DuplicateEntityException;
 import de.egladil.web.benutzerprofil.domain.exceptions.LogmessagePrefixes;
-import de.egladil.web.benutzerprofil.domain.exceptions.ProfilAPIRuntimeException;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
 import de.egladil.web.benutzerprofil.infrastructure.restclient.AuthproviderRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -89,7 +89,7 @@ public class BenutzerService {
 			LOGGER.error(
 				"kein OK vom authprovider: USER {} existiert nicht mehr? Oder stimmt path beim AuthprovderRestClient.getUserProfile nicht?",
 				StringUtils.abbreviate(uuid, 11));
-			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new BenutzerprofilRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 
 		} catch (CommunicationException e) {
 			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der
@@ -100,7 +100,7 @@ public class BenutzerService {
 		} catch (ProcessingException e) {
 
 			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException(
+			throw new BenutzerprofilRuntimeException(
 				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
 		} catch (ClientWebApplicationException e) {
 
@@ -108,7 +108,7 @@ public class BenutzerService {
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new BenutzerprofilRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();
@@ -149,7 +149,7 @@ public class BenutzerService {
 				LOGGER.warn(LogmessagePrefixes.BOT + "angefragter Endpoint hat das nonce geändert: expected={}, actual={}",
 					expectedNonce, nonce);
 
-				throw new ProfilAPIRuntimeException("Der authprovider konnte nicht erreicht werden.");
+				throw new BenutzerprofilRuntimeException("Der authprovider konnte nicht erreicht werden.");
 
 			}
 
@@ -170,7 +170,7 @@ public class BenutzerService {
 		} catch (ProcessingException e) {
 
 			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException(
+			throw new BenutzerprofilRuntimeException(
 				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
 		} catch (ClientWebApplicationException e) {
 
@@ -200,7 +200,7 @@ public class BenutzerService {
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new BenutzerprofilRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();
@@ -236,7 +236,7 @@ public class BenutzerService {
 				LOGGER.warn(LogmessagePrefixes.BOT + "angefragter Endpoint hat das nonce geändert: expected={}, actual={}",
 					expectedNonce, nonce);
 
-				throw new ProfilAPIRuntimeException(
+				throw new BenutzerprofilRuntimeException(
 					"Statt authprovider wurde offenbar ein evil endpoint erreicht, der das nonce gefresen hat.");
 
 			}
@@ -253,12 +253,12 @@ public class BenutzerService {
 		} catch (ProcessingException e) {
 
 			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException(
+			throw new BenutzerprofilRuntimeException(
 				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new BenutzerprofilRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();

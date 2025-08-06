@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.benutzerprofil.domain.auth.dto.ResponsePayload;
-import de.egladil.web.benutzerprofil.domain.exceptions.ProfilAPIRuntimeException;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
 import de.egladil.web.benutzerprofil.infrastructure.restclient.AuthproviderRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -46,7 +46,7 @@ public class InitAccessTokenDelegate {
 
 			String msg = "Unerwarteter Fehler beim Anfordern eines client-accessTokens: " + e.getMessage();
 			LOGGER.error(msg, e);
-			throw new ProfilAPIRuntimeException(msg, e);
+			throw new BenutzerprofilRuntimeException(msg, e);
 		}
 	}
 }
