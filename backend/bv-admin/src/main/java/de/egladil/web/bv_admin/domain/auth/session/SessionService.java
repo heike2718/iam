@@ -21,10 +21,10 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import de.egladil.web.bv_admin.domain.auth.config.SessionCookieConfig;
 import de.egladil.web.bv_admin.domain.auth.jwt.DecodedJWTReader;
 import de.egladil.web.bv_admin.domain.auth.jwt.JWTService;
-import de.egladil.web.bv_admin.domain.auth.util.SecureTokenService;
 import de.egladil.web.bv_admin.domain.exceptions.AuthException;
 import de.egladil.web.bv_admin.domain.exceptions.SessionExpiredException;
 import de.egladil.web.bv_admin.infrastructure.cdi.AuthenticationContext;
+import de.egladil.web.egladil_rest_csrf.SecureRandomGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -36,6 +36,8 @@ public class SessionService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SessionService.class);
 
 	private ConcurrentHashMap<String, Session> sessions = new ConcurrentHashMap<>();
+
+	private final SecureRandomGenerator secureRandomGenerator = new SecureRandomGenerator();
 
 	@ConfigProperty(name = "session.idle.timeout")
 	int sessionIdleTimeoutMinutes;
@@ -52,8 +54,7 @@ public class SessionService {
 	@Inject
 	JWTService jwtService;
 
-	@Inject
-	SecureTokenService secureTokenService;
+
 
 	/**
 	 * Wenn das JWT sagt, ist kein Admin, dann wird eine anonyme Session angelegt.
@@ -77,7 +78,7 @@ public class SessionService {
 
 			String fullName = jwtReader.getFullName();
 
-			String userIdReference = uuid.substring(0, 8) + "_" + secureTokenService.createRandomToken();
+			String userIdReference = uuid.substring(0, 8) + "_" + secureRandomGenerator.generateSecureRandomHex(32);
 
 			AuthenticatedUser authenticatedUser = new AuthenticatedUser(uuid).withFullName(fullName)
 				.withIdReference(userIdReference).withRoles(groups);
@@ -150,9 +151,7 @@ public class SessionService {
 		return sessionId == null ? null : sessions.get(sessionId);
 	}
 
-	public void invalidateSession() {
-
-		String sessionId = SessionUtils.getSessionId(requestContext, sessionCookieConfig);
+	public void invalidateSession(final String sessionId) {
 
 		if (sessionId == null) {
 
@@ -169,8 +168,6 @@ public class SessionService {
 	}
 
 	private Session internalCreateAnonymousSession() {
-
-		String sessionId = secureTokenService.createRandomToken();
-		return Session.createAnonymous(sessionId);
+		return Session.createAnonymous(secureRandomGenerator.generateSecureRandomHex(32));
 	}
 }

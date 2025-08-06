@@ -20,7 +20,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import de.egladil.web.bv_admin.domain.infomails.InfomailRequestDto;
 import de.egladil.web.bv_admin.domain.infomails.InfomailResponseDto;
 import de.egladil.web.bv_admin.domain.infomails.UpdateInfomailResponseDto;
-import de.egladil.web.bv_admin.profiles.AuthAdminTestProfile;
+import de.egladil.web.bv_admin.profiles.BVAdminTestProfile;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
@@ -32,7 +32,7 @@ import io.restassured.http.ContentType;
  */
 @QuarkusTest
 @TestHTTPEndpoint(InfomailsResource.class)
-@TestProfile(AuthAdminTestProfile.class)
+@TestProfile(BVAdminTestProfile.class)
 @TestMethodOrder(OrderAnnotation.class)
 public class InfomailsResourceTest {
 

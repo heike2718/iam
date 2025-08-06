@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.benutzerprofil.domain.auth.clientauth.OAuthClientCredentialsProvider;
 import de.egladil.web.benutzerprofil.domain.auth.config.SessionCookieConfig;
+import de.egladil.web.benutzerprofil.domain.auth.csrf.CsrfCookieService;
 import de.egladil.web.benutzerprofil.domain.auth.dto.AuthResult;
 import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
 import de.egladil.web.benutzerprofil.domain.auth.session.Session;
@@ -44,6 +45,9 @@ public class LoginLogoutService {
 
 	@Inject
 	SessionService sessionService;
+
+	@Inject
+	CsrfCookieService csrfCookieService;
 
 	@Inject
 	TokenExchangeService tokenExchangeService;
@@ -77,10 +81,11 @@ public class LoginLogoutService {
 		}
 
 		NewCookie sessionCookie = SessionUtils.createSessionCookie(sessionCookieConfig, session.getSessionId());
+		NewCookie csrfTokenCookie = csrfCookieService.createCsrfTokenCookie(session.getSessionId());
 
 		LOGGER.debug("session created for user {}", StringUtils.abbreviate(session.getUser().getName(), 11));
 
-		return Response.ok(session).cookie(sessionCookie).build();
+		return Response.ok(session).cookie(sessionCookie).cookie(csrfTokenCookie).build();
 	}
 
 	public Response logout(final String sessionId) {
@@ -88,6 +93,8 @@ public class LoginLogoutService {
 		this.sessionService.invalidateSession(sessionId);
 
 		NewCookie invalidatedSessionCookie = SessionUtils.createInvalidatedSessionCookie(sessionCookieConfig);
-		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(invalidatedSessionCookie).build();
+		NewCookie invalidatedCsrfTokenCookie = csrfCookieService.createInvalidatedCsrfTokenCookie();
+		return Response.ok(MessagePayload.info("erfolgreich ausgeloggt")).cookie(invalidatedSessionCookie)
+			.cookie(invalidatedCsrfTokenCookie).build();
 	}
 }

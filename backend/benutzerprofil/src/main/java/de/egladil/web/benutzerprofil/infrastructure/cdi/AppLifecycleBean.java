@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.benutzerprofil.domain.auth.config.CsrfCookieConfig;
 import de.egladil.web.benutzerprofil.domain.auth.config.SessionCookieConfig;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.runtime.configuration.ConfigUtils;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -64,8 +65,6 @@ public class AppLifecycleBean {
 	@Inject
 	CsrfCookieConfig csrfCookieConfig;
 
-
-
 	void onStartup(@Observes
 	final StartupEvent ev) {
 
@@ -84,5 +83,9 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  clientId={}", StringUtils.abbreviate(clientId, 11));
 		LOGGER.info(" ===========>  clientSecret={}", StringUtils.abbreviate(clientSecret, 6));
 		LOGGER.info(" ===========>  port={}", port);
+
+		if (csrfCookieConfig.signatureKey() == null || csrfCookieConfig.signatureKey().toLowerCase().startsWith("ueberschreiben")) {
+			throw new BenutzerprofilRuntimeException("csrf-cookie.signature-key muss ueberschrieben werden!!!");
+		}
 	}
 }

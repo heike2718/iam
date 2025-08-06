@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.bv_admin.domain.auth.dto.OAuthClientCredentials;
 import de.egladil.web.bv_admin.domain.auth.dto.ResponsePayload;
-import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminAPIRuntimeException;
 import de.egladil.web.bv_admin.infrastructure.restclient.AuthproviderRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -46,7 +46,7 @@ public class InitAccessTokenDelegate {
 
 			String msg = e.getClass().getSimpleName() + " beim Anfordern eines client-accessTokens: " + e.getMessage();
 			LOGGER.error(msg, e);
-			throw new AuthAdminAPIRuntimeException(msg, e);
+			throw new BVAdminAPIRuntimeException(msg, e);
 		}
 	}
 }

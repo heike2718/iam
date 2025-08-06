@@ -18,7 +18,7 @@ import de.egladil.web.bv_admin.domain.auth.session.AuthenticatedUser;
 import de.egladil.web.bv_admin.domain.auth.session.Session;
 import de.egladil.web.bv_admin.domain.auth.session.SessionService;
 import de.egladil.web.bv_admin.domain.auth.session.SessionUtils;
-import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminAPIRuntimeException;
 import de.egladil.web.bv_admin.infrastructure.cdi.AuthenticationContextImpl;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -80,7 +80,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 
 		try {
 
-			String sessionId = SessionUtils.getSessionId(requestContext, sessionCookieConfig);
+			String sessionId = SessionUtils.getSessionId(requestContext, sessionCookieConfig.name());
 
 			LOGGER.debug("path={}, sessionId={}", path, sessionId);
 
@@ -106,7 +106,7 @@ public class InitSecurityContextFilter implements ContainerRequestFilter {
 		} catch (Exception e) {
 
 			LOGGER.error("{}: {}", path, e.getMessage(), e);
-			throw new AuthAdminAPIRuntimeException("Unerwarterer Fehler bei Request " + method + " path=" + path);
+			throw new BVAdminAPIRuntimeException("Unerwarterer Fehler bei Request " + method + " path=" + path);
 		}
 	}
 

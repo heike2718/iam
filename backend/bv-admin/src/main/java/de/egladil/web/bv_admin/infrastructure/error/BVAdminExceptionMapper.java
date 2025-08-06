@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.bv_admin.domain.auth.dto.MessagePayload;
-import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminAPIRuntimeException;
 import de.egladil.web.bv_admin.domain.exceptions.AuthException;
 import de.egladil.web.bv_admin.domain.exceptions.ConflictException;
 import de.egladil.web.bv_admin.domain.exceptions.SessionExpiredException;
@@ -78,7 +78,7 @@ public class BVAdminExceptionMapper implements ExceptionMapper<Throwable> {
 
 		LOGGER.error(exception.getMessage(), exception);
 
-		if (exception instanceof AuthAdminAPIRuntimeException) {
+		if (exception instanceof BVAdminAPIRuntimeException) {
 
 			return Response.status(500).entity(MessagePayload.error(exception.getMessage())).build();
 		}

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import de.egladil.web.bv_admin.domain.auth.config.CsrfCookieConfig;
 import de.egladil.web.bv_admin.domain.auth.config.SessionCookieConfig;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminAPIRuntimeException;
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.runtime.configuration.ConfigUtils;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -94,5 +95,9 @@ public class AppLifecycleBean {
 		LOGGER.info(" ===========>  publicClientId={}", StringUtils.abbreviate(publicClientId, 11));
 		LOGGER.info(" ===========>  publicClientSecret={}", StringUtils.abbreviate(publicClientSecret, 6));
 		LOGGER.info(" ===========>  port={}", port);
+
+		if (csrfCookieConfig.signatureKey() == null || csrfCookieConfig.signatureKey().toLowerCase().startsWith("ueberschreiben")) {
+			throw new BVAdminAPIRuntimeException("csrf-cookie.signature-key muss ueberschrieben werden!!!");
+		}
 	}
 }

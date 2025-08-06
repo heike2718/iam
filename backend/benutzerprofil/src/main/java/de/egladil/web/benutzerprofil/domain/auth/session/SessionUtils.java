@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.egladil.web.benutzerprofil.domain.auth.config.SessionCookieConfig;
-import de.egladil.web.benutzerprofil.domain.exceptions.ProfilAPIRuntimeException;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.NewCookie;
@@ -56,7 +56,7 @@ public final class SessionUtils {
 			return sw.toString().getBytes();
 		} catch (IOException e) {
 
-			throw new ProfilAPIRuntimeException("Konnte jwt-public-key nicht lesen: " + e.getMessage());
+			throw new BenutzerprofilRuntimeException("Konnte jwt-public-key nicht lesen: " + e.getMessage());
 		}
 
 	}
@@ -118,7 +118,12 @@ public final class SessionUtils {
 	}
 
 	public static String getSessionId(final ContainerRequestContext requestContext, SessionCookieConfig cookieConfig) {
-		String sessionIdFromCookie = getSessionIdFromCookie(requestContext, cookieConfig);
+		return getSessionId(requestContext, cookieConfig.name());
+
+	}
+
+	public static String getSessionId(final ContainerRequestContext requestContext, String sessionCookieName) {
+		String sessionIdFromCookie = getSessionIdFromCookie(requestContext, sessionCookieName);
 		LOGGER.debug("sessionIdFromCookie={}", sessionIdFromCookie);
 
 		return sessionIdFromCookie;
@@ -130,11 +135,11 @@ public final class SessionUtils {
 	 * @param clientPrefix
 	 * @return String oder null
 	 */
-	private static String getSessionIdFromCookie(final ContainerRequestContext requestContext, SessionCookieConfig cookieConfig) {
+	private static String getSessionIdFromCookie(final ContainerRequestContext requestContext, String sessionCookieName) {
 
 		Map<String, Cookie> cookies = requestContext.getCookies();
 
-		Cookie sessionCookie = cookies.get(cookieConfig.name());
+		Cookie sessionCookie = cookies.get(sessionCookieName);
 
 		if (sessionCookie != null) {
 
@@ -142,7 +147,7 @@ public final class SessionUtils {
 		}
 
 		String path = requestContext.getUriInfo().getPath();
-		LOGGER.debug("{}: Request ohne {}-Cookie", path, cookieConfig.name());
+		LOGGER.debug("{}: Request ohne {}-Cookie", path, sessionCookieName);
 
 		return null;
 	}

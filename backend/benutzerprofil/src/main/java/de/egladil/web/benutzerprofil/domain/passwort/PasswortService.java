@@ -22,7 +22,7 @@ import de.egladil.web.benutzerprofil.domain.exceptions.CommunicationException;
 import de.egladil.web.benutzerprofil.domain.exceptions.ConcurrentModificationException;
 import de.egladil.web.benutzerprofil.domain.exceptions.DuplicateEntityException;
 import de.egladil.web.benutzerprofil.domain.exceptions.LogmessagePrefixes;
-import de.egladil.web.benutzerprofil.domain.exceptions.ProfilAPIRuntimeException;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
 import de.egladil.web.benutzerprofil.infrastructure.restclient.AuthproviderRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -81,7 +81,7 @@ public class PasswortService {
 				LOGGER.warn(LogmessagePrefixes.BOT + "angefragter Entdpoint hat das nonce geändert: expected={}, actual={}",
 					expectedNonce, nonce);
 
-				throw new ProfilAPIRuntimeException("Der authprovider konnte nicht erreicht werden.");
+				throw new BenutzerprofilRuntimeException("Der authprovider konnte nicht erreicht werden.");
 
 			}
 
@@ -97,7 +97,7 @@ public class PasswortService {
 		} catch (ProcessingException e) {
 
 			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException(
+			throw new BenutzerprofilRuntimeException(
 				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
 		} catch (ClientWebApplicationException e) {
 
@@ -114,7 +114,7 @@ public class PasswortService {
 		} catch (Exception e) {
 
 			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new ProfilAPIRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
+			throw new BenutzerprofilRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
 		} finally {
 
 			credentials.clean();

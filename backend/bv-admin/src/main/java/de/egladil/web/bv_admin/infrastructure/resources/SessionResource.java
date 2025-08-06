@@ -18,6 +18,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -68,8 +69,9 @@ public class SessionResource {
 	@PermitAll
 	@Operation(operationId = "logout", summary = "entfernt die Session")
 	@APIResponse(name = "GetLoginUrlOKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-	public Response logout() {
+	public Response logout(@CookieParam(value = "JSESSIONID")
+	final String sessionId) {
 
-		return loginLogoutService.logout();
+		return loginLogoutService.logout(sessionId);
 	}
 }

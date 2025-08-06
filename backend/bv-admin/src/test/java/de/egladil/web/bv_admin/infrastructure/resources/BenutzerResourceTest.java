@@ -18,7 +18,7 @@ import de.egladil.web.bv_admin.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerTrefferlisteItem;
 import de.egladil.web.bv_admin.domain.benutzer.UsersSortColumn;
 import de.egladil.web.bv_admin.domain.validation.ValidationErrorResponseDto;
-import de.egladil.web.bv_admin.profiles.AuthAdminTestProfile;
+import de.egladil.web.bv_admin.profiles.BVAdminTestProfile;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
@@ -30,7 +30,7 @@ import io.restassured.http.ContentType;
  */
 @QuarkusTest
 @TestHTTPEndpoint(BenutzerResource.class)
-@TestProfile(AuthAdminTestProfile.class)
+@TestProfile(BVAdminTestProfile.class)
 public class BenutzerResourceTest {
 
 	@Test

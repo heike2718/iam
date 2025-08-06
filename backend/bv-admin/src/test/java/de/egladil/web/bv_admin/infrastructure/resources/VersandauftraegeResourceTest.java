@@ -32,7 +32,7 @@ import de.egladil.web.bv_admin.domain.mailversand.api.MailversandgruppeDetails;
 import de.egladil.web.bv_admin.domain.mailversand.api.MailversandgruppeDetailsResponseDto;
 import de.egladil.web.bv_admin.infrastructure.persistence.dao.MailversandDao;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterMailversandauftragReadOnly;
-import de.egladil.web.bv_admin.profiles.AuthAdminTestProfile;
+import de.egladil.web.bv_admin.profiles.BVAdminTestProfile;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
@@ -45,7 +45,7 @@ import jakarta.inject.Inject;
  */
 @QuarkusTest
 @TestHTTPEndpoint(VersandauftraegeResource.class)
-@TestProfile(AuthAdminTestProfile.class)
+@TestProfile(BVAdminTestProfile.class)
 @TestMethodOrder(OrderAnnotation.class)
 public class VersandauftraegeResourceTest {
 

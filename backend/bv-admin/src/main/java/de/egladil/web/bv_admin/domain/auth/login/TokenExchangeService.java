@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import de.egladil.web.bv_admin.domain.auth.dto.MessagePayload;
 import de.egladil.web.bv_admin.domain.auth.dto.OAuthClientCredentials;
 import de.egladil.web.bv_admin.domain.auth.dto.ResponsePayload;
-import de.egladil.web.bv_admin.domain.exceptions.AuthAdminAPIRuntimeException;
+import de.egladil.web.bv_admin.domain.exceptions.BVAdminAPIRuntimeException;
 import de.egladil.web.bv_admin.domain.exceptions.ClientAuthException;
 import de.egladil.web.bv_admin.domain.exceptions.InaccessableEndpointException;
 import de.egladil.web.bv_admin.infrastructure.restclient.AuthproviderRestClient;
@@ -58,7 +58,7 @@ public class TokenExchangeService {
 
 			LOGGER.error(message);
 
-			throw new AuthAdminAPIRuntimeException(message);
+			throw new BVAdminAPIRuntimeException(message);
 
 		} catch (ProcessingException processingException) {
 

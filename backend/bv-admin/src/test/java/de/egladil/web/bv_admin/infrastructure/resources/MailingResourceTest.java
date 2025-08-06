@@ -15,7 +15,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.egladil.web.bv_admin.profiles.AuthAdminTestProfile;
+import de.egladil.web.bv_admin.profiles.BVAdminTestProfile;
 import io.quarkus.mailer.MockMailbox;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
@@ -29,7 +29,7 @@ import jakarta.inject.Inject;
  */
 @QuarkusTest
 @TestHTTPEndpoint(MailingResource.class)
-@TestProfile(AuthAdminTestProfile.class)
+@TestProfile(BVAdminTestProfile.class)
 public class MailingResourceTest {
 
 	@ConfigProperty(name = "emails.standardempfaenger")

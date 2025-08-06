@@ -8,14 +8,16 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.egladil.web.benutzerprofil.domain.auth.csrf.CsrfCookieService;
 import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
-import de.egladil.web.benutzerprofil.domain.auth.session.CsrfCookieService;
 import de.egladil.web.benutzerprofil.domain.auth.session.SessionService;
-import jakarta.enterprise.context.ApplicationScoped;
+import de.egladil.web.benutzerprofil.domain.auth.session.SessionUtils;
+import de.egladil.web.egladil_rest_csrf.TimeconstantStringComparator;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
@@ -26,7 +28,7 @@ import jakarta.ws.rs.ext.Provider;
 /**
  * CsrfTokenValidationFilter
  */
-@ApplicationScoped
+// @ApplicationScoped
 @Provider
 @PreMatching
 public class CsrfTokenValidationFilter implements ContainerRequestFilter {
@@ -35,12 +37,22 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 
 	private static final String INVALID_CSRF_RESPONSE_PAYLOD = "CSRF-Token-Validierung fehlgeschlagen";
 
+	private static final String KEINE_GUELTIGE_SESSION = "keine gueltige Session";
+
 	private static final List<String> SECURE_HTTP_METHODS = Arrays.asList(new String[] { "OPTIONS", "GET", "HEAD" });
 
-	private static final List<String> SECURE_PATHS = Arrays.asList(new String[] { "/", "/session/logout" });
+	/**
+	 * Erst nach dem login ist csrf-protection erforderlich. Weiter erst einmal keine Einschränkungen auf Pfade.
+	 */
+	private static final List<String> SECURE_PATHS = Arrays
+		.asList(new String[] { "/api", "/api/session/login", "/api/session/logout" });
 
 	@ConfigProperty(name = "csrf-header-name")
 	String csrfHeaderName;
+
+	// Aus irgendeinem Grund ist es nicht möglich, hier die SessionCookieConfig zu injecten. Keine Ahnung warum.
+	@ConfigProperty(name = "session-cookie.name")
+	String sessionCookieName;
 
 	@Inject
 	SessionService sessionservice;
@@ -57,40 +69,59 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 		String method = requestContext.getMethod();
 
 		if (SECURE_HTTP_METHODS.contains(method) || SECURE_PATHS.contains(path)) {
-
 			return;
 		}
 
+		String sessionId = SessionUtils.getSessionId(requestContext, sessionCookieName);
+		if (sessionId == null) {
+			LOGGER.warn("session == null bei {} path={}", method, path);
+			requestContext.abortWith(Response.status(403).entity(MessagePayload.error(KEINE_GUELTIGE_SESSION)).build());
+		}
+
+		if (!this.compareCookieAndHeader(requestContext)) {
+			requestContext.abortWith(Response.status(403).entity(MessagePayload.error(INVALID_CSRF_RESPONSE_PAYLOD)).build());
+		}
+
+		if (!this.verifyCsrfTokenSignature(requestContext, sessionId)) {
+			LOGGER.warn("Verifizierung der csrfTokenCookie-Signatur schlug fehl bei {} path={}", method, path);
+			requestContext.abortWith(Response.status(403).entity(MessagePayload.error(INVALID_CSRF_RESPONSE_PAYLOD)).build());
+		}
+
+	}
+
+	boolean compareCookieAndHeader(ContainerRequestContext requestContext) {
+
 		String csrfCookieValue = csrfCookieService.getXsrfTokenFromCookie(requestContext);
 
-		if (csrfCookieValue != null) {
+		String path = requestContext.getUriInfo().getPath();
+		String method = requestContext.getMethod();
 
-			LOGGER.debug("{} {}", method, path);
-
-			List<String> csrfTokenHeader = requestContext.getHeaders().get(csrfHeaderName);
-
-			if (csrfTokenHeader != null && !csrfTokenHeader.isEmpty()) {
-
-				String headerValue = csrfTokenHeader.get(0);
-
-				if (!identifyAsEquals(headerValue, csrfCookieValue)) {
-
-					LOGGER.warn("cookieValue != headerValue: [headerValue={}, cookieValue={}, path={}", headerValue, csrfCookieValue,
-						path);
-					requestContext
-						.abortWith(Response.status(400).entity(MessagePayload.error(INVALID_CSRF_RESPONSE_PAYLOD)).build());
-				}
-			} else {
-
-				LOGGER.warn("csrfTokenHeader == null oder csrfTokenHeader.size() != 1 bei path={}", path);
-				requestContext.abortWith(Response.status(400).entity(MessagePayload.error(INVALID_CSRF_RESPONSE_PAYLOD)).build());
-			}
-
-		} else {
-
+		if (StringUtils.isBlank(csrfCookieValue)) {
 			LOGGER.warn("csrfTokenCookie == null bei {} path={}", method, path);
-			requestContext.abortWith(Response.status(400).entity(MessagePayload.error(INVALID_CSRF_RESPONSE_PAYLOD)).build());
+			return false;
 		}
+
+		List<String> csrfTokenHeader = requestContext.getHeaders().get(csrfHeaderName);
+
+		if (csrfTokenHeader == null || csrfTokenHeader.isEmpty()) {
+			LOGGER.warn("csrfTokenHeader == null oder csrfTokenHeader.size() == 0 bei {} path={}", method, path);
+			return false;
+		}
+
+		String headerValue = csrfTokenHeader.get(0);
+
+		if (!identifyAsEquals(headerValue, csrfCookieValue)) {
+
+			LOGGER.warn("cookieValue != headerValue: [headerValue={}, cookieValue={}, path={}", headerValue, csrfCookieValue, path);
+			return false;
+		}
+
+		return true;
+	}
+
+	boolean verifyCsrfTokenSignature(ContainerRequestContext requestContext, String sessionId) {
+		String csrfCookieValue = csrfCookieService.getXsrfTokenFromCookie(requestContext);
+		return csrfCookieService.verifyCsrfToken(sessionId, csrfCookieValue);
 	}
 
 	boolean identifyAsEquals(final String headerValue, final String cookieValue) {
@@ -103,6 +134,6 @@ public class CsrfTokenValidationFilter implements ContainerRequestFilter {
 			strippedHeaderValue = headerValue.replaceAll("\"", "");
 		}
 
-		return strippedHeaderValue.equals(cookieValue);
+		return new TimeconstantStringComparator().isEqual(strippedHeaderValue, cookieValue);
 	}
 }

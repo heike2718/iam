@@ -22,6 +22,9 @@ public class Session {
 	private boolean sessionActive;
 
 	@JsonIgnore
+	private String csrfTokenHmac;
+
+	@JsonIgnore
 	private AuthenticatedUser user;
 
 	public static Session createAnonymous(final String sessionId) {
@@ -130,5 +133,13 @@ public class Session {
 
 	public void setSessionActive(boolean sessionActive) {
 		this.sessionActive = sessionActive;
+	}
+
+	public String getCsrfTokenHmac() {
+		return csrfTokenHmac;
+	}
+
+	public void setCsrfTokenHmac(String csrfTokenHmac) {
+		this.csrfTokenHmac = csrfTokenHmac;
 	}
 }

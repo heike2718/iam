@@ -15,7 +15,7 @@ import de.egladil.web.benutzerprofil.domain.benutzer.DuplicateAttributeType;
 import de.egladil.web.benutzerprofil.domain.exceptions.AuthRuntimeException;
 import de.egladil.web.benutzerprofil.domain.exceptions.ConcurrentModificationException;
 import de.egladil.web.benutzerprofil.domain.exceptions.DuplicateEntityException;
-import de.egladil.web.benutzerprofil.domain.exceptions.ProfilAPIRuntimeException;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
 import de.egladil.web.benutzerprofil.domain.exceptions.SessionExpiredException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
@@ -98,7 +98,7 @@ public class BenutzerverwaltungExceptionMapper implements ExceptionMapper<Throwa
 
 		LOGGER.error(exception.getMessage(), exception);
 
-		if (exception instanceof ProfilAPIRuntimeException) {
+		if (exception instanceof BenutzerprofilRuntimeException) {
 
 			return Response.status(500).entity(MessagePayload.error(exception.getMessage())).build();
 		}

@@ -16,7 +16,7 @@ import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
 import de.egladil.web.benutzerprofil.domain.auth.dto.ResponsePayload;
 import de.egladil.web.benutzerprofil.domain.exceptions.ClientAuthException;
 import de.egladil.web.benutzerprofil.domain.exceptions.InaccessableEndpointException;
-import de.egladil.web.benutzerprofil.domain.exceptions.ProfilAPIRuntimeException;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
 import de.egladil.web.benutzerprofil.infrastructure.restclient.AuthproviderRestClient;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -58,7 +58,7 @@ public class TokenExchangeService {
 
 			LOGGER.error(message);
 
-			throw new ProfilAPIRuntimeException(message);
+			throw new BenutzerprofilRuntimeException(message);
 
 		} catch (ProcessingException processingException) {
 
