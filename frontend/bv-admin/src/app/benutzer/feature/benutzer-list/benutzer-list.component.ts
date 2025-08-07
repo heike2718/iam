@@ -17,14 +17,17 @@ import { Benutzer, FlagsDto, PageDefinition, PaginationState, SortDefinition, in
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "@bv-admin/shared/ui/components";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 const AUSWAHL_BENUTZER = 'auswahlBenutzer';
+const STATUSICONS = 'statusIcons';
+const LOGIN_COUNT = 'loginCount';
 const UUID = 'uuid';
 const EMAIL = 'email';
 const NACHNAME = 'nachname';
 const VORNAME = 'vorname';
 const AENDERUNGSDATUM = 'aenderungsdatum';
-const ROLLE = 'rolle';
+// const ROLLE = 'rolle';
 const ACTION_MENU = "actionMenu"
 
 @Component({
@@ -41,6 +44,7 @@ const ACTION_MENU = "actionMenu"
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     MatMenuModule
   ],
   templateUrl: './benutzer-list.component.html',
@@ -192,7 +196,7 @@ export class BenutzerListComponent implements OnDestroy, AfterViewInit {
   }
 
   getDisplayedColumns(): string[] {
-    return [AUSWAHL_BENUTZER, UUID, EMAIL, NACHNAME, VORNAME, AENDERUNGSDATUM, ROLLE, ACTION_MENU];
+    return [AUSWAHL_BENUTZER, STATUSICONS, LOGIN_COUNT, UUID, EMAIL, NACHNAME, VORNAME, AENDERUNGSDATUM, ACTION_MENU];
   }
 
   onPaginatorChanged(_event: PageEvent): void {
