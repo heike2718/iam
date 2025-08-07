@@ -1,31 +1,23 @@
-.mdc-data-table__header-cell {
-    padding: 0 3px 0 3px;
-}
-
-::ng-deep .mat-sort-header-container:not(.mat-sort-header-sorted) {
-    .mat-sort-header-arrow {
-        opacity: 0.54 !important; // Ensure the arrow is always visible
-    }
-
-    .mat-sort-header-content {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-    }
-}
-
 /** Breiten der Spalten definieren  */
 .mat-column-auswahlBenutzer {
-    flex: 0 0 6%;
+    flex: 0 0 5%;
+}
+
+.mat-column-statusIcons {
+    flex: 0 0 5%;
 }
 
 .mat-column-uuid {
-    flex: 0 0 10%;
+    flex: 0 0 15%;
+}
+
+.mat-column-loginCount {
+    flex: 0 0 5%;
 }
 
 
 .mat-column-email {
-    flex: 0 0 14%;
+    flex: 0 0 20%;
 }
 
 .mat-column-vorname {
@@ -40,16 +32,6 @@
     flex: 0 0 14%;
 }
 
-.mat-column-rolle {
-    flex: 0 0 14%;
-}
-
-
-.mat-column-toggleActivationState {
+.mat-column-actionMenu {
     flex: 0 0 5%;
 }
-
-.mat-column-deleteAccount {
-    flex: 0 0 5%;
-}
-
