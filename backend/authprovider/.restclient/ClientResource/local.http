@@ -1,0 +1,19 @@
+### authenticate client raetselbaukasten
+POST http://localhost:9000/authprovider/api/clients/client/accesstoken
+Accept: application/json
+Content-Type: application/json
+
+{
+   "clientId": "N7SsGenun4znNUdQzyLD0wzOfRHOmc9XN35TOGfbBcvA",
+   "clientSecret": "start123"
+}
+
+### authenticate client kaeuzchenlager
+POST http://localhost:9000/authprovider/api/clients/client/accesstoken
+Accept: application/json
+Content-Type: application/json
+
+{
+   "clientId": "4O2UEGhpdGvhJt0Fk3aHkxS078jBsLlBf6XZ6BgR31cj",
+   "clientSecret": "start123"
+}
