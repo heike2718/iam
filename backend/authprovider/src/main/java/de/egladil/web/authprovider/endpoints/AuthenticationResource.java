@@ -27,7 +27,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.entities.ResourceOwner;
@@ -53,6 +54,8 @@ import de.egladil.web.authprovider.utils.AuthUtils;
 public class AuthenticationResource {
 
     private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationResource.class);
 
     @Inject
     AuthenticationService authenticationService;
@@ -111,6 +114,8 @@ public class AuthenticationResource {
             String kleber = credentials.getAuthorizationCredentials().getKleber();
 
             if (AuthUtils.isProbablyBOTAttack(kleber, credentials.getAuthorizationCredentials().getFormStartTs())) {
+
+            	LOGGER.warn("honneypot: kleber={}, currentTime={}, formStartTime={}", kleber, System.currentTimeMillis(), credentials.getAuthorizationCredentials().getFormStartTs());
 
                 BotAttackEventPayload payload = new BotAttackEventPayload()
                         .withPath(uriInfo.getPath())

@@ -37,7 +37,7 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
     #activatedRoute = inject(ActivatedRoute);
 
     tokenId: string | null = null;
-    #visibilityTimeout: unknown;
+    #visibilityTimeout: any;
     showPassword = false;
 
     parentForm!: FormGroup;
@@ -118,7 +118,7 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
     submit(): void {
         if (this.parentForm.valid) {
             const payload = this.#trimAndReadFormValues();
-            this.changeTempPasswordFacade.changeTempPassword({ ...payload, formStartTs: this.#formStartTs });
+            this.changeTempPasswordFacade.changeTempPassword(payload);
         }
     }
 
@@ -171,6 +171,7 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
             tempPassword: parentFormValues['tempPassword'],
             tokenId: this.tokenId === null ? 'noop' : this.tokenId,
             zweiPassworte: this.#zweiPassworte,
+            formStartTs: this.#formStartTs,
         };
 
         return result;

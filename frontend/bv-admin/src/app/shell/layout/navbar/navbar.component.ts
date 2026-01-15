@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@ang
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -21,58 +21,51 @@ import { User } from '@bv-admin/shared/auth/model';
         MatToolbarModule,
         MatTooltipModule,
         AsyncPipe,
-        RouterLinkWithHref
+        RouterLinkWithHref,
     ],
     templateUrl: './navbar.component.html',
-    styleUrl: './navbar.component.scss'
+    styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+    version = '1.2.1';
 
-  version = "1.1.0";
+    @Output()
+    sidenavToggle = new EventEmitter();
 
-  @Output()
-  sidenavToggle = new EventEmitter();
+    authFacade = inject(AuthFacade);
+    user!: User;
 
-  authFacade = inject(AuthFacade);
-  user!: User;
+    #breakpointObserver = inject(BreakpointObserver);
+    #router = inject(Router);
 
-  #breakpointObserver = inject(BreakpointObserver);
-  #router = inject(Router);
+    #userSubscription = new Subscription();
 
-  #userSubscription = new Subscription();
-
- 
-  isHandset$ = this.#breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
+    isHandset$ = this.#breakpointObserver.observe(Breakpoints.Handset).pipe(
+        map(result => result.matches),
+        shareReplay()
     );
 
-  ngOnInit(): void {
+    ngOnInit(): void {
+        this.#userSubscription = this.authFacade.user$.subscribe(user => (this.user = user));
+    }
 
-    this.#userSubscription = this.authFacade.user$.subscribe(
-      (user) => this.user = user
-    );
+    ngOnDestroy(): void {
+        this.#userSubscription.unsubscribe();
+    }
 
-  }
+    login(): void {
+        this.authFacade.login();
+    }
 
-  ngOnDestroy(): void {
-    this.#userSubscription.unsubscribe();
-  }
+    logout(): void {
+        this.authFacade.logout();
+    }
 
-  login(): void {
-    this.authFacade.login();
-  }
+    onToggleSidenav(): void {
+        this.sidenavToggle.emit();
+    }
 
-  logout(): void {
-    this.authFacade.logout();
-  }
-
-  onToggleSidenav(): void {
-    this.sidenavToggle.emit();
-  }
-
-  onMenuItemClick(id: number): void {
-    this.#router.navigate(['/home', id]);
-  }
+    onMenuItemClick(id: number): void {
+        this.#router.navigate(['/home', id]);
+    }
 }

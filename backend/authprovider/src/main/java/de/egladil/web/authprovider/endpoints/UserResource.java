@@ -190,6 +190,8 @@ public class UserResource {
 
         if (AuthUtils.isProbablyBOTAttack(kleber, signUpCredentials.getFormStartTs())) {
 
+        	LOG.warn("honneypot: kleber={}, currentTime={}, formStartTime={}", kleber, System.currentTimeMillis(), signUpCredentials.getFormStartTs());
+
             BotAttackEventPayload payload = new BotAttackEventPayload()
                     .withPath(uriInfo.getPath())
                     .withKleber(kleber)

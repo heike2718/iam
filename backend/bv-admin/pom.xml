@@ -6,7 +6,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>bv-admin</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 
 	<name>bv-admin</name>
 	<url>https://github.com/heike2718/authprovider.git</url>

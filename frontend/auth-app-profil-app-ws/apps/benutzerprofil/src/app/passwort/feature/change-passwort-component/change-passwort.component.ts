@@ -39,7 +39,7 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
     #subscriptions = new Subscription();
     #passwort: PasswortPayload = initialPasswortPayload;
 
-    #visibilityTimeout: unknown;
+    #visibilityTimeout: any;
     showPassword = false;
 
     ngOnInit(): void {

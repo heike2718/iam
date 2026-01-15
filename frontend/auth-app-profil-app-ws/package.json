@@ -1,6 +1,6 @@
 {
     "name": "@auth-app-profil-app-ws/source",
-    "version": "9.1.1",
+    "version": "9.2.0",
     "license": "MIT",
     "scripts": {
         "auth": "npx nx serve authprovider --proxy-config=proxy.conf.authprovider.json --port 4300",

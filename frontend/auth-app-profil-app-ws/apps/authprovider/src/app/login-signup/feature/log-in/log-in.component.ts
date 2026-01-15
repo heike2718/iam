@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     #clientCredentials!: ClientCredentials;
 
-    #visibilityTimeout: unknown;
+    #visibilityTimeout: any;
     showPassword = false;
 
     #fb: FormBuilder = new FormBuilder();
