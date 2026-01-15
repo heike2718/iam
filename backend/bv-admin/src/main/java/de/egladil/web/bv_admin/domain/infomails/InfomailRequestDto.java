@@ -4,14 +4,15 @@
 // =====================================================
 package de.egladil.web.bv_admin.domain.infomails;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.egladil.web.bv_admin.domain.validation.StringLatinConstants;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 /**
  * InfomailRequestDto
@@ -19,36 +20,36 @@ import jakarta.validation.constraints.Size;
 @Schema(description = "Betreff und Text für eine Infomail")
 public class InfomailRequestDto {
 
-	@JsonProperty
-	@Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP)
-	@Size(max = 100)
-	@NotBlank
-	private String betreff;
+    @JsonProperty
+    @Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP)
+    @Size(max = 100)
+    @NotBlank
+    private String betreff;
 
-	@JsonProperty
-	@Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP_PLUS_WHITESPACE)
-	@Size(max = 65535)
-	@NotBlank
-	private String mailtext;
+    @JsonProperty
+    @Pattern(regexp = StringLatinConstants.WHITELIST_REGEXP_PLUS_WHITESPACE)
+    @Size(max = 65535)
+    @NotBlank
+    private String mailtext;
 
-	public String getBetreff() {
+    public String getBetreff() {
 
-		return betreff;
-	}
+        return betreff;
+    }
 
-	public void setBetreff(final String betreff) {
+    public void setBetreff(final String betreff) {
 
-		this.betreff = betreff;
-	}
+        this.betreff = betreff;
+    }
 
-	public String getMailtext() {
+    public String getMailtext() {
 
-		return mailtext;
-	}
+        return mailtext;
+    }
 
-	public void setMailtext(final String mailtext) {
+    public void setMailtext(final String mailtext) {
 
-		this.mailtext = mailtext;
-	}
+        this.mailtext = mailtext;
+    }
 
 }

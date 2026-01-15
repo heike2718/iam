@@ -5,9 +5,6 @@
 
 package de.egladil.web.authprovider.crypto.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,157 +15,159 @@ import de.egladil.web.authprovider.entities.LoginSecrets;
 import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.AuthException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 /**
  * AuthCryptoServiceImplTest
  */
 public class AuthCryptoServiceImplTest {
 
-	private AuthCryptoServiceImpl authCryptoService;
+    private AuthCryptoServiceImpl authCryptoService;
 
-	private CryptoService cryptoService;
+    private CryptoService cryptoService;
 
-	private PasswordConfig passwordConfig;
+    private PasswordConfig passwordConfig;
 
+    @BeforeEach
+    void setUp() {
 
+        this.cryptoService = new CryptoService();
 
-	@BeforeEach
-	void setUp() {
+        passwordConfig = new PasswordConfig();
+        passwordConfig.setCryptoAlgorithm("SHA-256");
+        passwordConfig.setIterations(4098);
+        passwordConfig.setPepper("z0eiPZVJxq/xhYD1RkXACJMKqtmzMQQ9blaR+ozXMk8=");
+        passwordConfig.setRandomAlgorithm("SHA1PRNG");
+        passwordConfig.setTempPwdCharPool("abcdefghijklmnopqrstuvwxyz0123456789");
+        passwordConfig.setTempPwdLength(8);
 
-		this.cryptoService = new CryptoService();
+        authCryptoService = new AuthCryptoServiceImpl();
+        authCryptoService.setCryptoService(cryptoService);
+        authCryptoService.setPasswordConfig(passwordConfig);
+        authCryptoService.setStageForTest("qs");
+        authCryptoService.setChecklistenappClientIdForTest("WLJLH4vsldWapZrMZi2U5HKRBVpgyUiRTWwX7aiJd8nX");
+    }
 
-		passwordConfig = new PasswordConfig();
-		passwordConfig.setCryptoAlgorithm("SHA-256");
-		passwordConfig.setIterations(4098);
-		passwordConfig.setPepper("z0eiPZVJxq/xhYD1RkXACJMKqtmzMQQ9blaR+ozXMk8=");
-		passwordConfig.setRandomAlgorithm("SHA1PRNG");
-		passwordConfig.setTempPwdCharPool("abcdefghijklmnopqrstuvwxyz0123456789");
-		passwordConfig.setTempPwdLength(8);
+    @Test
+    void generateClientID() {
 
-		authCryptoService = new AuthCryptoServiceImpl();
-		authCryptoService.setCryptoService(cryptoService);
-		authCryptoService.setPasswordConfig(passwordConfig);
-		authCryptoService.setStageForTest("qs");
-		authCryptoService.setChecklistenappClientIdForTest("WLJLH4vsldWapZrMZi2U5HKRBVpgyUiRTWwX7aiJd8nX");
-	}
+        // Act
+        String clientID = authCryptoService.generateClientID();
 
-	@Test
-	void generateClientID() {
+        // Assert
+        assertEquals(44, clientID.length());
 
-		// Act
-		String clientID = authCryptoService.generateClientID();
+        System.out.println(clientID);
+    }
 
-		// Assert
-		assertEquals(44, clientID.length());
+    @Test
+    void hashAndVerifyClientSecret() {
 
-		System.out.println(clientID);
-	}
+        System.out.println(passwordConfig.toString());
 
-	@Test
-	void hashAndVerifyClientSecret() {
+        String str = "start123";
+        final char[] pwd = str.toCharArray();
 
-		System.out.println(passwordConfig.toString());
+        final String computedHash = authCryptoService.hashPassword(pwd);
 
-		String str = "start123";
-		final char[] pwd = str.toCharArray();
+        for (char c : pwd) {
 
-		final String computedHash = authCryptoService.hashPassword(pwd);
+            assertEquals(0x00, c);
+        }
 
-		for (char c : pwd) {
+        System.out.println("str = " + str);
+        System.out.println("persistablePwd = " + computedHash);
 
-			assertEquals(0x00, c);
-		}
+        LoginSecrets loginSecrets = new LoginSecrets();
+        loginSecrets.setPasswordhash(computedHash);
+        loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
 
-		System.out.println("str = " + str);
-		System.out.println("persistablePwd = " + computedHash);
+        Client client = new Client();
+        // client.setClientId("GerMkzlT2moZq762D5zKAorpg8aUjumXzNQz2yOUd9zQ");
+        // client.setClientId("N7SsGenun4znNUdQzyLD0wzOfRHOmc9XN35TOGfbBcvA");
+        client.setClientId("tPsIyJUJPs1FuNsUaryOUuGWnStz9BeqieY4wtcEllOH");
+        client.setLoginSecrets(loginSecrets);
 
-		LoginSecrets loginSecrets = new LoginSecrets();
-		loginSecrets.setPasswordhash(computedHash);
-		loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
+        // Act + Assert (wenn korrekt, keine Exception)
 
-		Client client = new Client();
-//		client.setClientId("GerMkzlT2moZq762D5zKAorpg8aUjumXzNQz2yOUd9zQ");
-		client.setClientId("N7SsGenun4znNUdQzyLD0wzOfRHOmc9XN35TOGfbBcvA");
-		client.setLoginSecrets(loginSecrets);
+        char[] pwd2 = "start123".toCharArray();
+        authCryptoService.verifyClientSecret(pwd2, client);
 
-		// Act + Assert (wenn korrekt, keine Exception)
+        for (char c : pwd) {
 
-		char[] pwd2 = "start123".toCharArray();
-		authCryptoService.verifyClientSecret(pwd2, client);
+            assertEquals(0x00, c);
+        }
+    }
 
-		for (char c : pwd) {
+    @Test
+    void hashAndVerifyPassword() {
 
-			assertEquals(0x00, c);
-		}
-	}
+        final char[] pwd = "Gehe1m".toCharArray();
 
-	@Test
-	void hashAndVerifyPassword() {
+        final String computedHash = authCryptoService.hashPassword(pwd);
 
-		final char[] pwd = "Gehe1m".toCharArray();
+        for (char c : pwd) {
 
-		final String computedHash = authCryptoService.hashPassword(pwd);
+            assertEquals(0x00, c);
+        }
 
-		for (char c : pwd) {
+        System.out.println("computedHash = " + computedHash);
 
-			assertEquals(0x00, c);
-		}
+        LoginSecrets loginSecrets = new LoginSecrets();
+        loginSecrets.setPasswordhash(computedHash);
+        loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
 
-		System.out.println("computedHash = " + computedHash);
+        ResourceOwner resourceOwner = new ResourceOwner();
+        resourceOwner.setAktiviert(true);
+        resourceOwner.setLoginSecrets(loginSecrets);
+        resourceOwner.setLoginName("klaus-dieter");
+        resourceOwner.setEmail("kd@web.de");
 
-		LoginSecrets loginSecrets = new LoginSecrets();
-		loginSecrets.setPasswordhash(computedHash);
-		loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
+        // Act + Assert (wenn korrrekt, keine Exception
 
-		ResourceOwner resourceOwner = new ResourceOwner();
-		resourceOwner.setAktiviert(true);
-		resourceOwner.setLoginSecrets(loginSecrets);
-		resourceOwner.setLoginName("klaus-dieter");
-		resourceOwner.setEmail("kd@web.de");
+        char[] pwd2 = "Gehe1m".toCharArray();
+        authCryptoService.verifyPassword(pwd2, resourceOwner);
 
-		// Act + Assert (wenn korrrekt, keine Exception
+        for (char c : pwd2) {
 
-		char[] pwd2 = "Gehe1m".toCharArray();
-		authCryptoService.verifyPassword(pwd2, resourceOwner);
+            assertEquals(0x00, c);
+        }
+    }
 
-		for (char c : pwd2) {
+    @Test
+    void test_authException() {
 
-			assertEquals(0x00, c);
-		}
-	}
+        final char[] pwd = "Gehe1m".toCharArray();
 
-	@Test
-	void test_authException() {
+        final String computedHash = authCryptoService.hashPassword(pwd);
 
-		final char[] pwd = "Gehe1m".toCharArray();
+        LoginSecrets loginSecrets = new LoginSecrets();
+        loginSecrets.setPasswordhash(computedHash);
+        loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
 
-		final String computedHash = authCryptoService.hashPassword(pwd);
+        ResourceOwner resourceOwner = new ResourceOwner();
+        resourceOwner.setAktiviert(true);
+        resourceOwner.setLoginSecrets(loginSecrets);
+        resourceOwner.setLoginName("klaus-dieter");
+        resourceOwner.setEmail("kd@web.de");
 
-		LoginSecrets loginSecrets = new LoginSecrets();
-		loginSecrets.setPasswordhash(computedHash);
-		loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
+        try {
 
-		ResourceOwner resourceOwner = new ResourceOwner();
-		resourceOwner.setAktiviert(true);
-		resourceOwner.setLoginSecrets(loginSecrets);
-		resourceOwner.setLoginName("klaus-dieter");
-		resourceOwner.setEmail("kd@web.de");
+            authCryptoService.verifyPassword("gehe1m".toCharArray(), resourceOwner);
+            fail("keine AuthException");
+        } catch (AuthException e) {
 
-		try {
+            assertEquals(
+                    "Das hat leider nicht geklappt: falsche Loginname/Email - Passwort - Kombination oder noch nicht aktiviertes Benutzerkonto. Bestehen die Probleme weiterhin, senden Sie bitte eine Mail.",
+                    e.getMessage());
+        }
+    }
 
-			authCryptoService.verifyPassword("gehe1m".toCharArray(), resourceOwner);
-			fail("keine AuthException");
-		} catch (AuthException e) {
+    @Override
+    public String toString() {
 
-			assertEquals(
-				"Das hat leider nicht geklappt: falsche Loginname/Email - Passwort - Kombination oder noch nicht aktiviertes Benutzerkonto. Bestehen die Probleme weiterhin, senden Sie bitte eine Mail.",
-				e.getMessage());
-		}
-	}
-
-	@Override
-	public String toString() {
-
-		return "AuthCryptoServiceImplTest [authCryptoService=" + authCryptoService + ", cryptoService=" + cryptoService
-			+ ", passwordConfig=" + passwordConfig + "]";
-	}
+        return "AuthCryptoServiceImplTest [authCryptoService=" + authCryptoService + ", cryptoService=" + cryptoService
+                + ", passwordConfig=" + passwordConfig + "]";
+    }
 }

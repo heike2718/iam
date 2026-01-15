@@ -25,52 +25,52 @@ import org.bouncycastle.util.io.pem.PemReader;
  */
 public final class RSAKeyUtils {
 
-	/**
-	 * Erzeugt eine Instanz von RSAKeyUtils
-	 */
-	private RSAKeyUtils() {
+    /**
+     * Erzeugt eine Instanz von RSAKeyUtils
+     */
+    private RSAKeyUtils() {
 
-		Security.addProvider(new BouncyCastleProvider());
-	}
+        Security.addProvider(new BouncyCastleProvider());
+    }
 
-	/**
-	 * Liest den PublicKey aus einem File.
-	 *
-	 * @param pathToKeyFile String
-	 * @return PublicKey
-	 * @throws IOException
-	 * @throws InvalidKeySpecException
-	 * @throws NoSuchAlgorithmException
-	 * @throws Exception
-	 */
-	public static PublicKey getPublicKeyRSA(final String pathToKeyFile)
-		throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    /**
+     * Liest den PublicKey aus einem File.
+     *
+     * @param pathToKeyFile String
+     * @return PublicKey
+     * @throws IOException
+     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException
+     * @throws Exception
+     */
+    public static PublicKey getPublicKeyRSA(final String pathToKeyFile)
+            throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
-		byte[] keyBytes = AuthFileUtils.readBytes(new File(pathToKeyFile));
-		return getPublicKeyRSA(keyBytes);
-	}
+        byte[] keyBytes = AuthFileUtils.readBytes(new File(pathToKeyFile));
+        return getPublicKeyRSA(keyBytes);
+    }
 
-	/**
-	 * Wandelt die bytes in den PublicKey um.
-	 *
-	 * @param keyBytes
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeySpecException
-	 * @throws IOException
-	 */
-	public static PublicKey getPublicKeyRSA(final byte[] keyBytes)
-		throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    /**
+     * Wandelt die bytes in den PublicKey um.
+     *
+     * @param keyBytes
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     * @throws IOException
+     */
+    public static PublicKey getPublicKeyRSA(final byte[] keyBytes)
+            throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 
-		try (StringReader sr = new StringReader(new String(keyBytes)); PemReader pemReader = new PemReader(sr)) {
+        try (StringReader sr = new StringReader(new String(keyBytes)); PemReader pemReader = new PemReader(sr)) {
 
-			PemObject pem = pemReader.readPemObject();
-			byte[] pubKeyBytes = pem.getContent();
-			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-			X509EncodedKeySpec pubSpec = new X509EncodedKeySpec(pubKeyBytes);
-			RSAPublicKey pubKey = (RSAPublicKey) keyFactory.generatePublic(pubSpec);
-			return pubKey;
-		}
-	}
+            PemObject pem = pemReader.readPemObject();
+            byte[] pubKeyBytes = pem.getContent();
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            X509EncodedKeySpec pubSpec = new X509EncodedKeySpec(pubKeyBytes);
+            RSAPublicKey pubKey = (RSAPublicKey) keyFactory.generatePublic(pubSpec);
+            return pubKey;
+        }
+    }
 
 }

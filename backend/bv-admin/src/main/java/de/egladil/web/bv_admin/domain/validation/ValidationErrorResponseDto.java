@@ -11,32 +11,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ValidationErrorResponseDto {
 
-	@JsonProperty
-	String fieldName;
+    @JsonProperty
+    String fieldName;
 
-	@JsonProperty
-	String message;
+    @JsonProperty
+    String message;
 
-	ValidationErrorResponseDto() {
+    ValidationErrorResponseDto() {
 
-		super();
+        super();
 
-	}
+    }
 
-	public ValidationErrorResponseDto(final String fieldName, final String message) {
+    public ValidationErrorResponseDto(final String fieldName, final String message) {
 
-		this.fieldName = fieldName;
-		this.message = message;
-	}
+        this.fieldName = fieldName;
+        this.message = message;
+    }
 
-	public String getFieldName() {
+    public String getFieldName() {
 
-		return fieldName;
-	}
+        return fieldName;
+    }
 
-	public String getMessage() {
+    public String getMessage() {
 
-		return message;
-	}
+        return message;
+    }
 
 }

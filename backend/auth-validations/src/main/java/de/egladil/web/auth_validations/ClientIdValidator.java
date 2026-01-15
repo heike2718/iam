@@ -12,11 +12,11 @@ import de.egladil.web.auth_validations.annotations.ClientId;
  */
 public class ClientIdValidator extends AbstractWhitelistValidator<ClientId, String> {
 
-	private static final String REGEXP = "[a-zA-Z0-9+=]*";
+    private static final String REGEXP = "[a-zA-Z0-9+=]*";
 
-	@Override
-	protected String getWhitelist() {
+    @Override
+    protected String getWhitelist() {
 
-		return REGEXP;
-	}
+        return REGEXP;
+    }
 }

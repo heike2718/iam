@@ -8,10 +8,11 @@ package de.egladil.web.authprovider.payload;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * LoginCredentials sind die Daten für die Authentisierung eines ResourceOwners erforderlich sind. Das sind die Daten
- * des ResourceOwners:
+ * LoginCredentials sind die Daten für die Authentisierung eines ResourceOwners
+ * erforderlich sind. Das sind die Daten des ResourceOwners:
  * <ul>
- * <li>Loginname/Email (der Kontext wird über den LoginCredentialsType mitgeteilt)</li>
+ * <li>Loginname/Email (der Kontext wird über den LoginCredentialsType
+ * mitgeteilt)</li>
  * <li>Passwort</li>
  * </ul>
  * sowie des Clients, von dem aus zur LoginResource redirectet wurde:
@@ -22,30 +23,31 @@ import jakarta.validation.constraints.NotNull;
  */
 public class LoginCredentials {
 
-	@NotNull
-	private AuthorizationCredentials authorizationCredentials;
+    @NotNull
+    private AuthorizationCredentials authorizationCredentials;
 
-	// https://javaee.github.io/jsonb-spec/users-guide.html Beim login sind die clientCredentials-Attribute null :/
-	@NotNull
-	private ClientCredentials clientCredentials;
+    // https://javaee.github.io/jsonb-spec/users-guide.html Beim login sind die
+    // clientCredentials-Attribute null :/
+    @NotNull
+    private ClientCredentials clientCredentials;
 
-	public AuthorizationCredentials getAuthorizationCredentials() {
+    public AuthorizationCredentials getAuthorizationCredentials() {
 
-		return authorizationCredentials;
-	}
+        return authorizationCredentials;
+    }
 
-	public void setAuthorizationCredentials(final AuthorizationCredentials authorizationCredentials) {
+    public void setAuthorizationCredentials(final AuthorizationCredentials authorizationCredentials) {
 
-		this.authorizationCredentials = authorizationCredentials;
-	}
+        this.authorizationCredentials = authorizationCredentials;
+    }
 
-	public ClientCredentials getClientCredentials() {
+    public ClientCredentials getClientCredentials() {
 
-		return clientCredentials;
-	}
+        return clientCredentials;
+    }
 
-	public void setClientCredentials(final ClientCredentials clientCredentials) {
+    public void setClientCredentials(final ClientCredentials clientCredentials) {
 
-		this.clientCredentials = clientCredentials;
-	}
+        this.clientCredentials = clientCredentials;
+    }
 }

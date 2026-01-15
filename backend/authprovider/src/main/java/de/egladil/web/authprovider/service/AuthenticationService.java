@@ -10,10 +10,17 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import org.apache.commons.lang3.StringUtils;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.domain.CryptoAlgorithm;
@@ -26,11 +33,8 @@ import de.egladil.web.authprovider.event.LoggableEventDelegate;
 import de.egladil.web.authprovider.event.LoginversuchInaktiverUser;
 import de.egladil.web.authprovider.payload.AuthorizationCredentials;
 import de.egladil.web.authprovider.utils.AuthUtils;
+
 import io.vertx.core.http.HttpServerRequest;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.event.Event;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 
 /**
  * AuthenticationService
@@ -38,104 +42,107 @@ import jakarta.transaction.Transactional;
 @RequestScoped
 public class AuthenticationService {
 
-	private static final String MESSAGE_FORMAT_FAILED_LOGIN = "ipAddress={0}, userAgent={1}, loginName={2}";
+    private static final String MESSAGE_FORMAT_FAILED_LOGIN = "ipAddress={0}, userAgent={1}, loginName={2}";
 
-	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationService.class);
 
-	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+    private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
-	@ConfigProperty(name = "stage")
-	String stage;
+    @ConfigProperty(name = "stage")
+    String stage;
 
-	@Inject
-	HttpServerRequest request;
+    @Inject
+    HttpServerRequest request;
 
-	@Inject
-	ResourceOwnerService resourceOwnerService;
+    @Inject
+    ResourceOwnerService resourceOwnerService;
 
-	@Inject
-	AuthCryptoService authCryptoService;
+    @Inject
+    AuthCryptoService authCryptoService;
 
-	@Inject
-	Event<AuthproviderEvent> authproviderEvent;
+    @Inject
+    Event<AuthproviderEvent> authproviderEvent;
 
-	public static AuthenticationService createForTest(final ResourceOwnerService resourceOwnerService,
-		final AuthCryptoService authCryptoService) {
+    public static AuthenticationService createForTest(final ResourceOwnerService resourceOwnerService,
+            final AuthCryptoService authCryptoService) {
 
-		AuthenticationService result = new AuthenticationService();
-		result.authCryptoService = authCryptoService;
-		result.resourceOwnerService = resourceOwnerService;
-		return result;
-	}
+        AuthenticationService result = new AuthenticationService();
+        result.authCryptoService = authCryptoService;
+        result.resourceOwnerService = resourceOwnerService;
+        return result;
+    }
 
-	/**
-	 * Validiert die Credentials und erzeugt ein JWT verpackt in SignUpLogInResponseData.
-	 *
-	 * @param authorizationCredentials AuthorizationCredentials
-	 * @param client Client
-	 * @return SignUpLogInResponseData
-	 */
-	@Transactional
-	public ResourceOwner authenticateResourceOwner(final AuthorizationCredentials authorizationCredentials) {
+    /**
+     * Validiert die Credentials und erzeugt ein JWT verpackt in
+     * SignUpLogInResponseData.
+     *
+     * @param authorizationCredentials AuthorizationCredentials
+     * @param client                   Client
+     * @return SignUpLogInResponseData
+     */
+    @Transactional
+    public ResourceOwner authenticateResourceOwner(final AuthorizationCredentials authorizationCredentials) {
 
-		LOG.info(">>>>> start");
+        LOG.info(">>>>> start");
 
-		if (authorizationCredentials == null) {
+        if (authorizationCredentials == null) {
 
-			throw new IllegalArgumentException("authorizationCredentials null");
-		}
+            throw new IllegalArgumentException("authorizationCredentials null");
+        }
 
-		Optional<ResourceOwner> optOwner = resourceOwnerService.findByIdentifier(authorizationCredentials.getLoginName());
+        Optional<ResourceOwner> optOwner = resourceOwnerService
+                .findByIdentifier(authorizationCredentials.getLoginName());
 
-		if (!optOwner.isPresent()) {
+        if (!optOwner.isPresent()) {
 
-			String details = getFailedLoginDetails(authorizationCredentials.getLoginName());
-			LOG.warn("Login fehlgeschlagen - unbekannter loginName: {}", details);
-			throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
-		}
+            String details = getFailedLoginDetails(authorizationCredentials.getLoginName());
+            LOG.warn("Login fehlgeschlagen - unbekannter loginName: {}", details);
+            throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
+        }
 
-		ResourceOwner resourceOwner = optOwner.get();
+        ResourceOwner resourceOwner = optOwner.get();
 
-		if (!resourceOwner.isAktiviert()) {
+        if (!resourceOwner.isAktiviert()) {
 
-			LoginversuchInaktiverUser eventPayload = new LoginversuchInaktiverUser(resourceOwner);
-			new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
+            LoginversuchInaktiverUser eventPayload = new LoginversuchInaktiverUser(resourceOwner);
+            new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
 
-			throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
-		}
-		authCryptoService.verifyPassword(authorizationCredentials.getPasswort().toCharArray(), resourceOwner);
+            throw new AuthException(applicationMessages.getString("Authentication.incorrectCredentials"));
+        }
+        authCryptoService.verifyPassword(authorizationCredentials.getPasswort().toCharArray(), resourceOwner);
 
-		ResourceOwner persisted = resourceOwnerService.erfolgreichesLoginSpeichern(resourceOwner);
+        ResourceOwner persisted = resourceOwnerService.erfolgreichesLoginSpeichern(resourceOwner);
 
-		return persisted;
-	}
+        return persisted;
+    }
 
-	private String getFailedLoginDetails(final String loginname) {
+    private String getFailedLoginDetails(final String loginname) {
 
-		String ipAddress = AuthUtils.getIPAddress(request);
-		String userAgent = AuthUtils.getUserAgent(request);
-		return MessageFormat.format(MESSAGE_FORMAT_FAILED_LOGIN,
-			new Object[] { ipAddress, userAgent, StringUtils.abbreviate(loginname, 11) });
-	}
+        String ipAddress = AuthUtils.getIPAddress(request);
+        String userAgent = AuthUtils.getUserAgent(request);
+        return MessageFormat
+                .format(MESSAGE_FORMAT_FAILED_LOGIN,
+                        new Object[] { ipAddress, userAgent, StringUtils.abbreviate(loginname, 11) });
+    }
 
-	void resetPassword(String uuid) {
+    void resetPassword(String uuid) {
 
-		if (!"dev".equalsIgnoreCase(stage)) {
-			throw new AuthException("Das machst Du bitte nur auf dev!!!");
-		}
+        if (!"dev".equalsIgnoreCase(stage)) {
+            throw new AuthException("Das machst Du bitte nur auf dev!!!");
+        }
 
-		Optional<ResourceOwner> opt = resourceOwnerService.findByUUID(uuid);
-		if (opt.isPresent()) {
+        Optional<ResourceOwner> opt = resourceOwnerService.findByUUID(uuid);
+        if (opt.isPresent()) {
 
-			ResourceOwner resourceOwner = opt.get();
+            ResourceOwner resourceOwner = opt.get();
 
-			LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
-			String passwordHash = authCryptoService.hashPassword("start123".toCharArray());
-			loginSecrets.setPasswordhash(passwordHash);
-			loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
-			loginSecrets.setSalt(null);
+            LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
+            String passwordHash = authCryptoService.hashPassword("start123".toCharArray());
+            loginSecrets.setPasswordhash(passwordHash);
+            loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
+            loginSecrets.setSalt(null);
 
-			resourceOwnerService.aendern(resourceOwner);
-		}
-	}
+            resourceOwnerService.aendern(resourceOwner);
+        }
+    }
 }

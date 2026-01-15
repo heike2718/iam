@@ -4,9 +4,9 @@
 // =====================================================
 package de.egladil.web.authprovider.about;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
 import jakarta.enterprise.context.ApplicationScoped;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 /**
  * AboutService
@@ -14,12 +14,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class AboutService {
 
-	@ConfigProperty(name = "quarkus.application.version")
-	String version;
+    @ConfigProperty(name = "quarkus.application.version")
+    String version;
 
-	public AboutDto getAboutDto() {
+    public AboutDto getAboutDto() {
 
-		return new AboutDto().withVersion(version);
-	}
+        return new AboutDto().withVersion(version);
+    }
 
 }

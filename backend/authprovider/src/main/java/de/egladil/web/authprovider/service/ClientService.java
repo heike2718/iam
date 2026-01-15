@@ -15,10 +15,16 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.PersistenceException;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.authprovider.api.ClientInformation;
@@ -39,9 +45,6 @@ import de.egladil.web.authprovider.payload.ClientCredentials;
 import de.egladil.web.authprovider.payload.OAuthAccessTokenPayload;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import de.egladil.web.authprovider.utils.AuthUtils;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.persistence.PersistenceException;
 
 /**
  * ClientService
@@ -49,246 +52,251 @@ import jakarta.persistence.PersistenceException;
 @ApplicationScoped
 public class ClientService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ClientService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClientService.class);
 
-	private Map<String, ClientAccessToken> clientAccessTokens = new ConcurrentHashMap<>();
+    private Map<String, ClientAccessToken> clientAccessTokens = new ConcurrentHashMap<>();
 
-	@ConfigProperty(name = "stage")
-	String stage;
+    @ConfigProperty(name = "stage")
+    String stage;
 
-	@Inject
-	ClientDao clientDao;
+    @Inject
+    ClientDao clientDao;
 
-	@Inject
-	AuthCryptoService authCryptoService;
+    @Inject
+    AuthCryptoService authCryptoService;
 
-	/**
-	 *
-	 */
-	public ClientService() {
+    /**
+     *
+     */
+    public ClientService() {
 
-	}
+    }
 
-	/**
-	 * @param clientDao
-	 * @param clientAccessTokenDao
-	 * @param authCryptoService
-	 */
-	public ClientService(final ClientDao clientDao, final AuthCryptoService authCryptoService) {
+    /**
+     * @param clientDao
+     * @param clientAccessTokenDao
+     * @param authCryptoService
+     */
+    public ClientService(final ClientDao clientDao, final AuthCryptoService authCryptoService) {
 
-		this.clientDao = clientDao;
-		this.authCryptoService = authCryptoService;
-	}
+        this.clientDao = clientDao;
+        this.authCryptoService = authCryptoService;
+    }
 
-	/**
-	 * @param clientId
-	 * @return
-	 * @throws ClientAccessTokenNotFoundException
-	 * @throws InvalidRedirectUrl
-	 */
-	public ClientInformation getClientInformation(final ClientCredentials clientCredentials)
-		throws AuthRuntimeException, InvalidRedirectUrl, ClientAccessTokenNotFoundException {
+    /**
+     * @param clientId
+     * @return
+     * @throws ClientAccessTokenNotFoundException
+     * @throws InvalidRedirectUrl
+     */
+    public ClientInformation getClientInformation(final ClientCredentials clientCredentials)
+            throws AuthRuntimeException, InvalidRedirectUrl, ClientAccessTokenNotFoundException {
 
-		Client client = this.findAndCheckClient(clientCredentials);
+        Client client = this.findAndCheckClient(clientCredentials);
 
-		ClientInformation data = ClientInformation.fromClient(client);
-		data.setState(clientCredentials.getState());
+        ClientInformation data = ClientInformation.fromClient(client);
+        data.setState(clientCredentials.getState());
 
-		return data;
-	}
+        return data;
+    }
 
-	/**
-	 * Authentisiert den Client.
-	 *
-	 * @param clientCredentials
-	 * @return OAuthAccessTokenPayload
-	 */
-	public OAuthAccessTokenPayload createClientAccessToken(final OAuthClientCredentials clientCredentials)
-		throws ClientAuthException, PersistenceException {
+    /**
+     * Authentisiert den Client.
+     *
+     * @param clientCredentials
+     * @return OAuthAccessTokenPayload
+     */
+    public OAuthAccessTokenPayload createClientAccessToken(final OAuthClientCredentials clientCredentials)
+            throws ClientAuthException, PersistenceException {
 
-		LOG.debug("OAuthClientCredentials.clientId=" + clientCredentials.getClientId());
+        LOG.debug("OAuthClientCredentials.clientId=" + clientCredentials.getClientId());
 
-		Client client = this.authorizeClient(clientCredentials);
+        Client client = this.authorizeClient(clientCredentials);
 
-		OAuthAccessTokenPayload result = createNewAccessToken(client);
+        OAuthAccessTokenPayload result = createNewAccessToken(client);
 
-		return result;
+        return result;
 
-	}
+    }
 
-	public Client authorizeClient(final OAuthClientCredentials clientCredentials) throws ClientAuthException {
+    public Client authorizeClient(final OAuthClientCredentials clientCredentials) throws ClientAuthException {
 
-		Client client = clientDao.findByClientId(clientCredentials.getClientId());
+        Client client = clientDao.findByClientId(clientCredentials.getClientId());
 
-		if (client == null) {
+        if (client == null) {
 
-			LOG.warn(LogmessagePrefixes.BOT + "kein Client mit ClientID={} bekannt", clientCredentials.getClientId());
-			throw new ClientAuthException("Client mit dieser ClientID unbekannt.");
-		}
+            LOG.warn(LogmessagePrefixes.BOT + "kein Client mit ClientID={} bekannt", clientCredentials.getClientId());
+            throw new ClientAuthException("Client mit dieser ClientID unbekannt.");
+        }
 
-		authCryptoService.verifyClientSecret(clientCredentials.getClientSecret().toCharArray(), client);
+        authCryptoService.verifyClientSecret(clientCredentials.getClientSecret().toCharArray(), client);
 
-		LOG.debug("Client {} erfolgreich authentifiziert", StringUtils.abbreviate(clientCredentials.getClientId(), 11));
+        LOG.debug("Client {} erfolgreich authentifiziert", StringUtils.abbreviate(clientCredentials.getClientId(), 11));
 
-		return client;
-	}
+        return client;
+    }
 
-	private void removeExpiredClientAccessTokens() {
+    private void removeExpiredClientAccessTokens() {
 
-		Set<String> keys = Collections.unmodifiableSet(clientAccessTokens.keySet());
+        Set<String> keys = Collections.unmodifiableSet(clientAccessTokens.keySet());
 
-		keys.forEach(key -> {
+        keys.forEach(key -> {
 
-			ClientAccessToken cat = clientAccessTokens.get(key);
+            ClientAccessToken cat = clientAccessTokens.get(key);
 
-			if (cat != null) {
+            if (cat != null) {
 
-				LocalDateTime expireDateTime = AuthTimeUtils.transformFromDate(cat.getAccessTokenExpiresAt());
-				LocalDateTime nowMinusHours = AuthTimeUtils.now().minusHours(2);
+                LocalDateTime expireDateTime = AuthTimeUtils.transformFromDate(cat.getAccessTokenExpiresAt());
+                LocalDateTime nowMinusHours = AuthTimeUtils.now().minusHours(2);
 
-				if (expireDateTime.isBefore(nowMinusHours)) {
+                if (expireDateTime.isBefore(nowMinusHours)) {
 
-					clientAccessTokens.remove(key);
-					LOG.debug("expired ClientAccessToken {} removed", StringUtils.abbreviate(key, 11));
-				}
-			} else {
+                    clientAccessTokens.remove(key);
+                    LOG.debug("expired ClientAccessToken {} removed", StringUtils.abbreviate(key, 11));
+                }
+            } else {
 
-				clientAccessTokens.remove(key);
-			}
-		});
-	}
+                clientAccessTokens.remove(key);
+            }
+        });
+    }
 
-	/**
-	 * Erzeugt für den gegebenen Client ein neues AccessToken und speichert dies in der DB.
-	 *
-	 * @param client Client
-	 * @return ClientAccessToken das gespeicherte Token
-	 */
-	private OAuthAccessTokenPayload createNewAccessToken(final Client client) {
+    /**
+     * Erzeugt für den gegebenen Client ein neues AccessToken und speichert dies in
+     * der DB.
+     *
+     * @param client Client
+     * @return ClientAccessToken das gespeicherte Token
+     */
+    private OAuthAccessTokenPayload createNewAccessToken(final Client client) {
 
-		ClientAccessToken clientAccessToken = new ClientAccessToken();
+        ClientAccessToken clientAccessToken = new ClientAccessToken();
 
-		String accessTokenId = AuthUtils.newTokenId();
-		clientAccessToken.setAccessToken(accessTokenId);
+        String accessTokenId = AuthUtils.newTokenId();
+        clientAccessToken.setAccessToken(accessTokenId);
 
-		clientAccessToken.setAccessTokenExpiresAt(AuthTimeUtils
-			.getInterval(AuthTimeUtils.now(), client.getAccessTokenExpirationMinutes(), ChronoUnit.MINUTES).getEndTime());
+        clientAccessToken
+                .setAccessTokenExpiresAt(AuthTimeUtils
+                        .getInterval(AuthTimeUtils.now(), client.getAccessTokenExpirationMinutes(), ChronoUnit.MINUTES)
+                        .getEndTime());
 
-		clientAccessToken.setClientId(client.getClientId());
+        clientAccessToken.setClientId(client.getClientId());
 
-		clientAccessTokens.put(accessTokenId, clientAccessToken);
+        clientAccessTokens.put(accessTokenId, clientAccessToken);
 
-		OAuthAccessTokenPayload result = new OAuthAccessTokenPayload();
-		result.setAccessToken(clientAccessToken.getAccessToken());
-		result.setExpiresAt(clientAccessToken.getAccessTokenExpiresAt().getTime());
+        OAuthAccessTokenPayload result = new OAuthAccessTokenPayload();
+        result.setAccessToken(clientAccessToken.getAccessToken());
+        result.setExpiresAt(clientAccessToken.getAccessTokenExpiresAt().getTime());
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * Identifiziert den Client anhand seines accessTokens und validiert ihn.
-	 *
-	 * @param clientCredentials
-	 * @return
-	 * @throws AuthRuntimeException
-	 * @throws InvalidRedirectUrl
-	 */
-	public Client findAndCheckClient(final ClientCredentials clientCredentials)
-		throws ClientAccessTokenNotFoundException, InvalidRedirectUrl {
+    /**
+     * Identifiziert den Client anhand seines accessTokens und validiert ihn.
+     *
+     * @param clientCredentials
+     * @return
+     * @throws AuthRuntimeException
+     * @throws InvalidRedirectUrl
+     */
+    public Client findAndCheckClient(final ClientCredentials clientCredentials)
+            throws ClientAccessTokenNotFoundException, InvalidRedirectUrl {
 
-		LOG.debug("{}", clientCredentials);
+        LOG.debug("{}", clientCredentials);
 
-		removeExpiredClientAccessTokens();
+        removeExpiredClientAccessTokens();
 
-		String accessTokenId = clientCredentials.getAccessToken();
+        String accessTokenId = clientCredentials.getAccessToken();
 
-		ClientAccessToken clientAccessToken = clientAccessTokens.get(accessTokenId);
+        ClientAccessToken clientAccessToken = clientAccessTokens.get(accessTokenId);
 
-		if (clientAccessToken == null) {
+        if (clientAccessToken == null) {
 
-			String msg = "Kein ClientAccessToken mit ID='" + accessTokenId
-				+ "' vorhanden. Sehr wahrscheinlich stimmt die Konfiguration des InitAccessTokenClients in der application.properties der aufrufenden Anwendung nicht. (className, url?)";
-			LOG.error(msg);
-			throw new SessionExpiredException("Das ClientAccessToken ist abgelaufen. Bitte aktualisieren Sie Ihren Browser.");
-		}
+            String msg = "Kein ClientAccessToken mit ID='" + accessTokenId
+                    + "' vorhanden. Sehr wahrscheinlich stimmt die Konfiguration des InitAccessTokenClients in der application.properties der aufrufenden Anwendung nicht. (className, url?)";
+            LOG.error(msg);
+            throw new SessionExpiredException(
+                    "Das ClientAccessToken ist abgelaufen. Bitte aktualisieren Sie Ihren Browser.");
+        }
 
-		LocalDateTime expireDateTime = AuthTimeUtils.transformFromDate(clientAccessToken.getAccessTokenExpiresAt());
-		LocalDateTime now = AuthTimeUtils.now();
+        LocalDateTime expireDateTime = AuthTimeUtils.transformFromDate(clientAccessToken.getAccessTokenExpiresAt());
+        LocalDateTime now = AuthTimeUtils.now();
 
-		if (now.isAfter(expireDateTime)) {
+        if (now.isAfter(expireDateTime)) {
 
-			clientAccessTokens.remove(accessTokenId);
-			throw new SessionExpiredException("Das ClientAccessToken ist abgelaufen. Bitte aktualisieren Sie Ihren Browser.");
-		}
+            clientAccessTokens.remove(accessTokenId);
+            throw new SessionExpiredException(
+                    "Das ClientAccessToken ist abgelaufen. Bitte aktualisieren Sie Ihren Browser.");
+        }
 
-		final String clientId = clientAccessToken.getClientId();
+        final String clientId = clientAccessToken.getClientId();
 
-		Client client = clientDao.findByClientId(clientId);
+        Client client = clientDao.findByClientId(clientId);
 
-		if (client != null) {
+        if (client != null) {
 
-			checkRedirectUrl(client.getRedirectUrls(), clientCredentials.getRedirectUrl());
+            checkRedirectUrl(client.getRedirectUrls(), clientCredentials.getRedirectUrl());
 
-			return client;
-		}
+            return client;
+        }
 
-		String msg = "ClientAccessToken " + accessTokenId + " hat keinen Client";
-		LOG.error(msg);
-		throw new AuthRuntimeException(msg);
-	}
+        String msg = "ClientAccessToken " + accessTokenId + " hat keinen Client";
+        LOG.error(msg);
+        throw new AuthRuntimeException(msg);
+    }
 
-	void checkRedirectUrl(final String redirectUrls, final String redirectUrl) throws InvalidRedirectUrl {
+    void checkRedirectUrl(final String redirectUrls, final String redirectUrl) throws InvalidRedirectUrl {
 
-		String[] allowedRedirectUrls = StringUtils.split(redirectUrls, ',');
-		final String testString = this.stripProtokollAndTailingSlash(redirectUrl);
+        String[] allowedRedirectUrls = StringUtils.split(redirectUrls, ',');
+        final String testString = this.stripProtokollAndTailingSlash(redirectUrl);
 
-		String theRedirectUrls = Arrays.stream(allowedRedirectUrls).collect(Collectors.joining(","));
+        String theRedirectUrls = Arrays.stream(allowedRedirectUrls).collect(Collectors.joining(","));
 
-		LOG.debug("suchen redirectUrls mit testString={}, redirectUrls={}", testString, theRedirectUrls);
+        LOG.debug("suchen redirectUrls mit testString={}, redirectUrls={}", testString, theRedirectUrls);
 
-		Optional<String> optUrl = Arrays.stream(allowedRedirectUrls).filter(url -> url.equals(testString)).findFirst();
+        Optional<String> optUrl = Arrays.stream(allowedRedirectUrls).filter(url -> url.equals(testString)).findFirst();
 
-		if (!optUrl.isPresent()) {
+        if (!optUrl.isPresent()) {
 
-			LOG.warn(
-				"Possible BOT Attack: redirect url '{}' fehlt in DB CLIENTS.REDIRECT_URLS (fuehrendes http:// wird ignoriert, endender / wird abgeschnitten!!)",
-				testString);
-			throw new InvalidRedirectUrl();
-		} else {
+            LOG
+                    .warn("Possible BOT Attack: redirect url '{}' fehlt in DB CLIENTS.REDIRECT_URLS (fuehrendes http:// wird ignoriert, endender / wird abgeschnitten!!)",
+                            testString);
+            throw new InvalidRedirectUrl();
+        } else {
 
-			LOG.debug("redirectUrl valid");
-		}
-	}
+            LOG.debug("redirectUrl valid");
+        }
+    }
 
-	private String stripProtokollAndTailingSlash(final String redirectUrl) {
+    private String stripProtokollAndTailingSlash(final String redirectUrl) {
 
-		String testString = redirectUrl.replace("http://", "");
-		testString = testString.replace("https://", "");
+        String testString = redirectUrl.replace("http://", "");
+        testString = testString.replace("https://", "");
 
-		if (testString.endsWith("/")) {
+        if (testString.endsWith("/")) {
 
-			testString = testString.substring(0, testString.length() - 1);
-		}
-		return testString;
-	}
+            testString = testString.substring(0, testString.length() - 1);
+        }
+        return testString;
+    }
 
-	void resetClientSecret(String clientId, String clientSecret) {
+    void resetClientSecret(String clientId, String clientSecret) {
 
-		if (!"dev".equalsIgnoreCase(stage)) {
-			throw new AuthException("Das machst Du bitte nur auf dev!!!");
-		}
+        if (!"dev".equalsIgnoreCase(stage)) {
+            throw new AuthException("Das machst Du bitte nur auf dev!!!");
+        }
 
-		Client client = clientDao.findByClientId(clientId);
-		if (client != null) {
+        Client client = clientDao.findByClientId(clientId);
+        if (client != null) {
 
-			LoginSecrets loginSecrets = client.getLoginSecrets();
-			String passwordHash = authCryptoService.hashPassword(clientSecret.toCharArray());
-			loginSecrets.setPasswordhash(passwordHash);
-			loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
-			loginSecrets.setSalt(null);
+            LoginSecrets loginSecrets = client.getLoginSecrets();
+            String passwordHash = authCryptoService.hashPassword(clientSecret.toCharArray());
+            loginSecrets.setPasswordhash(passwordHash);
+            loginSecrets.setCryptoAlgorithm(CryptoAlgorithm.ARGON2);
+            loginSecrets.setSalt(null);
 
-			clientDao.save(client);
-		}
+            clientDao.save(client);
+        }
 
-	}
+    }
 }

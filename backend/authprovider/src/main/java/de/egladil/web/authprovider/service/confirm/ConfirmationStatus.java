@@ -1,7 +1,7 @@
-//=====================================================
+// =====================================================
 // Projekt: de.egladil.mkv.service
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 
 package de.egladil.web.authprovider.service.confirm;
 
@@ -10,8 +10,5 @@ package de.egladil.web.authprovider.service.confirm;
  */
 public enum ConfirmationStatus {
 
-	deletedActivation,
-	expiredActivation,
-	normalActivation,
-	repeatedActivation;
+    deletedActivation, expiredActivation, normalActivation, repeatedActivation;
 }

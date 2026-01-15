@@ -9,9 +9,6 @@ package de.egladil.web.authprovider.payload;
  */
 public enum BenutzerSuchmodus {
 
-	EMAIL,
-	LOGINNAME,
-	NAME,
-	UUID
+    EMAIL, LOGINNAME, NAME, UUID
 
 }

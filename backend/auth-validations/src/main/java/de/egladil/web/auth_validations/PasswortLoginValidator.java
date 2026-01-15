@@ -5,46 +5,49 @@
 
 package de.egladil.web.auth_validations;
 
-import de.egladil.web.auth_validations.annotations.PasswortLogin;
 import jakarta.validation.ConstraintValidatorContext;
 
+import de.egladil.web.auth_validations.annotations.PasswortLogin;
+
 /**
- * Pattern für das Login-Passwort. Das muss keinen Regeln genügen, darf nur keine ungültigen Zeichen enthalten. Aus
- * Gründen der Abwärtskompatibilität müssen die früher erlaubten Sonderzeichen lt, gt, double quote und back slash
- * leider übernommen werden, weil sich sonst vielleicht Menschen nicht mehr einloggen können. Bei neuen Passwörtern wird
- * es nicht mehr möglich sein, diese einzugeben.
+ * Pattern für das Login-Passwort. Das muss keinen Regeln genügen, darf nur
+ * keine ungültigen Zeichen enthalten. Aus Gründen der Abwärtskompatibilität
+ * müssen die früher erlaubten Sonderzeichen lt, gt, double quote und back slash
+ * leider übernommen werden, weil sich sonst vielleicht Menschen nicht mehr
+ * einloggen können. Bei neuen Passwörtern wird es nicht mehr möglich sein,
+ * diese einzugeben.
  */
 public class PasswortLoginValidator extends AbstractWhitelistValidator<PasswortLogin, String> {
 
-	/**
-	 * ^[\d a-zA-ZäÄöÖüÜß!\"#$%&)(*+,-./:;<=>?@][^_'`'{|}~]*$
-	 */
-	private static final String REGEXP = "^[\\d a-zA-ZäÄöÖüÜß!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~]*$";
+    /**
+     * ^[\d a-zA-ZäÄöÖüÜß!\"#$%&)(*+,-./:;<=>?@][^_'`'{|}~]*$
+     */
+    private static final String REGEXP = "^[\\d a-zA-ZäÄöÖüÜß!#$%&()*+,\\-./:;=?@\\[\\]^_`'{|}~]*$";
 
-	@Override
-	protected String getWhitelist() {
+    @Override
+    protected String getWhitelist() {
 
-		return REGEXP;
-	}
+        return REGEXP;
+    }
 
-	@Override
-	public boolean isValid(final String value, final ConstraintValidatorContext context) {
+    @Override
+    public boolean isValid(final String value, final ConstraintValidatorContext context) {
 
-		if (value == null) {
+        if (value == null) {
 
-			return true;
-		}
+            return true;
+        }
 
-		if (!super.isValid(value, context)) {
+        if (!super.isValid(value, context)) {
 
-			return false;
-		}
-		final String trimmed = value.trim();
+            return false;
+        }
+        final String trimmed = value.trim();
 
-		if (trimmed.length() < value.length()) {
+        if (trimmed.length() < value.length()) {
 
-			return false;
-		}
-		return true;
-	}
+            return false;
+        }
+        return true;
+    }
 }

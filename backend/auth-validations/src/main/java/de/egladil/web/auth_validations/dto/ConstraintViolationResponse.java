@@ -11,40 +11,40 @@ import java.util.List;
  */
 public class ConstraintViolationResponse {
 
-	private String title;
+    private String title;
 
-	private int status;
+    private int status;
 
-	private List<CustomConstraintViolation> violations;
+    private List<CustomConstraintViolation> violations;
 
-	public String getTitle() {
+    public String getTitle() {
 
-		return title;
-	}
+        return title;
+    }
 
-	public void setTitle(final String title) {
+    public void setTitle(final String title) {
 
-		this.title = title;
-	}
+        this.title = title;
+    }
 
-	public int getStatus() {
+    public int getStatus() {
 
-		return status;
-	}
+        return status;
+    }
 
-	public void setStatus(final int status) {
+    public void setStatus(final int status) {
 
-		this.status = status;
-	}
+        this.status = status;
+    }
 
-	public List<CustomConstraintViolation> getViolations() {
+    public List<CustomConstraintViolation> getViolations() {
 
-		return violations;
-	}
+        return violations;
+    }
 
-	public void setViolations(final List<CustomConstraintViolation> violations) {
+    public void setViolations(final List<CustomConstraintViolation> violations) {
 
-		this.violations = violations;
-	}
+        this.violations = violations;
+    }
 
 }

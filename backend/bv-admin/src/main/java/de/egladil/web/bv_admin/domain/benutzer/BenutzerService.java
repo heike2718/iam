@@ -6,6 +6,14 @@ package de.egladil.web.bv_admin.domain.benutzer;
 
 import java.util.List;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,13 +33,6 @@ import de.egladil.web.bv_admin.infrastructure.persistence.dao.BenutzerDao;
 import de.egladil.web.bv_admin.infrastructure.persistence.dao.SaltDao;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterUser;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterUserReadOnly;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
 
 /**
  * BenutzerService
@@ -39,155 +40,159 @@ import jakarta.ws.rs.core.Response.Status;
 @ApplicationScoped
 public class BenutzerService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerService.class);
 
-	@Context
-	AuthenticationContext authCtx;
+    @Context
+    AuthenticationContext authCtx;
 
-	@Inject
-	PropagateEventService propagateEventService;
+    @Inject
+    PropagateEventService propagateEventService;
 
-	@Inject
-	EventsService eventsService;
+    @Inject
+    EventsService eventsService;
 
-	@Inject
-	BenutzerDao benutzerDao;
+    @Inject
+    BenutzerDao benutzerDao;
 
-	@Inject
-	SaltDao saltDao;
+    @Inject
+    SaltDao saltDao;
 
-	/**
-	 * Sucht die users.
-	 *
-	 * @param userSearchDto
-	 * @return
-	 */
-	public BenutzerSearchResult findUsers(final BenutzerSuchparameter userSearchDto) {
+    /**
+     * Sucht die users.
+     *
+     * @param userSearchDto
+     * @return
+     */
+    public BenutzerSearchResult findUsers(final BenutzerSuchparameter userSearchDto) {
 
-		int anzahl = benutzerDao.countTreffer(userSearchDto);
-		List<PersistenterUserReadOnly> trefferliste = benutzerDao.findUsers(userSearchDto);
-		List<BenutzerTrefferlisteItem> items = trefferliste.stream().map(this::mapFromDB).toList();
+        int anzahl = benutzerDao.countTreffer(userSearchDto);
+        List<PersistenterUserReadOnly> trefferliste = benutzerDao.findUsers(userSearchDto);
+        List<BenutzerTrefferlisteItem> items = trefferliste.stream().map(this::mapFromDB).toList();
 
-		// Damit ich nicht versehentlich an meinem eigenen Benutzerkonto oder dem der anderen BV-Admins herumfingere,
-		// werden die mit
-		// der Rolle AUTH_ADMIN aus der Trefferliste entfernt.
+        // Damit ich nicht versehentlich an meinem eigenen Benutzerkonto oder dem der
+        // anderen BV-Admins herumfingere,
+        // werden die mit
+        // der Rolle AUTH_ADMIN aus der Trefferliste entfernt.
 
-		BenutzerSearchResult result = new BenutzerSearchResult();
-		result.setAnzahlGesamt(anzahl);
-		result.setItems(items);
-		return result;
-	}
+        BenutzerSearchResult result = new BenutzerSearchResult();
+        result.setAnzahlGesamt(anzahl);
+        result.setItems(items);
+        return result;
+    }
 
-	public List<BenutzerTrefferlisteItem> findBenutzersByUUIDs(final List<String> uuids) {
+    public List<BenutzerTrefferlisteItem> findBenutzersByUUIDs(final List<String> uuids) {
 
-		List<PersistenterUserReadOnly> persistenteUsers = benutzerDao.findUsersByUUIDList(uuids);
-		return persistenteUsers.stream().map(this::mapFromDB).toList();
+        List<PersistenterUserReadOnly> persistenteUsers = benutzerDao.findUsersByUUIDList(uuids);
+        return persistenteUsers.stream().map(this::mapFromDB).toList();
 
-	}
+    }
 
-	/**
-	 * Aktualisiert die gesetzten Flags.
-	 *
-	 * @param uuid String die UUID des zu ändernden Benutzers.
-	 * @param flags FlagsDto
-	 * @return UpdateBenutzerResponseDto
-	 */
-	public UpdateBenutzerResponseDto updateFlags(final String uuid, final FlagsDto flags) {
+    /**
+     * Aktualisiert die gesetzten Flags.
+     *
+     * @param uuid  String die UUID des zu ändernden Benutzers.
+     * @param flags FlagsDto
+     * @return UpdateBenutzerResponseDto
+     */
+    public UpdateBenutzerResponseDto updateFlags(final String uuid, final FlagsDto flags) {
 
-		PersistenterUser user = benutzerDao.findUserByUUID(uuid);
+        PersistenterUser user = benutzerDao.findUserByUUID(uuid);
 
-		if (user == null) {
+        if (user == null) {
 
-			LOGGER.warn("USER {} existiert nicht oder nicht mehr");
-			UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
-			responseDto.setUuid(uuid);
-			return responseDto;
-		}
+            LOGGER.warn("USER {} existiert nicht oder nicht mehr");
+            UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
+            responseDto.setUuid(uuid);
+            return responseDto;
+        }
 
-		this.doUpdate(user, flags);
+        this.doUpdate(user, flags);
 
-		PersistenterUserReadOnly result = benutzerDao.findUserReadonlyByUUID(uuid);
+        PersistenterUserReadOnly result = benutzerDao.findUserReadonlyByUUID(uuid);
 
-		if (result == null) {
+        if (result == null) {
 
-			LOGGER.warn("echt jetzt? Genau in dieser Nanosekunde wurde USER {} von anderswoher geloescht?");
-			UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
-			responseDto.setUuid(uuid);
-			return responseDto;
-		}
+            LOGGER.warn("echt jetzt? Genau in dieser Nanosekunde wurde USER {} von anderswoher geloescht?");
+            UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
+            responseDto.setUuid(uuid);
+            return responseDto;
+        }
 
-		UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
-		responseDto.setUuid(uuid);
-		responseDto.setBenuzer(this.mapFromDB(result));
-		return responseDto;
-	}
+        UpdateBenutzerResponseDto responseDto = new UpdateBenutzerResponseDto();
+        responseDto.setUuid(uuid);
+        responseDto.setBenuzer(this.mapFromDB(result));
+        return responseDto;
+    }
 
-	@Transactional
-	void doUpdate(final PersistenterUser user, FlagsDto flags) {
+    @Transactional
+    void doUpdate(final PersistenterUser user, FlagsDto flags) {
 
-		user.setAktiviert(flags.getAktiviert());
-		user.setBannedForMails(flags.getBannedForMail());
-		user.setDarfNichtGeloeschtWerden(flags.getDarfNichtGeloeschtWerden());
+        user.setAktiviert(flags.getAktiviert());
+        user.setBannedForMails(flags.getBannedForMail());
+        user.setDarfNichtGeloeschtWerden(flags.getDarfNichtGeloeschtWerden());
 
-		benutzerDao.updateUser(user);
+        benutzerDao.updateUser(user);
 
-		if (user.isAktiviert() && !flags.getAktiviert()) {
-			this.fireActivationEvent(user, flags.getAktiviert());
-		}
+        if (user.isAktiviert() && !flags.getAktiviert()) {
+            this.fireActivationEvent(user, flags.getAktiviert());
+        }
 
-		if (user.isBannedForMails() && !flags.getBannedForMail()) {
-			this.fireMailadressEvent(user, flags.getBannedForMail());
-		}
-	}
+        if (user.isBannedForMails() && !flags.getBannedForMail()) {
+            this.fireMailadressEvent(user, flags.getBannedForMail());
+        }
+    }
 
-	@Deprecated(forRemoval = true)
-	@Transactional
-	void doUpdate(final PersistenterUser user, final boolean aktiviert) {
+    @Deprecated(forRemoval = true)
+    @Transactional
+    void doUpdate(final PersistenterUser user, final boolean aktiviert) {
 
-		user.setAktiviert(aktiviert);
-		benutzerDao.updateUser(user);
+        user.setAktiviert(aktiviert);
+        benutzerDao.updateUser(user);
 
-		AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
-			.withTarget(user.getUuid());
+        AuthAdminEventPayload eventPayload = new AuthAdminEventPayload()
+                .withAkteur(authCtx.getUser().getUuid())
+                .withTarget(user.getUuid());
 
-		if (aktiviert) {
+        if (aktiviert) {
 
-			eventsService.handleEvent(new UserActivatedEvent(eventPayload));
-		} else {
+            eventsService.handleEvent(new UserActivatedEvent(eventPayload));
+        } else {
 
-			eventsService.handleEvent(new UserDeactivatedEvent(eventPayload));
-		}
+            eventsService.handleEvent(new UserDeactivatedEvent(eventPayload));
+        }
 
-	}
+    }
 
-	void fireActivationEvent(final PersistenterUser user, final boolean aktiviert) {
+    void fireActivationEvent(final PersistenterUser user, final boolean aktiviert) {
 
-		AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
-			.withTarget(user.getUuid());
+        AuthAdminEventPayload eventPayload = new AuthAdminEventPayload()
+                .withAkteur(authCtx.getUser().getUuid())
+                .withTarget(user.getUuid());
 
-		if (aktiviert) {
+        if (aktiviert) {
 
-			eventsService.handleEvent(new UserActivatedEvent(eventPayload));
-		} else {
+            eventsService.handleEvent(new UserActivatedEvent(eventPayload));
+        } else {
 
-			eventsService.handleEvent(new UserDeactivatedEvent(eventPayload));
-		}
-	}
+            eventsService.handleEvent(new UserDeactivatedEvent(eventPayload));
+        }
+    }
 
-	void fireMailadressEvent(final PersistenterUser user, final boolean banned) {
-		AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
-			.withTarget(user.getUuid());
+    void fireMailadressEvent(final PersistenterUser user, final boolean banned) {
+        AuthAdminEventPayload eventPayload = new AuthAdminEventPayload()
+                .withAkteur(authCtx.getUser().getUuid())
+                .withTarget(user.getUuid());
 
-		if (banned) {
-			eventsService.handleEvent(new MailaddressBannedEvent(eventPayload));
-		} else {
-			eventsService.handleEvent(new MailaddressUnbannedEvent(eventPayload));
-		}
-	}
+        if (banned) {
+            eventsService.handleEvent(new MailaddressBannedEvent(eventPayload));
+        } else {
+            eventsService.handleEvent(new MailaddressUnbannedEvent(eventPayload));
+        }
+    }
 
-	BenutzerTrefferlisteItem mapFromDB(final PersistenterUserReadOnly fromDB) {
+    BenutzerTrefferlisteItem mapFromDB(final PersistenterUserReadOnly fromDB) {
 
-		// @formatter:off
+        // @formatter:off
 		return BenutzerTrefferlisteItem.builder()
 			.aktiviert(fromDB.isAktiviert())
 			.aenderungsdatum(fromDB.getAenderungsdatum())
@@ -202,69 +207,75 @@ public class BenutzerService {
 			.vorname(fromDB.getVorname())
 			.build();
 		// @formatter:on
-	}
+    }
 
-	/**
-	 * Löscht einen gegebenen User.
-	 *
-	 * @param uuid
-	 */
-	public DeleteBenutzerResponseDto deleteUser(final String uuid) {
+    /**
+     * Löscht einen gegebenen User.
+     *
+     * @param uuid
+     */
+    public DeleteBenutzerResponseDto deleteUser(final String uuid) {
 
-		PersistenterUserReadOnly user = benutzerDao.findUserReadonlyByUUID(uuid);
+        PersistenterUserReadOnly user = benutzerDao.findUserReadonlyByUUID(uuid);
 
-		if (user == null) {
+        if (user == null) {
 
-			Response response = Response.status(Status.NOT_FOUND)
-				.entity(MessagePayload.warn("Benutzer existiert nicht oder nicht mehr")).build();
+            Response response = Response
+                    .status(Status.NOT_FOUND)
+                    .entity(MessagePayload.warn("Benutzer existiert nicht oder nicht mehr"))
+                    .build();
 
-			throw new WebApplicationException(response);
-		}
+            throw new WebApplicationException(response);
+        }
 
-		if (user.isDarfNichtGeloeschtWerden()) {
+        if (user.isDarfNichtGeloeschtWerden()) {
 
-			Response response = Response.status(Status.FORBIDDEN)
-				.entity(MessagePayload.warn("Dieser Benutzer darf nicht gelöscht werden.")).build();
+            Response response = Response
+                    .status(Status.FORBIDDEN)
+                    .entity(MessagePayload.warn("Dieser Benutzer darf nicht gelöscht werden."))
+                    .build();
 
-			throw new WebApplicationException(response);
-		}
+            throw new WebApplicationException(response);
+        }
 
-		doDelete(uuid);
+        doDelete(uuid);
 
-		LOGGER.debug("delete {} committed", user.getUuid());
+        LOGGER.debug("delete {} committed", user.getUuid());
 
-		AuthAdminEventPayload eventPayload = new AuthAdminEventPayload().withAkteur(authCtx.getUser().getUuid())
-			.withTarget(uuid);
+        AuthAdminEventPayload eventPayload = new AuthAdminEventPayload()
+                .withAkteur(authCtx.getUser().getUuid())
+                .withTarget(uuid);
 
-		eventsService.handleEvent(new UserDeletedEvent(eventPayload));
+        eventsService.handleEvent(new UserDeletedEvent(eventPayload));
 
-		return new DeleteBenutzerResponseDto(uuid);
+        return new DeleteBenutzerResponseDto(uuid);
 
-	}
+    }
 
-	@Transactional
-	void doDelete(String uuid) throws BVAdminAPIRuntimeException {
+    @Transactional
+    void doDelete(String uuid) throws BVAdminAPIRuntimeException {
 
-		final PersistenterUser user = benutzerDao.findUserByUUID(uuid);
+        final PersistenterUser user = benutzerDao.findUserByUUID(uuid);
 
-		try {
+        try {
 
-			propagateEventService.propagateDeleteUserToMkGateway(uuid);
+            propagateEventService.propagateDeleteUserToMkGateway(uuid);
 
-			LOGGER.info("delete {} synchronized with mk-gateway", uuid);
+            LOGGER.info("delete {} synchronized with mk-gateway", uuid);
 
-//			if (user.getSaltId() != null) {
-//				saltDao.deleteSaltAndCascade(user.getSaltId());
-//			}
+            // if (user.getSaltId() != null) {
+            // saltDao.deleteSaltAndCascade(user.getSaltId());
+            // }
 
-			benutzerDao.deleteUser(user);
+            benutzerDao.deleteUser(user);
 
-		} catch (CommandPropagationFailedException e) {
+        } catch (CommandPropagationFailedException e) {
 
-			LOGGER.error("CommandPropagationFailed: Löschen des Benutzerkontos {} wird abgebrochen: {}", uuid,
-				e.getMessage(), e);
-			throw new BVAdminAPIRuntimeException(e.getMessage(), e);
+            LOGGER
+                    .error("CommandPropagationFailed: Löschen des Benutzerkontos {} wird abgebrochen: {}", uuid,
+                            e.getMessage(), e);
+            throw new BVAdminAPIRuntimeException(e.getMessage(), e);
 
-		}
-	}
+        }
+    }
 }

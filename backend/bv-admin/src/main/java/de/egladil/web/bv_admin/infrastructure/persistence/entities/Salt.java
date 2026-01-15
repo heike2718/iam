@@ -20,23 +20,23 @@ import jakarta.persistence.Version;
 @Table(name = "SLZ")
 public class Salt {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
 
-	@Version
-	@Column(name = "VERSION")
-	private int version;
+    @Version
+    @Column(name = "VERSION")
+    private int version;
 
-	public Long getId() {
+    public Long getId() {
 
-		return this.id;
-	}
+        return this.id;
+    }
 
-	public void setId(final Long id) {
+    public void setId(final Long id) {
 
-		this.id = id;
-	}
+        this.id = id;
+    }
 
 }

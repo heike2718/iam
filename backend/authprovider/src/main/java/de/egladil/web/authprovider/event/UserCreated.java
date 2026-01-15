@@ -9,32 +9,32 @@ package de.egladil.web.authprovider.event;
  */
 public class UserCreated extends AbstractAuthproviderEvent {
 
-	UserCreated() {
+    UserCreated() {
 
-		super();
-	}
+        super();
+    }
 
-	public UserCreated(final ResourceOwnerEventPayload eventPayload) {
+    public UserCreated(final ResourceOwnerEventPayload eventPayload) {
 
-		this.setResourceOwner(eventPayload);
+        this.setResourceOwner(eventPayload);
 
-	}
+    }
 
-	@Override
-	public boolean propagateToListeners() {
+    @Override
+    public boolean propagateToListeners() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean writeToEventStore() {
+    @Override
+    public boolean writeToEventStore() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public AuthproviderEventType eventType() {
+    @Override
+    public AuthproviderEventType eventType() {
 
-		return AuthproviderEventType.USER_CREATED;
-	}
+        return AuthproviderEventType.USER_CREATED;
+    }
 }

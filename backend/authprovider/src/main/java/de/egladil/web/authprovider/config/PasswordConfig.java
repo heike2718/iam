@@ -15,103 +15,103 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 public class PasswordConfig {
 
-	@ConfigProperty(name = "crypto.pepper")
-	String pepper;
+    @ConfigProperty(name = "crypto.pepper")
+    String pepper;
 
-	@ConfigProperty(name = "crypto.algorithm")
-	String cryptoAlgorithm;
+    @ConfigProperty(name = "crypto.algorithm")
+    String cryptoAlgorithm;
 
-	@ConfigProperty(name = "crypto.iterations")
-	int iterations;
+    @ConfigProperty(name = "crypto.iterations")
+    int iterations;
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return "PasswordConfig [pepper=" + pepper + ", cryptoAlgorithm=" + cryptoAlgorithm + ", iterations=" + iterations
-			+ ", randomAlgorithm=" + randomAlgorithm + ", tempPwdLength=" + tempPwdLength + ", tempPwdCharPool=" + tempPwdCharPool
-			+ ", tempPwdUrl=" + tempPwdUrl + "]";
-	}
+        return "PasswordConfig [pepper=" + pepper + ", cryptoAlgorithm=" + cryptoAlgorithm + ", iterations="
+                + iterations + ", randomAlgorithm=" + randomAlgorithm + ", tempPwdLength=" + tempPwdLength
+                + ", tempPwdCharPool=" + tempPwdCharPool + ", tempPwdUrl=" + tempPwdUrl + "]";
+    }
 
-	@ConfigProperty(name = "crypto.random-algorithm")
-	String randomAlgorithm;
+    @ConfigProperty(name = "crypto.random-algorithm")
+    String randomAlgorithm;
 
-	@ConfigProperty(name = "temp-pwd.length")
-	int tempPwdLength;
+    @ConfigProperty(name = "temp-pwd.length")
+    int tempPwdLength;
 
-	@ConfigProperty(name = "temp-pwd.char-pool")
-	String tempPwdCharPool;
+    @ConfigProperty(name = "temp-pwd.char-pool")
+    String tempPwdCharPool;
 
-	@ConfigProperty(name = "temp-pwd.url")
-	String tempPwdUrl;
+    @ConfigProperty(name = "temp-pwd.url")
+    String tempPwdUrl;
 
-	public String getPepper() {
+    public String getPepper() {
 
-		return pepper;
-	}
+        return pepper;
+    }
 
-	public String getCryptoAlgorithm() {
+    public String getCryptoAlgorithm() {
 
-		return cryptoAlgorithm;
-	}
+        return cryptoAlgorithm;
+    }
 
-	public int getIterations() {
+    public int getIterations() {
 
-		return iterations;
-	}
+        return iterations;
+    }
 
-	public String getRandomAlgorithm() {
+    public String getRandomAlgorithm() {
 
-		return randomAlgorithm;
-	}
+        return randomAlgorithm;
+    }
 
-	public void setPepper(final String pepper) {
+    public void setPepper(final String pepper) {
 
-		this.pepper = pepper;
-	}
+        this.pepper = pepper;
+    }
 
-	public void setCryptoAlgorithm(final String cryptoAlgorithm) {
+    public void setCryptoAlgorithm(final String cryptoAlgorithm) {
 
-		this.cryptoAlgorithm = cryptoAlgorithm;
-	}
+        this.cryptoAlgorithm = cryptoAlgorithm;
+    }
 
-	public void setIterations(final int iterations) {
+    public void setIterations(final int iterations) {
 
-		this.iterations = iterations;
-	}
+        this.iterations = iterations;
+    }
 
-	public void setRandomAlgorithm(final String randomAlgorithm) {
+    public void setRandomAlgorithm(final String randomAlgorithm) {
 
-		this.randomAlgorithm = randomAlgorithm;
-	}
+        this.randomAlgorithm = randomAlgorithm;
+    }
 
-	public int getTempPwdLength() {
+    public int getTempPwdLength() {
 
-		return tempPwdLength;
-	}
+        return tempPwdLength;
+    }
 
-	public void setTempPwdLength(final int tempPwdLength) {
+    public void setTempPwdLength(final int tempPwdLength) {
 
-		this.tempPwdLength = tempPwdLength;
-	}
+        this.tempPwdLength = tempPwdLength;
+    }
 
-	public String getTempPwdCharPool() {
+    public String getTempPwdCharPool() {
 
-		return tempPwdCharPool;
-	}
+        return tempPwdCharPool;
+    }
 
-	public void setTempPwdCharPool(final String tempPwdCharPool) {
+    public void setTempPwdCharPool(final String tempPwdCharPool) {
 
-		this.tempPwdCharPool = tempPwdCharPool;
-	}
+        this.tempPwdCharPool = tempPwdCharPool;
+    }
 
-	public String getTempPwdUrl() {
+    public String getTempPwdUrl() {
 
-		return tempPwdUrl;
-	}
+        return tempPwdUrl;
+    }
 
-	public void setTempPwdUrl(final String tempPwdUrl) {
+    public void setTempPwdUrl(final String tempPwdUrl) {
 
-		this.tempPwdUrl = tempPwdUrl;
-	}
+        this.tempPwdUrl = tempPwdUrl;
+    }
 
 }

@@ -5,106 +5,107 @@
 
 package de.egladil.web.authprovider.payload;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import de.egladil.web.auth_validations.annotations.UuidString;
 import de.egladil.web.auth_validations.annotations.ValidPasswords;
 import de.egladil.web.auth_validations.dto.ZweiPassworte;
 import de.egladil.web.auth_validations.utils.SecUtils;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 /**
  * TempPasswordCredentials
  */
 public class ChangeTempPasswordPayload {
 
-	@NotNull(message = "tokenId ist erforderlich")
-	@UuidString
-	@Size(min = 1, max = 40)
-	private String tokenId;
+    @NotNull(message = "tokenId ist erforderlich")
+    @UuidString
+    @Size(min = 1, max = 40)
+    private String tokenId;
 
-	@NotNull(message = "email ist erforderlich")
-	@Email(message = "keine gültige email")
-	@Size(min = 1, max = 255)
-	private String email;
+    @NotNull(message = "email ist erforderlich")
+    @Email(message = "keine gültige email")
+    @Size(min = 1, max = 255)
+    private String email;
 
-	@NotNull(message = "tempPassword ist erforderlich")
-	@UuidString
-	@Size(min = 1, max = 40)
-	private String tempPassword;
+    @NotNull(message = "tempPassword ist erforderlich")
+    @UuidString
+    @Size(min = 1, max = 40)
+    private String tempPassword;
 
-	// keine Annotation, damit das geloggt wird
-	private String kleber;
+    // keine Annotation, damit das geloggt wird
+    private String kleber;
 
-	@NotNull(message = "zweiPassworte ist erforderlich")
-	@ValidPasswords
-	private ZweiPassworte zweiPassworte;
+    @NotNull(message = "zweiPassworte ist erforderlich")
+    @ValidPasswords
+    private ZweiPassworte zweiPassworte;
 
-	/**
-	 * Entfernt alle sensiblen Infos: also password, passwordWdh und tempPassword.
-	 */
-	public void clean() {
+    /**
+     * Entfernt alle sensiblen Infos: also password, passwordWdh und tempPassword.
+     */
+    public void clean() {
 
-		if (zweiPassworte != null) {
+        if (zweiPassworte != null) {
 
-			zweiPassworte.clean();
-		}
-		tempPassword = SecUtils.wipe(tempPassword);
-	}
+            zweiPassworte.clean();
+        }
+        tempPassword = SecUtils.wipe(tempPassword);
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return "ChangeTempPasswordPayload [tokenId=" + tokenId + ", email=" + email + "]";
-	}
+        return "ChangeTempPasswordPayload [tokenId=" + tokenId + ", email=" + email + "]";
+    }
 
-	public String getEmail() {
+    public String getEmail() {
 
-		return email;
-	}
+        return email;
+    }
 
-	public void setEmail(final String email) {
+    public void setEmail(final String email) {
 
-		this.email = email;
-	}
+        this.email = email;
+    }
 
-	public String getTempPassword() {
+    public String getTempPassword() {
 
-		return tempPassword;
-	}
+        return tempPassword;
+    }
 
-	public void setTempPassword(final String tempPassword) {
+    public void setTempPassword(final String tempPassword) {
 
-		this.tempPassword = tempPassword;
-	}
+        this.tempPassword = tempPassword;
+    }
 
-	public String getTokenId() {
+    public String getTokenId() {
 
-		return tokenId;
-	}
+        return tokenId;
+    }
 
-	public void setTokenId(final String tokenId) {
+    public void setTokenId(final String tokenId) {
 
-		this.tokenId = tokenId;
-	}
+        this.tokenId = tokenId;
+    }
 
-	public ZweiPassworte getZweiPassworte() {
+    public ZweiPassworte getZweiPassworte() {
 
-		return zweiPassworte;
-	}
+        return zweiPassworte;
+    }
 
-	public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
+    public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
 
-		this.zweiPassworte = zweiPassworte;
-	}
+        this.zweiPassworte = zweiPassworte;
+    }
 
-	public String getKleber() {
+    public String getKleber() {
 
-		return kleber;
-	}
+        return kleber;
+    }
 
-	public void setKleber(final String kleber) {
+    public void setKleber(final String kleber) {
 
-		this.kleber = kleber;
-	}
+        this.kleber = kleber;
+    }
 }

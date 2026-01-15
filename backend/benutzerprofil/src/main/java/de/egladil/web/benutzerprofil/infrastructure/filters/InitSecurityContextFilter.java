@@ -9,16 +9,6 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.egladil.web.benutzerprofil.domain.auth.config.SessionCookieConfig;
-import de.egladil.web.benutzerprofil.domain.auth.session.AuthenticatedUser;
-import de.egladil.web.benutzerprofil.domain.auth.session.Session;
-import de.egladil.web.benutzerprofil.domain.auth.session.SessionService;
-import de.egladil.web.benutzerprofil.domain.auth.session.SessionUtils;
-import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
-import de.egladil.web.benutzerprofil.infrastructure.cdi.AuthenticationContextImpl;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -29,6 +19,17 @@ import jakarta.ws.rs.container.PreMatching;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.ext.Provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.egladil.web.benutzerprofil.domain.auth.config.SessionCookieConfig;
+import de.egladil.web.benutzerprofil.domain.auth.session.AuthenticatedUser;
+import de.egladil.web.benutzerprofil.domain.auth.session.Session;
+import de.egladil.web.benutzerprofil.domain.auth.session.SessionService;
+import de.egladil.web.benutzerprofil.domain.auth.session.SessionUtils;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
+import de.egladil.web.benutzerprofil.infrastructure.cdi.AuthenticationContextImpl;
+
 /**
  * InitSecurityContextFilter
  */
@@ -38,124 +39,125 @@ import jakarta.ws.rs.ext.Provider;
 @Priority(Priorities.AUTHORIZATION)
 public class InitSecurityContextFilter implements ContainerRequestFilter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(InitSecurityContextFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InitSecurityContextFilter.class);
 
-	private static List<String> OPEN_DATA_PATHS = Arrays.asList(new String[] { "/auth-admin-api/version" });
+    private static List<String> OPEN_DATA_PATHS = Arrays.asList(new String[] { "/auth-admin-api/version" });
 
-	@Inject
-	SessionCookieConfig sessionCookieConfig;
+    @Inject
+    SessionCookieConfig sessionCookieConfig;
 
-	@Inject
-	SessionService sessionService;
+    @Inject
+    SessionService sessionService;
 
-	@Inject
-	AuthenticationContextImpl authCtx; // Injecting the implementation, not the interface!!!
+    @Inject
+    AuthenticationContextImpl authCtx; // Injecting the implementation, not the interface!!!
 
-	@Override
-	public void filter(final ContainerRequestContext requestContext) throws IOException {
+    @Override
+    public void filter(final ContainerRequestContext requestContext) throws IOException {
 
-		// https://quarkus.io/guides/context-propagation
+        // https://quarkus.io/guides/context-propagation
 
-		String method = requestContext.getMethod();
+        String method = requestContext.getMethod();
 
-		if ("OPTIONS".equals(method)) {
+        if ("OPTIONS".equals(method)) {
 
-			LOGGER.debug("keine Auth bei OPTIONS");
+            LOGGER.debug("keine Auth bei OPTIONS");
 
-			return;
-		}
+            return;
+        }
 
-		String path = requestContext.getUriInfo().getPath();
+        String path = requestContext.getUriInfo().getPath();
 
-		boolean noSessionRequired = this.noSessionRequired(path);
+        boolean noSessionRequired = this.noSessionRequired(path);
 
-		LOGGER.debug("path={}, noSessionRequired={}", path, noSessionRequired);
+        LOGGER.debug("path={}, noSessionRequired={}", path, noSessionRequired);
 
-		if (noSessionRequired) {
+        if (noSessionRequired) {
 
-			this.addUserToAuthAndSecurityContext(AuthenticatedUser.createAnonymousUser(), requestContext);
-			return;
-		}
+            this.addUserToAuthAndSecurityContext(AuthenticatedUser.createAnonymousUser(), requestContext);
+            return;
+        }
 
-		try {
+        try {
 
-			String sessionId = SessionUtils.getSessionId(requestContext, sessionCookieConfig);
+            String sessionId = SessionUtils.getSessionId(requestContext, sessionCookieConfig);
 
-			LOGGER.debug("path={}, sessionId={}", path, sessionId);
+            LOGGER.debug("path={}, sessionId={}", path, sessionId);
 
-			if (sessionId != null) {
+            if (sessionId != null) {
 
-				Session session = sessionService.getAndRefreshSessionIfValid(sessionId);
+                Session session = sessionService.getAndRefreshSessionIfValid(sessionId);
 
-				if (session != null) {
+                if (session != null) {
 
-					AuthenticatedUser user = session.getUser();
+                    AuthenticatedUser user = session.getUser();
 
-					if (user != null) {
+                    if (user != null) {
 
-						addUserToAuthAndSecurityContext(user, requestContext);
-					} else {
+                        addUserToAuthAndSecurityContext(user, requestContext);
+                    } else {
 
-						LOGGER.warn("path={}, user ist null, die Anwendung wird nicht funktionieren!", path);
-					}
+                        LOGGER.warn("path={}, user ist null, die Anwendung wird nicht funktionieren!", path);
+                    }
 
-				}
-			}
-		} catch (Exception e) {
+                }
+            }
+        } catch (Exception e) {
 
-			LOGGER.error("{}: {}", path, e.getMessage(), e);
-			throw new BenutzerprofilRuntimeException("Unerwarterer Fehler bei Request " + method + " path=" + path);
-		}
-	}
+            LOGGER.error("{}: {}", path, e.getMessage(), e);
+            throw new BenutzerprofilRuntimeException("Unerwarterer Fehler bei Request " + method + " path=" + path);
+        }
+    }
 
-	/**
-	 * @param requestContext
-	 */
-	private void addUserToAuthAndSecurityContext(final AuthenticatedUser user, final ContainerRequestContext requestContext) {
+    /**
+     * @param requestContext
+     */
+    private void addUserToAuthAndSecurityContext(final AuthenticatedUser user,
+            final ContainerRequestContext requestContext) {
 
-		authCtx.setUser(user);
+        authCtx.setUser(user);
 
-		requestContext.setSecurityContext(new SecurityContext() {
+        requestContext.setSecurityContext(new SecurityContext() {
 
-			@Override
-			public boolean isUserInRole(final String role) {
+            @Override
+            public boolean isUserInRole(final String role) {
 
-				return true;
-			}
+                return true;
+            }
 
-			@Override
-			public boolean isSecure() {
+            @Override
+            public boolean isSecure() {
 
-				return true;
-			}
+                return true;
+            }
 
-			@Override
-			public Principal getUserPrincipal() {
+            @Override
+            public Principal getUserPrincipal() {
 
-				return new Principal() {
+                return new Principal() {
 
-					@Override
-					public String getName() {
+                    @Override
+                    public String getName() {
 
-						return user.getUuid();
-					}
-				};
-			}
+                        return user.getUuid();
+                    }
+                };
+            }
 
-			@Override
-			public String getAuthenticationScheme() {
+            @Override
+            public String getAuthenticationScheme() {
 
-				return null;
-			}
-		});
+                return null;
+            }
+        });
 
-		LOGGER.debug("admin {} added to AuthenticationContext and SecurityContext", user);
+        LOGGER.debug("admin {} added to AuthenticationContext and SecurityContext", user);
 
-	}
+    }
 
-	boolean noSessionRequired(final String path) {
+    boolean noSessionRequired(final String path) {
 
-		return OPEN_DATA_PATHS.stream().filter(p -> path.startsWith(p)).findFirst().isPresent();
+        return OPEN_DATA_PATHS.stream().filter(p -> path.startsWith(p)).findFirst().isPresent();
 
-	}
+    }
 }

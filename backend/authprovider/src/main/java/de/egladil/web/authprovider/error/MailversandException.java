@@ -9,18 +9,18 @@ package de.egladil.web.authprovider.error;
  */
 public class MailversandException extends RuntimeException {
 
-	private static final long serialVersionUID = -2832990161555202805L;
+    private static final long serialVersionUID = -2832990161555202805L;
 
-	public MailversandException(final String message, final Throwable cause) {
+    public MailversandException(final String message, final Throwable cause) {
 
-		super(message, cause);
+        super(message, cause);
 
-	}
+    }
 
-	public MailversandException(final String message) {
+    public MailversandException(final String message) {
 
-		super(message);
+        super(message);
 
-	}
+    }
 
 }

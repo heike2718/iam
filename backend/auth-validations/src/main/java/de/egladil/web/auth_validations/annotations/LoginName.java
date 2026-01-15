@@ -4,6 +4,15 @@
 // =====================================================
 package de.egladil.web.auth_validations.annotations;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+
+import de.egladil.web.auth_validations.LoginNameValidator;
+
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;
@@ -11,17 +20,9 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import de.egladil.web.auth_validations.LoginNameValidator;
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
-
 /**
- * Whitelist für Benutzernamen: Buchstaben, Ziffern, deutsche Umlaute sowie Unterstrich, Leerzeichen, Minus, Punkt,
- * Ausrufezeichen, Semikolon, Komma, '@'
+ * Whitelist für Benutzernamen: Buchstaben, Ziffern, deutsche Umlaute sowie
+ * Unterstrich, Leerzeichen, Minus, Punkt, Ausrufezeichen, Semikolon, Komma, '@'
  */
 @Documented
 @Retention(RUNTIME)
@@ -29,9 +30,9 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = { LoginNameValidator.class })
 public @interface LoginName {
 
-	String message() default "Der Login-Name enthält ungültige Zeichen. Erlaubt sind die Buchstaben A-Z und a-z, die Ziffern 0-9, Leerzeichen und die Sonderzeichen @ ! # $ % & ' * + - / = ? ^ _ . ` { | } ~ .";
+    String message() default "Der Login-Name enthält ungültige Zeichen. Erlaubt sind die Buchstaben A-Z und a-z, die Ziffern 0-9, Leerzeichen und die Sonderzeichen @ ! # $ % & ' * + - / = ? ^ _ . ` { | } ~ .";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

@@ -9,20 +9,20 @@ package de.egladil.web.benutzerprofil.domain.exceptions;
  */
 public class AuthRuntimeException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param message
-	 */
-	public AuthRuntimeException(final String message) {
+    /**
+     * @param message
+     */
+    public AuthRuntimeException(final String message) {
 
-		super(message);
-	}
+        super(message);
+    }
 
-	public AuthRuntimeException(final String message, final Throwable cause) {
+    public AuthRuntimeException(final String message, final Throwable cause) {
 
-		super(message, cause);
+        super(message, cause);
 
-	}
+    }
 
 }

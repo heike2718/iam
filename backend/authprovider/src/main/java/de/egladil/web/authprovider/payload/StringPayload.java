@@ -12,24 +12,24 @@ import jakarta.validation.constraints.Size;
  */
 public class StringPayload {
 
-	@NotBlank
-	@Size(max = 255)
-	private String input;
+    @NotBlank
+    @Size(max = 255)
+    private String input;
 
-	/**
-	 *
-	 */
-	public StringPayload() {
+    /**
+     *
+     */
+    public StringPayload() {
 
-	}
+    }
 
-	public String getInput() {
+    public String getInput() {
 
-		return input;
-	}
+        return input;
+    }
 
-	public void setInput(final String input) {
+    public void setInput(final String input) {
 
-		this.input = input;
-	}
+        this.input = input;
+    }
 }

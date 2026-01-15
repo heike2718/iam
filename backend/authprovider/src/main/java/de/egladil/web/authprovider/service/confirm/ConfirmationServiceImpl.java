@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +27,6 @@ import de.egladil.web.authprovider.event.LoggableEventDelegate;
 import de.egladil.web.authprovider.event.RegistrationConfirmationExpired;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.event.Event;
-import jakarta.inject.Inject;
 
 /**
  * ConfirmationServiceImpl
@@ -33,95 +34,100 @@ import jakarta.inject.Inject;
 @RequestScoped
 public class ConfirmationServiceImpl implements ConfirmationService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ConfirmationServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConfirmationServiceImpl.class);
 
-	@Inject
-	ActivationCodeDao activationCodeDao;
+    @Inject
+    ActivationCodeDao activationCodeDao;
 
-	@Inject
-	ResourceOwnerDao resourceOwnerDao;
+    @Inject
+    ResourceOwnerDao resourceOwnerDao;
 
-	@Inject
-	ResourceOwnerService resourceOwnerService;
+    @Inject
+    ResourceOwnerService resourceOwnerService;
 
-	@Inject
-	CryptoService cryptoService;
+    @Inject
+    CryptoService cryptoService;
 
-	@Inject
-	Event<AuthproviderEvent> authproviderEvent;
+    @Inject
+    Event<AuthproviderEvent> authproviderEvent;
 
-	private AuthproviderEvent eventPayload;
+    private AuthproviderEvent eventPayload;
 
-	@Override
-	public ConfirmationStatus confirmCode(final String confirmationCode) {
+    @Override
+    public ConfirmationStatus confirmCode(final String confirmationCode) {
 
-		Optional<ActivationCode> optActivationCode = activationCodeDao.findByConfirmationCode(confirmationCode);
+        Optional<ActivationCode> optActivationCode = activationCodeDao.findByConfirmationCode(confirmationCode);
 
-		if (!optActivationCode.isPresent()) {
+        if (!optActivationCode.isPresent()) {
 
-			LOG.warn(LogmessagePrefixes.DATENMUELL + "kein Eintrag mit CONFIRM_CODE='{}' in Tabelle ACTIVATIONCODES",
-				confirmationCode);
-			return ConfirmationStatus.deletedActivation;
-		}
+            LOG
+                    .warn(LogmessagePrefixes.DATENMUELL
+                            + "kein Eintrag mit CONFIRM_CODE='{}' in Tabelle ACTIVATIONCODES", confirmationCode);
+            return ConfirmationStatus.deletedActivation;
+        }
 
-		ActivationCode activationCode = optActivationCode.get();
+        ActivationCode activationCode = optActivationCode.get();
 
-		ResourceOwner resourceOwner = activationCode.getResourceOwner();
+        ResourceOwner resourceOwner = activationCode.getResourceOwner();
 
-		if (resourceOwner == null) {
+        if (resourceOwner == null) {
 
-			LOG.warn(LogmessagePrefixes.DATENMUELL + "zum confirmationCode '{}' gibt es keinen passenden Eintrag in Tabelle users.",
-				confirmationCode);
-			return ConfirmationStatus.deletedActivation;
-		}
+            LOG
+                    .warn(LogmessagePrefixes.DATENMUELL
+                            + "zum confirmationCode '{}' gibt es keinen passenden Eintrag in Tabelle users.",
+                            confirmationCode);
+            return ConfirmationStatus.deletedActivation;
+        }
 
-		if (resourceOwner.isAnonym()) {
+        if (resourceOwner.isAnonym()) {
 
-			LOG.warn(LogmessagePrefixes.DATENMUELL + "Eintrag mit ID='{}' in Tabelle USERS ist anonymisiert",
-				resourceOwner.getId());
+            LOG
+                    .warn(LogmessagePrefixes.DATENMUELL + "Eintrag mit ID='{}' in Tabelle USERS ist anonymisiert",
+                            resourceOwner.getId());
 
-			return ConfirmationStatus.deletedActivation;
-		}
+            return ConfirmationStatus.deletedActivation;
+        }
 
-		final boolean bereitsAktiviert = resourceOwner.isAktiviert();
+        final boolean bereitsAktiviert = resourceOwner.isAktiviert();
 
-		if (!bereitsAktiviert) {
+        if (!bereitsAktiviert) {
 
-			LocalDateTime expiresAt = AuthTimeUtils.transformFromDate(activationCode.getExpirationTime());
+            LocalDateTime expiresAt = AuthTimeUtils.transformFromDate(activationCode.getExpirationTime());
 
-			if (AuthTimeUtils.now().isAfter(expiresAt)) {
+            if (AuthTimeUtils.now().isAfter(expiresAt)) {
 
-				resourceOwnerService.deleteResourceOwner(resourceOwner);
+                resourceOwnerService.deleteResourceOwner(resourceOwner);
 
-				eventPayload = new RegistrationConfirmationExpired(resourceOwner);
-				new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
+                eventPayload = new RegistrationConfirmationExpired(resourceOwner);
+                new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
 
-				LOG.warn("ActivationCode '{}' zu ResourceOwner UUID='{}' expired - Event propagiert", confirmationCode,
-					resourceOwner.getUuid());
-				return ConfirmationStatus.expiredActivation;
-			}
+                LOG
+                        .warn("ActivationCode '{}' zu ResourceOwner UUID='{}' expired - Event propagiert",
+                                confirmationCode, resourceOwner.getUuid());
+                return ConfirmationStatus.expiredActivation;
+            }
 
-			aktivieren(resourceOwner);
-			ResourceOwner persisted = resourceOwnerDao.save(resourceOwner);
-			activationCode.setExpirationTime(new Date(System.currentTimeMillis()));
-			activationCode.setConfirmed(true);
+            aktivieren(resourceOwner);
+            ResourceOwner persisted = resourceOwnerDao.save(resourceOwner);
+            activationCode.setExpirationTime(new Date(System.currentTimeMillis()));
+            activationCode.setConfirmed(true);
 
-			activationCodeDao.save(activationCode);
-			LOG.info("Benutzerkonto mit UUID '{}' aktiviert", persisted.getUuid());
+            activationCodeDao.save(activationCode);
+            LOG.info("Benutzerkonto mit UUID '{}' aktiviert", persisted.getUuid());
 
-		}
+        }
 
-		return bereitsAktiviert ? ConfirmationStatus.repeatedActivation : ConfirmationStatus.normalActivation;
-	}
+        return bereitsAktiviert ? ConfirmationStatus.repeatedActivation : ConfirmationStatus.normalActivation;
+    }
 
-	private void aktivieren(final ResourceOwner resourceOwner) {
+    private void aktivieren(final ResourceOwner resourceOwner) {
 
-		resourceOwner.setAktiviert(true);
-		resourceOwner.setDatumGeaendert(new Date(System.currentTimeMillis()));
-	}
+        resourceOwner.setAktiviert(true);
+        resourceOwner.setDatumGeaendert(new Date(System.currentTimeMillis()));
+    }
 
-	AuthproviderEvent eventPayload() {
+    AuthproviderEvent eventPayload() {
 
-		return eventPayload;
-	}
+        return eventPayload;
+    }
 }

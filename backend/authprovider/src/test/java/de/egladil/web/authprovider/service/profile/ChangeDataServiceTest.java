@@ -1,11 +1,8 @@
-//=====================================================
+// =====================================================
 // Project: authprovider
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 package de.egladil.web.authprovider.service.profile;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
 
@@ -13,102 +10,105 @@ import org.junit.jupiter.api.Test;
 
 import de.egladil.web.authprovider.entities.ResourceOwner;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  *
  */
 public class ChangeDataServiceTest {
 
-	final ChangeDataService service = new ChangeDataService();
+    final ChangeDataService service = new ChangeDataService();
 
-	@Test
-	void should_getResetBanFlag_returnFalse_when_notBannedForMails() {
+    @Test
+    void should_getResetBanFlag_returnFalse_when_notBannedForMails() {
 
-		// arrange
-		ResourceOwner ro = new ResourceOwner();
-		ro.setEmail("bla@the-provider.to");
-		ro.setBannedForMails(false);
+        // arrange
+        ResourceOwner ro = new ResourceOwner();
+        ro.setEmail("bla@the-provider.to");
+        ro.setBannedForMails(false);
 
-		String email = "blubb@provider.com";
+        String email = "blubb@provider.com";
 
-		// act
-		boolean result = service.getResetBanFlag(ro, email);
+        // act
+        boolean result = service.getResetBanFlag(ro, email);
 
-		// assert
-		assertFalse(result);
+        // assert
+        assertFalse(result);
 
-	}
+    }
 
-	@Test
-	void should_getResetBanFlag_returnFalse_when_mailsAreEqual() {
+    @Test
+    void should_getResetBanFlag_returnFalse_when_mailsAreEqual() {
 
-		// arrange
-		ResourceOwner ro = new ResourceOwner();
-		ro.setEmail("blubb@provider.com");
-		ro.setBannedForMails(true);
+        // arrange
+        ResourceOwner ro = new ResourceOwner();
+        ro.setEmail("blubb@provider.com");
+        ro.setBannedForMails(true);
 
-		String email = " blubb@provider.com ";
+        String email = " blubb@provider.com ";
 
-		// act
-		boolean result = service.getResetBanFlag(ro, email);
+        // act
+        boolean result = service.getResetBanFlag(ro, email);
 
-		// assert
-		assertFalse(result);
+        // assert
+        assertFalse(result);
 
-	}
+    }
 
-	@Test
-	void should_getResetBanFlag_returnFalse_when_sameDomain() {
+    @Test
+    void should_getResetBanFlag_returnFalse_when_sameDomain() {
 
-		// arrange
-		ResourceOwner ro = new ResourceOwner();
-		ro.setEmail("bla@provider.com");
-		ro.setBannedForMails(true);
+        // arrange
+        ResourceOwner ro = new ResourceOwner();
+        ro.setEmail("bla@provider.com");
+        ro.setBannedForMails(true);
 
-		String email = " blubb@provider.com ";
+        String email = " blubb@provider.com ";
 
-		// act
-		boolean result = service.getResetBanFlag(ro, email);
+        // act
+        boolean result = service.getResetBanFlag(ro, email);
 
-		// assert
-		assertFalse(result);
+        // assert
+        assertFalse(result);
 
-	}
+    }
 
-	@Test
-	void should_getResetBanFlag_returnFalse_when_domainUnklar() {
+    @Test
+    void should_getResetBanFlag_returnFalse_when_domainUnklar() {
 
-		// arrange
-		ResourceOwner ro = new ResourceOwner();
-		ro.setEmail("bla@provider.com");
-		ro.setBannedForMails(true);
+        // arrange
+        ResourceOwner ro = new ResourceOwner();
+        ro.setEmail("bla@provider.com");
+        ro.setBannedForMails(true);
 
-		String email = " blubb-@bla@provider.com ";
+        String email = " blubb-@bla@provider.com ";
 
-		// act
-		boolean result = service.getResetBanFlag(ro, email);
+        // act
+        boolean result = service.getResetBanFlag(ro, email);
 
-		// assert
-		assertFalse(result);
+        // assert
+        assertFalse(result);
 
-	}
+    }
 
-	@Test
-	void should_getResetBanFlag_returnTrue_when_differentDomains() {
+    @Test
+    void should_getResetBanFlag_returnTrue_when_differentDomains() {
 
-		// arrange
-		ResourceOwner ro = new ResourceOwner();
-		ro.setUuid(UUID.randomUUID().toString());
-		ro.setEmail("bla@the-provider.com");
-		ro.setBannedForMails(true);
+        // arrange
+        ResourceOwner ro = new ResourceOwner();
+        ro.setUuid(UUID.randomUUID().toString());
+        ro.setEmail("bla@the-provider.com");
+        ro.setBannedForMails(true);
 
-		String email = " blubb@provider.com ";
+        String email = " blubb@provider.com ";
 
-		// act
-		boolean result = service.getResetBanFlag(ro, email);
+        // act
+        boolean result = service.getResetBanFlag(ro, email);
 
-		// assert
-		assertTrue(result);
+        // assert
+        assertTrue(result);
 
-	}
+    }
 
 }

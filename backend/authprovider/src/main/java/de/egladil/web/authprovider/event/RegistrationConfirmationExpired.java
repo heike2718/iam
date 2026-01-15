@@ -11,29 +11,29 @@ import de.egladil.web.authprovider.entities.ResourceOwner;
  */
 public class RegistrationConfirmationExpired extends AbstractAuthproviderEvent {
 
-	/**
-	 * @param resourceOwner
-	 */
-	public RegistrationConfirmationExpired(final ResourceOwner resourceOwner) {
+    /**
+     * @param resourceOwner
+     */
+    public RegistrationConfirmationExpired(final ResourceOwner resourceOwner) {
 
-		super(resourceOwner);
-	}
+        super(resourceOwner);
+    }
 
-	@Override
-	public boolean propagateToListeners() {
+    @Override
+    public boolean propagateToListeners() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean writeToEventStore() {
+    @Override
+    public boolean writeToEventStore() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public AuthproviderEventType eventType() {
+    @Override
+    public AuthproviderEventType eventType() {
 
-		return AuthproviderEventType.REGISTRATION_CONFIRMATION_EXPIRED;
-	}
+        return AuthproviderEventType.REGISTRATION_CONFIRMATION_EXPIRED;
+    }
 }

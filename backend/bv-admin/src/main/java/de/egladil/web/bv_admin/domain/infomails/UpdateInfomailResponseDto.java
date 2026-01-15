@@ -11,35 +11,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * UpdateInfomailResponseDto
  */
-@Schema(description = "Ergebnis nach dem Ändern des InfomailTexts. Attribut infomail wird null sein, wenn statusCode != 200")
+@Schema(
+        description = "Ergebnis nach dem Ändern des InfomailTexts. Attribut infomail wird null sein, wenn statusCode != 200")
 public class UpdateInfomailResponseDto {
 
-	@JsonProperty
-	private String uuid;
+    @JsonProperty
+    private String uuid;
 
-	@JsonProperty
-	InfomailResponseDto infomail;
+    @JsonProperty
+    InfomailResponseDto infomail;
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
-	public UpdateInfomailResponseDto withUuid(final String uuid) {
+    public UpdateInfomailResponseDto withUuid(final String uuid) {
 
-		this.uuid = uuid;
-		return this;
-	}
+        this.uuid = uuid;
+        return this;
+    }
 
-	public InfomailResponseDto getInfomail() {
+    public InfomailResponseDto getInfomail() {
 
-		return infomail;
-	}
+        return infomail;
+    }
 
-	public UpdateInfomailResponseDto withInfomail(final InfomailResponseDto infomail) {
+    public UpdateInfomailResponseDto withInfomail(final InfomailResponseDto infomail) {
 
-		this.infomail = infomail;
-		return this;
-	}
+        this.infomail = infomail;
+        return this;
+    }
 
 }

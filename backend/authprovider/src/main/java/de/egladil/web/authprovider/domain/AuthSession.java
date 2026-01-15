@@ -14,66 +14,66 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class AuthSession implements Principal, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String sessionId;
+    private String sessionId;
 
-	@JsonIgnore
-	private String uuid;
+    @JsonIgnore
+    private String uuid;
 
-	private String csrfToken;
+    private String csrfToken;
 
-	private long expiresAt;
+    private long expiresAt;
 
-	public static AuthSession create(final String sessionId, final String uuid) {
+    public static AuthSession create(final String sessionId, final String uuid) {
 
-		AuthSession result = new AuthSession();
+        AuthSession result = new AuthSession();
 
-		result.sessionId = sessionId;
-		result.uuid = uuid;
+        result.sessionId = sessionId;
+        result.uuid = uuid;
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	public String getName() {
+    @Override
+    public String getName() {
 
-		return this.uuid;
-	}
+        return this.uuid;
+    }
 
-	public void clearSessionId() {
+    public void clearSessionId() {
 
-		this.sessionId = null;
-	}
+        this.sessionId = null;
+    }
 
-	public String getCsrfToken() {
+    public String getCsrfToken() {
 
-		return csrfToken;
-	}
+        return csrfToken;
+    }
 
-	public void setCsrfToken(final String csrfToken) {
+    public void setCsrfToken(final String csrfToken) {
 
-		this.csrfToken = csrfToken;
-	}
+        this.csrfToken = csrfToken;
+    }
 
-	public long getExpiresAt() {
+    public long getExpiresAt() {
 
-		return expiresAt;
-	}
+        return expiresAt;
+    }
 
-	public void setExpiresAt(final long expiresAt) {
+    public void setExpiresAt(final long expiresAt) {
 
-		this.expiresAt = expiresAt;
-	}
+        this.expiresAt = expiresAt;
+    }
 
-	public String getSessionId() {
+    public String getSessionId() {
 
-		return sessionId;
-	}
+        return sessionId;
+    }
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
 }

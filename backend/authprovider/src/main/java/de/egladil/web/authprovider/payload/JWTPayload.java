@@ -1,7 +1,7 @@
-//=====================================================
+// =====================================================
 // Project: commons
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 package de.egladil.web.authprovider.payload;
 
 /**
@@ -9,34 +9,34 @@ package de.egladil.web.authprovider.payload;
  */
 public class JWTPayload {
 
-	private String jwt;
+    private String jwt;
 
-	private long expiresAtSeconds;
+    private long expiresAtSeconds;
 
-	/**
-	 *
-	 */
-	public JWTPayload() {
-	}
+    /**
+     *
+     */
+    public JWTPayload() {
+    }
 
-	public String getJwt() {
-		return jwt;
-	}
+    public String getJwt() {
+        return jwt;
+    }
 
-	public void setJwt(final String jwt) {
-		this.jwt = jwt;
-	}
+    public void setJwt(final String jwt) {
+        this.jwt = jwt;
+    }
 
-	public long getExpiresAtSeconds() {
-		return expiresAtSeconds;
-	}
+    public long getExpiresAtSeconds() {
+        return expiresAtSeconds;
+    }
 
-	public void setExpiresAtSeconds(final long expiresAtSeconds) {
-		this.expiresAtSeconds = expiresAtSeconds;
-	}
+    public void setExpiresAtSeconds(final long expiresAtSeconds) {
+        this.expiresAtSeconds = expiresAtSeconds;
+    }
 
-	@Override
-	public String toString() {
-		return "JWTPayload [jwt=" + jwt.substring(0, 20) + "..., expiresAtSeconds=" + expiresAtSeconds + "]";
-	}
+    @Override
+    public String toString() {
+        return "JWTPayload [jwt=" + jwt.substring(0, 20) + "..., expiresAtSeconds=" + expiresAtSeconds + "]";
+    }
 }

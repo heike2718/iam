@@ -4,21 +4,22 @@
 // =====================================================
 package de.egladil.web.authprovider.payload;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.Set;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.quarkus.test.junit.QuarkusTest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import io.quarkus.test.junit.QuarkusTest;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * EmailPayloadTest
@@ -26,39 +27,39 @@ import jakarta.validation.ValidatorFactory;
 @QuarkusTest
 public class OrderTempPasswordPayloadTest {
 
-	private Validator validator;
+    private Validator validator;
 
-	@BeforeEach
-	void setUp() {
+    @BeforeEach
+    void setUp() {
 
-		final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-		validator = validatorFactory.getValidator();
-	}
+        final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
 
-	@Test
-	void serialize() throws JsonProcessingException {
+    @Test
+    void serialize() throws JsonProcessingException {
 
-		// Arrange
-		OrderTempPasswordPayload payload = new OrderTempPasswordPayload();
-		payload.setEmail("zeze@egladil.de");
+        // Arrange
+        OrderTempPasswordPayload payload = new OrderTempPasswordPayload();
+        payload.setEmail("zeze@egladil.de");
 
-		// Act + Assert
-		System.out.println(new ObjectMapper().writeValueAsString(payload));
-	}
+        // Act + Assert
+        System.out.println(new ObjectMapper().writeValueAsString(payload));
+    }
 
-	@Test
-	void should_throwValidationError_when_kleberEmptyString() throws Exception {
+    @Test
+    void should_throwValidationError_when_kleberEmptyString() throws Exception {
 
-		// Arrange
-		OrderTempPasswordPayload payload = new OrderTempPasswordPayload();
-		payload.setEmail("zeze.egladil.de");
-		payload.setKleber(" ");
+        // Arrange
+        OrderTempPasswordPayload payload = new OrderTempPasswordPayload();
+        payload.setEmail("zeze.egladil.de");
+        payload.setKleber(" ");
 
-		// Act
-		final Set<ConstraintViolation<OrderTempPasswordPayload>> errors = validator.validate(payload);
+        // Act
+        final Set<ConstraintViolation<OrderTempPasswordPayload>> errors = validator.validate(payload);
 
-		// Assert
-		assertEquals(1, errors.size());
-	}
+        // Assert
+        assertEquals(1, errors.size());
+    }
 
 }

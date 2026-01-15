@@ -14,118 +14,122 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * DefaultEmailDaten ist eine Default-Implementierung, die man für das Interface verwenden kann.
+ * DefaultEmailDaten ist eine Default-Implementierung, die man für das Interface
+ * verwenden kann.
  */
 public class DefaultEmailDaten implements EmailDaten {
 
-	private String messageId;
+    private String messageId;
 
-	private String empfaenger;
+    private String empfaenger;
 
-	private String betreff;
+    private String betreff;
 
-	private String text;
+    private String text;
 
-	private List<String> hiddenEmpfaenger = new ArrayList<>();
+    private List<String> hiddenEmpfaenger = new ArrayList<>();
 
-	@Override
-	public int hashCode() {
+    @Override
+    public int hashCode() {
 
-		return Objects.hash(messageId);
-	}
+        return Objects.hash(messageId);
+    }
 
-	@Override
-	public boolean equals(final Object obj) {
+    @Override
+    public boolean equals(final Object obj) {
 
-		if (this == obj) {
+        if (this == obj) {
 
-			return true;
-		}
+            return true;
+        }
 
-		if (obj == null) {
+        if (obj == null) {
 
-			return false;
-		}
+            return false;
+        }
 
-		if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass()) {
 
-			return false;
-		}
-		DefaultEmailDaten other = (DefaultEmailDaten) obj;
-		return Objects.equals(messageId, other.messageId);
-	}
+            return false;
+        }
+        DefaultEmailDaten other = (DefaultEmailDaten) obj;
+        return Objects.equals(messageId, other.messageId);
+    }
 
-	public void addHiddenEmpfaenger(final String empfaenger) {
+    public void addHiddenEmpfaenger(final String empfaenger) {
 
-		if (empfaenger != null) {
+        if (empfaenger != null) {
 
-			hiddenEmpfaenger.add(empfaenger);
-		}
-	}
+            hiddenEmpfaenger.add(empfaenger);
+        }
+    }
 
-	public void addHiddenEmpfaenger(final Collection<String> empfaenger) {
+    public void addHiddenEmpfaenger(final Collection<String> empfaenger) {
 
-		if (empfaenger != null) {
+        if (empfaenger != null) {
 
-			hiddenEmpfaenger.addAll(empfaenger);
-		}
-	}
+            hiddenEmpfaenger.addAll(empfaenger);
+        }
+    }
 
-	@Override
-	public String getEmpfaenger() {
+    @Override
+    public String getEmpfaenger() {
 
-		return this.empfaenger;
-	}
+        return this.empfaenger;
+    }
 
-	@Override
-	public String getBetreff() {
+    @Override
+    public String getBetreff() {
 
-		return this.betreff;
-	}
+        return this.betreff;
+    }
 
-	@Override
-	public String getText() {
+    @Override
+    public String getText() {
 
-		return this.text;
-	}
+        return this.text;
+    }
 
-	@Override
-	public Collection<String> getHiddenEmpfaenger() {
+    @Override
+    public Collection<String> getHiddenEmpfaenger() {
 
-		return this.hiddenEmpfaenger;
-	}
+        return this.hiddenEmpfaenger;
+    }
 
-	@Override
-	public List<String> alleEmpfaengerFuersLog() {
+    @Override
+    public List<String> alleEmpfaengerFuersLog() {
 
-		List<String> result = this.hiddenEmpfaenger.stream().filter(e -> StringUtils.isNotBlank(e)).collect(Collectors.toList());
-		result.add(this.empfaenger);
-		return result;
-	}
+        List<String> result = this.hiddenEmpfaenger
+                .stream()
+                .filter(e -> StringUtils.isNotBlank(e))
+                .collect(Collectors.toList());
+        result.add(this.empfaenger);
+        return result;
+    }
 
-	public void setEmpfaenger(final String empfaenger) {
+    public void setEmpfaenger(final String empfaenger) {
 
-		this.empfaenger = empfaenger;
-	}
+        this.empfaenger = empfaenger;
+    }
 
-	public void setBetreff(final String betreff) {
+    public void setBetreff(final String betreff) {
 
-		this.betreff = betreff;
-	}
+        this.betreff = betreff;
+    }
 
-	public void setText(final String text) {
+    public void setText(final String text) {
 
-		this.text = text;
-	}
+        this.text = text;
+    }
 
-	public String getMessageId() {
+    public String getMessageId() {
 
-		return messageId;
-	}
+        return messageId;
+    }
 
-	public void setMessageId(final String messageId) {
+    public void setMessageId(final String messageId) {
 
-		this.messageId = messageId;
-	}
+        this.messageId = messageId;
+    }
 
 }

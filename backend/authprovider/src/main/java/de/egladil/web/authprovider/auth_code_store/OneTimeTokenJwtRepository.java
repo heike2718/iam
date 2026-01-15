@@ -11,19 +11,19 @@ import java.util.Optional;
  */
 public interface OneTimeTokenJwtRepository {
 
-	/**
-	 * Fügt einen Eintrag hinzu.
-	 *
-	 * @param data
-	 */
-	void addToken(OneTimeTokenJwtData data);
+    /**
+     * Fügt einen Eintrag hinzu.
+     *
+     * @param data
+     */
+    void addToken(OneTimeTokenJwtData data);
 
-	/**
-	 * Holt das Token ab und entfernt es aus dem Store.
-	 *
-	 * @param oneTimeToken
-	 * @return Optional
-	 */
-	Optional<OneTimeTokenJwtData> getAndRemoveWithOneTimeToken(String oneTimeToken);
+    /**
+     * Holt das Token ab und entfernt es aus dem Store.
+     *
+     * @param oneTimeToken
+     * @return Optional
+     */
+    Optional<OneTimeTokenJwtData> getAndRemoveWithOneTimeToken(String oneTimeToken);
 
 }

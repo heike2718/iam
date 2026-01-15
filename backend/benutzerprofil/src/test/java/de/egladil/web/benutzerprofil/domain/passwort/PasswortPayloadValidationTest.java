@@ -4,145 +4,148 @@
 // =====================================================
 package de.egladil.web.benutzerprofil.domain.passwort;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import de.egladil.web.auth_validations.dto.ZweiPassworte;
-import de.egladil.web.benutzerprofil.domain.passwort.PasswortPayload;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import de.egladil.web.auth_validations.dto.ZweiPassworte;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * PasswortPayloadValidationTest
  */
 public class PasswortPayloadValidationTest {
 
-	private Validator validator;
+    private Validator validator;
 
-	@BeforeEach
-	void setUp() {
+    @BeforeEach
+    void setUp() {
 
-		ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-		validator = validatorFactory.getValidator();
-	}
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
 
-	@Test
-	void should_pass_when_valid() {
+    @Test
+    void should_pass_when_valid() {
 
-		// Arrange
-		PasswortPayload bean = createValidPayload();
+        // Arrange
+        PasswortPayload bean = createValidPayload();
 
-		// Act
-		Set<ConstraintViolation<PasswortPayload>> constraintViolations = validator.validate(bean);
+        // Act
+        Set<ConstraintViolation<PasswortPayload>> constraintViolations = validator.validate(bean);
 
-		// Assert
-		assertEquals(0, constraintViolations.size());
-	}
+        // Assert
+        assertEquals(0, constraintViolations.size());
+    }
 
-	@Test
-	void should_notPass_when_zweiPassworteInvalid() {
+    @Test
+    void should_notPass_when_zweiPassworteInvalid() {
 
-		// Arrange
-		PasswortPayload bean = createValidPayload();
+        // Arrange
+        PasswortPayload bean = createValidPayload();
 
-		ZweiPassworte invalidZweiPassworte = new ZweiPassworte();
-		invalidZweiPassworte.setPasswort("Qw<ert>z!");
+        ZweiPassworte invalidZweiPassworte = new ZweiPassworte();
+        invalidZweiPassworte.setPasswort("Qw<ert>z!");
 
-		bean.setZweiPassworte(invalidZweiPassworte);
+        bean.setZweiPassworte(invalidZweiPassworte);
 
-		List<String> expectedMessages = Arrays.asList(new String[] { "Das (neue) Passwort ist nicht regelkonform.",
-			"Das wiederholte Passwort ist erforderlich.", "Die (neuen) Passwörter stimmen nicht überein." });
+        List<String> expectedMessages = Arrays
+                .asList(new String[] { "Das (neue) Passwort ist nicht regelkonform.",
+                        "Das wiederholte Passwort ist erforderlich.",
+                        "Die (neuen) Passwörter stimmen nicht überein." });
 
-		// Act
-		Set<ConstraintViolation<PasswortPayload>> constraintViolations = validator.validate(bean);
+        // Act
+        Set<ConstraintViolation<PasswortPayload>> constraintViolations = validator.validate(bean);
 
-		// Assert
-		assertEquals(4, constraintViolations.size());
+        // Assert
+        assertEquals(4, constraintViolations.size());
 
-		List<String> messages = new ArrayList<>(
-			constraintViolations.stream().map(cv -> cv.getMessage()).collect(Collectors.toSet()));
+        List<String> messages = new ArrayList<>(
+                constraintViolations.stream().map(cv -> cv.getMessage()).collect(Collectors.toSet()));
 
-		// System.out.println(messages);
+        // System.out.println(messages);
 
-		List<String> notContained = new ArrayList<>();
+        List<String> notContained = new ArrayList<>();
 
-		for (String message : expectedMessages) {
+        for (String message : expectedMessages) {
 
-			if (!messages.contains(message)) {
+            if (!messages.contains(message)) {
 
-				notContained.add(message);
-			}
-		}
+                notContained.add(message);
+            }
+        }
 
-		if (notContained.size() > 0) {
+        if (notContained.size() > 0) {
 
-			System.out.println("nicht enthaltene messages: " + notContained);
-			fail("nicht alle erwarteten Messages sind enthalten");
-		}
-	}
+            System.out.println("nicht enthaltene messages: " + notContained);
+            fail("nicht alle erwarteten Messages sind enthalten");
+        }
+    }
 
-	@Test
-	void should_notPass_when_passwortInvalid() {
+    @Test
+    void should_notPass_when_passwortInvalid() {
 
-		// Arrange
-		PasswortPayload bean = createValidPayload();
-		bean.setPasswort("Qw<ert>z!");
+        // Arrange
+        PasswortPayload bean = createValidPayload();
+        bean.setPasswort("Qw<ert>z!");
 
-		List<String> expectedMessages = Arrays.asList(new String[] { "Das aktuelle Passwort enthält ungültige Zeichen." });
+        List<String> expectedMessages = Arrays
+                .asList(new String[] { "Das aktuelle Passwort enthält ungültige Zeichen." });
 
-		// Act
-		Set<ConstraintViolation<PasswortPayload>> constraintViolations = validator.validate(bean);
+        // Act
+        Set<ConstraintViolation<PasswortPayload>> constraintViolations = validator.validate(bean);
 
-		// Assert
-		assertEquals(1, constraintViolations.size());
+        // Assert
+        assertEquals(1, constraintViolations.size());
 
-		List<String> messages = new ArrayList<>(
-			constraintViolations.stream().map(cv -> cv.getMessage()).collect(Collectors.toSet()));
+        List<String> messages = new ArrayList<>(
+                constraintViolations.stream().map(cv -> cv.getMessage()).collect(Collectors.toSet()));
 
-		// System.out.println(messages);
+        // System.out.println(messages);
 
-		List<String> notContained = new ArrayList<>();
+        List<String> notContained = new ArrayList<>();
 
-		for (String message : expectedMessages) {
+        for (String message : expectedMessages) {
 
-			if (!messages.contains(message)) {
+            if (!messages.contains(message)) {
 
-				notContained.add(message);
-			}
-		}
+                notContained.add(message);
+            }
+        }
 
-		if (notContained.size() > 0) {
+        if (notContained.size() > 0) {
 
-			System.out.println("nicht enthaltene messages: " + notContained);
-			fail("nicht alle erwarteten Messages sind enthalten");
-		}
-	}
+            System.out.println("nicht enthaltene messages: " + notContained);
+            fail("nicht alle erwarteten Messages sind enthalten");
+        }
+    }
 
-	private PasswortPayload createValidPayload() {
+    private PasswortPayload createValidPayload() {
 
-		PasswortPayload result = new PasswortPayload();
-		result.setPasswort("start123");
-		result.setZweiPassworte(createValidZweiPassworte());
+        PasswortPayload result = new PasswortPayload();
+        result.setPasswort("start123");
+        result.setZweiPassworte(createValidZweiPassworte());
 
-		return result;
-	}
+        return result;
+    }
 
-	private ZweiPassworte createValidZweiPassworte() {
+    private ZweiPassworte createValidZweiPassworte() {
 
-		ZweiPassworte result = new ZweiPassworte();
-		result.setPasswort("Qwertz!2");
-		result.setPasswortWdh(result.getPasswort());
-		return result;
-	}
+        ZweiPassworte result = new ZweiPassworte();
+        result.setPasswort("Qwertz!2");
+        result.setPasswortWdh(result.getPasswort());
+        return result;
+    }
 }

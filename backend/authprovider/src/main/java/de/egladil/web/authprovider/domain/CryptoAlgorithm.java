@@ -9,6 +9,5 @@ package de.egladil.web.authprovider.domain;
  */
 public enum CryptoAlgorithm {
 
-	SHA_256,
-	ARGON2;
+    SHA_256, ARGON2;
 }

@@ -9,18 +9,18 @@ package de.egladil.web.bv_admin.domain.exceptions;
  */
 public class BVAdminAPIRuntimeException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public BVAdminAPIRuntimeException(final String message, final Throwable cause) {
+    public BVAdminAPIRuntimeException(final String message, final Throwable cause) {
 
-		super(message, cause);
+        super(message, cause);
 
-	}
+    }
 
-	public BVAdminAPIRuntimeException(final String message) {
+    public BVAdminAPIRuntimeException(final String message) {
 
-		super(message);
+        super(message);
 
-	}
+    }
 
 }

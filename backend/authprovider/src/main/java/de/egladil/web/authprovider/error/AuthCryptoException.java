@@ -10,16 +10,16 @@ package de.egladil.web.authprovider.error;
  */
 public class AuthCryptoException extends RuntimeException {
 
-	/* serialVersionUID */
-	private static final long serialVersionUID = 1L;
+    /* serialVersionUID */
+    private static final long serialVersionUID = 1L;
 
-	public AuthCryptoException(final String arg0) {
+    public AuthCryptoException(final String arg0) {
 
-		super(arg0);
-	}
+        super(arg0);
+    }
 
-	public AuthCryptoException(final String arg0, final Throwable arg1) {
+    public AuthCryptoException(final String arg0, final Throwable arg1) {
 
-		super(arg0, arg1);
-	}
+        super(arg0, arg1);
+    }
 }

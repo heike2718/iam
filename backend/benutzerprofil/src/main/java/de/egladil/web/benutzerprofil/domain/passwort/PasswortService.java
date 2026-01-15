@@ -9,21 +9,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.resteasy.reactive.ClientWebApplicationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
-import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
-import de.egladil.web.benutzerprofil.domain.auth.dto.ResponsePayload;
-import de.egladil.web.benutzerprofil.domain.exceptions.CommunicationException;
-import de.egladil.web.benutzerprofil.domain.exceptions.ConcurrentModificationException;
-import de.egladil.web.benutzerprofil.domain.exceptions.DuplicateEntityException;
-import de.egladil.web.benutzerprofil.domain.exceptions.LogmessagePrefixes;
-import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
-import de.egladil.web.benutzerprofil.infrastructure.restclient.AuthproviderRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.ProcessingException;
@@ -31,93 +16,115 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
+
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
+import de.egladil.web.benutzerprofil.domain.auth.dto.MessagePayload;
+import de.egladil.web.benutzerprofil.domain.auth.dto.ResponsePayload;
+import de.egladil.web.benutzerprofil.domain.exceptions.BenutzerprofilRuntimeException;
+import de.egladil.web.benutzerprofil.domain.exceptions.CommunicationException;
+import de.egladil.web.benutzerprofil.domain.exceptions.ConcurrentModificationException;
+import de.egladil.web.benutzerprofil.domain.exceptions.DuplicateEntityException;
+import de.egladil.web.benutzerprofil.domain.exceptions.LogmessagePrefixes;
+import de.egladil.web.benutzerprofil.infrastructure.restclient.AuthproviderRestClient;
+
 /**
  * PasswortService
  */
 @ApplicationScoped
 public class PasswortService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PasswortService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PasswortService.class);
 
-	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+    private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
-	@ConfigProperty(name = "public-client-id")
-	String clientId;
+    @ConfigProperty(name = "public-client-id")
+    String clientId;
 
-	@ConfigProperty(name = "public-client-secret")
-	String clientSecret;
+    @ConfigProperty(name = "public-client-secret")
+    String clientSecret;
 
-	@Context
-	SecurityContext securityContext;
+    @Context
+    SecurityContext securityContext;
 
-	@Inject
-	@RestClient
-	AuthproviderRestClient authproviderRestClient;
+    @Inject
+    @RestClient
+    AuthproviderRestClient authproviderRestClient;
 
-	/**
-	 * Sendet die Payload an die authprovider-API und bekommt von dort eine Message zurück.
-	 *
-	 * @param payload
-	 * @return MessagePayload
-	 */
-	public MessagePayload passwortAendern(final PasswortPayload passwortPayload) {
+    /**
+     * Sendet die Payload an die authprovider-API und bekommt von dort eine Message
+     * zurück.
+     *
+     * @param payload
+     * @return MessagePayload
+     */
+    public MessagePayload passwortAendern(final PasswortPayload passwortPayload) {
 
-		String uuid = securityContext.getUserPrincipal().getName();
-		String expectedNonce = UUID.randomUUID().toString();
+        String uuid = securityContext.getUserPrincipal().getName();
+        String expectedNonce = UUID.randomUUID().toString();
 
-		OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId, clientSecret, expectedNonce);
+        OAuthClientCredentials credentials = OAuthClientCredentials.create(clientId, clientSecret, expectedNonce);
 
-		ChangeProfilePasswordPayload payload = ChangeProfilePasswordPayload.create(credentials, passwortPayload, uuid);
+        ChangeProfilePasswordPayload payload = ChangeProfilePasswordPayload.create(credentials, passwortPayload, uuid);
 
-		try (Response response = authproviderRestClient.changePassword(payload);) {
+        try (Response response = authproviderRestClient.changePassword(payload);) {
 
-			ResponsePayload responsePayload = response.readEntity(ResponsePayload.class);
-			@SuppressWarnings("unchecked")
-			Map<String, String> dataMap = (Map<String, String>) responsePayload.getData();
-			String nonce = dataMap.get("nonce");
+            ResponsePayload responsePayload = response.readEntity(ResponsePayload.class);
+            @SuppressWarnings("unchecked")
+            Map<String, String> dataMap = (Map<String, String>) responsePayload.getData();
+            String nonce = dataMap.get("nonce");
 
-			if (!expectedNonce.equals(nonce)) {
+            if (!expectedNonce.equals(nonce)) {
 
-				LOGGER.warn(LogmessagePrefixes.BOT + "angefragter Entdpoint hat das nonce geändert: expected={}, actual={}",
-					expectedNonce, nonce);
+                LOGGER
+                        .warn(LogmessagePrefixes.BOT
+                                + "angefragter Entdpoint hat das nonce geändert: expected={}, actual={}", expectedNonce,
+                                nonce);
 
-				throw new BenutzerprofilRuntimeException("Der authprovider konnte nicht erreicht werden.");
+                throw new BenutzerprofilRuntimeException("Der authprovider konnte nicht erreicht werden.");
 
-			}
+            }
 
-			MessagePayload messagePayload = responsePayload.getMessage();
-			return messagePayload;
+            MessagePayload messagePayload = responsePayload.getMessage();
+            return messagePayload;
 
-		} catch (CommunicationException e) {
-			// diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das, was der
-			// BenutzerverwaltungExceptionMapper dann
-			// umwandeln kann.
+        } catch (CommunicationException e) {
+            // diese wird vom AuthproviderResponseExceptionMapper geworfen und enthält das,
+            // was der
+            // BenutzerverwaltungExceptionMapper dann
+            // umwandeln kann.
 
-			throw e.getExceptionToPropagate();
-		} catch (ProcessingException e) {
+            throw e.getExceptionToPropagate();
+        } catch (ProcessingException e) {
 
-			LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new BenutzerprofilRuntimeException(
-				"Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
-		} catch (ClientWebApplicationException e) {
+            LOGGER.error("ProcessingException bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
+            throw new BenutzerprofilRuntimeException(
+                    "Fehler bei Kommunikation mit authprovider. Evtl. Konfiguration der route pruefen. Laeuft der authprovider noch?");
+        } catch (ClientWebApplicationException e) {
 
-			if (e.getResponse().getStatus() == 409) {
+            if (e.getResponse().getStatus() == 409) {
 
-				throw new ConcurrentModificationException(applicationMessages.getString("conflict.notFound"));
-			}
+                throw new ConcurrentModificationException(applicationMessages.getString("conflict.notFound"));
+            }
 
-			if (e.getResponse().getStatus() == 412) {
+            if (e.getResponse().getStatus() == 412) {
 
-				throw new DuplicateEntityException(applicationMessages.getString("conflict.duplicate"));
-			}
-			throw e;
-		} catch (Exception e) {
+                throw new DuplicateEntityException(applicationMessages.getString("conflict.duplicate"));
+            }
+            throw e;
+        } catch (Exception e) {
 
-			LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
-			throw new BenutzerprofilRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
-		} finally {
+            LOGGER.error("unerwarteter Fehler bei der Kommunikation mit dem authprovider: {}", e.getMessage(), e);
+            throw new BenutzerprofilRuntimeException("unerwarteter Fehler bei Kommunikation mit authprovider");
+        } finally {
 
-			credentials.clean();
-		}
-	}
+            credentials.clean();
+        }
+    }
 }

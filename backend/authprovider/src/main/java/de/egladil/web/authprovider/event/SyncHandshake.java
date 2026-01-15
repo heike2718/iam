@@ -11,30 +11,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SyncHandshake {
 
-	@JsonProperty
-	private String sendingClientId;
+    @JsonProperty
+    private String sendingClientId;
 
-	@JsonProperty
-	private String nonce;
+    @JsonProperty
+    private String nonce;
 
-	SyncHandshake() {
+    SyncHandshake() {
 
-	}
+    }
 
-	SyncHandshake(final String sendingClientId, final String nonce) {
+    SyncHandshake(final String sendingClientId, final String nonce) {
 
-		this.sendingClientId = sendingClientId;
-		this.nonce = nonce;
-	}
+        this.sendingClientId = sendingClientId;
+        this.nonce = nonce;
+    }
 
-	public String sendingClientId() {
+    public String sendingClientId() {
 
-		return sendingClientId;
-	}
+        return sendingClientId;
+    }
 
-	public String nonce() {
+    public String nonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
 }

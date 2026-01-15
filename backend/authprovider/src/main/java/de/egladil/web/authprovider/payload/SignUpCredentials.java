@@ -5,20 +5,22 @@
 
 package de.egladil.web.authprovider.payload;
 
-import de.egladil.web.auth_validations.annotations.InputSecured;
-import de.egladil.web.auth_validations.annotations.LoginName;
-import de.egladil.web.auth_validations.annotations.ValidPasswords;
-import de.egladil.web.auth_validations.dto.ZweiPassworte;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import de.egladil.web.auth_validations.annotations.InputSecured;
+import de.egladil.web.auth_validations.annotations.LoginName;
+import de.egladil.web.auth_validations.annotations.ValidPasswords;
+import de.egladil.web.auth_validations.dto.ZweiPassworte;
+
 /**
  * SignUpCredentials enthalten die Credentials des ResourceOwners:
  * <ul>
  * <li>Mailadresse</li>
- * <li>Loginname - darf null sein. In diesem Fall wird automatisch die Mailadresse verwendet</li>
+ * <li>Loginname - darf null sein. In diesem Fall wird automatisch die
+ * Mailadresse verwendet</li>
  * <li>Passwörter</li>
  * <li>Info, dass den Datenschutzbestimmungen zugestimmt wurde</li>
  * </ul>
@@ -30,148 +32,148 @@ import jakarta.validation.constraints.Size;
  */
 public class SignUpCredentials {
 
-	@NotNull
-	@Email
-	@Size(max = 255)
-	private String email;
+    @NotNull
+    @Email
+    @Size(max = 255)
+    private String email;
 
-	@LoginName(message = "loginName enthält ungueltige Zeichen")
-	@Size(max = 255)
-	private String loginName;
+    @LoginName(message = "loginName enthält ungueltige Zeichen")
+    @Size(max = 255)
+    private String loginName;
 
-	@InputSecured(message = "vorname enthält ungültige Zeichen")
-	@Size(max = 100)
-	private String vorname;
+    @InputSecured(message = "vorname enthält ungültige Zeichen")
+    @Size(max = 100)
+    private String vorname;
 
-	@InputSecured(message = "nachname enthält ungültige Zeichen")
-	@Size(max = 100)
-	private String nachname;
+    @InputSecured(message = "nachname enthält ungültige Zeichen")
+    @Size(max = 100)
+    private String nachname;
 
-	@InputSecured(message = "nonce enthält ungültige Zeichen")
-	@Size(max = 60)
-	private String nonce;
+    @InputSecured(message = "nonce enthält ungültige Zeichen")
+    @Size(max = 60)
+    private String nonce;
 
-	@NotNull
-	@ValidPasswords(message = "zweiPassworte ist nicht valid")
-	private ZweiPassworte zweiPassworte;
+    @NotNull
+    @ValidPasswords(message = "zweiPassworte ist nicht valid")
+    private ZweiPassworte zweiPassworte;
 
-	@AssertTrue(message = "Bitte stimmen Sie den Datenschutzhinweisen zu.")
-	private boolean agbGelesen;
+    @AssertTrue(message = "Bitte stimmen Sie den Datenschutzhinweisen zu.")
+    private boolean agbGelesen;
 
-	@NotNull(message = "clientCredentials ist erforderlich.")
-	private ClientCredentials clientCredentials;
+    @NotNull(message = "clientCredentials ist erforderlich.")
+    private ClientCredentials clientCredentials;
 
-	// keine Annotation, damit das geloggt wird!
-	private String kleber;
+    // keine Annotation, damit das geloggt wird!
+    private String kleber;
 
-	public String getEmail() {
+    public String getEmail() {
 
-		return email;
-	}
+        return email;
+    }
 
-	public void setEmail(final String email) {
+    public void setEmail(final String email) {
 
-		this.email = email;
-	}
+        this.email = email;
+    }
 
-	public String getKleber() {
+    public String getKleber() {
 
-		return kleber;
-	}
+        return kleber;
+    }
 
-	public void setKleber(final String kleber) {
+    public void setKleber(final String kleber) {
 
-		this.kleber = kleber;
-	}
+        this.kleber = kleber;
+    }
 
-	public String getLoginName() {
+    public String getLoginName() {
 
-		return loginName;
-	}
+        return loginName;
+    }
 
-	public void setLoginName(final String loginName) {
+    public void setLoginName(final String loginName) {
 
-		this.loginName = loginName;
-	}
+        this.loginName = loginName;
+    }
 
-	public boolean isAgbGelesen() {
+    public boolean isAgbGelesen() {
 
-		return agbGelesen;
-	}
+        return agbGelesen;
+    }
 
-	public void setAgbGelesen(final boolean agbGelesen) {
+    public void setAgbGelesen(final boolean agbGelesen) {
 
-		this.agbGelesen = agbGelesen;
-	}
+        this.agbGelesen = agbGelesen;
+    }
 
-	public ClientCredentials getClientCredentials() {
+    public ClientCredentials getClientCredentials() {
 
-		return clientCredentials;
-	}
+        return clientCredentials;
+    }
 
-	public void setClientCredentials(final ClientCredentials clientCredentials) {
+    public void setClientCredentials(final ClientCredentials clientCredentials) {
 
-		this.clientCredentials = clientCredentials;
-	}
+        this.clientCredentials = clientCredentials;
+    }
 
-	public String printEmailLogin() {
+    public String printEmailLogin() {
 
-		return "[email='" + email + "', loginName='" + loginName + "']";
-	}
+        return "[email='" + email + "', loginName='" + loginName + "']";
+    }
 
-	public String getVorname() {
+    public String getVorname() {
 
-		return vorname;
-	}
+        return vorname;
+    }
 
-	public void setVorname(final String vorname) {
+    public void setVorname(final String vorname) {
 
-		this.vorname = vorname;
-	}
+        this.vorname = vorname;
+    }
 
-	public String getNachname() {
+    public String getNachname() {
 
-		return nachname;
-	}
+        return nachname;
+    }
 
-	public void setNachname(final String nachname) {
+    public void setNachname(final String nachname) {
 
-		this.nachname = nachname;
-	}
+        this.nachname = nachname;
+    }
 
-	public ZweiPassworte getZweiPassworte() {
+    public ZweiPassworte getZweiPassworte() {
 
-		return zweiPassworte;
-	}
+        return zweiPassworte;
+    }
 
-	public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
+    public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
 
-		this.zweiPassworte = zweiPassworte;
-	}
+        this.zweiPassworte = zweiPassworte;
+    }
 
-	public void clean() {
+    public void clean() {
 
-		if (zweiPassworte != null) {
+        if (zweiPassworte != null) {
 
-			zweiPassworte.clean();
-		}
-	}
+            zweiPassworte.clean();
+        }
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return "SignUpCredentials [email=" + email + ", loginName=" + loginName + ", vorname=" + vorname + ", nachname=" + nachname
-			+ "]";
-	}
+        return "SignUpCredentials [email=" + email + ", loginName=" + loginName + ", vorname=" + vorname + ", nachname="
+                + nachname + "]";
+    }
 
-	public String getNonce() {
+    public String getNonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
-	public void setNonce(final String nonce) {
+    public void setNonce(final String nonce) {
 
-		this.nonce = nonce;
-	}
+        this.nonce = nonce;
+    }
 
 }

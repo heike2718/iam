@@ -9,27 +9,27 @@ package de.egladil.web.auth_validations.dto;
  */
 public class CustomConstraintViolation {
 
-	private String field;
+    private String field;
 
-	private String message;
+    private String message;
 
-	public String getField() {
+    public String getField() {
 
-		return field;
-	}
+        return field;
+    }
 
-	public void setField(final String field) {
+    public void setField(final String field) {
 
-		this.field = field;
-	}
+        this.field = field;
+    }
 
-	public String getMessage() {
+    public String getMessage() {
 
-		return message;
-	}
+        return message;
+    }
 
-	public void setMessage(final String message) {
+    public void setMessage(final String message) {
 
-		this.message = message;
-	}
+        this.message = message;
+    }
 }

@@ -9,6 +9,11 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +33,6 @@ import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
 import de.egladil.web.authprovider.service.mail.TempPasswordChangedMailStrategy;
 import de.egladil.web.authprovider.service.profile.SendMailProfilChangedTask;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.transaction.Transactional.TxType;
 
 /**
  * ChangeTempPasswordService
@@ -39,161 +40,170 @@ import jakarta.transaction.Transactional.TxType;
 @RequestScoped
 public class ChangeTempPasswordService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ChangeTempPasswordService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ChangeTempPasswordService.class);
 
-	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+    private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
-	@Inject
-	TempPasswordDao tempPasswordDao;
+    @Inject
+    TempPasswordDao tempPasswordDao;
 
-	@Inject
-	AuthMailService mailService;
+    @Inject
+    AuthMailService mailService;
 
-	@Inject
-	ChangeLoginSecretsDelegate changeLoginSecretsDelegate;
+    @Inject
+    ChangeLoginSecretsDelegate changeLoginSecretsDelegate;
 
-	/**
-	 *
-	 */
-	public ChangeTempPasswordService() {
+    /**
+     *
+     */
+    public ChangeTempPasswordService() {
 
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * @param tempPasswordDao
-	 * @param mailService
-	 * @param changeLoginSecretsDelegate
-	 */
-	ChangeTempPasswordService(final TempPasswordDao tempPasswordDao, final AuthMailService mailService,
-		final ChangeLoginSecretsDelegate changeLoginSecretsDelegate) {
+    /**
+     * @param tempPasswordDao
+     * @param mailService
+     * @param changeLoginSecretsDelegate
+     */
+    ChangeTempPasswordService(final TempPasswordDao tempPasswordDao, final AuthMailService mailService,
+            final ChangeLoginSecretsDelegate changeLoginSecretsDelegate) {
 
-		super();
-		this.tempPasswordDao = tempPasswordDao;
-		this.mailService = mailService;
-		this.changeLoginSecretsDelegate = changeLoginSecretsDelegate;
-	}
+        super();
+        this.tempPasswordDao = tempPasswordDao;
+        this.mailService = mailService;
+        this.changeLoginSecretsDelegate = changeLoginSecretsDelegate;
+    }
 
-	/**
-	 * Wenn alles gut geht, wird das Passwort des Benutzerkontos geändert und das TempPasswort gelöscht.
-	 *
-	 * @param payload ChangeTempPasswordPayload
-	 * @return ResponsePayload
-	 */
-	@Transactional(value = TxType.REQUIRED)
-	public ResponsePayload changeTempPassword(final ChangeTempPasswordPayload payload) {
+    /**
+     * Wenn alles gut geht, wird das Passwort des Benutzerkontos geändert und das
+     * TempPasswort gelöscht.
+     *
+     * @param payload ChangeTempPasswordPayload
+     * @return ResponsePayload
+     */
+    @Transactional(value = TxType.REQUIRED)
+    public ResponsePayload changeTempPassword(final ChangeTempPasswordPayload payload) {
 
-		try {
+        try {
 
-			Optional<TempPassword> optTempPassword = tempPasswordDao.findByTokenId(payload.getTokenId());
+            Optional<TempPassword> optTempPassword = tempPasswordDao.findByTokenId(payload.getTokenId());
 
-			if (!optTempPassword.isPresent()) {
+            if (!optTempPassword.isPresent()) {
 
-				LOG.warn("Unbekannte tokenId: {}", payload);
+                LOG.warn("Unbekannte tokenId: {}", payload);
 
-				return ResponsePayload.messageOnly(MessagePayload.error(applicationMessages.getString("TempPassword.notFound")));
-			}
+                return ResponsePayload
+                        .messageOnly(MessagePayload.error(applicationMessages.getString("TempPassword.notFound")));
+            }
 
-			TempPassword tempPassword = optTempPassword.get();
+            TempPassword tempPassword = optTempPassword.get();
 
-			LocalDateTime expiresAt = AuthTimeUtils.transformFromDate(tempPassword.getExpiresAt());
+            LocalDateTime expiresAt = AuthTimeUtils.transformFromDate(tempPassword.getExpiresAt());
 
-			if (AuthTimeUtils.now().isAfter(expiresAt)) {
+            if (AuthTimeUtils.now().isAfter(expiresAt)) {
 
-				this.deleteTempPasswordQuietly(tempPassword);
+                this.deleteTempPasswordQuietly(tempPassword);
 
-				return ResponsePayload.messageOnly(MessagePayload.error(applicationMessages.getString("TempPassword.notFound")));
-			}
+                return ResponsePayload
+                        .messageOnly(MessagePayload.error(applicationMessages.getString("TempPassword.notFound")));
+            }
 
-			if (!tempPassword.getPassword().equals(payload.getTempPassword())) {
+            if (!tempPassword.getPassword().equals(payload.getTempPassword())) {
 
-				LOG.warn("Falsches Einmalpasswort '{}': ", payload.getTempPassword(), payload);
+                LOG.warn("Falsches Einmalpasswort '{}': ", payload.getTempPassword(), payload);
 
-				return ResponsePayload
-					.messageOnly(MessagePayload.error(applicationMessages.getString("TempPassword.incorrectCredentials")));
-			}
+                return ResponsePayload
+                        .messageOnly(MessagePayload
+                                .error(applicationMessages.getString("TempPassword.incorrectCredentials")));
+            }
 
-			ResourceOwner resourceOwner = tempPassword.getResourceOwner();
+            ResourceOwner resourceOwner = tempPassword.getResourceOwner();
 
-			if (!resourceOwner.getEmail().equalsIgnoreCase(payload.getEmail())) {
+            if (!resourceOwner.getEmail().equalsIgnoreCase(payload.getEmail())) {
 
-				LOG.warn("Unbekannte Email: {}, ", payload, resourceOwner);
+                LOG.warn("Unbekannte Email: {}, ", payload, resourceOwner);
 
-				return ResponsePayload
-					.messageOnly(MessagePayload.error(applicationMessages.getString("TempPassword.incorrectCredentials")));
-			}
+                return ResponsePayload
+                        .messageOnly(MessagePayload
+                                .error(applicationMessages.getString("TempPassword.incorrectCredentials")));
+            }
 
-			if (!resourceOwner.isAktiviert()) {
+            if (!resourceOwner.isAktiviert()) {
 
-				LOG.warn("Konto {} noch nicht aktiviert", resourceOwner);
+                LOG.warn("Konto {} noch nicht aktiviert", resourceOwner);
 
-				return ResponsePayload
-					.messageOnly(MessagePayload.error(applicationMessages.getString("TempPassword.incorrectCredentials")));
-			}
+                return ResponsePayload
+                        .messageOnly(MessagePayload
+                                .error(applicationMessages.getString("TempPassword.incorrectCredentials")));
+            }
 
-			Client client = tempPassword.getClient();
+            Client client = tempPassword.getClient();
 
-			LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
+            LoginSecrets loginSecrets = resourceOwner.getLoginSecrets();
 
-			changeLoginSecretsDelegate.updateLoginSecrets(loginSecrets, payload.getZweiPassworte().getPasswort().toCharArray());
+            changeLoginSecretsDelegate
+                    .updateLoginSecrets(loginSecrets, payload.getZweiPassworte().getPasswort().toCharArray());
 
-			sendMail(payload.getEmail());
+            sendMail(payload.getEmail());
 
-			this.deleteTempPasswordQuietly(tempPassword);
+            this.deleteTempPasswordQuietly(tempPassword);
 
-			LOG.info("Einmalpasswort erfolgreich geändert: {}", resourceOwner);
+            LOG.info("Einmalpasswort erfolgreich geändert: {}", resourceOwner);
 
-			if (client != null) {
+            if (client != null) {
 
-				ClientInformation data = ClientInformation.fromClient(client);
+                ClientInformation data = ClientInformation.fromClient(client);
 
-				return new ResponsePayload(MessagePayload.info(applicationMessages.getString("TempPassword.changed.success")),
-					data);
+                return new ResponsePayload(
+                        MessagePayload.info(applicationMessages.getString("TempPassword.changed.success")), data);
 
-			}
+            }
 
-			return ResponsePayload.messageOnly(MessagePayload.info(applicationMessages.getString("TempPassword.changed.success")));
-		} finally {
+            return ResponsePayload
+                    .messageOnly(MessagePayload.info(applicationMessages.getString("TempPassword.changed.success")));
+        } finally {
 
-			payload.clean();
-		}
-	}
+            payload.clean();
+        }
+    }
 
-	private void deleteTempPasswordQuietly(final TempPassword tempPassword) {
+    private void deleteTempPasswordQuietly(final TempPassword tempPassword) {
 
-		try {
+        try {
 
-			tempPasswordDao.delete(tempPassword);
-			LOG.debug("{} gelöscht", tempPassword);
-		} catch (Exception e) {
+            tempPasswordDao.delete(tempPassword);
+            LOG.debug("{} gelöscht", tempPassword);
+        } catch (Exception e) {
 
-			LOG.warn(LogmessagePrefixes.DATENMUELL + "TempPassword '{}' ist abgelaufen, konnte aber nicht gelöscht werden.",
-				tempPassword);
-			LOG.error("unerwartete Exception beim Löschen eines TempPasswords: {}", e.getMessage(), e);
-		}
-	}
+            LOG
+                    .warn(LogmessagePrefixes.DATENMUELL
+                            + "TempPassword '{}' ist abgelaufen, konnte aber nicht gelöscht werden.", tempPassword);
+            LOG.error("unerwartete Exception beim Löschen eines TempPasswords: {}", e.getMessage(), e);
+        }
+    }
 
-	private void sendMail(final String email) {
+    private void sendMail(final String email) {
 
-		CreateDefaultMailDatenStrategy strategy = new TempPasswordChangedMailStrategy(email);
+        CreateDefaultMailDatenStrategy strategy = new TempPasswordChangedMailStrategy(email);
 
-		SendMailProfilChangedTask task = new SendMailProfilChangedTask(mailService, strategy);
+        SendMailProfilChangedTask task = new SendMailProfilChangedTask(mailService, strategy);
 
-		try {
+        try {
 
-			Boolean outcome = task.call();
+            Boolean outcome = task.call();
 
-			if (outcome) {
+            if (outcome) {
 
-				LOG.debug("Mail ProfileChanged versendet");
-			} else {
+                LOG.debug("Mail ProfileChanged versendet");
+            } else {
 
-				LOG.warn("Beim Versenden der Mail ist ein Fehler aufgetreten");
-			}
-		} catch (Exception e) {
+                LOG.warn("Beim Versenden der Mail ist ein Fehler aufgetreten");
+            }
+        } catch (Exception e) {
 
-			LOG.error("Senden der Mail konnte nicht beendet werden: " + e.getMessage(), e);
-		}
-	}
+            LOG.error("Senden der Mail konnte nicht beendet werden: " + e.getMessage(), e);
+        }
+    }
 
 }

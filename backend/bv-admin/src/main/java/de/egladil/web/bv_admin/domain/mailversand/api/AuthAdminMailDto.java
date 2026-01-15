@@ -12,69 +12,69 @@ import java.util.List;
  */
 public class AuthAdminMailDto {
 
-	private String betreff;
+    private String betreff;
 
-	private String body;
+    private String body;
 
-	private boolean attachSpammailhinweis;
+    private boolean attachSpammailhinweis;
 
-	private List<String> emfaenger = new ArrayList<>();
+    private List<String> emfaenger = new ArrayList<>();
 
-	private List<String> bccEmpfaenger = new ArrayList<>();
+    private List<String> bccEmpfaenger = new ArrayList<>();
 
-	public String getBetreff() {
+    public String getBetreff() {
 
-		return betreff;
-	}
+        return betreff;
+    }
 
-	public AuthAdminMailDto withBetreff(final String betreff) {
+    public AuthAdminMailDto withBetreff(final String betreff) {
 
-		this.betreff = betreff;
-		return this;
-	}
+        this.betreff = betreff;
+        return this;
+    }
 
-	public String getBody() {
+    public String getBody() {
 
-		return body;
-	}
+        return body;
+    }
 
-	public AuthAdminMailDto withBody(final String body) {
+    public AuthAdminMailDto withBody(final String body) {
 
-		this.body = body;
-		return this;
-	}
+        this.body = body;
+        return this;
+    }
 
-	public boolean isAttachSpammailhinweis() {
+    public boolean isAttachSpammailhinweis() {
 
-		return attachSpammailhinweis;
-	}
+        return attachSpammailhinweis;
+    }
 
-	public AuthAdminMailDto withAttachSpammailhinweis(final boolean attachSpammailhinweis) {
+    public AuthAdminMailDto withAttachSpammailhinweis(final boolean attachSpammailhinweis) {
 
-		this.attachSpammailhinweis = attachSpammailhinweis;
-		return this;
-	}
+        this.attachSpammailhinweis = attachSpammailhinweis;
+        return this;
+    }
 
-	public List<String> getEmfaenger() {
+    public List<String> getEmfaenger() {
 
-		return emfaenger;
-	}
+        return emfaenger;
+    }
 
-	public AuthAdminMailDto withEmfaenger(final List<String> emfaenger) {
+    public AuthAdminMailDto withEmfaenger(final List<String> emfaenger) {
 
-		this.emfaenger = emfaenger;
-		return this;
-	}
+        this.emfaenger = emfaenger;
+        return this;
+    }
 
-	public List<String> getBccEmpfaenger() {
+    public List<String> getBccEmpfaenger() {
 
-		return bccEmpfaenger;
-	}
+        return bccEmpfaenger;
+    }
 
-	public AuthAdminMailDto withBccEmpfaenger(final List<String> bccEmpfaenger) {
+    public AuthAdminMailDto withBccEmpfaenger(final List<String> bccEmpfaenger) {
 
-		this.bccEmpfaenger = bccEmpfaenger;
-		return this;
-	}
+        this.bccEmpfaenger = bccEmpfaenger;
+        return this;
+    }
 
 }

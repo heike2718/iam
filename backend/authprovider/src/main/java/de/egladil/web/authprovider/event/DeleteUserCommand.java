@@ -11,24 +11,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DeleteUserCommand {
 
-	@JsonProperty
-	private String syncToken;
+    @JsonProperty
+    private String syncToken;
 
-	@JsonProperty
-	private String uuid;
+    @JsonProperty
+    private String uuid;
 
-	public static DeleteUserCommand create(final String uuid) {
+    public static DeleteUserCommand create(final String uuid) {
 
-		DeleteUserCommand result = new DeleteUserCommand();
-		result.uuid = uuid;
-		return result;
-	}
+        DeleteUserCommand result = new DeleteUserCommand();
+        result.uuid = uuid;
+        return result;
+    }
 
-	public DeleteUserCommand withSyncToken(final String syncToken) {
+    public DeleteUserCommand withSyncToken(final String syncToken) {
 
-		this.syncToken = syncToken;
-		return this;
+        this.syncToken = syncToken;
+        return this;
 
-	}
+    }
 
 }

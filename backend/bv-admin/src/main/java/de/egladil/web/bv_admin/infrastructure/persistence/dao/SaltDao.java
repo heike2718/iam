@@ -4,10 +4,11 @@
 // =====================================================
 package de.egladil.web.bv_admin.infrastructure.persistence.dao;
 
-import de.egladil.web.bv_admin.infrastructure.persistence.entities.Salt;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+
+import de.egladil.web.bv_admin.infrastructure.persistence.entities.Salt;
 
 /**
  * SaltDao
@@ -15,37 +16,37 @@ import jakarta.persistence.EntityManager;
 @RequestScoped
 public class SaltDao {
 
-	@Inject
-	EntityManager entityManager;
+    @Inject
+    EntityManager entityManager;
 
-	/**
-	 * Holt das Salt mit der gegebenen ID.
-	 *
-	 * @param id
-	 * @return Salt oder null
-	 */
-	public Salt findSaltByID(final Long id) {
+    /**
+     * Holt das Salt mit der gegebenen ID.
+     *
+     * @param id
+     * @return Salt oder null
+     */
+    public Salt findSaltByID(final Long id) {
 
-		return entityManager.find(Salt.class, id);
+        return entityManager.find(Salt.class, id);
 
-	}
+    }
 
-	/**
-	 * Löscht den Eintrag mit der gegebenen ID.<br>
-	 * <br>
-	 * Wegen der FK-Konstruktion wird die bis zum USER kaskadiert.
-	 *
-	 * @param id
-	 */
-	public void deleteSaltAndCascade(final Long id) {
+    /**
+     * Löscht den Eintrag mit der gegebenen ID.<br>
+     * <br>
+     * Wegen der FK-Konstruktion wird die bis zum USER kaskadiert.
+     *
+     * @param id
+     */
+    public void deleteSaltAndCascade(final Long id) {
 
-		Salt salt = findSaltByID(id);
+        Salt salt = findSaltByID(id);
 
-		if (salt != null) {
+        if (salt != null) {
 
-			entityManager.remove(salt);
-		}
+            entityManager.remove(salt);
+        }
 
-	}
+    }
 
 }

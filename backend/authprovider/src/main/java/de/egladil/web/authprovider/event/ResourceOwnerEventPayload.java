@@ -13,93 +13,93 @@ import de.egladil.web.authprovider.entities.ResourceOwner;
  */
 public class ResourceOwnerEventPayload {
 
-	@JsonProperty
-	private String uuid;
+    @JsonProperty
+    private String uuid;
 
-	@JsonProperty
-	private String loginName;
+    @JsonProperty
+    private String loginName;
 
-	@JsonProperty
-	private String vorname;
+    @JsonProperty
+    private String vorname;
 
-	@JsonProperty
-	private String nachname;
+    @JsonProperty
+    private String nachname;
 
-	@JsonProperty
-	private String email;
+    @JsonProperty
+    private String email;
 
-	@JsonProperty
-	private String nonce;
+    @JsonProperty
+    private String nonce;
 
-	private String clientId;
+    private String clientId;
 
-	ResourceOwnerEventPayload() {
+    ResourceOwnerEventPayload() {
 
-	}
+    }
 
-	public static ResourceOwnerEventPayload createFromResourceOwner(final ResourceOwner resourceOwner) {
+    public static ResourceOwnerEventPayload createFromResourceOwner(final ResourceOwner resourceOwner) {
 
-		ResourceOwnerEventPayload result = new ResourceOwnerEventPayload();
-		result.uuid = resourceOwner.getUuid();
-		result.loginName = resourceOwner.getLoginName();
-		result.vorname = resourceOwner.getVorname();
-		result.nachname = resourceOwner.getNachname();
-		result.email = resourceOwner.getEmail();
-		return result;
+        ResourceOwnerEventPayload result = new ResourceOwnerEventPayload();
+        result.uuid = resourceOwner.getUuid();
+        result.loginName = resourceOwner.getLoginName();
+        result.vorname = resourceOwner.getVorname();
+        result.nachname = resourceOwner.getNachname();
+        result.email = resourceOwner.getEmail();
+        return result;
 
-	}
+    }
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
-	public String getLoginName() {
+    public String getLoginName() {
 
-		return loginName;
-	}
+        return loginName;
+    }
 
-	public String getVorname() {
+    public String getVorname() {
 
-		return vorname;
-	}
+        return vorname;
+    }
 
-	public String getNachname() {
+    public String getNachname() {
 
-		return nachname;
-	}
+        return nachname;
+    }
 
-	public String getEmail() {
+    public String getEmail() {
 
-		return email;
-	}
+        return email;
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return "ResourceOwnerEventPayload [uuid=" + uuid + ", vorname=" + vorname + ", nachname=" + nachname + "]";
-	}
+        return "ResourceOwnerEventPayload [uuid=" + uuid + ", vorname=" + vorname + ", nachname=" + nachname + "]";
+    }
 
-	public String getNonce() {
+    public String getNonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
-	public ResourceOwnerEventPayload withNonce(final String nonce) {
+    public ResourceOwnerEventPayload withNonce(final String nonce) {
 
-		this.nonce = nonce;
-		return this;
-	}
+        this.nonce = nonce;
+        return this;
+    }
 
-	public String getClientId() {
+    public String getClientId() {
 
-		return clientId;
-	}
+        return clientId;
+    }
 
-	public ResourceOwnerEventPayload withClientId(final String clientId) {
+    public ResourceOwnerEventPayload withClientId(final String clientId) {
 
-		this.clientId = clientId;
-		return this;
-	}
+        this.clientId = clientId;
+        return this;
+    }
 
 }

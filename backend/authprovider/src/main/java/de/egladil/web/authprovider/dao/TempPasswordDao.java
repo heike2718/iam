@@ -1,7 +1,7 @@
-//=====================================================
+// =====================================================
 // Projekt: authprovider
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 
 package de.egladil.web.authprovider.dao;
 
@@ -14,12 +14,12 @@ import de.egladil.web.authprovider.entities.TempPassword;
  */
 public interface TempPasswordDao extends BaseDao {
 
-	/**
-	 * Sucht den Eintrag mit dem (eindeutiger) tokenID.
-	 *
-	 * @param tokenId String
-	 * @return Optional
-	 */
-	Optional<TempPassword> findByTokenId(String tokenId);
+    /**
+     * Sucht den Eintrag mit dem (eindeutiger) tokenID.
+     *
+     * @param tokenId String
+     * @return Optional
+     */
+    Optional<TempPassword> findByTokenId(String tokenId);
 
 }

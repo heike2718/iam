@@ -14,29 +14,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Schema(description = "Kombiniert uuid mit dem MailversandauftragDetailsDto.")
 public class MailversandauftragDetailsResponseDto {
 
-	@JsonProperty
-	private String uuid;
+    @JsonProperty
+    private String uuid;
 
-	@JsonProperty
-	private MailversandauftragDetails versandauftrag;
+    @JsonProperty
+    private MailversandauftragDetails versandauftrag;
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
-	public void setUuid(final String uuid) {
+    public void setUuid(final String uuid) {
 
-		this.uuid = uuid;
-	}
+        this.uuid = uuid;
+    }
 
-	public MailversandauftragDetails getVersandauftrag() {
+    public MailversandauftragDetails getVersandauftrag() {
 
-		return versandauftrag;
-	}
+        return versandauftrag;
+    }
 
-	public void setVersandauftrag(final MailversandauftragDetails versandauftrag) {
+    public void setVersandauftrag(final MailversandauftragDetails versandauftrag) {
 
-		this.versandauftrag = versandauftrag;
-	}
+        this.versandauftrag = versandauftrag;
+    }
 }

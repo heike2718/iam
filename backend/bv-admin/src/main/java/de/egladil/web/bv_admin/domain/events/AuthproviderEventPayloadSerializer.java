@@ -17,21 +17,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class AuthproviderEventPayloadSerializer implements Function<AuthAdminEventPayload, String> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AuthproviderEventPayloadSerializer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthproviderEventPayloadSerializer.class);
 
-	@Override
-	public String apply(final AuthAdminEventPayload resourceOwner) {
+    @Override
+    public String apply(final AuthAdminEventPayload resourceOwner) {
 
-		try {
+        try {
 
-			return new ObjectMapper().writeValueAsString(resourceOwner);
+            return new ObjectMapper().writeValueAsString(resourceOwner);
 
-		} catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
 
-			LOG.error("konnte event nicht serialisieren: " + e.getMessage(), e);
+            LOG.error("konnte event nicht serialisieren: " + e.getMessage(), e);
 
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 
 }

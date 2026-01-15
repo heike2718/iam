@@ -12,54 +12,55 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
- * AbstractWhitelistValidator validiert Strings gegen eine Whitelist. Ist der Wert null oder leer, wird er als valid
- * angesehen. Bei Pflichtattributen müssen also zusätzliche Annotationen angebracht werden.
+ * AbstractWhitelistValidator validiert Strings gegen eine Whitelist. Ist der
+ * Wert null oder leer, wird er als valid angesehen. Bei Pflichtattributen
+ * müssen also zusätzliche Annotationen angebracht werden.
  */
 public abstract class AbstractWhitelistValidator<A extends Annotation, T> implements ConstraintValidator<A, T> {
 
-	/**
-	 * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
-	 */
-	@Override
-	public void initialize(final A constraintAnnotation) {
+    /**
+     * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+     */
+    @Override
+    public void initialize(final A constraintAnnotation) {
 
-		// nix
-	}
+        // nix
+    }
 
-	@Override
-	public boolean isValid(final T value, final ConstraintValidatorContext context) {
+    @Override
+    public boolean isValid(final T value, final ConstraintValidatorContext context) {
 
-		if (value == null) {
+        if (value == null) {
 
-			return true;
-		}
+            return true;
+        }
 
-		if (!(value instanceof String)) {
+        if (!(value instanceof String)) {
 
-			return false;
-		}
-		String strValue = (String) value;
+            return false;
+        }
+        String strValue = (String) value;
 
-		if (strValue.isEmpty()) {
+        if (strValue.isEmpty()) {
 
-			return true;
-		}
+            return true;
+        }
 
-		Matcher matcher = getPattern().matcher(strValue);
-		boolean matches = matcher.matches();
-		return matches;
-	}
+        Matcher matcher = getPattern().matcher(strValue);
+        boolean matches = matcher.matches();
+        return matches;
+    }
 
-	public Pattern getPattern() {
+    public Pattern getPattern() {
 
-		Pattern pattern = Pattern.compile(getWhitelist());
-		return pattern;
-	}
+        Pattern pattern = Pattern.compile(getWhitelist());
+        return pattern;
+    }
 
-	/**
-	 * Gibt die Whitelist als regular expression zurück.
-	 *
-	 * @return
-	 */
-	protected abstract String getWhitelist();
+    /**
+     * Gibt die Whitelist als regular expression zurück.
+     *
+     * @return
+     */
+    protected abstract String getWhitelist();
 }

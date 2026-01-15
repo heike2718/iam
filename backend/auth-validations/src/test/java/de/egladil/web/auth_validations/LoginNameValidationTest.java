@@ -4,146 +4,147 @@
 // =====================================================
 package de.egladil.web.auth_validations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.Set;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.egladil.web.auth_validations.annotations.LoginName;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * LoginNameValidationTest
  */
 public class LoginNameValidationTest {
 
-	private static final String EXPECTED_MESSAGE = "Der Login-Name enthält ungültige Zeichen. Erlaubt sind die Buchstaben A-Z und a-z, die Ziffern 0-9, Leerzeichen und die Sonderzeichen @ ! # $ % & ' * + - / = ? ^ _ . ` { | } ~ .";
+    private static final String EXPECTED_MESSAGE = "Der Login-Name enthält ungültige Zeichen. Erlaubt sind die Buchstaben A-Z und a-z, die Ziffern 0-9, Leerzeichen und die Sonderzeichen @ ! # $ % & ' * + - / = ? ^ _ . ` { | } ~ .";
 
-	private Validator validator;
+    private Validator validator;
 
-	class LoginNameBean {
+    class LoginNameBean {
 
-		@LoginName
-		private final String value;
+        @LoginName
+        private final String value;
 
-		public LoginNameBean(final String value) {
+        public LoginNameBean(final String value) {
 
-			super();
-			this.value = value;
-		}
-	}
+            super();
+            this.value = value;
+        }
+    }
 
-	@BeforeEach
-	void setUp() {
+    @BeforeEach
+    void setUp() {
 
-		ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-		validator = validatorFactory.getValidator();
-	}
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
 
-	@Test
-	void shouldPass_when_allowed_letters() {
+    @Test
+    void shouldPass_when_allowed_letters() {
 
-		// Arrange
-		String value = InputSecuredConstants.LATIN;
-		LoginNameBean bean = new LoginNameBean(value);
+        // Arrange
+        String value = InputSecuredConstants.LATIN;
+        LoginNameBean bean = new LoginNameBean(value);
 
-		// Act
-		Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
+        // Act
+        Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
 
-		// Assert
-		assertEquals(0, constraintViolations.size());
+        // Assert
+        assertEquals(0, constraintViolations.size());
 
-	}
+    }
 
-	@Test
-	void shouldPass_when_digits() {
+    @Test
+    void shouldPass_when_digits() {
 
-		// Arrange
-		String value = InputSecuredConstants.DIGITS;
-		LoginNameBean bean = new LoginNameBean(value);
+        // Arrange
+        String value = InputSecuredConstants.DIGITS;
+        LoginNameBean bean = new LoginNameBean(value);
 
-		// Act
-		Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
+        // Act
+        Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
 
-		// Assert
-		assertEquals(0, constraintViolations.size());
+        // Assert
+        assertEquals(0, constraintViolations.size());
 
-	}
+    }
 
-	@Test
-	void shouldPass_when_allowedSpecialChars() {
+    @Test
+    void shouldPass_when_allowedSpecialChars() {
 
-		//
-		String value = "! # $ % & ' * + - / = ? ^ _ . ` { | } ~ @";
-		LoginNameBean bean = new LoginNameBean(value);
+        //
+        String value = "! # $ % & ' * + - / = ? ^ _ . ` { | } ~ @";
+        LoginNameBean bean = new LoginNameBean(value);
 
-		// Act
-		Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
+        // Act
+        Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
 
-		// Assert
-		assertEquals(0, constraintViolations.size());
-	}
+        // Assert
+        assertEquals(0, constraintViolations.size());
+    }
 
-	@Test
-	void shouldNotPass_when_vulnerableSpecialChars() {
+    @Test
+    void shouldNotPass_when_vulnerableSpecialChars() {
 
-		// Arrange
-		String value = "<\" \\ \">";
-		LoginNameBean bean = new LoginNameBean(value);
+        // Arrange
+        String value = "<\" \\ \">";
+        LoginNameBean bean = new LoginNameBean(value);
 
-		// Act
-		Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
+        // Act
+        Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
 
-		// Assert
-		assertEquals(1, constraintViolations.size());
+        // Assert
+        assertEquals(1, constraintViolations.size());
 
-		ConstraintViolation<LoginNameBean> cv = constraintViolations.iterator().next();
+        ConstraintViolation<LoginNameBean> cv = constraintViolations.iterator().next();
 
-		assertEquals(EXPECTED_MESSAGE, cv.getMessage());
+        assertEquals(EXPECTED_MESSAGE, cv.getMessage());
 
-	}
+    }
 
-	@Test
-	void shouldNotPass_when_doublePointsInTheMiddle() {
+    @Test
+    void shouldNotPass_when_doublePointsInTheMiddle() {
 
-		// Arrange
-		String value = "hallo..@";
-		LoginNameBean bean = new LoginNameBean(value);
+        // Arrange
+        String value = "hallo..@";
+        LoginNameBean bean = new LoginNameBean(value);
 
-		// Act
-		Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
+        // Act
+        Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
 
-		// Assert
-		assertEquals(1, constraintViolations.size());
+        // Assert
+        assertEquals(1, constraintViolations.size());
 
-		ConstraintViolation<LoginNameBean> cv = constraintViolations.iterator().next();
+        ConstraintViolation<LoginNameBean> cv = constraintViolations.iterator().next();
 
-		assertEquals(EXPECTED_MESSAGE, cv.getMessage());
+        assertEquals(EXPECTED_MESSAGE, cv.getMessage());
 
-	}
+    }
 
-	@Test
-	void shouldNotPass_when_startsWithPointPoint() {
+    @Test
+    void shouldNotPass_when_startsWithPointPoint() {
 
-		// Arrange
-		String value = "..hallo";
-		LoginNameBean bean = new LoginNameBean(value);
+        // Arrange
+        String value = "..hallo";
+        LoginNameBean bean = new LoginNameBean(value);
 
-		// Act
-		Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
+        // Act
+        Set<ConstraintViolation<LoginNameBean>> constraintViolations = validator.validate(bean);
 
-		// Assert
-		assertEquals(1, constraintViolations.size());
+        // Assert
+        assertEquals(1, constraintViolations.size());
 
-		ConstraintViolation<LoginNameBean> cv = constraintViolations.iterator().next();
+        ConstraintViolation<LoginNameBean> cv = constraintViolations.iterator().next();
 
-		assertEquals(EXPECTED_MESSAGE, cv.getMessage());
+        assertEquals(EXPECTED_MESSAGE, cv.getMessage());
 
-	}
+    }
 
 }

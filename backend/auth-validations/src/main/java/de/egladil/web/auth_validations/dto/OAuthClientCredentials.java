@@ -4,75 +4,76 @@
 // =====================================================
 package de.egladil.web.auth_validations.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import de.egladil.web.auth_validations.annotations.ClientId;
 import de.egladil.web.auth_validations.annotations.UuidString;
 import de.egladil.web.auth_validations.utils.SecUtils;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 /**
  * OAuthClientCredentials
  */
 public class OAuthClientCredentials {
 
-	@NotBlank
-	@ClientId
-	@Size(max = 50)
-	private String clientId;
+    @NotBlank
+    @ClientId
+    @Size(max = 50)
+    private String clientId;
 
-	@NotBlank
-	@ClientId
-	@Size(max = 50)
-	private String clientSecret;
+    @NotBlank
+    @ClientId
+    @Size(max = 50)
+    private String clientSecret;
 
-	@UuidString
-	@Size(max = 36)
-	private String nonce;
+    @UuidString
+    @Size(max = 36)
+    private String nonce;
 
-	public static OAuthClientCredentials create(final String clientId, final String clientSecret, final String nonce) {
+    public static OAuthClientCredentials create(final String clientId, final String clientSecret, final String nonce) {
 
-		OAuthClientCredentials result = new OAuthClientCredentials();
-		result.clientId = clientId;
-		result.clientSecret = clientSecret;
-		result.nonce = nonce;
-		return result;
+        OAuthClientCredentials result = new OAuthClientCredentials();
+        result.clientId = clientId;
+        result.clientSecret = clientSecret;
+        result.nonce = nonce;
+        return result;
 
-	}
+    }
 
-	public String getClientId() {
+    public String getClientId() {
 
-		return clientId;
-	}
+        return clientId;
+    }
 
-	public void setClientId(final String clientId) {
+    public void setClientId(final String clientId) {
 
-		this.clientId = clientId;
-	}
+        this.clientId = clientId;
+    }
 
-	public String getClientSecret() {
+    public String getClientSecret() {
 
-		return clientSecret;
-	}
+        return clientSecret;
+    }
 
-	public void setClientSecret(final String clientSecret) {
+    public void setClientSecret(final String clientSecret) {
 
-		this.clientSecret = clientSecret;
-	}
+        this.clientSecret = clientSecret;
+    }
 
-	public String getNonce() {
+    public String getNonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
-	public void setNonce(final String nonce) {
+    public void setNonce(final String nonce) {
 
-		this.nonce = nonce;
-	}
+        this.nonce = nonce;
+    }
 
-	public void clean() {
+    public void clean() {
 
-		clientId = SecUtils.wipe(clientId);
-		clientSecret = SecUtils.wipe(clientSecret);
-	}
+        clientId = SecUtils.wipe(clientId);
+        clientSecret = SecUtils.wipe(clientSecret);
+    }
 
 }

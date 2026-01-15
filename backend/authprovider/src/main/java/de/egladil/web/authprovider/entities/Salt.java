@@ -23,79 +23,79 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "SLZ")
 public class Salt implements AuthProviderEntity {
 
-	/* serialVersionUID */
-	private static final long serialVersionUID = 1L;
+    /* serialVersionUID */
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
-	@JsonIgnore
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    @JsonIgnore
+    private Long id;
 
-	@Column(name = "ALGORITHM", length = 10)
-	@NotBlank
-	private String algorithmName;
+    @Column(name = "ALGORITHM", length = 10)
+    @NotBlank
+    private String algorithmName;
 
-	@Column(name = "ROUNDS")
-	private int iterations;
+    @Column(name = "ROUNDS")
+    private int iterations;
 
-	@Column(name = "WERT", length = 1000)
-	private String wert;
+    @Column(name = "WERT", length = 1000)
+    private String wert;
 
-	@Version
-	@Column(name = "VERSION")
-	@JsonIgnore
-	private int version;
+    @Version
+    @Column(name = "VERSION")
+    @JsonIgnore
+    private int version;
 
-	@Override
-	public Long getId() {
+    @Override
+    public Long getId() {
 
-		return this.id;
-	}
+        return this.id;
+    }
 
-	public String getAlgorithmName() {
+    public String getAlgorithmName() {
 
-		return algorithmName;
-	}
+        return algorithmName;
+    }
 
-	public void setAlgorithmName(final String algorithmName) {
+    public void setAlgorithmName(final String algorithmName) {
 
-		this.algorithmName = algorithmName;
-	}
+        this.algorithmName = algorithmName;
+    }
 
-	public int getIterations() {
+    public int getIterations() {
 
-		return iterations;
-	}
+        return iterations;
+    }
 
-	public void setIterations(final int iterations) {
+    public void setIterations(final int iterations) {
 
-		this.iterations = iterations;
-	}
+        this.iterations = iterations;
+    }
 
-	public String getWert() {
+    public String getWert() {
 
-		return wert;
-	}
+        return wert;
+    }
 
-	public void setWert(final String wert) {
+    public void setWert(final String wert) {
 
-		this.wert = wert;
-	}
+        this.wert = wert;
+    }
 
-	public int getVersion() {
+    public int getVersion() {
 
-		return version;
-	}
+        return version;
+    }
 
-	public void setVersion(final int version) {
+    public void setVersion(final int version) {
 
-		this.version = version;
-	}
+        this.version = version;
+    }
 
-	public void setId(final Long id) {
+    public void setId(final Long id) {
 
-		this.id = id;
-	}
+        this.id = id;
+    }
 
 }

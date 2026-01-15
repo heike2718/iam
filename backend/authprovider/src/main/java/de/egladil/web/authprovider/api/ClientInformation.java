@@ -1,7 +1,7 @@
-//=====================================================
+// =====================================================
 // Projekt: authprovider
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 
 package de.egladil.web.authprovider.api;
 
@@ -12,63 +12,63 @@ import de.egladil.web.authprovider.entities.Client;
  */
 public class ClientInformation {
 
-	private String name;
+    private String name;
 
-	private String zurueckText;
+    private String zurueckText;
 
-	private String agbUrl;
+    private String agbUrl;
 
-	private boolean loginnameSupported;
+    private boolean loginnameSupported;
 
-	private boolean namenRequired;
+    private boolean namenRequired;
 
-	private String baseUrl;
+    private String baseUrl;
 
-	private String state;
+    private String state;
 
-	public static ClientInformation fromClient(final Client client) {
+    public static ClientInformation fromClient(final Client client) {
 
-		ClientInformation data = new ClientInformation();
-		data.name = client.getName();
-		data.zurueckText = client.getZurueckText();
-		data.agbUrl = client.getAgbUrl();
-		data.loginnameSupported = client.isLoginWithLoginnameSupported();
-		data.namenRequired = client.isVornameNachnameRequired();
-		data.baseUrl = client.getBaseUrl();
+        ClientInformation data = new ClientInformation();
+        data.name = client.getName();
+        data.zurueckText = client.getZurueckText();
+        data.agbUrl = client.getAgbUrl();
+        data.loginnameSupported = client.isLoginWithLoginnameSupported();
+        data.namenRequired = client.isVornameNachnameRequired();
+        data.baseUrl = client.getBaseUrl();
 
-		return data;
-	}
+        return data;
+    }
 
-	public String getAgbUrl() {
-		return agbUrl;
-	}
+    public String getAgbUrl() {
+        return agbUrl;
+    }
 
-	public boolean isLoginnameSupported() {
-		return loginnameSupported;
-	}
+    public boolean isLoginnameSupported() {
+        return loginnameSupported;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getZurueckText() {
-		return zurueckText;
-	}
+    public String getZurueckText() {
+        return zurueckText;
+    }
 
-	public boolean isNamenRequired() {
-		return namenRequired;
-	}
+    public boolean isNamenRequired() {
+        return namenRequired;
+    }
 
-	public String getBaseUrl() {
-		return baseUrl;
-	}
+    public String getBaseUrl() {
+        return baseUrl;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public void setState(final String state) {
-		this.state = state;
-	}
+    public void setState(final String state) {
+        this.state = state;
+    }
 
 }

@@ -7,8 +7,15 @@ package de.egladil.web.bv_admin.domain.events;
 import java.util.Map;
 import java.util.UUID;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.ProcessingException;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,11 +26,6 @@ import de.egladil.web.bv_admin.domain.exceptions.CommandPropagationFailedExcepti
 import de.egladil.web.bv_admin.infrastructure.restclient.HandshakeAck;
 import de.egladil.web.bv_admin.infrastructure.restclient.MkGatewayRestClient;
 import de.egladil.web.bv_admin.infrastructure.restclient.SyncHandshake;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.ProcessingException;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Response;
 
 /**
  * PropagateEventService
@@ -31,113 +33,119 @@ import jakarta.ws.rs.core.Response;
 @ApplicationScoped
 public class PropagateEventService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PropagateEventService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PropagateEventService.class);
 
-	@ConfigProperty(name = "sync.infrastructure.available")
-	boolean syncInfrastructureAvailable;
+    @ConfigProperty(name = "sync.infrastructure.available")
+    boolean syncInfrastructureAvailable;
 
-	@ConfigProperty(name = "mkv-app.client-id")
-	String mkGatewayClientId;
+    @ConfigProperty(name = "mkv-app.client-id")
+    String mkGatewayClientId;
 
-	@ConfigProperty(name = "stage")
-	String stage;
+    @ConfigProperty(name = "stage")
+    String stage;
 
-	@Inject
-	@RestClient
-	MkGatewayRestClient mkGatewayRestClient;
+    @Inject
+    @RestClient
+    MkGatewayRestClient mkGatewayRestClient;
 
-	/**
-	 * Propagiert das Löschen eines Benutzers an mk-gateway, damit der zugehörige Veranstalter gelöscht wird.
-	 *
-	 * @param uuid String die UUID des USERS
-	 * @throws CommandPropagationFailedException wenn das nicht geklappt hat.
-	 */
-	public void propagateDeleteUserToMkGateway(final String uuid) throws CommandPropagationFailedException {
+    /**
+     * Propagiert das Löschen eines Benutzers an mk-gateway, damit der zugehörige
+     * Veranstalter gelöscht wird.
+     *
+     * @param uuid String die UUID des USERS
+     * @throws CommandPropagationFailedException wenn das nicht geklappt hat.
+     */
+    public void propagateDeleteUserToMkGateway(final String uuid) throws CommandPropagationFailedException {
 
-		if (!syncInfrastructureAvailable) {
+        if (!syncInfrastructureAvailable) {
 
-			LOGGER.warn("Sync mit mk-gateway ist deaktiviert. Loeschen des USERS {} wird nicht propagiert", uuid);
-			return;
-		}
+            LOGGER.warn("Sync mit mk-gateway ist deaktiviert. Loeschen des USERS {} wird nicht propagiert", uuid);
+            return;
+        }
 
-		String syncToken = getSyncToken();
+        String syncToken = getSyncToken();
 
-		if (syncToken == null) {
+        if (syncToken == null) {
 
-			String message = "Datensynchronisation mit mk-gateway hat keine Freigabe: syncToken ist null";
-			LOGGER.error(message);
-			// this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
-			throw new CommandPropagationFailedException(message);
-		}
+            String message = "Datensynchronisation mit mk-gateway hat keine Freigabe: syncToken ist null";
+            LOGGER.error(message);
+            // this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED,
+            // resourceOwner);
+            throw new CommandPropagationFailedException(message);
+        }
 
-		LOGGER.debug("sync ack erhalten: {}", syncToken);
+        LOGGER.debug("sync ack erhalten: {}", syncToken);
 
-		try (Response mkGatewayResponse = mkGatewayRestClient
-			.propagateUserDeleted(DeleteUserCommand.create(uuid).withSyncToken(syncToken))) {
+        try (Response mkGatewayResponse = mkGatewayRestClient
+                .propagateUserDeleted(DeleteUserCommand.create(uuid).withSyncToken(syncToken))) {
 
-			if (mkGatewayResponse.getStatus() != 200) {
+            if (mkGatewayResponse.getStatus() != 200) {
 
-				LOGGER.error("Status {} vom mk-gateway beim Senden des DeleteUserCommands {} ", mkGatewayResponse.getStatus(),
-					uuid);
-				// this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
-				String message = "Datensynchronisation mit mk-gateway fehlgeschlagen";
-				throw new CommandPropagationFailedException(message);
-			}
+                LOGGER
+                        .error("Status {} vom mk-gateway beim Senden des DeleteUserCommands {} ",
+                                mkGatewayResponse.getStatus(), uuid);
+                // this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED,
+                // resourceOwner);
+                String message = "Datensynchronisation mit mk-gateway fehlgeschlagen";
+                throw new CommandPropagationFailedException(message);
+            }
 
-		} catch (WebApplicationException e) {
+        } catch (WebApplicationException e) {
 
-			LOGGER.error("response.status={} - {}", e.getResponse().getStatus(), e.getMessage(), e);
-			// this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
-			throw new CommandPropagationFailedException("WebapplicationException vom mk-gateway: " + e.getMessage(), e);
+            LOGGER.error("response.status={} - {}", e.getResponse().getStatus(), e.getMessage(), e);
+            // this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED,
+            // resourceOwner);
+            throw new CommandPropagationFailedException("WebapplicationException vom mk-gateway: " + e.getMessage(), e);
 
-		} catch (ProcessingException e) {
+        } catch (ProcessingException e) {
 
-			LOGGER.error("endpoint mk-gateway ist nicht erreichbar");
-			// this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED, resourceOwner);
-			throw new CommandPropagationFailedException("Der Endpoint mk-gateway ist nicht erreichbar.");
+            LOGGER.error("endpoint mk-gateway ist nicht erreichbar");
+            // this.sendeInfoAnMichQuietly(MinikaengurukontenMailKontext.SYNC_FAILED,
+            // resourceOwner);
+            throw new CommandPropagationFailedException("Der Endpoint mk-gateway ist nicht erreichbar.");
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * @param event
-	 */
-	private String getSyncToken() {
+    /**
+     * @param event
+     */
+    private String getSyncToken() {
 
-		String nonce = UUID.randomUUID().toString();
+        String nonce = UUID.randomUUID().toString();
 
-		SyncHandshake handshake = new SyncHandshake(mkGatewayClientId, nonce);
+        SyncHandshake handshake = new SyncHandshake(mkGatewayClientId, nonce);
 
-		LOGGER.debug("mkGatewayClientId={}", mkGatewayClientId);
+        LOGGER.debug("mkGatewayClientId={}", mkGatewayClientId);
 
-		try (Response mkGatewayResponse = mkGatewayRestClient.getSyncToken(handshake)) {
+        try (Response mkGatewayResponse = mkGatewayRestClient.getSyncToken(handshake)) {
 
-			LOGGER.info("sync: mkGatewayResponse.status={}", mkGatewayResponse.getStatus());
+            LOGGER.info("sync: mkGatewayResponse.status={}", mkGatewayResponse.getStatus());
 
-			ResponsePayload responsePayload = mkGatewayResponse.readEntity(ResponsePayload.class);
+            ResponsePayload responsePayload = mkGatewayResponse.readEntity(ResponsePayload.class);
 
-			MessagePayload messagePayload = responsePayload.getMessage();
+            MessagePayload messagePayload = responsePayload.getMessage();
 
-			LOGGER.debug("Result={}", messagePayload.toString());
+            LOGGER.debug("Result={}", messagePayload.toString());
 
-			if (messagePayload.isOk()) {
+            if (messagePayload.isOk()) {
 
-				@SuppressWarnings("unchecked")
-				Map<String, Object> data = (Map<String, Object>) responsePayload.getData();
+                @SuppressWarnings("unchecked")
+                Map<String, Object> data = (Map<String, Object>) responsePayload.getData();
 
-				HandshakeAck ack = HandshakeAck.fromResponse(data);
+                HandshakeAck ack = HandshakeAck.fromResponse(data);
 
-				if (!"dev".equals(stage) && !nonce.equals(ack.nonce())) {
+                if (!"dev".equals(stage) && !nonce.equals(ack.nonce())) {
 
-					LOGGER.error("Nonce wurde geändert");
-					return null;
-				}
+                    LOGGER.error("Nonce wurde geändert");
+                    return null;
+                }
 
-				return ack.syncToken();
-			}
+                return ack.syncToken();
+            }
 
-			LOGGER.error("MessagePayload={}", messagePayload.toString());
-			return null;
-		}
-	}
+            LOGGER.error("MessagePayload={}", messagePayload.toString());
+            return null;
+        }
+    }
 }

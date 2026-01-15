@@ -11,38 +11,38 @@ import de.egladil.web.benutzerprofil.domain.benutzer.DuplicateAttributeType;
  */
 public class DuplicateEntityException extends RuntimeException {
 
-	private static final long serialVersionUID = -4363667040261045259L;
+    private static final long serialVersionUID = -4363667040261045259L;
 
-	private final int defaultStatuscode = 412;
+    private final int defaultStatuscode = 412;
 
-	private DuplicateAttributeType duplicateAttributeType;
+    private DuplicateAttributeType duplicateAttributeType;
 
-	public DuplicateEntityException(final String message, final Throwable cause) {
+    public DuplicateEntityException(final String message, final Throwable cause) {
 
-		super(message, cause);
+        super(message, cause);
 
-	}
+    }
 
-	public DuplicateEntityException(final String message) {
+    public DuplicateEntityException(final String message) {
 
-		super(message);
+        super(message);
 
-	}
+    }
 
-	public DuplicateEntityException(final DuplicateAttributeType duppplicateAttributeType) {
+    public DuplicateEntityException(final DuplicateAttributeType duppplicateAttributeType) {
 
-		super();
-		this.duplicateAttributeType = duppplicateAttributeType;
-	}
+        super();
+        this.duplicateAttributeType = duppplicateAttributeType;
+    }
 
-	public DuplicateAttributeType getDuplicateAttributeType() {
+    public DuplicateAttributeType getDuplicateAttributeType() {
 
-		return duplicateAttributeType;
-	}
+        return duplicateAttributeType;
+    }
 
-	public int getDefaultStatuscode() {
+    public int getDefaultStatuscode() {
 
-		return defaultStatuscode;
-	}
+        return defaultStatuscode;
+    }
 
 }

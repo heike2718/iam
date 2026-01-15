@@ -1,0 +1,63 @@
+#!/bin/sh
+# purpose: builds and tests
+set -e
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+FRONTEND_DIR_AUTH_PROFIL="frontend/auth-app-profil-app-ws"
+FRONTEND_DIR_BV_ADMIN="frontend/bv-admin"
+
+BACKEND_DIR_VALIDATIONS="backend/auth-validations"
+BACKEND_DIR_AUTHPROVIDER="backend/authprovider"
+BACKEND_DIR_BENUTZERPROFIL="backend/benutzerprofil"
+BACKEND_DIR_BV_ADMIN="backend/bv-admin""
+
+echo "🚀 Running comprehensive pre-push checks..."
+
+# FRONTEND auth-app-profil-app-ws: Build
+if [ -d "$FRONTEND_DIR_AUTH_PROFIL" ]; then
+    cd "$FRONTEND_DIR_AUTH_PROFIL" || exit 1
+  nvm use 22 || exit 1
+  echo "🔬 authprovider: running build..."
+  npm run build:authprovider:local
+  echo "🔬 benutzerprofil: running build..."
+  npm run build:benutzerprofil:local  
+#  echo "📊 Running frontend tests with Vitest coverage..."
+#  npm run test:ci
+fi
+
+# FRONTEND bv-admin: Build
+if [ -d "$FRONTEND_DIR_BV_ADMIN" ]; then
+  echo "🔬 Frontend bv-admins: running build..."
+  cd "$FRONTEND_DIR_BV_ADMIN" || exit 1
+  nvm use 22 || exit 1
+  npm run build:local
+  
+#  echo "📊 Running frontend tests with Vitest coverage..."
+#  npm run test:ci
+fi
+
+# BACKEND: verify (Tests + Quality Gates)
+if [ -d "$BACKEND_DIR_VALIDATIONS" ]; then
+  echo "☕ Backend auth-validations: mvn verify (tests + quality gates)"
+  (cd "$BACKEND_DIR_VALIDATIONS" && mvn -q verify)
+fi
+
+if [ -d "$BACKEND_DIR_AUTHPROVIDER" ]; then
+  echo "☕ Backend auth-validations: mvn verify (tests + quality gates)"
+  (cd "$BACKEND_DIR_AUTHPROVIDER" && mvn -q verify)
+fi
+
+if [ -d "$BACKEND_DIR_BENUTZERPROFIL" ]; then
+  echo "☕ Backend auth-validations: mvn verify (tests + quality gates)"
+  (cd "$BACKEND_DIR_BENUTZERPROFIL" && mvn -q verify)
+fi
+
+if [ -d "$BACKEND_DIR_BV_ADMIN" ]; then
+  echo "☕ Backend auth-validations: mvn verify (tests + quality gates)"
+  (cd "$BACKEND_DIR_BV_ADMIN" && mvn -q verify)
+fi
+
+echo "✅ All pre-push checks passed!"
+exit 0

@@ -4,60 +4,61 @@
 // =====================================================
 package de.egladil.web.authprovider.payload.profile;
 
+import jakarta.validation.constraints.NotNull;
+
 import de.egladil.web.auth_validations.annotations.PasswortLogin;
 import de.egladil.web.auth_validations.annotations.ValidPasswords;
 import de.egladil.web.auth_validations.dto.ZweiPassworte;
 import de.egladil.web.auth_validations.utils.SecUtils;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * ProfilePasswordPayload
  */
 public class ProfilePasswordPayload {
 
-	@NotNull
-	@PasswortLogin
-	private String passwort;
+    @NotNull
+    @PasswortLogin
+    private String passwort;
 
-	@NotNull
-	@ValidPasswords
-	private ZweiPassworte zweiPassworte;
+    @NotNull
+    @ValidPasswords
+    private ZweiPassworte zweiPassworte;
 
-	/**
-	 * Entfernt alle sensiblen Infos: also password und passwordWdh.
-	 */
-	public void clean() {
+    /**
+     * Entfernt alle sensiblen Infos: also password und passwordWdh.
+     */
+    public void clean() {
 
-		if (zweiPassworte != null) {
+        if (zweiPassworte != null) {
 
-			zweiPassworte.clean();
-			zweiPassworte = null;
-		}
+            zweiPassworte.clean();
+            zweiPassworte = null;
+        }
 
-		if (passwort != null) {
+        if (passwort != null) {
 
-			passwort = SecUtils.wipe(passwort);
-		}
-	}
+            passwort = SecUtils.wipe(passwort);
+        }
+    }
 
-	public ZweiPassworte getZweiPassworte() {
+    public ZweiPassworte getZweiPassworte() {
 
-		return zweiPassworte;
-	}
+        return zweiPassworte;
+    }
 
-	public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
+    public void setZweiPassworte(final ZweiPassworte zweiPassworte) {
 
-		this.zweiPassworte = zweiPassworte;
-	}
+        this.zweiPassworte = zweiPassworte;
+    }
 
-	public String getPasswort() {
+    public String getPasswort() {
 
-		return passwort;
-	}
+        return passwort;
+    }
 
-	public void setPasswort(final String passwort) {
+    public void setPasswort(final String passwort) {
 
-		this.passwort = passwort;
-	}
+        this.passwort = passwort;
+    }
 
 }

@@ -7,42 +7,43 @@ package de.egladil.web.auth_validations;
 
 import java.util.regex.Matcher;
 
-import de.egladil.web.auth_validations.annotations.InputSecured;
 import jakarta.validation.ConstraintValidatorContext;
+
+import de.egladil.web.auth_validations.annotations.InputSecured;
 
 /**
  * InputSecuredValidator.
  */
 public class InputSecuredValidator extends AbstractWhitelistValidator<InputSecured, String> {
 
-	@Override
-	public boolean isValid(final String value, final ConstraintValidatorContext context) {
+    @Override
+    public boolean isValid(final String value, final ConstraintValidatorContext context) {
 
-		if (value == null) {
+        if (value == null) {
 
-			return true;
-		}
+            return true;
+        }
 
-		if (!(value instanceof String)) {
+        if (!(value instanceof String)) {
 
-			return false;
-		}
-		String strValue = (String) value;
+            return false;
+        }
+        String strValue = (String) value;
 
-		if (strValue.isEmpty()) {
+        if (strValue.isEmpty()) {
 
-			return true;
-		}
+            return true;
+        }
 
-		Matcher matcher = getPattern().matcher(strValue);
-		boolean matches = matcher.matches();
-		return matches;
-	}
+        Matcher matcher = getPattern().matcher(strValue);
+        boolean matches = matcher.matches();
+        return matches;
+    }
 
-	@Override
-	protected String getWhitelist() {
+    @Override
+    protected String getWhitelist() {
 
-		return InputSecuredConstants.INPUT_SECURED_WHITELIST;
-	}
+        return InputSecuredConstants.INPUT_SECURED_WHITELIST;
+    }
 
 }

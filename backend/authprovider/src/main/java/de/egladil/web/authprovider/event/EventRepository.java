@@ -11,11 +11,11 @@ import de.egladil.web.authprovider.entities.StoredEvent;
  */
 public interface EventRepository {
 
-	/**
-	 * Speichert das event in der Datenbank.
-	 *
-	 * @param event
-	 */
-	void appendEvent(StoredEvent event);
+    /**
+     * Speichert das event in der Datenbank.
+     *
+     * @param event
+     */
+    void appendEvent(StoredEvent event);
 
 }

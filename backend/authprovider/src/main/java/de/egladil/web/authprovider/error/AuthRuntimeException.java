@@ -10,23 +10,23 @@ package de.egladil.web.authprovider.error;
  */
 public class AuthRuntimeException extends RuntimeException {
 
-	/* serialVersionUID */
-	private static final long serialVersionUID = 1L;
+    /* serialVersionUID */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Erzeugt eine Instanz von AuthRuntimeException
-	 */
-	public AuthRuntimeException(final String message, final Throwable cause) {
+    /**
+     * Erzeugt eine Instanz von AuthRuntimeException
+     */
+    public AuthRuntimeException(final String message, final Throwable cause) {
 
-		super(message, cause);
-	}
+        super(message, cause);
+    }
 
-	/**
-	 * Erzeugt eine Instanz von AuthRuntimeException
-	 */
-	public AuthRuntimeException(final String message) {
+    /**
+     * Erzeugt eine Instanz von AuthRuntimeException
+     */
+    public AuthRuntimeException(final String message) {
 
-		super(message);
-	}
+        super(message);
+    }
 
 }

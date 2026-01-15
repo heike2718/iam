@@ -13,95 +13,95 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CreateUserCommand {
 
-	@JsonProperty
-	private String syncToken;
+    @JsonProperty
+    private String syncToken;
 
-	@JsonProperty
-	private String uuid;
+    @JsonProperty
+    private String uuid;
 
-	@JsonProperty
-	private String fullName;
+    @JsonProperty
+    private String fullName;
 
-	@JsonProperty
-	private String email;
+    @JsonProperty
+    private String email;
 
-	@JsonProperty
-	private String nonce;
+    @JsonProperty
+    private String nonce;
 
-	@JsonProperty
-	private String clientId;
+    @JsonProperty
+    private String clientId;
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return "CreateUserCommand [uuid=" + StringUtils.abbreviate(uuid, 11) + ", fullName=" + fullName + ", nonce=" + nonce
-			+ ", clientId=" + StringUtils.abbreviate(clientId, 8) + "]";
-	}
+        return "CreateUserCommand [uuid=" + StringUtils.abbreviate(uuid, 11) + ", fullName=" + fullName + ", nonce="
+                + nonce + ", clientId=" + StringUtils.abbreviate(clientId, 8) + "]";
+    }
 
-	public String getSyncToken() {
+    public String getSyncToken() {
 
-		return syncToken;
-	}
+        return syncToken;
+    }
 
-	public CreateUserCommand withSyncToken(final String syncToken) {
+    public CreateUserCommand withSyncToken(final String syncToken) {
 
-		this.syncToken = syncToken;
-		return this;
-	}
+        this.syncToken = syncToken;
+        return this;
+    }
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
-	public CreateUserCommand withUuid(final String uuid) {
+    public CreateUserCommand withUuid(final String uuid) {
 
-		this.uuid = uuid;
-		return this;
-	}
+        this.uuid = uuid;
+        return this;
+    }
 
-	public String getFullName() {
+    public String getFullName() {
 
-		return fullName;
-	}
+        return fullName;
+    }
 
-	public CreateUserCommand withFullName(final String fullName) {
+    public CreateUserCommand withFullName(final String fullName) {
 
-		this.fullName = fullName;
-		return this;
-	}
+        this.fullName = fullName;
+        return this;
+    }
 
-	public String getEmail() {
+    public String getEmail() {
 
-		return email;
-	}
+        return email;
+    }
 
-	public CreateUserCommand withEmail(final String email) {
+    public CreateUserCommand withEmail(final String email) {
 
-		this.email = email;
-		return this;
-	}
+        this.email = email;
+        return this;
+    }
 
-	public String getNonce() {
+    public String getNonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
-	public CreateUserCommand withNonce(final String nonce) {
+    public CreateUserCommand withNonce(final String nonce) {
 
-		this.nonce = nonce;
-		return this;
-	}
+        this.nonce = nonce;
+        return this;
+    }
 
-	public String getClientId() {
+    public String getClientId() {
 
-		return clientId;
-	}
+        return clientId;
+    }
 
-	public CreateUserCommand withClientId(final String abbreviatedClientId) {
+    public CreateUserCommand withClientId(final String abbreviatedClientId) {
 
-		this.clientId = abbreviatedClientId;
-		return this;
-	}
+        this.clientId = abbreviatedClientId;
+        return this;
+    }
 
 }

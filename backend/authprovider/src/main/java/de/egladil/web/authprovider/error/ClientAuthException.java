@@ -9,17 +9,17 @@ package de.egladil.web.authprovider.error;
  */
 public class ClientAuthException extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param message
-	 */
-	public ClientAuthException(final String message) {
+    /**
+     * @param message
+     */
+    public ClientAuthException(final String message) {
 
-		super(message);
-	}
+        super(message);
+    }
 
 }

@@ -17,39 +17,39 @@ import de.egladil.web.authprovider.error.AuthRuntimeException;
  */
 public class TempPasswordUnknownMailaddressMailStrategy implements CreateDefaultMailDatenStrategy {
 
-	private final String email;
+    private final String email;
 
-	/**
-	 * @param email
-	 */
-	public TempPasswordUnknownMailaddressMailStrategy(final String email) {
+    /**
+     * @param email
+     */
+    public TempPasswordUnknownMailaddressMailStrategy(final String email) {
 
-		super();
-		this.email = email;
-	}
+        super();
+        this.email = email;
+    }
 
-	@Override
-	public DefaultEmailDaten createEmailDaten(final String messageId) {
+    @Override
+    public DefaultEmailDaten createEmailDaten(final String messageId) {
 
-		DefaultEmailDaten result = new DefaultEmailDaten();
-		result.setBetreff("Minikänguru: Einmalpasswort");
-		result.setEmpfaenger(email);
-		result.setText(getText());
-		result.setMessageId(messageId);
-		return result;
-	}
+        DefaultEmailDaten result = new DefaultEmailDaten();
+        result.setBetreff("Minikänguru: Einmalpasswort");
+        result.setEmpfaenger(email);
+        result.setText(getText());
+        result.setMessageId(messageId);
+        return result;
+    }
 
-	private String getText() {
+    private String getText() {
 
-		try (InputStream in = getClass().getResourceAsStream("/mailtemplates/temppwdUnknownAccount.txt");
-			StringWriter sw = new StringWriter()) {
+        try (InputStream in = getClass().getResourceAsStream("/mailtemplates/temppwdUnknownAccount.txt");
+                StringWriter sw = new StringWriter()) {
 
-			IOUtils.copy(in, sw, "utf-8");
-			String text = sw.toString();
-			return text;
-		} catch (IOException e) {
+            IOUtils.copy(in, sw, "utf-8");
+            String text = sw.toString();
+            return text;
+        } catch (IOException e) {
 
-			throw new AuthRuntimeException("Fehler beim Erzeugen des Mailtexts: " + e.getMessage(), e);
-		}
-	}
+            throw new AuthRuntimeException("Fehler beim Erzeugen des Mailtexts: " + e.getMessage(), e);
+        }
+    }
 }

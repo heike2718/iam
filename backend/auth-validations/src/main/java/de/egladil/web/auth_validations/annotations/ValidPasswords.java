@@ -11,9 +11,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import de.egladil.web.auth_validations.TwoPasswordsValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+
+import de.egladil.web.auth_validations.TwoPasswordsValidator;
 
 /**
  * Zwei passwörter sind valid, wenn sie gleich sind.
@@ -24,9 +25,9 @@ import jakarta.validation.Payload;
 @Documented
 public @interface ValidPasswords {
 
-	String message() default "Die Passwörter stimmen nicht überein";
+    String message() default "Die Passwörter stimmen nicht überein";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

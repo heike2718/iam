@@ -9,6 +9,5 @@ package de.egladil.web.bv_admin.domain.benutzer;
  */
 public enum CryptoAlgorithm {
 
-	SHA_256,
-	ARGON2;
+    SHA_256, ARGON2;
 }

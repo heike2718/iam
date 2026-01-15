@@ -11,11 +11,11 @@ import de.egladil.web.auth_validations.annotations.LoginName;
  */
 public class LoginNameValidator extends AbstractWhitelistValidator<LoginName, String> {
 
-	private static final String REGEXP = "^(?!.*\\.\\.)[a-zA-Z0-9.!#$%&'*+/=?\\^_`{|}~ @-]*$";
+    private static final String REGEXP = "^(?!.*\\.\\.)[a-zA-Z0-9.!#$%&'*+/=?\\^_`{|}~ @-]*$";
 
-	@Override
-	protected String getWhitelist() {
+    @Override
+    protected String getWhitelist() {
 
-		return REGEXP;
-	}
+        return REGEXP;
+    }
 }

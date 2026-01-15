@@ -4,8 +4,13 @@
 // =====================================================
 package de.egladil.web.benutzerprofil.domain.benutzer;
 
-import org.apache.commons.lang3.StringUtils;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,9 +18,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.egladil.web.auth_validations.IValidationMessages;
 import de.egladil.web.auth_validations.annotations.InputSecured;
 import de.egladil.web.auth_validations.annotations.LoginName;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 /**
  * BenutzerDto
@@ -23,96 +25,99 @@ import jakarta.validation.constraints.Size;
 @Schema(description = "änderbare Daten eines Users")
 public class BenutzerDto {
 
-	@JsonProperty
-	@LoginName
-	@NotBlank(message = "Der Login-Name ist erforderlich.")
-	@Size(max = 255, message = "Der Login-Name ist zu lang (maximal {max} Zeichen).")
-	private String loginName;
+    @JsonProperty
+    @LoginName
+    @NotBlank(message = "Der Login-Name ist erforderlich.")
+    @Size(max = 255, message = "Der Login-Name ist zu lang (maximal {max} Zeichen).")
+    private String loginName;
 
-	@JsonProperty
-	@Email
-	@NotBlank(message = "Die Mailadresse ist erforderlich.")
-	@Size(max = 255, message = "Die Maildresse ist zu lang (maximal {max} Zeichen).")
-	private String email;
+    @JsonProperty
+    @Email
+    @NotBlank(message = "Die Mailadresse ist erforderlich.")
+    @Size(max = 255, message = "Die Maildresse ist zu lang (maximal {max} Zeichen).")
+    private String email;
 
-	@JsonProperty
-	@InputSecured(message = "Der Vorname enthält ungültige Zeichen. " + IValidationMessages.INPUT_SECURED_ERLAUBTE_ZEICHEN)
-	@NotBlank(message = "Der Vorname ist erforderlich.")
-	@Size(max = 100, message = "Der Vorname ist zu lang (maximal {max} Zeichen).")
-	private String vorname;
+    @JsonProperty
+    @InputSecured(
+            message = "Der Vorname enthält ungültige Zeichen. " + IValidationMessages.INPUT_SECURED_ERLAUBTE_ZEICHEN)
+    @NotBlank(message = "Der Vorname ist erforderlich.")
+    @Size(max = 100, message = "Der Vorname ist zu lang (maximal {max} Zeichen).")
+    private String vorname;
 
-	@JsonProperty
-	@InputSecured(message = "Der Nachname enthält ungültige Zeichen. " + IValidationMessages.INPUT_SECURED_ERLAUBTE_ZEICHEN)
-	@NotBlank(message = "Der Nachname ist erforderlich.")
-	@Size(max = 100, message = "Der Nachname ist zu lang (maximal {max} Zeichen).")
-	private String nachname;
+    @JsonProperty
+    @InputSecured(
+            message = "Der Nachname enthält ungültige Zeichen. " + IValidationMessages.INPUT_SECURED_ERLAUBTE_ZEICHEN)
+    @NotBlank(message = "Der Nachname ist erforderlich.")
+    @Size(max = 100, message = "Der Nachname ist zu lang (maximal {max} Zeichen).")
+    private String nachname;
 
-	/**
-	 *
-	 */
-	public BenutzerDto() {
+    /**
+     *
+     */
+    public BenutzerDto() {
 
-	}
+    }
 
-	public String getLoginName() {
+    public String getLoginName() {
 
-		return loginName;
-	}
+        return loginName;
+    }
 
-	public void setLoginName(final String loginName) {
+    public void setLoginName(final String loginName) {
 
-		this.loginName = loginName;
-	}
+        this.loginName = loginName;
+    }
 
-	public String getEmail() {
+    public String getEmail() {
 
-		return email;
-	}
+        return email;
+    }
 
-	public void setEmail(final String email) {
+    public void setEmail(final String email) {
 
-		this.email = email;
-	}
+        this.email = email;
+    }
 
-	public String getVorname() {
+    public String getVorname() {
 
-		return vorname;
-	}
+        return vorname;
+    }
 
-	public void setVorname(final String vorname) {
+    public void setVorname(final String vorname) {
 
-		this.vorname = vorname;
-	}
+        this.vorname = vorname;
+    }
 
-	public String getNachname() {
+    public String getNachname() {
 
-		return nachname;
-	}
+        return nachname;
+    }
 
-	public void setNachname(final String nachname) {
+    public void setNachname(final String nachname) {
 
-		this.nachname = nachname;
-	}
+        this.nachname = nachname;
+    }
 
-	private boolean hasName() {
+    private boolean hasName() {
 
-		return StringUtils.isNotBlank(vorname) || StringUtils.isNotBlank(nachname);
-	}
+        return StringUtils.isNotBlank(vorname) || StringUtils.isNotBlank(nachname);
+    }
 
-	@JsonIgnore
-	public String getFullName() {
+    @JsonIgnore
+    public String getFullName() {
 
-		if (!hasName()) {
+        if (!hasName()) {
 
-			return "";
-		}
-		return vorname + " " + nachname;
-	}
+            return "";
+        }
+        return vorname + " " + nachname;
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return "BenutzerDto [vorname=" + vorname + ", nachname=" + nachname + ", loginName=" + loginName + ", email=" + email + "]";
-	}
+        return "BenutzerDto [vorname=" + vorname + ", nachname=" + nachname + ", loginName=" + loginName + ", email="
+                + email + "]";
+    }
 
 }

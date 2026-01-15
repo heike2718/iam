@@ -4,46 +4,47 @@
 // =====================================================
 package de.egladil.web.authprovider.payload.profile;
 
+import jakarta.validation.constraints.NotNull;
+
 import de.egladil.web.auth_validations.annotations.UuidString;
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * ChangeProfileDataPayload
  */
 public class ChangeProfileDataPayload {
 
-	@NotNull
-	private OAuthClientCredentials clientCredentials;
+    @NotNull
+    private OAuthClientCredentials clientCredentials;
 
-	@NotNull
-	private ProfileDataPayload profileData;
+    @NotNull
+    private ProfileDataPayload profileData;
 
-	@NotNull
-	@UuidString
-	private String uuid;
+    @NotNull
+    @UuidString
+    private String uuid;
 
-	public OAuthClientCredentials getClientCredentials() {
+    public OAuthClientCredentials getClientCredentials() {
 
-		return clientCredentials;
-	}
+        return clientCredentials;
+    }
 
-	public ProfileDataPayload getProfileData() {
+    public ProfileDataPayload getProfileData() {
 
-		return profileData;
-	}
+        return profileData;
+    }
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
-	public void clean() {
+    public void clean() {
 
-		if (clientCredentials != null) {
+        if (clientCredentials != null) {
 
-			clientCredentials.clean();
-		}
-	}
+            clientCredentials.clean();
+        }
+    }
 
 }

@@ -9,28 +9,28 @@ package de.egladil.web.bv_admin.domain.events;
  */
 public class MailaddressUnbannedEvent extends AbstractAuthAdminEvent {
 
-	public MailaddressUnbannedEvent(final AuthAdminEventPayload eventPayload) {
+    public MailaddressUnbannedEvent(final AuthAdminEventPayload eventPayload) {
 
-		super(eventPayload);
+        super(eventPayload);
 
-	}
+    }
 
-	@Override
-	public boolean writeToEventStore() {
+    @Override
+    public boolean writeToEventStore() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean propagateToListeners() {
+    @Override
+    public boolean propagateToListeners() {
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public EventType eventType() {
+    @Override
+    public EventType eventType() {
 
-		return EventType.MAILADRESS_UNBANNED;
-	}
+        return EventType.MAILADRESS_UNBANNED;
+    }
 
 }

@@ -22,57 +22,58 @@ import de.egladil.web.authprovider.utils.AuthTimeUtils;
  */
 public class BenutzerkontoGeloeschtMailStrategie implements CreateDefaultMailDatenStrategy {
 
-	private final String subject;
+    private final String subject;
 
-	private final String mailTo;
+    private final String mailTo;
 
-	private final ResourceOwner resourceOwner;
+    private final ResourceOwner resourceOwner;
 
-	private final LocalDateTime timestamp;
+    private final LocalDateTime timestamp;
 
-	/**
-	 * @param subject
-	 * @param mailTo
-	 * @param resourceOwner
-	 */
-	public BenutzerkontoGeloeschtMailStrategie(final String subject, final String mailTo, final ResourceOwner resourceOwner) {
+    /**
+     * @param subject
+     * @param mailTo
+     * @param resourceOwner
+     */
+    public BenutzerkontoGeloeschtMailStrategie(final String subject, final String mailTo,
+            final ResourceOwner resourceOwner) {
 
-		this.subject = subject;
-		this.mailTo = mailTo;
-		this.resourceOwner = resourceOwner;
-		this.timestamp = LocalDateTime.now();
-	}
+        this.subject = subject;
+        this.mailTo = mailTo;
+        this.resourceOwner = resourceOwner;
+        this.timestamp = LocalDateTime.now();
+    }
 
-	@Override
-	public DefaultEmailDaten createEmailDaten(final String messageId) {
+    @Override
+    public DefaultEmailDaten createEmailDaten(final String messageId) {
 
-		DefaultEmailDaten maildaten = new DefaultEmailDaten();
-		maildaten.setEmpfaenger(mailTo);
-		maildaten.setBetreff(subject);
-		maildaten.setText(getText());
-		maildaten.setMessageId(messageId);
-		return maildaten;
-	}
+        DefaultEmailDaten maildaten = new DefaultEmailDaten();
+        maildaten.setEmpfaenger(mailTo);
+        maildaten.setBetreff(subject);
+        maildaten.setText(getText());
+        maildaten.setMessageId(messageId);
+        return maildaten;
+    }
 
-	private String getText() {
+    private String getText() {
 
-		try (InputStream in = getClass().getResourceAsStream("/mailtemplates/kontoGeloescht.txt");
-			StringWriter sw = new StringWriter()) {
+        try (InputStream in = getClass().getResourceAsStream("/mailtemplates/kontoGeloescht.txt");
+                StringWriter sw = new StringWriter()) {
 
-			IOUtils.copy(in, sw, "utf-8");
-			String text = sw.toString();
+            IOUtils.copy(in, sw, "utf-8");
+            String text = sw.toString();
 
-			String wann = DateTimeFormatter.ofPattern(AuthTimeUtils.DEFAULT_DATE_TIME_FORMAT).format(timestamp);
+            String wann = DateTimeFormatter.ofPattern(AuthTimeUtils.DEFAULT_DATE_TIME_FORMAT).format(timestamp);
 
-			text = StringUtils.replace(text, "#1#", wann);
-			text = StringUtils.replace(text, "#2#", resourceOwner.toLogString());
+            text = StringUtils.replace(text, "#1#", wann);
+            text = StringUtils.replace(text, "#2#", resourceOwner.toLogString());
 
-			return text;
+            return text;
 
-		} catch (IOException e) {
+        } catch (IOException e) {
 
-			throw new AuthRuntimeException("Fehler beim Erzeugen des Mailtexts: " + e.getMessage(), e);
-		}
-	}
+            throw new AuthRuntimeException("Fehler beim Erzeugen des Mailtexts: " + e.getMessage(), e);
+        }
+    }
 
 }

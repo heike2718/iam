@@ -22,77 +22,77 @@ import de.egladil.web.authprovider.entities.AuthProviderEntity;
  */
 public abstract class BaseDaoImpl implements BaseDao {
 
-	@Inject
-	EntityManager em;
+    @Inject
+    EntityManager em;
 
-	/**
-	 * Erzeugt eine Instanz von BaseDaoImpl
-	 */
-	public BaseDaoImpl() {
-		System.err.println();
+    /**
+     * Erzeugt eine Instanz von BaseDaoImpl
+     */
+    public BaseDaoImpl() {
+        System.err.println();
 
-	}
+    }
 
-	/**
-	 * Erzeugt eine Instanz von BaseDaoImpl
-	 */
-	public BaseDaoImpl(final EntityManager em) {
+    /**
+     * Erzeugt eine Instanz von BaseDaoImpl
+     */
+    public BaseDaoImpl(final EntityManager em) {
 
-		super();
-		this.em = em;
-	}
+        super();
+        this.em = em;
+    }
 
-	@Override
-	public <T extends AuthProviderEntity> T findById(final Class<T> clazz, final Long id) {
+    @Override
+    public <T extends AuthProviderEntity> T findById(final Class<T> clazz, final Long id) {
 
-		return em.find(clazz, id);
-	}
+        return em.find(clazz, id);
+    }
 
-	@Override
-	public <T extends AuthProviderEntity> int count(final Class<T> clazz) {
+    @Override
+    public <T extends AuthProviderEntity> int count(final Class<T> clazz) {
 
-		String stmt = "SELECT COUNT(*) from " + clazz.getSimpleName();
+        String stmt = "SELECT COUNT(*) from " + clazz.getSimpleName();
 
-		Query query = em.createQuery(stmt);
-		BigInteger obj = (BigInteger) query.getSingleResult();
+        Query query = em.createQuery(stmt);
+        BigInteger obj = (BigInteger) query.getSingleResult();
 
-		return obj.intValue();
-	}
+        return obj.intValue();
+    }
 
-	@Override
-	@Transactional(value = TxType.REQUIRED)
-	@ActivateRequestContext
-	public <T extends AuthProviderEntity> T save(final T entity) {
+    @Override
+    @Transactional(value = TxType.REQUIRED)
+    @ActivateRequestContext
+    public <T extends AuthProviderEntity> T save(final T entity) {
 
-		T persisted;
+        T persisted;
 
-		if (entity.getId() == null) {
+        if (entity.getId() == null) {
 
-			em.persist(entity);
-			persisted = entity;
-		} else {
+            em.persist(entity);
+            persisted = entity;
+        } else {
 
-			persisted = em.merge(entity);
-		}
-		return persisted;
-	}
+            persisted = em.merge(entity);
+        }
+        return persisted;
+    }
 
-	protected EntityManager getEm() {
+    protected EntityManager getEm() {
 
-		return em;
-	}
+        return em;
+    }
 
-	@Override
-	// @Transactional(value = TxType.REQUIRED)
-	public <T extends AuthProviderEntity> boolean delete(final T entity) {
+    @Override
+    // @Transactional(value = TxType.REQUIRED)
+    public <T extends AuthProviderEntity> boolean delete(final T entity) {
 
-		if (entity == null) {
+        if (entity == null) {
 
-			throw new IllegalArgumentException("entity null");
-		}
+            throw new IllegalArgumentException("entity null");
+        }
 
-		em.remove(em.contains(entity) ? entity : em.merge(entity));
-		return true;
-	}
+        em.remove(em.contains(entity) ? entity : em.merge(entity));
+        return true;
+    }
 
 }

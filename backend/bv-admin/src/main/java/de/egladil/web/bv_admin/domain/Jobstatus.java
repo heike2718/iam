@@ -9,50 +9,50 @@ package de.egladil.web.bv_admin.domain;
  */
 public enum Jobstatus {
 
-	WAITING {
+    WAITING {
 
-		@Override
-		public boolean isCompleted() {
+        @Override
+        public boolean isCompleted() {
 
-			return false;
-		}
+            return false;
+        }
 
-	},
-	IN_PROGRESS {
+    },
+    IN_PROGRESS {
 
-		@Override
-		public boolean isCompleted() {
+        @Override
+        public boolean isCompleted() {
 
-			return false;
-		}
+            return false;
+        }
 
-	},
-	CANCELLED {
-		@Override
-		public boolean isCompleted() {
+    },
+    CANCELLED {
+        @Override
+        public boolean isCompleted() {
 
-			return true;
-		}
-	},
-	COMPLETED {
+            return true;
+        }
+    },
+    COMPLETED {
 
-		@Override
-		public boolean isCompleted() {
+        @Override
+        public boolean isCompleted() {
 
-			return true;
-		}
+            return true;
+        }
 
-	},
-	ERRORS {
+    },
+    ERRORS {
 
-		@Override
-		public boolean isCompleted() {
+        @Override
+        public boolean isCompleted() {
 
-			return true;
-		}
+            return true;
+        }
 
-	};
+    };
 
-	public abstract boolean isCompleted();
+    public abstract boolean isCompleted();
 
 }

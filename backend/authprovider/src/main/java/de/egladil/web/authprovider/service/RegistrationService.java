@@ -13,7 +13,13 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.UriInfo;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,10 +43,6 @@ import de.egladil.web.authprovider.service.mail.DefaultEmailDaten;
 import de.egladil.web.authprovider.service.mail.RegistrationMailStrategy;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
 import de.egladil.web.authprovider.utils.AuthUtils;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.event.Event;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.core.UriInfo;
 
 /**
  * RegistrationService
@@ -48,122 +50,126 @@ import jakarta.ws.rs.core.UriInfo;
 @RequestScoped
 public class RegistrationService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ResourceOwnerService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceOwnerService.class);
 
-	private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
+    private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
-	@ConfigProperty(name = "registrationKeyExpireHours", defaultValue = "24")
-	int registrationKeyExpireHours;
+    @ConfigProperty(name = "registrationKeyExpireHours", defaultValue = "24")
+    int registrationKeyExpireHours;
 
-	@ConfigProperty(name = "account.activation.url")
-	String accountActivationUrl;
+    @ConfigProperty(name = "account.activation.url")
+    String accountActivationUrl;
 
-	@Inject
-	AuthproviderEventHandler eventHandler;
+    @Inject
+    AuthproviderEventHandler eventHandler;
 
-	@Inject
-	ResourceOwnerService resourceOwnerService;
+    @Inject
+    ResourceOwnerService resourceOwnerService;
 
-	@Inject
-	ActivationCodeDao activationCodeDao;
+    @Inject
+    ActivationCodeDao activationCodeDao;
 
-	@Inject
-	ResourceOwnerDao resourceOwnerDao;
+    @Inject
+    ResourceOwnerDao resourceOwnerDao;
 
-	@Inject
-	AuthMailService mailService;
+    @Inject
+    AuthMailService mailService;
 
-	@Inject
-	Event<AuthproviderEvent> authproviderEvent;
+    @Inject
+    Event<AuthproviderEvent> authproviderEvent;
 
-	/**
-	 * Erzeugt einen neuen ResourceOwner und ein Aktivierungstoken.
-	 *
-	 * @param credentials
-	 * @return SignUpLogInResponseData
-	 */
-	public ResourceOwner createNewResourceOwner(final Client client, final SignUpCredentials signUpCredentials,
-		final UriInfo uriInfo) throws MailversandException {
+    /**
+     * Erzeugt einen neuen ResourceOwner und ein Aktivierungstoken.
+     *
+     * @param credentials
+     * @return SignUpLogInResponseData
+     */
+    public ResourceOwner createNewResourceOwner(final Client client, final SignUpCredentials signUpCredentials,
+            final UriInfo uriInfo) throws MailversandException {
 
-		if (uriInfo == null) {
+        if (uriInfo == null) {
 
-			String msg = "UriInfo is not properly injected into UserResource";
-			LOG.error(msg);
-			throw new AuthRuntimeException(msg);
-		}
+            String msg = "UriInfo is not properly injected into UserResource";
+            LOG.error(msg);
+            throw new AuthRuntimeException(msg);
+        }
 
-		if (signUpCredentials.getLoginName() == null) {
+        if (signUpCredentials.getLoginName() == null) {
 
-			signUpCredentials.setLoginName(signUpCredentials.getEmail());
-		}
+            signUpCredentials.setLoginName(signUpCredentials.getEmail());
+        }
 
-		Optional<ResourceOwner> optRo = resourceOwnerService.checkExiststAndIsConsistent(signUpCredentials.getLoginName(),
-			signUpCredentials.getEmail());
+        Optional<ResourceOwner> optRo = resourceOwnerService
+                .checkExiststAndIsConsistent(signUpCredentials.getLoginName(), signUpCredentials.getEmail());
 
-		if (optRo.isPresent()) {
+        if (optRo.isPresent()) {
 
-			if (!optRo.get().isAktiviert()) {
+            if (!optRo.get().isAktiviert()) {
 
-				throw new AuthException(applicationMessages.getString("Benutzerkonto.deaktiviert"));
-			}
-			throw new DuplicateEntityException(applicationMessages.getString("Registration.exists"));
-		}
+                throw new AuthException(applicationMessages.getString("Benutzerkonto.deaktiviert"));
+            }
+            throw new DuplicateEntityException(applicationMessages.getString("Registration.exists"));
+        }
 
-		ResourceOwner resourceOwner = resourceOwnerService.createNewResourceOwner(signUpCredentials);
+        ResourceOwner resourceOwner = resourceOwnerService.createNewResourceOwner(signUpCredentials);
 
-		try {
+        try {
 
-			ActivationCode activationCode = createActivationCode(
-				resourceOwnerDao.findById(ResourceOwner.class, resourceOwner.getId()));
-			ActivationCode persistierter = activationCodeDao.save(activationCode);
+            ActivationCode activationCode = createActivationCode(
+                    resourceOwnerDao.findById(ResourceOwner.class, resourceOwner.getId()));
+            ActivationCode persistierter = activationCodeDao.save(activationCode);
 
-			DefaultEmailDaten maildaten = new RegistrationMailStrategy(signUpCredentials.getEmail(),
-				signUpCredentials.getLoginName(), persistierter, accountActivationUrl).createEmailDaten("RegistrationService");
+            DefaultEmailDaten maildaten = new RegistrationMailStrategy(signUpCredentials.getEmail(),
+                    signUpCredentials.getLoginName(), persistierter, accountActivationUrl)
+                    .createEmailDaten("RegistrationService");
 
-			mailService.sendMail(maildaten);
+            mailService.sendMail(maildaten);
 
-			LOG.debug("Mail mit Aktivierungscode versendet");
-			LOG.info("{} angelegt", resourceOwner.toString());
+            LOG.debug("Mail mit Aktivierungscode versendet");
+            LOG.info("{} angelegt", resourceOwner.toString());
 
-			ResourceOwnerEventPayload roPayload = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner)
-				.withNonce(signUpCredentials.getNonce()).withClientId(client.getClientId());
-			UserCreated eventPayload = new UserCreated(roPayload);
+            ResourceOwnerEventPayload roPayload = ResourceOwnerEventPayload
+                    .createFromResourceOwner(resourceOwner)
+                    .withNonce(signUpCredentials.getNonce())
+                    .withClientId(client.getClientId());
+            UserCreated eventPayload = new UserCreated(roPayload);
 
-			// Machen wir synchron wegen des ExceptionHandlings
-			if (this.eventHandler != null) {
+            // Machen wir synchron wegen des ExceptionHandlings
+            if (this.eventHandler != null) {
 
-				this.eventHandler.handleEvent(eventPayload);
-			} else {
+                this.eventHandler.handleEvent(eventPayload);
+            } else {
 
-				new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
-			}
+                new LoggableEventDelegate().fireAuthProviderEvent(eventPayload, authproviderEvent);
+            }
 
-			return resourceOwner;
+            return resourceOwner;
 
-		} catch (MailversandException e) {
+        } catch (MailversandException e) {
 
-			throw e;
+            throw e;
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			LOG.error("Exception beim Anlegen eines Users oder versenden des ActivationCodes: {}", e.getMessage(), e);
-			throw new AuthRuntimeException("Fehler beim Anlegen oder Versenden eines ActivationCodes: " + e.getMessage(), e);
-		}
-	}
+            LOG.error("Exception beim Anlegen eines Users oder versenden des ActivationCodes: {}", e.getMessage(), e);
+            throw new AuthRuntimeException(
+                    "Fehler beim Anlegen oder Versenden eines ActivationCodes: " + e.getMessage(), e);
+        }
+    }
 
-	ActivationCode createActivationCode(final ResourceOwner resourceOwner) {
+    ActivationCode createActivationCode(final ResourceOwner resourceOwner) {
 
-		ActivationCode result = new ActivationCode();
-		String code = AuthUtils.newTokenId();
-		result.setConfirmationCode(code);
+        ActivationCode result = new ActivationCode();
+        String code = AuthUtils.newTokenId();
+        result.setConfirmationCode(code);
 
-		int hours = Integer.valueOf(registrationKeyExpireHours);
-		LocalDateTime now = AuthTimeUtils.now();
-		Date expiresAt = Date.from(now.plus(hours, ChronoUnit.HOURS).atZone(ZoneId.systemDefault()).toInstant());
+        int hours = Integer.valueOf(registrationKeyExpireHours);
+        LocalDateTime now = AuthTimeUtils.now();
+        Date expiresAt = Date.from(now.plus(hours, ChronoUnit.HOURS).atZone(ZoneId.systemDefault()).toInstant());
 
-		result.setExpirationTime(expiresAt);
-		result.setConfirmed(false);
-		result.setResourceOwner(resourceOwner);
-		return result;
-	}
+        result.setExpirationTime(expiresAt);
+        result.setConfirmed(false);
+        result.setResourceOwner(resourceOwner);
+        return result;
+    }
 }

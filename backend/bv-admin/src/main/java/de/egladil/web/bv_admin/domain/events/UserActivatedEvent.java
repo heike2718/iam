@@ -9,28 +9,28 @@ package de.egladil.web.bv_admin.domain.events;
  */
 public class UserActivatedEvent extends AbstractAuthAdminEvent {
 
-	public UserActivatedEvent(final AuthAdminEventPayload eventPayload) {
+    public UserActivatedEvent(final AuthAdminEventPayload eventPayload) {
 
-		super(eventPayload);
+        super(eventPayload);
 
-	}
+    }
 
-	@Override
-	public boolean writeToEventStore() {
+    @Override
+    public boolean writeToEventStore() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean propagateToListeners() {
+    @Override
+    public boolean propagateToListeners() {
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public EventType eventType() {
+    @Override
+    public EventType eventType() {
 
-		return EventType.USER_ACTIVATED;
-	}
+        return EventType.USER_ACTIVATED;
+    }
 
 }

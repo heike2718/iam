@@ -9,49 +9,50 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * OAuthAccessTokenPayload
  * <ul>
- * <li><strong>accessToken: </strong> autorisiert den Client gegenüber dem AuthProvider für eine begrenzte Zeit</li>
- * <li><strong>expiresAt: </strong> Ablauf der Gültigkeit des accessTokens. <strong>in Millisekunden seit
- * 1.1.1970</strong></li>
+ * <li><strong>accessToken: </strong> autorisiert den Client gegenüber dem
+ * AuthProvider für eine begrenzte Zeit</li>
+ * <li><strong>expiresAt: </strong> Ablauf der Gültigkeit des accessTokens.
+ * <strong>in Millisekunden seit 1.1.1970</strong></li>
  * </ul>
  */
 public class OAuthAccessTokenPayload {
 
-	@JsonProperty
-	private String accessToken;
+    @JsonProperty
+    private String accessToken;
 
-	@JsonProperty
-	private long expiresAt;
+    @JsonProperty
+    private long expiresAt;
 
-	@JsonProperty
-	private String nonce;
+    @JsonProperty
+    private String nonce;
 
-	public String getAccessToken() {
+    public String getAccessToken() {
 
-		return accessToken;
-	}
+        return accessToken;
+    }
 
-	public long getExpiresAt() {
+    public long getExpiresAt() {
 
-		return expiresAt;
-	}
+        return expiresAt;
+    }
 
-	public void setAccessToken(final String accessToken) {
+    public void setAccessToken(final String accessToken) {
 
-		this.accessToken = accessToken;
-	}
+        this.accessToken = accessToken;
+    }
 
-	public void setExpiresAt(final long expiresAt) {
+    public void setExpiresAt(final long expiresAt) {
 
-		this.expiresAt = expiresAt;
-	}
+        this.expiresAt = expiresAt;
+    }
 
-	public String getNonce() {
+    public String getNonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
-	public void setNonce(final String nonce) {
+    public void setNonce(final String nonce) {
 
-		this.nonce = nonce;
-	}
+        this.nonce = nonce;
+    }
 }

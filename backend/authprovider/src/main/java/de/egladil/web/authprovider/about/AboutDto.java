@@ -11,15 +11,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class AboutDto {
 
-	@JsonProperty
-	private final String name = "authprovider";
+    @JsonProperty
+    private final String name = "authprovider";
 
-	@JsonProperty
-	private String version;
+    @JsonProperty
+    private String version;
 
-	public AboutDto withVersion(final String version) {
+    public AboutDto withVersion(final String version) {
 
-		this.version = version;
-		return this;
-	}
+        this.version = version;
+        return this;
+    }
 }

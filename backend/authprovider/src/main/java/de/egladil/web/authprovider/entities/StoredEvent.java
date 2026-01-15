@@ -21,59 +21,59 @@ import jakarta.persistence.Version;
 @Table(name = "EVENTS")
 public class StoredEvent {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "TIME_OCCURED")
-	private LocalDateTime occuredOn;
+    @Column(name = "TIME_OCCURED")
+    private LocalDateTime occuredOn;
 
-	@Column(name = "NAME")
-	private String name;
+    @Column(name = "NAME")
+    private String name;
 
-	@Column(name = "BODY")
-	private String body;
+    @Column(name = "BODY")
+    private String body;
 
-	@Version
-	@Column(name = "VERSION")
-	private int version;
+    @Version
+    @Column(name = "VERSION")
+    private int version;
 
-	public static StoredEvent createEvent(final LocalDateTime occuredOn, final String name, final String body) {
+    public static StoredEvent createEvent(final LocalDateTime occuredOn, final String name, final String body) {
 
-		StoredEvent result = new StoredEvent();
-		result.body = body;
-		result.name = name;
-		result.occuredOn = occuredOn;
+        StoredEvent result = new StoredEvent();
+        result.body = body;
+        result.name = name;
+        result.occuredOn = occuredOn;
 
-		return result;
+        return result;
 
-	}
+    }
 
-	/**
-	 *
-	 */
-	StoredEvent() {
+    /**
+     *
+     */
+    StoredEvent() {
 
-	}
+    }
 
-	public Long getId() {
+    public Long getId() {
 
-		return id;
-	}
+        return id;
+    }
 
-	public LocalDateTime getOccuredOn() {
+    public LocalDateTime getOccuredOn() {
 
-		return occuredOn;
-	}
+        return occuredOn;
+    }
 
-	public String getName() {
+    public String getName() {
 
-		return name;
-	}
+        return name;
+    }
 
-	public String getBody() {
+    public String getBody() {
 
-		return body;
-	}
+        return body;
+    }
 }

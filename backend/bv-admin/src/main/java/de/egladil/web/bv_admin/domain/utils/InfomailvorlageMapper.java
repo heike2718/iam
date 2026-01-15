@@ -16,26 +16,28 @@ import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterI
  */
 public class InfomailvorlageMapper {
 
-	/**
-	 * Mapped PersistenterInfomailTextReadOnly zu einem Dto.
-	 *
-	 * @param fromDB
-	 * @return
-	 */
-	public static InfomailResponseDto mapFromDB(final PersistenterInfomailTextReadOnly fromDB) {
+    /**
+     * Mapped PersistenterInfomailTextReadOnly zu einem Dto.
+     *
+     * @param fromDB
+     * @return
+     */
+    public static InfomailResponseDto mapFromDB(final PersistenterInfomailTextReadOnly fromDB) {
 
-		InfomailResponseDto result = new InfomailResponseDto();
-		result.setUuid(fromDB.getUuid());
-		result.setBetreff(fromDB.getBetreff());
-		result.setMailtext(fromDB.getMailtext());
+        InfomailResponseDto result = new InfomailResponseDto();
+        result.setUuid(fromDB.getUuid());
+        result.setBetreff(fromDB.getBetreff());
+        result.setMailtext(fromDB.getMailtext());
 
-		if (fromDB.getUuidsMailversandauftraege() != null) {
+        if (fromDB.getUuidsMailversandauftraege() != null) {
 
-			result.setUuidsMailversandauftraege(Arrays.asList(StringUtils.split(fromDB.getUuidsMailversandauftraege(), ",")));
-		}
+            result
+                    .setUuidsMailversandauftraege(
+                            Arrays.asList(StringUtils.split(fromDB.getUuidsMailversandauftraege(), ",")));
+        }
 
-		return result;
+        return result;
 
-	}
+    }
 
 }

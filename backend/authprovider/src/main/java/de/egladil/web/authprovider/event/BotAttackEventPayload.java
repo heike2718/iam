@@ -11,81 +11,81 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BotAttackEventPayload {
 
-	@JsonProperty
-	private String path;
+    @JsonProperty
+    private String path;
 
-	@JsonProperty
-	private String loginName;
+    @JsonProperty
+    private String loginName;
 
-	@JsonProperty
-	private String passwort;
+    @JsonProperty
+    private String passwort;
 
-	@JsonProperty
-	private String kleber;
+    @JsonProperty
+    private String kleber;
 
-	@JsonProperty
-	private String redirectUrl;
+    @JsonProperty
+    private String redirectUrl;
 
-	public String getLoginName() {
+    public String getLoginName() {
 
-		return loginName;
-	}
+        return loginName;
+    }
 
-	public BotAttackEventPayload withLoginName(final String loginName) {
+    public BotAttackEventPayload withLoginName(final String loginName) {
 
-		this.loginName = loginName;
-		return this;
-	}
+        this.loginName = loginName;
+        return this;
+    }
 
-	public String getPasswort() {
+    public String getPasswort() {
 
-		return passwort;
-	}
+        return passwort;
+    }
 
-	public BotAttackEventPayload withPasswort(final String passwort) {
+    public BotAttackEventPayload withPasswort(final String passwort) {
 
-		this.passwort = passwort;
-		return this;
-	}
+        this.passwort = passwort;
+        return this;
+    }
 
-	public String getKleber() {
+    public String getKleber() {
 
-		return kleber;
-	}
+        return kleber;
+    }
 
-	public BotAttackEventPayload withKleber(final String kleber) {
+    public BotAttackEventPayload withKleber(final String kleber) {
 
-		this.kleber = kleber;
-		return this;
-	}
+        this.kleber = kleber;
+        return this;
+    }
 
-	public String getRedirectUrl() {
+    public String getRedirectUrl() {
 
-		return redirectUrl;
-	}
+        return redirectUrl;
+    }
 
-	public BotAttackEventPayload withRedirectUrl(final String redirectUrl) {
+    public BotAttackEventPayload withRedirectUrl(final String redirectUrl) {
 
-		this.redirectUrl = redirectUrl;
-		return this;
-	}
+        this.redirectUrl = redirectUrl;
+        return this;
+    }
 
-	public String getPath() {
+    public String getPath() {
 
-		return path;
-	}
+        return path;
+    }
 
-	public BotAttackEventPayload withPath(final String path) {
+    public BotAttackEventPayload withPath(final String path) {
 
-		this.path = path;
-		return this;
-	}
+        this.path = path;
+        return this;
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return "BotAttackEventPayload [path=" + path + ", loginName=" + loginName + ", kleber=" + kleber + ", redirectUrl="
-			+ redirectUrl + "]";
-	}
+        return "BotAttackEventPayload [path=" + path + ", loginName=" + loginName + ", kleber=" + kleber
+                + ", redirectUrl=" + redirectUrl + "]";
+    }
 
 }

@@ -6,11 +6,11 @@ package de.egladil.web.bv_admin.domain.benutzer;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.validation.Valid;
 
 /**
  * BenutzerSearchResult
@@ -18,31 +18,31 @@ import jakarta.validation.Valid;
 @Schema(description = "Ergebnis der Suche")
 public class BenutzerSearchResult {
 
-	@JsonProperty
-	private int anzahlGesamt;
+    @JsonProperty
+    private int anzahlGesamt;
 
-	@JsonProperty
-	@Valid
-	private List<BenutzerTrefferlisteItem> items;
+    @JsonProperty
+    @Valid
+    private List<BenutzerTrefferlisteItem> items;
 
-	public int getAnzahlGesamt() {
+    public int getAnzahlGesamt() {
 
-		return anzahlGesamt;
-	}
+        return anzahlGesamt;
+    }
 
-	public void setAnzahlGesamt(final int anzahlGsamt) {
+    public void setAnzahlGesamt(final int anzahlGsamt) {
 
-		this.anzahlGesamt = anzahlGsamt;
-	}
+        this.anzahlGesamt = anzahlGsamt;
+    }
 
-	public List<BenutzerTrefferlisteItem> getItems() {
+    public List<BenutzerTrefferlisteItem> getItems() {
 
-		return items;
-	}
+        return items;
+    }
 
-	public void setItems(final List<BenutzerTrefferlisteItem> items) {
+    public void setItems(final List<BenutzerTrefferlisteItem> items) {
 
-		this.items = items;
-	}
+        this.items = items;
+    }
 
 }

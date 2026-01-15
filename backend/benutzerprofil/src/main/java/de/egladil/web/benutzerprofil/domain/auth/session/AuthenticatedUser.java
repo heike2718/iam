@@ -4,76 +4,76 @@
 // =====================================================
 package de.egladil.web.benutzerprofil.domain.auth.session;
 
-import org.apache.commons.lang3.StringUtils;
-
 import io.quarkus.security.runtime.QuarkusPrincipal;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * AuthenticatedUser
  */
 public class AuthenticatedUser extends QuarkusPrincipal {
 
-	private String idReference;
+    private String idReference;
 
-	private String fullName;
+    private String fullName;
 
-	private String uuid;
+    private String uuid;
 
-	public static AuthenticatedUser createAnonymousUser() {
+    public static AuthenticatedUser createAnonymousUser() {
 
-		AuthenticatedUser result = new AuthenticatedUser(SessionUtils.ANONYME_UUID);
-		result.fullName = "Gast";
-		return result;
-	}
+        AuthenticatedUser result = new AuthenticatedUser(SessionUtils.ANONYME_UUID);
+        result.fullName = "Gast";
+        return result;
+    }
 
-	/**
-	 * @param uuid String die UUID des Benutzerkontos.
-	 */
-	public AuthenticatedUser(final String uuid) {
+    /**
+     * @param uuid String die UUID des Benutzerkontos.
+     */
+    public AuthenticatedUser(final String uuid) {
 
-		super(uuid);
+        super(uuid);
 
-	}
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return "AuthenticatedUser [uuid=" + StringUtils.abbreviate(getName(), 11) + "]";
-	}
+        return "AuthenticatedUser [uuid=" + StringUtils.abbreviate(getName(), 11) + "]";
+    }
 
-	/**
-	 * @return the idReference
-	 */
-	public String getIdReference() {
+    /**
+     * @return the idReference
+     */
+    public String getIdReference() {
 
-		return idReference;
-	}
+        return idReference;
+    }
 
-	public AuthenticatedUser withIdReference(final String idReference) {
+    public AuthenticatedUser withIdReference(final String idReference) {
 
-		this.idReference = idReference;
-		return this;
-	}
+        this.idReference = idReference;
+        return this;
+    }
 
-	public String getFullName() {
+    public String getFullName() {
 
-		return fullName;
-	}
+        return fullName;
+    }
 
-	public AuthenticatedUser withFullName(final String fullName) {
+    public AuthenticatedUser withFullName(final String fullName) {
 
-		this.fullName = fullName;
-		return this;
-	}
+        this.fullName = fullName;
+        return this;
+    }
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
-	public AuthenticatedUser withUuid(final String uuid) {
+    public AuthenticatedUser withUuid(final String uuid) {
 
-		this.uuid = uuid;
-		return this;
-	}
+        this.uuid = uuid;
+        return this;
+    }
 }

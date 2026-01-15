@@ -11,17 +11,17 @@ import java.time.LocalDateTime;
  */
 public interface AuthAdminEvent {
 
-	boolean writeToEventStore();
+    boolean writeToEventStore();
 
-	boolean propagateToListeners();
+    boolean propagateToListeners();
 
-	EventType eventType();
+    EventType eventType();
 
-	Object payload();
+    Object payload();
 
-	String serializePayload();
+    String serializePayload();
 
-	LocalDateTime occuredOn();
+    LocalDateTime occuredOn();
 
-	void writeToConsoleQuietly();
+    void writeToConsoleQuietly();
 }

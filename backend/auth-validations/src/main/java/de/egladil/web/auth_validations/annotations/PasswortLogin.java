@@ -5,6 +5,15 @@
 
 package de.egladil.web.auth_validations.annotations;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+
+import de.egladil.web.auth_validations.PasswortLoginValidator;
+
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;
@@ -12,19 +21,13 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import de.egladil.web.auth_validations.PasswortLoginValidator;
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
-
 /**
- * mindestens 8 Zeichen, höchstens 100 Zeichen, mindestens ein Buchstabe, mindestens eine Ziffer, keine Leerzeichen<br>
+ * mindestens 8 Zeichen, höchstens 100 Zeichen, mindestens ein Buchstabe,
+ * mindestens eine Ziffer, keine Leerzeichen<br>
  * <br>
- * Erlaubte Sonderzeichen: !\"#$%&)(*+,-./:;<=>?@][^_'`'{|}~ Wenn der Wert null ist, wird er als gültig angesehen. Es
- * muss also zusätzlich eine NotNull-Anntotation angebracht werden.
+ * Erlaubte Sonderzeichen: !\"#$%&)(*+,-./:;<=>?@][^_'`'{|}~ Wenn der Wert null
+ * ist, wird er als gültig angesehen. Es muss also zusätzlich eine
+ * NotNull-Anntotation angebracht werden.
  */
 @Documented
 @Retention(RUNTIME)
@@ -32,9 +35,9 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = { PasswortLoginValidator.class })
 public @interface PasswortLogin {
 
-	String message() default "{de.egladil.constraints.passwort.login}";
+    String message() default "{de.egladil.constraints.passwort.login}";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }
