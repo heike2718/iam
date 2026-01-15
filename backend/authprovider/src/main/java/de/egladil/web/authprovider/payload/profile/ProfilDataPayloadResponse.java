@@ -11,30 +11,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ProfilDataPayloadResponse {
 
-	@JsonProperty
-	private final String nonce;
+    @JsonProperty
+    private final String nonce;
 
-	@JsonProperty
-	private final ProfileDataPayload profilData;
+    @JsonProperty
+    private final ProfileDataPayload profilData;
 
-	/**
-	 * @param nonce
-	 * @param profilData
-	 */
-	public ProfilDataPayloadResponse(final String nonce, final ProfileDataPayload profilData) {
+    /**
+     * @param nonce
+     * @param profilData
+     */
+    public ProfilDataPayloadResponse(final String nonce, final ProfileDataPayload profilData) {
 
-		this.nonce = nonce;
-		this.profilData = profilData;
-	}
+        this.nonce = nonce;
+        this.profilData = profilData;
+    }
 
-	public String getNonce() {
+    public String getNonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
-	public ProfileDataPayload getProfilData() {
+    public ProfileDataPayload getProfilData() {
 
-		return profilData;
-	}
+        return profilData;
+    }
 
 }

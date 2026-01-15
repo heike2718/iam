@@ -16,62 +16,62 @@ import de.egladil.web.authprovider.entities.ResourceOwner;
  */
 public abstract class AbstractAuthproviderEvent implements AuthproviderEvent {
 
-	private final LocalDateTime occuredOn;
+    private final LocalDateTime occuredOn;
 
-	private ResourceOwnerEventPayload resourceOwner;
+    private ResourceOwnerEventPayload resourceOwner;
 
-	public AbstractAuthproviderEvent() {
+    public AbstractAuthproviderEvent() {
 
-		this.occuredOn = LocalDateTime.now();
-	}
+        this.occuredOn = LocalDateTime.now();
+    }
 
-	public AbstractAuthproviderEvent(final ResourceOwner resourceOwner) {
+    public AbstractAuthproviderEvent(final ResourceOwner resourceOwner) {
 
-		this();
-		this.resourceOwner = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner);
+        this();
+        this.resourceOwner = ResourceOwnerEventPayload.createFromResourceOwner(resourceOwner);
 
-	}
+    }
 
-	@Override
-	public String serializePayload() {
+    @Override
+    public String serializePayload() {
 
-		return new ResourceOwnerEventPayloadSerializer().apply(resourceOwner);
-	}
+        return new ResourceOwnerEventPayloadSerializer().apply(resourceOwner);
+    }
 
-	@Override
-	public Object payload() {
+    @Override
+    public Object payload() {
 
-		return resourceOwner;
-	}
+        return resourceOwner;
+    }
 
-	@Override
-	public LocalDateTime occuredOn() {
+    @Override
+    public LocalDateTime occuredOn() {
 
-		return this.occuredOn;
-	}
+        return this.occuredOn;
+    }
 
-	@Override
-	public void writeToConsoleQuietly() {
+    @Override
+    public void writeToConsoleQuietly() {
 
-		try {
+        try {
 
-			String body = new ObjectMapper().writeValueAsString(resourceOwner);
-			System.out.println(eventType().getLabel() + ": " + body);
-		} catch (JsonProcessingException e) {
+            String body = new ObjectMapper().writeValueAsString(resourceOwner);
+            System.out.println(eventType().getLabel() + ": " + body);
+        } catch (JsonProcessingException e) {
 
-			e.printStackTrace();
-			System.err.println(e.getMessage());
-		}
-	}
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
+    }
 
-	protected void setResourceOwner(final ResourceOwnerEventPayload resourceOwner) {
+    protected void setResourceOwner(final ResourceOwnerEventPayload resourceOwner) {
 
-		this.resourceOwner = resourceOwner;
-	}
+        this.resourceOwner = resourceOwner;
+    }
 
-	@Override
-	public boolean writeToServerLog() {
+    @Override
+    public boolean writeToServerLog() {
 
-		return false;
-	}
+        return false;
+    }
 }

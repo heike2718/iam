@@ -1,5 +1,5 @@
 import { ActionReducer, INIT, MetaReducer } from '@ngrx/store';
-import { loggedOutEvent } from '@benutzerprofil/auth/api';
+import { loggedOutEvent } from '../../auth/api/index';
 
 function clearState(reducer: ActionReducer<any>): ActionReducer<any> {
     

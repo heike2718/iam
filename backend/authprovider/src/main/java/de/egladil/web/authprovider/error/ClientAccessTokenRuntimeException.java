@@ -11,24 +11,24 @@ import de.egladil.web.authprovider.payload.ClientCredentials;
  */
 public class ClientAccessTokenRuntimeException extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private final ClientCredentials clientCredentials;
+    private final ClientCredentials clientCredentials;
 
-	/**
-	 * @param clientCredentials
-	 */
-	public ClientAccessTokenRuntimeException(final ClientCredentials clientCredentials) {
+    /**
+     * @param clientCredentials
+     */
+    public ClientAccessTokenRuntimeException(final ClientCredentials clientCredentials) {
 
-		this.clientCredentials = clientCredentials;
-	}
+        this.clientCredentials = clientCredentials;
+    }
 
-	public ClientCredentials getClientCredentials() {
+    public ClientCredentials getClientCredentials() {
 
-		return clientCredentials;
-	}
+        return clientCredentials;
+    }
 
 }

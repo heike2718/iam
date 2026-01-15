@@ -12,40 +12,40 @@ import java.util.Date;
  */
 public class TimeInterval {
 
-	private final Date startTime;
+    private final Date startTime;
 
-	private final Date endTime;
+    private final Date endTime;
 
-	/**
-	 * Erzeugt eine Instanz von TimeInterval
-	 */
-	public TimeInterval(final Date startTime, final Date endTime) {
+    /**
+     * Erzeugt eine Instanz von TimeInterval
+     */
+    public TimeInterval(final Date startTime, final Date endTime) {
 
-		super();
-		this.startTime = startTime;
-		this.endTime = endTime;
-	}
+        super();
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 
-	public Date getStartTime() {
+    public Date getStartTime() {
 
-		return startTime;
-	}
+        return startTime;
+    }
 
-	public Date getEndTime() {
+    public Date getEndTime() {
 
-		return endTime;
-	}
+        return endTime;
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		StringBuilder builder = new StringBuilder();
-		builder.append("TimeInterval [startTime=");
-		builder.append(startTime);
-		builder.append(", endTime=");
-		builder.append(endTime);
-		builder.append("]");
-		return builder.toString();
-	}
+        StringBuilder builder = new StringBuilder();
+        builder.append("TimeInterval [startTime=");
+        builder.append(startTime);
+        builder.append(", endTime=");
+        builder.append(endTime);
+        builder.append("]");
+        return builder.toString();
+    }
 
 }

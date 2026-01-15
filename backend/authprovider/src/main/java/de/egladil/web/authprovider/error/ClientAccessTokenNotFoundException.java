@@ -9,26 +9,26 @@ package de.egladil.web.authprovider.error;
  */
 public class ClientAccessTokenNotFoundException extends Exception {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public ClientAccessTokenNotFoundException(final String message, final Throwable cause) {
+    /**
+     * @param message
+     * @param cause
+     */
+    public ClientAccessTokenNotFoundException(final String message, final Throwable cause) {
 
-		super(message, cause);
-	}
+        super(message, cause);
+    }
 
-	/**
-	 * @param message
-	 */
-	public ClientAccessTokenNotFoundException(final String message) {
+    /**
+     * @param message
+     */
+    public ClientAccessTokenNotFoundException(final String message) {
 
-		super(message);
-	}
+        super(message);
+    }
 
 }

@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { BenutzerprofilConfiguration } from '@benutzerprofil/configuration';
+import { BenutzerprofilConfiguration } from './configuration/benutzerprofil.configuration';
 import { ShellComponent } from './shell/shell.component';
-import { AuthFacade } from '@benutzerprofil/auth/api';
+import { AuthFacade } from './auth/api/auth.facade';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '@ap-ws/common-ui';
-import { isLocalStorageAvailable } from '@benutzerprofil/local-storage';
+import { isLocalStorageAvailable } from './local-storage-data/check-local-storage-availability';
 
 @Component({
   standalone: true,

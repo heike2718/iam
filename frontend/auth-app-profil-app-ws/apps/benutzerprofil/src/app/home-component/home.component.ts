@@ -2,8 +2,8 @@ import { AsyncPipe, CommonModule } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { AuthFacade } from "@benutzerprofil/auth/api";
-import { BenutzerprofilConfiguration } from "@benutzerprofil/configuration";
+import { AuthFacade } from '../auth/api/auth.facade';
+import { BenutzerprofilConfiguration } from '../configuration/benutzerprofil.configuration';
 import { Router } from "@angular/router";
 import { ShellService } from "../shell/shell.service";
 

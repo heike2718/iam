@@ -13,47 +13,47 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class HandshakeAck {
 
-	@JsonProperty
-	private String syncToken;
+    @JsonProperty
+    private String syncToken;
 
-	@JsonProperty
-	private String nonce;
+    @JsonProperty
+    private String nonce;
 
-	public static HandshakeAck fromResponse(final Map<String, Object> data) {
+    public static HandshakeAck fromResponse(final Map<String, Object> data) {
 
-		HandshakeAck result = new HandshakeAck();
+        HandshakeAck result = new HandshakeAck();
 
-		{
+        {
 
-			Object obj = data.get("syncToken");
+            Object obj = data.get("syncToken");
 
-			if (obj != null) {
+            if (obj != null) {
 
-				result.syncToken = (String) obj;
-			}
-		}
+                result.syncToken = (String) obj;
+            }
+        }
 
-		{
+        {
 
-			Object obj = data.get("nonce");
+            Object obj = data.get("nonce");
 
-			if (obj != null) {
+            if (obj != null) {
 
-				result.nonce = (String) obj;
-			}
-		}
-		return result;
+                result.nonce = (String) obj;
+            }
+        }
+        return result;
 
-	}
+    }
 
-	public String syncToken() {
+    public String syncToken() {
 
-		return syncToken;
-	}
+        return syncToken;
+    }
 
-	public String nonce() {
+    public String nonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
 }

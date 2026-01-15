@@ -13,27 +13,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResourceOwnerResponse {
 
-	@JsonProperty
-	private String nonce;
+    @JsonProperty
+    private String nonce;
 
-	@JsonProperty
-	private List<ResourceOwnerResponseItem> items;
+    @JsonProperty
+    private List<ResourceOwnerResponseItem> items;
 
-	/**
-	 *
-	 */
-	public ResourceOwnerResponse() {
+    /**
+     *
+     */
+    public ResourceOwnerResponse() {
 
-	}
+    }
 
-	/**
-	 * @param nonce
-	 * @param items
-	 */
-	public ResourceOwnerResponse(final String nonce, final List<ResourceOwnerResponseItem> items) {
+    /**
+     * @param nonce
+     * @param items
+     */
+    public ResourceOwnerResponse(final String nonce, final List<ResourceOwnerResponseItem> items) {
 
-		this.nonce = nonce;
-		this.items = items;
-	}
+        this.nonce = nonce;
+        this.items = items;
+    }
 
 }

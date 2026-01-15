@@ -1,7 +1,8 @@
 import { inject, Injectable } from "@angular/core";
-import { ChangeTempPasswordPayload } from "@authprovider/model";
+import { ChangeTempPasswordPayload } from '../../model/auth.model';
 import { Store } from "@ngrx/store";
-import { changeTempPasswordActions, fromChangeTempPassword } from '@authprovider/change-temp-password/data';
+import { changeTempPasswordActions } from '../data/+state/change-temp-password.actions';
+import { fromChangeTempPassword } from '../data/+state/change-temp-password.selectors';
 import { Observable } from "rxjs";
 
 @Injectable({

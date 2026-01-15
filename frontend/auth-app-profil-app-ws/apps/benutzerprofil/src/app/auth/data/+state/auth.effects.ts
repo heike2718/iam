@@ -4,9 +4,9 @@ import { AuthHttpService } from "../auth-http.service";
 import { authActions } from "./auth.actions";
 import { map, of, switchMap, tap } from "rxjs";
 import { Message } from "@ap-ws/common-model";
-import { Session } from "@benutzerprofil/auth/model";
+import { Session } from '../../model/auth.model';
 import { Router } from '@angular/router';
-import { BenutzerdatenFacade } from "@benutzerprofil/benutzerdaten/api";
+import { BenutzerdatenFacade } from '../../../benutzerdaten/api/benutzerdaten.facade';
 import { MessageService } from "@ap-ws/messages/api";
 
 

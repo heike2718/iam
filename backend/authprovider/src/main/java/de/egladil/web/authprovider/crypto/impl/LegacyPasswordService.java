@@ -23,91 +23,93 @@ import de.egladil.web.authprovider.config.PasswordConfig;
  */
 public class LegacyPasswordService {
 
-	private final PasswordConfig passwordConfig;
+    private final PasswordConfig passwordConfig;
 
-	public LegacyPasswordService(final PasswordConfig passwordConfig) {
+    public LegacyPasswordService(final PasswordConfig passwordConfig) {
 
-		super();
-		this.passwordConfig = passwordConfig;
-	}
+        super();
+        this.passwordConfig = passwordConfig;
+    }
 
-	public boolean verifyPassword(final char[] password, final String persistentHashValue, final String persistentSalt) {
+    public boolean verifyPassword(final char[] password, final String persistentHashValue,
+            final String persistentSalt) {
 
-		ByteSource bsPwd = ByteSource.Util.bytes(new String(password));
-		ByteSource bsSalt = ByteSource.Util.bytes(Base64.getDecoder().decode(persistentSalt));
+        ByteSource bsPwd = ByteSource.Util.bytes(new String(password));
+        ByteSource bsSalt = ByteSource.Util.bytes(Base64.getDecoder().decode(persistentSalt));
 
-		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("SimpleHash.iterations", Integer.valueOf(passwordConfig.getIterations()));
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("SimpleHash.iterations", Integer.valueOf(passwordConfig.getIterations()));
 
-		HashRequest hashRequest = new SimpleHashRequest(passwordConfig.getCryptoAlgorithm(), bsPwd, bsSalt, parameters);
-		Hash expectedHash = this.computeHash(hashRequest);
+        HashRequest hashRequest = new SimpleHashRequest(passwordConfig.getCryptoAlgorithm(), bsPwd, bsSalt, parameters);
+        Hash expectedHash = this.computeHash(hashRequest);
 
-		final String expectedHashValue = new SimpleByteSource(expectedHash.getBytes()).toBase64();
+        final String expectedHashValue = new SimpleByteSource(expectedHash.getBytes()).toBase64();
 
-		if (MessageDigest.isEqual(expectedHashValue.getBytes(), persistentHashValue.getBytes())) {
+        if (MessageDigest.isEqual(expectedHashValue.getBytes(), persistentHashValue.getBytes())) {
 
-			return true;
-		}
-		return false;
-	}
+            return true;
+        }
+        return false;
+    }
 
-	private Hash computeHash(final HashRequest request) {
+    private Hash computeHash(final HashRequest request) {
 
-		if (request == null || request.getSource() == null || request.getSource().isEmpty()) {
+        if (request == null || request.getSource() == null || request.getSource().isEmpty()) {
 
-			return null;
-		}
+            return null;
+        }
 
-		ByteSource source = request.getSource();
+        ByteSource source = request.getSource();
 
-		ByteSource publicSalt = request.getSalt().get();
-		ByteSource privateSalt = new SimpleByteSource(passwordConfig.getPepper());
-		ByteSource combinedPepperAndSalt = combinePepperAndSalt(privateSalt, publicSalt);
+        ByteSource publicSalt = request.getSalt().get();
+        ByteSource privateSalt = new SimpleByteSource(passwordConfig.getPepper());
+        ByteSource combinedPepperAndSalt = combinePepperAndSalt(privateSalt, publicSalt);
 
-		Hash computed = new SimpleHash(passwordConfig.getCryptoAlgorithm(), source, combinedPepperAndSalt,
-			passwordConfig.getIterations());
+        Hash computed = new SimpleHash(passwordConfig.getCryptoAlgorithm(), source, combinedPepperAndSalt,
+                passwordConfig.getIterations());
 
-		SimpleHash result = new SimpleHash(passwordConfig.getCryptoAlgorithm());
-		result.setBytes(computed.getBytes());
-		result.setIterations(passwordConfig.getIterations());
-		// Only expose the public salt - not the real/combined salt that might have been used:
-		result.setSalt(publicSalt);
+        SimpleHash result = new SimpleHash(passwordConfig.getCryptoAlgorithm());
+        result.setBytes(computed.getBytes());
+        result.setIterations(passwordConfig.getIterations());
+        // Only expose the public salt - not the real/combined salt that might have been
+        // used:
+        result.setSalt(publicSalt);
 
-		return result;
-	}
+        return result;
+    }
 
-	private ByteSource combinePepperAndSalt(final ByteSource pepper, final ByteSource publicSalt) {
+    private ByteSource combinePepperAndSalt(final ByteSource pepper, final ByteSource publicSalt) {
 
-		byte[] privateSaltBytes = pepper != null ? pepper.getBytes() : null;
-		int privateSaltLength = privateSaltBytes != null ? privateSaltBytes.length : 0;
+        byte[] privateSaltBytes = pepper != null ? pepper.getBytes() : null;
+        int privateSaltLength = privateSaltBytes != null ? privateSaltBytes.length : 0;
 
-		byte[] publicSaltBytes = publicSalt != null ? publicSalt.getBytes() : null;
-		int extraBytesLength = publicSaltBytes != null ? publicSaltBytes.length : 0;
+        byte[] publicSaltBytes = publicSalt != null ? publicSalt.getBytes() : null;
+        int extraBytesLength = publicSaltBytes != null ? publicSaltBytes.length : 0;
 
-		int length = privateSaltLength + extraBytesLength;
+        int length = privateSaltLength + extraBytesLength;
 
-		if (length <= 0) {
+        if (length <= 0) {
 
-			return null;
-		}
+            return null;
+        }
 
-		byte[] combined = new byte[length];
+        byte[] combined = new byte[length];
 
-		int i = 0;
+        int i = 0;
 
-		for (int j = 0; j < privateSaltLength; j++) {
+        for (int j = 0; j < privateSaltLength; j++) {
 
-			assert privateSaltBytes != null;
-			combined[i++] = privateSaltBytes[j];
-		}
+            assert privateSaltBytes != null;
+            combined[i++] = privateSaltBytes[j];
+        }
 
-		for (int j = 0; j < extraBytesLength; j++) {
+        for (int j = 0; j < extraBytesLength; j++) {
 
-			assert publicSaltBytes != null;
-			combined[i++] = publicSaltBytes[j];
-		}
+            assert publicSaltBytes != null;
+            combined[i++] = publicSaltBytes[j];
+        }
 
-		return ByteSource.Util.bytes(combined);
-	}
+        return ByteSource.Util.bytes(combined);
+    }
 
 }

@@ -9,6 +9,5 @@ package de.egladil.web.bv_admin.domain;
  */
 public enum SortDirection {
 
-	asc,
-	desc;
+    asc, desc;
 }

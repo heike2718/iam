@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { ClientCredentials, ClientInformation, LoginCredentials, SignUpLogInResponseData } from "@authprovider/model";
-import { SignUpCredentials } from "@authprovider/login-signup/model";
+import { ClientCredentials, ClientInformation, LoginCredentials, SignUpLogInResponseData } from '../../model/auth.model';
+import { SignUpCredentials } from '../model/login-signup.model';
 import { Observable } from "rxjs";
 
 

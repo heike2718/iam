@@ -6,10 +6,17 @@ package de.egladil.web.authprovider.service.profile;
 
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.Response;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.payload.MessagePayload;
@@ -20,10 +27,6 @@ import de.egladil.web.authprovider.service.ResourceOwnerService;
 import de.egladil.web.authprovider.service.mail.AuthMailService;
 import de.egladil.web.authprovider.service.mail.BenutzerkontoGeloeschtMailStrategie;
 import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.core.Response;
 
 /**
  * DeleteAccountService
@@ -31,60 +34,62 @@ import jakarta.ws.rs.core.Response;
 @RequestScoped
 public class DeleteAccountService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(DeleteAccountService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DeleteAccountService.class);
 
-	@ConfigProperty(name = "account.deleted.subject")
-	String mailSubject;
+    @ConfigProperty(name = "account.deleted.subject")
+    String mailSubject;
 
-	@ConfigProperty(name = "monitoring.mail.to")
-	String mailTo;
+    @ConfigProperty(name = "monitoring.mail.to")
+    String mailTo;
 
-	@Inject
-	ClientService clientService;
+    @Inject
+    ClientService clientService;
 
-	@Inject
-	ResourceOwnerService resourceOwnerService;
+    @Inject
+    ResourceOwnerService resourceOwnerService;
 
-	@Inject
-	AuthMailService mailService;
+    @Inject
+    AuthMailService mailService;
 
-	public Response deleteAccount(final SelectProfilePayload selectProfilePayload) {
+    public Response deleteAccount(final SelectProfilePayload selectProfilePayload) {
 
-		Optional<ResourceOwner> optRO = this.resourceOwnerService.findByUUID(selectProfilePayload.getUuid());
+        Optional<ResourceOwner> optRO = this.resourceOwnerService.findByUUID(selectProfilePayload.getUuid());
 
-		if (optRO.isPresent()) {
+        if (optRO.isPresent()) {
 
-			ResourceOwner resourceOwner = optRO.get();
-			resourceOwnerService.deleteResourceOwner(resourceOwner);
+            ResourceOwner resourceOwner = optRO.get();
+            resourceOwnerService.deleteResourceOwner(resourceOwner);
 
-			sendInfoMailQuietly(resourceOwner);
+            sendInfoMailQuietly(resourceOwner);
 
-			String nonce = selectProfilePayload.getClientCredentials().getNonce();
+            String nonce = selectProfilePayload.getClientCredentials().getNonce();
 
-			LOG.info(">>>>> nonce={}", nonce);
+            LOG.info(">>>>> nonce={}", nonce);
 
-			ResponsePayload responsePayload = new ResponsePayload(MessagePayload.info("Benutzerkonto gelöscht"), nonce);
+            ResponsePayload responsePayload = new ResponsePayload(MessagePayload.info("Benutzerkonto gelöscht"), nonce);
 
-			return Response.ok(responsePayload).build();
-		}
+            return Response.ok(responsePayload).build();
+        }
 
-		throw new NotFoundException();
+        throw new NotFoundException();
 
-	}
+    }
 
-	private void sendInfoMailQuietly(final ResourceOwner resourceOwner) {
+    private void sendInfoMailQuietly(final ResourceOwner resourceOwner) {
 
-		try {
+        try {
 
-			CreateDefaultMailDatenStrategy mailStrategy = new BenutzerkontoGeloeschtMailStrategie(mailSubject, mailTo,
-				resourceOwner);
+            CreateDefaultMailDatenStrategy mailStrategy = new BenutzerkontoGeloeschtMailStrategie(mailSubject, mailTo,
+                    resourceOwner);
 
-			mailService.sendMail(mailStrategy.createEmailDaten(mailSubject));
+            mailService.sendMail(mailStrategy.createEmailDaten(mailSubject));
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			LOG.error("Infomail über Löschung des Benutzerkontos " + StringUtils.abbreviate(resourceOwner.getUuid(), 11)
-				+ " konnte nicht versendet werden: " + e.getMessage());
-		}
-	}
+            LOG
+                    .error("Infomail über Löschung des Benutzerkontos "
+                            + StringUtils.abbreviate(resourceOwner.getUuid(), 11) + " konnte nicht versendet werden: "
+                            + e.getMessage());
+        }
+    }
 }

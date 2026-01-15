@@ -9,34 +9,34 @@ package de.egladil.web.authprovider.event;
  */
 public class UserChanged extends AbstractAuthproviderEvent {
 
-	UserChanged() {
+    UserChanged() {
 
-		super();
+        super();
 
-	}
+    }
 
-	public UserChanged(final ResourceOwnerEventPayload eventPayload) {
+    public UserChanged(final ResourceOwnerEventPayload eventPayload) {
 
-		this.setResourceOwner(eventPayload);
+        this.setResourceOwner(eventPayload);
 
-	}
+    }
 
-	@Override
-	public boolean writeToEventStore() {
+    @Override
+    public boolean writeToEventStore() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean propagateToListeners() {
+    @Override
+    public boolean propagateToListeners() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public AuthproviderEventType eventType() {
+    @Override
+    public AuthproviderEventType eventType() {
 
-		return AuthproviderEventType.USER_CHANGED;
-	}
+        return AuthproviderEventType.USER_CHANGED;
+    }
 
 }

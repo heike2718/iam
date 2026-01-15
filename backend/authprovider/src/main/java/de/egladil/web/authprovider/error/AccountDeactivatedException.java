@@ -1,7 +1,7 @@
-//=====================================================
+// =====================================================
 // Project: authprovider
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 package de.egladil.web.authprovider.error;
 
 /**
@@ -9,16 +9,16 @@ package de.egladil.web.authprovider.error;
  */
 public class AccountDeactivatedException extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param message
-	 */
-	public AccountDeactivatedException(final String message) {
-		super(message);
-	}
+    /**
+     * @param message
+     */
+    public AccountDeactivatedException(final String message) {
+        super(message);
+    }
 
 }

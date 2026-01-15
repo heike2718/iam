@@ -1,6 +1,6 @@
 import { Message } from "@ap-ws/common-model";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { Benutzerdaten, ChangeBenutzerdatenResponseDto } from "@benutzerprofil/benutzerdaten/model";
+import { Benutzerdaten, ChangeBenutzerdatenResponseDto } from '../../model/benutzerdaten.model';
 
 
 export const benutzerdatenActions = createActionGroup({

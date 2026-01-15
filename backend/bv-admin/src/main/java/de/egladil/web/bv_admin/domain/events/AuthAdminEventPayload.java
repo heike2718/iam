@@ -11,36 +11,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class AuthAdminEventPayload {
 
-	@JsonProperty
-	private String akteur;
+    @JsonProperty
+    private String akteur;
 
-	@JsonProperty
-	private String target;
+    @JsonProperty
+    private String target;
 
-	public AuthAdminEventPayload() {
+    public AuthAdminEventPayload() {
 
-	}
+    }
 
-	public String getAkteur() {
+    public String getAkteur() {
 
-		return akteur;
-	}
+        return akteur;
+    }
 
-	public AuthAdminEventPayload withAkteur(final String uuidAkteur) {
+    public AuthAdminEventPayload withAkteur(final String uuidAkteur) {
 
-		this.akteur = uuidAkteur;
-		return this;
-	}
+        this.akteur = uuidAkteur;
+        return this;
+    }
 
-	public String getTarget() {
+    public String getTarget() {
 
-		return target;
-	}
+        return target;
+    }
 
-	public AuthAdminEventPayload withTarget(final String uuidUser) {
+    public AuthAdminEventPayload withTarget(final String uuidUser) {
 
-		this.target = uuidUser;
-		return this;
-	}
+        this.target = uuidUser;
+        return this;
+    }
 
 }

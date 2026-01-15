@@ -1,8 +1,9 @@
 import { Route } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ForgotPasswordComponent } from '@authprovider/forgot-password/feature';
-import { ChangeTempPasswordComponent } from '@authprovider/change-temp-password/feature';
-import { LoginComponent, SignUpComponent } from '@authprovider/login-signup/feature';
+import { ForgotPasswordComponent } from './forgot-password/feature/forgot-password/forgot-password.component';
+import { ChangeTempPasswordComponent } from './change-temp-password/feature/change-temp-password/change-temp-password.component';
+import { LoginComponent } from './login-signup/feature/log-in/log-in.component';
+import { SignUpComponent } from './login-signup/feature/sign-up/sign-up.component';
 
 export const appRoutes: Route[] = [
 

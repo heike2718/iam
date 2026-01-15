@@ -10,9 +10,9 @@ package de.egladil.web.benutzerprofil.domain.exceptions;
  */
 public interface LogmessagePrefixes {
 
-	String DATENMUELL = "Datenmuell bleibt: ";
+    String DATENMUELL = "Datenmuell bleibt: ";
 
-	String IMPOSSIBLE = "Unmoeglicher Programmzweig: ";
+    String IMPOSSIBLE = "Unmoeglicher Programmzweig: ";
 
-	String BOT = "Possible BOT Attack: ";
+    String BOT = "Possible BOT Attack: ";
 }

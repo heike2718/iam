@@ -15,11 +15,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import org.hibernate.exception.ConstraintViolationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.bv_admin.domain.Jobstatus;
 import de.egladil.web.bv_admin.domain.auth.dto.MessagePayload;
@@ -35,11 +44,6 @@ import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterI
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterMailversandauftrag;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterMailversandauftragReadOnly;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterUserReadOnly;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Response;
 
 /**
  * VersandauftragService
@@ -47,476 +51,491 @@ import jakarta.ws.rs.core.Response;
 @ApplicationScoped
 public class VersandauftragService {
 
-	/**
-	 *
-	 */
-	private static final String GELOESCHT = "geloescht";
+    /**
+     *
+     */
+    private static final String GELOESCHT = "geloescht";
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(VersandauftragService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VersandauftragService.class);
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER_JAHR_MONAT = DateTimeFormatter.ofPattern("yyyy-MM");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER_JAHR_MONAT = DateTimeFormatter.ofPattern("yyyy-MM");
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER_DEFAULT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER_DEFAULT = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy HH:mm:ss");
 
-	private static final int MAX_DB_IN_BUNCH_SIZE = 1000;
+    private static final int MAX_DB_IN_BUNCH_SIZE = 1000;
 
-	@ConfigProperty(name = "emails.groupsize", defaultValue = "50")
-	int emailsGroupSize;
+    @ConfigProperty(name = "emails.groupsize", defaultValue = "50")
+    int emailsGroupSize;
 
-	@Inject
-	MailversandDao mailversandDao;
+    @Inject
+    MailversandDao mailversandDao;
 
-	@Inject
-	BenutzerService benutzerService;
+    @Inject
+    BenutzerService benutzerService;
 
-	public List<MailversandauftragOverview> versandauftraegeLaden() {
+    public List<MailversandauftragOverview> versandauftraegeLaden() {
 
-		List<PersistenterMailversandauftragReadOnly> ausDB = mailversandDao.loadAllMailversandauftraege();
+        List<PersistenterMailversandauftragReadOnly> ausDB = mailversandDao.loadAllMailversandauftraege();
 
-		return ausDB.stream().map(this::mapFromDBToOverview).toList();
-	}
+        return ausDB.stream().map(this::mapFromDBToOverview).toList();
+    }
 
-	/**
-	 * Läd die Details eines Mailversandauftrags.
-	 *
-	 * @param uuid
-	 * @return MailversandauftragDetailsResponseDto
-	 */
-	public MailversandauftragDetailsResponseDto detailsMailversandauftragLaden(final String uuid) {
+    /**
+     * Läd die Details eines Mailversandauftrags.
+     *
+     * @param uuid
+     * @return MailversandauftragDetailsResponseDto
+     */
+    public MailversandauftragDetailsResponseDto detailsMailversandauftragLaden(final String uuid) {
 
-		PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
-		MailversandauftragDetailsResponseDto result = new MailversandauftragDetailsResponseDto();
-		result.setUuid(uuid);
+        PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
+        MailversandauftragDetailsResponseDto result = new MailversandauftragDetailsResponseDto();
+        result.setUuid(uuid);
 
-		if (fromDB == null) {
+        if (fromDB == null) {
 
-			LOGGER.warn("Mailversandauftrag mit UUID={} existiert nicht oder nicht mehr", StringUtils.abbreviate(uuid, 11));
-			return result;
+            LOGGER
+                    .warn("Mailversandauftrag mit UUID={} existiert nicht oder nicht mehr",
+                            StringUtils.abbreviate(uuid, 11));
+            return result;
 
-		}
+        }
 
-		List<PersistenteMailversandgruppe> versandgruppen = mailversandDao.findAllMailversandgruppenWithVersandauftragUUID(uuid);
+        List<PersistenteMailversandgruppe> versandgruppen = mailversandDao
+                .findAllMailversandgruppenWithVersandauftragUUID(uuid);
 
-		MailversandauftragDetails versandauftrag = mapFromDBToDetails(fromDB);
-		List<Mailversandgruppe> gruppen = versandgruppen.stream().map(this::mapFromDB).toList();
-		versandauftrag.setMailversandgruppen(gruppen);
-		result.setVersandauftrag(versandauftrag);
-		return result;
-	}
+        MailversandauftragDetails versandauftrag = mapFromDBToDetails(fromDB);
+        List<Mailversandgruppe> gruppen = versandgruppen.stream().map(this::mapFromDB).toList();
+        versandauftrag.setMailversandgruppen(gruppen);
+        result.setVersandauftrag(versandauftrag);
+        return result;
+    }
 
-	/**
-	 * Läd die Deteils einer Mailversandgruppe und die Liste der Benutzer, an die die Mail versendet wurde.
-	 *
-	 * @param gruppeUuid
-	 * @return MailversandgruppeDetailsResponseDto
-	 */
-	public MailversandgruppeDetailsResponseDto detailsMailversandgruppeLaden(final String gruppeUuid) {
+    /**
+     * Läd die Deteils einer Mailversandgruppe und die Liste der Benutzer, an die
+     * die Mail versendet wurde.
+     *
+     * @param gruppeUuid
+     * @return MailversandgruppeDetailsResponseDto
+     */
+    public MailversandgruppeDetailsResponseDto detailsMailversandgruppeLaden(final String gruppeUuid) {
 
-		PersistenteMailversandgruppe gruppeDB = mailversandDao.findMailversandgruppeByUUID(gruppeUuid);
-		MailversandgruppeDetailsResponseDto result = new MailversandgruppeDetailsResponseDto();
-		result.setUuid(gruppeUuid);
+        PersistenteMailversandgruppe gruppeDB = mailversandDao.findMailversandgruppeByUUID(gruppeUuid);
+        MailversandgruppeDetailsResponseDto result = new MailversandgruppeDetailsResponseDto();
+        result.setUuid(gruppeUuid);
 
-		if (gruppeDB == null) {
+        if (gruppeDB == null) {
 
-			return result;
-		}
+            return result;
+        }
 
-		PersistenterMailversandauftrag auftragDB = mailversandDao.findMailversandauftragByUUID(gruppeDB.getIdVersandauftrag());
+        PersistenterMailversandauftrag auftragDB = mailversandDao
+                .findMailversandauftragByUUID(gruppeDB.getIdVersandauftrag());
 
-		MailversandgruppeDetails gruppeDetails = new MailversandgruppeDetails();
-		gruppeDetails.setAenderungsdatum(DATE_TIME_FORMATTER_DEFAULT.format(gruppeDB.getGeaendertAm()));
-		gruppeDetails.setSortnr(gruppeDB.getSortnr());
-		gruppeDetails.setStatus(gruppeDB.getStatus());
-		gruppeDetails.setUuid(gruppeUuid);
-		gruppeDetails.setIdInfomailtext(auftragDB.getIdInfomailtext());
+        MailversandgruppeDetails gruppeDetails = new MailversandgruppeDetails();
+        gruppeDetails.setAenderungsdatum(DATE_TIME_FORMATTER_DEFAULT.format(gruppeDB.getGeaendertAm()));
+        gruppeDetails.setSortnr(gruppeDB.getSortnr());
+        gruppeDetails.setStatus(gruppeDB.getStatus());
+        gruppeDetails.setUuid(gruppeUuid);
+        gruppeDetails.setIdInfomailtext(auftragDB.getIdInfomailtext());
 
-		List<String> benutzerUUIDs = Arrays.asList(StringUtils.split(gruppeDB.getEmpfaengerUUIDs(), ","));
+        List<String> benutzerUUIDs = Arrays.asList(StringUtils.split(gruppeDB.getEmpfaengerUUIDs(), ","));
 
-		List<BenutzerTrefferlisteItem> benutzerTrefferlisteItems = benutzerService.findBenutzersByUUIDs(benutzerUUIDs);
+        List<BenutzerTrefferlisteItem> benutzerTrefferlisteItems = benutzerService.findBenutzersByUUIDs(benutzerUUIDs);
 
-		final List<BenutzerTrefferlisteItem> benutzers = new ArrayList<>();
+        final List<BenutzerTrefferlisteItem> benutzers = new ArrayList<>();
 
-		benutzerUUIDs.forEach(uuid -> {
+        benutzerUUIDs.forEach(uuid -> {
 
-			Optional<BenutzerTrefferlisteItem> optBenutzer = benutzerTrefferlisteItems.stream()
-				.filter(i -> i.getUuid().equals(uuid)).findFirst();
+            Optional<BenutzerTrefferlisteItem> optBenutzer = benutzerTrefferlisteItems
+                    .stream()
+                    .filter(i -> i.getUuid().equals(uuid))
+                    .findFirst();
 
-			if (optBenutzer.isEmpty()) {
+            if (optBenutzer.isEmpty()) {
 
-				benutzers.add(createMarkerGeloeschterBenutzer(uuid));
-			} else {
+                benutzers.add(createMarkerGeloeschterBenutzer(uuid));
+            } else {
 
-				benutzers.add(optBenutzer.get());
-			}
+                benutzers.add(optBenutzer.get());
+            }
 
-		});
+        });
 
-		gruppeDetails.setBenutzer(benutzers);
-		result.setMailversandgruppe(gruppeDetails);
+        gruppeDetails.setBenutzer(benutzers);
+        result.setMailversandgruppe(gruppeDetails);
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * Legt einen neuen Mailversandauftrag mit den zugehörigen Gruppen an.
-	 *
-	 * @param requestDto
-	 * @return MailversandauftragOverview
-	 */
-	public MailversandauftragOverview versandauftragAnlegen(final MailversandauftragRequestDto requestDto) {
+    /**
+     * Legt einen neuen Mailversandauftrag mit den zugehörigen Gruppen an.
+     *
+     * @param requestDto
+     * @return MailversandauftragOverview
+     */
+    public MailversandauftragOverview versandauftragAnlegen(final MailversandauftragRequestDto requestDto) {
 
-		if (requestDto.getBenutzerUUIDs().isEmpty()) {
+        if (requestDto.getBenutzerUUIDs().isEmpty()) {
 
-			String message = "benutzerIds waren leer. Mindestens 1 Empfänger wird benötigt.";
-			LOGGER.error(message, requestDto.getIdInfomailtext());
+            String message = "benutzerIds waren leer. Mindestens 1 Empfänger wird benötigt.";
+            LOGGER.error(message, requestDto.getIdInfomailtext());
 
-			Response response = Response.status(412).entity(MessagePayload.error(message)).build();
-			throw new WebApplicationException(response);
-		}
+            Response response = Response.status(412).entity(MessagePayload.error(message)).build();
+            throw new WebApplicationException(response);
+        }
 
-		PersistenterInfomailTextReadOnly infomailtext = mailversandDao.findInfomailtextReadOnlyByID(requestDto.getIdInfomailtext());
+        PersistenterInfomailTextReadOnly infomailtext = mailversandDao
+                .findInfomailtextReadOnlyByID(requestDto.getIdInfomailtext());
 
-		if (infomailtext == null) {
+        if (infomailtext == null) {
 
-			LOGGER.error("Infomailtext mit UUID={} existiert nicht oder nicht mehr", requestDto.getIdInfomailtext());
+            LOGGER.error("Infomailtext mit UUID={} existiert nicht oder nicht mehr", requestDto.getIdInfomailtext());
 
-			Response response = Response.status(412)
-				.entity(MessagePayload.error("kein Infomailtext mit der gegebenen UUID vorhanden")).build();
-			throw new WebApplicationException(response);
-		}
+            Response response = Response
+                    .status(412)
+                    .entity(MessagePayload.error("kein Infomailtext mit der gegebenen UUID vorhanden"))
+                    .build();
+            throw new WebApplicationException(response);
+        }
 
-		String checksum = calculateChecksum(requestDto.getBenutzerUUIDs());
-		List<List<String>> confirmedUUIDGroups = getAllConfirmedUUIDsInGroups(requestDto);
+        String checksum = calculateChecksum(requestDto.getBenutzerUUIDs());
+        List<List<String>> confirmedUUIDGroups = getAllConfirmedUUIDsInGroups(requestDto);
 
-		try {
+        try {
 
-			return createNewVersandauftrag(infomailtext, confirmedUUIDGroups, checksum);
-		} catch (Exception e) {
+            return createNewVersandauftrag(infomailtext, confirmedUUIDGroups, checksum);
+        } catch (Exception e) {
 
-			ConstraintViolationException cve = BVAdminSQLExceptionHelper.unwrappConstraintViolationException(e,
-				"Beim Anlegen eines Mailversandauftrags ist etwas schiefgegaben");
+            ConstraintViolationException cve = BVAdminSQLExceptionHelper
+                    .unwrappConstraintViolationException(e,
+                            "Beim Anlegen eines Mailversandauftrags ist etwas schiefgegaben");
 
-			LOGGER.error("infomailtext={}, checksum={}: {}", infomailtext.getUuid(), checksum, cve.getMessage());
+            LOGGER.error("infomailtext={}, checksum={}: {}", infomailtext.getUuid(), checksum, cve.getMessage());
 
-			throw new ConflictException("An diesen Benutzerkreis wurde in diesem Monat bereits eine Mail versendet.");
-		}
-	}
+            throw new ConflictException("An diesen Benutzerkreis wurde in diesem Monat bereits eine Mail versendet.");
+        }
+    }
 
-	private List<List<String>> getAllConfirmedUUIDsInGroups(final MailversandauftragRequestDto requestDto) {
+    private List<List<String>> getAllConfirmedUUIDsInGroups(final MailversandauftragRequestDto requestDto) {
 
-		List<List<String>> uuidGroups = AuthAdminCollectionUtils.groupTheStrings(requestDto.getBenutzerUUIDs(),
-			MAX_DB_IN_BUNCH_SIZE);
-		List<List<String>> confirmedUUIDGroups = extractConfirmedUUIDs(uuidGroups);
-		List<String> confirmedUUIDs = AuthAdminCollectionUtils.joinTheGroups(confirmedUUIDGroups);
-		return AuthAdminCollectionUtils.groupTheStrings(confirmedUUIDs, emailsGroupSize);
-	}
+        List<List<String>> uuidGroups = AuthAdminCollectionUtils
+                .groupTheStrings(requestDto.getBenutzerUUIDs(), MAX_DB_IN_BUNCH_SIZE);
+        List<List<String>> confirmedUUIDGroups = extractConfirmedUUIDs(uuidGroups);
+        List<String> confirmedUUIDs = AuthAdminCollectionUtils.joinTheGroups(confirmedUUIDGroups);
+        return AuthAdminCollectionUtils.groupTheStrings(confirmedUUIDs, emailsGroupSize);
+    }
 
-	@Transactional
-	MailversandauftragOverview createNewVersandauftrag(final PersistenterInfomailTextReadOnly infomailtext,
-		final List<List<String>> confirmedUUIDGroups, final String checksum) {
+    @Transactional
+    MailversandauftragOverview createNewVersandauftrag(final PersistenterInfomailTextReadOnly infomailtext,
+            final List<List<String>> confirmedUUIDGroups, final String checksum) {
 
-		long anzahlEmpfaenger = AuthAdminCollectionUtils.countElements(confirmedUUIDGroups);
-		Date geaendertAm = new Date();
-		LocalDateTime now = LocalDateTime.now();
+        long anzahlEmpfaenger = AuthAdminCollectionUtils.countElements(confirmedUUIDGroups);
+        Date geaendertAm = new Date();
+        LocalDateTime now = LocalDateTime.now();
 
-		PersistenterMailversandauftrag persistenterVersandauftrag = new PersistenterMailversandauftrag();
-		persistenterVersandauftrag.setAnzahlEmpfaenger(anzahlEmpfaenger);
-		persistenterVersandauftrag.setChecksumEmpfaengerIDs(checksum);
-		persistenterVersandauftrag.setErfasstAm(now);
-		persistenterVersandauftrag.setGeaendertAm(geaendertAm);
-		persistenterVersandauftrag.setVersandJahrMonat(DATE_TIME_FORMATTER_JAHR_MONAT.format(now));
-		persistenterVersandauftrag.setIdInfomailtext(infomailtext.getUuid());
-		persistenterVersandauftrag.setBetreff(infomailtext.getBetreff());
-		persistenterVersandauftrag.setMailtext(infomailtext.getMailtext());
-		persistenterVersandauftrag.setStatus(Jobstatus.WAITING);
+        PersistenterMailversandauftrag persistenterVersandauftrag = new PersistenterMailversandauftrag();
+        persistenterVersandauftrag.setAnzahlEmpfaenger(anzahlEmpfaenger);
+        persistenterVersandauftrag.setChecksumEmpfaengerIDs(checksum);
+        persistenterVersandauftrag.setErfasstAm(now);
+        persistenterVersandauftrag.setGeaendertAm(geaendertAm);
+        persistenterVersandauftrag.setVersandJahrMonat(DATE_TIME_FORMATTER_JAHR_MONAT.format(now));
+        persistenterVersandauftrag.setIdInfomailtext(infomailtext.getUuid());
+        persistenterVersandauftrag.setBetreff(infomailtext.getBetreff());
+        persistenterVersandauftrag.setMailtext(infomailtext.getMailtext());
+        persistenterVersandauftrag.setStatus(Jobstatus.WAITING);
 
-		String versandauftragUuid = mailversandDao.insertMailversandauftrag(persistenterVersandauftrag);
+        String versandauftragUuid = mailversandDao.insertMailversandauftrag(persistenterVersandauftrag);
 
-		int sortnr = 0;
+        int sortnr = 0;
 
-		for (List<String> uuidGroup : confirmedUUIDGroups) {
+        for (List<String> uuidGroup : confirmedUUIDGroups) {
 
-			PersistenteMailversandgruppe gruppe = new PersistenteMailversandgruppe();
-			gruppe.setEmpfaengerUUIDs(StringUtils.join(uuidGroup, ","));
-			gruppe.setGeaendertAm(now);
-			gruppe.setIdVersandauftrag(versandauftragUuid);
-			gruppe.setSortnr(++sortnr);
-			gruppe.setStatus(Jobstatus.WAITING);
+            PersistenteMailversandgruppe gruppe = new PersistenteMailversandgruppe();
+            gruppe.setEmpfaengerUUIDs(StringUtils.join(uuidGroup, ","));
+            gruppe.setGeaendertAm(now);
+            gruppe.setIdVersandauftrag(versandauftragUuid);
+            gruppe.setSortnr(++sortnr);
+            gruppe.setStatus(Jobstatus.WAITING);
 
-			mailversandDao.insertMailversandgruppe(gruppe);
+            mailversandDao.insertMailversandgruppe(gruppe);
 
-		}
+        }
 
-		MailversandauftragOverview result = new MailversandauftragOverview();
-		result.setAnzahlEmpfaenger(anzahlEmpfaenger);
-		result.setAnzahlGruppen(confirmedUUIDGroups.size());
-		result.setBetreff(infomailtext.getBetreff());
-		result.setStatus(persistenterVersandauftrag.getStatus());
-		result.setUuid(versandauftragUuid);
-		result.setIdInfomailtext(infomailtext.getUuid());
+        MailversandauftragOverview result = new MailversandauftragOverview();
+        result.setAnzahlEmpfaenger(anzahlEmpfaenger);
+        result.setAnzahlGruppen(confirmedUUIDGroups.size());
+        result.setBetreff(infomailtext.getBetreff());
+        result.setStatus(persistenterVersandauftrag.getStatus());
+        result.setUuid(versandauftragUuid);
+        result.setIdInfomailtext(infomailtext.getUuid());
 
-		return result;
+        return result;
 
-	}
+    }
 
-	/**
-	 * @param idGroups
-	 * @return
-	 */
-	List<List<String>> extractConfirmedUUIDs(final List<List<String>> idGroups) {
+    /**
+     * @param idGroups
+     * @return
+     */
+    List<List<String>> extractConfirmedUUIDs(final List<List<String>> idGroups) {
 
-		List<List<String>> emailAddressGroups = new ArrayList<>();
+        List<List<String>> emailAddressGroups = new ArrayList<>();
 
-		for (List<String> idGroup : idGroups) {
+        for (List<String> idGroup : idGroups) {
 
-			List<String> theUUIDs = loadAllUsersAktiviert(idGroup);
+            List<String> theUUIDs = loadAllUsersAktiviert(idGroup);
 
-			if (!theUUIDs.isEmpty()) {
+            if (!theUUIDs.isEmpty()) {
 
-				emailAddressGroups.add(theUUIDs);
-			}
-		}
-		return emailAddressGroups;
-	}
+                emailAddressGroups.add(theUUIDs);
+            }
+        }
+        return emailAddressGroups;
+    }
 
-	private List<String> loadAllUsersAktiviert(final List<String> benutzerIDs) {
+    private List<String> loadAllUsersAktiviert(final List<String> benutzerIDs) {
 
-		List<PersistenterUserReadOnly> users = mailversandDao.findActivatedAndNotBannedUsersByUUIDs(benutzerIDs);
-		return users.stream().map(u -> u.getUuid()).toList();
-	}
+        List<PersistenterUserReadOnly> users = mailversandDao.findActivatedAndNotBannedUsersByUUIDs(benutzerIDs);
+        return users.stream().map(u -> u.getUuid()).toList();
+    }
 
-	String calculateChecksum(final List<String> uuids) {
+    String calculateChecksum(final List<String> uuids) {
 
-		Collections.sort(uuids);
+        Collections.sort(uuids);
 
-		String idsString = StringUtils.join(uuids, ",");
+        String idsString = StringUtils.join(uuids, ",");
 
-		MessageDigest md;
+        MessageDigest md;
 
-		try {
+        try {
 
-			md = MessageDigest.getInstance("SHA-256");
-			byte[] hashBytes = md.digest(idsString.getBytes());
-			StringBuilder sb = new StringBuilder();
+            md = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = md.digest(idsString.getBytes());
+            StringBuilder sb = new StringBuilder();
 
-			for (byte b : hashBytes) {
+            for (byte b : hashBytes) {
 
-				sb.append(String.format("%02x", b));
-			}
-			return sb.toString();
-		} catch (NoSuchAlgorithmException e) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
 
-			LOGGER.error("Exception beim Berechnen der Checksumme der Benutzer-UUIDs: {}", e.getMessage(), e);
-			throw new BVAdminAPIRuntimeException("Exception beim Berechnen der Checksumme der Benutzer-UUIDs");
-		}
+            LOGGER.error("Exception beim Berechnen der Checksumme der Benutzer-UUIDs: {}", e.getMessage(), e);
+            throw new BVAdminAPIRuntimeException("Exception beim Berechnen der Checksumme der Benutzer-UUIDs");
+        }
 
-	}
+    }
 
-	MailversandauftragOverview mapFromDBToOverview(final PersistenterMailversandauftragReadOnly fromDB) {
+    MailversandauftragOverview mapFromDBToOverview(final PersistenterMailversandauftragReadOnly fromDB) {
 
-		MailversandauftragOverview result = new MailversandauftragOverview();
-		result.setAnzahlEmpfaenger(fromDB.getAnzahlEmpfaenger());
-		result.setAnzahlGruppen(fromDB.getAnzahlGruppen());
-		result.setBetreff(fromDB.getBetreff());
-		result.setIdInfomailtext(fromDB.getIdInfomailtext());
-		result.setStatus(fromDB.getStatus());
-		result.setUuid(fromDB.getUuid());
-		result.setErfasstAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getErfasstAm()));
+        MailversandauftragOverview result = new MailversandauftragOverview();
+        result.setAnzahlEmpfaenger(fromDB.getAnzahlEmpfaenger());
+        result.setAnzahlGruppen(fromDB.getAnzahlGruppen());
+        result.setBetreff(fromDB.getBetreff());
+        result.setIdInfomailtext(fromDB.getIdInfomailtext());
+        result.setStatus(fromDB.getStatus());
+        result.setUuid(fromDB.getUuid());
+        result.setErfasstAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getErfasstAm()));
 
-		return result;
+        return result;
 
-	}
+    }
 
-	MailversandauftragDetails mapFromDBToDetails(final PersistenterMailversandauftrag fromDB) {
+    MailversandauftragDetails mapFromDBToDetails(final PersistenterMailversandauftrag fromDB) {
 
-		MailversandauftragDetails versandauftrag = new MailversandauftragDetails();
-		versandauftrag.setAnzahlEmpfaenger(fromDB.getAnzahlEmpfaenger());
-		versandauftrag.setAnzahlVersendet(fromDB.getAnzahlVersendet());
-		versandauftrag.setErfasstAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getErfasstAm()));
-		versandauftrag.setIdInfomailtext(fromDB.getIdInfomailtext());
-		versandauftrag.setBetreff(fromDB.betreff);
-		versandauftrag.setMailtext(fromDB.mailtext);
-		versandauftrag.setMailversandgruppen(new ArrayList<>());
-		versandauftrag.setStatus(fromDB.getStatus());
-		versandauftrag.setUuid(fromDB.getUuid());
+        MailversandauftragDetails versandauftrag = new MailversandauftragDetails();
+        versandauftrag.setAnzahlEmpfaenger(fromDB.getAnzahlEmpfaenger());
+        versandauftrag.setAnzahlVersendet(fromDB.getAnzahlVersendet());
+        versandauftrag.setErfasstAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getErfasstAm()));
+        versandauftrag.setIdInfomailtext(fromDB.getIdInfomailtext());
+        versandauftrag.setBetreff(fromDB.betreff);
+        versandauftrag.setMailtext(fromDB.mailtext);
+        versandauftrag.setMailversandgruppen(new ArrayList<>());
+        versandauftrag.setStatus(fromDB.getStatus());
+        versandauftrag.setUuid(fromDB.getUuid());
 
-		if (fromDB.getVersandBeendetAm() != null) {
+        if (fromDB.getVersandBeendetAm() != null) {
 
-			versandauftrag.setVersandBeendetAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getVersandBeendetAm()));
-		}
+            versandauftrag.setVersandBeendetAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getVersandBeendetAm()));
+        }
 
-		if (fromDB.getVersandBegonnenAm() != null) {
+        if (fromDB.getVersandBegonnenAm() != null) {
 
-			versandauftrag.setVersandBegonnenAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getVersandBegonnenAm()));
-		}
+            versandauftrag.setVersandBegonnenAm(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getVersandBegonnenAm()));
+        }
 
-		versandauftrag.setVersandJahrMonat(fromDB.getVersandJahrMonat());
-		versandauftrag.setVersandMitFehlern(fromDB.isVersandMitFehlern());
+        versandauftrag.setVersandJahrMonat(fromDB.getVersandJahrMonat());
+        versandauftrag.setVersandMitFehlern(fromDB.isVersandMitFehlern());
 
-		return versandauftrag;
-	}
+        return versandauftrag;
+    }
 
-	Mailversandgruppe mapFromDB(final PersistenteMailversandgruppe fromDB) {
+    Mailversandgruppe mapFromDB(final PersistenteMailversandgruppe fromDB) {
 
-		Mailversandgruppe result = new Mailversandgruppe();
+        Mailversandgruppe result = new Mailversandgruppe();
 
-		if (StringUtils.isNotBlank(fromDB.getEmpfaengerUUIDs())) {
+        if (StringUtils.isNotBlank(fromDB.getEmpfaengerUUIDs())) {
 
-			result.setEmpfaengerUUIDs(Arrays.asList(StringUtils.split(fromDB.getEmpfaengerUUIDs(), ",")));
-		}
+            result.setEmpfaengerUUIDs(Arrays.asList(StringUtils.split(fromDB.getEmpfaengerUUIDs(), ",")));
+        }
 
-		result.setIdMailversandauftrag(fromDB.getIdVersandauftrag());
-		result.setSortnr(fromDB.getSortnr());
-		result.setStatus(fromDB.getStatus());
-		result.setUuid(fromDB.getUuid());
-		result.setAenderungsdatum(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getGeaendertAm()));
-		return result;
+        result.setIdMailversandauftrag(fromDB.getIdVersandauftrag());
+        result.setSortnr(fromDB.getSortnr());
+        result.setStatus(fromDB.getStatus());
+        result.setUuid(fromDB.getUuid());
+        result.setAenderungsdatum(DATE_TIME_FORMATTER_DEFAULT.format(fromDB.getGeaendertAm()));
+        return result;
 
-	}
+    }
 
-	BenutzerTrefferlisteItem createMarkerGeloeschterBenutzer(final String uuid) {
+    BenutzerTrefferlisteItem createMarkerGeloeschterBenutzer(final String uuid) {
 
-		BenutzerTrefferlisteItem result = new BenutzerTrefferlisteItem();
-		result.setUuid(uuid);
-		result.setAenderungsdatum(GELOESCHT);
-		result.setAktiviert(false);
-		result.setEmail(GELOESCHT);
-		result.setNachname(GELOESCHT);
-		result.setRollen(GELOESCHT);
-		result.setVorname(GELOESCHT);
-		return result;
-	}
+        BenutzerTrefferlisteItem result = new BenutzerTrefferlisteItem();
+        result.setUuid(uuid);
+        result.setAenderungsdatum(GELOESCHT);
+        result.setAktiviert(false);
+        result.setEmail(GELOESCHT);
+        result.setNachname(GELOESCHT);
+        result.setRollen(GELOESCHT);
+        result.setVorname(GELOESCHT);
+        return result;
+    }
 
-	/**
-	 * Löscht den gegebenen Mailversandauftrag, falls er existiert.
-	 *
-	 * @param uuid String
-	 * @return SingleUuidDto
-	 */
-	public SingleUuidDto versandauftragLoeschen(final String uuid) {
+    /**
+     * Löscht den gegebenen Mailversandauftrag, falls er existiert.
+     *
+     * @param uuid String
+     * @return SingleUuidDto
+     */
+    public SingleUuidDto versandauftragLoeschen(final String uuid) {
 
-		SingleUuidDto result = new SingleUuidDto(uuid);
+        SingleUuidDto result = new SingleUuidDto(uuid);
 
-		boolean removed = mailversandDao.removeMailversandauftrag(uuid);
+        boolean removed = mailversandDao.removeMailversandauftrag(uuid);
 
-		if (!removed) {
+        if (!removed) {
 
-			LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
-		}
+            LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public SingleUuidDto mailversandAbbrechen(final String uuid) {
+    public SingleUuidDto mailversandAbbrechen(final String uuid) {
 
-		PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
+        PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
 
-		if (fromDB == null) {
+        if (fromDB == null) {
 
-			LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
-			throw new WebApplicationException(404);
+            LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
+            throw new WebApplicationException(404);
 
-		}
+        }
 
-		List<PersistenteMailversandgruppe> versandgruppen = mailversandDao.findAllMailversandgruppenWithVersandauftragUUID(uuid);
+        List<PersistenteMailversandgruppe> versandgruppen = mailversandDao
+                .findAllMailversandgruppenWithVersandauftragUUID(uuid);
 
-		this.doCancel(fromDB, versandgruppen);
+        this.doCancel(fromDB, versandgruppen);
 
-		return new SingleUuidDto(uuid);
+        return new SingleUuidDto(uuid);
 
-	}
+    }
 
-	@Transactional
-	void doCancel(final PersistenterMailversandauftrag versandauftrag, final List<PersistenteMailversandgruppe> versandgruppen) {
+    @Transactional
+    void doCancel(final PersistenterMailversandauftrag versandauftrag,
+            final List<PersistenteMailversandgruppe> versandgruppen) {
 
-		versandauftrag.setStatus(Jobstatus.CANCELLED);
-		versandauftrag.setGeaendertAm(new Date());
-		versandauftrag.setVersandBeendetAm(LocalDateTime.now());
+        versandauftrag.setStatus(Jobstatus.CANCELLED);
+        versandauftrag.setGeaendertAm(new Date());
+        versandauftrag.setVersandBeendetAm(LocalDateTime.now());
 
-		mailversandDao.updateMailversandauftrag(versandauftrag);
+        mailversandDao.updateMailversandauftrag(versandauftrag);
 
-		for (PersistenteMailversandgruppe gruppe : versandgruppen) {
+        for (PersistenteMailversandgruppe gruppe : versandgruppen) {
 
-			if (gruppe.getStatus() == Jobstatus.WAITING) {
+            if (gruppe.getStatus() == Jobstatus.WAITING) {
 
-				gruppe.setStatus(Jobstatus.CANCELLED);
-				gruppe.setGeaendertAm(LocalDateTime.now());
+                gruppe.setStatus(Jobstatus.CANCELLED);
+                gruppe.setGeaendertAm(LocalDateTime.now());
 
-				mailversandDao.updateMailversandgruppe(gruppe);
-			}
-		}
+                mailversandDao.updateMailversandgruppe(gruppe);
+            }
+        }
 
-	}
+    }
 
-	/**
-	 * Versetzt alle Mailversandgruppen mit Status CANCELLED zurück in WAITING
-	 *
-	 * @param uuid String die uuid des Versandauftrags
-	 * @return MailversandauftragOverview
-	 */
-	public SingleUuidDto mailversandFortsetzen(final String uuid) {
+    /**
+     * Versetzt alle Mailversandgruppen mit Status CANCELLED zurück in WAITING
+     *
+     * @param uuid String die uuid des Versandauftrags
+     * @return MailversandauftragOverview
+     */
+    public SingleUuidDto mailversandFortsetzen(final String uuid) {
 
-		PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
+        PersistenterMailversandauftrag fromDB = mailversandDao.findMailversandauftragByUUID(uuid);
 
-		if (fromDB == null) {
+        if (fromDB == null) {
 
-			LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
-			throw new WebApplicationException(404);
+            LOGGER.warn("Es gibt keinen Versandauftrag mit der UUID={}. Ist also nix zu loeschen", uuid);
+            throw new WebApplicationException(404);
 
-		}
+        }
 
-		List<PersistenteMailversandgruppe> versandgruppen = mailversandDao.findAllMailversandgruppenWithVersandauftragUUID(uuid);
+        List<PersistenteMailversandgruppe> versandgruppen = mailversandDao
+                .findAllMailversandgruppenWithVersandauftragUUID(uuid);
 
-		doResetVersandauftrag(fromDB, versandgruppen);
-		LOGGER.info("Versandauftrag {} wird fortgesetzt", fromDB.getUuid());
-		return new SingleUuidDto(uuid);
-	}
+        doResetVersandauftrag(fromDB, versandgruppen);
+        LOGGER.info("Versandauftrag {} wird fortgesetzt", fromDB.getUuid());
+        return new SingleUuidDto(uuid);
+    }
 
-	@Transactional
-	void doResetVersandauftrag(final PersistenterMailversandauftrag versandauftrag,
-		final List<PersistenteMailversandgruppe> versandgruppen) {
+    @Transactional
+    void doResetVersandauftrag(final PersistenterMailversandauftrag versandauftrag,
+            final List<PersistenteMailversandgruppe> versandgruppen) {
 
-		for (PersistenteMailversandgruppe gruppe : versandgruppen) {
+        for (PersistenteMailversandgruppe gruppe : versandgruppen) {
 
-			if (gruppe.getStatus() != Jobstatus.COMPLETED) {
+            if (gruppe.getStatus() != Jobstatus.COMPLETED) {
 
-				gruppe.setStatus(Jobstatus.WAITING);
-				mailversandDao.updateMailversandgruppe(gruppe);
-			}
-		}
+                gruppe.setStatus(Jobstatus.WAITING);
+                mailversandDao.updateMailversandgruppe(gruppe);
+            }
+        }
 
-		versandauftrag.setStatus(Jobstatus.WAITING);
-		versandauftrag.setVersandBegonnenAm(null);
-		versandauftrag.setVersandBeendetAm(null);
-		versandauftrag.setVersandMitFehlern(false);
-		mailversandDao.updateMailversandauftrag(versandauftrag);
-	}
+        versandauftrag.setStatus(Jobstatus.WAITING);
+        versandauftrag.setVersandBegonnenAm(null);
+        versandauftrag.setVersandBeendetAm(null);
+        versandauftrag.setVersandMitFehlern(false);
+        mailversandDao.updateMailversandauftrag(versandauftrag);
+    }
 
-	/**
-	 * @param versandgruppe
-	 * @return Mailversandgruppe
-	 */
-	public MailversandgruppeDetailsResponseDto mailversandgruppeAendern(final MailversandgruppeDetails versandgruppe) {
+    /**
+     * @param versandgruppe
+     * @return Mailversandgruppe
+     */
+    public MailversandgruppeDetailsResponseDto mailversandgruppeAendern(final MailversandgruppeDetails versandgruppe) {
 
-		PersistenteMailversandgruppe ausDB = mailversandDao.findMailversandgruppeByUUID(versandgruppe.getUuid());
+        PersistenteMailversandgruppe ausDB = mailversandDao.findMailversandgruppeByUUID(versandgruppe.getUuid());
 
-		if (ausDB == null) {
+        if (ausDB == null) {
 
-			String message = "mailversandgruppe mit UUID [" + versandgruppe.getUuid() + "] existiert nicht.";
-			LOGGER.error(message);
+            String message = "mailversandgruppe mit UUID [" + versandgruppe.getUuid() + "] existiert nicht.";
+            LOGGER.error(message);
 
-			Response response = Response.status(404).entity(MessagePayload.error(message)).build();
-			throw new WebApplicationException(response);
-		}
+            Response response = Response.status(404).entity(MessagePayload.error(message)).build();
+            throw new WebApplicationException(response);
+        }
 
-		List<String> empfaengerUUIds = versandgruppe.getBenutzer().stream().map(b -> b.getUuid()).toList();
+        List<String> empfaengerUUIds = versandgruppe.getBenutzer().stream().map(b -> b.getUuid()).toList();
 
-		ausDB.setEmpfaengerUUIDs(StringUtils.join(empfaengerUUIds, ","));
-		ausDB.setStatus(versandgruppe.getStatus());
-		ausDB.setGeaendertAm(LocalDateTime.now());
-		PersistenteMailversandgruppe gespeicherte = mailversandDao.updateMailversandgruppe(ausDB);
+        ausDB.setEmpfaengerUUIDs(StringUtils.join(empfaengerUUIds, ","));
+        ausDB.setStatus(versandgruppe.getStatus());
+        ausDB.setGeaendertAm(LocalDateTime.now());
+        PersistenteMailversandgruppe gespeicherte = mailversandDao.updateMailversandgruppe(ausDB);
 
-		return detailsMailversandgruppeLaden(gespeicherte.getUuid());
-	}
+        return detailsMailversandgruppeLaden(gespeicherte.getUuid());
+    }
 
 }

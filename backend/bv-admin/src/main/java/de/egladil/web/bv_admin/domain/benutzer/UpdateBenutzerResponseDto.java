@@ -11,33 +11,34 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * UpdateBenutzerResponseDto
  */
-@Schema(description = "Ergebnis nach dem Ändern des Benutzers. Attribut benutzer wird null sein, wenn statusCode != 200")
+@Schema(
+        description = "Ergebnis nach dem Ändern des Benutzers. Attribut benutzer wird null sein, wenn statusCode != 200")
 public class UpdateBenutzerResponseDto {
 
-	@JsonProperty
-	private String uuid;
+    @JsonProperty
+    private String uuid;
 
-	@JsonProperty
-	private BenutzerTrefferlisteItem benuzer;
+    @JsonProperty
+    private BenutzerTrefferlisteItem benuzer;
 
-	public BenutzerTrefferlisteItem getBenuzer() {
+    public BenutzerTrefferlisteItem getBenuzer() {
 
-		return benuzer;
-	}
+        return benuzer;
+    }
 
-	public void setBenuzer(final BenutzerTrefferlisteItem benuzer) {
+    public void setBenuzer(final BenutzerTrefferlisteItem benuzer) {
 
-		this.benuzer = benuzer;
-	}
+        this.benuzer = benuzer;
+    }
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
-	public void setUuid(final String uuid) {
+    public void setUuid(final String uuid) {
 
-		this.uuid = uuid;
-	}
+        this.uuid = uuid;
+    }
 
 }

@@ -11,32 +11,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ChangeBenutzerdatenResponseDto {
 
-	@JsonProperty
-	private BenutzerDto benutzer;
+    @JsonProperty
+    private BenutzerDto benutzer;
 
-	@JsonProperty
-	private boolean securityEvent;
+    @JsonProperty
+    private boolean securityEvent;
 
-	public BenutzerDto getBenutzer() {
+    public BenutzerDto getBenutzer() {
 
-		return benutzer;
-	}
+        return benutzer;
+    }
 
-	public ChangeBenutzerdatenResponseDto withBenutzer(final BenutzerDto benutzer) {
+    public ChangeBenutzerdatenResponseDto withBenutzer(final BenutzerDto benutzer) {
 
-		this.benutzer = benutzer;
-		return this;
-	}
+        this.benutzer = benutzer;
+        return this;
+    }
 
-	public boolean isSecurityEvent() {
+    public boolean isSecurityEvent() {
 
-		return securityEvent;
-	}
+        return securityEvent;
+    }
 
-	public ChangeBenutzerdatenResponseDto withSecurityEvent(final boolean securityEvent) {
+    public ChangeBenutzerdatenResponseDto withSecurityEvent(final boolean securityEvent) {
 
-		this.securityEvent = securityEvent;
-		return this;
-	}
+        this.securityEvent = securityEvent;
+        return this;
+    }
 
 }

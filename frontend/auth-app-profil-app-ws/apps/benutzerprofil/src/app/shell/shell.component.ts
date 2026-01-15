@@ -10,40 +10,41 @@ import { Subscription, tap } from 'rxjs';
 import { ShellService } from './shell.service';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 
-
 @Component({
-    selector: 'benutzerprofil-shell',
+    selector: 'app-benutzerprofil-shell',
     templateUrl: './shell.component.html',
     standalone: true,
     styleUrl: './shell.component.scss',
     imports: [
-    RouterModule,
-    RouterOutlet,
-    MessageComponent,
-    LoadingIndicatorComponent,
-    SidenavComponent,
-    ToolbarComponent,
-    MatSidenavModule,
-    MatToolbarModule
-]
+        RouterModule,
+        RouterOutlet,
+        MessageComponent,
+        LoadingIndicatorComponent,
+        SidenavComponent,
+        ToolbarComponent,
+        MatSidenavModule,
+        MatToolbarModule,
+    ],
 })
 export class ShellComponent implements OnInit, OnDestroy {
-
     #breakpointObserver = inject(BreakpointObserver);
     #subscription: Subscription = new Subscription();
 
     shellService = inject(ShellService);
 
     ngOnInit(): void {
-        this.#subscription = this.#breakpointObserver.observe(Breakpoints.Handset).pipe(
-            tap((state: BreakpointState) => {
-                if (state.matches) {
-                    this.shellService.setHandset(true);
-                } else {
-                    this.shellService.setHandset(false);
-                }
-            })
-        ).subscribe();
+        this.#subscription = this.#breakpointObserver
+            .observe(Breakpoints.Handset)
+            .pipe(
+                tap((state: BreakpointState) => {
+                    if (state.matches) {
+                        this.shellService.setHandset(true);
+                    } else {
+                        this.shellService.setHandset(false);
+                    }
+                })
+            )
+            .subscribe();
     }
 
     ngOnDestroy(): void {

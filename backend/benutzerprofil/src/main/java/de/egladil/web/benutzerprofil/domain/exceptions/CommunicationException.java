@@ -9,19 +9,19 @@ package de.egladil.web.benutzerprofil.domain.exceptions;
  */
 public class CommunicationException extends RuntimeException {
 
-	private static final long serialVersionUID = 7188998485003545930L;
+    private static final long serialVersionUID = 7188998485003545930L;
 
-	private final RuntimeException exceptionToPropagate;
+    private final RuntimeException exceptionToPropagate;
 
-	public CommunicationException(final RuntimeException exceptionToPropagate) {
+    public CommunicationException(final RuntimeException exceptionToPropagate) {
 
-		super();
-		this.exceptionToPropagate = exceptionToPropagate;
-	}
+        super();
+        this.exceptionToPropagate = exceptionToPropagate;
+    }
 
-	public RuntimeException getExceptionToPropagate() {
+    public RuntimeException getExceptionToPropagate() {
 
-		return exceptionToPropagate;
-	}
+        return exceptionToPropagate;
+    }
 
 }

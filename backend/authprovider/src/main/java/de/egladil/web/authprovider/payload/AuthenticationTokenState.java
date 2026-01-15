@@ -10,7 +10,5 @@ package de.egladil.web.authprovider.payload;
  */
 public enum AuthenticationTokenState {
 
-	empty,
-	login,
-	signup
+    empty, login, signup
 }

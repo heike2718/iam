@@ -17,82 +17,82 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class BotAttackEvent implements AuthproviderEvent {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BotAttackEvent.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BotAttackEvent.class);
 
-	private BotAttackEventPayload payload;
+    private BotAttackEventPayload payload;
 
-	BotAttackEvent() {
+    BotAttackEvent() {
 
-	}
+    }
 
-	public BotAttackEvent(final BotAttackEventPayload payload) {
+    public BotAttackEvent(final BotAttackEventPayload payload) {
 
-		this.payload = payload;
-	}
+        this.payload = payload;
+    }
 
-	@Override
-	public boolean writeToEventStore() {
+    @Override
+    public boolean writeToEventStore() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean writeToServerLog() {
+    @Override
+    public boolean writeToServerLog() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean propagateToListeners() {
+    @Override
+    public boolean propagateToListeners() {
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public AuthproviderEventType eventType() {
+    @Override
+    public AuthproviderEventType eventType() {
 
-		return AuthproviderEventType.BOT_ATTACK;
-	}
+        return AuthproviderEventType.BOT_ATTACK;
+    }
 
-	@Override
-	public Object payload() {
+    @Override
+    public Object payload() {
 
-		return this.payload;
-	}
+        return this.payload;
+    }
 
-	@Override
-	public String serializePayload() {
+    @Override
+    public String serializePayload() {
 
-		try {
+        try {
 
-			return new ObjectMapper().writeValueAsString(payload);
+            return new ObjectMapper().writeValueAsString(payload);
 
-		} catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
 
-			LOGGER.error("konnte event nicht serialisieren: " + e.getMessage(), e);
+            LOGGER.error("konnte event nicht serialisieren: " + e.getMessage(), e);
 
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 
-	@Override
-	public LocalDateTime occuredOn() {
+    @Override
+    public LocalDateTime occuredOn() {
 
-		return LocalDateTime.now();
-	}
+        return LocalDateTime.now();
+    }
 
-	@Override
-	public void writeToConsoleQuietly() {
+    @Override
+    public void writeToConsoleQuietly() {
 
-		try {
+        try {
 
-			String body = new ObjectMapper().writeValueAsString(payload);
-			LOGGER.error(body);
-		} catch (JsonProcessingException e) {
+            String body = new ObjectMapper().writeValueAsString(payload);
+            LOGGER.error(body);
+        } catch (JsonProcessingException e) {
 
-			e.printStackTrace();
-			LOGGER.error(e.getMessage(), e);
-		}
-	}
+            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
 
 }

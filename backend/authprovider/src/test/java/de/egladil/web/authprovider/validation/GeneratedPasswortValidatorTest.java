@@ -5,23 +5,26 @@
 
 package de.egladil.web.authprovider.validation;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Set;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.egladil.web.authprovider.validation.annotations.GeneratedPasswort;
-import io.quarkus.test.junit.QuarkusTest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import io.quarkus.test.junit.QuarkusTest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.egladil.web.authprovider.validation.annotations.GeneratedPasswort;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * GeneratedPasswortValidatorTest
@@ -29,134 +32,134 @@ import jakarta.validation.ValidatorFactory;
 @QuarkusTest
 public class GeneratedPasswortValidatorTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(GeneratedPasswortValidatorTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GeneratedPasswortValidatorTest.class);
 
-	private static final String INVALID_CHARS = "!\"#$%&()*+/:;<=>?@[\\]^{|}~@- _.,'`'äöüßÄÖÜ";
+    private static final String INVALID_CHARS = "!\"#$%&()*+/:;<=>?@[\\]^{|}~@- _.,'`'äöüßÄÖÜ";
 
-	// Leerzeichen, Minus, Unterstrich, Punkt, Komma, Apostrophe
-	private static final String VALID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+    // Leerzeichen, Minus, Unterstrich, Punkt, Komma, Apostrophe
+    private static final String VALID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
 
-	private class TestObject {
+    private class TestObject {
 
-		@GeneratedPasswort
-		private final String value;
+        @GeneratedPasswort
+        private final String value;
 
-		/**
-		 * Erzeugt eine Instanz von TestObject
-		 */
-		public TestObject(final String value) {
+        /**
+         * Erzeugt eine Instanz von TestObject
+         */
+        public TestObject(final String value) {
 
-			super();
-			this.value = value;
-		}
-	}
+            super();
+            this.value = value;
+        }
+    }
 
-	@Test
-	@DisplayName("passes when value null")
-	public void validate1() {
+    @Test
+    @DisplayName("passes when value null")
+    public void validate1() {
 
-		// Arrange
-		final TestObject testObject = new TestObject(null);
+        // Arrange
+        final TestObject testObject = new TestObject(null);
 
-		final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-		final Validator validator = validatorFactory.getValidator();
+        final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        final Validator validator = validatorFactory.getValidator();
 
-		// Act
-		final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
+        // Act
+        final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
 
-		// Assert
-		assertTrue(errors.isEmpty());
-	}
+        // Assert
+        assertTrue(errors.isEmpty());
+    }
 
-	@Test
-	@DisplayName("fails when value too short")
-	public void validate2() {
+    @Test
+    @DisplayName("fails when value too short")
+    public void validate2() {
 
-		// Arrange
-		final TestObject testObject = new TestObject("AAAAAAABBDS");
+        // Arrange
+        final TestObject testObject = new TestObject("AAAAAAABBDS");
 
-		final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-		final Validator validator = validatorFactory.getValidator();
+        final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        final Validator validator = validatorFactory.getValidator();
 
-		// Act
-		final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
+        // Act
+        final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
 
-		// Assert
-		assertFalse(errors.isEmpty());
-		assertEquals(1, errors.size());
+        // Assert
+        assertFalse(errors.isEmpty());
+        assertEquals(1, errors.size());
 
-		final ConstraintViolation<TestObject> cv = errors.iterator().next();
-		LOG.debug(cv.getMessage());
-		assertEquals("value", cv.getPropertyPath().toString());
-	}
+        final ConstraintViolation<TestObject> cv = errors.iterator().next();
+        LOG.debug(cv.getMessage());
+        assertEquals("value", cv.getPropertyPath().toString());
+    }
 
-	@Test
-	@DisplayName("fails when value too long")
-	public void validate3() {
+    @Test
+    @DisplayName("fails when value too long")
+    public void validate3() {
 
-		// Arrange
-		final TestObject testObject = new TestObject("HTRBAAAAAAA89");
+        // Arrange
+        final TestObject testObject = new TestObject("HTRBAAAAAAA89");
 
-		final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-		final Validator validator = validatorFactory.getValidator();
+        final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        final Validator validator = validatorFactory.getValidator();
 
-		// Act
-		final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
+        // Act
+        final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
 
-		// Assert
-		assertFalse(errors.isEmpty());
-		assertEquals(1, errors.size());
+        // Assert
+        assertFalse(errors.isEmpty());
+        assertEquals(1, errors.size());
 
-		final ConstraintViolation<TestObject> cv = errors.iterator().next();
-		LOG.debug(cv.getMessage());
-		assertEquals("value", cv.getPropertyPath().toString());
-	}
+        final ConstraintViolation<TestObject> cv = errors.iterator().next();
+        LOG.debug(cv.getMessage());
+        assertEquals("value", cv.getPropertyPath().toString());
+    }
 
-	@Test
-	@DisplayName("passes when value valid")
-	public void validate4() {
+    @Test
+    @DisplayName("passes when value valid")
+    public void validate4() {
 
-		// Arrange
-		final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-		final Validator validator = validatorFactory.getValidator();
+        // Arrange
+        final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        final Validator validator = validatorFactory.getValidator();
 
-		for (final char c : VALID_CHARS.toCharArray()) {
+        for (final char c : VALID_CHARS.toCharArray()) {
 
-			final TestObject testObject = new TestObject("AAAAAAAHTRF" + c);
+            final TestObject testObject = new TestObject("AAAAAAAHTRF" + c);
 
-			// Act
-			final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
+            // Act
+            final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
 
-			// Assert
-			assertTrue(errors.isEmpty(), "Fehler bei [" + c + "]");
-		}
+            // Assert
+            assertTrue(errors.isEmpty(), "Fehler bei [" + c + "]");
+        }
 
-	}
+    }
 
-	@Test
-	@DisplayName("fails when value invalid")
-	public void validate5() {
+    @Test
+    @DisplayName("fails when value invalid")
+    public void validate5() {
 
-		// Arrange
-		final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-		final Validator validator = validatorFactory.getValidator();
+        // Arrange
+        final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        final Validator validator = validatorFactory.getValidator();
 
-		for (final char c : INVALID_CHARS.toCharArray()) {
+        for (final char c : INVALID_CHARS.toCharArray()) {
 
-			final TestObject testObject = new TestObject("AAAAAAAHTRF" + c);
+            final TestObject testObject = new TestObject("AAAAAAAHTRF" + c);
 
-			// Act
-			final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
+            // Act
+            final Set<ConstraintViolation<TestObject>> errors = validator.validate(testObject);
 
-			// Assert
-			assertFalse(errors.isEmpty(), "Fehler bei [" + c + "]");
-			assertEquals(1, errors.size());
+            // Assert
+            assertFalse(errors.isEmpty(), "Fehler bei [" + c + "]");
+            assertEquals(1, errors.size());
 
-			final ConstraintViolation<TestObject> cv = errors.iterator().next();
-			LOG.debug(cv.getMessage());
-			assertEquals("value", cv.getPropertyPath().toString());
-		}
+            final ConstraintViolation<TestObject> cv = errors.iterator().next();
+            LOG.debug(cv.getMessage());
+            assertEquals("value", cv.getPropertyPath().toString());
+        }
 
-	}
+    }
 
 }

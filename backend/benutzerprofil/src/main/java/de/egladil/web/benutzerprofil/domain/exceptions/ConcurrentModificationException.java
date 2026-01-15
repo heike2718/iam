@@ -9,19 +9,19 @@ package de.egladil.web.benutzerprofil.domain.exceptions;
  */
 public class ConcurrentModificationException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final int defaultStatuscode = 409;
+    private final int defaultStatuscode = 409;
 
-	public ConcurrentModificationException(final String message) {
+    public ConcurrentModificationException(final String message) {
 
-		super(message);
+        super(message);
 
-	}
+    }
 
-	public int getDefaultStatuscode() {
+    public int getDefaultStatuscode() {
 
-		return defaultStatuscode;
-	}
+        return defaultStatuscode;
+    }
 
 }

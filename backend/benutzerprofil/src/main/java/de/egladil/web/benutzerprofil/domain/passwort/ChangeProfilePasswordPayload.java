@@ -13,22 +13,22 @@ import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
  */
 public class ChangeProfilePasswordPayload {
 
-	@JsonProperty
-	private OAuthClientCredentials clientCredentials;
+    @JsonProperty
+    private OAuthClientCredentials clientCredentials;
 
-	@JsonProperty
-	private PasswortPayload passwordPayload;
+    @JsonProperty
+    private PasswortPayload passwordPayload;
 
-	@JsonProperty
-	private String uuid;
+    @JsonProperty
+    private String uuid;
 
-	public static ChangeProfilePasswordPayload create(final OAuthClientCredentials clientCredentials,
-		final PasswortPayload passwordPayload, final String uuid) {
+    public static ChangeProfilePasswordPayload create(final OAuthClientCredentials clientCredentials,
+            final PasswortPayload passwordPayload, final String uuid) {
 
-		ChangeProfilePasswordPayload result = new ChangeProfilePasswordPayload();
-		result.clientCredentials = clientCredentials;
-		result.passwordPayload = passwordPayload;
-		result.uuid = uuid;
-		return result;
-	}
+        ChangeProfilePasswordPayload result = new ChangeProfilePasswordPayload();
+        result.clientCredentials = clientCredentials;
+        result.passwordPayload = passwordPayload;
+        result.uuid = uuid;
+        return result;
+    }
 }

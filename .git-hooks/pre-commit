@@ -1,0 +1,77 @@
+#!/bin/sh
+# purpose: running lint for clean diffs
+set -e
+
+FRONTEND_DIR_AUTH_PROFIL="frontend/auth-app-profil-app-ws"
+FRONTEND_DIR_BV_ADMIN="frontend/bv-admin"
+
+BACKEND_DIR_VALIDATIONS="backend/auth-validations"
+BACKEND_DIR_AUTHPROVIDER="backend/authprovider"
+BACKEND_DIR_BENUTZERPROFIL="backend/benutzerprofil"
+BACKEND_DIR_BV_ADMIN="backend/bv-admin"
+
+# 1) Gestagte Dateien
+STAGED="$(git diff --cached --name-only --diff-filter=ACM || true)"
+[ -z "$STAGED" ] && exit 0
+
+# Hilfsfunktion: prüft, ob gestagte Dateien ein Pattern matchen
+has_staged() {
+  echo "$STAGED" | grep -E "$1" >/dev/null 2>&1
+}
+
+# CSV-Liste für Nx (kommagetrennt)
+STAGED_CSV="$(printf '%s\n' "$STAGED" | paste -sd, -)"
+
+# 2) FRONTEND auth-app-profil-app-ws – lint-staged (ESLint --fix + Prettier)
+if has_staged '\.(html|js|ts|jsx|tsx|css|scss|json|md|yml|yaml)$'; then
+  echo "🔧 lint-staged (frontend auth-app-profil-app-ws)"
+  (cd "$FRONTEND_DIR_AUTH_PROFIL" && npx nx clear-cache && npx nx run-many --target=lint --all --fix)
+fi
+
+# 3) FRONTEND bv-admin – lint-staged (ESLint --fix + Prettier)
+if has_staged '\.(html|js|ts|jsx|tsx|css|scss|json|md|yml|yaml)$'; then  
+  echo "🔧 lint-staged (frontend bv-admin)"
+  (cd "$FRONTEND_DIR_BV_ADMIN" && npx nx clear-cache && npx lint-staged --quiet)
+fi
+
+# 4) Backend auth-validations – Format + schneller Lint
+if echo "$STAGED" | grep -qE '\.java$'; then
+  echo "☕ format and sort (backend auth-validations)"
+  (cd "$BACKEND_DIR_VALIDATIONS" && mvn -Pformat-apply formatter:format@format-apply impsort:sort@impsort-sort)
+  git ls-files -m | grep -E '\.java$' | xargs -r git add
+
+#  echo "🔍 Checkstyle (schnell)"
+#  (cd backend/kaeuzchenlager && mvn -q checkstyle:check)
+fi
+
+# 4) Backend authprovider – Format + schneller Lint
+if echo "$STAGED" | grep -qE '\.java$'; then
+  echo "☕ format and sort (backend  authprovider)"
+  (cd "$BACKEND_DIR_AUTHPROVIDER" && mvn -Pformat-apply formatter:format@format-apply impsort:sort@impsort-sort)
+  git ls-files -m | grep -E '\.java$' | xargs -r git add
+
+#  echo "🔍 Checkstyle (schnell)"
+#  (cd backend/kaeuzchenlager && mvn -q checkstyle:check)
+fi
+
+# 6) Backend benutzerprofil – Format + schneller Lint
+if echo "$STAGED" | grep -qE '\.java$'; then
+  echo "☕ format and sort (backend benutzerprofil)"
+  (cd "$BACKEND_DIR_BENUTZERPROFIL" && mvn -Pformat-apply formatter:format@format-apply impsort:sort@impsort-sort)
+  git ls-files -m | grep -E '\.java$' | xargs -r git add
+
+#  echo "🔍 Checkstyle (schnell)"
+#  (cd backend/kaeuzchenlager && mvn -q checkstyle:check)
+fi
+
+# 7) Backend bv-admin – Format + schneller Lint
+if echo "$STAGED" | grep -qE '\.java$'; then
+  echo "☕ format and sort (backend bv-admin)"
+  (cd "$BACKEND_DIR_BV_ADMIN" && mvn -Pformat-apply formatter:format@format-apply impsort:sort@impsort-sort)
+  git ls-files -m | grep -E '\.java$' | xargs -r git add
+
+#  echo "🔍 Checkstyle (schnell)"
+#  (cd backend/kaeuzchenlager && mvn -q checkstyle:check)
+fi
+
+exit 0

@@ -5,14 +5,15 @@
 
 package de.egladil.web.authprovider.payload;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.URL;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.egladil.web.auth_validations.annotations.UuidString;
 import de.egladil.web.auth_validations.utils.SecUtils;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 /**
  * ClientCredentials<br>
@@ -21,62 +22,63 @@ import jakarta.validation.constraints.Size;
  */
 public class ClientCredentials {
 
-	@NotBlank
-	@UuidString
-	@Size(max = 50)
-	@JsonProperty
-	private String accessToken;
+    @NotBlank
+    @UuidString
+    @Size(max = 50)
+    @JsonProperty
+    private String accessToken;
 
-	@NotBlank
-	@URL
-	@JsonProperty
-	private String redirectUrl;
+    @NotBlank
+    @URL
+    @JsonProperty
+    private String redirectUrl;
 
-	@Size(max = 150)
-	private String state;
+    @Size(max = 150)
+    private String state;
 
-	public static ClientCredentials createWithState(final String accessToken, final String redirectUrl, final String state) {
+    public static ClientCredentials createWithState(final String accessToken, final String redirectUrl,
+            final String state) {
 
-		ClientCredentials result = new ClientCredentials();
-		result.accessToken = accessToken;
-		result.redirectUrl = redirectUrl;
-		result.state = state;
+        ClientCredentials result = new ClientCredentials();
+        result.accessToken = accessToken;
+        result.redirectUrl = redirectUrl;
+        result.state = state;
 
-		return result;
+        return result;
 
-	}
+    }
 
-	public ClientCredentials() {
+    public ClientCredentials() {
 
-	}
+    }
 
-	public String getRedirectUrl() {
+    public String getRedirectUrl() {
 
-		return redirectUrl;
-	}
+        return redirectUrl;
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return "ClientCredentials [accessToken=" + accessToken + ", redirectUrl=" + redirectUrl + "]";
-	}
+        return "ClientCredentials [accessToken=" + accessToken + ", redirectUrl=" + redirectUrl + "]";
+    }
 
-	public String getAccessToken() {
+    public String getAccessToken() {
 
-		return accessToken;
-	}
+        return accessToken;
+    }
 
-	public String getState() {
+    public String getState() {
 
-		return state;
-	}
+        return state;
+    }
 
-	public void clean() {
+    public void clean() {
 
-		if (accessToken != null) {
+        if (accessToken != null) {
 
-			this.accessToken = SecUtils.wipe(accessToken);
-		}
-	}
+            this.accessToken = SecUtils.wipe(accessToken);
+        }
+    }
 
 }

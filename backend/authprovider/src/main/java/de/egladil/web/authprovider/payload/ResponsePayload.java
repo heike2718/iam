@@ -13,67 +13,67 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResponsePayload {
 
-	@JsonProperty
-	private MessagePayload message;
+    @JsonProperty
+    private MessagePayload message;
 
-	@JsonProperty
-	private Object data;
+    @JsonProperty
+    private Object data;
 
-	/**
-	 * Erzeugt eine Instanz von ResponsePayload
-	 */
-	public ResponsePayload() {
+    /**
+     * Erzeugt eine Instanz von ResponsePayload
+     */
+    public ResponsePayload() {
 
-	}
+    }
 
-	/**
-	 * Erzeugt eine Instanz von ResponsePayload
-	 */
-	private ResponsePayload(final MessagePayload message) {
+    /**
+     * Erzeugt eine Instanz von ResponsePayload
+     */
+    private ResponsePayload(final MessagePayload message) {
 
-		super();
-		this.message = message;
-	}
+        super();
+        this.message = message;
+    }
 
-	/**
-	 * Erzeugt eine Instanz von ResponsePayload
-	 */
-	public ResponsePayload(final MessagePayload message, final Object payload) {
+    /**
+     * Erzeugt eine Instanz von ResponsePayload
+     */
+    public ResponsePayload(final MessagePayload message, final Object payload) {
 
-		super();
-		this.message = message;
-		this.data = payload;
-	}
+        super();
+        this.message = message;
+        this.data = payload;
+    }
 
-	public MessagePayload getMessage() {
+    public MessagePayload getMessage() {
 
-		return message;
-	}
+        return message;
+    }
 
-	public void setMessage(final MessagePayload message) {
+    public void setMessage(final MessagePayload message) {
 
-		this.message = message;
-	}
+        this.message = message;
+    }
 
-	public Object getData() {
+    public Object getData() {
 
-		return data;
-	}
+        return data;
+    }
 
-	public void setData(final Object payload) {
+    public void setData(final Object payload) {
 
-		this.data = payload;
-	}
+        this.data = payload;
+    }
 
-	@JsonIgnore
-	public boolean isOk() {
+    @JsonIgnore
+    public boolean isOk() {
 
-		return this.message.isOk();
-	}
+        return this.message.isOk();
+    }
 
-	public static ResponsePayload messageOnly(final MessagePayload messagePayload) {
+    public static ResponsePayload messageOnly(final MessagePayload messagePayload) {
 
-		return new ResponsePayload(messagePayload);
-	}
+        return new ResponsePayload(messagePayload);
+    }
 
 }

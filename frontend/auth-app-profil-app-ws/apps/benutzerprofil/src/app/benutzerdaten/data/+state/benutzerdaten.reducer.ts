@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
-import { anonymeBenutzerdaten, Benutzerdaten } from "@benutzerprofil/benutzerdaten/model";
+import { anonymeBenutzerdaten, Benutzerdaten } from '../../model/benutzerdaten.model';
 import { benutzerdatenActions } from "./benutzerdaten.actions";
 
 

@@ -4,12 +4,13 @@
 // =====================================================
 package de.egladil.web.authprovider.event.impl;
 
-import de.egladil.web.authprovider.entities.StoredEvent;
-import de.egladil.web.authprovider.event.EventRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+
+import de.egladil.web.authprovider.entities.StoredEvent;
+import de.egladil.web.authprovider.event.EventRepository;
 
 /**
  * HibernateEventRepository
@@ -17,13 +18,13 @@ import jakarta.transaction.Transactional;
 @RequestScoped
 public class HibernateEventRepository implements EventRepository {
 
-	@Inject
-	EntityManager em;
+    @Inject
+    EntityManager em;
 
-	@Transactional
-	@Override
-	public void appendEvent(final StoredEvent event) {
+    @Transactional
+    @Override
+    public void appendEvent(final StoredEvent event) {
 
-		this.em.persist(event);
-	}
+        this.em.persist(event);
+    }
 }

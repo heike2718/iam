@@ -11,18 +11,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class TempPasswordV2ResponseDto {
 
-	@JsonProperty
-	private String message;
+    @JsonProperty
+    private String message;
 
-	public String getMessage() {
+    public String getMessage() {
 
-		return message;
-	}
+        return message;
+    }
 
-	public TempPasswordV2ResponseDto withMessage(final String message) {
+    public TempPasswordV2ResponseDto withMessage(final String message) {
 
-		this.message = message;
-		return this;
-	}
+        this.message = message;
+        return this;
+    }
 
 }

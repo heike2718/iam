@@ -1,5 +1,5 @@
-import { SignUpCredentials } from "@authprovider/login-signup/model";
-import { ClientCredentials, ClientInformation, LoginCredentials, SignUpLogInResponseData } from "@authprovider/model";
+import { SignUpCredentials } from '../../model/login-signup.model';
+import { ClientCredentials, ClientInformation, LoginCredentials, SignUpLogInResponseData } from '../../../model/auth.model';
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
 
 export const loginSignupActions = createActionGroup({

@@ -1,6 +1,7 @@
 import { provideEffects } from "@ngrx/effects";
 import { provideState } from "@ngrx/store";
-import { BenutzerdatenEffects, benutzerdatenFeature } from "@benutzerprofil/benutzerdaten/data";
+import { BenutzerdatenEffects } from '../data/+state/benutzerdaten.effects';
+import { benutzerdatenFeature } from '../data/+state/benutzerdaten.reducer';
 
 
 export const benutzerdatenDataProvider = [

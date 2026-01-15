@@ -13,63 +13,63 @@ import de.egladil.web.authprovider.entities.ResourceOwner;
  */
 public class User {
 
-	@JsonProperty
-	private String loginName;
+    @JsonProperty
+    private String loginName;
 
-	@JsonProperty
-	private String email;
+    @JsonProperty
+    private String email;
 
-	@JsonProperty
-	private String vorname;
+    @JsonProperty
+    private String vorname;
 
-	@JsonProperty
-	private String nachname;
+    @JsonProperty
+    private String nachname;
 
-	@JsonProperty
-	private String nonce;
+    @JsonProperty
+    private String nonce;
 
-	public static User fromResourceOwner(final ResourceOwner resourceOwner) {
+    public static User fromResourceOwner(final ResourceOwner resourceOwner) {
 
-		User result = new User();
+        User result = new User();
 
-		result.loginName = resourceOwner.getLoginName();
-		result.email = resourceOwner.getEmail();
-		result.vorname = resourceOwner.getVorname();
-		result.nachname = resourceOwner.getNachname();
+        result.loginName = resourceOwner.getLoginName();
+        result.email = resourceOwner.getEmail();
+        result.vorname = resourceOwner.getVorname();
+        result.nachname = resourceOwner.getNachname();
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 *
-	 */
-	public User() {
+    /**
+     *
+     */
+    public User() {
 
-	}
+    }
 
-	public String getLoginName() {
+    public String getLoginName() {
 
-		return loginName;
-	}
+        return loginName;
+    }
 
-	public String getEmail() {
+    public String getEmail() {
 
-		return email;
-	}
+        return email;
+    }
 
-	public String getVorname() {
+    public String getVorname() {
 
-		return vorname;
-	}
+        return vorname;
+    }
 
-	public String getNachname() {
+    public String getNachname() {
 
-		return nachname;
-	}
+        return nachname;
+    }
 
-	public void setNonce(final String nonce) {
+    public void setNonce(final String nonce) {
 
-		this.nonce = nonce;
-	}
+        this.nonce = nonce;
+    }
 
 }

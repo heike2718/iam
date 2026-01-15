@@ -1,6 +1,7 @@
 import { provideEffects } from "@ngrx/effects";
 import { provideState } from "@ngrx/store";
-import { LoginSignupEffects, loginSignUpFeature } from "@authprovider/login-signup/data";
+import { LoginSignupEffects } from '../data/+state/login-signup.effects';
+import { loginSignUpFeature } from '../data/+state/login-signup.reducer';
 
 
 export const loginSignupDataProvider = [

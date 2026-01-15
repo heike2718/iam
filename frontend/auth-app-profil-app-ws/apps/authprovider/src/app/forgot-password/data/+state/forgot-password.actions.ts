@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { TempPasswordCredentials, TempPasswordResponseDto } from "@authprovider/model";
+import { TempPasswordCredentials, TempPasswordResponseDto } from '../../../model/auth.model';
 
 
 export const forgotPasswordActions = createActionGroup({

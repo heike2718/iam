@@ -12,47 +12,47 @@ import de.egladil.web.authprovider.auth_code_store.OAuthFlowType;
  */
 public class SignUpLogInResponseDataBuilder {
 
-	private SignUpLogInResponseData result = new SignUpLogInResponseData();
+    private SignUpLogInResponseData result = new SignUpLogInResponseData();
 
-	/**
-	 * Erzeugt eine Instanz von SignUpLogInResponseDataBuilder
-	 */
-	private SignUpLogInResponseDataBuilder() {
+    /**
+     * Erzeugt eine Instanz von SignUpLogInResponseDataBuilder
+     */
+    private SignUpLogInResponseDataBuilder() {
 
-	}
+    }
 
-	public static SignUpLogInResponseDataBuilder instance() {
+    public static SignUpLogInResponseDataBuilder instance() {
 
-		return new SignUpLogInResponseDataBuilder();
-	}
+        return new SignUpLogInResponseDataBuilder();
+    }
 
-	public SignUpLogInResponseDataBuilder withNonce(final String nonce) {
+    public SignUpLogInResponseDataBuilder withNonce(final String nonce) {
 
-		this.result.setNonce(nonce);
-		return this;
-	}
+        this.result.setNonce(nonce);
+        return this;
+    }
 
-	public SignUpLogInResponseDataBuilder withState(final String state) {
+    public SignUpLogInResponseDataBuilder withState(final String state) {
 
-		this.result.setState(state);
-		return this;
-	}
+        this.result.setState(state);
+        return this;
+    }
 
-	public SignUpLogInResponseDataBuilder withIdToken(final String idToken) {
+    public SignUpLogInResponseDataBuilder withIdToken(final String idToken) {
 
-		this.result.setIdToken(idToken);
-		return this;
-	}
+        this.result.setIdToken(idToken);
+        return this;
+    }
 
-	public SignUpLogInResponseDataBuilder withOauthFlowType(final OAuthFlowType oauthFlowType) {
+    public SignUpLogInResponseDataBuilder withOauthFlowType(final OAuthFlowType oauthFlowType) {
 
-		this.result.setTokenExchangeType(oauthFlowType);
-		return this;
-	}
+        this.result.setTokenExchangeType(oauthFlowType);
+        return this;
+    }
 
-	public SignUpLogInResponseData build() {
+    public SignUpLogInResponseData build() {
 
-		return result;
-	}
+        return result;
+    }
 
 }

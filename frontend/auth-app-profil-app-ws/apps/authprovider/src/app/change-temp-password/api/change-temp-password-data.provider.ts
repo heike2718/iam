@@ -1,6 +1,7 @@
 import { provideEffects } from "@ngrx/effects";
 import { provideState } from "@ngrx/store";
-import { ChangeTempPasswordEffects, changeTempPasswordFeature } from "@authprovider/change-temp-password/data";
+import { ChangeTempPasswordEffects } from '../data/+state/change-temp-password.effects';
+import { changeTempPasswordFeature } from '../data/+state/change-temp-password.reducer';
 
 
 export const changeTempPasswordDataProvider = [

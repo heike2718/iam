@@ -1,7 +1,8 @@
 import { inject, Injectable } from "@angular/core";
-import { TempPasswordCredentials } from "@authprovider/model";
+import { TempPasswordCredentials } from '../../model/auth.model';
 import { Store } from "@ngrx/store";
-import { forgotPasswordActions, fromForgotPassword } from '@authprovider/forgot-password/data';
+import { forgotPasswordActions } from '../data/+state/forgot-password.actions';
+import { fromForgotPassword } from '../data/+state/forgot-password.selectors';
 import { Observable } from "rxjs";
 
 @Injectable({

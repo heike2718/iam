@@ -10,14 +10,14 @@ package de.egladil.web.authprovider.error;
  */
 public class InvalidRedirectUrl extends RuntimeException {
 
-	/* serialVersionUID */
-	private static final long serialVersionUID = 1L;
+    /* serialVersionUID */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Erzeugt eine Instanz von InvalidRedirectUrl
-	 */
-	public InvalidRedirectUrl() {
+    /**
+     * Erzeugt eine Instanz von InvalidRedirectUrl
+     */
+    public InvalidRedirectUrl() {
 
-	}
+    }
 
 }

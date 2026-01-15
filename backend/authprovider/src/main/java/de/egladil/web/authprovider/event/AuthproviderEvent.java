@@ -11,19 +11,19 @@ import java.time.LocalDateTime;
  */
 public interface AuthproviderEvent {
 
-	boolean writeToServerLog();
+    boolean writeToServerLog();
 
-	boolean writeToEventStore();
+    boolean writeToEventStore();
 
-	boolean propagateToListeners();
+    boolean propagateToListeners();
 
-	AuthproviderEventType eventType();
+    AuthproviderEventType eventType();
 
-	Object payload();
+    Object payload();
 
-	String serializePayload();
+    String serializePayload();
 
-	LocalDateTime occuredOn();
+    LocalDateTime occuredOn();
 
-	void writeToConsoleQuietly();
+    void writeToConsoleQuietly();
 }

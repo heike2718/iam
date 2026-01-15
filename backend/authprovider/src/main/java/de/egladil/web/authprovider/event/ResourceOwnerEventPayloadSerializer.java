@@ -17,21 +17,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class ResourceOwnerEventPayloadSerializer implements Function<ResourceOwnerEventPayload, String> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ResourceOwnerEventPayloadSerializer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceOwnerEventPayloadSerializer.class);
 
-	@Override
-	public String apply(final ResourceOwnerEventPayload resourceOwner) {
+    @Override
+    public String apply(final ResourceOwnerEventPayload resourceOwner) {
 
-		try {
+        try {
 
-			return new ObjectMapper().writeValueAsString(resourceOwner);
+            return new ObjectMapper().writeValueAsString(resourceOwner);
 
-		} catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
 
-			LOG.error("konnte event nicht serialisieren: " + e.getMessage(), e);
+            LOG.error("konnte event nicht serialisieren: " + e.getMessage(), e);
 
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 
 }

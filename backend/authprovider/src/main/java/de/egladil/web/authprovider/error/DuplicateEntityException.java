@@ -12,42 +12,42 @@ import de.egladil.web.authprovider.payload.DuplicateAttributeType;
  */
 public class DuplicateEntityException extends RuntimeException {
 
-	/* serialVersionUID */
-	private static final long serialVersionUID = 1L;
+    /* serialVersionUID */
+    private static final long serialVersionUID = 1L;
 
-	private final int defaultStatuscode = 412;
+    private final int defaultStatuscode = 412;
 
-	private DuplicateAttributeType duplicateEntityType;
+    private DuplicateAttributeType duplicateEntityType;
 
-	/**
-	 * Erzeugt eine Instanz von DuplicateEntityException
-	 */
-	public DuplicateEntityException(final String arg0, final Throwable arg1) {
+    /**
+     * Erzeugt eine Instanz von DuplicateEntityException
+     */
+    public DuplicateEntityException(final String arg0, final Throwable arg1) {
 
-		super(arg0, arg1);
-	}
+        super(arg0, arg1);
+    }
 
-	/**
-	 * Erzeugt eine Instanz von DuplicateEntityException
-	 */
-	public DuplicateEntityException(final String arg0) {
+    /**
+     * Erzeugt eine Instanz von DuplicateEntityException
+     */
+    public DuplicateEntityException(final String arg0) {
 
-		super(arg0);
-	}
+        super(arg0);
+    }
 
-	public int getDefaultStatuscode() {
+    public int getDefaultStatuscode() {
 
-		return defaultStatuscode;
-	}
+        return defaultStatuscode;
+    }
 
-	public DuplicateAttributeType getDuplicateEntityType() {
+    public DuplicateAttributeType getDuplicateEntityType() {
 
-		return duplicateEntityType;
-	}
+        return duplicateEntityType;
+    }
 
-	public void setDuplicateEntityType(final DuplicateAttributeType duplicateEntityType) {
+    public void setDuplicateEntityType(final DuplicateAttributeType duplicateEntityType) {
 
-		this.duplicateEntityType = duplicateEntityType;
-	}
+        this.duplicateEntityType = duplicateEntityType;
+    }
 
 }

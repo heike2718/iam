@@ -7,25 +7,17 @@ import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
     selector: 'bv-admin-sidenav',
-    imports: [
-        MatIconModule,
-        MatListModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        RouterLinkWithHref
-    ],
+    imports: [MatIconModule, MatListModule, MatToolbarModule, MatSidenavModule, RouterLinkWithHref],
     templateUrl: './sidenav.component.html',
-    styleUrl: './sidenav.component.scss'
+    styleUrl: './sidenav.component.scss',
 })
 export class SidenavComponent {
+    version = '1.2.1';
 
-  version = '1.1.0';
+    @Output()
+    sidenavClose = new EventEmitter();
 
-  @Output()
-  sidenavClose = new EventEmitter();
-
-  public onSidenavClose = () => {
-    this.sidenavClose.emit();
-  }
-
+    public onSidenavClose = () => {
+        this.sidenavClose.emit();
+    };
 }

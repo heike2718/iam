@@ -4,7 +4,7 @@
         <benutzerprofil-sidenav (sidenavClose)="sidenav.close()"></benutzerprofil-sidenav>
     </mat-sidenav>
     <mat-sidenav-content>
-        <benutzerprofil-toolbar (sidenavToggle)="sidenav.toggle()"></benutzerprofil-toolbar>
+        <app-benutzerprofil-toolbar (sidenavToggle)="sidenav.toggle()"></app-benutzerprofil-toolbar>
         <auth-common-message></auth-common-message>
         <main>
             <router-outlet></router-outlet>

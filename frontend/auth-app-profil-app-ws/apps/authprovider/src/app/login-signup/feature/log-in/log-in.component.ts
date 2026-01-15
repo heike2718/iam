@@ -1,20 +1,19 @@
-import { CommonModule } from "@angular/common";
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { PASSWORT_LOGIN_ERLAUBTE_ZEICHEN, REG_EXP_LOGIN_NAME, trimFormValues } from "@ap-ws/common-utils";
-import { LoginSignupFacade } from "@authprovider/login-signup/api";
-import { AuthorizationCredentials, ClientCredentials, LoginCredentials } from "@authprovider/model";
-import { Subscription } from "rxjs";
-import { AuthproviderConfiguration } from "@authprovider/configuration";
-
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { PASSWORT_LOGIN_ERLAUBTE_ZEICHEN, REG_EXP_LOGIN_NAME, trimFormValues } from '@ap-ws/common-utils';
+import { LoginSignupFacade } from '../../api/login-signup.facade';
+import { AuthorizationCredentials, ClientCredentials, LoginCredentials } from '../../../model/auth.model';
+import { Subscription } from 'rxjs';
+import { AuthproviderConfiguration } from '../../../configuration/authprovider.configuration';
 
 @Component({
-    selector: 'authprovider-log-in',
+    selector: 'app-auth-log-in',
     standalone: true,
     imports: [
         CommonModule,
@@ -23,13 +22,12 @@ import { AuthproviderConfiguration } from "@authprovider/configuration";
         MatButtonModule,
         MatInputModule,
         MatFormFieldModule,
-        MatIconModule
+        MatIconModule,
     ],
     templateUrl: './log-in.component.html',
     styleUrl: './log-in.component.scss',
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
     loginForm!: FormGroup;
 
     headline = 'Einloggen';
@@ -51,27 +49,28 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     #fb: FormBuilder = new FormBuilder();
 
+    #formStartTs = 0;
+
     #subscriptions: Subscription = new Subscription();
 
     ngOnInit(): void {
+        this.#formStartTs = Date.now();
 
         this.#createForm();
 
-        const routeSubscription = this.#activatedRoute.queryParams.subscribe(
-            params => this.#loadClientInfo(params)
+        const routeSubscription = this.#activatedRoute.queryParams.subscribe(params => this.#loadClientInfo(params));
+
+        const clientCredentialsSubscription = this.#loginSignupFacade.clientCredentials$.subscribe(
+            cc => (this.#clientCredentials = cc)
         );
 
-        const clientCredentialsSubscription = this.#loginSignupFacade.clientCredentials$.subscribe((cc) => this.#clientCredentials = cc);
-
-        const clientInformationSubscription = this.#loginSignupFacade.clientInformation$.subscribe(
-            (clientInfo) => {
-                if (clientInfo) {
-                    this.headline = 'Einloggen ' + clientInfo.zurueckText;
-                }
+        const clientInformationSubscription = this.#loginSignupFacade.clientInformation$.subscribe(clientInfo => {
+            if (clientInfo) {
+                this.headline = 'Einloggen ' + clientInfo.zurueckText;
             }
-        )
+        });
 
-        const redirectSubscription = this.#loginSignupFacade.redirectUrl$.subscribe((redirectUrl) => {
+        const redirectSubscription = this.#loginSignupFacade.redirectUrl$.subscribe(redirectUrl => {
             if (redirectUrl) {
                 if (!this.#configuration.production) {
                     console.log('redirect to ' + redirectUrl);
@@ -99,19 +98,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     submit(): void {
-
         const authCredentials = this.#trimAndReadFormValues();
 
         const loginCredentials: LoginCredentials = {
             clientCredentials: this.#clientCredentials,
-            authorizationCredentials: authCredentials,
-        }
+            authorizationCredentials: { ...authCredentials, formStartTs: this.#formStartTs },
+        };
 
         this.#loginSignupFacade.logIn(loginCredentials);
     }
 
     togglePasswordVisibility(): void {
-
         if (!this.showPassword) {
             this.showPassword = true;
             this.#clearVisibilityTimeout();
@@ -130,15 +127,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     #createForm(): void {
         this.loginForm = this.#fb.group({
-            'loginName': ['', [Validators.required, Validators.maxLength(255), Validators.pattern(REG_EXP_LOGIN_NAME)]],
-            'passwort': ['', [Validators.required]],
-            'kleber': ['']
+            loginName: ['', [Validators.required, Validators.maxLength(255), Validators.pattern(REG_EXP_LOGIN_NAME)]],
+            passwort: ['', [Validators.required]],
+            kleber: [''],
         });
     }
 
     #loadClientInfo(params: Params) {
-
-
         // https://mathe-jung-alt.de/authprovider/login?accessToken=8bd728570cfb4960a9dc5ab8c4766155&state=login&redirectUrl=https:%2F%2Fmathe-jung-alt.de%2Fmja-app%2F
 
         const accessToken = params['accessToken'];
@@ -149,15 +144,12 @@ export class LoginComponent implements OnInit, OnDestroy {
             const cc: ClientCredentials = {
                 accessToken: accessToken,
                 redirectUrl: redirectUrl,
-                state: state
+                state: state,
             };
 
             this.#loginSignupFacade.loadClientCredentials(cc);
-
         }
     }
-
-
 
     #clearVisibilityTimeout() {
         if (this.#visibilityTimeout) {
@@ -170,5 +162,4 @@ export class LoginComponent implements OnInit, OnDestroy {
         trimFormValues(this.loginForm);
         return this.loginForm.value;
     }
-
 }

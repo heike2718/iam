@@ -11,111 +11,111 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResourceOwnerResponseItem {
 
-	@JsonProperty
-	private String uuid;
+    @JsonProperty
+    private String uuid;
 
-	@JsonProperty
-	private String vorname;
+    @JsonProperty
+    private String vorname;
 
-	@JsonProperty
-	private String nachname;
+    @JsonProperty
+    private String nachname;
 
-	@JsonProperty
-	private String fullName;
+    @JsonProperty
+    private String fullName;
 
-	@JsonProperty
-	private String loginName;
+    @JsonProperty
+    private String loginName;
 
-	@JsonProperty
-	private String email;
+    @JsonProperty
+    private String email;
 
-	@JsonProperty
-	private boolean aktiviert;
+    @JsonProperty
+    private boolean aktiviert;
 
-	@JsonProperty
-	private boolean existend;
+    @JsonProperty
+    private boolean existend;
 
-	@JsonProperty
-	private String roles;
+    @JsonProperty
+    private String roles;
 
-	public static ResourceOwnerResponseItem create(final String uuid, final boolean existend, final String vorname,
-		final String nachname, final String fullName, final String loginName, final String email, final boolean aktiviert,
-		final String roles) {
+    public static ResourceOwnerResponseItem create(final String uuid, final boolean existend, final String vorname,
+            final String nachname, final String fullName, final String loginName, final String email,
+            final boolean aktiviert, final String roles) {
 
-		ResourceOwnerResponseItem result = new ResourceOwnerResponseItem();
-		result.uuid = uuid;
-		result.existend = existend;
-		result.vorname = vorname;
-		result.nachname = nachname;
-		result.fullName = fullName;
-		result.loginName = loginName;
-		result.email = email;
-		result.aktiviert = aktiviert;
-		result.roles = roles;
-		return result;
+        ResourceOwnerResponseItem result = new ResourceOwnerResponseItem();
+        result.uuid = uuid;
+        result.existend = existend;
+        result.vorname = vorname;
+        result.nachname = nachname;
+        result.fullName = fullName;
+        result.loginName = loginName;
+        result.email = email;
+        result.aktiviert = aktiviert;
+        result.roles = roles;
+        return result;
 
-	}
+    }
 
-	/**
-	 *
-	 */
-	ResourceOwnerResponseItem() {
+    /**
+     *
+     */
+    ResourceOwnerResponseItem() {
 
-	}
+    }
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
-	public void setUuid(final String uuid) {
+    public void setUuid(final String uuid) {
 
-		this.uuid = uuid;
-	}
+        this.uuid = uuid;
+    }
 
-	public String getFullName() {
+    public String getFullName() {
 
-		return fullName;
-	}
+        return fullName;
+    }
 
-	public void setFullName(final String fullName) {
+    public void setFullName(final String fullName) {
 
-		this.fullName = fullName;
-	}
+        this.fullName = fullName;
+    }
 
-	public String getLoginName() {
+    public String getLoginName() {
 
-		return loginName;
-	}
+        return loginName;
+    }
 
-	public String getEmail() {
+    public String getEmail() {
 
-		return email;
-	}
+        return email;
+    }
 
-	public boolean isAktiviert() {
+    public boolean isAktiviert() {
 
-		return aktiviert;
-	}
+        return aktiviert;
+    }
 
-	public String getRoles() {
+    public String getRoles() {
 
-		return roles;
-	}
+        return roles;
+    }
 
-	public boolean isExistend() {
+    public boolean isExistend() {
 
-		return existend;
-	}
+        return existend;
+    }
 
-	public String getVorname() {
+    public String getVorname() {
 
-		return vorname;
-	}
+        return vorname;
+    }
 
-	public String getNachname() {
+    public String getNachname() {
 
-		return nachname;
-	}
+        return nachname;
+    }
 
 }

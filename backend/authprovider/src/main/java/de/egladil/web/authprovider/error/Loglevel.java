@@ -1,7 +1,7 @@
-//=====================================================
+// =====================================================
 // Projekt: de.egladil.mkv.service
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 
 package de.egladil.web.authprovider.error;
 
@@ -10,10 +10,6 @@ package de.egladil.web.authprovider.error;
  */
 public enum Loglevel {
 
-	NULL,
-	DEBUG,
-	INFO,
-	WARN,
-	ERROR;
+    NULL, DEBUG, INFO, WARN, ERROR;
 
 }

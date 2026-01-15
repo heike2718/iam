@@ -8,61 +8,61 @@ package de.egladil.web.authprovider.payload;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * AuthenticationInfo enthält die AuthenticationInfo des authproviders. Neben Verwaltungsinfos enthält sie das JWT als
- * idToken.
+ * AuthenticationInfo enthält die AuthenticationInfo des authproviders. Neben
+ * Verwaltungsinfos enthält sie das JWT als idToken.
  */
 public class AuthenticationInfo {
 
-	@JsonProperty
-	private String accessToken;
+    @JsonProperty
+    private String accessToken;
 
-	@JsonProperty
-	private int expiresInSeconds;
+    @JsonProperty
+    private int expiresInSeconds;
 
-	@JsonProperty
-	private String tokenType;
+    @JsonProperty
+    private String tokenType;
 
-	@JsonProperty
-	private String idToken;
+    @JsonProperty
+    private String idToken;
 
-	public String getAccessToken() {
+    public String getAccessToken() {
 
-		return accessToken;
-	}
+        return accessToken;
+    }
 
-	public void setAccessToken(final String accessToken) {
+    public void setAccessToken(final String accessToken) {
 
-		this.accessToken = accessToken;
-	}
+        this.accessToken = accessToken;
+    }
 
-	public int getExpiresInSeconds() {
+    public int getExpiresInSeconds() {
 
-		return expiresInSeconds;
-	}
+        return expiresInSeconds;
+    }
 
-	public void setExpiresInSeconds(final int expiresInSeconds) {
+    public void setExpiresInSeconds(final int expiresInSeconds) {
 
-		this.expiresInSeconds = expiresInSeconds;
-	}
+        this.expiresInSeconds = expiresInSeconds;
+    }
 
-	public String getTokenType() {
+    public String getTokenType() {
 
-		return tokenType;
-	}
+        return tokenType;
+    }
 
-	public void setTokenType(final String tokenType) {
+    public void setTokenType(final String tokenType) {
 
-		this.tokenType = tokenType;
-	}
+        this.tokenType = tokenType;
+    }
 
-	public String getIdToken() {
+    public String getIdToken() {
 
-		return idToken;
-	}
+        return idToken;
+    }
 
-	public void setIdToken(final String idToken) {
+    public void setIdToken(final String idToken) {
 
-		this.idToken = idToken;
-	}
+        this.idToken = idToken;
+    }
 
 }

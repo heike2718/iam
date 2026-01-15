@@ -14,18 +14,18 @@ import io.quarkus.test.junit.QuarkusTestProfile;
  */
 public class BVAdminTestProfile implements QuarkusTestProfile {
 
-	@Override
-	public Map<String, String> getConfigOverrides() {
+    @Override
+    public Map<String, String> getConfigOverrides() {
 
-		Map<String, String> configOverrides = new HashMap<>();
-		configOverrides.put("quarkus.http.test.timeout", "600S");
-		configOverrides.put("quarkus.http.test.timeout", "600S");
-		configOverrides.put("quarkus.mailer.mock", "true");
-		configOverrides.put("emails.standardempfaenger", "empfaenger-1@gmx.de,empfaenger-2@gmx.de");
+        Map<String, String> configOverrides = new HashMap<>();
+        configOverrides.put("quarkus.http.test.timeout", "600S");
+        configOverrides.put("quarkus.http.test.timeout", "600S");
+        configOverrides.put("quarkus.mailer.mock", "true");
+        configOverrides.put("emails.standardempfaenger", "empfaenger-1@gmx.de,empfaenger-2@gmx.de");
 
-		System.out.println("config overridden:");
+        System.out.println("config overridden:");
 
-		return configOverrides;
-	}
+        return configOverrides;
+    }
 
 }

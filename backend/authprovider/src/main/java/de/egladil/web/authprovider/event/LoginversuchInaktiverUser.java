@@ -11,31 +11,31 @@ import de.egladil.web.authprovider.entities.ResourceOwner;
  */
 public class LoginversuchInaktiverUser extends AbstractAuthproviderEvent {
 
-	LoginversuchInaktiverUser() {
+    LoginversuchInaktiverUser() {
 
-		super();
-	}
+        super();
+    }
 
-	public LoginversuchInaktiverUser(final ResourceOwner resourceOwner) {
+    public LoginversuchInaktiverUser(final ResourceOwner resourceOwner) {
 
-		super(resourceOwner);
-	}
+        super(resourceOwner);
+    }
 
-	@Override
-	public boolean writeToEventStore() {
+    @Override
+    public boolean writeToEventStore() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean propagateToListeners() {
+    @Override
+    public boolean propagateToListeners() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public AuthproviderEventType eventType() {
+    @Override
+    public AuthproviderEventType eventType() {
 
-		return AuthproviderEventType.LOGINVERSUCH_INAKTIVER_USER;
-	}
+        return AuthproviderEventType.LOGINVERSUCH_INAKTIVER_USER;
+    }
 }

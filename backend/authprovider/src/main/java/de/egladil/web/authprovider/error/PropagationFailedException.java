@@ -9,15 +9,15 @@ package de.egladil.web.authprovider.error;
  */
 public class PropagationFailedException extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public PropagationFailedException(final String message) {
+    public PropagationFailedException(final String message) {
 
-		super(message);
+        super(message);
 
-	}
+    }
 
 }

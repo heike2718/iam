@@ -6,6 +6,7 @@
 package de.egladil.web.authprovider.utils;
 
 import java.text.Collator;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,124 +26,158 @@ import io.vertx.core.http.HttpServerRequest;
  */
 public final class AuthUtils {
 
-	public static final String DEFAULT_ROLE = "STANDARD";
+    public static final String DEFAULT_ROLE = "STANDARD";
 
-	private static final String[] KNOWN_MOBILE_USER_AGENT_PREFIXES = new String[] { "w3c ", "w3c-", "acs-", "alav", "alca", "amoi",
-		"audi", "avan", "benq", "bird", "blac", "blaz", "brew", "cell", "cldc", "cmd-", "dang", "doco", "eric", "hipt", "htc_",
-		"inno", "ipaq", "ipod", "jigs", "kddi", "keji", "leno", "lg-c", "lg-d", "lg-g", "lge-", "lg/u", "maui", "maxo", "midp",
-		"mits", "mmef", "mobi", "mot-", "moto", "mwbp", "nec-", "newt", "noki", "palm", "pana", "pant", "phil", "play", "port",
-		"prox", "qwap", "sage", "sams", "sany", "sch-", "sec-", "send", "seri", "sgh-", "shar", "sie-", "siem", "smal", "smar",
-		"sony", "sph-", "symb", "t-mo", "teli", "tim-", "tosh", "tsm-", "upg1", "upsi", "vk-v", "voda", "wap-", "wapa", "wapi",
-		"wapp", "wapr", "webc", "winw", "winw", "xda ", "xda-" };
+    private static final String[] KNOWN_MOBILE_USER_AGENT_PREFIXES = new String[] { "w3c ", "w3c-", "acs-", "alav",
+            "alca", "amoi", "audi", "avan", "benq", "bird", "blac", "blaz", "brew", "cell", "cldc", "cmd-", "dang",
+            "doco", "eric", "hipt", "htc_", "inno", "ipaq", "ipod", "jigs", "kddi", "keji", "leno", "lg-c", "lg-d",
+            "lg-g", "lge-", "lg/u", "maui", "maxo", "midp", "mits", "mmef", "mobi", "mot-", "moto", "mwbp", "nec-",
+            "newt", "noki", "palm", "pana", "pant", "phil", "play", "port", "prox", "qwap", "sage", "sams", "sany",
+            "sch-", "sec-", "send", "seri", "sgh-", "shar", "sie-", "siem", "smal", "smar", "sony", "sph-", "symb",
+            "t-mo", "teli", "tim-", "tosh", "tsm-", "upg1", "upsi", "vk-v", "voda", "wap-", "wapa", "wapi", "wapp",
+            "wapr", "webc", "winw", "winw", "xda ", "xda-" };
 
-	private static final String[] KNOWN_MOBILE_USER_AGENT_KEYWORDS = new String[] { "blackberry", "webos", "ipod", "lge vx", "midp",
-		"maemo", "mmp", "mobile", "netfront", "hiptop", "nintendo DS", "novarra", "openweb", "opera mobi", "opera mini", "palm",
-		"psp", "phone", "smartphone", "symbian", "up.browser", "up.link", "wap", "windows ce" };
+    private static final String[] KNOWN_MOBILE_USER_AGENT_KEYWORDS = new String[] { "blackberry", "webos", "ipod",
+            "lge vx", "midp", "maemo", "mmp", "mobile", "netfront", "hiptop", "nintendo DS", "novarra", "openweb",
+            "opera mobi", "opera mini", "palm", "psp", "phone", "smartphone", "symbian", "up.browser", "up.link", "wap",
+            "windows ce" };
 
-	private static final String[] KNOWN_TABLET_USER_AGENT_KEYWORDS = new String[] { "ipad", "playbook", "hp-tablet", "kindle" };
+    private static final String[] KNOWN_TABLET_USER_AGENT_KEYWORDS = new String[] { "ipad", "playbook", "hp-tablet",
+            "kindle" };
 
-	/**
-	 *
-	 */
-	private AuthUtils() {
+    /**
+     *
+     */
+    private AuthUtils() {
 
-	}
+    }
 
-	public static String newTokenId() {
+    public static String newTokenId() {
 
-		String uuid = UUID.randomUUID().toString();
-		String result = uuid.replaceAll("\\-", "");
+        String uuid = UUID.randomUUID().toString();
+        String result = uuid.replaceAll("\\-", "");
 
-		return result;
-	}
+        return result;
+    }
 
-	public static boolean isMobileDevice(final String userAgent) {
+    public static boolean isMobileDevice(final String userAgent) {
 
-		if (userAgent == null) {
+        if (userAgent == null) {
 
-			return false;
-		}
+            return false;
+        }
 
-		Optional<String> opt = Arrays.asList(KNOWN_TABLET_USER_AGENT_KEYWORDS).stream().filter(w -> userAgent.contains(w))
-			.findFirst();
+        Optional<String> opt = Arrays
+                .asList(KNOWN_TABLET_USER_AGENT_KEYWORDS)
+                .stream()
+                .filter(w -> userAgent.contains(w))
+                .findFirst();
 
-		if (opt.isPresent()) {
+        if (opt.isPresent()) {
 
-			return true;
-		}
+            return true;
+        }
 
-		opt = Arrays.asList(KNOWN_MOBILE_USER_AGENT_KEYWORDS).stream().filter(w -> userAgent.contains(w)).findFirst();
+        opt = Arrays.asList(KNOWN_MOBILE_USER_AGENT_KEYWORDS).stream().filter(w -> userAgent.contains(w)).findFirst();
 
-		if (opt.isPresent()) {
+        if (opt.isPresent()) {
 
-			return true;
-		}
+            return true;
+        }
 
-		opt = Arrays.asList(KNOWN_MOBILE_USER_AGENT_PREFIXES).stream().filter(w -> userAgent.contains(w)).findFirst();
+        opt = Arrays.asList(KNOWN_MOBILE_USER_AGENT_PREFIXES).stream().filter(w -> userAgent.contains(w)).findFirst();
 
-		if (opt.isPresent()) {
+        if (opt.isPresent()) {
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Ein Kommaseparierter String wird normalisiert.
-	 * <ul>
-	 * <li>alles toUpperCase</li>
-	 * <li>Dubletten entfernt</li>
-	 * <li>STANDARD eingefügt, falls erforderlich</li>
-	 * <li>alphabetisch sortiert.</li>
-	 * </ul>
-	 *
-	 * @param roles
-	 * @return
-	 */
-	public static String normalizeRoles(final String roles) {
+    /**
+     * Ein Kommaseparierter String wird normalisiert.
+     * <ul>
+     * <li>alles toUpperCase</li>
+     * <li>Dubletten entfernt</li>
+     * <li>STANDARD eingefügt, falls erforderlich</li>
+     * <li>alphabetisch sortiert.</li>
+     * </ul>
+     *
+     * @param roles
+     * @return
+     */
+    public static String normalizeRoles(final String roles) {
 
-		if (StringUtils.isBlank(roles)) {
+        if (StringUtils.isBlank(roles)) {
 
-			return DEFAULT_ROLE;
-		}
+            return DEFAULT_ROLE;
+        }
 
-		String[] rolesArray = roles.split(",");
+        String[] rolesArray = roles.split(",");
 
-		Set<String> ohneDoubles = Arrays.stream(rolesArray).map(s -> s.toUpperCase()).collect(Collectors.toSet());
+        Set<String> ohneDoubles = Arrays.stream(rolesArray).map(s -> s.toUpperCase()).collect(Collectors.toSet());
 
-		Optional<String> optStandard = ohneDoubles.stream().filter(s -> DEFAULT_ROLE.equals(s)).findFirst();
+        Optional<String> optStandard = ohneDoubles.stream().filter(s -> DEFAULT_ROLE.equals(s)).findFirst();
 
-		if (!optStandard.isPresent()) {
+        if (!optStandard.isPresent()) {
 
-			ohneDoubles.add(DEFAULT_ROLE);
-		}
+            ohneDoubles.add(DEFAULT_ROLE);
+        }
 
-		List<String> sortierbar = new ArrayList<String>(ohneDoubles);
-		Collections.sort(sortierbar, Collator.getInstance(Locale.GERMAN));
+        List<String> sortierbar = new ArrayList<String>(ohneDoubles);
+        Collections.sort(sortierbar, Collator.getInstance(Locale.GERMAN));
 
-		return StringUtils.join(sortierbar, ",");
-	}
+        return StringUtils.join(sortierbar, ",");
+    }
 
-	public static final String getUserAgent(final HttpServerRequest request) {
+    public static final String getUserAgent(final HttpServerRequest request) {
 
-		return request == null ? null : request.getHeader("User-Agent");
-	}
+        return request == null ? null : request.getHeader("User-Agent");
+    }
 
-	public static final String getIPAddress(final HttpServerRequest request) {
+    public static final String getIPAddress(final HttpServerRequest request) {
 
-		if (request == null) {
+        if (request == null) {
 
-			return null;
-		}
+            return null;
+        }
 
-		String ipAddress = request.getHeader("X-Forwarded-For");
+        String ipAddress = request.getHeader("X-Forwarded-For");
 
-		if (ipAddress == null || ipAddress.isEmpty()) {
+        if (ipAddress == null || ipAddress.isEmpty()) {
 
-			ipAddress = request.remoteAddress().host();
-		}
-		return ipAddress;
-	}
+            ipAddress = request.remoteAddress().host();
+        }
+        return ipAddress;
+    }
+
+    /**
+     * Bessere BOT-detection, die die Dauer des Ausfüllens einer Form berücksichtigt.
+     * @param kleber String - Wert in dem eigentlich nicht sichtbaren honeypot.
+     * @param formStartTs timestamp - wird in ngInit() intialisiert und bei submit ans Backend gesendet
+     * @return boolean
+     */
+    public static boolean isProbablyBOTAttack(String kleber, long formStartTs) {
+
+    	long now = System.currentTimeMillis();
+    	long delta = now - formStartTs;
+
+    	boolean honeypotFilled = StringUtils.isNotBlank(kleber);
+
+    	// manipuliertes payload - formStartTs in der Zukunft
+    	boolean negative = delta < 0;
+
+    	// Mensch braucht länger als 2 Sekunden, um das Formular zu füllen
+    	boolean tooFast = delta < 2000;
+
+    	// könnte replay-attack sein. Ein Mensch hat das Formular wahrscheinlich in unter 10 min ausgefüllt.
+    	boolean tooOld = delta > Duration.ofMinutes(10).toMillis();
+
+    	if (honeypotFilled && (negative || tooFast || tooOld)) {
+    	    return true;
+    	}
+    	return false;
+    }
 
 }

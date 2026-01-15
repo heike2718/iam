@@ -5,9 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from '@angular/material/input';
 import { LOGINNAME_REGELN, NAME_REGELN, REG_EXP_INPUT_SECURED, REG_EXP_LOGIN_NAME, trimFormValues } from "@ap-ws/common-utils";
-import { AuthFacade } from "@benutzerprofil/auth/api";
-import { BenutzerdatenFacade } from "@benutzerprofil/benutzerdaten/api";
-import { anonymeBenutzerdaten, benutzerAreEqual, Benutzerdaten } from "@benutzerprofil/benutzerdaten/model";
+import { AuthFacade } from '../../../auth/api/auth.facade';
+import { BenutzerdatenFacade } from '../../api/benutzerdaten.facade';
+import { anonymeBenutzerdaten, benutzerAreEqual, Benutzerdaten } from '../../model/benutzerdaten.model';
 import { Subscription } from "rxjs";
 
 

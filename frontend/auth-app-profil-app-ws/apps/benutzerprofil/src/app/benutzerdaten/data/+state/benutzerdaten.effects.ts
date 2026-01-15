@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { Benutzerdaten, ChangeBenutzerdatenResponseDto } from "@benutzerprofil/benutzerdaten/model";
+import { Benutzerdaten, ChangeBenutzerdatenResponseDto } from '../../model/benutzerdaten.model';
 import { map, switchMap, tap } from "rxjs";
 import { BenutzerdatenHttpService } from "../benutzerdaten-http.service";
 import { benutzerdatenActions } from "./benutzerdaten.actions";

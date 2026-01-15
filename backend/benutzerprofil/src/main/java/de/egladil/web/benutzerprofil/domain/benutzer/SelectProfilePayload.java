@@ -13,18 +13,18 @@ import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
  */
 public class SelectProfilePayload {
 
-	@JsonProperty
-	private OAuthClientCredentials clientCredentials;
+    @JsonProperty
+    private OAuthClientCredentials clientCredentials;
 
-	@JsonProperty
-	private String uuid;
+    @JsonProperty
+    private String uuid;
 
-	public static SelectProfilePayload create(final OAuthClientCredentials clientCredentials, final String uuid) {
+    public static SelectProfilePayload create(final OAuthClientCredentials clientCredentials, final String uuid) {
 
-		SelectProfilePayload result = new SelectProfilePayload();
-		result.clientCredentials = clientCredentials;
-		result.uuid = uuid;
-		return result;
+        SelectProfilePayload result = new SelectProfilePayload();
+        result.clientCredentials = clientCredentials;
+        result.uuid = uuid;
+        return result;
 
-	}
+    }
 }

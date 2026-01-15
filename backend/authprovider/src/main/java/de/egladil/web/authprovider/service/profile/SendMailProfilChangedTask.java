@@ -14,40 +14,41 @@ import de.egladil.web.authprovider.service.mail.AuthMailService;
 import de.egladil.web.authprovider.service.mail.CreateDefaultMailDatenStrategy;
 
 /**
- * SendMailProfilChangedTask sendet eine Mail darüber, dass sich am Profil (Loginname, Vorname, Nachname, Mailadresse,
- * Passwort) ertwas geändert hat.
+ * SendMailProfilChangedTask sendet eine Mail darüber, dass sich am Profil
+ * (Loginname, Vorname, Nachname, Mailadresse, Passwort) ertwas geändert hat.
  */
 public class SendMailProfilChangedTask implements Callable<Boolean> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SendMailProfilChangedTask.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SendMailProfilChangedTask.class);
 
-	private final AuthMailService mailService;
+    private final AuthMailService mailService;
 
-	private final CreateDefaultMailDatenStrategy mailStrategy;
+    private final CreateDefaultMailDatenStrategy mailStrategy;
 
-	/**
-	 * @param emailTo
-	 * @param mailService
-	 * @param mailStrategy
-	 */
-	public SendMailProfilChangedTask(final AuthMailService mailService, final CreateDefaultMailDatenStrategy mailStrategy) {
+    /**
+     * @param emailTo
+     * @param mailService
+     * @param mailStrategy
+     */
+    public SendMailProfilChangedTask(final AuthMailService mailService,
+            final CreateDefaultMailDatenStrategy mailStrategy) {
 
-		this.mailService = mailService;
-		this.mailStrategy = mailStrategy;
-	}
+        this.mailService = mailService;
+        this.mailStrategy = mailStrategy;
+    }
 
-	@Override
-	public Boolean call() throws Exception {
+    @Override
+    public Boolean call() throws Exception {
 
-		try {
+        try {
 
-			mailService.sendMail(mailStrategy.createEmailDaten(""));
+            mailService.sendMail(mailStrategy.createEmailDaten(""));
 
-			return Boolean.TRUE;
-		} catch (MailversandException e) {
+            return Boolean.TRUE;
+        } catch (MailversandException e) {
 
-			LOG.error(e.getMessage(), e);
-			return Boolean.FALSE;
-		}
-	}
+            LOG.error(e.getMessage(), e);
+            return Boolean.FALSE;
+        }
+    }
 }

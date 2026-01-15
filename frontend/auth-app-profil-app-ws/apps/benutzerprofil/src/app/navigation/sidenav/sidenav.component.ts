@@ -3,7 +3,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLinkWithHref } from '@angular/router';
 import { ShellService } from "../../shell/shell.service";
-import { AuthFacade } from "@benutzerprofil/auth/api";
+import { AuthFacade } from '../../auth/api/auth.facade';
 import { AsyncPipe } from "@angular/common";
 
 @Component({

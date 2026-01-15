@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { LoginSignupHttpService } from "../login-signup-http.service";
 import { loginSignupActions } from "./login-signup.actions";
 import { map, switchMap } from "rxjs";
-import { ClientInformation, SignUpLogInResponseData } from "@authprovider/model";
+import { ClientInformation, SignUpLogInResponseData } from '../../../model/auth.model';
 
 
 @Injectable({

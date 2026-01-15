@@ -11,29 +11,30 @@ import de.egladil.web.authprovider.event.BotAttackEventPayload;
  */
 public class BotAttackEventMailStrategy implements CreateDefaultMailDatenStrategy {
 
-	private final String stage;
+    private final String stage;
 
-	private final String mailTo;
+    private final String mailTo;
 
-	private final BotAttackEventPayload eventPayload;
+    private final BotAttackEventPayload eventPayload;
 
-	public BotAttackEventMailStrategy(final BotAttackEventPayload eventPayload, final String stage, final String mailTo) {
+    public BotAttackEventMailStrategy(final BotAttackEventPayload eventPayload, final String stage,
+            final String mailTo) {
 
-		super();
-		this.stage = stage;
-		this.mailTo = mailTo;
-		this.eventPayload = eventPayload;
-	}
+        super();
+        this.stage = stage;
+        this.mailTo = mailTo;
+        this.eventPayload = eventPayload;
+    }
 
-	@Override
-	public DefaultEmailDaten createEmailDaten(final String messageId) {
+    @Override
+    public DefaultEmailDaten createEmailDaten(final String messageId) {
 
-		DefaultEmailDaten maildaten = new DefaultEmailDaten();
-		maildaten.setEmpfaenger(mailTo);
-		maildaten.setBetreff(stage + ": jemand ist in den Honigtopf gefallen");
-		maildaten.setText(eventPayload.toString());
-		maildaten.setMessageId(messageId);
-		return maildaten;
-	}
+        DefaultEmailDaten maildaten = new DefaultEmailDaten();
+        maildaten.setEmpfaenger(mailTo);
+        maildaten.setBetreff(stage + ": jemand ist in den Honigtopf gefallen");
+        maildaten.setText(eventPayload.toString());
+        maildaten.setMessageId(messageId);
+        return maildaten;
+    }
 
 }

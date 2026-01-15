@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { TempPasswordCredentials, TempPasswordResponseDto } from "@authprovider/model";
+import { TempPasswordCredentials, TempPasswordResponseDto } from '../../model/auth.model';
 import { Observable } from "rxjs";
 
 

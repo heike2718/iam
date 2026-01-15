@@ -1,10 +1,8 @@
-import { ZweiPassworte } from "@ap-ws/common-model";
+import { ZweiPassworte } from '@ap-ws/common-model';
 
 export const STORAGE_KEY_SESSION_EXPIRES_AT = 'auth_session_expires_at';
 export const STORAGE_KEY_DEV_SESSION_ID = 'auth_dev_session_id';
 export const HEADER_NAME_SESSION_ID = 'X-SESSIONID';
-
-
 
 export interface ClientCredentials {
     accessToken: string;
@@ -26,6 +24,7 @@ export interface AuthorizationCredentials {
     loginName: string;
     passwort: string;
     kleber?: string;
+    formStartTs: number;
 }
 
 export interface LoginCredentials {
@@ -41,6 +40,7 @@ export interface TwoPasswords {
 export interface TempPasswordCredentials {
     email: string;
     kleber?: string;
+    formStartTs: number;
 }
 
 export interface TempPasswordResponseDto {
@@ -53,7 +53,7 @@ export interface ChangeTempPasswordPayload {
     email: string;
     kleber?: string;
     zweiPassworte: ZweiPassworte;
-
+    formStartTs: number;
 }
 
 export interface User {
@@ -68,13 +68,10 @@ export interface SignUpLogInResponseData {
     readonly oauthFlowType: string;
 }
 
-
 export function createHashForRedirectUrl(data: SignUpLogInResponseData): string {
-
     const nonce = data.nonce ? data.nonce : '';
 
-    return '#state=' + data.state
-        + '&nonce=' + nonce
-        + '&idToken=' + data.idToken
-        + '&oauthFlowType=' + data.oauthFlowType;
+    return (
+        '#state=' + data.state + '&nonce=' + nonce + '&idToken=' + data.idToken + '&oauthFlowType=' + data.oauthFlowType
+    );
 }

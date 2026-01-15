@@ -11,23 +11,23 @@ import de.egladil.web.auth_validations.annotations.UuidString;
  */
 public class NoncePayload {
 
-	@UuidString
-	private String nonce;
+    @UuidString
+    private String nonce;
 
-	public static NoncePayload create(final String nonce) {
+    public static NoncePayload create(final String nonce) {
 
-		NoncePayload result = new NoncePayload();
-		result.nonce = nonce;
-		return result;
-	}
+        NoncePayload result = new NoncePayload();
+        result.nonce = nonce;
+        return result;
+    }
 
-	public NoncePayload() {
+    public NoncePayload() {
 
-	}
+    }
 
-	public String getNonce() {
+    public String getNonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
 }

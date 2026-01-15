@@ -13,32 +13,41 @@ import jakarta.validation.constraints.Size;
  */
 public class OrderTempPasswordPayload {
 
-	@NotNull
-	@Email
-	@Size(min = 1, max = 255)
-	private String email;
+    @NotNull
+    @Email
+    @Size(min = 1, max = 255)
+    private String email;
 
-	// keine Annotation, damit das geloggt wird
-	private String kleber;
+    // keine Annotation, damit das geloggt wird
+    private String kleber;
 
-	public String getEmail() {
+    /**
+     * Zeitpunkt von createForm
+     */
+    private long formStartTs;
 
-		return email;
-	}
+    public String getEmail() {
 
-	public void setEmail(final String email) {
+        return email;
+    }
 
-		this.email = email;
-	}
+    public void setEmail(final String email) {
 
-	public String getKleber() {
+        this.email = email;
+    }
 
-		return kleber;
-	}
+    public String getKleber() {
 
-	public void setKleber(final String kleber) {
+        return kleber;
+    }
 
-		this.kleber = kleber;
+    public void setKleber(final String kleber) {
+
+        this.kleber = kleber;
+    }
+
+	public long getFormStartTs() {
+		return formStartTs;
 	}
 
 }

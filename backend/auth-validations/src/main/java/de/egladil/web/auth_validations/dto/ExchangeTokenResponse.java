@@ -9,36 +9,36 @@ package de.egladil.web.auth_validations.dto;
  */
 public class ExchangeTokenResponse {
 
-	private String nonce;
+    private String nonce;
 
-	private String jwt;
+    private String jwt;
 
-	public static ExchangeTokenResponse create(final String jwt, final String nonce) {
+    public static ExchangeTokenResponse create(final String jwt, final String nonce) {
 
-		ExchangeTokenResponse result = new ExchangeTokenResponse();
-		result.jwt = jwt;
-		result.nonce = nonce;
-		return result;
-	}
+        ExchangeTokenResponse result = new ExchangeTokenResponse();
+        result.jwt = jwt;
+        result.nonce = nonce;
+        return result;
+    }
 
-	public String getNonce() {
+    public String getNonce() {
 
-		return nonce;
-	}
+        return nonce;
+    }
 
-	public void setNonce(final String nonce) {
+    public void setNonce(final String nonce) {
 
-		this.nonce = nonce;
-	}
+        this.nonce = nonce;
+    }
 
-	public String getJwt() {
+    public String getJwt() {
 
-		return jwt;
-	}
+        return jwt;
+    }
 
-	public void setJwt(final String jwt) {
+    public void setJwt(final String jwt) {
 
-		this.jwt = jwt;
-	}
+        this.jwt = jwt;
+    }
 
 }

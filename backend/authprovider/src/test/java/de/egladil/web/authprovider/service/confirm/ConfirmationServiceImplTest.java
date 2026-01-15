@@ -4,13 +4,17 @@
 // =====================================================
 package de.egladil.web.authprovider.service.confirm;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import jakarta.inject.Inject;
+
 import org.junit.jupiter.api.Test;
+
 import org.mockito.Mockito;
+
+import io.quarkus.test.InjectMock;
+import io.quarkus.test.junit.QuarkusTest;
 
 import de.egladil.web.authprovider.crypto.impl.CryptoService;
 import de.egladil.web.authprovider.dao.ActivationCodeDao;
@@ -21,9 +25,8 @@ import de.egladil.web.authprovider.event.AuthproviderEvent;
 import de.egladil.web.authprovider.event.AuthproviderEventType;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
 import de.egladil.web.authprovider.utils.AuthTimeUtils;
-import io.quarkus.test.InjectMock;
-import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * ConfirmationServiceImplTest
@@ -31,55 +34,55 @@ import jakarta.inject.Inject;
 @QuarkusTest
 public class ConfirmationServiceImplTest {
 
-	@InjectMock
-	private ActivationCodeDao activationCodeDao;
+    @InjectMock
+    private ActivationCodeDao activationCodeDao;
 
-	@InjectMock
-	private ResourceOwnerDao resourceOwnerDao;
+    @InjectMock
+    private ResourceOwnerDao resourceOwnerDao;
 
-	@InjectMock
-	private ResourceOwnerService resourceOwnerService;
+    @InjectMock
+    private ResourceOwnerService resourceOwnerService;
 
-	@InjectMock
-	private CryptoService cryptoService;
+    @InjectMock
+    private CryptoService cryptoService;
 
-	@Inject
-	private ConfirmationServiceImpl service;
+    @Inject
+    private ConfirmationServiceImpl service;
 
-	@Test
-	void should_writeToEventLog_when_activationExpired() {
+    @Test
+    void should_writeToEventLog_when_activationExpired() {
 
-		// Arrange
-		String confirmCode = "jkasgdk";
-		String uuid = "ahkgd-eufwhgo";
+        // Arrange
+        String confirmCode = "jkasgdk";
+        String uuid = "ahkgd-eufwhgo";
 
-		ActivationCode activationCode = new ActivationCode();
-		activationCode.setConfirmationCode(confirmCode);
-		activationCode.setConfirmed(false);
-		activationCode.setExpirationTime(AuthTimeUtils.transformFromLocalDateTime(LocalDateTime.now().plusHours(-1)));
+        ActivationCode activationCode = new ActivationCode();
+        activationCode.setConfirmationCode(confirmCode);
+        activationCode.setConfirmed(false);
+        activationCode.setExpirationTime(AuthTimeUtils.transformFromLocalDateTime(LocalDateTime.now().plusHours(-1)));
 
-		ResourceOwner resourceOwner = new ResourceOwner();
-		resourceOwner.setAktiviert(false);
-		resourceOwner.setAnonym(false);
-		resourceOwner.setEmail("mail@web.de");
-		resourceOwner.setLoginName("mail@web.de");
-		resourceOwner.setNachname("Log");
-		resourceOwner.setRoles("STANDARD");
-		resourceOwner.setUuid(uuid);
-		resourceOwner.setVorname("Anna");
+        ResourceOwner resourceOwner = new ResourceOwner();
+        resourceOwner.setAktiviert(false);
+        resourceOwner.setAnonym(false);
+        resourceOwner.setEmail("mail@web.de");
+        resourceOwner.setLoginName("mail@web.de");
+        resourceOwner.setNachname("Log");
+        resourceOwner.setRoles("STANDARD");
+        resourceOwner.setUuid(uuid);
+        resourceOwner.setVorname("Anna");
 
-		activationCode.setResourceOwner(resourceOwner);
+        activationCode.setResourceOwner(resourceOwner);
 
-		Mockito.when(activationCodeDao.findByConfirmationCode(confirmCode)).thenReturn(Optional.of(activationCode));
+        Mockito.when(activationCodeDao.findByConfirmationCode(confirmCode)).thenReturn(Optional.of(activationCode));
 
-		// Act
-		ConfirmationStatus status = service.confirmCode(confirmCode);
+        // Act
+        ConfirmationStatus status = service.confirmCode(confirmCode);
 
-		// Assert
-		assertEquals(ConfirmationStatus.expiredActivation, status);
-		AuthproviderEvent eventPayload = service.eventPayload();
-		assertEquals(AuthproviderEventType.REGISTRATION_CONFIRMATION_EXPIRED, eventPayload.eventType());
+        // Assert
+        assertEquals(ConfirmationStatus.expiredActivation, status);
+        AuthproviderEvent eventPayload = service.eventPayload();
+        assertEquals(AuthproviderEventType.REGISTRATION_CONFIRMATION_EXPIRED, eventPayload.eventType());
 
-	}
+    }
 
 }

@@ -14,55 +14,55 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public abstract class AbstractAuthAdminEvent implements AuthAdminEvent {
 
-	private final LocalDateTime occuredOn;
+    private final LocalDateTime occuredOn;
 
-	private AuthAdminEventPayload eventPayload;
+    private AuthAdminEventPayload eventPayload;
 
-	public AbstractAuthAdminEvent() {
+    public AbstractAuthAdminEvent() {
 
-		this.occuredOn = LocalDateTime.now();
-	}
+        this.occuredOn = LocalDateTime.now();
+    }
 
-	public AbstractAuthAdminEvent(final AuthAdminEventPayload eventPayload) {
+    public AbstractAuthAdminEvent(final AuthAdminEventPayload eventPayload) {
 
-		this();
-		this.eventPayload = eventPayload;
-	}
+        this();
+        this.eventPayload = eventPayload;
+    }
 
-	@Override
-	public String serializePayload() {
+    @Override
+    public String serializePayload() {
 
-		return new AuthproviderEventPayloadSerializer().apply(eventPayload);
-	}
+        return new AuthproviderEventPayloadSerializer().apply(eventPayload);
+    }
 
-	@Override
-	public Object payload() {
+    @Override
+    public Object payload() {
 
-		return eventPayload;
-	}
+        return eventPayload;
+    }
 
-	@Override
-	public LocalDateTime occuredOn() {
+    @Override
+    public LocalDateTime occuredOn() {
 
-		return this.occuredOn;
-	}
+        return this.occuredOn;
+    }
 
-	@Override
-	public void writeToConsoleQuietly() {
+    @Override
+    public void writeToConsoleQuietly() {
 
-		try {
+        try {
 
-			String body = new ObjectMapper().writeValueAsString(eventPayload);
-			System.out.println(eventType().getLabel() + ": " + body);
-		} catch (JsonProcessingException e) {
+            String body = new ObjectMapper().writeValueAsString(eventPayload);
+            System.out.println(eventType().getLabel() + ": " + body);
+        } catch (JsonProcessingException e) {
 
-			e.printStackTrace();
-			System.err.println(e.getMessage());
-		}
-	}
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
+    }
 
-	protected void setEventPayload(final AuthAdminEventPayload resourceOwner) {
+    protected void setEventPayload(final AuthAdminEventPayload resourceOwner) {
 
-		this.eventPayload = resourceOwner;
-	}
+        this.eventPayload = resourceOwner;
+    }
 }

@@ -13,32 +13,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class MailversandgruppeDetailsResponseDto {
 
-	@JsonProperty
-	@Schema(description = "die technische ID", example = "78573dc4-06d7-43f1-9b85-ae79f36c92b7")
-	private String uuid;
+    @JsonProperty
+    @Schema(description = "die technische ID", example = "78573dc4-06d7-43f1-9b85-ae79f36c92b7")
+    private String uuid;
 
-	@JsonProperty
-	@Schema(description = "falls noch vorhanden, die Details der Mailversandgruppe, sonst null")
-	private MailversandgruppeDetails mailversandgruppe;
+    @JsonProperty
+    @Schema(description = "falls noch vorhanden, die Details der Mailversandgruppe, sonst null")
+    private MailversandgruppeDetails mailversandgruppe;
 
-	public String getUuid() {
+    public String getUuid() {
 
-		return uuid;
-	}
+        return uuid;
+    }
 
-	public void setUuid(final String uuid) {
+    public void setUuid(final String uuid) {
 
-		this.uuid = uuid;
-	}
+        this.uuid = uuid;
+    }
 
-	public MailversandgruppeDetails getMailversandgruppe() {
+    public MailversandgruppeDetails getMailversandgruppe() {
 
-		return mailversandgruppe;
-	}
+        return mailversandgruppe;
+    }
 
-	public void setMailversandgruppe(final MailversandgruppeDetails mailversndgruppe) {
+    public void setMailversandgruppe(final MailversandgruppeDetails mailversndgruppe) {
 
-		this.mailversandgruppe = mailversndgruppe;
-	}
+        this.mailversandgruppe = mailversndgruppe;
+    }
 
 }

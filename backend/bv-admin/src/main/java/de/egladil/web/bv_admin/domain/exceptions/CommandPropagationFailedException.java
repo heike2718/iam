@@ -9,18 +9,18 @@ package de.egladil.web.bv_admin.domain.exceptions;
  */
 public class CommandPropagationFailedException extends RuntimeException {
 
-	private static final long serialVersionUID = 8814673262453282669L;
+    private static final long serialVersionUID = 8814673262453282669L;
 
-	public CommandPropagationFailedException(final String message, final Throwable cause) {
+    public CommandPropagationFailedException(final String message, final Throwable cause) {
 
-		super(message, cause);
+        super(message, cause);
 
-	}
+    }
 
-	public CommandPropagationFailedException(final String message) {
+    public CommandPropagationFailedException(final String message) {
 
-		super(message);
+        super(message);
 
-	}
+    }
 
 }

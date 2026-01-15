@@ -4,91 +4,99 @@
 // =====================================================
 package de.egladil.web.authprovider.payload;
 
-import de.egladil.web.auth_validations.annotations.LoginName;
-import de.egladil.web.auth_validations.annotations.PasswortLogin;
-import de.egladil.web.auth_validations.utils.SecUtils;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import de.egladil.web.auth_validations.annotations.LoginName;
+import de.egladil.web.auth_validations.annotations.PasswortLogin;
+import de.egladil.web.auth_validations.utils.SecUtils;
+
 /**
- * AuthorizationCredentials sind die Daten, mit denen ein Benutzer eine Änderung an seinem Profil autorisieren kann.
+ * AuthorizationCredentials sind die Daten, mit denen ein Benutzer eine Änderung
+ * an seinem Profil autorisieren kann.
  */
 public class AuthorizationCredentials {
 
-	@NotNull
-	@LoginName
-	@Size(max = 255)
-	private String loginName;
+    @NotNull
+    @LoginName
+    @Size(max = 255)
+    private String loginName;
 
-	@NotNull
-	@PasswortLogin
-	private String passwort;
+    @NotNull
+    @PasswortLogin
+    private String passwort;
 
-	// keine Annotation, damit das geloggt wird
-	private String kleber;
+    // keine Annotation, damit das geloggt wird
+    private String kleber;
 
-	/**
-	 *
-	 */
-	public AuthorizationCredentials() {
+    /**
+     * Zeitpunkt von createForm
+     */
+    private long formStartTs;
 
-	}
+    /**
+     *
+     */
+    public AuthorizationCredentials() {
 
-	/**
-	 * @param loginName
-	 * @param passwort
-	 */
-	public AuthorizationCredentials(@NotNull
-	@Size(max = 255)
-	final String loginName, @NotNull
-	final String passwort) {
+    }
 
-		this.loginName = loginName;
-		this.passwort = passwort;
-	}
+    /**
+     * @param loginName
+     * @param passwort
+     */
+    public AuthorizationCredentials(@NotNull @Size(max = 255) final String loginName, @NotNull final String passwort) {
 
-	public String getLoginName() {
+        this.loginName = loginName;
+        this.passwort = passwort;
+    }
 
-		return loginName;
-	}
+    public String getLoginName() {
 
-	public void setLoginName(final String loginName) {
+        return loginName;
+    }
 
-		this.loginName = loginName;
-	}
+    public void setLoginName(final String loginName) {
 
-	public String getPasswort() {
+        this.loginName = loginName;
+    }
 
-		return passwort;
-	}
+    public String getPasswort() {
 
-	public void setPasswort(final String passwort) {
+        return passwort;
+    }
 
-		this.passwort = passwort;
-	}
+    public void setPasswort(final String passwort) {
 
-	public String getKleber() {
+        this.passwort = passwort;
+    }
 
-		return kleber;
-	}
+    public String getKleber() {
 
-	public void setKleber(final String kleber) {
+        return kleber;
+    }
 
-		this.kleber = kleber;
-	}
+    public void setKleber(final String kleber) {
 
-	public void clean() {
+        this.kleber = kleber;
+    }
 
-		if (passwort != null) {
+    public void clean() {
 
-			this.passwort = SecUtils.wipe(passwort);
-		}
-	}
+        if (passwort != null) {
 
-	@Override
-	public String toString() {
+            this.passwort = SecUtils.wipe(passwort);
+        }
+    }
 
-		return "AuthorizationCredentials [loginName=" + loginName + "]";
+    @Override
+    public String toString() {
+
+        return "AuthorizationCredentials [loginName=" + loginName + "]";
+    }
+
+	public long getFormStartTs() {
+		return formStartTs;
 	}
 
 }

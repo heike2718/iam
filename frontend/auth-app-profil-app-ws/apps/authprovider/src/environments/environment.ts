@@ -1,7 +1,7 @@
-import { provideStoreDevtools } from "@ngrx/store-devtools";
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const environment = {
-    version: '9.1.1',
+    version: '9.2.0',
     envName: 'dev',
     production: false,
     baseUrl: 'http://localhost:10000',
@@ -11,10 +11,9 @@ export const environment = {
     assetsPath: 'assets',
     providers: [
         provideStoreDevtools({
-          maxAge: 25,
-          autoPause: true,
-          connectInZone: true
+            maxAge: 25,
+            autoPause: true,
+            connectInZone: true,
         }),
-      ],
-    
+    ],
 };

@@ -10,13 +10,13 @@ package de.egladil.web.auth_validations.exceptions;
  */
 public class InvalidInputException extends RuntimeException {
 
-	/* serialVersionUID */
-	private static final long serialVersionUID = 2L;
+    /* serialVersionUID */
+    private static final long serialVersionUID = 2L;
 
-	public InvalidInputException(final String message) {
+    public InvalidInputException(final String message) {
 
-		super(message);
+        super(message);
 
-	}
+    }
 
 }

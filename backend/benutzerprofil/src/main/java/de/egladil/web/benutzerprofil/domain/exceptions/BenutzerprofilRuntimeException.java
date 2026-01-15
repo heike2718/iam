@@ -9,26 +9,26 @@ package de.egladil.web.benutzerprofil.domain.exceptions;
  */
 public class BenutzerprofilRuntimeException extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public BenutzerprofilRuntimeException(final String message, final Throwable cause) {
+    /**
+     * @param message
+     * @param cause
+     */
+    public BenutzerprofilRuntimeException(final String message, final Throwable cause) {
 
-		super(message, cause);
-	}
+        super(message, cause);
+    }
 
-	/**
-	 * @param message
-	 */
-	public BenutzerprofilRuntimeException(final String message) {
+    /**
+     * @param message
+     */
+    public BenutzerprofilRuntimeException(final String message) {
 
-		super(message);
-	}
+        super(message);
+    }
 
 }

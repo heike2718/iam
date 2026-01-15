@@ -1,7 +1,7 @@
-//=====================================================
+// =====================================================
 // Projekt: authprovider
 // (c) Heike Winkelvoß
-//=====================================================
+// =====================================================
 
 package de.egladil.web.authprovider.dao.impl;
 
@@ -20,31 +20,33 @@ import de.egladil.web.authprovider.entities.TempPassword;
 @RequestScoped
 public class TempPasswordDaoImpl extends BaseDaoImpl implements TempPasswordDao {
 
-	/**
-	 * Erzeugt eine Instanz von TempPasswordDaoImpl
-	 */
-	public TempPasswordDaoImpl() {
-	}
+    /**
+     * Erzeugt eine Instanz von TempPasswordDaoImpl
+     */
+    public TempPasswordDaoImpl() {
+    }
 
-	/**
-	 * Erzeugt eine Instanz von TempPasswordDaoImpl
-	 */
-	public TempPasswordDaoImpl(final EntityManager em) {
-		super(em);
-	}
+    /**
+     * Erzeugt eine Instanz von TempPasswordDaoImpl
+     */
+    public TempPasswordDaoImpl(final EntityManager em) {
+        super(em);
+    }
 
-	@Override
-	public Optional<TempPassword> findByTokenId(final String tokenId) {
+    @Override
+    public Optional<TempPassword> findByTokenId(final String tokenId) {
 
-		try {
-			TempPassword result = getEm().createNamedQuery(TempPassword.FIND_BY_TOKEN_ID, TempPassword.class)
-				.setParameter("tokenId", tokenId).getSingleResult();
+        try {
+            TempPassword result = getEm()
+                    .createNamedQuery(TempPassword.FIND_BY_TOKEN_ID, TempPassword.class)
+                    .setParameter("tokenId", tokenId)
+                    .getSingleResult();
 
-			return Optional.of(result);
+            return Optional.of(result);
 
-		} catch (NoResultException e) {
-			return Optional.empty();
-		}
-	}
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
 
 }

@@ -11,20 +11,21 @@ import jakarta.enterprise.event.Event;
  */
 public class LoggableEventDelegate {
 
-	/**
-	 * Erzeugt ein AuthproviderEvent-Objekt und feuert, falls der EventBus zur Verfügung steht.
-	 *
-	 * @param eventPayload AuthproviderEvent
-	 * @param event CDI-Event
-	 */
-	public void fireAuthProviderEvent(final AuthproviderEvent eventPayload, final Event<AuthproviderEvent> event) {
+    /**
+     * Erzeugt ein AuthproviderEvent-Objekt und feuert, falls der EventBus zur
+     * Verfügung steht.
+     *
+     * @param eventPayload AuthproviderEvent
+     * @param event        CDI-Event
+     */
+    public void fireAuthProviderEvent(final AuthproviderEvent eventPayload, final Event<AuthproviderEvent> event) {
 
-		if (event != null) {
+        if (event != null) {
 
-			event.fire(eventPayload);
-		} else {
+            event.fire(eventPayload);
+        } else {
 
-			eventPayload.writeToConsoleQuietly();
-		}
-	}
+            eventPayload.writeToConsoleQuietly();
+        }
+    }
 }

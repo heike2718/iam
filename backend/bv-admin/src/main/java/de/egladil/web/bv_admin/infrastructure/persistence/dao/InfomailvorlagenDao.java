@@ -7,11 +7,12 @@ package de.egladil.web.bv_admin.infrastructure.persistence.dao;
 import java.util.Date;
 import java.util.List;
 
-import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterInfomailText;
-import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+
+import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterInfomailText;
+import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterInfomailTextReadOnly;
 
 /**
  * InfomailvorlagenDao
@@ -19,62 +20,64 @@ import jakarta.persistence.EntityManager;
 @RequestScoped
 public class InfomailvorlagenDao {
 
-	@Inject
-	EntityManager entityManager;
+    @Inject
+    EntityManager entityManager;
 
-	/**
-	 * Läd alle InfomailsTexte
-	 *
-	 * @return
-	 */
-	public List<PersistenterInfomailTextReadOnly> loadInfomailTexte() {
+    /**
+     * Läd alle InfomailsTexte
+     *
+     * @return
+     */
+    public List<PersistenterInfomailTextReadOnly> loadInfomailTexte() {
 
-		return entityManager.createNamedQuery(PersistenterInfomailTextReadOnly.LOAD_ALL, PersistenterInfomailTextReadOnly.class)
-			.getResultList();
-	}
+        return entityManager
+                .createNamedQuery(PersistenterInfomailTextReadOnly.LOAD_ALL, PersistenterInfomailTextReadOnly.class)
+                .getResultList();
+    }
 
-	/**
-	 * Gibt den PersistenterInfomailTextReadOnly zur gegebenen uuid zurück oder null.
-	 *
-	 * @param uuid String
-	 * @return PersistenterInfomailTextReadOnly oder null
-	 */
-	public PersistenterInfomailTextReadOnly findInfomailtextReadOnlyByID(final String uuid) {
+    /**
+     * Gibt den PersistenterInfomailTextReadOnly zur gegebenen uuid zurück oder
+     * null.
+     *
+     * @param uuid String
+     * @return PersistenterInfomailTextReadOnly oder null
+     */
+    public PersistenterInfomailTextReadOnly findInfomailtextReadOnlyByID(final String uuid) {
 
-		return entityManager.find(PersistenterInfomailTextReadOnly.class, uuid);
-	}
+        return entityManager.find(PersistenterInfomailTextReadOnly.class, uuid);
+    }
 
-	/**
-	 * Gibt den PersistenterInfomailText zur gegebenen uuid zurück oder null.
-	 *
-	 * @param uuid String
-	 * @return PersistenterInfomailText oder null
-	 */
-	public PersistenterInfomailText findInfomailtextByID(final String uuid) {
+    /**
+     * Gibt den PersistenterInfomailText zur gegebenen uuid zurück oder null.
+     *
+     * @param uuid String
+     * @return PersistenterInfomailText oder null
+     */
+    public PersistenterInfomailText findInfomailtextByID(final String uuid) {
 
-		return entityManager.find(PersistenterInfomailText.class, uuid);
-	}
+        return entityManager.find(PersistenterInfomailText.class, uuid);
+    }
 
-	/**
-	 * Speichert den gegebenen Infomailtext
-	 *
-	 * @param persistenterInfomailText
-	 * @return String die uuid
-	 */
-	public String saveInfomailText(final PersistenterInfomailText persistenterInfomailText) {
+    /**
+     * Speichert den gegebenen Infomailtext
+     *
+     * @param persistenterInfomailText
+     * @return String die uuid
+     */
+    public String saveInfomailText(final PersistenterInfomailText persistenterInfomailText) {
 
-		persistenterInfomailText.setGeaendertAm(new Date());
+        persistenterInfomailText.setGeaendertAm(new Date());
 
-		if (persistenterInfomailText.getUuid() != null) {
+        if (persistenterInfomailText.getUuid() != null) {
 
-			entityManager.merge(persistenterInfomailText);
+            entityManager.merge(persistenterInfomailText);
 
-		} else {
+        } else {
 
-			entityManager.persist(persistenterInfomailText);
-		}
+            entityManager.persist(persistenterInfomailText);
+        }
 
-		return persistenterInfomailText.getUuid();
-	}
+        return persistenterInfomailText.getUuid();
+    }
 
 }

@@ -8,6 +8,9 @@ package de.egladil.web.authprovider.service;
 import java.util.Optional;
 import java.util.UUID;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
 import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.auth_code_store.OAuthFlowType;
@@ -22,58 +25,57 @@ import de.egladil.web.authprovider.payload.ClientCredentials;
 import de.egladil.web.authprovider.payload.JWTPayload;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseDataBuilder;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 /**
- * AuthJWTService produziert ein JWT und hält es zum Abholen mit einem auth-token im Heap.
+ * AuthJWTService produziert ein JWT und hält es zum Abholen mit einem
+ * auth-token im Heap.
  */
 @ApplicationScoped
 public class AuthJWTService {
 
-	@Inject
-	ClientService clientService;
+    @Inject
+    ClientService clientService;
 
-	@Inject
-	JWTService jwtService;
+    @Inject
+    JWTService jwtService;
 
-	@Inject
-	OneTimeTokenJwtRepository oneTimeTokenJwtRepository;
+    @Inject
+    OneTimeTokenJwtRepository oneTimeTokenJwtRepository;
 
-	/**
-	 * Erzeugt eine Instanz von AuthproviderSessionService
-	 */
-	public AuthJWTService() {
+    /**
+     * Erzeugt eine Instanz von AuthproviderSessionService
+     */
+    public AuthJWTService() {
 
-	}
+    }
 
-	/**
-	 * Erzeugt eine Instanz von AuthproviderSessionService zu Testzewecken ohne CDI.
-	 */
-	public AuthJWTService(final ClientService clientService, final JWTService jwtService) {
+    /**
+     * Erzeugt eine Instanz von AuthproviderSessionService zu Testzewecken ohne CDI.
+     */
+    public AuthJWTService(final ClientService clientService, final JWTService jwtService) {
 
-		this.clientService = clientService;
-		this.jwtService = jwtService;
-	}
+        this.clientService = clientService;
+        this.jwtService = jwtService;
+    }
 
-	/**
-	 * Erzeugt ein JWT. Der Vor-und Nachname wird nur für Clients verpackt, die diesen benötigen, sofern der
-	 * ResourceOwner einen hat.
-	 *
-	 * @param resourceOwner
-	 * @param client
-	 * @return String
-	 */
-	public SignUpLogInResponseData createAuthorization(final ResourceOwner resourceOwner, final ClientCredentials clientCredentials,
-		final String nonce) {
+    /**
+     * Erzeugt ein JWT. Der Vor-und Nachname wird nur für Clients verpackt, die
+     * diesen benötigen, sofern der ResourceOwner einen hat.
+     *
+     * @param resourceOwner
+     * @param client
+     * @return String
+     */
+    public SignUpLogInResponseData createAuthorization(final ResourceOwner resourceOwner,
+            final ClientCredentials clientCredentials, final String nonce) {
 
-		try {
+        try {
 
-			Client client = clientService.findAndCheckClient(clientCredentials);
+            Client client = clientService.findAndCheckClient(clientCredentials);
 
-			JWTPayload jwt = jwtService.createJWT(resourceOwner, client);
+            JWTPayload jwt = jwtService.createJWT(resourceOwner, client);
 
-		// @formatter:off
+        // @formatter:off
 		return SignUpLogInResponseDataBuilder.instance()
 			.withIdToken(jwt.getJwt())
 			.withState(clientCredentials.getState())
@@ -81,36 +83,38 @@ public class AuthJWTService {
 			.build();
 		// @formatter:on
 
-		} catch (ClientAccessTokenNotFoundException e) {
+        } catch (ClientAccessTokenNotFoundException e) {
 
-			throw new AuthRuntimeException("ClientAccessToken mit accessToken='" + clientCredentials.getAccessToken()
-				+ "' müsste an diesere Stelle vorhanden sein");
-		}
+            throw new AuthRuntimeException("ClientAccessToken mit accessToken='" + clientCredentials.getAccessToken()
+                    + "' müsste an diesere Stelle vorhanden sein");
+        }
 
-	}
+    }
 
-	/**
-	 * Erzeugt ein JWT mit uuid und email des ResourceOwners und hinterlegt sie mit einer UUID im OneTimeTokenJwtRepo.
-	 *
-	 * @param resourceOwner
-	 * @param clientCredentials
-	 * @param nonce
-	 * @return SignUpLogInResponseData
-	 */
-	public SignUpLogInResponseData createAndStoreAuthorization(final ResourceOwner resourceOwner,
-		final ClientCredentials clientCredentials, final String nonce) {
+    /**
+     * Erzeugt ein JWT mit uuid und email des ResourceOwners und hinterlegt sie mit
+     * einer UUID im OneTimeTokenJwtRepo.
+     *
+     * @param resourceOwner
+     * @param clientCredentials
+     * @param nonce
+     * @return SignUpLogInResponseData
+     */
+    public SignUpLogInResponseData createAndStoreAuthorization(final ResourceOwner resourceOwner,
+            final ClientCredentials clientCredentials, final String nonce) {
 
-		try {
+        try {
 
-			Client client = clientService.findAndCheckClient(clientCredentials);
+            Client client = clientService.findAndCheckClient(clientCredentials);
 
-			JWTPayload jwt = jwtService.createJWTWithEmail(resourceOwner, client);
+            JWTPayload jwt = jwtService.createJWTWithEmail(resourceOwner, client);
 
-			String oneTimeToken = UUID.randomUUID().toString();
-			OneTimeTokenJwtData oneTimeTokenData = new OneTimeTokenJwtData(oneTimeToken, client.getClientId(), jwt.getJwt());
-			oneTimeTokenJwtRepository.addToken(oneTimeTokenData);
+            String oneTimeToken = UUID.randomUUID().toString();
+            OneTimeTokenJwtData oneTimeTokenData = new OneTimeTokenJwtData(oneTimeToken, client.getClientId(),
+                    jwt.getJwt());
+            oneTimeTokenJwtRepository.addToken(oneTimeTokenData);
 
-		// @formatter:off
+        // @formatter:off
 		return SignUpLogInResponseDataBuilder.instance()
 			.withIdToken(oneTimeToken)
 			.withState(clientCredentials.getState())
@@ -119,46 +123,46 @@ public class AuthJWTService {
 			.build();
 		// @formatter:on
 
-		} catch (ClientAccessTokenNotFoundException e) {
+        } catch (ClientAccessTokenNotFoundException e) {
 
-			throw new AuthRuntimeException("ClientAccessToken mit accessToken='" + clientCredentials.getAccessToken()
-				+ "' müsste an diesere Stelle vorhanden sein");
-		}
-	}
+            throw new AuthRuntimeException("ClientAccessToken mit accessToken='" + clientCredentials.getAccessToken()
+                    + "' müsste an diesere Stelle vorhanden sein");
+        }
+    }
 
-	/**
-	 * Tauscht das oneTimeToken gegen das JWT.
-	 *
-	 * @param oneTimeToken
-	 * @param client Client
-	 * @return String nicht null, das JWT
-	 */
-	public String exchangeTheOneTimeToken(final String oneTimeToken, final Client client)
-		throws AuthRuntimeException, SecurityException {
+    /**
+     * Tauscht das oneTimeToken gegen das JWT.
+     *
+     * @param oneTimeToken
+     * @param client       Client
+     * @return String nicht null, das JWT
+     */
+    public String exchangeTheOneTimeToken(final String oneTimeToken, final Client client)
+            throws AuthRuntimeException, SecurityException {
 
-		Optional<OneTimeTokenJwtData> optData = oneTimeTokenJwtRepository.getAndRemoveWithOneTimeToken(oneTimeToken);
+        Optional<OneTimeTokenJwtData> optData = oneTimeTokenJwtRepository.getAndRemoveWithOneTimeToken(oneTimeToken);
 
-		if (optData.isPresent()) {
+        if (optData.isPresent()) {
 
-			OneTimeTokenJwtData data = optData.get();
+            OneTimeTokenJwtData data = optData.get();
 
-			if (!client.getClientId().equals(data.clientId())) {
+            if (!client.getClientId().equals(data.clientId())) {
 
-				String message = "[exchangeTheOneTimeToken]: data.clientId stimmt nicht: expected="
-					+ StringUtils.abbreviate(client.getClientId(), 11) + ", actual=" + data.clientId();
+                String message = "[exchangeTheOneTimeToken]: data.clientId stimmt nicht: expected="
+                        + StringUtils.abbreviate(client.getClientId(), 11) + ", actual=" + data.clientId();
 
-				throw new SecurityException(message);
-			}
+                throw new SecurityException(message);
+            }
 
-			return data.jwt();
-		}
+            return data.jwt();
+        }
 
-		String message = "[exchangeTheOneTimeToken]: Unbekanntes one time token oder weiterer Zugriffsversuch auf die OneTimeTokenJwtData: clientId="
-			+ StringUtils.abbreviate(client.getClientId(), 11);
+        String message = "[exchangeTheOneTimeToken]: Unbekanntes one time token oder weiterer Zugriffsversuch auf die OneTimeTokenJwtData: clientId="
+                + StringUtils.abbreviate(client.getClientId(), 11);
 
-		throw new SecurityException(message);
+        throw new SecurityException(message);
 
-		// return "fake-token-for-testing-purposes";
-	}
+        // return "fake-token-for-testing-purposes";
+    }
 
 }

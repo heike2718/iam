@@ -6,66 +6,68 @@ package de.egladil.web.authprovider.payload;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotNull;
+
 import de.egladil.web.auth_validations.annotations.UuidString;
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * UuidPayloadList
  */
 public class UuidPayloadList {
 
-	@UuidString
-	private String adminUUID;
+    @UuidString
+    private String adminUUID;
 
-	@NotNull
-	private OAuthClientCredentials clientCredentials;
+    @NotNull
+    private OAuthClientCredentials clientCredentials;
 
-	private List<String> uuids;
+    private List<String> uuids;
 
-	public static UuidPayloadList createDefaultPayload(final OAuthClientCredentials clientCredentials, final List<String> uuids) {
+    public static UuidPayloadList createDefaultPayload(final OAuthClientCredentials clientCredentials,
+            final List<String> uuids) {
 
-		UuidPayloadList result = new UuidPayloadList();
-		result.clientCredentials = clientCredentials;
-		result.uuids = uuids;
-		return result;
-	}
+        UuidPayloadList result = new UuidPayloadList();
+        result.clientCredentials = clientCredentials;
+        result.uuids = uuids;
+        return result;
+    }
 
-	public static UuidPayloadList createAdminPayload(final String adminUUID, final OAuthClientCredentials clientCredentials,
-		final List<String> uuids) {
+    public static UuidPayloadList createAdminPayload(final String adminUUID,
+            final OAuthClientCredentials clientCredentials, final List<String> uuids) {
 
-		UuidPayloadList result = new UuidPayloadList();
-		result.adminUUID = adminUUID;
-		result.clientCredentials = clientCredentials;
-		result.uuids = uuids;
-		return result;
-	}
+        UuidPayloadList result = new UuidPayloadList();
+        result.adminUUID = adminUUID;
+        result.clientCredentials = clientCredentials;
+        result.uuids = uuids;
+        return result;
+    }
 
-	/**
-	 *
-	 */
-	public UuidPayloadList() {
+    /**
+     *
+     */
+    public UuidPayloadList() {
 
-	}
+    }
 
-	public List<String> getUuids() {
+    public List<String> getUuids() {
 
-		return uuids;
-	}
+        return uuids;
+    }
 
-	public void setUuids(final List<String> uuids) {
+    public void setUuids(final List<String> uuids) {
 
-		this.uuids = uuids;
-	}
+        this.uuids = uuids;
+    }
 
-	public String getAdminUUID() {
+    public String getAdminUUID() {
 
-		return adminUUID;
-	}
+        return adminUUID;
+    }
 
-	public OAuthClientCredentials getClientCredentials() {
+    public OAuthClientCredentials getClientCredentials() {
 
-		return clientCredentials;
-	}
+        return clientCredentials;
+    }
 
 }

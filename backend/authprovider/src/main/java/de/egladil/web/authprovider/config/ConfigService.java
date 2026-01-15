@@ -15,19 +15,19 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @Deprecated
 public class ConfigService {
 
-	@ConfigProperty(name = "block.on.missing.origin.referer", defaultValue = "false")
-	boolean blockOnMissingOriginReferer;
+    @ConfigProperty(name = "block.on.missing.origin.referer", defaultValue = "false")
+    boolean blockOnMissingOriginReferer;
 
-	@ConfigProperty(name = "target.origin")
-	String targetOrigin;
+    @ConfigProperty(name = "target.origin")
+    String targetOrigin;
 
-	public boolean isBlockOnMissingOriginReferer() {
+    public boolean isBlockOnMissingOriginReferer() {
 
-		return blockOnMissingOriginReferer;
-	}
+        return blockOnMissingOriginReferer;
+    }
 
-	public String getTargetOrigin() {
+    public String getTargetOrigin() {
 
-		return targetOrigin;
-	}
+        return targetOrigin;
+    }
 }

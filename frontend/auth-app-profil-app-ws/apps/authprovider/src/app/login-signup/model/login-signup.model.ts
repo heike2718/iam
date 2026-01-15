@@ -1,5 +1,5 @@
 import { ZweiPassworte } from "@ap-ws/common-model";
-import { ClientCredentials, TwoPasswords } from "@authprovider/model";
+import { ClientCredentials, TwoPasswords } from '../../model/auth.model';
 
 export interface SignUpFormModel {
     email: string;

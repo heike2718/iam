@@ -4,66 +4,67 @@
 // =====================================================
 package de.egladil.web.authprovider.payload;
 
-import de.egladil.web.auth_validations.annotations.UuidString;
-import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
+import de.egladil.web.auth_validations.annotations.UuidString;
+import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 
 /**
  * UserQueryParametersPayload
  */
 public class UserQueryParametersPayload {
 
-	@UuidString
-	private String adminUUID;
+    @UuidString
+    private String adminUUID;
 
-	@NotNull
-	private OAuthClientCredentials clientCredentials;
+    @NotNull
+    private OAuthClientCredentials clientCredentials;
 
-	@NotNull
-	private BenutzerSuchmodus parameterTyp;
+    @NotNull
+    private BenutzerSuchmodus parameterTyp;
 
-	@NotBlank
-	private String query;
+    @NotBlank
+    private String query;
 
-	public String getAdminUUID() {
+    public String getAdminUUID() {
 
-		return adminUUID;
-	}
+        return adminUUID;
+    }
 
-	public void setAdminUUID(final String adminUUID) {
+    public void setAdminUUID(final String adminUUID) {
 
-		this.adminUUID = adminUUID;
-	}
+        this.adminUUID = adminUUID;
+    }
 
-	public OAuthClientCredentials getClientCredentials() {
+    public OAuthClientCredentials getClientCredentials() {
 
-		return clientCredentials;
-	}
+        return clientCredentials;
+    }
 
-	public void setClientCredentials(final OAuthClientCredentials clientCredentials) {
+    public void setClientCredentials(final OAuthClientCredentials clientCredentials) {
 
-		this.clientCredentials = clientCredentials;
-	}
+        this.clientCredentials = clientCredentials;
+    }
 
-	public BenutzerSuchmodus getParameterTyp() {
+    public BenutzerSuchmodus getParameterTyp() {
 
-		return parameterTyp;
-	}
+        return parameterTyp;
+    }
 
-	public void setParameterTyp(final BenutzerSuchmodus parameterTyp) {
+    public void setParameterTyp(final BenutzerSuchmodus parameterTyp) {
 
-		this.parameterTyp = parameterTyp;
-	}
+        this.parameterTyp = parameterTyp;
+    }
 
-	public String getQuery() {
+    public String getQuery() {
 
-		return query;
-	}
+        return query;
+    }
 
-	public void setQuery(final String query) {
+    public void setQuery(final String query) {
 
-		this.query = query;
-	}
+        this.query = query;
+    }
 
 }

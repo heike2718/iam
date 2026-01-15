@@ -7,26 +7,27 @@ package de.egladil.web.authprovider.validation;
 
 import java.io.Serializable;
 
-import de.egladil.web.auth_validations.annotations.LoginName;
 import jakarta.validation.constraints.Size;
+
+import de.egladil.web.auth_validations.annotations.LoginName;
 
 /**
  * AdminSuchePayload kapselt die Whitelist für Suchen in MKV-Admin.
  */
 public class AdminSuchePayload implements Serializable {
 
-	/* serialVersionUID */
-	private static final long serialVersionUID = 1L;
+    /* serialVersionUID */
+    private static final long serialVersionUID = 1L;
 
-	@LoginName
-	@Size(max = 100)
-	private final String code;
+    @LoginName
+    @Size(max = 100)
+    private final String code;
 
-	/**
-	 * Erzeugt eine Instanz von AdminSuchePayload
-	 */
-	public AdminSuchePayload(final String code) {
+    /**
+     * Erzeugt eine Instanz von AdminSuchePayload
+     */
+    public AdminSuchePayload(final String code) {
 
-		this.code = code;
-	}
+        this.code = code;
+    }
 }

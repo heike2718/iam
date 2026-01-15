@@ -9,28 +9,28 @@ package de.egladil.web.bv_admin.domain.events;
  */
 public class UserDeletedEvent extends AbstractAuthAdminEvent {
 
-	public UserDeletedEvent(final AuthAdminEventPayload eventPayload) {
+    public UserDeletedEvent(final AuthAdminEventPayload eventPayload) {
 
-		super(eventPayload);
+        super(eventPayload);
 
-	}
+    }
 
-	@Override
-	public boolean writeToEventStore() {
+    @Override
+    public boolean writeToEventStore() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean propagateToListeners() {
+    @Override
+    public boolean propagateToListeners() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public EventType eventType() {
+    @Override
+    public EventType eventType() {
 
-		return EventType.USER_DELETED;
-	}
+        return EventType.USER_DELETED;
+    }
 
 }

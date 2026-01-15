@@ -13,30 +13,31 @@ import java.util.List;
  */
 public interface EmailDaten {
 
-	/**
-	 * Mail an einen einzelnen Empfänger.
-	 *
-	 * @return String die Zielmailadresse
-	 */
-	String getEmpfaenger();
+    /**
+     * Mail an einen einzelnen Empfänger.
+     *
+     * @return String die Zielmailadresse
+     */
+    String getEmpfaenger();
 
-	/**
-	 * @return String den Betreff
-	 */
-	String getBetreff();
+    /**
+     * @return String den Betreff
+     */
+    String getBetreff();
 
-	/**
-	 * @return String den Text (Body)
-	 */
-	String getText();
+    /**
+     * @return String den Text (Body)
+     */
+    String getText();
 
-	/**
-	 * @return Collection von weiteren Empfängern, an die die Mail als BCC, also hidden, versendet wird.
-	 */
-	Collection<String> getHiddenEmpfaenger();
+    /**
+     * @return Collection von weiteren Empfängern, an die die Mail als BCC, also
+     *         hidden, versendet wird.
+     */
+    Collection<String> getHiddenEmpfaenger();
 
-	/**
-	 * @return List vollständige Empfängerliste.
-	 */
-	List<String> alleEmpfaengerFuersLog();
+    /**
+     * @return List vollständige Empfängerliste.
+     */
+    List<String> alleEmpfaengerFuersLog();
 }

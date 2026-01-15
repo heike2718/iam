@@ -7,18 +7,20 @@ package de.egladil.web.bv_admin.infrastructure.persistence.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.bv_admin.domain.benutzer.BenutzerSuchparameter;
 import de.egladil.web.bv_admin.domain.benutzer.UsersSortColumn;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterUser;
 import de.egladil.web.bv_admin.infrastructure.persistence.entities.PersistenterUserReadOnly;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 
 /**
  * BenutzerDao
@@ -26,209 +28,213 @@ import jakarta.persistence.Query;
 @RequestScoped
 public class BenutzerDao {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BenutzerDao.class);
 
-	@Inject
-	EntityManager entityManager;
+    @Inject
+    EntityManager entityManager;
 
-	/**
-	 * Zählt alle Treffer.
-	 *
-	 * @param userSerachDto
-	 * @return
-	 */
-	public int countTreffer(final BenutzerSuchparameter userSerachDto) {
+    /**
+     * Zählt alle Treffer.
+     *
+     * @param userSerachDto
+     * @return
+     */
+    public int countTreffer(final BenutzerSuchparameter userSerachDto) {
+
+        String stmt = "SELECT count(*) from VW_USERS_SUCHE u ";
+
+        Query query = createQueryAndReplaceSuchparameter(stmt, userSerachDto, Long.class, true);
 
-		String stmt = "SELECT count(*) from VW_USERS_SUCHE u ";
+        @SuppressWarnings("unchecked")
+        List<Long> trefferliste = query.getResultList();
 
-		Query query = createQueryAndReplaceSuchparameter(stmt, userSerachDto, Long.class, true);
+        return trefferliste.get(0).intValue();
+    }
 
-		@SuppressWarnings("unchecked")
-		List<Long> trefferliste = query.getResultList();
+    /**
+     * Gibt den Teil der Treffer zurück, der mittels pagination-Parameter abgefragt
+     * wurde. Dabei werden alle user mit einer ADMIN-Rolle ausgeschlossen. Wenn
+     * diese mal tatsächlich deaktiviert werden müssen, dann eben auf dem Server in
+     * der DB.
+     *
+     * @param benutzerSuchparameter
+     * @return List von PersistenterUserReadOnly
+     */
+    @SuppressWarnings("unchecked")
+    public List<PersistenterUserReadOnly> findUsers(final BenutzerSuchparameter benutzerSuchparameter) {
 
-		return trefferliste.get(0).intValue();
-	}
+        String stmt = "SELECT u.ID, u.UUID, u.VORNAME, u.NACHNAME, u.EMAIL, u.AKTIVIERT, u.ROLLEN, u.DATE_MODIFIED_STRING, u.CRYPTO_ALGORITHM, u.ANZAHL_LOGINS, u.BANNED_FOR_MAILS, u.PERMANENT, u.SLZ_ID from VW_USERS_SUCHE u ";
 
-	/**
-	 * Gibt den Teil der Treffer zurück, der mittels pagination-Parameter abgefragt wurde. Dabei werden alle user mit
-	 * einer ADMIN-Rolle ausgeschlossen. Wenn diese mal tatsächlich deaktiviert werden müssen, dann eben auf dem Server
-	 * in der DB.
-	 *
-	 * @param benutzerSuchparameter
-	 * @return List von PersistenterUserReadOnly
-	 */
-	@SuppressWarnings("unchecked")
-	public List<PersistenterUserReadOnly> findUsers(final BenutzerSuchparameter benutzerSuchparameter) {
+        int offset = benutzerSuchparameter.getPageIndex() * benutzerSuchparameter.getPageSize();
 
-		String stmt = "SELECT u.ID, u.UUID, u.VORNAME, u.NACHNAME, u.EMAIL, u.AKTIVIERT, u.ROLLEN, u.DATE_MODIFIED_STRING, u.CRYPTO_ALGORITHM, u.ANZAHL_LOGINS, u.BANNED_FOR_MAILS, u.PERMANENT, u.SLZ_ID from VW_USERS_SUCHE u ";
+        Query query = createQueryAndReplaceSuchparameter(stmt, benutzerSuchparameter, PersistenterUserReadOnly.class,
+                false).setFirstResult(offset).setMaxResults(benutzerSuchparameter.getPageSize());
 
-		int offset = benutzerSuchparameter.getPageIndex() * benutzerSuchparameter.getPageSize();
+        List<PersistenterUserReadOnly> resultList = query.getResultList();
+        return resultList;
+    }
 
-		Query query = createQueryAndReplaceSuchparameter(stmt, benutzerSuchparameter, PersistenterUserReadOnly.class, false)
-			.setFirstResult(offset).setMaxResults(benutzerSuchparameter.getPageSize());
+    /**
+     * @param uuid String der unique key (fachlicher Schlüssel)
+     * @return PersistenterUserReadOnly oder null
+     */
+    public PersistenterUserReadOnly findUserReadonlyByUUID(final String uuid) {
 
-		List<PersistenterUserReadOnly> resultList = query.getResultList();
-		return resultList;
-	}
+        List<PersistenterUserReadOnly> trefferliste = entityManager
+                .createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID, PersistenterUserReadOnly.class)
+                .setParameter("uuid", uuid)
+                .getResultList();
 
-	/**
-	 * @param uuid String der unique key (fachlicher Schlüssel)
-	 * @return PersistenterUserReadOnly oder null
-	 */
-	public PersistenterUserReadOnly findUserReadonlyByUUID(final String uuid) {
+        return trefferliste.isEmpty() ? null : trefferliste.get(0);
 
-		List<PersistenterUserReadOnly> trefferliste = entityManager
-			.createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID, PersistenterUserReadOnly.class).setParameter("uuid", uuid)
-			.getResultList();
+    }
 
-		return trefferliste.isEmpty() ? null : trefferliste.get(0);
+    /**
+     * @param uuid String der unique key (fachlicher Schlüssel)
+     * @return PersistenterUser oder null
+     */
+    public PersistenterUser findUserByUUID(final String uuid) {
 
-	}
+        List<PersistenterUser> trefferliste = entityManager
+                .createNamedQuery(PersistenterUser.FIND_BY_UUID, PersistenterUser.class)
+                .setParameter("uuid", uuid)
+                .getResultList();
 
-	/**
-	 * @param uuid String der unique key (fachlicher Schlüssel)
-	 * @return PersistenterUser oder null
-	 */
-	public PersistenterUser findUserByUUID(final String uuid) {
+        return trefferliste.isEmpty() ? null : trefferliste.get(0);
 
-		List<PersistenterUser> trefferliste = entityManager.createNamedQuery(PersistenterUser.FIND_BY_UUID, PersistenterUser.class)
-			.setParameter("uuid", uuid).getResultList();
+    }
 
-		return trefferliste.isEmpty() ? null : trefferliste.get(0);
+    /**
+     * @param uuid String der unique key (fachlicher Schlüssel)
+     * @return PersistenterUser oder null
+     */
+    public List<PersistenterUserReadOnly> findUsersByUUIDList(final List<String> uuids) {
 
-	}
+        List<PersistenterUserReadOnly> trefferliste = entityManager
+                .createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID_LIST, PersistenterUserReadOnly.class)
+                .setParameter("uuids", uuids)
+                .getResultList();
 
-	/**
-	 * @param uuid String der unique key (fachlicher Schlüssel)
-	 * @return PersistenterUser oder null
-	 */
-	public List<PersistenterUserReadOnly> findUsersByUUIDList(final List<String> uuids) {
+        return trefferliste;
 
-		List<PersistenterUserReadOnly> trefferliste = entityManager
-			.createNamedQuery(PersistenterUserReadOnly.FIND_BY_UUID_LIST,
-				PersistenterUserReadOnly.class)
-			.setParameter("uuids", uuids).getResultList();
+    }
 
-		return trefferliste;
+    /**
+     * Speichert einen vorhandenen user.
+     *
+     * @param user PersistenterUser
+     */
+    public void updateUser(final PersistenterUser user) {
 
-	}
+        this.entityManager.merge(user);
+    }
 
-	/**
-	 * Speichert einen vorhandenen user.
-	 *
-	 * @param user PersistenterUser
-	 */
-	public void updateUser(final PersistenterUser user) {
+    /**
+     * Löscht den user hoffentlich mitsamt seinem Objektgraph.
+     *
+     * @param user PersistenterUser
+     */
+    public void deleteUser(PersistenterUser user) {
+        this.entityManager.remove(user);
+    }
 
-		this.entityManager.merge(user);
-	}
+    @SuppressWarnings("rawtypes")
+    Query createQueryAndReplaceSuchparameter(final String stmt, final BenutzerSuchparameter userSearchDto,
+            final Class clazz, final boolean forCount) {
 
-	/**
-	 * Löscht den user hoffentlich mitsamt seinem Objektgraph.
-	 *
-	 * @param user PersistenterUser
-	 */
-	public void deleteUser(PersistenterUser user) {
-		this.entityManager.remove(user);
-	}
+        List<String> conditions = new ArrayList<>();
 
-	@SuppressWarnings("rawtypes")
-	Query createQueryAndReplaceSuchparameter(final String stmt, final BenutzerSuchparameter userSearchDto, final Class clazz,
-		final boolean forCount) {
+        if (StringUtils.isNotBlank(userSearchDto.getUuid())) {
 
-		List<String> conditions = new ArrayList<>();
+            conditions.add("u.UUID like :uuid");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getUuid())) {
+        if (StringUtils.isNotBlank(userSearchDto.getEmail())) {
 
-			conditions.add("u.UUID like :uuid");
-		}
+            conditions.add("u.EMAIL like :email");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getEmail())) {
+        if (StringUtils.isNotBlank(userSearchDto.getVorname())) {
 
-			conditions.add("u.EMAIL like :email");
-		}
+            conditions.add("u.VORNAME like :vorname");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getVorname())) {
+        if (StringUtils.isNotBlank(userSearchDto.getNachname())) {
 
-			conditions.add("u.VORNAME like :vorname");
-		}
+            conditions.add("u.NACHNAME like :nachname");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getNachname())) {
+        if (StringUtils.isNotBlank(userSearchDto.getRolle())) {
 
-			conditions.add("u.NACHNAME like :nachname");
-		}
+            conditions.add("u.ROLLEN like :rollen");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getRolle())) {
+        if (StringUtils.isNotBlank(userSearchDto.getAenderungsdatum())) {
 
-			conditions.add("u.ROLLEN like :rollen");
-		}
+            conditions.add("u.DATE_MODIFIED_STRING like :aenderungsdatum");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getAenderungsdatum())) {
+        if (conditions.isEmpty()) {
 
-			conditions.add("u.DATE_MODIFIED_STRING like :aenderungsdatum");
-		}
+            return entityManager.createNativeQuery(stmt, clazz);
+        }
 
-		if (conditions.isEmpty()) {
+        String joined = stmt + " where " + StringUtils.join(conditions, " and ");
 
-			return entityManager.createNativeQuery(stmt, clazz);
-		}
+        if (!forCount) {
 
-		String joined = stmt + " where " + StringUtils.join(conditions, " and ");
+            if (StringUtils.isNotBlank(userSearchDto.getSortByLabelname())) {
 
-		if (!forCount) {
+                UsersSortColumn userSortColumn = UsersSortColumn.valueOfLabel(userSearchDto.getSortByLabelname());
+                String dbFieldName = userSortColumn.toString();
 
-			if (StringUtils.isNotBlank(userSearchDto.getSortByLabelname())) {
+                String sortDirection = userSearchDto.getSortDirection() == null ? "asc"
+                        : userSearchDto.getSortDirection().toString();
 
-				UsersSortColumn userSortColumn = UsersSortColumn.valueOfLabel(userSearchDto.getSortByLabelname());
-				String dbFieldName = userSortColumn.toString();
+                joined += " ORDER BY u." + dbFieldName + " " + sortDirection + ", u.ID";
+            } else {
 
-				String sortDirection = userSearchDto.getSortDirection() == null ? "asc"
-					: userSearchDto.getSortDirection().toString();
+                joined += " ORDER BY u.ID";
+            }
 
-				joined += " ORDER BY u." + dbFieldName + " " + sortDirection + ", u.ID";
-			} else {
+        }
 
-				joined += " ORDER BY u.ID";
-			}
+        Query query = entityManager.createNativeQuery(joined, clazz);
 
-		}
+        LOGGER.debug(joined);
 
-		Query query = entityManager.createNativeQuery(joined, clazz);
+        if (StringUtils.isNotBlank(userSearchDto.getUuid())) {
 
-		LOGGER.debug(joined);
+            query.setParameter("uuid", "%" + userSearchDto.getUuid() + "%");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getUuid())) {
+        if (StringUtils.isNotBlank(userSearchDto.getEmail())) {
 
-			query.setParameter("uuid", "%" + userSearchDto.getUuid() + "%");
-		}
+            query.setParameter("email", "%" + userSearchDto.getEmail() + "%");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getEmail())) {
+        if (StringUtils.isNotBlank(userSearchDto.getVorname())) {
 
-			query.setParameter("email", "%" + userSearchDto.getEmail() + "%");
-		}
+            query.setParameter("vorname", "%" + userSearchDto.getVorname() + "%");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getVorname())) {
+        if (StringUtils.isNotBlank(userSearchDto.getNachname())) {
 
-			query.setParameter("vorname", "%" + userSearchDto.getVorname() + "%");
-		}
+            query.setParameter("nachname", "%" + userSearchDto.getNachname() + "%");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getNachname())) {
+        if (StringUtils.isNotBlank(userSearchDto.getRolle())) {
 
-			query.setParameter("nachname", "%" + userSearchDto.getNachname() + "%");
-		}
+            query.setParameter("rollen", "%" + userSearchDto.getRolle() + "%");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getRolle())) {
+        if (StringUtils.isNotBlank(userSearchDto.getAenderungsdatum())) {
 
-			query.setParameter("rollen", "%" + userSearchDto.getRolle() + "%");
-		}
+            query.setParameter("aenderungsdatum", "%" + userSearchDto.getAenderungsdatum() + "%");
+        }
 
-		if (StringUtils.isNotBlank(userSearchDto.getAenderungsdatum())) {
+        return query;
 
-			query.setParameter("aenderungsdatum", "%" + userSearchDto.getAenderungsdatum() + "%");
-		}
-
-		return query;
-
-	}
+    }
 
 }
