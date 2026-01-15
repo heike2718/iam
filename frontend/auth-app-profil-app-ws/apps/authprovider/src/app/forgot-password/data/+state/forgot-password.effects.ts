@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ForgotPasswordHttpService } from "../forgot-password-http.service";
 import { forgotPasswordActions } from "./forgot-password.actions";
 import { map, switchMap } from "rxjs";
-import { TempPasswordResponseDto } from "@authprovider/model";
+import { TempPasswordResponseDto } from '../../../model/auth.model';
 
 
 @Injectable({

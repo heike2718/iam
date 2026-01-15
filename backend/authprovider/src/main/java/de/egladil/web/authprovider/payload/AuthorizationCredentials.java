@@ -30,6 +30,11 @@ public class AuthorizationCredentials {
     private String kleber;
 
     /**
+     * Zeitpunkt von createForm
+     */
+    private long formStartTs;
+
+    /**
      *
      */
     public AuthorizationCredentials() {
@@ -89,5 +94,9 @@ public class AuthorizationCredentials {
 
         return "AuthorizationCredentials [loginName=" + loginName + "]";
     }
+
+	public long getFormStartTs() {
+		return formStartTs;
+	}
 
 }

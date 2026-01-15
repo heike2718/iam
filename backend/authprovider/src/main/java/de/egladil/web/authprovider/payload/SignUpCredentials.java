@@ -66,6 +66,11 @@ public class SignUpCredentials {
     // keine Annotation, damit das geloggt wird!
     private String kleber;
 
+    /**
+     * Zeitpunkt von createForm
+     */
+    private long formStartTs;
+
     public String getEmail() {
 
         return email;
@@ -175,5 +180,9 @@ public class SignUpCredentials {
 
         this.nonce = nonce;
     }
+
+	public long getFormStartTs() {
+		return formStartTs;
+	}
 
 }

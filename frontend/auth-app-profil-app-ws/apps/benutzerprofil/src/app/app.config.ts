@@ -4,20 +4,22 @@ import { appRoutes } from './app.routes';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import { environment } from '../environments/environment';
-import { BenutzerprofilConfiguration } from '@benutzerprofil/configuration';
+import { BenutzerprofilConfiguration } from './configuration/benutzerprofil.configuration';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouterStore } from '@ngrx/router-store';
 import { provideStore } from '@ngrx/store';
-import { authDataProvider } from '@benutzerprofil/auth/api';
+import { authDataProvider } from './auth/api/auth-data.provider';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration } from '@angular/common/http';
 import { LoadingInterceptor } from '@ap-ws/messages/api';
 import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
 import { ErrorHandlerService } from '@ap-ws/common-utils';
-import { localStorageReducer, loggedOutMetaReducer, LocalStorageEffects } from '@benutzerprofil/local-storage';
+import { localStorageReducer } from './local-storage-data/+state/local-storage.reducer';
+import { loggedOutMetaReducer } from './local-storage-data/+state/logout-meta-reducer';
+import { LocalStorageEffects } from './local-storage-data/+state/local-storage.effects';
 import { provideEffects } from '@ngrx/effects';
-import { benutzerdatenDataProvider } from '@benutzerprofil/benutzerdaten/api';
-import { passwortDataProvider } from '@benutzerprofil/passwort/api';
-import { AUTH_FEATURE_KEY } from "@benutzerprofil/auth/model";
+import { benutzerdatenDataProvider } from './benutzerdaten/api/benutzerdaten-data.provider';
+import { passwortDataProvider } from './passwort/api/passwort-data.provider';
+import { AUTH_FEATURE_KEY } from './auth/model/auth.model';
 
 
 const localStorageMetaReducer = localStorageReducer(

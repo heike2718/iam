@@ -1,33 +1,28 @@
-import { HttpErrorResponse } from "@angular/common/http";
-import { ErrorHandler, Injectable, Injector } from "@angular/core";
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandler, inject, Injectable, Injector } from '@angular/core';
 import { MessageService } from '@ap-ws/messages/api';
-import { getHttpErrorResponse, extractServerErrorMessage } from '@ap-ws/common-utils'
-
+import { getHttpErrorResponse, extractServerErrorMessage } from './http.utils';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ErrorHandlerService implements ErrorHandler {
-
-    constructor(private injector: Injector) { }
+    private injector = inject(Injector);
 
     handleError(error: NonNullable<unknown>): void {
-
         const messageService = this.injector.get(MessageService);
 
         const httpErrorResponse: HttpErrorResponse | undefined = getHttpErrorResponse(error);
 
         if (httpErrorResponse === undefined) {
-            this.#handleAnyOtherError(error, messageService)
+            this.#handleAnyOtherError(error, messageService);
         } else {
             this.#handleHttpError(httpErrorResponse, messageService);
         }
     }
 
     #handleHttpError(httpErrorResponse: HttpErrorResponse, messageService: MessageService): void {
-
-
-        switch (httpErrorResponse.status) {            
+        switch (httpErrorResponse.status) {
             case 440: {
                 // this.injector.get(AuthFacade).handleSessionExpired();
                 break;
@@ -40,7 +35,7 @@ export class ErrorHandlerService implements ErrorHandler {
                     messageService.error(message.message);
                 }
             }
-        }        
+        }
     }
 
     #handleAnyOtherError(error: unknown, messageService: MessageService): void {

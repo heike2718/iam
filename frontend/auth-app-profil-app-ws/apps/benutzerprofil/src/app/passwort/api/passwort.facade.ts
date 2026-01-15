@@ -2,7 +2,8 @@ import { inject, Injectable } from "@angular/core";
 import { PasswortPayload } from "@ap-ws/common-model";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { fromPasswort, passwortActions } from "@benutzerprofil/passwort/data";
+import { fromPasswort } from '../data/+state/passwort.selectors';
+import { passwortActions } from '../data/+state/passwort.actions';
 
 @Injectable({
     providedIn: 'root'

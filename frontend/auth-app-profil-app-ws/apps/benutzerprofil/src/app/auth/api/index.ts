@@ -1,4 +1,4 @@
-import { authActions } from '@benutzerprofil/auth/data';
+import { authActions } from '../data/+state/auth.actions';
 
 export * from './auth.facade';
 export { authDataProvider } from './auth-data.provider';

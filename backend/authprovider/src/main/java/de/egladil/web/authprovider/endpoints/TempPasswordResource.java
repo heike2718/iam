@@ -36,6 +36,7 @@ import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.payload.TempPasswordV2ResponseDto;
 import de.egladil.web.authprovider.service.temppwd.ChangeTempPasswordService;
 import de.egladil.web.authprovider.service.temppwd.CreateTempPasswordService;
+import de.egladil.web.authprovider.utils.AuthUtils;
 
 /**
  * TempPasswordResource
@@ -82,7 +83,7 @@ public class TempPasswordResource {
 
         String kleber = payload.getKleber();
 
-        if (StringUtils.isNotBlank(kleber)) {
+        if (AuthUtils.isProbablyBOTAttack(kleber, payload.getFormStartTs())) {
 
             BotAttackEventPayload eventPayload = new BotAttackEventPayload()
                     .withPath(uriInfo.getPath())

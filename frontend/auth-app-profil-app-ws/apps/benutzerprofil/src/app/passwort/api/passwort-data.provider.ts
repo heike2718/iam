@@ -1,6 +1,7 @@
 import { provideEffects } from "@ngrx/effects";
 import { provideState } from "@ngrx/store";
-import { PasswortEffects, passwortFeature } from "@benutzerprofil/passwort/data";
+import { PasswortEffects } from '../data/+state/passwort.effects';
+import { passwortFeature } from '../data/+state/passwort.reducer';
 
 export const passwortDataProvider = [
     provideState(passwortFeature),

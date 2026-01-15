@@ -4,16 +4,16 @@ import { appRoutes } from './app.routes';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import { environment } from '../environments/environment';
-import { AuthproviderConfiguration } from '@authprovider/configuration';
+import { AuthproviderConfiguration } from './configuration/authprovider.configuration';
 import { provideStore } from '@ngrx/store';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { forgotPasswordDataProvider } from '@authprovider/forgot-password/api';
+import { forgotPasswordDataProvider } from './forgot-password/api/forgot-password-data.provider';
 import { LoadingInterceptor } from '@ap-ws/messages/api';
 import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
 import { ErrorHandlerService } from '@ap-ws/common-utils';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { changeTempPasswordDataProvider } from '@authprovider/change-temp-password/api';
-import { loginSignupDataProvider } from '@authprovider/login-signup/api';
+import { changeTempPasswordDataProvider } from './change-temp-password/api/change-temp-password-data.provider';
+import { loginSignupDataProvider } from './login-signup/api/login-signup-data.provider';
 
 
 registerLocaleData(LOCALE_ID, 'de');

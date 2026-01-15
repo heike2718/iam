@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { AuthResult, Session } from '@benutzerprofil/auth/model';
+import { AuthResult, Session } from '../../model/auth.model';
 
 export const authActions = createActionGroup({
     source: 'Auth',

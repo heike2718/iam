@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { ResponsePayload } from "@ap-ws/common-model";
-import { ChangeTempPasswordPayload } from "@authprovider/model";
+import { ChangeTempPasswordPayload } from '../../model/auth.model';
 import { Observable } from "rxjs";
 
 

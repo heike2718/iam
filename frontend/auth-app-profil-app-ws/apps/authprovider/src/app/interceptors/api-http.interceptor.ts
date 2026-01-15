@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { AuthproviderConfiguration } from '@authprovider/configuration';
+import { AuthproviderConfiguration } from '../configuration/authprovider.configuration';
 
 
 /**

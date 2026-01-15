@@ -1,9 +1,10 @@
 import { inject, Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { authActions, fromAuth } from "@benutzerprofil/auth/data";
+import { authActions } from '../data/+state/auth.actions';
+import { fromAuth } from '../data/+state/auth.selectors';
 import { Observable, of, switchMap } from "rxjs";
-import { anonymousSession, AuthResult, Session } from "@benutzerprofil/auth/model";
-import { BenutzerdatenFacade } from "@benutzerprofil/benutzerdaten/api";
+import { anonymousSession, AuthResult, Session } from '../model/auth.model';
+import { BenutzerdatenFacade } from '../../benutzerdaten/api/benutzerdaten.facade';
 import { MessageService } from "@ap-ws/messages/api";
 
 @Injectable({

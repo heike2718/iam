@@ -3,7 +3,7 @@
 
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 1.0rem;
+    font-size: 1rem;
 }
 
 html,
@@ -22,7 +22,6 @@ body {
     outline: 1px solid red;
 }
     */
-
 
 a,
 .link {
@@ -50,20 +49,18 @@ h2 {
     padding: 5px;
 }
 
-
 mat-icon .clickable {
     cursor: pointer;
 }
 
-button.mat-mdc-raised-button[color="primary"] .mdc-button__label,
-button.mat-mdc-outlined-button[color="primary"] .mdc-button__label,
-button.mat-mdc-button[color="primary"] .mdc-button__label,
-button.mat-mdc-raised-button[color="primary"] mat-icon,
-button.mat-mdc-outlined-button[color="primary"] mat-icon,
-button.mat-mdc-button[color="primary"] mat-icon {
+button.mat-mdc-raised-button[color='primary'] .mdc-button__label,
+button.mat-mdc-outlined-button[color='primary'] .mdc-button__label,
+button.mat-mdc-button[color='primary'] .mdc-button__label,
+button.mat-mdc-raised-button[color='primary'] mat-icon,
+button.mat-mdc-outlined-button[color='primary'] mat-icon,
+button.mat-mdc-button[color='primary'] mat-icon {
     color: mat.m2-get-contrast-color-from-palette(theme.$primary-palette, 500);
 }
-
 
 .block {
     display: block;
@@ -180,19 +177,21 @@ mat-form-field {
     grid-gap: 2rem;
 }
 
-
-
 label {
     font-weight: bold;
 }
 
 .kleber {
-    position: fixed;
-    left: -1000px;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 @media (max-width: 600px) {
-
     /* Breakpoint for smartphones */
     .button-container {
         display: grid;

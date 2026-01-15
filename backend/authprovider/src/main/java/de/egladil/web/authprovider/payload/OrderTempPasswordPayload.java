@@ -21,6 +21,11 @@ public class OrderTempPasswordPayload {
     // keine Annotation, damit das geloggt wird
     private String kleber;
 
+    /**
+     * Zeitpunkt von createForm
+     */
+    private long formStartTs;
+
     public String getEmail() {
 
         return email;
@@ -40,5 +45,9 @@ public class OrderTempPasswordPayload {
 
         this.kleber = kleber;
     }
+
+	public long getFormStartTs() {
+		return formStartTs;
+	}
 
 }

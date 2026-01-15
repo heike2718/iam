@@ -17,6 +17,10 @@
         "test:all": "npx nx run-many --target=test --all",
         "lint:all": "npx nx run-many --target=lint --all",
         "full-check": "npx nx run-s lint:all test:all build",
+        "format": "prettier --write \"**/*.{ts,html,scss}\" --ignore-path .gitignore",
+        "format:check": "prettier --check \"**/*.{ts,html,scss}\" --ignore-path .gitignore",
+        "lint": "eslint \"src/**/*.ts\"",
+        "lint:fix": "eslint --fix \"src/**/*.ts\"",
         "graph": "npx nx graph"
     },
     "private": true,

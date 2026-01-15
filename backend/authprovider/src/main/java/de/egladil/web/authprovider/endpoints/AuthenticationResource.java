@@ -40,6 +40,7 @@ import de.egladil.web.authprovider.payload.ResponsePayload;
 import de.egladil.web.authprovider.payload.SignUpLogInResponseData;
 import de.egladil.web.authprovider.service.AuthJWTService;
 import de.egladil.web.authprovider.service.AuthenticationService;
+import de.egladil.web.authprovider.utils.AuthUtils;
 
 /**
  * AuthenticationResource stellt REST-Endpoints zur Authentisierung von
@@ -109,7 +110,7 @@ public class AuthenticationResource {
 
             String kleber = credentials.getAuthorizationCredentials().getKleber();
 
-            if (StringUtils.isNotBlank(kleber)) {
+            if (AuthUtils.isProbablyBOTAttack(kleber, credentials.getAuthorizationCredentials().getFormStartTs())) {
 
                 BotAttackEventPayload payload = new BotAttackEventPayload()
                         .withPath(uriInfo.getPath())

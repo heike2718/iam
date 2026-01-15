@@ -1,164 +1,150 @@
 {
-  "name": "authprovider",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "prefix": "authprovider",
-  "sourceRoot": "apps/authprovider/src",
-  "tags": [
-    "domain:auth",
-    "type:app"
-  ],
-  "targets": {
-    "build": {
-      "executor": "@angular-devkit/build-angular:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "security": {
-        "autoCsp": true
-      },
-      "options": {
-        "outputPath": {
-          "base": "dist/apps/authprovider",
-          "browser": ""
+    "name": "authprovider",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "prefix": "app",
+    "sourceRoot": "apps/authprovider/src",
+    "tags": ["domain:auth", "type:app"],
+    "targets": {
+        "build": {
+            "executor": "@angular-devkit/build-angular:application",
+            "outputs": ["{options.outputPath}"],
+            "security": {
+                "autoCsp": true
+            },
+            "options": {
+                "outputPath": {
+                    "base": "dist/apps/authprovider",
+                    "browser": ""
+                },
+                "index": "apps/authprovider/src/index.html",
+                "browser": "apps/authprovider/src/main.ts",
+                "polyfills": ["zone.js"],
+                "tsConfig": "apps/authprovider/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": ["apps/authprovider/src/favicon.ico", "apps/authprovider/src/assets"],
+                "styles": ["apps/authprovider/src/styles.scss"],
+                "budgets": [
+                    {
+                        "type": "initial",
+                        "maximumWarning": "500kb",
+                        "maximumError": "1mb"
+                    },
+                    {
+                        "type": "anyComponentStyle",
+                        "maximumWarning": "2kb",
+                        "maximumError": "4kb"
+                    }
+                ],
+                "scripts": []
+            },
+            "configurations": {
+                "production": {
+                    "security": {
+                        "autoCsp": true
+                    },
+                    "index": {
+                        "input": "build-env/authprovider/index.prod.html",
+                        "output": "index.html"
+                    },
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/authprovider/src/environments/environment.ts",
+                            "with": "build-env/authprovider/environment.prod.ts"
+                        }
+                    ],
+                    "outputHashing": "all"
+                },
+                "heikeqs": {
+                    "security": {
+                        "autoCsp": true
+                    },
+                    "index": {
+                        "input": "build-env/authprovider/index.heikeqs.html",
+                        "output": "index.html"
+                    },
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/authprovider/src/environments/environment.ts",
+                            "with": "build-env/authprovider/environment.heikeqs.ts"
+                        }
+                    ],
+                    "outputHashing": "all"
+                },
+                "local": {
+                    "index": {
+                        "input": "build-env/authprovider/index.local.html",
+                        "output": "index.html"
+                    },
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/authprovider/src/environments/environment.ts",
+                            "with": "build-env/authprovider/environment.local.ts"
+                        }
+                    ],
+                    "outputHashing": "all"
+                },
+                "docker": {
+                    "security": {
+                        "autoCsp": true
+                    },
+                    "index": {
+                        "input": "build-env/authprovider/index.docker.html",
+                        "output": "index.html"
+                    },
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/authprovider/src/environments/environment.ts",
+                            "with": "build-env/authprovider/environment.docker.ts"
+                        }
+                    ],
+                    "outputHashing": "all"
+                },
+                "development": {
+                    "optimization": false,
+                    "extractLicenses": false,
+                    "sourceMap": true
+                }
+            },
+            "defaultConfiguration": "production"
         },
-        "index": "apps/authprovider/src/index.html",
-        "browser": "apps/authprovider/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
-        "tsConfig": "apps/authprovider/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/authprovider/src/favicon.ico",
-          "apps/authprovider/src/assets"
-        ],
-        "styles": [
-          "apps/authprovider/src/styles.scss"
-        ],
-        "budgets": [
-          {
-            "type": "initial",
-            "maximumWarning": "500kb",
-            "maximumError": "1mb"
-          },
-          {
-            "type": "anyComponentStyle",
-            "maximumWarning": "2kb",
-            "maximumError": "4kb"
-          }
-        ],
-        "scripts": []
-      },
-      "configurations": {
-        "production": {
-          "security": {
-            "autoCsp": true
-          },
-          "index": {
-            "input": "build-env/authprovider/index.prod.html",
-            "output": "index.html"
-          },
-          "fileReplacements": [
-            {
-              "replace": "apps/authprovider/src/environments/environment.ts",
-              "with": "build-env/authprovider/environment.prod.ts"
+        "serve": {
+            "executor": "@angular-devkit/build-angular:dev-server",
+            "configurations": {
+                "production": {
+                    "buildTarget": "authprovider:build:production"
+                },
+                "development": {
+                    "buildTarget": "authprovider:build:development"
+                }
+            },
+            "defaultConfiguration": "development",
+            "continuous": true
+        },
+        "extract-i18n": {
+            "executor": "@angular-devkit/build-angular:extract-i18n",
+            "options": {
+                "buildTarget": "authprovider:build"
             }
-          ],
-          "outputHashing": "all"
         },
-        "heikeqs": {
-          "security": {
-            "autoCsp": true
-          },
-          "index": {
-            "input": "build-env/authprovider/index.heikeqs.html",
-            "output": "index.html"
-          },
-          "fileReplacements": [
-            {
-              "replace": "apps/authprovider/src/environments/environment.ts",
-              "with": "build-env/authprovider/environment.heikeqs.ts"
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "apps/authprovider/jest.config.ts"
             }
-          ],
-          "outputHashing": "all"
         },
-        "local": {
-          "index": {
-            "input": "build-env/authprovider/index.local.html",
-            "output": "index.html"
-          },
-          "fileReplacements": [
-            {
-              "replace": "apps/authprovider/src/environments/environment.ts",
-              "with": "build-env/authprovider/environment.local.ts"
+        "serve-static": {
+            "executor": "@nx/web:file-server",
+            "options": {
+                "buildTarget": "authprovider:build",
+                "port": 4200,
+                "staticFilePath": "dist/apps/authprovider/browser",
+                "spa": true
             }
-          ],
-          "outputHashing": "all"
-        },
-        "docker": {
-          "security": {
-            "autoCsp": true
-          },
-          "index": {
-            "input": "build-env/authprovider/index.docker.html",
-            "output": "index.html"
-          },
-          "fileReplacements": [
-            {
-              "replace": "apps/authprovider/src/environments/environment.ts",
-              "with": "build-env/authprovider/environment.docker.ts"
-            }
-          ],
-          "outputHashing": "all"
-        },
-        "development": {
-          "optimization": false,
-          "extractLicenses": false,
-          "sourceMap": true
         }
-      },
-      "defaultConfiguration": "production"
-    },
-    "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
-      "configurations": {
-        "production": {
-          "buildTarget": "authprovider:build:production"
-        },
-        "development": {
-          "buildTarget": "authprovider:build:development"
-        }
-      },
-      "defaultConfiguration": "development",
-      "continuous": true
-    },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "authprovider:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
-      "options": {
-        "jestConfig": "apps/authprovider/jest.config.ts"
-      }
-    },
-    "serve-static": {
-      "executor": "@nx/web:file-server",
-      "options": {
-        "buildTarget": "authprovider:build",
-        "port": 4200,
-        "staticFilePath": "dist/apps/authprovider/browser",
-        "spa": true
-      }
     }
-  }
 }

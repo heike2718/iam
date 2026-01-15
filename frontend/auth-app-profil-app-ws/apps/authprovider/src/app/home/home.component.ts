@@ -1,24 +1,19 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
-import { AuthproviderConfiguration } from "@authprovider/configuration";
-
+import { AuthproviderConfiguration } from '../configuration/authprovider.configuration';
 
 @Component({
-    selector: 'authprovider-home',
+    selector: 'app-authprovider-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     standalone: true,
-    imports: [
-    MatButtonModule
-]
+    imports: [MatButtonModule],
 })
 export class HomeComponent {
-
     configuration = inject(AuthproviderConfiguration);
 
     redirectToProfilApp() {
-
-		window.location.href = this.configuration.profilUrl;
-	}
+        window.location.href = this.configuration.profilUrl;
+    }
 }

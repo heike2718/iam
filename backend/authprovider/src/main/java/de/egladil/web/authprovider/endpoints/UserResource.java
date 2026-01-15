@@ -63,6 +63,7 @@ import de.egladil.web.authprovider.service.AuthJWTService;
 import de.egladil.web.authprovider.service.ClientService;
 import de.egladil.web.authprovider.service.RegistrationService;
 import de.egladil.web.authprovider.service.ResourceOwnerService;
+import de.egladil.web.authprovider.utils.AuthUtils;
 
 /**
  * UserResource stellt REST-Endpoints für die Verwaltung von ResourceOwnern nur
@@ -187,7 +188,7 @@ public class UserResource {
 
         String kleber = signUpCredentials.getKleber();
 
-        if (StringUtils.isNotBlank(kleber)) {
+        if (AuthUtils.isProbablyBOTAttack(kleber, signUpCredentials.getFormStartTs())) {
 
             BotAttackEventPayload payload = new BotAttackEventPayload()
                     .withPath(uriInfo.getPath())

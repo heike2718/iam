@@ -37,6 +37,11 @@ public class ChangeTempPasswordPayload {
     // keine Annotation, damit das geloggt wird
     private String kleber;
 
+    /**
+     * Zeitpunkt von createForm
+     */
+    private long formStartTs;
+
     @NotNull(message = "zweiPassworte ist erforderlich")
     @ValidPasswords
     private ZweiPassworte zweiPassworte;
@@ -108,4 +113,8 @@ public class ChangeTempPasswordPayload {
 
         this.kleber = kleber;
     }
+
+	public long getFormStartTs() {
+		return formStartTs;
+	}
 }

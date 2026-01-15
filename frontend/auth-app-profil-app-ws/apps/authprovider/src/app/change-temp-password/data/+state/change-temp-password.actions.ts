@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { ChangeTempPasswordPayload } from "@authprovider/model";
+import { ChangeTempPasswordPayload } from '../../../model/auth.model';
 import { ResponsePayload } from "@ap-ws/common-model";
 
 

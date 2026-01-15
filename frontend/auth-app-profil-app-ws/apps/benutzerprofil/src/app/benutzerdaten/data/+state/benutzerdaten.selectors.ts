@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { benutzerdatenFeature } from './benutzerdaten.reducer';
-import { isAnonymerBenutzer } from '@benutzerprofil/benutzerdaten/model';
+import { isAnonymerBenutzer } from '../../model/benutzerdaten.model';
 
 const { selectBenutzerdatenState } = benutzerdatenFeature;
 

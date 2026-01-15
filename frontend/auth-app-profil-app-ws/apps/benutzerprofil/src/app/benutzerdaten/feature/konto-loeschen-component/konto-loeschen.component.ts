@@ -5,7 +5,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { FormsModule } from "@angular/forms";
-import { BenutzerdatenFacade } from "@benutzerprofil/benutzerdaten/api";
+import { BenutzerdatenFacade } from '../../api/benutzerdaten.facade';
 
 
 @Component({

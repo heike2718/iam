@@ -25,7 +25,7 @@ STAGED_CSV="$(printf '%s\n' "$STAGED" | paste -sd, -)"
 # 2) FRONTEND auth-app-profil-app-ws – lint-staged (ESLint --fix + Prettier)
 if has_staged '\.(html|js|ts|jsx|tsx|css|scss|json|md|yml|yaml)$'; then
   echo "🔧 lint-staged (frontend auth-app-profil-app-ws)"
-  (cd "$FRONTEND_DIR_AUTH_PROFIL" && npx nx clear-cache && npx lint-staged --quiet)
+  (cd "$FRONTEND_DIR_AUTH_PROFIL" && npx nx clear-cache && npx nx run-many --target=lint --all --fix)
 fi
 
 # 3) FRONTEND bv-admin – lint-staged (ESLint --fix + Prettier)

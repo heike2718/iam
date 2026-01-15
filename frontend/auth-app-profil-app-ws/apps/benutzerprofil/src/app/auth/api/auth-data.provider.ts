@@ -1,6 +1,7 @@
 import { provideEffects } from "@ngrx/effects";
 import { provideState } from "@ngrx/store";
-import { AuthEffects, authFeature } from '@benutzerprofil/auth/data';
+import { AuthEffects } from '../data/+state/auth.effects';
+import { authFeature } from '../data/+state/auth.reducer';
 
 export const authDataProvider = [
     provideState(authFeature),

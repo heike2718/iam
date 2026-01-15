@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
-import { anonymousSession, Session, AUTH_FEATURE_KEY } from "@benutzerprofil/auth/model";
+import { anonymousSession, Session, AUTH_FEATURE_KEY } from '../../model/auth.model';
 import { authActions } from "./auth.actions";
 
 export interface AuthState {
