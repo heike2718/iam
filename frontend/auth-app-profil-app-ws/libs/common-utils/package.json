@@ -4,7 +4,7 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@angular/common": "20.1.3",
-    "@angular/core": "20.1.3",
+    "@angular/core": "20.3.18",
     "@ap-ws/messages/api": "0.0.1",
     "@angular/forms": "20.1.3",
     "@ap-ws/common-model": "0.0.1",
