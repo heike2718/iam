@@ -114,7 +114,7 @@ public class ChangeTempPasswordPayload {
         this.kleber = kleber;
     }
 
-	public long getFormStartTs() {
-		return formStartTs;
-	}
+    public long getFormStartTs() {
+        return formStartTs;
+    }
 }

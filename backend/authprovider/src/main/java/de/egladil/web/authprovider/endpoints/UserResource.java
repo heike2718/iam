@@ -21,6 +21,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
@@ -41,16 +42,18 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.commons.lang3.StringUtils;
-
 import de.egladil.web.auth_validations.annotations.ClientId;
 import de.egladil.web.auth_validations.annotations.UuidString;
 import de.egladil.web.auth_validations.dto.OAuthClientCredentials;
 import de.egladil.web.auth_validations.exceptions.InvalidInputException;
+import de.egladil.web.authprovider.api.UserAdminDetails;
+import de.egladil.web.authprovider.api.UserDetails;
 import de.egladil.web.authprovider.entities.Client;
 import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
+import de.egladil.web.authprovider.error.ClientAuthException;
 import de.egladil.web.authprovider.error.MailversandException;
+import de.egladil.web.authprovider.error.NewClientAuthException;
 import de.egladil.web.authprovider.event.AuthproviderEventHandler;
 import de.egladil.web.authprovider.event.BotAttackEvent;
 import de.egladil.web.authprovider.event.BotAttackEventPayload;
@@ -105,6 +108,118 @@ public class UserResource {
 
     @Inject
     AuthproviderEventHandler eventHandler;
+
+// @formatter:off
+    @GET
+    @Path("/{uuid}/name")
+    @Operation(
+            operationId = "getName",
+            summary = "gibt Vor- und Nachname zurück")
+    @Parameters({
+            @Parameter(in = ParameterIn.HEADER, name = "X-CLIENT-ID", description = "ID des anfragenden Clients"),
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-CLIENT-SECRET",
+                    description = "Decret des anfragenden Clients"),
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-NONCE",
+                    description = "nonce, das ungeändert wieder zurückgegeben wird."), })
+    @APIResponse(
+            name = "OKResponse",
+            responseCode = "200",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDetails.class)))
+    @APIResponse(
+            name = "BadRequestResponse",
+            responseCode = "400",
+            description = "fehlgeschlagene Input-Validierung",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+    @APIResponse(
+            name = "NotAuthorized",
+            responseCode = "401",
+            description = "fehlgeschlagene Autorisierung des Clients")
+    @APIResponse(
+            name = "NotFound",
+            responseCode = "404",
+            description = "Den User gibt es nicht")
+    @APIResponse(
+            name = "ServerError",
+            description = "server error",
+            responseCode = "500",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = MessagePayload.class)))
+    public Response getName(@PathParam (value = "uuid") String uuid,
+            @HeaderParam(value = "X-CLIENT-ID") @NotBlank @ClientId @Size(max = 50) String clientId,
+            @HeaderParam(value = "X-CLIENT-SECRET") @NotBlank @ClientId @Size(max = 50) String clientSecret,
+            @HeaderParam(value = "X-NONCE") @UuidString @Size(max = 36) String nonce) {
+    // @formatter:on
+
+        try {
+            clientService.authorizeClient(OAuthClientCredentials.create(clientId, clientSecret, nonce));
+        } catch (ClientAuthException e) {
+            throw new NewClientAuthException(e.getMessage(), e);
+        }
+
+        UserDetails payload = resourceOwnerService.getUserDetails(clientId, uuid);
+
+        return Response.ok(payload).build();
+    }
+
+// @formatter:off
+    @GET
+    @Path("/{uuid}/admin-details")
+    @Operation(
+            operationId = "getAdminDetails",
+            summary = "gibt alle Details für die Administration zurück.")
+    @Parameters({ @Parameter(in = ParameterIn.HEADER, name = "X-CLIENT-ID", description = "ID des anfragenden Clients"),
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-CLIENT-SECRET",
+                    description = "Decret des anfragenden Clients"),
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-NONCE",
+                    description = "nonce, das ungeändert wieder zurückgegeben wird."), })
+    @APIResponse(
+            name = "OKResponse",
+            responseCode = "200",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserAdminDetails.class)))
+    @APIResponse(
+            name = "BadRequestResponse",
+            responseCode = "400",
+            description = "fehlgeschlagene Input-Validierung",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+    @APIResponse(
+            name = "NotAuthorized",
+            responseCode = "401",
+            description = "fehlgeschlagene Autorisierung des Clients")
+    @APIResponse(
+            name = "NotFound",
+            responseCode = "404",
+            description = "Den User gibt es nicht")
+    @APIResponse(
+            name = "ServerError",
+            description = "server error",
+            responseCode = "500",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = MessagePayload.class)))
+    public Response getAdminDetails(@PathParam (value = "uuid") String uuid,
+            @HeaderParam(value = "X-CLIENT-ID") @NotBlank @ClientId @Size(max = 50) String clientId,
+            @HeaderParam(value = "X-CLIENT-SECRET") @NotBlank @ClientId @Size(max = 50) String clientSecret,
+            @HeaderParam(value = "X-NONCE") @UuidString @Size(max = 36) String nonce) {
+    // @formatter:on
+
+        try {
+            clientService.authorizeClient(OAuthClientCredentials.create(clientId, clientSecret, nonce));
+        } catch (ClientAuthException e) {
+            throw new NewClientAuthException(e.getMessage(), e);
+        }
+        UserAdminDetails payload = resourceOwnerService.getAdminDetails(clientId, uuid);
+
+        return Response.ok(payload).build();
+    }
 
     @GET
     @Path("/banned-emails")
@@ -190,7 +305,9 @@ public class UserResource {
 
         if (AuthUtils.isProbablyBOTAttack(kleber, signUpCredentials.getFormStartTs())) {
 
-        	LOG.warn("honneypot: kleber={}, currentTime={}, formStartTime={}", kleber, System.currentTimeMillis(), signUpCredentials.getFormStartTs());
+            LOG
+                    .warn("honneypot: kleber={}, currentTime={}, formStartTime={}", kleber, System.currentTimeMillis(),
+                            signUpCredentials.getFormStartTs());
 
             BotAttackEventPayload payload = new BotAttackEventPayload()
                     .withPath(uriInfo.getPath())

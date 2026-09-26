@@ -46,8 +46,8 @@ public class OrderTempPasswordPayload {
         this.kleber = kleber;
     }
 
-	public long getFormStartTs() {
-		return formStartTs;
-	}
+    public long getFormStartTs() {
+        return formStartTs;
+    }
 
 }

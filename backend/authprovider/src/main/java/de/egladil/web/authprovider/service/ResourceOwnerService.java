@@ -16,11 +16,15 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.apache.commons.lang3.StringUtils;
 
+import de.egladil.web.authprovider.api.UserAdminDetails;
+import de.egladil.web.authprovider.api.UserDetails;
 import de.egladil.web.authprovider.crypto.AuthCryptoService;
 import de.egladil.web.authprovider.dao.ResourceOwnerDao;
 import de.egladil.web.authprovider.domain.CryptoAlgorithm;
@@ -30,6 +34,8 @@ import de.egladil.web.authprovider.entities.Salt;
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
+import de.egladil.web.authprovider.error.NewClientAuthException;
+import de.egladil.web.authprovider.error.UserNotFoundException;
 import de.egladil.web.authprovider.payload.BenutzerSuchmodus;
 import de.egladil.web.authprovider.payload.DuplicateAttributeType;
 import de.egladil.web.authprovider.payload.ResourceOwnerResponseItem;
@@ -48,6 +54,15 @@ public class ResourceOwnerService {
     private static final String ROLE_STANDARD = "STANDARD";
 
     private Logger LOG = LoggerFactory.getLogger(ResourceOwnerService.class);
+
+    @ConfigProperty(name = "matheportal.admin.clientid")
+    String minikaenguruAdminClientId;
+
+    @ConfigProperty(name = "matheportal.minikaenguru.clientid")
+    String minikaenguruAnwendungClientId;
+
+    @ConfigProperty(name = "matheportal.raetselbaukasten.clientid")
+    String raetselbaukastenClientId;
 
     @Inject
     ResourceOwnerDao resourceOwnerDao;
@@ -431,5 +446,60 @@ public class ResourceOwnerService {
         List<ResourceOwner> bannedUsers = resourceOwnerDao.findUsersWithActivationAndBannedState(true, true);
 
         return bannedUsers.stream().map(u -> u.getEmail()).toList();
+    }
+
+    /**
+     * Gibt die Admin-Details des Users mit der gegebenen uuid zurück.
+     *
+     * @param clientId String ID des abfragenden Clients
+     * @param uuid     String uuid des Users.
+     * @return UserAdminDetails
+     */
+    public UserAdminDetails getAdminDetails(String clientId, String uuid) {
+        if (!minikaenguruAdminClientId.equals(clientId)) {
+            throw new NewClientAuthException(
+                    "client mit id " + StringUtils.abbreviate(clientId, 11) + " ist nicht autorisiert");
+        }
+
+        Optional<ResourceOwner> optResourceOwner = resourceOwnerDao.findByUUID(uuid);
+
+        if (optResourceOwner.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+
+        ResourceOwner resourceOwner = optResourceOwner.get();
+
+        UserAdminDetails result = new UserAdminDetails();
+        result.setBannedForMails(resourceOwner.isBannedForMails());
+        result.setEmail(resourceOwner.getEmail());
+        result.setNachname(resourceOwner.getNachname());
+        result.setVorname(resourceOwner.getVorname());
+        return result;
+    }
+
+    /**
+     * Gibt die Details des Users mit der gegebenen uuid zurück.
+     *
+     * @param clientId String ID des abfragenden Clients
+     * @param uuid     String uuid des Users.
+     * @return UserAdminDetails
+     */
+    public UserDetails getUserDetails(String clientId, String uuid) {
+        if (!minikaenguruAnwendungClientId.equals(clientId) && !raetselbaukastenClientId.equals(clientId)) {
+            throw new NewClientAuthException(
+                    "client mit id " + StringUtils.abbreviate(clientId, 11) + " ist nicht autorisiert");
+        }
+        Optional<ResourceOwner> optResourceOwner = resourceOwnerDao.findByUUID(uuid);
+
+        if (optResourceOwner.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+
+        ResourceOwner resourceOwner = optResourceOwner.get();
+
+        UserDetails result = new UserDetails();
+        result.setNachname(resourceOwner.getNachname());
+        result.setVorname(resourceOwner.getVorname());
+        return result;
     }
 }

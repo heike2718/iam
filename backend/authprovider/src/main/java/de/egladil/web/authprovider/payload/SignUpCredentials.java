@@ -181,8 +181,8 @@ public class SignUpCredentials {
         this.nonce = nonce;
     }
 
-	public long getFormStartTs() {
-		return formStartTs;
-	}
+    public long getFormStartTs() {
+        return formStartTs;
+    }
 
 }

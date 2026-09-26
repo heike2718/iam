@@ -23,8 +23,10 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.apache.commons.lang3.StringUtils;
 
 import de.egladil.web.authprovider.event.AuthproviderEventHandler;
@@ -88,7 +90,9 @@ public class TempPasswordResource {
 
         if (AuthUtils.isProbablyBOTAttack(kleber, payload.getFormStartTs())) {
 
-        	LOGGER.warn("honigtopf: kleber={}, currentTime={}, formStartTime={}", kleber, System.currentTimeMillis(), payload.getFormStartTs());
+            LOGGER
+                    .warn("honigtopf: kleber={}, currentTime={}, formStartTime={}", kleber, System.currentTimeMillis(),
+                            payload.getFormStartTs());
 
             BotAttackEventPayload eventPayload = new BotAttackEventPayload()
                     .withPath(uriInfo.getPath())
@@ -98,9 +102,9 @@ public class TempPasswordResource {
             this.eventHandler.handleEvent(new BotAttackEvent(eventPayload));
 
             return Response
-                .status(401)
-                .entity(MessagePayload.error(applicationMessages.getString("general.badRequest")))
-                .build();
+                    .status(401)
+                    .entity(MessagePayload.error(applicationMessages.getString("general.badRequest")))
+                    .build();
         }
 
         createTempPasswordService.orderTempPassword(payload.getEmail());

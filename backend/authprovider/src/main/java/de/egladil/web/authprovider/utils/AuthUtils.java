@@ -153,31 +153,35 @@ public final class AuthUtils {
     }
 
     /**
-     * Bessere BOT-detection, die die Dauer des Ausfüllens einer Form berücksichtigt.
-     * @param kleber String - Wert in dem eigentlich nicht sichtbaren honeypot.
-     * @param formStartTs timestamp - wird in ngInit() intialisiert und bei submit ans Backend gesendet
+     * Bessere BOT-detection, die die Dauer des Ausfüllens einer Form
+     * berücksichtigt.
+     *
+     * @param kleber      String - Wert in dem eigentlich nicht sichtbaren honeypot.
+     * @param formStartTs timestamp - wird in ngInit() intialisiert und bei submit
+     *                    ans Backend gesendet
      * @return boolean
      */
     public static boolean isProbablyBOTAttack(String kleber, long formStartTs) {
 
-    	long now = System.currentTimeMillis();
-    	long delta = now - formStartTs;
+        long now = System.currentTimeMillis();
+        long delta = now - formStartTs;
 
-    	boolean honeypotFilled = StringUtils.isNotBlank(kleber);
+        boolean honeypotFilled = StringUtils.isNotBlank(kleber);
 
-    	// manipuliertes payload - formStartTs in der Zukunft
-    	boolean negative = delta < 0;
+        // manipuliertes payload - formStartTs in der Zukunft
+        boolean negative = delta < 0;
 
-    	// Mensch braucht länger als 2 Sekunden, um das Formular zu füllen
-    	boolean tooFast = delta < 2000;
+        // Mensch braucht länger als 2 Sekunden, um das Formular zu füllen
+        boolean tooFast = delta < 2000;
 
-    	// könnte replay-attack sein. Ein Mensch hat das Formular wahrscheinlich in unter 10 min ausgefüllt.
-    	boolean tooOld = delta > Duration.ofMinutes(10).toMillis();
+        // könnte replay-attack sein. Ein Mensch hat das Formular wahrscheinlich in
+        // unter 10 min ausgefüllt.
+        boolean tooOld = delta > Duration.ofMinutes(10).toMillis();
 
-    	if (honeypotFilled && (negative || tooFast || tooOld)) {
-    	    return true;
-    	}
-    	return false;
+        if (honeypotFilled && (negative || tooFast || tooOld)) {
+            return true;
+        }
+        return false;
     }
 
 }
