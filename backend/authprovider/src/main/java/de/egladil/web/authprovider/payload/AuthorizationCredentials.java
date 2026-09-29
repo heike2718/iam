@@ -95,8 +95,8 @@ public class AuthorizationCredentials {
         return "AuthorizationCredentials [loginName=" + loginName + "]";
     }
 
-	public long getFormStartTs() {
-		return formStartTs;
-	}
+    public long getFormStartTs() {
+        return formStartTs;
+    }
 
 }

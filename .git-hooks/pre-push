@@ -11,7 +11,7 @@ FRONTEND_DIR_BV_ADMIN="frontend/bv-admin"
 BACKEND_DIR_VALIDATIONS="backend/auth-validations"
 BACKEND_DIR_AUTHPROVIDER="backend/authprovider"
 BACKEND_DIR_BENUTZERPROFIL="backend/benutzerprofil"
-BACKEND_DIR_BV_ADMIN="backend/bv-admin""
+BACKEND_DIR_BV_ADMIN="backend/bv-admin"
 
 echo "🚀 Running comprehensive pre-push checks..."
 
