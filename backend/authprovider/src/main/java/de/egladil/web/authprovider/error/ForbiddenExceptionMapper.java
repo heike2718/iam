@@ -9,15 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Provider
-public class NewClientAuthExceptionMapper implements ExceptionMapper<NewClientAuthException> {
+public class ForbiddenExceptionMapper implements ExceptionMapper<ForbiddenException> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NewClientAuthExceptionMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForbiddenExceptionMapper.class);
 
     @Override
-    public Response toResponse(NewClientAuthException exception) {
+    public Response toResponse(ForbiddenException exception) {
         LOGGER.error(exception.getMessage(), exception);
 
-        return Response.status(Status.UNAUTHORIZED).build();
+        return Response.status(Status.FORBIDDEN).build();
     }
 
 }

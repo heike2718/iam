@@ -34,7 +34,7 @@ import de.egladil.web.authprovider.entities.Salt;
 import de.egladil.web.authprovider.error.AuthPersistenceException;
 import de.egladil.web.authprovider.error.ConcurrentUpdateException;
 import de.egladil.web.authprovider.error.DuplicateEntityException;
-import de.egladil.web.authprovider.error.NewClientAuthException;
+import de.egladil.web.authprovider.error.ForbiddenException;
 import de.egladil.web.authprovider.error.UserNotFoundException;
 import de.egladil.web.authprovider.payload.BenutzerSuchmodus;
 import de.egladil.web.authprovider.payload.DuplicateAttributeType;
@@ -457,7 +457,7 @@ public class ResourceOwnerService {
      */
     public UserAdminDetails getAdminDetails(String clientId, String uuid) {
         if (!minikaenguruAdminClientId.equals(clientId)) {
-            throw new NewClientAuthException(
+            throw new ForbiddenException(
                     "client mit id " + StringUtils.abbreviate(clientId, 11) + " ist nicht autorisiert");
         }
 
@@ -486,7 +486,7 @@ public class ResourceOwnerService {
      */
     public UserDetails getUserDetails(String clientId, String uuid) {
         if (!minikaenguruAnwendungClientId.equals(clientId) && !raetselbaukastenClientId.equals(clientId)) {
-            throw new NewClientAuthException(
+            throw new ForbiddenException(
                     "client mit id " + StringUtils.abbreviate(clientId, 11) + " ist nicht autorisiert");
         }
         Optional<ResourceOwner> optResourceOwner = resourceOwnerDao.findByUUID(uuid);
