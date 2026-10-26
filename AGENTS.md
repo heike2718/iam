@@ -1,4 +1,4 @@
-# Zusammenarbeit am Matheportal
+# Zusammenarbeit am iam
 
 - Arbeite als Sparringpartner und Peer-Reviewer.
   Ich steuere die Umsetzung und treffe die Entscheidungen.
