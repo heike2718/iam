@@ -191,4 +191,60 @@ public class ClientResource {
                     + " hat keine Berechtigung");
         }
     }
+
+    /**
+     * Authentisiert den Client und erzeugt ein OAuthAccessTokenPayload, welches ein
+     * Client-AccessToken enthält.
+     *
+     * @param clientCredentials
+     * @return Response mit OAuthAccessTokenPayload - Kein ResponsePayload!
+     */
+// @formatter:off
+    @POST
+    @Path("client/accesstoken/v2")
+    @Operation(operationId = "authenticateClientV2", summary = "Authentifiziert den Client")
+    @Parameters({ @Parameter(
+            in = ParameterIn.QUERY,
+            name = "accessToken",
+            description = "Ein zuvor über POST authprovider/api/clients/client/accesstoken angefordertes OTT."), })
+    @APIResponse(
+            name = "OKResponse",
+            responseCode = "200",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = OAuthAccessTokenPayload.class)))
+    @APIResponse(
+            name = "BadRequestResponse",
+            responseCode = "400",
+            description = "fehlgeschlagene Input-Validierung",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+    @APIResponse(
+            name = "NotAuthorized",
+            responseCode = "401",
+            description = "Client credentials stimmen nicht",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+    @APIResponse(
+            name = "ServerError",
+            description = "server error",
+            responseCode = "500",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ResponsePayload.class)))
+    public Response authenticateClientV2(@Valid final OAuthClientCredentials clientCredentials) {
+    // @formatter:on
+        try {
+
+            OAuthAccessTokenPayload payload = clientService.createClientAccessToken(clientCredentials);
+
+            if (clientCredentials.getNonce() != null) {
+                payload.setNonce(clientCredentials.getNonce());
+            }
+
+            return Response.ok(payload).build();
+        } catch (ClientAccessTokenRuntimeException e) {
+
+            throw new AuthException("Der Client mit ID=" + StringUtils.abbreviate(clientCredentials.getClientId(), 15)
+                    + " hat keine Berechtigung");
+        }
+    }
 }

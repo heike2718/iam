@@ -52,8 +52,8 @@ import de.egladil.web.authprovider.entities.Client;
 import de.egladil.web.authprovider.entities.ResourceOwner;
 import de.egladil.web.authprovider.error.ClientAccessTokenNotFoundException;
 import de.egladil.web.authprovider.error.ClientAuthException;
-import de.egladil.web.authprovider.error.MailversandException;
 import de.egladil.web.authprovider.error.ForbiddenException;
+import de.egladil.web.authprovider.error.MailversandException;
 import de.egladil.web.authprovider.event.AuthproviderEventHandler;
 import de.egladil.web.authprovider.event.BotAttackEvent;
 import de.egladil.web.authprovider.event.BotAttackEventPayload;
@@ -78,37 +78,36 @@ import de.egladil.web.authprovider.utils.AuthUtils;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-        private static final Logger LOG = LoggerFactory.getLogger(UserResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserResource.class);
 
-        private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages",
-                        Locale.GERMAN);
+    private final ResourceBundle applicationMessages = ResourceBundle.getBundle("ApplicationMessages", Locale.GERMAN);
 
-        @ConfigProperty(name = "admin.clientIds")
-        String adminClientIds;
+    @ConfigProperty(name = "admin.clientIds")
+    String adminClientIds;
 
-        @ConfigProperty(name = "signup.response.uri")
-        String signUpResponseUri;
+    @ConfigProperty(name = "signup.response.uri")
+    String signUpResponseUri;
 
-        @Context
-        ContainerRequestContext requestContext;
+    @Context
+    ContainerRequestContext requestContext;
 
-        @Inject
-        ClientService clientService;
+    @Inject
+    ClientService clientService;
 
-        @Inject
-        RegistrationService registrationService;
+    @Inject
+    RegistrationService registrationService;
 
-        @Inject
-        ResourceOwnerService resourceOwnerService;
+    @Inject
+    ResourceOwnerService resourceOwnerService;
 
-        @Inject
-        AuthJWTService authJWTService;
+    @Inject
+    AuthJWTService authJWTService;
 
-        @Context
-        SecurityContext securityContext;
+    @Context
+    SecurityContext securityContext;
 
-        @Inject
-        AuthproviderEventHandler eventHandler;
+    @Inject
+    AuthproviderEventHandler eventHandler;
 
 // @formatter:off
     @GET
@@ -160,16 +159,16 @@ public class UserResource {
             @HeaderParam(value = "X-NONCE") @UuidString(message = "Header X-NONCE enthält ungültige Zeichen") @Size(max = 36, message = "Header X-NONCE ist zu lang, max 36") String nonce) {
     // @formatter:on
 
-                try {
-                        clientService.authorizeClient(OAuthClientCredentials.create(clientId, clientSecret, nonce));
-                } catch (ClientAuthException e) {
-                        throw new ForbiddenException(e.getMessage(), e);
-                }
-
-                UserDetails payload = resourceOwnerService.getUserDetails(clientId, uuid);
-
-                return Response.ok(payload).build();
+        try {
+            clientService.authorizeClient(OAuthClientCredentials.create(clientId, clientSecret, nonce));
+        } catch (ClientAuthException e) {
+            throw new ForbiddenException(e.getMessage(), e);
         }
+
+        UserDetails payload = resourceOwnerService.getUserDetails(clientId, uuid);
+
+        return Response.ok(payload).build();
+    }
 
 // @formatter:off
     @GET
@@ -220,108 +219,145 @@ public class UserResource {
             @HeaderParam(value = "X-NONCE") @UuidString(message = "Header X-NONCE enthält ungültige Zeichen") @Size(max = 36, message = "Header X-NONCE ist zu lang, max 36") String nonce) {
     // @formatter:on
 
-                try {
-                        clientService.authorizeClient(OAuthClientCredentials.create(clientId, clientSecret, nonce));
-                } catch (ClientAuthException e) {
-                        throw new ForbiddenException(e.getMessage(), e);
-                }
-                UserAdminDetails payload = resourceOwnerService.getAdminDetails(clientId, uuid);
+        try {
+            clientService.authorizeClient(OAuthClientCredentials.create(clientId, clientSecret, nonce));
+        } catch (ClientAuthException e) {
+            throw new ForbiddenException(e.getMessage(), e);
+        }
+        UserAdminDetails payload = resourceOwnerService.getAdminDetails(clientId, uuid);
 
-                return Response.ok(payload).build();
+        return Response.ok(payload).build();
+    }
+
+    @GET
+    @Path("/banned-emails")
+    @Operation(
+            operationId = "getBannedUsers",
+            summary = "Gibt eine Liste mit UUIDs zurück, die vom Mailversand ausgeschlossen wurden.")
+    @Parameters({ @Parameter(in = ParameterIn.HEADER, name = "X-CLIENT-ID", description = "ID des anfragenden Clients"),
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-CLIENT-SECRET",
+                    description = "Decret des anfragenden Clients"),
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-NONCE",
+                    description = "nonce, das ungeändert wieder zurückgegeben wird."), })
+    @APIResponse(
+            name = "OKResponse",
+            responseCode = "200",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = String[].class)))
+    @APIResponse(
+            name = "BadRequestResponse",
+            responseCode = "400",
+            description = "fehlgeschlagene Input-Validierung",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+    @APIResponse(
+            name = "NotAuthorized",
+            responseCode = "401",
+            description = "fehlgeschlagene Autorisierung des Clients",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+    @APIResponse(
+            name = "ServerError",
+            description = "server error",
+            responseCode = "500",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = BannedEmailsResponseDto.class)))
+    public Response getBannedEmails(
+            @HeaderParam(value = "X-CLIENT-ID") @NotBlank @ClientId @Size(max = 50) String clientId,
+            @HeaderParam(value = "X-CLIENT-SECRET") @NotBlank @ClientId @Size(max = 50) String clientSecretString,
+            @HeaderParam(value = "X-NONCE") @UuidString @Size(max = 36) String nonce) {
+
+        clientService.authorizeClient(OAuthClientCredentials.create(clientId, clientSecretString, nonce));
+        List<String> usersBannedForMails = resourceOwnerService.getBannedEmails();
+
+        BannedEmailsResponseDto responsePayload = new BannedEmailsResponseDto();
+        responsePayload.setBannedUUIDs(usersBannedForMails);
+        responsePayload.setNonce(nonce);
+
+        return Response.ok(responsePayload).build();
+    }
+
+    /**
+     * Endpoint, der einen neuen ResourceOwner anlegt. Der Response enthält im body
+     * ein JWT.
+     *
+     * @param signUpCredentials SignUpCredentials
+     * @return Response
+     */
+    @POST
+    @Path("/signup")
+    @Operation(operationId = "signUp", summary = "Legt ein neues Benutzerkonto an")
+    @APIResponse(
+            name = "OKResponse",
+            responseCode = "200",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = SignUpLogInResponseData.class)))
+    @APIResponse(
+            name = "BadRequestResponse",
+            responseCode = "400",
+            description = "fehlgeschlagene Input-Validierung",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+    @APIResponse(
+            name = "ServerError",
+            description = "server error",
+            responseCode = "500",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ResponsePayload.class)))
+    public Response signUp(@Valid final SignUpCredentials signUpCredentials, @Context final UriInfo uriInfo) {
+
+        String kleber = signUpCredentials.getKleber();
+
+        if (AuthUtils.isProbablyBOTAttack(kleber, signUpCredentials.getFormStartTs())) {
+
+            LOG
+                    .warn("honneypot: kleber={}, currentTime={}, formStartTime={}", kleber, System.currentTimeMillis(),
+                            signUpCredentials.getFormStartTs());
+
+            BotAttackEventPayload payload = new BotAttackEventPayload()
+                    .withPath(uriInfo.getPath())
+                    .withKleber(kleber)
+                    .withLoginName(signUpCredentials.getEmail())
+                    .withPasswort(signUpCredentials.getZweiPassworte().getPasswort())
+                    .withRedirectUrl(signUpCredentials.getClientCredentials().getRedirectUrl());
+
+            this.eventHandler.handleEvent(new BotAttackEvent(payload));
+
+            return Response
+                    .status(401)
+                    .entity(MessagePayload.error(applicationMessages.getString("general.badRequest")))
+                    .build();
         }
 
-        @GET
-        @Path("/banned-emails")
-        @Operation(operationId = "getBannedUsers", summary = "Gibt eine Liste mit UUIDs zurück, die vom Mailversand ausgeschlossen wurden.")
-                                        @Parameters({ @Parameter(in = ParameterIn.HEADER, name = "X-CLIENT-ID", description = "ID des anfragenden Clients"),
-                        @Parameter(in = ParameterIn.HEADER, name = "X-CLIENT-SECRET", description = "Decret des anfragenden Clients"),
-                        @Parameter(in = ParameterIn.HEADER, name = "X-NONCE", description = "nonce, das ungeändert wieder zurückgegeben wird."), })
-        @APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String[].class)))
-        @APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-        @APIResponse(name = "NotAuthorized", responseCode = "401", description = "fehlgeschlagene Autorisierung des Clients", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-        @APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BannedEmailsResponseDto.class)))
-        public Response getBannedEmails(
-                        @HeaderParam(value = "X-CLIENT-ID") @NotBlank @ClientId @Size(max = 50) String clientId,
-                        @HeaderParam(value = "X-CLIENT-SECRET") @NotBlank @ClientId @Size(max = 50) String clientSecretString,
-                        @HeaderParam(value = "X-NONCE") @UuidString @Size(max = 36) String nonce) {
+        try {
 
-                clientService.authorizeClient(OAuthClientCredentials.create(clientId, clientSecretString, nonce));
-                List<String> usersBannedForMails = resourceOwnerService.getBannedEmails();
+            Client client = clientService.findAndCheckClient(signUpCredentials.getClientCredentials());
 
-                BannedEmailsResponseDto responsePayload = new BannedEmailsResponseDto();
-                responsePayload.setBannedUUIDs(usersBannedForMails);
-                responsePayload.setNonce(nonce);
+            ResourceOwner resourceOwner = registrationService
+                    .createNewResourceOwner(client, signUpCredentials, uriInfo);
 
-                return Response.ok(responsePayload).build();
+            SignUpLogInResponseData data = authJWTService
+                    .createAndStoreAuthorization(resourceOwner, signUpCredentials.getClientCredentials(),
+                            signUpCredentials.getNonce());
+
+            URI uri = new URI(signUpResponseUri + data.getIdToken());
+
+            return Response.created(uri).entity(data).build();
+
+        } catch (MailversandException e) {
+
+            this.resourceOwnerService.deleteResourceOwnerQuietly(signUpCredentials.getEmail());
+            throw new InvalidInputException(applicationMessages.getString("email.invalid"));
+        } catch (URISyntaxException | ClientAccessTokenNotFoundException e) {
+
+            LOG.error(e.getMessage());
+            return Response.serverError().build();
+        } finally {
+
+            signUpCredentials.clean();
         }
-
-        /**
-         * Endpoint, der einen neuen ResourceOwner anlegt. Der Response enthält im body
-         * ein JWT.
-         *
-         * @param signUpCredentials SignUpCredentials
-         * @return Response
-         */
-        @POST
-        @Path("/signup")
-        @Operation(operationId = "signUp", summary = "Legt ein neues Benutzerkonto an")
-        @APIResponse(name = "OKResponse", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SignUpLogInResponseData.class)))
-        @APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
-        @APIResponse(name = "ServerError", description = "server error", responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponsePayload.class)))
-        public Response signUp(@Valid final SignUpCredentials signUpCredentials, @Context final UriInfo uriInfo) {
-
-                String kleber = signUpCredentials.getKleber();
-
-                if (AuthUtils.isProbablyBOTAttack(kleber, signUpCredentials.getFormStartTs())) {
-
-                        LOG
-                                        .warn("honneypot: kleber={}, currentTime={}, formStartTime={}", kleber,
-                                                        System.currentTimeMillis(),
-                                                        signUpCredentials.getFormStartTs());
-
-                        BotAttackEventPayload payload = new BotAttackEventPayload()
-                                        .withPath(uriInfo.getPath())
-                                        .withKleber(kleber)
-                                        .withLoginName(signUpCredentials.getEmail())
-                                        .withPasswort(signUpCredentials.getZweiPassworte().getPasswort())
-                                        .withRedirectUrl(signUpCredentials.getClientCredentials().getRedirectUrl());
-
-                        this.eventHandler.handleEvent(new BotAttackEvent(payload));
-
-                        return Response
-                                        .status(401)
-                                        .entity(MessagePayload
-                                                        .error(applicationMessages.getString("general.badRequest")))
-                                        .build();
-                }
-
-                try {
-
-                        Client client = clientService.findAndCheckClient(signUpCredentials.getClientCredentials());
-
-                        ResourceOwner resourceOwner = registrationService
-                                        .createNewResourceOwner(client, signUpCredentials, uriInfo);
-
-                        SignUpLogInResponseData data = authJWTService
-                                        .createAndStoreAuthorization(resourceOwner,
-                                                        signUpCredentials.getClientCredentials(),
-                                                        signUpCredentials.getNonce());
-
-                        URI uri = new URI(signUpResponseUri + data.getIdToken());
-
-                        return Response.created(uri).entity(data).build();
-
-                } catch (MailversandException e) {
-
-                        this.resourceOwnerService.deleteResourceOwnerQuietly(signUpCredentials.getEmail());
-                        throw new InvalidInputException(applicationMessages.getString("email.invalid"));
-                } catch (URISyntaxException | ClientAccessTokenNotFoundException e) {
-
-                        LOG.error(e.getMessage());
-                        return Response.serverError().build();
-                } finally {
-
-                        signUpCredentials.clean();
-                }
-        }
+    }
 }
