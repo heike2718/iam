@@ -167,14 +167,9 @@ public class BenutzerResource {
                     schema = @Schema(type = SchemaType.ARRAY, implementation = ValidationErrorResponseDto.class)))
     @APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
     @APIResponse(
-            name = "Forbiddeb",
-            responseCode = "403",
-            description = "einige Benutzerkonten dürfen nicht gelöscht werden.",
-            content = @Content(mediaType = "application/json"))
-    @APIResponse(
             name = "Forbidden",
-            description = "kann auch vorkommen, wenn mod_security zuschlägt",
             responseCode = "403",
+            description = "einige Benutzerkonten dürfen nicht gelöscht werden. kann auch vorkommen, wenn mod_security zuschlägt.",
             content = @Content(mediaType = "application/json"))
     @APIResponse(
             name = "ServerError",
