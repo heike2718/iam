@@ -9,3 +9,5 @@ backend/authprovider/src/main/resources/META-INF/openapi/openapi.yaml
 
 backend/benutzerprofil/src/main/resources/META-INF/openapi/openapi.json
 backend/benutzerprofil/src/main/resources/META-INF/openapi/openapi.yaml
+
+/.quarkus/cli/plugins/
