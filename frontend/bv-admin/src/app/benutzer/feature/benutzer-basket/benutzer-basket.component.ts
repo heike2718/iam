@@ -1,11 +1,11 @@
-import { AsyncPipe, CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatTableModule } from "@angular/material/table";
-import { BenutzerFacade } from "@bv-admin/benutzer/api";
-import { Benutzer } from "@bv-admin/shared/model";
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { BenutzerFacade } from '@bv-admin/benutzer/api';
+import { Benutzer } from '@bv-admin/shared/model';
 
 const UUID = 'uuid';
 const EMAIL = 'email';
@@ -13,24 +13,15 @@ const NACHNAME = 'nachname';
 const VORNAME = 'vorname';
 const AENDERUNGSDATUM = 'aenderungsdatum';
 const ROLLE = 'rolle';
-const REMOVE_BENUTZER_ACTION = "remove"
-
+const REMOVE_BENUTZER_ACTION = 'remove';
 
 @Component({
-    selector: 'bv-users',
-    imports: [
-        CommonModule,
-        AsyncPipe,
-        MatBadgeModule,
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule
-    ],
+    selector: 'bv-admin-users',
+    imports: [CommonModule, AsyncPipe, MatBadgeModule, MatTableModule, MatButtonModule, MatIconModule],
     templateUrl: './benutzer-basket.component.html',
-    styleUrls: ['./benutzer-basket.component.scss']
+    styleUrls: ['./benutzer-basket.component.scss'],
 })
 export class BenutzerBasketComponent {
-
     benutzerFacade = inject(BenutzerFacade);
 
     reset(): void {
@@ -44,5 +35,4 @@ export class BenutzerBasketComponent {
     removeBenutzerFromBasket(benutzer: Benutzer): void {
         this.benutzerFacade.removeBenutzerFromBasket(benutzer);
     }
-
 }

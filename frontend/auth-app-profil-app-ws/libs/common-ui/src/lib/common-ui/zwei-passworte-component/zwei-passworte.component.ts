@@ -44,7 +44,7 @@ export class ZweiPassworteComponent implements OnInit, OnDestroy {
 
     showPasswords = false;
 
-    #visibilityTimeout: unknown;
+    #visibilityTimeout: number | undefined;
     #subsriptions = new Subscription();
 
     ngOnInit(): void {
@@ -116,7 +116,7 @@ export class ZweiPassworteComponent implements OnInit, OnDestroy {
     #clearVisibilityTimeout() {
         if (this.#visibilityTimeout) {
             clearTimeout(this.#visibilityTimeout);
-            this.#visibilityTimeout = null;
+            this.#visibilityTimeout = undefined;
         }
     }
 }

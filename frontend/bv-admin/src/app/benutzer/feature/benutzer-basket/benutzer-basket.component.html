@@ -6,109 +6,94 @@
     <p>Dazu die Buttons unterhalb der Tabelle verwenden</p>
 
     @if (benutzerFacade.benutzerBasket$ | async; as benutzerBasket) {
-    <p>aktuell ausgewählt: {{benutzerBasket.length}}</p>
+    <p>aktuell ausgewählt: {{ benutzerBasket.length }}</p>
 
     <mat-table [dataSource]="benutzerBasket" class="mat-elevation-z8 mt-2">
-
         <!-- UUID -->
         <ng-container matColumnDef="uuid">
             <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1">
-                    UUID
-                </label>
+                <span class="ml-1"> UUID </span>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
-                <div [ngClass]="{
-                    'badge-green': benutzer.cryptoAlgorithm === 'ARGON2',
-                    'badge-orange': benutzer.cryptoAlgorithm === 'SHA_256'
-                }">
-                {{benutzer.uuid.substring(0,8)}}</div>
-            </mat-cell>>
+                <div
+                    [ngClass]="{
+                        'badge-green': benutzer.cryptoAlgorithm === 'ARGON2',
+                        'badge-orange': benutzer.cryptoAlgorithm === 'SHA_256'
+                    }">
+                    {{ benutzer.uuid.substring(0, 8) }}
+                </div> </mat-cell
+            >>
         </ng-container>
 
         <!-- Email -->
         <ng-container matColumnDef="email">
             <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1">
-                    Email
-                </label>
+                <span class="ml-1"> Email </span>
             </mat-header-cell>
-            <mat-cell *matCellDef="let benutzer">
-                {{benutzer.email}}
-            </mat-cell>>
+            <mat-cell *matCellDef="let benutzer"> {{ benutzer.email }} </mat-cell>
         </ng-container>
 
         <!-- Nachname -->
         <ng-container matColumnDef="nachname">
             <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1">
-                    Nachname
-                </label>
+                <span class="ml-1"> Nachname </span>
             </mat-header-cell>
-            <mat-cell *matCellDef="let benutzer">
-                {{benutzer.nachname}}
-            </mat-cell>>
+            <mat-cell *matCellDef="let benutzer"> {{ benutzer.nachname }} </mat-cell>
         </ng-container>
 
         <!-- Vorname -->
         <ng-container matColumnDef="vorname">
             <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1">
-                    Vorname
-                </label>
+                <span class="ml-1"> Vorname </span>
             </mat-header-cell>
-            <mat-cell *matCellDef="let benutzer">
-                {{benutzer.vorname}}
-            </mat-cell>>
+            <mat-cell *matCellDef="let benutzer"> {{ benutzer.vorname }} </mat-cell>
         </ng-container>
 
         <!-- aenderungsdatum -->
         <ng-container matColumnDef="aenderungsdatum">
             <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1">
-                    geändert am
-                </label>
+                <span class="ml-1"> geändert am </span>
             </mat-header-cell>
-            <mat-cell *matCellDef="let benutzer">
-                {{benutzer.aenderungsdatum}}
-            </mat-cell>>
+            <mat-cell *matCellDef="let benutzer"> {{ benutzer.aenderungsdatum }} </mat-cell>
         </ng-container>
 
         <!-- Rolle -->
         <ng-container matColumnDef="rolle">
             <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1">
-                    Rolle
-                </label>
+                <span class="ml-1"> Rolle </span>
             </mat-header-cell>
-            <mat-cell *matCellDef="let benutzer">
-                {{benutzer.rollen}}
-            </mat-cell>>
+            <mat-cell *matCellDef="let benutzer"> {{ benutzer.rollen }} </mat-cell>
         </ng-container>
 
         <!-- Actioncolumn -->
         <ng-container matColumnDef="remove">
             <mat-header-cell *matHeaderCellDef>
-                <label class="ml-1">
-                    abwählen
-                </label>
+                <span class="ml-1"> abwählen </span>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 <button mat-icon-button (click)="removeBenutzerFromBasket(benutzer)" title="aus Auswahl entfernen">
                     <mat-icon>delete</mat-icon>
                 </button>
-            </mat-cell>>
+            </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: getDisplayedColumns()" [ngClass]="{
-        'bg-beige': !row.aktiviert
-      }"></mat-row>
+        <mat-row
+            *matRowDef="let row; columns: getDisplayedColumns()"
+            [ngClass]="{
+                'bg-beige': !row.aktiviert
+            }"></mat-row>
     </mat-table>
 
     <div class="button-container">
-        <button mat-raised-button color="primary" class="action-button" (click)="reset()"
-            [disabled]="benutzerBasket.length === 0">leeren</button>
+        <button
+            mat-raised-button
+            color="primary"
+            class="action-button"
+            (click)="reset()"
+            [disabled]="benutzerBasket.length === 0">
+            leeren
+        </button>
     </div>
     }
 </div>

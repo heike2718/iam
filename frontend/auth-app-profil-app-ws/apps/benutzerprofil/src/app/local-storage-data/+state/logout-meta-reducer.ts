@@ -1,7 +1,7 @@
 import { ActionReducer, INIT, MetaReducer } from '@ngrx/store';
 import { loggedOutEvent } from '../../auth/api/index';
 
-function clearState(reducer: ActionReducer<unknown>): ActionReducer<unknown> {
+function clearState<S>(reducer: ActionReducer<S>): ActionReducer<S> {
     return (state, action) => {
         if (action != null && action.type === loggedOutEvent.type) {
             return reducer(undefined, { type: INIT });
@@ -10,4 +10,4 @@ function clearState(reducer: ActionReducer<unknown>): ActionReducer<unknown> {
     };
 }
 
-export const loggedOutMetaReducer: MetaReducer<unknown> = clearState;
+export const loggedOutMetaReducer = clearState;

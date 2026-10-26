@@ -1,17 +1,17 @@
-import { AsyncPipe, CommonModule } from "@angular/common";
-import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatTableModule } from "@angular/material/table";
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { InfomailsFacade } from '@bv-admin/infomails/api';
-import { combineLatest, Subscription } from "rxjs";
-import { InfomailsDetailsComponent } from "../infomails-details/infomails-details.component";
-import { InfomailEditComponent } from "../infomails-edit/infomails-edit.component";
-import { Infomail } from "@bv-admin/shared/model";
+import { combineLatest, Subscription } from 'rxjs';
+import { InfomailsDetailsComponent } from '../infomails-details/infomails-details.component';
+import { InfomailEditComponent } from '../infomails-edit/infomails-edit.component';
+import { Infomail } from '@bv-admin/shared/model';
 
 const UUID = 'uuid';
 const BETREFF = 'betreff';
-const ANZAHL_VERSANDAUFTRAEGE = "anzahlVersandauftraege"
+const ANZAHL_VERSANDAUFTRAEGE = 'anzahlVersandauftraege';
 
 @Component({
     selector: 'bv-admin-infomails',
@@ -25,63 +25,57 @@ const ANZAHL_VERSANDAUFTRAEGE = "anzahlVersandauftraege"
         MatIconModule,
     ],
     templateUrl: './infomails-list.component.html',
-    styleUrls: ['./infomails-list.component.scss']
+    styleUrls: ['./infomails-list.component.scss'],
 })
 export class InfomailsListComponent implements OnDestroy, AfterViewInit {
+    infomailsFacade = inject(InfomailsFacade);
 
-  infomailsFacade = inject(InfomailsFacade);
+    selectedInfomail: Infomail | undefined;
+    editMode = false;
 
-  selectedInfomail: Infomail | undefined;
-  editMode = false;
+    // eine für alle mit add :)
+    #subscriptions: Subscription = new Subscription();
 
-  // eine für alle mit add :)
-  #subscriptions: Subscription = new Subscription();
+    private changeDetector = inject(ChangeDetectorRef);
 
-  constructor(private changeDetector: ChangeDetectorRef) {
-  }
+    ngAfterViewInit(): void {
+        const loadedSubscription = this.infomailsFacade.infomailsLoaded$.subscribe(loaded => {
+            if (!loaded) {
+                this.infomailsFacade.loadInfomails();
+            }
+        });
 
-  ngAfterViewInit(): void {
+        const combinedStatusSubscription = combineLatest([
+            this.infomailsFacade.selectedInfomail$,
+            this.infomailsFacade.editMode$,
+        ]).subscribe(([infomailText, editMode]) => {
+            this.selectedInfomail = infomailText;
+            this.editMode = editMode;
+        });
 
-    const loadedSubscription = this.infomailsFacade.infomailsLoaded$.subscribe((loaded) => {
-      if (!loaded) {
-        this.infomailsFacade.loadInfomails();
-      }
-    });
+        this.#subscriptions.add(loadedSubscription);
+        this.#subscriptions.add(combinedStatusSubscription);
 
-    const combinedStatusSubscription = combineLatest([
-      this.infomailsFacade.selectedInfomail$,
-      this.infomailsFacade.editMode$]).subscribe(
-      ([infomailText, editMode]) => {
-        this.selectedInfomail = infomailText;
-        this.editMode = editMode;
-      }
-    );
+        this.changeDetector.detectChanges();
+    }
 
-    this.#subscriptions.add(loadedSubscription);
-    this.#subscriptions.add(combinedStatusSubscription);
+    ngOnDestroy(): void {
+        this.#subscriptions.unsubscribe();
+    }
 
-    this.changeDetector.detectChanges();
+    getDisplayedColumns(): string[] {
+        return [UUID, BETREFF, ANZAHL_VERSANDAUFTRAEGE];
+    }
 
-  }
+    selectInfomail(infomail: Infomail) {
+        this.infomailsFacade.selectInfomail(infomail);
+    }
 
-  ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
+    deselectInfomail() {
+        this.infomailsFacade.deselectInfomail();
+    }
 
-
-  getDisplayedColumns(): string[] {
-    return [UUID, BETREFF, ANZAHL_VERSANDAUFTRAEGE];
-  }
-
-  selectInfomail(infomail: Infomail) {
-    this.infomailsFacade.selectInfomail(infomail);
-  }
-
-  deselectInfomail() {
-    this.infomailsFacade.deselectInfomail();
-  }
-
-  startEditNewInfomail(): void {
-    this.infomailsFacade.startEdit();
-  }
+    startEditNewInfomail(): void {
+        this.infomailsFacade.startEdit();
+    }
 }

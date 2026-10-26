@@ -1,7 +1,7 @@
-import { ActionReducer, INIT, MetaReducer } from '@ngrx/store';
+import { ActionReducer, INIT } from '@ngrx/store';
 import { loggedOutEvent } from '@bv-admin/shared/auth/api';
 
-function clearState(reducer: ActionReducer<any>): ActionReducer<any> {
+function clearState<S>(reducer: ActionReducer<S>): ActionReducer<S> {
     return (state, action) => {
         if (action != null && action.type === loggedOutEvent.type) {
             return reducer(undefined, { type: INIT });
@@ -10,4 +10,4 @@ function clearState(reducer: ActionReducer<any>): ActionReducer<any> {
     };
 }
 
-export const loggedOutMetaReducer: MetaReducer<any> = clearState
+export const loggedOutMetaReducer = clearState;

@@ -1,45 +1,38 @@
-import { AsyncPipe, CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatDialog, MatDialogModule } from "@angular/material/dialog";
-import { MatIconModule } from "@angular/material/icon";
-import { MatTableModule } from "@angular/material/table";
-import { ConfirmationDialogComponent } from "@bv-admin/shared/ui/components";
-import { VersandauftraegeFacade } from "@bv-admin/versandauftraege/api";
-import { MailversandauftragDetails, Mailversandgruppe } from "@bv-admin/versandauftraege/model";
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { ConfirmationDialogComponent } from '@bv-admin/shared/ui/components';
+import { VersandauftraegeFacade } from '@bv-admin/versandauftraege/api';
+import { MailversandauftragDetails, Mailversandgruppe } from '@bv-admin/versandauftraege/model';
 
 @Component({
     selector: 'bv-admin-versandauftrag',
-    imports: [
-    CommonModule,
-    AsyncPipe,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDialogModule
-],
+    imports: [CommonModule, AsyncPipe, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule],
     templateUrl: './versandauftrag-details.component.html',
-    styleUrls: ['./versandauftrag-details.component.scss']
+    styleUrls: ['./versandauftrag-details.component.scss'],
 })
 export class VersandauftragDetailsComponent {
-
-
     versandauftraegeFacade = inject(VersandauftraegeFacade);
 
-    versandgruppenDisplayedColumns: string[] = ['sortnr', 'status', 'aenderungsdatum', 'anzahlEmpfaenger', 'detailsAction'];
+    versandgruppenDisplayedColumns: string[] = [
+        'sortnr',
+        'status',
+        'aenderungsdatum',
+        'anzahlEmpfaenger',
+        'detailsAction',
+    ];
 
-    constructor(public confirmDeleteDialog: MatDialog) {
-    }
-
+    public confirmDeleteDialog = inject(MatDialog);
 
     refresh(versandauftrag: MailversandauftragDetails): void {
-
         if (!versandauftrag) {
             return;
         }
 
         this.versandauftraegeFacade.refreshVersandauftrag(versandauftrag.uuid);
-
     }
 
     canAktualisieren(versandauftrag: MailversandauftragDetails): boolean {
@@ -49,9 +42,7 @@ export class VersandauftragDetailsComponent {
         return versandauftrag.status !== 'COMPLETED';
     }
 
-
     btnRefreshDisabled(versandauftrag: MailversandauftragDetails): boolean {
-
         if (!versandauftrag) {
             return true;
         }
@@ -86,14 +77,18 @@ export class VersandauftragDetailsComponent {
     }
 
     cancel(versandauftrag: MailversandauftragDetails): void {
-
         const dialogRef = this.confirmDeleteDialog.open(ConfirmationDialogComponent, {
             width: '400px',
             disableClose: true,
             data: {
                 title: 'Mailversandauftrag abbrechen',
-                question: 'Bist Du vollkommen sicher, dass Du den Mailversandauftrag "' + versandauftrag.betreff + '" von ' + versandauftrag.erfasstAm + ' abbrechen willst?'
-            }
+                question:
+                    'Bist Du vollkommen sicher, dass Du den Mailversandauftrag "' +
+                    versandauftrag.betreff +
+                    '" von ' +
+                    versandauftrag.erfasstAm +
+                    ' abbrechen willst?',
+            },
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -105,8 +100,5 @@ export class VersandauftragDetailsComponent {
 
     #doCancel(versandauftrag: MailversandauftragDetails): void {
         this.versandauftraegeFacade.cancelVersandauftrag(versandauftrag.uuid);
-
     }
-
-
 }

@@ -8,13 +8,16 @@ mat-toolbar {
     flex: 1 1 auto;
 }
 
-a {
+a,
+button[mat-button] {
     text-decoration: none;
     color: white;
 }
 
 a:hover,
-a:active {
+a:active,
+button[mat-button]:hover,
+button[mat-button]:active {
     color: lightgray;
     cursor: pointer;
 }
@@ -39,10 +42,9 @@ a:active {
     margin: 0;
 }
 
-
 /** ======================   */
 
-@media(max-width: 959px) {
+@media (max-width: 959px) {
     mat-toolbar {
         border-radius: 0px;
     }

@@ -1,21 +1,16 @@
-
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
     selector: 'bv-admin-confirmation-dialog',
-    imports: [
-    MatButtonModule,
-    MatDialogModule
-],
+    imports: [MatButtonModule, MatDialogModule],
     templateUrl: './confirmation-dialog.component.html',
-    styleUrls: ['./confirmation-dialog.component.scss']
+    styleUrls: ['./confirmation-dialog.component.scss'],
 })
 export class ConfirmationDialogComponent {
-
-    constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>, @Inject
-        (MAT_DIALOG_DATA) public data: { title: string; question: string }) { }
+    public dialogRef = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);
+    public data = inject<{ title: string; question: string }>(MAT_DIALOG_DATA);
 
     onNoClick(): void {
         this.dialogRef.close(false);

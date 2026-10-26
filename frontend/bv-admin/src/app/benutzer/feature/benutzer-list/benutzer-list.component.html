@@ -1,21 +1,27 @@
 <div class="centered mja-container">
-
     <h1>Benutzersuche</h1>
 
-    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mt-2" matSort
-        (matSortChange)="sortData($event)" matSortDirection="asc">
-
+    <mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8 mt-2"
+        matSort
+        (matSortChange)="sortData($event)"
+        matSortDirection="asc">
         <!-- Auswahl Benutzer column-->
         <ng-container matColumnDef="auswahlBenutzer">
             <mat-header-cell *matHeaderCellDef class="selection-header-cell">
                 <div class="selection-header-content">
-                    <mat-checkbox (click)="toggleSelectAll($event)" [checked]="allRowsSelected" class="header-checkbox">
+                    <mat-checkbox (click)="toggleSelectAll()" [checked]="allRowsSelected" class="header-checkbox">
                     </mat-checkbox>
                 </div>
             </mat-header-cell>
             <mat-cell *matCellDef="let row" class="selection-cell">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleBenutzerAusgewaehlt(row)"
-                    [checked]="selectionModel.isSelected(row)" class="row-checkbox">
+                <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="toggleBenutzerAusgewaehlt(row)"
+                    [checked]="selectionModel.isSelected(row)"
+                    class="row-checkbox">
                 </mat-checkbox>
             </mat-cell>
         </ng-container>
@@ -26,7 +32,9 @@
             <mat-cell *matCellDef="let benutzer" class="icon-cell">
                 <div class="icon-group">
                     <mat-icon
-                        [matTooltip]="benutzer.darfNichtGeloeschtWerden ? 'darf nicht gelöscht werden' : 'darf gelöscht werden'">
+                        [matTooltip]="
+                            benutzer.darfNichtGeloeschtWerden ? 'darf nicht gelöscht werden' : 'darf gelöscht werden'
+                        ">
                         {{ benutzer.darfNichtGeloeschtWerden ? 'remove_circle_outline' : 'remove_circle' }}
                     </mat-icon>
 
@@ -40,9 +48,7 @@
 
         <!-- login count -->
         <ng-container matColumnDef="loginCount">
-            <mat-header-cell *matHeaderCellDef mat-sort-header class="login-count-header">
-                Logins
-            </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="login-count-header"> Logins </mat-header-cell>
             <mat-cell *matCellDef="let benutzer" class="login-count-cell">
                 <span>{{ benutzer.anzahlLogins }}</span>
             </mat-cell>
@@ -52,19 +58,20 @@
         <ng-container matColumnDef="uuid">
             <mat-header-cell *matHeaderCellDef class="header-cell">
                 <div class="header-content">
-                    <label>UUID</label>
+                    <span>UUID</span>
                     <mat-form-field floatLabel="always" appearance="outline" class="filter-input">
-                        <input matInput placeholder="UUID" [(ngModel)]="uuidFilterValue">
+                        <input matInput placeholder="UUID" [(ngModel)]="uuidFilterValue" />
                     </mat-form-field>
                 </div>
             </mat-header-cell>
             <mat-cell *matCellDef="let benutzer">
                 <div class="cell-content">
-                    <div [ngClass]="{
-          'badge-green': benutzer.cryptoAlgorithm === 'ARGON2',
-          'badge-orange': benutzer.cryptoAlgorithm === 'SHA_256'
-        }">
-                        {{ benutzer.uuid.substring(0,8) }}
+                    <div
+                        [ngClass]="{
+                            'badge-green': benutzer.cryptoAlgorithm === 'ARGON2',
+                            'badge-orange': benutzer.cryptoAlgorithm === 'SHA_256'
+                        }">
+                        {{ benutzer.uuid.substring(0, 8) }}
                     </div>
                 </div>
             </mat-cell>
@@ -74,9 +81,9 @@
         <ng-container matColumnDef="email">
             <mat-header-cell *matHeaderCellDef class="header-cell">
                 <div class="header-content">
-                    <label mat-sort-header>Email</label>
+                    <span mat-sort-header>Email</span>
                     <mat-form-field appearance="outline" floatLabel="always" class="filter-input">
-                        <input matInput [(ngModel)]="emailFilterValue" placeholder="Email">
+                        <input matInput [(ngModel)]="emailFilterValue" placeholder="Email" />
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -87,9 +94,9 @@
         <ng-container matColumnDef="nachname">
             <mat-header-cell *matHeaderCellDef class="header-cell">
                 <div class="header-content">
-                    <label mat-sort-header>Nachname</label>
+                    <span mat-sort-header>Nachname</span>
                     <mat-form-field appearance="outline" floatLabel="always" class="filter-input">
-                        <input matInput [(ngModel)]="nachnameFilterValue" placeholder="Nachname">
+                        <input matInput [(ngModel)]="nachnameFilterValue" placeholder="Nachname" />
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -100,9 +107,9 @@
         <ng-container matColumnDef="vorname">
             <mat-header-cell *matHeaderCellDef class="header-cell">
                 <div class="header-content">
-                    <label mat-sort-header>Vorname</label>
+                    <span mat-sort-header>Vorname</span>
                     <mat-form-field appearance="outline" floatLabel="always" class="filter-input">
-                        <input matInput [(ngModel)]="vornameFilterValue" placeholder="Vorname">
+                        <input matInput [(ngModel)]="vornameFilterValue" placeholder="Vorname" />
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -113,9 +120,9 @@
         <ng-container matColumnDef="aenderungsdatum">
             <mat-header-cell *matHeaderCellDef class="header-cell">
                 <div class="header-content">
-                    <label mat-sort-header>geändert am</label>
+                    <span mat-sort-header>geändert am</span>
                     <mat-form-field appearance="outline" floatLabel="always" class="filter-input">
-                        <input matInput [(ngModel)]="aenderungsdatumFilterValue" placeholder="Datum geändert">
+                        <input matInput [(ngModel)]="aenderungsdatumFilterValue" placeholder="Datum geändert" />
                     </mat-form-field>
                 </div>
             </mat-header-cell>
@@ -131,12 +138,16 @@
                 </button>
 
                 <mat-menu #rowMenu="matMenu">
-                    <button mat-menu-item (click)="changeActivationState(benutzer)"
+                    <button
+                        mat-menu-item
+                        (click)="changeActivationState(benutzer)"
                         [disabled]="benutzer.darfNichtGeloeschtWerden">
                         <mat-icon>{{ benutzer.aktiviert ? 'toggle_off' : 'toggle_on' }}</mat-icon>
                         <span>{{ benutzer.aktiviert ? 'Deaktivieren' : 'Aktivieren' }}</span>
                     </button>
-                    <button mat-menu-item (click)="deleteBenutzer(benutzer)"
+                    <button
+                        mat-menu-item
+                        (click)="deleteBenutzer(benutzer)"
                         [disabled]="benutzer.darfNichtGeloeschtWerden">
                         <mat-icon>person_remove</mat-icon>
                         <span>Konto löschen</span>
@@ -146,8 +157,9 @@
                         <span>{{ benutzer.bannedForMails ? 'Mailversand an' : 'Mailversand aus' }}</span>
                     </button>
                     <button mat-menu-item (click)="changeBenutzerPermanent(benutzer)" [disabled]="!benutzer.aktiviert">
-                        <mat-icon>{{ benutzer.darfNichtGeloeschtWerden ? 'remove_circle' : 'remove_circle_outline'
-                            }}</mat-icon>
+                        <mat-icon>{{
+                            benutzer.darfNichtGeloeschtWerden ? 'remove_circle' : 'remove_circle_outline'
+                        }}</mat-icon>
                         <span>{{ benutzer.darfNichtGeloeschtWerden ? 'permanent aus' : 'permanent an' }}</span>
                     </button>
                 </mat-menu>
@@ -155,22 +167,39 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: getDisplayedColumns()" [ngClass]="{
-            'bg-beige': !row.aktiviert
-          }"></mat-row>
+        <mat-row
+            *matRowDef="let row; columns: getDisplayedColumns()"
+            [ngClass]="{
+                'bg-beige': !row.aktiviert
+            }"></mat-row>
     </mat-table>
 
     <!-- Alternative zu einem Subject of(this.paginator)-->
     <!-- (page)="onPaginatorChanged($event)"-->
-    <mat-paginator [length]="benutzerFacade.anzahlTreffer$ | async" [pageSizeOptions]="[100,150,200]"
-        aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen." showFirstLastButtons
-        (page)="onPaginatorChanged($event)">
+    <mat-paginator
+        [length]="benutzerFacade.anzahlTreffer$ | async"
+        [pageSizeOptions]="[100, 150, 200]"
+        aria-label="Bitte wähle, wie viele Ergebnisse pro Seite angezeigt werden sollen."
+        showFirstLastButtons
+        (page)="onPaginatorChanged()">
     </mat-paginator>
 
     <div class="button-container">
-        <button mat-raised-button color="primary" class="action-button" (click)="findBenutzer()"
-            [disabled]="sucheDisabled()">suchen</button>
-        <button mat-raised-button color="accent" class="action-button" (click)="resetFilter()"
-            [disabled]="sucheDisabled()">Filter leeren</button>
+        <button
+            mat-raised-button
+            color="primary"
+            class="action-button"
+            (click)="findBenutzer()"
+            [disabled]="sucheDisabled()">
+            suchen
+        </button>
+        <button
+            mat-raised-button
+            color="accent"
+            class="action-button"
+            (click)="resetFilter()"
+            [disabled]="sucheDisabled()">
+            Filter leeren
+        </button>
     </div>
 </div>
