@@ -24,7 +24,6 @@ import { Subscription } from 'rxjs';
 import { AuthproviderConfiguration } from '../../../configuration/authprovider.configuration';
 
 @Component({
-    selector: 'app-auth-sign-up',
     standalone: true,
     imports: [
         CommonModule,

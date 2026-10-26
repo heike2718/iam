@@ -11,7 +11,7 @@ import { ShellService } from './shell.service';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
-    selector: 'app-benutzerprofil-shell',
+    selector: 'benutzerprofil-shell',
     templateUrl: './shell.component.html',
     standalone: true,
     styleUrl: './shell.component.scss',

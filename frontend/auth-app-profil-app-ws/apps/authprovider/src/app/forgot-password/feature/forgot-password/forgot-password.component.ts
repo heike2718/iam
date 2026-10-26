@@ -14,7 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '@ap-ws/common-ui';
 
 @Component({
-    selector: 'auth-forgot-password',
     standalone: true,
     imports: [
         CommonModule,
@@ -42,7 +41,9 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
     #subscriptions: Subscription = new Subscription();
 
-    constructor(public confirmDeleteDialog: MatDialog) {
+    public confirmDeleteDialog = inject(MatDialog);
+
+    constructor() {
         this.#createForm();
     }
 

@@ -1,15 +1,14 @@
-import { createFeature, createReducer, on } from "@ngrx/store";
+import { createFeature, createReducer, on } from '@ngrx/store';
 import { anonymeBenutzerdaten, Benutzerdaten } from '../../model/benutzerdaten.model';
-import { benutzerdatenActions } from "./benutzerdaten.actions";
-
+import { benutzerdatenActions } from './benutzerdaten.actions';
 
 export interface BenutzerdatenState {
     readonly benutzerdaten: Benutzerdaten;
 }
 
 const initialState: BenutzerdatenState = {
-    benutzerdaten: anonymeBenutzerdaten
-}
+    benutzerdaten: anonymeBenutzerdaten,
+};
 
 export const benutzerdatenFeature = createFeature({
     name: 'benutzerdaten',
@@ -21,11 +20,11 @@ export const benutzerdatenFeature = createFeature({
         on(benutzerdatenActions.bENUTZERDATEN_GEAENDERT, (state, action) => {
             return { ...state, benutzerdaten: action.responseDto.benutzer };
         }),
-        on(benutzerdatenActions.rESET_BENUTZERDATEN, (_state, _action) => {
+        on(benutzerdatenActions.rESET_BENUTZERDATEN, () => {
             return initialState;
         }),
-        on(benutzerdatenActions.kONTO_GELOESCHT, (_state, _action) => {
+        on(benutzerdatenActions.kONTO_GELOESCHT, () => {
             return initialState;
         })
-    )
-})
+    ),
+});

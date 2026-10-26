@@ -13,7 +13,6 @@ import { Subscription } from 'rxjs';
 import { AuthproviderConfiguration } from '../../../configuration/authprovider.configuration';
 
 @Component({
-    selector: 'app-auth-log-in',
     standalone: true,
     imports: [
         CommonModule,
@@ -44,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     #clientCredentials!: ClientCredentials;
 
-    #visibilityTimeout: any;
+    #visibilityTimeout: number | undefined;
     showPassword = false;
 
     #fb: FormBuilder = new FormBuilder();
@@ -154,7 +153,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     #clearVisibilityTimeout() {
         if (this.#visibilityTimeout) {
             clearTimeout(this.#visibilityTimeout);
-            this.#visibilityTimeout = null;
+            this.#visibilityTimeout = undefined;
         }
     }
 

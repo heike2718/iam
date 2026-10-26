@@ -15,7 +15,6 @@ import { ChangeTempPasswordFacade } from '../../api/change-temp-password.facade'
 import { ZweiPassworte } from '@ap-ws/common-model';
 
 @Component({
-    selector: 'auth-temp-password',
     standalone: true,
     imports: [
         CommonModule,
@@ -37,7 +36,7 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
     #activatedRoute = inject(ActivatedRoute);
 
     tokenId: string | null = null;
-    #visibilityTimeout: any;
+    #visibilityTimeout: number | undefined;
     showPassword = false;
 
     parentForm!: FormGroup;
@@ -54,7 +53,9 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
 
     #subscriptions: Subscription = new Subscription();
 
-    constructor(public confirmDeleteDialog: MatDialog) {
+    confirmDeleteDialog = inject(MatDialog);
+
+    constructor() {
         this.#createForm();
     }
 
@@ -180,7 +181,7 @@ export class ChangeTempPasswordComponent implements OnInit, OnDestroy {
     #clearVisibilityTimeout() {
         if (this.#visibilityTimeout) {
             clearTimeout(this.#visibilityTimeout);
-            this.#visibilityTimeout = null;
+            this.#visibilityTimeout = undefined;
         }
     }
 }

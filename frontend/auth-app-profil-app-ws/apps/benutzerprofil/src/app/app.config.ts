@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection, importProvidersFrom, ErrorHandler, inject } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection, ErrorHandler } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -9,7 +9,12 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouterStore } from '@ngrx/router-store';
 import { provideStore } from '@ngrx/store';
 import { authDataProvider } from './auth/api/auth-data.provider';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration } from '@angular/common/http';
+import {
+    HTTP_INTERCEPTORS,
+    provideHttpClient,
+    withInterceptorsFromDi,
+    withXsrfConfiguration,
+} from '@angular/common/http';
 import { LoadingInterceptor } from '@ap-ws/messages/api';
 import { APIHttpInterceptor } from './interceptors/api-http.interceptor';
 import { ErrorHandlerService } from '@ap-ws/common-utils';
@@ -21,64 +26,64 @@ import { benutzerdatenDataProvider } from './benutzerdaten/api/benutzerdaten-dat
 import { passwortDataProvider } from './passwort/api/passwort-data.provider';
 import { AUTH_FEATURE_KEY } from './auth/model/auth.model';
 
-
-const localStorageMetaReducer = localStorageReducer(
-  AUTH_FEATURE_KEY
-); // <-- synchronisiert diese Slices des Store mit localStorage wegen F5.
+const localStorageMetaReducer = localStorageReducer(AUTH_FEATURE_KEY); // <-- synchronisiert diese Slices des Store mit localStorage wegen F5.
 // siehe auth.reducer.ts for the slice name
 
 const clearStoreMetaReducer = loggedOutMetaReducer;
 
 const allMetaReducers = environment.production
-  ? [localStorageMetaReducer]
-  : [localStorageMetaReducer, clearStoreMetaReducer];
+    ? [localStorageMetaReducer]
+    : [localStorageMetaReducer, clearStoreMetaReducer];
 
 registerLocaleData(LOCALE_ID, 'de');
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideAnimations(),
-    provideRouter(appRoutes),
-    provideRouterStore(),
-    provideStore(
-      {
-
-      },
-      {
-        metaReducers: allMetaReducers,
-      }),
-    provideEffects(LocalStorageEffects),
-    provideHttpClient(withInterceptorsFromDi(), withXsrfConfiguration({
-      cookieName: 'XSRF-TOKEN',
-      headerName: 'X-XSRF-TOKEN',
-    })),
-    // provideHttpClient(withInterceptorsFromDi()),
-    authDataProvider,
-    benutzerdatenDataProvider,
-    passwortDataProvider,
-    environment.providers,
-    {
-      provide: BenutzerprofilConfiguration,
-      useFactory: () =>
-        new BenutzerprofilConfiguration(
-          environment.version,
-          environment.envName,
-          environment.baseUrl,
-          environment.loginRedirectUrl,
-          environment.datenschutzUrl,
-          environment.assetsPath,
-          environment.withCredentials,
-          'benutzerprofil',
-          environment.production
+    providers: [
+        provideZoneChangeDetection({ eventCoalescing: true }),
+        provideAnimations(),
+        provideRouter(appRoutes),
+        provideRouterStore(),
+        provideStore(
+            {},
+            {
+                metaReducers: allMetaReducers,
+            }
         ),
-    }, {
-      provide: MAT_DATE_LOCALE,
-      useValue: 'de-DE',
-    },
-    { provide: LOCALE_ID, useValue: 'de-DE' },
-    { provide: HTTP_INTERCEPTORS, multi: true, useClass: LoadingInterceptor },
-    { provide: HTTP_INTERCEPTORS, multi: true, useClass: APIHttpInterceptor },
-    { provide: ErrorHandler, useClass: ErrorHandlerService },
-  ],
+        provideEffects(LocalStorageEffects),
+        provideHttpClient(
+            withInterceptorsFromDi(),
+            withXsrfConfiguration({
+                cookieName: 'XSRF-TOKEN',
+                headerName: 'X-XSRF-TOKEN',
+            })
+        ),
+        // provideHttpClient(withInterceptorsFromDi()),
+        authDataProvider,
+        benutzerdatenDataProvider,
+        passwortDataProvider,
+        environment.providers,
+        {
+            provide: BenutzerprofilConfiguration,
+            useFactory: () =>
+                new BenutzerprofilConfiguration(
+                    environment.version,
+                    environment.envName,
+                    environment.baseUrl,
+                    environment.loginRedirectUrl,
+                    environment.datenschutzUrl,
+                    environment.assetsPath,
+                    environment.withCredentials,
+                    'benutzerprofil',
+                    environment.production
+                ),
+        },
+        {
+            provide: MAT_DATE_LOCALE,
+            useValue: 'de-DE',
+        },
+        { provide: LOCALE_ID, useValue: 'de-DE' },
+        { provide: HTTP_INTERCEPTORS, multi: true, useClass: LoadingInterceptor },
+        { provide: HTTP_INTERCEPTORS, multi: true, useClass: APIHttpInterceptor },
+        { provide: ErrorHandler, useClass: ErrorHandlerService },
+    ],
 };

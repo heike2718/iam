@@ -12,7 +12,6 @@ import { PasswortFacade } from '../../api/passwort.facade';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-benutzerprofil-passwort',
     templateUrl: './change-passwort.component.html',
     styleUrl: './change-passwort.component.scss',
     standalone: true,
@@ -39,7 +38,7 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
     #subscriptions = new Subscription();
     #passwort: PasswortPayload = initialPasswortPayload;
 
-    #visibilityTimeout: any;
+    #visibilityTimeout: number | undefined;
     showPassword = false;
 
     ngOnInit(): void {
@@ -115,7 +114,7 @@ export class ChangePasswortComponent implements OnInit, OnDestroy {
     #clearVisibilityTimeout() {
         if (this.#visibilityTimeout) {
             clearTimeout(this.#visibilityTimeout);
-            this.#visibilityTimeout = null;
+            this.#visibilityTimeout = undefined;
         }
     }
 }
