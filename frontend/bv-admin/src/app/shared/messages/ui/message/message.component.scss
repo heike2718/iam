@@ -8,6 +8,17 @@
     top: 0;
     left: 0;
     z-index: 100;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+}
+
+.cmn-message-section:focus-visible .cmn-message {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
 }
 
 .cmn-message {

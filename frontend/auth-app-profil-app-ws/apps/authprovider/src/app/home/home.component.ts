@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthproviderConfiguration } from '../configuration/authprovider.configuration';
 
 @Component({
-    selector: 'app-authprovider-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     standalone: true,

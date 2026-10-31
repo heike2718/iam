@@ -1,27 +1,19 @@
-
-import { Component, inject, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatInputModule } from "@angular/material/input";
-import { InfomailsFacade } from "@bv-admin/infomails/api";
-import { InfomailRequestDto } from "@bv-admin/infomails/model";
-import { Infomail } from "@bv-admin/shared/model";
-
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { InfomailsFacade } from '@bv-admin/infomails/api';
+import { InfomailRequestDto } from '@bv-admin/infomails/model';
+import { Infomail } from '@bv-admin/shared/model';
 
 @Component({
     selector: 'bv-admin-infomail-edit',
-    imports: [
-    ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCardModule
-],
+    imports: [ReactiveFormsModule, MatInputModule, MatButtonModule, MatCardModule],
     templateUrl: './infomails-edit.component.html',
-    styleUrls: ['./infomails-edit.component.scss']
+    styleUrls: ['./infomails-edit.component.scss'],
 })
 export class InfomailEditComponent implements OnInit {
-
     @Input()
     infomail: Infomail | undefined;
 
@@ -29,10 +21,12 @@ export class InfomailEditComponent implements OnInit {
 
     infomailForm: FormGroup;
 
-    constructor(private fb: FormBuilder) {
+    private fb = inject(FormBuilder);
+
+    constructor() {
         this.infomailForm = this.fb.group({
             betreff: ['', [Validators.required, Validators.maxLength(100)]],
-            mailtext: ['', Validators.required]
+            mailtext: ['', Validators.required],
         });
     }
 
@@ -46,7 +40,7 @@ export class InfomailEditComponent implements OnInit {
             const trimmedMailtext = this.infomailForm.get('mailtext')?.value.trim();
             const requestDto: InfomailRequestDto = {
                 betreff: trimmedBetreff,
-                mailtext: trimmedMailtext
+                mailtext: trimmedMailtext,
             };
 
             const uuid: string | undefined = this.infomail ? this.infomail.uuid : undefined;
@@ -54,7 +48,6 @@ export class InfomailEditComponent implements OnInit {
             this.infomailsFacade.saveInfomailText(uuid, requestDto);
         }
     }
-
 
     cancelEdit(): void {
         this.infomailsFacade.cancelEdit();
@@ -67,15 +60,13 @@ export class InfomailEditComponent implements OnInit {
         }
     }
 
-
-
     #patchForm(): void {
         if (this.infomail) {
             this.infomailForm.patchValue(this.infomail);
         } else {
             this.infomailForm.patchValue({
                 betreff: '',
-                mailtext: ''
+                mailtext: '',
             });
         }
     }

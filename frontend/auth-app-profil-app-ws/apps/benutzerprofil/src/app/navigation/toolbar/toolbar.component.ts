@@ -10,7 +10,7 @@ import { BenutzerdatenFacade } from '../../benutzerdaten/api/benutzerdaten.facad
 import { anonymeBenutzerdaten, Benutzerdaten, fullName } from '../../benutzerdaten/model/benutzerdaten.model';
 
 @Component({
-    selector: 'app-benutzerprofil-toolbar',
+    selector: 'benutzerprofil-toolbar',
     templateUrl: './toolbar.component.html',
     styleUrls: ['./toolbar.component.scss'],
     standalone: true,

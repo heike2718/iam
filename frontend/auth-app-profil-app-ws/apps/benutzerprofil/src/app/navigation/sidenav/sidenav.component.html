@@ -1,39 +1,41 @@
-<mat-nav-list>
+<mat-nav-list aria-label="Hauptnavigation">
     <a mat-list-item routerLink="/" (click)="onSidenavClose()">
         <mat-icon class="nav-icon">home</mat-icon>
         <span class="nav-caption">Startseite</span>
     </a>
 
-    @if(authFacade.userIsLoggedIn$ | async) {
+    @if (authFacade.userIsLoggedIn$ | async) {
+        <a mat-list-item routerLink="/benutzerdaten" (click)="onSidenavClose()">
+            <mat-icon class="nav-icon">person</mat-icon>
+            <span class="nav-caption">Benutzerkonto</span>
+        </a>
 
-    <a mat-list-item routerLink="/benutzerdaten" (click)="onSidenavClose()">
-        <mat-icon class="nav-icon">person</mat-icon>
-        <span class="nav-caption">Benutzerkonto</span>
-    </a>
+        <a mat-list-item routerLink="/passwort" (click)="onSidenavClose()">
+            <mat-icon class="nav-icon">password</mat-icon>
+            <span class="nav-caption">Passwort</span>
+        </a>
 
-    <a mat-list-item routerLink="/passwort" (click)="onSidenavClose()">
-        <mat-icon class="nav-icon">password</mat-icon>
-        <span class="nav-caption">Passwort</span>
-    </a>
-
-    <a mat-list-item routerLink="/loeschung-benutzerkonto" (click)="onSidenavClose()">
-        <mat-icon class="nav-icon">delete</mat-icon>
-        <span class="nav-caption">Konto löschen</span>
-    </a>
-
-    <a mat-list-item (click)="logout()" (click)="onSidenavClose()">
-        <mat-icon class="nav-item">logout</mat-icon>
-        <span class="nav-caption">ausloggen</span>
-    </a>
-
-    } @else {
-    <a mat-list-item (click)="login()" (click)="onSidenavClose()">
-        <mat-icon class="nav-item">login</mat-icon>
-        <span class="nav-caption">einloggen</span>
-    </a>
+        <a mat-list-item routerLink="/loeschung-benutzerkonto" (click)="onSidenavClose()">
+            <mat-icon class="nav-icon">delete</mat-icon>
+            <span class="nav-caption">Konto löschen</span>
+        </a>
     }
 
     <a mat-list-item href="https://mathe-jung-alt.de/impressum.html" target="_blank">
         <span class="nav-caption">Impressum</span>
     </a>
 </mat-nav-list>
+
+<mat-action-list>
+    @if (authFacade.userIsLoggedIn$ | async) {
+        <button mat-list-item type="button" (click)="logout(); onSidenavClose()">
+            <mat-icon class="nav-item">logout</mat-icon>
+            <span class="nav-caption">ausloggen</span>
+        </button>
+    } @else {
+        <button mat-list-item type="button" (click)="login(); onSidenavClose()">
+            <mat-icon class="nav-item">login</mat-icon>
+            <span class="nav-caption">einloggen</span>
+        </button>
+    }
+</mat-action-list>

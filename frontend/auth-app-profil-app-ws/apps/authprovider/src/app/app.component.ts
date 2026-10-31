@@ -7,7 +7,7 @@ import { AuthproviderConfiguration } from './configuration/authprovider.configur
 @Component({
     standalone: true,
     imports: [MessageComponent, LoadingIndicatorComponent, HomeComponent, RouterModule],
-    selector: 'auth-authprovider-root',
+    selector: 'authprovider-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })

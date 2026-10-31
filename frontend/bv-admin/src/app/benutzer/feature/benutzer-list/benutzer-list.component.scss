@@ -15,7 +15,6 @@
     flex: 0 0 5%;
 }
 
-
 .mat-column-email {
     flex: 0 0 20%;
 }
@@ -34,4 +33,9 @@
 
 .mat-column-actionMenu {
     flex: 0 0 5%;
+}
+
+mat-header-cell {
+    font-size: 16px;
+    font-weight: bold;
 }

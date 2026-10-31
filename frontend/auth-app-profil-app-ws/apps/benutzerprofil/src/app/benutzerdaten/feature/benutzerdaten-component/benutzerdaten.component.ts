@@ -1,109 +1,104 @@
-import { CommonModule } from "@angular/common";
-import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { LOGINNAME_REGELN, NAME_REGELN, REG_EXP_INPUT_SECURED, REG_EXP_LOGIN_NAME, trimFormValues } from "@ap-ws/common-utils";
+import {
+    LOGINNAME_REGELN,
+    NAME_REGELN,
+    REG_EXP_INPUT_SECURED,
+    REG_EXP_LOGIN_NAME,
+    trimFormValues,
+} from '@ap-ws/common-utils';
 import { AuthFacade } from '../../../auth/api/auth.facade';
 import { BenutzerdatenFacade } from '../../api/benutzerdaten.facade';
 import { anonymeBenutzerdaten, benutzerAreEqual, Benutzerdaten } from '../../model/benutzerdaten.model';
-import { Subscription } from "rxjs";
-
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'benutzerprofil-benutzerdaten',
-  templateUrl: './benutzerdaten.component.html',
-  styleUrl: './benutzerdaten.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatIconModule
-  ]
+    templateUrl: './benutzerdaten.component.html',
+    styleUrl: './benutzerdaten.component.scss',
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, MatButtonModule, MatInputModule, MatIconModule],
 })
 export class BenutzerdatenComponent implements OnInit, OnDestroy {
+    authFacade = inject(AuthFacade);
+    benutzerdatenFacade = inject(BenutzerdatenFacade);
+    benutzerForm!: FormGroup;
 
-  authFacade = inject(AuthFacade);
-  benutzerdatenFacade = inject(BenutzerdatenFacade);
-  benutzerForm!: FormGroup;
+    validationErrorLoginName: string = LOGINNAME_REGELN;
+    validationErrorNamen: string = NAME_REGELN;
 
-  validationErrorLoginName: string = LOGINNAME_REGELN;
-  validationErrorNamen: string = NAME_REGELN;
+    #subscriptions = new Subscription();
+    #cachedBenutzerdaten: Benutzerdaten = anonymeBenutzerdaten;
+    #fb: FormBuilder = new FormBuilder();
 
-  #subscriptions = new Subscription();
-  #cachedBenutzerdaten: Benutzerdaten = anonymeBenutzerdaten;
-  #fb: FormBuilder = new FormBuilder();
+    private cdr = inject(ChangeDetectorRef);
 
-  constructor(private cdr: ChangeDetectorRef) { }
+    ngOnInit(): void {
+        this.benutzerForm = this.#fb.group({
+            loginName: ['', [Validators.required, Validators.maxLength(255), Validators.pattern(REG_EXP_LOGIN_NAME)]],
+            email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
+            vorname: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(REG_EXP_INPUT_SECURED)]],
+            nachname: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(REG_EXP_INPUT_SECURED)]],
+        });
 
-  ngOnInit(): void {
+        const benutzerSubscription = this.benutzerdatenFacade.benutzerdaten$.subscribe(benutzerdaten => {
+            this.#cachedBenutzerdaten = { ...benutzerdaten };
+            this.#patchFormValues(benutzerdaten);
+        });
 
-    this.benutzerForm = this.#fb.group({
-      loginName: ['', [Validators.required, Validators.maxLength(255), Validators.pattern(REG_EXP_LOGIN_NAME)]],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
-      vorname: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(REG_EXP_INPUT_SECURED)]],
-      nachname: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(REG_EXP_INPUT_SECURED)]],
-    });
-
-    const benutzerSubscription = this.benutzerdatenFacade.benutzerdaten$.subscribe((benutzerdaten) => {
-      this.#cachedBenutzerdaten = { ...benutzerdaten };
-      this.#patchFormValues(benutzerdaten);
-    });
-
-    this.#subscriptions.add(benutzerSubscription);
-  }
-
-  ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
-
-  buttonSubmitDisabled(): boolean {
-    if (this.benutzerForm.invalid) {
-      return true;
-    }
-    const updatedBenutzer: Benutzerdaten = this.benutzerForm.value;
-
-    if (benutzerAreEqual(this.#cachedBenutzerdaten, updatedBenutzer)) {
-      return true;
+        this.#subscriptions.add(benutzerSubscription);
     }
 
-    return false;
-  }
-
-  buttonCancelDisabled(): boolean {
-    const updatedBenutzer: Benutzerdaten = this.benutzerForm.value;
-    if (!benutzerAreEqual(this.#cachedBenutzerdaten, updatedBenutzer)) {
-      return false;
+    ngOnDestroy(): void {
+        this.#subscriptions.unsubscribe();
     }
 
-    return true;
-  }
+    buttonSubmitDisabled(): boolean {
+        if (this.benutzerForm.invalid) {
+            return true;
+        }
+        const updatedBenutzer: Benutzerdaten = this.benutzerForm.value;
 
-  save(): void {
-    if (this.benutzerForm.valid) {
-      const updatedBenutzer: Benutzerdaten = this.#trimAndReadFormValues();
-      this.benutzerdatenFacade.benutzerdatenAendern(updatedBenutzer);
+        if (benutzerAreEqual(this.#cachedBenutzerdaten, updatedBenutzer)) {
+            return true;
+        }
+
+        return false;
     }
-  }
 
-  cancel(): void {
-    this.#patchFormValues(this.#cachedBenutzerdaten);
-    this.benutzerForm.markAsPristine();
-    this.benutzerForm.markAsUntouched();
-    this.benutzerForm.updateValueAndValidity();
-    this.cdr.detectChanges();
-  }
+    buttonCancelDisabled(): boolean {
+        const updatedBenutzer: Benutzerdaten = this.benutzerForm.value;
+        if (!benutzerAreEqual(this.#cachedBenutzerdaten, updatedBenutzer)) {
+            return false;
+        }
 
-  #patchFormValues(benutzerdaten: Benutzerdaten): void {
-    this.benutzerForm.setValue(benutzerdaten);
-  }
+        return true;
+    }
 
+    save(): void {
+        if (this.benutzerForm.valid) {
+            const updatedBenutzer: Benutzerdaten = this.#trimAndReadFormValues();
+            this.benutzerdatenFacade.benutzerdatenAendern(updatedBenutzer);
+        }
+    }
 
-  #trimAndReadFormValues(): Benutzerdaten {
-    trimFormValues(this.benutzerForm);
-    return this.benutzerForm.value;
-  }
+    cancel(): void {
+        this.#patchFormValues(this.#cachedBenutzerdaten);
+        this.benutzerForm.markAsPristine();
+        this.benutzerForm.markAsUntouched();
+        this.benutzerForm.updateValueAndValidity();
+        this.cdr.detectChanges();
+    }
+
+    #patchFormValues(benutzerdaten: Benutzerdaten): void {
+        this.benutzerForm.setValue(benutzerdaten);
+    }
+
+    #trimAndReadFormValues(): Benutzerdaten {
+        trimFormValues(this.benutzerForm);
+        return this.benutzerForm.value;
+    }
 }

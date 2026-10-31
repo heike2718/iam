@@ -1,5 +1,5 @@
-import { Benutzer, Jobstatus } from "@bv-admin/shared/model";
-import { parseGermanDate, parseGermanDateTime } from "@bv-admin/shared/util";
+import { Benutzer, Jobstatus } from '@bv-admin/shared/model';
+import { parseGermanDateTime } from '@bv-admin/shared/util';
 
 export interface Mailversandgruppe {
     readonly uuid: string;
@@ -68,11 +68,11 @@ export const initialMailversandauftraStatistik: MailversandauftragStatistik = {
     completed: 0,
     errors: 0,
     inProgress: 0,
-    waiting: 0
-}
+    waiting: 0,
+};
 
 export interface DeleteMailversandauftragResponseDto {
-    readonly uuid: string
+    readonly uuid: string;
 }
 
 export interface MailversandauftragDetailsResponseDto {
@@ -80,11 +80,10 @@ export interface MailversandauftragDetailsResponseDto {
     readonly versandauftrag: MailversandauftragDetails | undefined;
 }
 
-
-export function sortMailversandauftragOverviewByDate(versandauftraege: MailversandauftragOverview[]): MailversandauftragOverview[] {
-
+export function sortMailversandauftragOverviewByDate(
+    versandauftraege: MailversandauftragOverview[]
+): MailversandauftragOverview[] {
     return versandauftraege.sort((a: MailversandauftragOverview, b: MailversandauftragOverview) => {
-
         const dateA = parseGermanDateTime(a.erfasstAm);
         const dateB = parseGermanDateTime(b.erfasstAm);
 
@@ -93,8 +92,6 @@ export function sortMailversandauftragOverviewByDate(versandauftraege: Mailversa
 }
 
 export function computeStatistics(versandauftrag: MailversandauftragDetails): MailversandauftragUIModel {
-
-
     const cancelled = versandauftrag.mailversandgruppen.filter(g => g.status === 'CANCELLED').length;
     const completed = versandauftrag.mailversandgruppen.filter(g => g.status === 'COMPLETED').length;
     const errors = versandauftrag.mailversandgruppen.filter(g => g.status === 'ERRORS').length;
@@ -106,18 +103,20 @@ export function computeStatistics(versandauftrag: MailversandauftragDetails): Ma
         completed: completed,
         errors: errors,
         inProgress: inProgress,
-        waiting: waiting
+        waiting: waiting,
     };
 
     return {
         mailversandauftrag: { ...versandauftrag },
-        statistik: statistik
+        statistik: statistik,
     };
 }
 
-export function mapToOverview(mailversandgruppe: MailversandgruppeDetails, idMailversandauftrag: string): Mailversandgruppe {
-
-    const empfaengerUUIDs: string[] =  mailversandgruppe.benutzer.map(b => b.uuid);
+export function mapToOverview(
+    mailversandgruppe: MailversandgruppeDetails,
+    idMailversandauftrag: string
+): Mailversandgruppe {
+    const empfaengerUUIDs: string[] = mailversandgruppe.benutzer.map(b => b.uuid);
 
     const result: Mailversandgruppe = {
         aenderungsdatum: mailversandgruppe.aenderungsdatum,
@@ -125,7 +124,7 @@ export function mapToOverview(mailversandgruppe: MailversandgruppeDetails, idMai
         idMailversandauftrag: idMailversandauftrag,
         sortnr: mailversandgruppe.sortnr,
         status: mailversandgruppe.status,
-        uuid: mailversandgruppe.uuid
+        uuid: mailversandgruppe.uuid,
     };
 
     return result;

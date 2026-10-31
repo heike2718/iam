@@ -1,22 +1,22 @@
-import { Injectable, inject } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { Aktivierungsstatus, BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from "@bv-admin/benutzer/model";
-import { fromBenutzer, benutzerActions } from "@bv-admin/benutzer/data";
-import { Benutzer, FlagsDto, PageDefinition, PaginationState, SortDefinition } from '@bv-admin/shared/model'
-
+import { Injectable, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { BenutzerSuchparameter, BenutzersucheFilterAndSortValues } from '@bv-admin/benutzer/model';
+import { fromBenutzer, benutzerActions } from '@bv-admin/benutzer/data';
+import { Benutzer, FlagsDto, PageDefinition, PaginationState, SortDefinition } from '@bv-admin/shared/model';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class BenutzerFacade {
-
     #store = inject(Store);
 
     readonly page$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.page);
     readonly anzahlTreffer$: Observable<number> = this.#store.select(fromBenutzer.anzahlTreffer);
     readonly paginationState$: Observable<PaginationState> = this.#store.select(fromBenutzer.paginationState);
-    readonly filterValues$: Observable<BenutzersucheFilterAndSortValues> = this.#store.select(fromBenutzer.filterValues);
+    readonly filterValues$: Observable<BenutzersucheFilterAndSortValues> = this.#store.select(
+        fromBenutzer.filterValues
+    );
     readonly sortDefinition$: Observable<SortDefinition> = this.#store.select(fromBenutzer.sortDefinition);
 
     readonly benutzerBasket$: Observable<Benutzer[]> = this.#store.select(fromBenutzer.benutzerBasket);
@@ -24,7 +24,7 @@ export class BenutzerFacade {
     readonly uuidsGewaehlteBenutzer$: Observable<string[]> = this.#store.select(fromBenutzer.uuidsGewaehlteBenutzer);
 
     selectionsubsetChanged(actuallySelected: Benutzer[], actuallyDeselected: Benutzer[]): void {
-        this.#store.dispatch(benutzerActions.sELECTIONSUBSET_CHANGED({ actuallySelected, actuallyDeselected }))
+        this.#store.dispatch(benutzerActions.sELECTIONSUBSET_CHANGED({ actuallySelected, actuallyDeselected }));
     }
 
     resetBenutzerBasket(): void {
@@ -45,14 +45,14 @@ export class BenutzerFacade {
     }
 
     updateBenutzerFlags(benutzer: Benutzer, flagsDto: FlagsDto) {
-
-        this.#store.dispatch(benutzerActions.uPDATE_BENUTZER_FLAGS({uuid: benutzer.uuid, flagsDto: flagsDto}));
-
+        this.#store.dispatch(benutzerActions.uPDATE_BENUTZER_FLAGS({ uuid: benutzer.uuid, flagsDto: flagsDto }));
     }
 
     triggerSearch(filter: BenutzersucheFilterAndSortValues, pageDefinition: PageDefinition): void {
-
-        const sortDirection = pageDefinition.sortDirection !== null && pageDefinition.sortDirection === '' ? null : pageDefinition.sortDirection;
+        const sortDirection =
+            pageDefinition.sortDirection !== null && pageDefinition.sortDirection === ''
+                ? null
+                : pageDefinition.sortDirection;
 
         const suchparameter: BenutzerSuchparameter = {
             aenderungsdatum: filter.aenderungsdatum,
@@ -64,7 +64,7 @@ export class BenutzerFacade {
             sortByLabelname: filter.sortByLabelname,
             sortDirection: sortDirection,
             uuid: filter.uuid,
-            vorname: filter.vorname
+            vorname: filter.vorname,
         };
 
         this.benutzersucheChanged(filter, pageDefinition);
@@ -73,6 +73,5 @@ export class BenutzerFacade {
 
     resetFilterAndSort() {
         this.#store.dispatch(benutzerActions.rESET_FILTER());
-
     }
 }

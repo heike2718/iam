@@ -6,7 +6,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>bv-admin</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2</version>
 
 	<name>bv-admin</name>
 	<url>https://github.com/heike2718/authprovider.git</url>
@@ -16,23 +16,23 @@
 		<egladil-secure-tokens.version>1.0.0</egladil-secure-tokens.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-		<quarkus.platform.version>3.30.6</quarkus.platform.version>
+		<quarkus.platform.version>3.40.1.1</quarkus.platform.version>
 		<java-jwt.version>4.5.0</java-jwt.version>
 
-    <mixin-maven-plugin.version>1.0.6</mixin-maven-plugin.version>
-    <egladil-maven-mixins.version>1.0.1</egladil-maven-mixins.version>
+		<mixin-maven-plugin.version>1.0.6</mixin-maven-plugin.version>
+		<egladil-maven-mixins.version>1.0.1</egladil-maven-mixins.version>
 
-    <!-- Start mixin-properties -->
-    <maven.compiler.release>21</maven.compiler.release>
-    <pmd.failOnViolation>true</pmd.failOnViolation>
-    <spotbugs.failOnError>true</spotbugs.failOnError>
-    <jacoco.exclusion-1>**/*Dto*.class</jacoco.exclusion-1>
-    <jacoco.exclusion-2>**/*Application*.class</jacoco.exclusion-2>
-    <jacoco.exclusion-3>**/ResponseStatus.class</jacoco.exclusion-3>
-    <jacoco.exclusion-4>**/healthchecks/**</jacoco.exclusion-4>
+		<!-- Start mixin-properties -->
+		<maven.compiler.release>21</maven.compiler.release>
+		<pmd.failOnViolation>true</pmd.failOnViolation>
+		<spotbugs.failOnError>true</spotbugs.failOnError>
+		<jacoco.exclusion-1>**/*Dto*.class</jacoco.exclusion-1>
+		<jacoco.exclusion-2>**/*Application*.class</jacoco.exclusion-2>
+		<jacoco.exclusion-3>**/ResponseStatus.class</jacoco.exclusion-3>
+		<jacoco.exclusion-4>**/healthchecks/**</jacoco.exclusion-4>
 
-    <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-    <maven.compiler.parameters>true</maven.compiler.parameters>
+		<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+		<maven.compiler.parameters>true</maven.compiler.parameters>
 	</properties>
 
 	<dependencyManagement>
@@ -49,11 +49,11 @@
 
 	<dependencies>
 
-	    <dependency>
-	    	<groupId>de.egladil.web</groupId>
-    		<artifactId>egladil-secure-tokens</artifactId>
-    		<version>${egladil-secure-tokens.version}</version>
-	    </dependency>
+		<dependency>
+			<groupId>de.egladil.web</groupId>
+			<artifactId>egladil-secure-tokens</artifactId>
+			<version>${egladil-secure-tokens.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -196,13 +196,13 @@
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-junit5</artifactId>
+			<artifactId>quarkus-junit</artifactId>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-junit5-mockito</artifactId>
+			<artifactId>quarkus-junit-mockito</artifactId>
 			<scope>test</scope>
 		</dependency>
 
@@ -245,41 +245,41 @@
 				</executions>
 			</plugin>
 
-      <plugin>
-        <groupId>com.playtika.maven.plugins</groupId>
-        <artifactId>mixin-maven-plugin</artifactId>
-        <version>${mixin-maven-plugin.version}</version>
-        <extensions>true</extensions>
-        <configuration>
-          <mixins>
-            <mixin>
-              <groupId>de.egladil</groupId>
-              <artifactId>java-core-mixin</artifactId>
-              <version>${egladil-maven-mixins.version}</version>
-            </mixin>
-            <mixin>
-              <groupId>de.egladil</groupId>
-              <artifactId>java-linting-mixin</artifactId>
-              <version>${egladil-maven-mixins.version}</version>
-            </mixin>
-            <mixin>
-              <groupId>de.egladil</groupId>
-              <artifactId>java-code-quality-mixin</artifactId>
-              <version>${egladil-maven-mixins.version}</version>
-            </mixin>
-            <mixin>
-              <groupId>de.egladil</groupId>
-              <artifactId>java-quarkustest-coverage-mixin</artifactId>
-              <version>${egladil-maven-mixins.version}</version>
-            </mixin>
-            <mixin>
-              <groupId>de.egladil</groupId>
-              <artifactId>java-security-mixin</artifactId>
-              <version>${egladil-maven-mixins.version}</version>
-            </mixin>
-          </mixins>
-        </configuration>
-      </plugin>
+			<plugin>
+				<groupId>com.playtika.maven.plugins</groupId>
+				<artifactId>mixin-maven-plugin</artifactId>
+				<version>${mixin-maven-plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<mixins>
+						<mixin>
+							<groupId>de.egladil</groupId>
+							<artifactId>java-core-mixin</artifactId>
+							<version>${egladil-maven-mixins.version}</version>
+						</mixin>
+						<mixin>
+							<groupId>de.egladil</groupId>
+							<artifactId>java-linting-mixin</artifactId>
+							<version>${egladil-maven-mixins.version}</version>
+						</mixin>
+						<mixin>
+							<groupId>de.egladil</groupId>
+							<artifactId>java-code-quality-mixin</artifactId>
+							<version>${egladil-maven-mixins.version}</version>
+						</mixin>
+						<mixin>
+							<groupId>de.egladil</groupId>
+							<artifactId>java-quarkustest-coverage-mixin</artifactId>
+							<version>${egladil-maven-mixins.version}</version>
+						</mixin>
+						<mixin>
+							<groupId>de.egladil</groupId>
+							<artifactId>java-security-mixin</artifactId>
+							<version>${egladil-maven-mixins.version}</version>
+						</mixin>
+					</mixins>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

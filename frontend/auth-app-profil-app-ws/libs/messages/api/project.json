@@ -1,26 +1,27 @@
 {
-  "name": "messages-api",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/messages/api/src",
-  "projectType": "library",
-  "tags": ["shared", "type:api"],
-  "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/messages/api",
-        "main": "libs/messages/api/src/index.ts",
-        "tsConfig": "libs/messages/api/tsconfig.lib.json",
-        "assets": []
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "libs/messages/api/jest.config.ts"
-      }
+    "name": "messages-api",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/messages/api/src",
+    "projectType": "library",
+    "tags": ["shared", "type:api"],
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/messages/api",
+                "main": "libs/messages/api/src/index.ts",
+                "tsConfig": "libs/messages/api/tsconfig.lib.json",
+                "assets": []
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "libs/messages/api/jest.config.ts",
+                "tsConfig": "libs/messages/api/tsconfig.spec.json"
+            }
+        }
     }
-  }
 }

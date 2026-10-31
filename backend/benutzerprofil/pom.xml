@@ -5,7 +5,7 @@
 
 	<groupId>de.egladil.web</groupId>
 	<artifactId>benutzerprofil</artifactId>
-	<version>9.3.0</version>
+	<version>9.3.1</version>
 	<packaging>jar</packaging>
 
 
@@ -14,7 +14,7 @@
 		<auth-validations.version>1.0.0</auth-validations.version>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-		<quarkus.platform.version>3.30.6</quarkus.platform.version>
+		<quarkus.platform.version>3.40.1.1</quarkus.platform.version>
 
 		<java-jwt.version>4.5.0</java-jwt.version>
 
@@ -162,7 +162,7 @@
 		<!-- Test START -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-junit5</artifactId>
+			<artifactId>quarkus-junit</artifactId>
 			<scope>test</scope>
 		</dependency>
 
@@ -174,7 +174,7 @@
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-junit5-mockito</artifactId>
+			<artifactId>quarkus-junit-mockito</artifactId>
 			<scope>test</scope>
 		</dependency>
 

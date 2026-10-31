@@ -8,6 +8,17 @@ Content-Type: application/json
    "clientSecret": "start123"
 }
 
+### authenticate client v2
+POST http://localhost:9000/authprovider/api/clients/client/accesstoken/v2
+Accept: application/json
+Content-Type: application/json
+
+{
+   "clientId": "N7SsGenun4znNUdQzyLD0wzOfRHOmc9XN35TOGfbBcvA",
+   "clientSecret": "start123"
+}
+
+
 ### authenticate client kaeuzchenlager
 POST http://localhost:9000/authprovider/api/clients/client/accesstoken
 Accept: application/json

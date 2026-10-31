@@ -99,4 +99,54 @@ public class TokenExchangeResource {
             clientCredentials.clean();
         }
     }
+
+    /**
+     * Tauscht das OneTimeToken gegen das generierte JWT um.
+     *
+     * @param oneTimeToken
+     * @param clientCredentials OAuthClientCredentials
+     * @return ExchangeTokenResponse mit dem JWT und dem gespiegelten nonce. Das JWT
+     *         enthält die Daten des ResourceOwners: also UUID, Rolle, FullName und
+     *         Email.
+     */
+    // @formatter:off
+    @PUT
+    @Path("/exchange/{oneTimeToken}/v2")
+    @Operation(operationId = "exchangeOneTimeTokenWithJwtV2", summary = "Gibt das JWT gegen ein einmaltoken zurück.")
+    @Parameters({ @Parameter(in = ParameterIn.PATH, name = "oneTimeToken", description = "secure String"), })
+    @APIResponse(
+            name = "OKResponse",
+            responseCode = "200",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ExchangeTokenResponse.class)))
+    @APIResponse(name = "BadRequestResponse", responseCode = "400", description = "fehlgeschlagene Input-Validierung")
+    @APIResponse(name = "NotAuthorized", responseCode = "401", content = @Content(mediaType = "application/json"))
+    @APIResponse(name = "NotFound", responseCode = "404", content = @Content(mediaType = "application/json"))
+    @APIResponse(
+            name = "ServerError",
+            description = "server error",
+            responseCode = "500",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessagePayload.class)))
+    public Response exchangeOneTimeTokenWithJwtV2(
+            @PathParam(value = "oneTimeToken") @UuidString final String oneTimeToken,
+            final OAuthClientCredentials clientCredentials) {
+    // @formatter:on
+
+        try {
+
+            Client client = this.clientService.authorizeClient(clientCredentials);
+
+            String jwt = this.authJWTService.exchangeTheOneTimeToken(oneTimeToken, client);
+
+            ExchangeTokenResponse responsePayload = ExchangeTokenResponse.create(jwt, clientCredentials.getNonce());
+
+            LOGGER.info("OTT exchanged: clientId={}", clientCredentials.getClientId());
+
+            return Response.ok(responsePayload).build();
+        } finally {
+
+            clientCredentials.clean();
+        }
+    }
 }

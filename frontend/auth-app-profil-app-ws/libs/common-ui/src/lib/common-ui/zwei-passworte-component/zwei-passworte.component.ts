@@ -4,7 +4,7 @@ import { ZweiPassworte } from '@ap-ws/common-model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { debounceTime, distinctUntilChanged, min, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import {
     forbiddenPasswordValidator,
     passwordsMatchValidator,
@@ -44,7 +44,7 @@ export class ZweiPassworteComponent implements OnInit, OnDestroy {
 
     showPasswords = false;
 
-    #visibilityTimeout: any;
+    #visibilityTimeout: number | undefined;
     #subsriptions = new Subscription();
 
     ngOnInit(): void {
@@ -116,7 +116,7 @@ export class ZweiPassworteComponent implements OnInit, OnDestroy {
     #clearVisibilityTimeout() {
         if (this.#visibilityTimeout) {
             clearTimeout(this.#visibilityTimeout);
-            this.#visibilityTimeout = null;
+            this.#visibilityTimeout = undefined;
         }
     }
 }
