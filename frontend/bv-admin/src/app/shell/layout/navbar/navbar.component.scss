@@ -8,7 +8,7 @@ mat-toolbar {
     flex: 1 1 auto;
 }
 
-a,
+a[mat-button],
 button[mat-button] {
     text-decoration: none;
     color: white;
