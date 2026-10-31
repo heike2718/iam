@@ -203,7 +203,7 @@ Dann die styles in project.json eingebunden:
          "styles": [
           "src/app/shell/layout/theme.scss",
           "src/styles.scss",
-          "node_modules/material-icons/iconfont/material-icons.scss"
+          "node_modules/material-icons/iconfont/material-icons.css"
         ],
 ...
 ----
